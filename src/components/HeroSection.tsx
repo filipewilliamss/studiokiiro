@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import kiiroLogo from "@/assets/logo.png";
 
 const HeroSection = () => {
   return (
@@ -8,15 +9,16 @@ const HeroSection = () => {
 
       <div className="relative z-10 container-editorial text-center py-20">
         <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1, ease: "easeOut" }}
+          className="mb-10"
         >
-          <h1 className="font-display text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-bold leading-[0.9] tracking-tight mb-8">
-            Studio
-            <br />
-            <span className="text-gradient-kiiro">Kiiro</span>
-          </h1>
+          <img
+            src={kiiroLogo}
+            alt="Studio Kiiro"
+            className="h-28 sm:h-36 md:h-44 lg:h-52 mx-auto"
+          />
         </motion.div>
 
         <motion.div

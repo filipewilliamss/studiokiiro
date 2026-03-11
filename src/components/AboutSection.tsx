@@ -5,11 +5,10 @@ const AboutSection = () => {
     <section id="sobre" className="section-padding">
       <div className="container-editorial">
         <div className="grid md:grid-cols-2 gap-16 md:gap-24 items-start">
-          {/* Left: Label */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            viewport={{ once: false, amount: 0.3 }}
             transition={{ duration: 0.7 }}
           >
             <p className="text-sm uppercase tracking-[0.3em] text-primary mb-4">Sobre</p>
@@ -20,11 +19,10 @@ const AboutSection = () => {
             </h2>
           </motion.div>
 
-          {/* Right: Text */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            viewport={{ once: false, amount: 0.3 }}
             transition={{ duration: 0.7, delay: 0.2 }}
             className="space-y-6"
           >

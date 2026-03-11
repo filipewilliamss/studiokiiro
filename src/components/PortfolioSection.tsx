@@ -4,6 +4,15 @@ import akedahLogo from "@/assets/akedah-logo.png";
 import construmarLogo from "@/assets/construmar-logo.png";
 import temploLogo from "@/assets/templo-logo.png";
 import teamluisaLogo from "@/assets/teamluisa-logo.png";
+import construmarPag1 from "@/assets/construmar-pagina-1.png";
+import construmarPag2 from "@/assets/construmar-pagina-2.png";
+import construmarPag3 from "@/assets/construmar-pagina-3.png";
+import construmarPag4 from "@/assets/construmar-pagina-4.png";
+import construmarPag5 from "@/assets/construmar-pagina-5.png";
+import construmarPag6 from "@/assets/construmar-pagina-6.png";
+import construmarPag7 from "@/assets/construmar-pagina-7.png";
+import construmarPag8 from "@/assets/construmar-pagina-8.png";
+import construmarPag9 from "@/assets/construmar-pagina-9.png";
 
 interface Project {
   id: number;
@@ -15,6 +24,7 @@ interface Project {
   result: string;
   tags: string[];
   logo: string;
+  pages?: string[];
 }
 
 const projects: Project[] = [
@@ -39,6 +49,11 @@ const projects: Project[] = [
     result: "Nova marca que transmite confiança e profissionalismo, com aplicações consistentes em todos os pontos de contato da empresa.",
     tags: ["Logo Design", "Manual de Marca", "Marmoraria"],
     logo: construmarLogo,
+    pages: [
+      construmarPag1, construmarPag2, construmarPag3,
+      construmarPag4, construmarPag5, construmarPag6,
+      construmarPag7, construmarPag8, construmarPag9,
+    ],
   },
   {
     id: 3,
@@ -73,7 +88,7 @@ const PortfolioSection = () => {
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          viewport={{ once: false, amount: 0.3 }}
           transition={{ duration: 0.7 }}
           className="mb-20"
         >
@@ -89,7 +104,7 @@ const PortfolioSection = () => {
               key={project.id}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
+              viewport={{ once: false, amount: 0.2 }}
               transition={{ duration: 0.6, delay: i * 0.1 }}
               onClick={() => setSelectedProject(project)}
               className="group cursor-pointer"
@@ -191,16 +206,30 @@ const PortfolioSection = () => {
                 ))}
               </div>
 
-              <div
-                className="aspect-[4/3] rounded-xl mb-8 flex items-center justify-center"
-                style={{ backgroundColor: selectedProject.bgColor }}
-              >
-                <img
-                  src={selectedProject.logo}
-                  alt={`Logo ${selectedProject.title}`}
-                  className="max-w-[50%] max-h-[50%] object-contain"
-                />
-              </div>
+              {/* Project pages or logo fallback */}
+              {selectedProject.pages && selectedProject.pages.length > 0 ? (
+                <div className="space-y-4 mb-8">
+                  {selectedProject.pages.map((page, index) => (
+                    <img
+                      key={index}
+                      src={page}
+                      alt={`${selectedProject.title} - Página ${index + 1}`}
+                      className="w-full rounded-xl"
+                    />
+                  ))}
+                </div>
+              ) : (
+                <div
+                  className="aspect-[4/3] rounded-xl mb-8 flex items-center justify-center"
+                  style={{ backgroundColor: selectedProject.bgColor }}
+                >
+                  <img
+                    src={selectedProject.logo}
+                    alt={`Logo ${selectedProject.title}`}
+                    className="max-w-[50%] max-h-[50%] object-contain"
+                  />
+                </div>
+              )}
 
               <div className="text-center py-16 border-t border-border">
                 <h3 className="font-display text-2xl md:text-3xl font-bold mb-4">Gostou deste projeto?</h3>

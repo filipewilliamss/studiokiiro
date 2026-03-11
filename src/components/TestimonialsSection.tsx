@@ -7,7 +7,7 @@ const testimonials = [
     text: "O Studio Kiiro entregou muito mais do que um logo — entregou uma identidade que me deu orgulho de apresentar o podcast. Profissionalismo e atenção aos detalhes impressionantes.",
   },
   {
-    name: "Fernanda Costa",
+    name: "Danielle",
     role: "Proprietária, Construmar",
     text: "Desde que atualizamos nossa identidade visual, os clientes nos enxergam de forma completamente diferente. O manual de marca ficou impecável e fez toda a diferença.",
   },

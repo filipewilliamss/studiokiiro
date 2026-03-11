@@ -98,6 +98,10 @@ const projects: Project[] = [
     result: "Marca com personalidade marcante que se destaca nas redes sociais e fortalece o senso de comunidade entre os alunos.",
     tags: ["Rebranding", "Social Media", "Cross Training"],
     logo: teamluisaLogo,
+    pages: [
+      teamluisaPag1, teamluisaPag2, teamluisaPag3,
+      teamluisaPag4, teamluisaPag5, teamluisaPag6,
+    ],
   },
 ];
 

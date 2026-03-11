@@ -20,7 +20,7 @@ const ContactSection = () => {
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          viewport={{ once: false, amount: 0.3 }}
           transition={{ duration: 0.7 }}
           className="mb-16 text-center"
         >
@@ -36,7 +36,7 @@ const ContactSection = () => {
         <motion.form
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          viewport={{ once: false, amount: 0.2 }}
           transition={{ duration: 0.7, delay: 0.2 }}
           action="https://formsubmit.co/contato@studiokiiro.com"
           method="POST"

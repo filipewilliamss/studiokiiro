@@ -6,15 +6,15 @@ const HeroSection = () => {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Animated pattern background */}
-      <div className="absolute inset-0 opacity-[0.04]">
+      <div className="absolute inset-0 opacity-[0.028]">
         <motion.div
           animate={{ x: [0, -500, 0] }}
-          transition={{ duration: 90, repeat: Infinity, ease: "linear" }}
+          transition={{ duration: 117, repeat: Infinity, ease: "linear" }}
           className="absolute inset-0"
           style={{
             backgroundImage: `url(${patternBg})`,
             backgroundRepeat: "repeat",
-            backgroundSize: "1200px",
+            backgroundSize: "3600px",
             width: "200%",
             height: "100%",
           }}

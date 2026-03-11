@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
+import kiiroLogo from "@/assets/logo.png";
 
 const navLinks = [
   { label: "Sobre", href: "#sobre" },

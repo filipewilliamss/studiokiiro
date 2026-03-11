@@ -58,7 +58,7 @@ const projects: Project[] = [
     logo: akedahLogo,
     pages: [
       akedahPag1, akedahPag2, akedahPag3, akedahPag4, akedahPag5,
-      akedahPag6, akedahPag7, akedahPag8, akedahPag9, akedahPag10,
+      akedahPag6, akedahPag7, akedahPag8, akedahPag9, akedahPag10, akedahPag11,
     ],
   },
   {

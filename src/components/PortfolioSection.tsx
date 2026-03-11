@@ -1,5 +1,9 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import akedahLogo from "@/assets/akedah-logo.png";
+import construmarLogo from "@/assets/construmar-logo.png";
+import temploLogo from "@/assets/templo-logo.png";
+import teamluisaLogo from "@/assets/teamluisa-logo.png";
 
 interface Project {
   id: number;
@@ -10,6 +14,7 @@ interface Project {
   solution: string;
   result: string;
   tags: string[];
+  logo: string;
 }
 
 const projects: Project[] = [
@@ -22,6 +27,7 @@ const projects: Project[] = [
     solution: "Criamos um manual completo com 11 páginas incluindo logo, variações, malha construtiva, paleta de cores, tipografia e aplicações.",
     result: "Identidade visual coesa e memorável que posicionou o podcast como referência no segmento, com reconhecimento imediato em todas as plataformas.",
     tags: ["Logo Design", "Manual de Marca", "Podcast"],
+    logo: akedahLogo,
   },
   {
     id: 2,
@@ -32,6 +38,7 @@ const projects: Project[] = [
     solution: "Desenvolvemos uma identidade visual elegante com manual de 9 páginas, incluindo versões monocromáticas e aplicações específicas para o segmento.",
     result: "Nova marca que transmite confiança e profissionalismo, com aplicações consistentes em todos os pontos de contato da empresa.",
     tags: ["Logo Design", "Manual de Marca", "Marmoraria"],
+    logo: construmarLogo,
   },
   {
     id: 3,
@@ -42,6 +49,7 @@ const projects: Project[] = [
     solution: "Manual de marca com 8 páginas, incluindo variações do logotipo, paleta de cores harmoniosa e guia completo de uso da marca.",
     result: "Marca que equilibra tradição e modernidade, com forte presença visual nas redes sociais e materiais impressos da igreja.",
     tags: ["Logo Design", "Manual de Marca", "Igreja"],
+    logo: temploLogo,
   },
   {
     id: 4,
@@ -52,6 +60,7 @@ const projects: Project[] = [
     solution: "Rebranding completo com manual de 6 páginas, incluindo variações do logo, paleta energética, tipografia bold e layout de posts para Instagram.",
     result: "Marca com personalidade marcante que se destaca nas redes sociais e fortalece o senso de comunidade entre os alunos.",
     tags: ["Rebranding", "Social Media", "Cross Training"],
+    logo: teamluisaLogo,
   },
 ];
 
@@ -74,7 +83,6 @@ const PortfolioSection = () => {
           </h2>
         </motion.div>
 
-        {/* Grid */}
         <div className="grid md:grid-cols-2 gap-6 md:gap-8">
           {projects.map((project, i) => (
             <motion.div
@@ -86,19 +94,18 @@ const PortfolioSection = () => {
               onClick={() => setSelectedProject(project)}
               className="group cursor-pointer"
             >
-              {/* Thumbnail area */}
               <div
                 className="relative aspect-[4/3] rounded-xl overflow-hidden mb-5"
                 style={{ backgroundColor: project.bgColor }}
               >
-                {/* Placeholder content */}
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="font-display text-2xl md:text-3xl font-bold text-foreground/20">
-                    {project.title}
-                  </span>
+                <div className="absolute inset-0 flex items-center justify-center p-12">
+                  <img
+                    src={project.logo}
+                    alt={`Logo ${project.title}`}
+                    className="max-w-[60%] max-h-[60%] object-contain"
+                  />
                 </div>
 
-                {/* Hover overlay */}
                 <div className="absolute inset-0 bg-background/80 opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col items-center justify-center gap-3">
                   <div className="w-12 h-12 rounded-full border border-primary flex items-center justify-center">
                     <svg className="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -112,7 +119,6 @@ const PortfolioSection = () => {
                 </div>
               </div>
 
-              {/* Info */}
               <div className="flex items-start justify-between">
                 <div>
                   <h3 className="font-display text-xl font-bold text-foreground group-hover:text-primary transition-colors duration-300">
@@ -129,7 +135,6 @@ const PortfolioSection = () => {
         </div>
       </div>
 
-      {/* Modal */}
       <AnimatePresence>
         {selectedProject && (
           <motion.div
@@ -147,7 +152,6 @@ const PortfolioSection = () => {
               className="max-w-4xl mx-auto px-6 py-20"
               onClick={(e) => e.stopPropagation()}
             >
-              {/* Close button */}
               <button
                 onClick={() => setSelectedProject(null)}
                 className="fixed top-6 right-6 w-12 h-12 rounded-full border border-border flex items-center justify-center text-foreground hover:border-primary hover:text-primary transition-colors z-50"
@@ -179,7 +183,6 @@ const PortfolioSection = () => {
                 </div>
               </div>
 
-              {/* Tags */}
               <div className="flex flex-wrap gap-3 mb-16">
                 {selectedProject.tags.map((tag) => (
                   <span key={tag} className="px-4 py-2 rounded-full border border-border text-sm text-muted-foreground">
@@ -188,17 +191,17 @@ const PortfolioSection = () => {
                 ))}
               </div>
 
-              {/* Placeholder for manual images */}
               <div
                 className="aspect-[4/3] rounded-xl mb-8 flex items-center justify-center"
                 style={{ backgroundColor: selectedProject.bgColor }}
               >
-                <p className="text-muted-foreground font-display text-lg">
-                  Imagens do manual serão adicionadas aqui
-                </p>
+                <img
+                  src={selectedProject.logo}
+                  alt={`Logo ${selectedProject.title}`}
+                  className="max-w-[50%] max-h-[50%] object-contain"
+                />
               </div>
 
-              {/* CTA */}
               <div className="text-center py-16 border-t border-border">
                 <h3 className="font-display text-2xl md:text-3xl font-bold mb-4">Gostou deste projeto?</h3>
                 <p className="text-muted-foreground mb-8 max-w-lg mx-auto">

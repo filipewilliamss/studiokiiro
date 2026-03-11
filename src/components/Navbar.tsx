@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
+import kiiroLogo from "@/assets/logo.png";
 
 const navLinks = [
   { label: "Sobre", href: "#sobre" },
@@ -29,8 +30,8 @@ const Navbar = () => {
       }`}
     >
       <div className="container-editorial flex items-center justify-between h-16 md:h-20">
-        <a href="#" className="font-display text-xl font-bold tracking-tight text-foreground">
-          Studio <span className="text-primary">Kiiro</span>
+        <a href="#" className="flex items-center">
+          <img src={kiiroLogo} alt="Studio Kiiro" className="h-8 md:h-10" />
         </a>
 
         {/* Desktop */}

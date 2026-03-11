@@ -68,7 +68,7 @@ const PortfolioSection = () => {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
   return (
-    <section id="portfolio" className="section-padding border-t border-border">
+    <section id="portfolio" className="section-padding border-t border-border bg-white">
       <div className="container-editorial">
         <motion.div
           initial={{ opacity: 0, y: 30 }}

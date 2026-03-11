@@ -12,11 +12,6 @@ const HeroSection = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
-          {/* Studio name */}
-          <p className="text-sm md:text-base uppercase tracking-[0.3em] text-muted-foreground mb-8">
-            Estúdio de Design
-          </p>
-
           <h1 className="font-display text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-bold leading-[0.9] tracking-tight mb-8">
             Studio
             <br />

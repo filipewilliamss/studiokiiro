@@ -1,3 +1,5 @@
+import kiiroLogo from "@/assets/logo.png";
+
 const Footer = () => {
   return (
     <footer className="border-t border-border py-16 md:py-20">
@@ -5,8 +7,8 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8">
           {/* Col 1 */}
           <div>
-            <a href="#" className="font-display text-xl font-bold tracking-tight text-foreground inline-block mb-4">
-              Studio <span className="text-primary">Kiiro</span>
+            <a href="#" className="inline-block mb-4">
+              <img src={kiiroLogo} alt="Studio Kiiro" className="h-8 md:h-10" />
             </a>
             <p className="text-muted-foreground text-sm mb-1">Arte em cada pixel.</p>
             <p className="text-muted-foreground text-sm">Design estratégico que transforma marcas em referências visuais.</p>

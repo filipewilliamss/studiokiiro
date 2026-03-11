@@ -12,7 +12,7 @@ const testimonials = [
     text: "Desde que atualizamos nossa identidade visual, os clientes nos enxergam de forma completamente diferente. O manual de marca ficou impecável e fez toda a diferença.",
   },
   {
-    name: "Luisa Ferreira",
+    name: "Luisa Santos",
     role: "Fundadora, Team Luisa CT",
     text: "A nova marca transmite exatamente a energia que eu queria pro box. Os posts no Instagram ficaram muito mais profissionais e os alunos adoraram.",
   },

@@ -126,7 +126,7 @@ const PortfolioSection = () => {
                   </h3>
                   <p className="text-sm text-gray-500 mt-1">{project.category}</p>
                 </div>
-                <svg className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-5 h-5 text-gray-400 group-hover:text-primary transition-colors mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M7 17L17 7M17 7H7M17 7v10" />
                 </svg>
               </div>

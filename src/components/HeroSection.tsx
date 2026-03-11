@@ -1,9 +1,26 @@
 import { motion } from "framer-motion";
 import kiiroLogo from "@/assets/logo.png";
+import patternBg from "@/assets/pattern.png";
 
 const HeroSection = () => {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      {/* Animated pattern background */}
+      <div className="absolute inset-0 opacity-[0.04]">
+        <motion.div
+          animate={{ x: [0, -500, 0] }}
+          transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
+          className="absolute inset-0"
+          style={{
+            backgroundImage: `url(${patternBg})`,
+            backgroundRepeat: "repeat",
+            backgroundSize: "400px",
+            width: "200%",
+            height: "100%",
+          }}
+        />
+      </div>
+
       {/* Subtle glow */}
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[120px]" />
 

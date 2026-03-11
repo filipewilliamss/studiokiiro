@@ -24,11 +24,6 @@ const HeroSection = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.3 }}
         >
-          <p className="font-display text-xl md:text-2xl lg:text-3xl text-foreground/80 max-w-3xl mx-auto mb-4 leading-relaxed">
-            Transformamos marcas em
-            <br className="hidden sm:block" /> referência visual.
-          </p>
-
           <p className="text-muted-foreground text-base md:text-lg max-w-xl mx-auto mb-12">
             Identidade Visual · Social Media · Edição de Vídeo
           </p>

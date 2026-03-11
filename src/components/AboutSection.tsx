@@ -1,27 +1,56 @@
 import { motion } from "framer-motion";
+import profilePicture from "@/assets/profile-picture.png";
 
 const AboutSection = () => {
   return (
     <section id="sobre" className="section-padding">
       <div className="container-editorial">
         <div className="grid md:grid-cols-2 gap-16 md:gap-24 items-start">
+          {/* Left column - Title + Photo */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: false, amount: 0.3 }}
             transition={{ duration: 0.7 }}
+            className="space-y-8"
           >
-            <p className="text-sm uppercase tracking-[0.3em] text-primary mb-4">Sobre</p>
-            <h2 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
-              Seja muito
-              <br />
-              <span className="text-gradient-kiiro">bem-vindo!</span>
-            </h2>
-            <p className="text-lg text-secondary-foreground mt-6 font-display">
-              Filipe Williams — Designer Gráfico & Fundador do Studio Kiiro
-            </p>
+            <div>
+              <p className="text-sm uppercase tracking-[0.3em] text-primary mb-4">Sobre</p>
+              <h2 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
+                Seja muito
+                <br />
+                <span className="text-gradient-kiiro">bem-vindo!</span>
+              </h2>
+              <p className="text-lg text-secondary-foreground mt-6 font-display">
+                Filipe Williams — Designer Gráfico & Fundador do Studio Kiiro
+              </p>
+            </div>
+
+            {/* Profile photo */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: false, amount: 0.3 }}
+              transition={{ duration: 0.8, delay: 0.3 }}
+              className="relative"
+            >
+              <div className="relative overflow-hidden rounded-2xl">
+                <img
+                  src={profilePicture}
+                  alt="Filipe Williams — Fundador do Studio Kiiro"
+                  className="w-full object-cover aspect-[3/4] grayscale hover:grayscale-0 transition-all duration-700"
+                />
+                {/* Gradient overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent" />
+                {/* Accent border */}
+                <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-primary via-primary/60 to-transparent" />
+              </div>
+              {/* Decorative element */}
+              <div className="absolute -bottom-3 -right-3 w-24 h-24 border-2 border-primary/20 rounded-2xl -z-10" />
+            </motion.div>
           </motion.div>
 
+          {/* Right column - Text */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -41,11 +70,6 @@ const AboutSection = () => {
             <p className="text-base text-muted-foreground leading-relaxed">
               Mais do que entregar um logo bonito, meu compromisso é entender a essência de cada marca e traduzi-la visualmente de forma única e memorável. Trabalho com uma metodologia consistente, estou em constante evolução e busco sempre as tendências mais atuais do mercado — para que o seu projeto não apenas se destaque hoje, mas continue relevante no futuro.
             </p>
-
-            <div className="pt-4 flex items-center gap-4">
-              <div className="w-12 h-px bg-primary" />
-              <span className="text-sm text-primary uppercase tracking-widest font-display">Arte em cada pixel</span>
-            </div>
           </motion.div>
         </div>
       </div>

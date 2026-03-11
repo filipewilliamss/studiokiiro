@@ -2,17 +2,17 @@ import { motion } from "framer-motion";
 
 const testimonials = [
   {
-    name: "Lucas Mendes",
+    name: "Daniel Silva",
     role: "Fundador, Akedah Podcast",
     text: "O Studio Kiiro entregou muito mais do que um logo — entregou uma identidade que me deu orgulho de apresentar o podcast. Profissionalismo e atenção aos detalhes impressionantes.",
   },
   {
-    name: "Fernanda Costa",
+    name: "Danielle",
     role: "Proprietária, Construmar",
     text: "Desde que atualizamos nossa identidade visual, os clientes nos enxergam de forma completamente diferente. O manual de marca ficou impecável e fez toda a diferença.",
   },
   {
-    name: "Luisa Ferreira",
+    name: "Luisa Santos",
     role: "Fundadora, Team Luisa CT",
     text: "A nova marca transmite exatamente a energia que eu queria pro box. Os posts no Instagram ficaram muito mais profissionais e os alunos adoraram.",
   },

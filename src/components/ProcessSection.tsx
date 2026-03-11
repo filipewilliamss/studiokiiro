@@ -25,7 +25,7 @@ const steps = [
 
 const ProcessSection = () => {
   return (
-    <section id="processo" className="section-padding border-t border-border">
+    <section id="processo" className="section-padding border-t border-border bg-primary text-primary-foreground">
       <div className="container-editorial">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -34,7 +34,7 @@ const ProcessSection = () => {
           transition={{ duration: 0.7 }}
           className="mb-20"
         >
-          <p className="text-sm uppercase tracking-[0.3em] text-primary mb-4">Processo</p>
+          <p className="text-sm uppercase tracking-[0.3em] text-primary-foreground/70 mb-4">Processo</p>
           <h2 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold">
             Como trabalhamos
           </h2>
@@ -50,13 +50,13 @@ const ProcessSection = () => {
               transition={{ duration: 0.6, delay: i * 0.12 }}
               className="relative"
             >
-              <span className="font-display text-6xl md:text-7xl font-bold text-primary/10 leading-none">
+              <span className="font-display text-6xl md:text-7xl font-bold text-primary-foreground/15 leading-none">
                 {step.number}
               </span>
-              <h3 className="font-display text-xl font-bold mt-2 mb-3 text-foreground">
+              <h3 className="font-display text-xl font-bold mt-2 mb-3 text-primary-foreground">
                 {step.title}
               </h3>
-              <p className="text-muted-foreground text-sm leading-relaxed">
+              <p className="text-primary-foreground/70 text-sm leading-relaxed">
                 {step.description}
               </p>
             </motion.div>

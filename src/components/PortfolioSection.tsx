@@ -68,7 +68,7 @@ const PortfolioSection = () => {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
   return (
-    <section id="portfolio" className="section-padding border-t border-border">
+    <section id="portfolio" className="section-padding border-t border-border bg-white">
       <div className="container-editorial">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -78,7 +78,7 @@ const PortfolioSection = () => {
           className="mb-20"
         >
           <p className="text-sm uppercase tracking-[0.3em] text-primary mb-4">Portfólio</p>
-          <h2 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold">
+          <h2 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900">
             Projetos selecionados
           </h2>
         </motion.div>
@@ -102,7 +102,7 @@ const PortfolioSection = () => {
                   <img
                     src={project.logo}
                     alt={`Logo ${project.title}`}
-                    className="max-w-[60%] max-h-[60%] object-contain"
+                    className="max-w-[80%] max-h-[80%] object-contain"
                   />
                 </div>
 
@@ -121,12 +121,12 @@ const PortfolioSection = () => {
 
               <div className="flex items-start justify-between">
                 <div>
-                  <h3 className="font-display text-xl font-bold text-foreground group-hover:text-primary transition-colors duration-300">
+                  <h3 className="font-display text-xl font-bold text-gray-900 group-hover:text-primary transition-colors duration-300">
                     {project.title}
                   </h3>
-                  <p className="text-sm text-muted-foreground mt-1">{project.category}</p>
+                  <p className="text-sm text-gray-500 mt-1">{project.category}</p>
                 </div>
-                <svg className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-5 h-5 text-gray-400 group-hover:text-primary transition-colors mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M7 17L17 7M17 7H7M17 7v10" />
                 </svg>
               </div>

@@ -12,11 +12,6 @@ const HeroSection = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
-          {/* Studio name */}
-          <p className="text-sm md:text-base uppercase tracking-[0.3em] text-muted-foreground mb-8">
-            Estúdio de Design
-          </p>
-
           <h1 className="font-display text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-bold leading-[0.9] tracking-tight mb-8">
             Studio
             <br />
@@ -29,11 +24,6 @@ const HeroSection = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.3 }}
         >
-          <p className="font-display text-xl md:text-2xl lg:text-3xl text-foreground/80 max-w-3xl mx-auto mb-4 leading-relaxed">
-            Transformamos marcas em
-            <br className="hidden sm:block" /> referência visual.
-          </p>
-
           <p className="text-muted-foreground text-base md:text-lg max-w-xl mx-auto mb-12">
             Identidade Visual · Social Media · Edição de Vídeo
           </p>
@@ -60,14 +50,23 @@ const HeroSection = () => {
         </motion.div>
       </div>
 
-      {/* Scroll indicator */}
+      {/* Animated arrow */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.2 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2"
+        className="absolute bottom-10 left-1/2 -translate-x-1/2"
       >
-        <div className="w-px h-16 bg-gradient-to-b from-primary/60 to-transparent mx-auto" />
+        <motion.svg
+          animate={{ y: [0, 10, 0] }}
+          transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+          className="w-8 h-8 text-primary"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+        </motion.svg>
       </motion.div>
     </section>
   );

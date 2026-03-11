@@ -9,12 +9,12 @@ const HeroSection = () => {
       <div className="absolute inset-0 opacity-[0.04]">
         <motion.div
           animate={{ x: [0, -500, 0] }}
-          transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
+          transition={{ duration: 90, repeat: Infinity, ease: "linear" }}
           className="absolute inset-0"
           style={{
             backgroundImage: `url(${patternBg})`,
             backgroundRepeat: "repeat",
-            backgroundSize: "400px",
+            backgroundSize: "1200px",
             width: "200%",
             height: "100%",
           }}

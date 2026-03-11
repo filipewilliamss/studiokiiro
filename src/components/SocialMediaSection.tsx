@@ -80,22 +80,6 @@ const SocialMediaSection = () => {
           ))}
         </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false, amount: 0.3 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          className="mt-16 text-center"
-        >
-          <a
-            href="https://wa.me/5511991076096?text=Olá! Tenho interesse em artes para mídias sociais!"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-block px-8 py-4 bg-primary text-primary-foreground font-display font-semibold rounded-full hover:bg-kiiro-dark transition-all duration-300"
-          >
-            Solicitar Orçamento
-          </a>
-        </motion.div>
       </div>
     </section>
   );

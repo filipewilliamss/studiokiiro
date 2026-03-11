@@ -23,6 +23,13 @@ import akedahPag7 from "@/assets/akedah-pagina-7.png";
 import akedahPag8 from "@/assets/akedah-pagina-8.png";
 import akedahPag9 from "@/assets/akedah-pagina-9.png";
 import akedahPag10 from "@/assets/akedah-pagina-10.png";
+import akedahPag11 from "@/assets/akedah-pagina-11.png";
+import teamluisaPag1 from "@/assets/teamluisa-pagina-1.png";
+import teamluisaPag2 from "@/assets/teamluisa-pagina-2.png";
+import teamluisaPag3 from "@/assets/teamluisa-pagina-3.png";
+import teamluisaPag4 from "@/assets/teamluisa-pagina-4.png";
+import teamluisaPag5 from "@/assets/teamluisa-pagina-5.png";
+import teamluisaPag6 from "@/assets/teamluisa-pagina-6.png";
 import ProjectModal from "./ProjectModal";
 
 export interface Project {

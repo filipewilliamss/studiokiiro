@@ -30,6 +30,14 @@ import teamluisaPag3 from "@/assets/teamluisa-pagina-3.png";
 import teamluisaPag4 from "@/assets/teamluisa-pagina-4.png";
 import teamluisaPag5 from "@/assets/teamluisa-pagina-5.png";
 import teamluisaPag6 from "@/assets/teamluisa-pagina-6.png";
+import temploPag1 from "@/assets/templo-pagina-1.png";
+import temploPag2 from "@/assets/templo-pagina-2.png";
+import temploPag3 from "@/assets/templo-pagina-3.png";
+import temploPag4 from "@/assets/templo-pagina-4.png";
+import temploPag5 from "@/assets/templo-pagina-5.png";
+import temploPag6 from "@/assets/templo-pagina-6.png";
+import temploPag7 from "@/assets/templo-pagina-7.png";
+import temploPag8 from "@/assets/templo-pagina-8.png";
 import ProjectModal from "./ProjectModal";
 
 export interface Project {

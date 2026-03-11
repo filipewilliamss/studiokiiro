@@ -121,10 +121,10 @@ const PortfolioSection = () => {
 
               <div className="flex items-start justify-between">
                 <div>
-                  <h3 className="font-display text-xl font-bold text-foreground group-hover:text-primary transition-colors duration-300">
+                  <h3 className="font-display text-xl font-bold text-gray-900 group-hover:text-primary transition-colors duration-300">
                     {project.title}
                   </h3>
-                  <p className="text-sm text-muted-foreground mt-1">{project.category}</p>
+                  <p className="text-sm text-gray-500 mt-1">{project.category}</p>
                 </div>
                 <svg className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M7 17L17 7M17 7H7M17 7v10" />

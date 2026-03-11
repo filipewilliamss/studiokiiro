@@ -95,6 +95,10 @@ const projects: Project[] = [
     result: "Marca que equilibra tradição e modernidade, com forte presença visual nas redes sociais e materiais impressos da igreja.",
     tags: ["Logo Design", "Manual de Marca", "Igreja"],
     logo: temploLogo,
+    pages: [
+      temploPag1, temploPag2, temploPag3, temploPag4,
+      temploPag5, temploPag6, temploPag7, temploPag8,
+    ],
   },
   {
     id: 4,

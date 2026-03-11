@@ -78,7 +78,7 @@ const PortfolioSection = () => {
           className="mb-20"
         >
           <p className="text-sm uppercase tracking-[0.3em] text-primary mb-4">Portfólio</p>
-          <h2 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold">
+          <h2 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900">
             Projetos selecionados
           </h2>
         </motion.div>

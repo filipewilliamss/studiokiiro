@@ -25,7 +25,7 @@ const steps = [
 
 const ProcessSection = () => {
   return (
-    <section id="processo" className="section-padding border-t border-border">
+    <section id="processo" className="section-padding border-t border-border bg-primary text-primary-foreground">
       <div className="container-editorial">
         <motion.div
           initial={{ opacity: 0, y: 30 }}

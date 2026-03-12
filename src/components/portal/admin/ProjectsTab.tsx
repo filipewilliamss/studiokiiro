@@ -364,13 +364,13 @@ const ProjectsTab = () => {
                           onClick={() => toggleStage(stage)}
                           className="flex items-start gap-3 w-full p-3 rounded-lg border border-border hover:border-primary/30 transition-colors text-left"
                         >
-                          {stage.status === "concluido" ? (
+                          {stage.status === "concluida" ? (
                             <CheckCircle2 className="h-5 w-5 text-primary shrink-0 mt-0.5" />
                           ) : (
                             <Circle className="h-5 w-5 text-muted-foreground shrink-0 mt-0.5" />
                           )}
                           <div className="flex-1 min-w-0">
-                            <span className={`text-sm font-medium ${stage.status === "concluido" ? "text-muted-foreground line-through" : "text-foreground"}`}>
+                            <span className={`text-sm font-medium ${stage.status === "concluida" ? "text-muted-foreground line-through" : "text-foreground"}`}>
                               {stage.name}
                             </span>
                             {stage.description && (

@@ -217,7 +217,7 @@ const ClientDashboard = () => {
                     </label>
                     <div className="space-y-2">
                       {stages.map((stage, idx) => {
-                        const isCompleted = stage.status === "concluido";
+                        const isCompleted = stage.status === "concluida";
                         const isCurrent = idx === currentStageIndex;
                         return (
                           <div

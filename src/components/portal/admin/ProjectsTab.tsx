@@ -120,6 +120,7 @@ const ProjectsTab = () => {
 
   const openProjectDetail = async (project: Project) => {
     setSelectedProject(project);
+    setSelectedFileNames(new Set());
     const { data } = await supabase
       .from("project_stages")
       .select("*")

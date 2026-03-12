@@ -137,7 +137,7 @@ const ProjectsTab = () => {
       completed_at: newStatus === "concluido" ? new Date().toISOString() : null,
     }).eq("id", stage.id);
 
-    const updated = stages.map((s) => s.id === stage.id ? { ...s, status: newStatus } : s);
+    const updated = stages.map((s) => s.id === stage.id ? { ...s, status: newStatus, completed_at: newStatus === "concluido" ? new Date().toISOString() : null } : s);
     setStages(updated);
     const done = updated.filter((s) => s.status === "concluido").length;
     const progress = Math.round((done / updated.length) * 100);

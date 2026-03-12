@@ -172,6 +172,7 @@ const ClientsTab = () => {
               </AlertDialogContent>
             </AlertDialog>
           )}
+        </div>
         <Dialog open={open} onOpenChange={setOpen}>
           <DialogTrigger asChild>
             <Button className="gap-2">

@@ -46,6 +46,12 @@ const Navbar = () => {
               {link.label}
             </a>
           ))}
+          <a
+            href="/area-do-cliente"
+            className="text-sm text-primary hover:text-primary/80 transition-colors duration-300 tracking-wide uppercase font-medium"
+          >
+            Área do Cliente
+          </a>
         </div>
 
         {/* Mobile toggle */}

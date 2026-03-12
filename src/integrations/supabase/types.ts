@@ -14,6 +14,59 @@ export type Database = {
   }
   public: {
     Tables: {
+      payments: {
+        Row: {
+          budget_total: number
+          created_at: string
+          id: string
+          initial_payment: number | null
+          initial_payment_date: string | null
+          installments_paid: number | null
+          installments_total: number | null
+          next_payment_date: string | null
+          notes: string | null
+          project_id: string
+          remaining_amount: number | null
+          updated_at: string
+        }
+        Insert: {
+          budget_total?: number
+          created_at?: string
+          id?: string
+          initial_payment?: number | null
+          initial_payment_date?: string | null
+          installments_paid?: number | null
+          installments_total?: number | null
+          next_payment_date?: string | null
+          notes?: string | null
+          project_id: string
+          remaining_amount?: number | null
+          updated_at?: string
+        }
+        Update: {
+          budget_total?: number
+          created_at?: string
+          id?: string
+          initial_payment?: number | null
+          initial_payment_date?: string | null
+          installments_paid?: number | null
+          installments_total?: number | null
+          next_payment_date?: string | null
+          notes?: string | null
+          project_id?: string
+          remaining_amount?: number | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "payments_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           client_type: string | null

@@ -1,34 +1,14 @@
 import { useAuth } from "@/contexts/AuthContext";
-import { useEffect, useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
 import kiiroLogo from "@/assets/logo.png";
 import { Button } from "@/components/ui/button";
-import { LogOut, Users, FolderKanban, DollarSign, Clock } from "lucide-react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { LogOut, Users, FolderKanban, DollarSign } from "lucide-react";
+import ClientsTab from "./admin/ClientsTab";
+import ProjectsTab from "./admin/ProjectsTab";
+import FinanceTab from "./admin/FinanceTab";
 
 const AdminDashboard = () => {
   const { profile, signOut } = useAuth();
-  const [stats, setStats] = useState({ activeProjects: 0, totalClients: 0 });
-
-  useEffect(() => {
-    const fetchStats = async () => {
-      const [projectsRes, clientsRes] = await Promise.all([
-        supabase.from("projects").select("id", { count: "exact" }).neq("status", "entregue"),
-        supabase.from("profiles").select("id", { count: "exact" }),
-      ]);
-      setStats({
-        activeProjects: projectsRes.count ?? 0,
-        totalClients: clientsRes.count ?? 0,
-      });
-    };
-    fetchStats();
-  }, []);
-
-  const cards = [
-    { label: "Projetos Ativos", value: stats.activeProjects, icon: FolderKanban, color: "text-primary" },
-    { label: "Clientes", value: stats.totalClients, icon: Users, color: "text-primary" },
-    { label: "Prazo Próximo (7d)", value: "—", icon: Clock, color: "text-primary" },
-    { label: "A Receber (mês)", value: "—", icon: DollarSign, color: "text-primary" },
-  ];
 
   return (
     <div className="min-h-screen bg-background">
@@ -46,59 +26,42 @@ const AdminDashboard = () => {
         </div>
       </header>
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 py-8 space-y-8">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 py-8 space-y-6">
         {/* Welcome */}
         <div>
           <h1 className="text-2xl font-semibold text-foreground" style={{ fontFamily: "var(--font-display)" }}>
             Olá, {profile?.full_name || "Admin"}.
           </h1>
-          <p className="text-sm text-muted-foreground mt-1">Painel administrativo do Studio Kiiro.</p>
+          <p className="text-sm text-muted-foreground mt-1">Gerencie clientes, projetos e finanças.</p>
         </div>
 
-        {/* Stats */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {cards.map((card) => (
-            <div key={card.label} className="bg-card border border-border rounded-xl p-5 space-y-3">
-              <div className="flex items-center gap-2">
-                <card.icon className={`h-4 w-4 ${card.color}`} />
-                <span className="text-xs uppercase tracking-wider text-muted-foreground">{card.label}</span>
-              </div>
-              <p className="text-3xl font-semibold text-foreground" style={{ fontFamily: "var(--font-display)" }}>
-                {card.value}
-              </p>
-            </div>
-          ))}
-        </div>
+        {/* Tabs */}
+        <Tabs defaultValue="clients" className="space-y-6">
+          <TabsList className="bg-card border border-border h-12 p-1 gap-1">
+            <TabsTrigger value="clients" className="gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+              <Users className="h-4 w-4" />
+              <span className="hidden sm:inline">Clientes</span>
+            </TabsTrigger>
+            <TabsTrigger value="projects" className="gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+              <FolderKanban className="h-4 w-4" />
+              <span className="hidden sm:inline">Projetos</span>
+            </TabsTrigger>
+            <TabsTrigger value="finance" className="gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+              <DollarSign className="h-4 w-4" />
+              <span className="hidden sm:inline">Financeiro</span>
+            </TabsTrigger>
+          </TabsList>
 
-        {/* Quick actions */}
-        <div className="bg-card border border-border rounded-xl p-6">
-          <h2 className="text-lg font-medium text-foreground mb-4" style={{ fontFamily: "var(--font-display)" }}>
-            Acesso Rápido
-          </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-            <Button variant="outline" className="justify-start h-auto py-4 px-5">
-              <Users className="h-4 w-4 mr-3 text-primary" />
-              <div className="text-left">
-                <div className="text-sm font-medium">Clientes</div>
-                <div className="text-xs text-muted-foreground">Gerenciar clientes</div>
-              </div>
-            </Button>
-            <Button variant="outline" className="justify-start h-auto py-4 px-5">
-              <FolderKanban className="h-4 w-4 mr-3 text-primary" />
-              <div className="text-left">
-                <div className="text-sm font-medium">Projetos</div>
-                <div className="text-xs text-muted-foreground">Gerenciar projetos</div>
-              </div>
-            </Button>
-            <Button variant="outline" className="justify-start h-auto py-4 px-5">
-              <DollarSign className="h-4 w-4 mr-3 text-primary" />
-              <div className="text-left">
-                <div className="text-sm font-medium">Financeiro</div>
-                <div className="text-xs text-muted-foreground">Pagamentos e custos</div>
-              </div>
-            </Button>
-          </div>
-        </div>
+          <TabsContent value="clients">
+            <ClientsTab />
+          </TabsContent>
+          <TabsContent value="projects">
+            <ProjectsTab />
+          </TabsContent>
+          <TabsContent value="finance">
+            <FinanceTab />
+          </TabsContent>
+        </Tabs>
       </main>
     </div>
   );

@@ -45,8 +45,6 @@ const AboutSection = () => {
                 {/* Accent border */}
                 <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-primary via-primary/60 to-transparent" />
               </div>
-              {/* Decorative element */}
-              <div className="absolute -bottom-3 -right-3 w-24 h-24 border-2 border-primary/20 rounded-2xl -z-10" />
             </motion.div>
           </motion.div>
 

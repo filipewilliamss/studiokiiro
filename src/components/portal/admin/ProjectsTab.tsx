@@ -518,12 +518,28 @@ const ProjectsTab = () => {
                     ) : (
                       <div className="space-y-3">
                         {(briefingQuestions[selectedProject.type] || []).map((q: BriefingQuestion) => {
+                          if (q.type === "section") {
+                            return (
+                              <div key={q.id} className="pt-3 pb-1 border-b border-border">
+                                <h4 className="text-xs font-semibold text-primary uppercase tracking-wide">{q.question}</h4>
+                              </div>
+                            );
+                          }
                           const answer = briefingResponse[q.id];
-                          if (!answer) return null;
+                          const detailAnswer = briefingResponse[`${q.id}_detail`];
+                          if (!answer && !detailAnswer) return null;
+                          
+                          const displayAnswer = q.type === "checkbox" && answer
+                            ? answer.split("|||").filter(Boolean).join(", ")
+                            : answer;
+
                           return (
                             <div key={q.id} className="bg-card border border-border rounded-lg p-4 space-y-1">
                               <label className="text-xs font-medium text-muted-foreground">{q.question}</label>
-                              <p className="text-sm text-foreground whitespace-pre-wrap">{answer}</p>
+                              <p className="text-sm text-foreground whitespace-pre-wrap">{displayAnswer}</p>
+                              {detailAnswer && (
+                                <p className="text-sm text-foreground/80 italic ml-2">↳ {detailAnswer}</p>
+                              )}
                             </div>
                           );
                         })}

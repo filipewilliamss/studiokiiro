@@ -10,6 +10,7 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { toast } from "sonner";
@@ -286,39 +287,92 @@ const ClientDashboard = () => {
                 </p>
               </DialogHeader>
               <div className="space-y-5 mt-4">
-                {currentBriefingQuestions?.map((q) => (
-                  <div key={q.id} className="space-y-1.5">
-                    <label className="text-sm font-medium text-foreground">
-                      {q.question} {q.required && <span className="text-destructive">*</span>}
-                    </label>
-                    {q.type === "text" && (
-                      <Input
-                        value={briefingAnswers[q.id] || ""}
-                        onChange={(e) => setBriefingAnswers((prev) => ({ ...prev, [q.id]: e.target.value }))}
-                        placeholder="Sua resposta..."
-                      />
-                    )}
-                    {q.type === "textarea" && (
-                      <Textarea
-                        value={briefingAnswers[q.id] || ""}
-                        onChange={(e) => setBriefingAnswers((prev) => ({ ...prev, [q.id]: e.target.value }))}
-                        placeholder="Sua resposta..."
-                        rows={3}
-                      />
-                    )}
-                    {q.type === "select" && q.options && (
-                      <Select
-                        value={briefingAnswers[q.id] || ""}
-                        onValueChange={(v) => setBriefingAnswers((prev) => ({ ...prev, [q.id]: v }))}
-                      >
-                        <SelectTrigger><SelectValue placeholder="Selecione uma opção" /></SelectTrigger>
-                        <SelectContent>
-                          {q.options.map((opt) => <SelectItem key={opt} value={opt}>{opt}</SelectItem>)}
-                        </SelectContent>
-                      </Select>
-                    )}
-                  </div>
-                ))}
+                {currentBriefingQuestions?.map((q) => {
+                  if (q.type === "section") {
+                    return (
+                      <div key={q.id} className="pt-4 pb-1 border-b border-border">
+                        <h3 className="text-sm font-semibold text-primary uppercase tracking-wide">{q.question}</h3>
+                      </div>
+                    );
+                  }
+
+                  return (
+                    <div key={q.id} className="space-y-1.5">
+                      <label className="text-sm font-medium text-foreground">
+                        {q.question} {q.required && <span className="text-destructive">*</span>}
+                      </label>
+
+                      {(q.type === "text" || q.type === "email" || q.type === "phone") && (
+                        <Input
+                          type={q.type === "email" ? "email" : q.type === "phone" ? "tel" : "text"}
+                          value={briefingAnswers[q.id] || ""}
+                          onChange={(e) => setBriefingAnswers((prev) => ({ ...prev, [q.id]: e.target.value }))}
+                          placeholder={q.placeholder || "Sua resposta..."}
+                        />
+                      )}
+
+                      {q.type === "textarea" && (
+                        <Textarea
+                          value={briefingAnswers[q.id] || ""}
+                          onChange={(e) => setBriefingAnswers((prev) => ({ ...prev, [q.id]: e.target.value }))}
+                          placeholder={q.placeholder || "Sua resposta..."}
+                          rows={3}
+                        />
+                      )}
+
+                      {q.type === "select" && q.options && (
+                        <div className="space-y-2">
+                          <div className="space-y-1.5">
+                            {q.options.map((opt) => (
+                              <label key={opt} className="flex items-center gap-2.5 p-2 rounded-lg hover:bg-muted/50 cursor-pointer transition-colors">
+                                <input
+                                  type="radio"
+                                  name={q.id}
+                                  checked={(briefingAnswers[q.id] || "").startsWith(opt)}
+                                  onChange={() => setBriefingAnswers((prev) => ({ ...prev, [q.id]: opt }))}
+                                  className="h-4 w-4 text-primary accent-primary"
+                                />
+                                <span className="text-sm text-foreground">{opt}</span>
+                              </label>
+                            ))}
+                          </div>
+                          {q.hasConditionalText && briefingAnswers[q.id] && (
+                            <Input
+                              value={briefingAnswers[`${q.id}_detail`] || ""}
+                              onChange={(e) => setBriefingAnswers((prev) => ({ ...prev, [`${q.id}_detail`]: e.target.value }))}
+                              placeholder="Especifique..."
+                              className="ml-6"
+                            />
+                          )}
+                        </div>
+                      )}
+
+                      {q.type === "checkbox" && q.options && (
+                        <div className="space-y-1.5">
+                          {q.options.map((opt) => {
+                            const currentVal = briefingAnswers[q.id] || "";
+                            const selected = currentVal.split("|||").filter(Boolean);
+                            const isChecked = selected.includes(opt);
+                            return (
+                              <label key={opt} className="flex items-center gap-2.5 p-2 rounded-lg hover:bg-muted/50 cursor-pointer transition-colors">
+                                <Checkbox
+                                  checked={isChecked}
+                                  onCheckedChange={(checked) => {
+                                    const newSelected = checked
+                                      ? [...selected, opt]
+                                      : selected.filter((s) => s !== opt);
+                                    setBriefingAnswers((prev) => ({ ...prev, [q.id]: newSelected.join("|||") }));
+                                  }}
+                                />
+                                <span className="text-sm text-foreground">{opt}</span>
+                              </label>
+                            );
+                          })}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
 
                 <div className="flex justify-end gap-2 pt-4 border-t border-border">
                   <Button variant="ghost" onClick={() => setBriefingOpen(false)}>Cancelar</Button>

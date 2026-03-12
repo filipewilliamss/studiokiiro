@@ -54,6 +54,7 @@ const ProjectsTab = () => {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [stages, setStages] = useState<Stage[]>([]);
   const [files, setFiles] = useState<{ name: string }[]>([]);
+  const [selectedFileNames, setSelectedFileNames] = useState<Set<string>>(new Set());
   const [loading, setLoading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());

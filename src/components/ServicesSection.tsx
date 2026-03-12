@@ -39,8 +39,19 @@ const serviceCategories = [
       { title: "Institucional (2-5min)", description: "Vídeos institucionais profissionais para apresentar sua empresa, produto ou serviço." },
     ],
   },
+  {
+    category: "Sites e Landing Pages",
+    icon: (
+      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
+      </svg>
+    ),
+    items: [
+      { title: "Landing Page", description: "Página única otimizada para conversão, com design estratégico e responsivo." },
+      { title: "Site Institucional", description: "Presença digital completa com múltiplas páginas, alinhada à identidade da sua marca." },
+    ],
+  },
 ];
-
 const ServicesSection = () => {
   return (
     <section id="servicos" className="section-padding">

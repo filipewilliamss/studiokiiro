@@ -57,6 +57,7 @@ const ProjectsTab = () => {
   const [loading, setLoading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
 
   const [form, setForm] = useState({
     name: "", type: "Identidade Visual", client_id: "", description: "",

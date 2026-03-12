@@ -251,7 +251,7 @@ const ClientsTab = () => {
               <div className="flex justify-end gap-2 pt-2">
                 <Button type="button" variant="ghost" onClick={() => setOpen(false)}>Cancelar</Button>
                 <Button type="submit" disabled={loading}>
-                  {loading ? "Enviando convite..." : "Adicionar e Convidar"}
+                  {loading ? "Adicionando..." : "Adicionar Cliente"}
                 </Button>
               </div>
             </form>

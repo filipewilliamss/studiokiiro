@@ -90,7 +90,8 @@ const ProjectsTab = () => {
     }).select("id").single();
 
     if (error || !projectData) {
-      toast.error("Erro ao criar projeto");
+      console.error("Erro ao criar projeto:", error);
+      toast.error(error?.message || "Erro ao criar projeto");
       setLoading(false);
       return;
     }

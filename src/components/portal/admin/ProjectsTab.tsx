@@ -5,6 +5,8 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { FolderPlus, ChevronRight, CheckCircle2, Circle, Clock, Upload, FileDown, Trash2 } from "lucide-react";
 import { toast } from "sonner";
@@ -54,6 +56,7 @@ const ProjectsTab = () => {
   const [files, setFiles] = useState<{ name: string }[]>([]);
   const [loading, setLoading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
 
   const [form, setForm] = useState({
     name: "", type: "Identidade Visual", client_id: "", description: "",
@@ -96,7 +99,6 @@ const ProjectsTab = () => {
       return;
     }
 
-    // Auto-create methodology stages if available for this type
     const stages = methodologyStages[form.type];
     if (stages && stages.length > 0) {
       const stageInserts = stages.map((s) => ({
@@ -197,10 +199,66 @@ const ProjectsTab = () => {
     if (data?.signedUrl) window.open(data.signedUrl, "_blank");
   };
 
+  const toggleSelect = (id: string) => {
+    setSelectedIds((prev) => {
+      const next = new Set(prev);
+      next.has(id) ? next.delete(id) : next.add(id);
+      return next;
+    });
+  };
+
+  const toggleSelectAll = () => {
+    if (selectedIds.size === projects.length) {
+      setSelectedIds(new Set());
+    } else {
+      setSelectedIds(new Set(projects.map((p) => p.id)));
+    }
+  };
+
+  const handleDeleteProjects = async () => {
+    const ids = Array.from(selectedIds);
+    await supabase.from("project_stages").delete().in("project_id", ids);
+    await supabase.from("payments").delete().in("project_id", ids);
+    const { error } = await supabase.from("projects").delete().in("id", ids);
+    if (error) {
+      toast.error("Erro ao excluir projetos");
+    } else {
+      toast.success(`${ids.length} projeto(s) excluído(s)`);
+      setSelectedIds(new Set());
+      fetchProjects();
+    }
+  };
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <p className="text-sm text-muted-foreground">{projects.length} projeto(s)</p>
+        <div className="flex items-center gap-2">
+          <p className="text-sm text-muted-foreground">{projects.length} projeto(s)</p>
+          {selectedIds.size > 0 && (
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button variant="destructive" size="sm" className="gap-2">
+                  <Trash2 className="h-4 w-4" />
+                  Excluir ({selectedIds.size})
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Excluir projetos?</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    Essa ação não pode ser desfeita. {selectedIds.size} projeto(s), suas etapas e dados financeiros associados serão removidos.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                  <AlertDialogAction onClick={handleDeleteProjects} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
+                    Excluir
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+          )}
+        </div>
         <Dialog open={openCreate} onOpenChange={setOpenCreate}>
           <DialogTrigger asChild>
             <Button className="gap-2"><FolderPlus className="h-4 w-4" /> Novo Projeto</Button>
@@ -284,35 +342,57 @@ const ProjectsTab = () => {
 
       {/* Project list */}
       <div className="grid gap-3">
+        {projects.length > 0 && (
+          <div className="flex items-center gap-2 px-1">
+            <Checkbox
+              checked={selectedIds.size === projects.length && projects.length > 0}
+              onCheckedChange={toggleSelectAll}
+            />
+            <span className="text-xs text-muted-foreground">Selecionar todos</span>
+          </div>
+        )}
         {projects.map((project) => (
-          <button
+          <div
             key={project.id}
-            onClick={() => openProjectDetail(project)}
-            className="bg-card border border-border rounded-xl p-5 hover:border-primary/30 transition-all text-left w-full group"
+            className={`bg-card border rounded-xl p-5 hover:border-primary/30 transition-all group ${
+              selectedIds.has(project.id) ? "border-primary/50" : "border-border"
+            }`}
           >
-            <div className="flex items-start justify-between mb-3">
-              <div>
-                <h3 className="font-medium text-foreground group-hover:text-primary transition-colors">{project.name}</h3>
-                <p className="text-xs text-muted-foreground mt-0.5">
-                  {project.type} • {(project as any).profiles?.full_name || "—"}
-                </p>
-              </div>
-              <div className="flex items-center gap-2">
-                <span className={`text-xs px-2.5 py-1 rounded-full font-medium ${statusColors[project.status] || "bg-muted text-muted-foreground"}`}>
-                  {statusLabels[project.status] || project.status}
-                </span>
-                <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
-              </div>
-            </div>
-            <div className="flex items-center gap-4">
-              <div className="flex-1">
-                <div className="h-1.5 bg-secondary rounded-full overflow-hidden">
-                  <div className="h-full bg-primary rounded-full transition-all" style={{ width: `${project.progress}%` }} />
+            <div className="flex items-start gap-3">
+              <Checkbox
+                checked={selectedIds.has(project.id)}
+                onCheckedChange={() => toggleSelect(project.id)}
+                className="mt-1"
+              />
+              <button
+                onClick={() => openProjectDetail(project)}
+                className="flex-1 text-left"
+              >
+                <div className="flex items-start justify-between mb-3">
+                  <div>
+                    <h3 className="font-medium text-foreground group-hover:text-primary transition-colors">{project.name}</h3>
+                    <p className="text-xs text-muted-foreground mt-0.5">
+                      {project.type} • {(project as any).profiles?.full_name || "—"}
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className={`text-xs px-2.5 py-1 rounded-full font-medium ${statusColors[project.status] || "bg-muted text-muted-foreground"}`}>
+                      {statusLabels[project.status] || project.status}
+                    </span>
+                    <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
+                  </div>
                 </div>
-              </div>
-              <span className="text-xs text-muted-foreground font-medium">{project.progress}%</span>
+                <div className="flex items-center gap-4">
+                  <div className="flex-1">
+                    <div className="h-1.5 bg-secondary rounded-full overflow-hidden">
+                      <div className="h-full bg-primary rounded-full transition-all" style={{ width: `${project.progress}%` }} />
+                    </div>
+                  </div>
+                  <span className="text-xs text-muted-foreground font-medium">{project.progress}%</span>
+                </div>
+              </button>
             </div>
-          </button>
+          </div>
         ))}
       </div>
 

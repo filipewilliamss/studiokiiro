@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { Link } from "react-router-dom";
 import kiiroLogo from "@/assets/logo.png";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -36,7 +37,9 @@ const LoginPage = () => {
       <div className="w-full max-w-sm space-y-8">
         {/* Logo */}
         <div className="flex flex-col items-center gap-6">
-          <img src={kiiroLogo} alt="Studio Kiiro" className="h-10" />
+          <Link to="/">
+            <img src={kiiroLogo} alt="Studio Kiiro" className="h-10 hover:opacity-80 transition-opacity cursor-pointer" />
+          </Link>
           <div className="text-center space-y-2">
             <h1 className="text-2xl font-semibold text-foreground" style={{ fontFamily: "var(--font-display)" }}>
               Área do Cliente

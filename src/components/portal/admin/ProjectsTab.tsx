@@ -507,6 +507,30 @@ const ProjectsTab = () => {
                     </div>
                   </TabsContent>
 
+                  {/* BRIEFING TAB */}
+                  <TabsContent value="briefing" className="space-y-4">
+                    <label className="text-xs uppercase tracking-wider text-muted-foreground font-medium">Respostas do Briefing</label>
+                    {!briefingResponse ? (
+                      <div className="bg-card border border-border rounded-xl p-6 text-center">
+                        <ClipboardList className="h-8 w-8 text-muted-foreground/40 mx-auto mb-2" />
+                        <p className="text-muted-foreground text-sm">O cliente ainda não respondeu o briefing.</p>
+                      </div>
+                    ) : (
+                      <div className="space-y-3">
+                        {(briefingQuestions[selectedProject.type] || []).map((q: BriefingQuestion) => {
+                          const answer = briefingResponse[q.id];
+                          if (!answer) return null;
+                          return (
+                            <div key={q.id} className="bg-card border border-border rounded-lg p-4 space-y-1">
+                              <label className="text-xs font-medium text-muted-foreground">{q.question}</label>
+                              <p className="text-sm text-foreground whitespace-pre-wrap">{answer}</p>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    )}
+                  </TabsContent>
+
                   {/* FILES TAB */}
                   <TabsContent value="files" className="space-y-4">
                     <div className="flex items-center justify-between">

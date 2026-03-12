@@ -65,7 +65,7 @@ const ProjectsTab = () => {
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
 
   const [form, setForm] = useState({
-    name: "", type: "Identidade Visual", client_id: "", description: "",
+    name: "", type: "Logotipo Essencial", client_id: "", description: "",
     deadline: "", start_date: "", priority: "normal",
   });
 

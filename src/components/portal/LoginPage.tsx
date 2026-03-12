@@ -11,6 +11,7 @@ const LoginPage = () => {
   const [loading, setLoading] = useState(false);
   const [sent, setSent] = useState(false);
   const [error, setError] = useState("");
+  const [stayConnected, setStayConnected] = useState(true);
 
   const handleMagicLink = async (e: React.FormEvent) => {
     e.preventDefault();

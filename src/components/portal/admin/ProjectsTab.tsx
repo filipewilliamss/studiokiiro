@@ -440,10 +440,14 @@ const ProjectsTab = () => {
 
               <div className="mt-6">
                 <Tabs defaultValue="status" className="space-y-6">
-                  <TabsList className="bg-card border border-border h-11 p-1 gap-1 grid grid-cols-4 w-full">
+                  <TabsList className="bg-card border border-border h-11 p-1 gap-1 grid grid-cols-5 w-full">
                     <TabsTrigger value="status" className="gap-1.5 text-xs data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
                       <CheckCircle2 className="h-3.5 w-3.5" />
                       <span className="hidden sm:inline">Status</span>
+                    </TabsTrigger>
+                    <TabsTrigger value="briefing" className="gap-1.5 text-xs data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+                      <ClipboardList className="h-3.5 w-3.5" />
+                      <span className="hidden sm:inline">Briefing</span>
                     </TabsTrigger>
                     <TabsTrigger value="files" className="gap-1.5 text-xs data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
                       <FolderOpen className="h-3.5 w-3.5" />

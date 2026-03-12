@@ -270,6 +270,15 @@ const ClientsTab = () => {
 
       {/* Client list */}
       <div className="grid gap-3">
+        {filtered.length > 0 && (
+          <div className="flex items-center gap-2 px-1">
+            <Checkbox
+              checked={selectedIds.size === filtered.length && filtered.length > 0}
+              onCheckedChange={toggleSelectAll}
+            />
+            <span className="text-xs text-muted-foreground">Selecionar todos</span>
+          </div>
+        )}
         {filtered.length === 0 ? (
           <div className="bg-card border border-border rounded-xl p-8 text-center">
             <p className="text-muted-foreground text-sm">Nenhum cliente encontrado.</p>
@@ -278,27 +287,36 @@ const ClientsTab = () => {
           filtered.map((client) => (
             <div
               key={client.id}
-              className="bg-card border border-border rounded-xl p-5 hover:border-primary/30 transition-colors group"
+              className={`bg-card border rounded-xl p-5 hover:border-primary/30 transition-colors group ${
+                selectedIds.has(client.id) ? "border-primary/50" : "border-border"
+              }`}
             >
               <div className="flex items-start justify-between">
-                <div className="space-y-1">
-                  <h3 className="font-medium text-foreground">{client.full_name || "Sem nome"}</h3>
-                  <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-muted-foreground">
-                    {client.email && (
-                      <span className="flex items-center gap-1">
-                        <Mail className="h-3 w-3" /> {client.email}
-                      </span>
-                    )}
-                    {client.phone && (
-                      <span className="flex items-center gap-1">
-                        <Phone className="h-3 w-3" /> {client.phone}
-                      </span>
-                    )}
-                    {client.company && (
-                      <span className="flex items-center gap-1">
-                        <Building2 className="h-3 w-3" /> {client.company}
-                      </span>
-                    )}
+                <div className="flex items-start gap-3">
+                  <Checkbox
+                    checked={selectedIds.has(client.id)}
+                    onCheckedChange={() => toggleSelect(client.id)}
+                    className="mt-1"
+                  />
+                  <div className="space-y-1">
+                    <h3 className="font-medium text-foreground">{client.full_name || "Sem nome"}</h3>
+                    <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-muted-foreground">
+                      {client.email && (
+                        <span className="flex items-center gap-1">
+                          <Mail className="h-3 w-3" /> {client.email}
+                        </span>
+                      )}
+                      {client.phone && (
+                        <span className="flex items-center gap-1">
+                          <Phone className="h-3 w-3" /> {client.phone}
+                        </span>
+                      )}
+                      {client.company && (
+                        <span className="flex items-center gap-1">
+                          <Building2 className="h-3 w-3" /> {client.company}
+                        </span>
+                      )}
+                    </div>
                   </div>
                 </div>
                 <span className="text-xs px-2.5 py-1 rounded-full bg-primary/10 text-primary font-medium">
@@ -306,7 +324,7 @@ const ClientsTab = () => {
                 </span>
               </div>
               {client.notes && (
-                <p className="text-xs text-muted-foreground mt-3 border-t border-border pt-3">{client.notes}</p>
+                <p className="text-xs text-muted-foreground mt-3 border-t border-border pt-3 ml-8">{client.notes}</p>
               )}
             </div>
           ))

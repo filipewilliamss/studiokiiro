@@ -17,6 +17,11 @@ const navLinks = [
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const location = useLocation();
+  const isHome = location.pathname === "/";
+
+  const getHref = (anchor: string) => (isHome ? anchor : `${BASE_URL}/${anchor}`);
+  const logoHref = isHome ? "#" : BASE_URL;
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 50);
@@ -34,7 +39,7 @@ const Navbar = () => {
       }`}
     >
       <div className="container-editorial flex items-center justify-between h-16 md:h-20">
-        <a href="#" className="flex items-center">
+        <a href={logoHref} className="flex items-center">
           <img src={kiiroLogo} alt="Studio Kiiro" className="h-8 md:h-10" />
         </a>
 
@@ -43,7 +48,7 @@ const Navbar = () => {
           {navLinks.map((link) => (
             <a
               key={link.href}
-              href={link.href}
+              href={getHref(link.href)}
               className="text-sm text-muted-foreground hover:text-primary transition-colors duration-300 tracking-wide uppercase"
             >
               {link.label}
@@ -84,7 +89,7 @@ const Navbar = () => {
             {navLinks.map((link) => (
               <a
                 key={link.href}
-                href={link.href}
+                href={getHref(link.href)}
                 onClick={() => setMenuOpen(false)}
                 className="text-sm text-muted-foreground hover:text-primary transition-colors uppercase tracking-wide"
               >

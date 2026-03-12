@@ -81,7 +81,7 @@ const ClientDashboard = () => {
       <Navbar />
 
       {/* Sub-header */}
-      <header className="border-b border-border bg-card/50 backdrop-blur-sm sticky top-16 md:top-20 z-30">
+      <header className="border-b border-border bg-card/50 backdrop-blur-sm sticky top-16 md:top-20 z-30 mt-16 md:mt-20">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between">
           <h2 className="text-sm font-medium text-foreground uppercase tracking-wider">Área do Cliente</h2>
           <Button variant="ghost" size="sm" onClick={signOut}>

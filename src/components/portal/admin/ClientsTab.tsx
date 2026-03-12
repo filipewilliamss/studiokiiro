@@ -5,7 +5,9 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { UserPlus, Building2, Mail, Phone, Search, X } from "lucide-react";
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
+import { Checkbox } from "@/components/ui/checkbox";
+import { UserPlus, Building2, Mail, Phone, Search, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 
 interface Profile {
@@ -32,6 +34,7 @@ const ClientsTab = () => {
   const [search, setSearch] = useState("");
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
   const [form, setForm] = useState({
     full_name: "",
     email: "",
@@ -99,6 +102,34 @@ const ClientsTab = () => {
     }, 2000);
   };
 
+  const toggleSelect = (id: string) => {
+    setSelectedIds((prev) => {
+      const next = new Set(prev);
+      next.has(id) ? next.delete(id) : next.add(id);
+      return next;
+    });
+  };
+
+  const toggleSelectAll = () => {
+    if (selectedIds.size === filtered.length) {
+      setSelectedIds(new Set());
+    } else {
+      setSelectedIds(new Set(filtered.map((c) => c.id)));
+    }
+  };
+
+  const handleDelete = async () => {
+    const ids = Array.from(selectedIds);
+    const { error } = await supabase.from("profiles").delete().in("id", ids);
+    if (error) {
+      toast.error("Erro ao excluir clientes");
+    } else {
+      toast.success(`${ids.length} cliente(s) excluído(s)`);
+      setSelectedIds(new Set());
+      fetchClients();
+    }
+  };
+
   const filtered = clients.filter((c) =>
     (c.full_name + c.email + c.company).toLowerCase().includes(search.toLowerCase())
   );
@@ -115,6 +146,32 @@ const ClientsTab = () => {
             onChange={(e) => setSearch(e.target.value)}
             className="pl-10 bg-background"
           />
+        </div>
+        <div className="flex items-center gap-2">
+          {selectedIds.size > 0 && (
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button variant="destructive" size="sm" className="gap-2">
+                  <Trash2 className="h-4 w-4" />
+                  Excluir ({selectedIds.size})
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Excluir clientes?</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    Essa ação não pode ser desfeita. {selectedIds.size} cliente(s) e seus dados associados serão removidos.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                  <AlertDialogAction onClick={handleDelete} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
+                    Excluir
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+          )}
         </div>
         <Dialog open={open} onOpenChange={setOpen}>
           <DialogTrigger asChild>
@@ -213,6 +270,15 @@ const ClientsTab = () => {
 
       {/* Client list */}
       <div className="grid gap-3">
+        {filtered.length > 0 && (
+          <div className="flex items-center gap-2 px-1">
+            <Checkbox
+              checked={selectedIds.size === filtered.length && filtered.length > 0}
+              onCheckedChange={toggleSelectAll}
+            />
+            <span className="text-xs text-muted-foreground">Selecionar todos</span>
+          </div>
+        )}
         {filtered.length === 0 ? (
           <div className="bg-card border border-border rounded-xl p-8 text-center">
             <p className="text-muted-foreground text-sm">Nenhum cliente encontrado.</p>
@@ -221,27 +287,36 @@ const ClientsTab = () => {
           filtered.map((client) => (
             <div
               key={client.id}
-              className="bg-card border border-border rounded-xl p-5 hover:border-primary/30 transition-colors group"
+              className={`bg-card border rounded-xl p-5 hover:border-primary/30 transition-colors group ${
+                selectedIds.has(client.id) ? "border-primary/50" : "border-border"
+              }`}
             >
               <div className="flex items-start justify-between">
-                <div className="space-y-1">
-                  <h3 className="font-medium text-foreground">{client.full_name || "Sem nome"}</h3>
-                  <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-muted-foreground">
-                    {client.email && (
-                      <span className="flex items-center gap-1">
-                        <Mail className="h-3 w-3" /> {client.email}
-                      </span>
-                    )}
-                    {client.phone && (
-                      <span className="flex items-center gap-1">
-                        <Phone className="h-3 w-3" /> {client.phone}
-                      </span>
-                    )}
-                    {client.company && (
-                      <span className="flex items-center gap-1">
-                        <Building2 className="h-3 w-3" /> {client.company}
-                      </span>
-                    )}
+                <div className="flex items-start gap-3">
+                  <Checkbox
+                    checked={selectedIds.has(client.id)}
+                    onCheckedChange={() => toggleSelect(client.id)}
+                    className="mt-1"
+                  />
+                  <div className="space-y-1">
+                    <h3 className="font-medium text-foreground">{client.full_name || "Sem nome"}</h3>
+                    <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-muted-foreground">
+                      {client.email && (
+                        <span className="flex items-center gap-1">
+                          <Mail className="h-3 w-3" /> {client.email}
+                        </span>
+                      )}
+                      {client.phone && (
+                        <span className="flex items-center gap-1">
+                          <Phone className="h-3 w-3" /> {client.phone}
+                        </span>
+                      )}
+                      {client.company && (
+                        <span className="flex items-center gap-1">
+                          <Building2 className="h-3 w-3" /> {client.company}
+                        </span>
+                      )}
+                    </div>
                   </div>
                 </div>
                 <span className="text-xs px-2.5 py-1 rounded-full bg-primary/10 text-primary font-medium">
@@ -249,7 +324,7 @@ const ClientsTab = () => {
                 </span>
               </div>
               {client.notes && (
-                <p className="text-xs text-muted-foreground mt-3 border-t border-border pt-3">{client.notes}</p>
+                <p className="text-xs text-muted-foreground mt-3 border-t border-border pt-3 ml-8">{client.notes}</p>
               )}
             </div>
           ))

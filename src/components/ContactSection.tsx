@@ -25,7 +25,7 @@ const ContactSection = () => {
           className="mb-16 text-center"
         >
           <p className="text-sm uppercase tracking-[0.3em] text-primary mb-4">Contato</p>
-          <h2 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold mb-4">
+          <h2 className="font-display text-4xl md:text-6xl lg:text-7xl font-bold mb-4">
             Vamos conversar
           </h2>
           <p className="text-muted-foreground text-lg max-w-lg mx-auto">

@@ -39,10 +39,10 @@ const ServicesSection = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: false, amount: 0.3 }}
           transition={{ duration: 0.7 }}
-          className="mb-20"
+          className="mb-24"
         >
           <p className="text-sm uppercase tracking-[0.3em] text-primary mb-4">Serviços</p>
-          <h2 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold">
+          <h2 className="font-display text-4xl md:text-6xl lg:text-7xl font-bold">
             O que fazemos
           </h2>
         </motion.div>
@@ -55,12 +55,12 @@ const ServicesSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: false, amount: 0.2 }}
               transition={{ duration: 0.6, delay: i * 0.15 }}
-              className="group p-8 md:p-10 rounded-2xl border border-border bg-card hover:border-primary/30 hover:bg-surface-hover transition-all duration-500"
+              className="group p-8 md:p-10 rounded-2xl border border-border bg-card hover:border-primary/30 hover:bg-surface-hover transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_20px_60px_-15px_hsl(var(--primary)/0.1)]"
             >
               <div className="w-12 h-12 rounded-full border border-primary/30 flex items-center justify-center text-primary mb-8 group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-500">
                 {service.icon}
               </div>
-              <h3 className="font-display text-xl md:text-2xl font-bold mb-4 text-foreground">
+              <h3 className="font-display text-xl md:text-2xl font-bold mb-4 text-foreground group-hover:text-primary transition-colors duration-300">
                 {service.title}
               </h3>
               <p className="text-muted-foreground leading-relaxed">

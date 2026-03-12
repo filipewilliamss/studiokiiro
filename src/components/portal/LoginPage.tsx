@@ -3,6 +3,7 @@ import { supabase } from "@/integrations/supabase/client";
 import kiiroLogo from "@/assets/logo.png";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Mail, Sparkles, CheckCircle } from "lucide-react";
 
 const LoginPage = () => {
@@ -10,6 +11,7 @@ const LoginPage = () => {
   const [loading, setLoading] = useState(false);
   const [sent, setSent] = useState(false);
   const [error, setError] = useState("");
+  const [stayConnected, setStayConnected] = useState(true);
 
   const handleMagicLink = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -84,6 +86,16 @@ const LoginPage = () => {
                     required
                   />
                 </div>
+              </div>
+              <div className="flex items-center gap-2">
+                <Checkbox
+                  id="stay-connected"
+                  checked={stayConnected}
+                  onCheckedChange={(checked) => setStayConnected(checked === true)}
+                />
+                <label htmlFor="stay-connected" className="text-xs text-muted-foreground cursor-pointer select-none">
+                  Manter conectado por 30 dias
+                </label>
               </div>
               <Button type="submit" className="w-full" disabled={loading}>
                 {loading ? "Enviando..." : "Enviar link de acesso"}

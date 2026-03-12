@@ -45,7 +45,8 @@ const ClientDashboard = () => {
   const [projects, setProjects] = useState<Project[]>([]);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [stages, setStages] = useState<Stage[]>([]);
-  const [files, setFiles] = useState<{ name: string }[]>([]);
+  const [files, setFiles] = useState<ProjectFile[]>([]);
+  const [isLoadingFiles, setIsLoadingFiles] = useState(false);
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -60,20 +61,38 @@ const ClientDashboard = () => {
 
   const openProjectDetail = async (project: Project) => {
     setSelectedProject(project);
+    setIsLoadingFiles(true);
+    setFiles([]);
+
     const [stagesRes, filesRes] = await Promise.all([
       supabase.from("project_stages").select("*").eq("project_id", project.id).order("sort_order"),
       supabase.storage.from("project-files").list(project.id),
     ]);
-    if (stagesRes.data) setStages(stagesRes.data);
-    if (filesRes.data) setFiles(filesRes.data);
-  };
 
-  const downloadFile = async (fileName: string) => {
-    if (!selectedProject) return;
-    const { data } = await supabase.storage
-      .from("project-files")
-      .createSignedUrl(`${selectedProject.id}/${fileName}`, 60);
-    if (data?.signedUrl) window.open(data.signedUrl, "_blank");
+    if (stagesRes.data) setStages(stagesRes.data);
+
+    if (filesRes.data && filesRes.data.length > 0) {
+      const filesWithLinks = await Promise.all(
+        filesRes.data.map(async (file) => {
+          const objectPath = `${project.id}/${file.name}`;
+
+          const [viewRes, downloadRes] = await Promise.all([
+            supabase.storage.from("project-files").createSignedUrl(objectPath, 3600),
+            supabase.storage.from("project-files").createSignedUrl(objectPath, 3600, { download: file.name }),
+          ]);
+
+          return {
+            name: file.name,
+            viewUrl: viewRes.data?.signedUrl ?? null,
+            downloadUrl: downloadRes.data?.signedUrl ?? null,
+          };
+        }),
+      );
+
+      setFiles(filesWithLinks);
+    }
+
+    setIsLoadingFiles(false);
   };
 
   const activeProjects = projects.filter((p) => p.status !== "entregue");

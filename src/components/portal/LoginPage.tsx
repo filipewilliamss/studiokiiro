@@ -87,6 +87,16 @@ const LoginPage = () => {
                   />
                 </div>
               </div>
+              <div className="flex items-center gap-2">
+                <Checkbox
+                  id="stay-connected"
+                  checked={stayConnected}
+                  onCheckedChange={(checked) => setStayConnected(checked === true)}
+                />
+                <label htmlFor="stay-connected" className="text-xs text-muted-foreground cursor-pointer select-none">
+                  Manter conectado por 30 dias
+                </label>
+              </div>
               <Button type="submit" className="w-full" disabled={loading}>
                 {loading ? "Enviando..." : "Enviar link de acesso"}
                 <Sparkles className="ml-2 h-4 w-4" />

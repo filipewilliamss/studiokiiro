@@ -10,6 +10,7 @@ const navLinks = [
   { label: "Contato", href: "#contato" },
 ];
 
+
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);

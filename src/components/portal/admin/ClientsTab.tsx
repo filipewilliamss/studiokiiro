@@ -60,46 +60,37 @@ const ClientsTab = () => {
     e.preventDefault();
     setLoading(true);
 
-    // First create user via magic link (invites them)
-    const { data: authData, error: authError } = await supabase.auth.signInWithOtp({
-      email: form.email,
-      options: {
-        shouldCreateUser: true,
-        emailRedirectTo: `${window.location.origin}/area-do-cliente`,
-      },
-    });
-
-    if (authError) {
-      toast.error("Erro ao criar convite: " + authError.message);
-      setLoading(false);
-      return;
-    }
-
-    // We update the profile after it's created by the trigger
-    // For now, wait a moment and update by email
-    setTimeout(async () => {
-      const { data: profileData } = await supabase
-        .from("profiles")
-        .select("id")
-        .eq("email", form.email)
-        .single();
-
-      if (profileData) {
-        await supabase.from("profiles").update({
-          full_name: form.full_name,
-          phone: form.phone || null,
-          company: form.company || null,
-          client_type: form.client_type,
-          notes: form.notes || null,
-        }).eq("id", profileData.id);
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) {
+        toast.error("Você precisa estar logado");
+        setLoading(false);
+        return;
       }
 
-      toast.success(`Convite enviado para ${form.email}`);
-      setForm({ full_name: "", email: "", phone: "", company: "", client_type: "novo", notes: "" });
-      setOpen(false);
-      setLoading(false);
-      fetchClients();
-    }, 2000);
+      const response = await supabase.functions.invoke("create-client", {
+        body: {
+          email: form.email,
+          full_name: form.full_name,
+          phone: form.phone,
+          company: form.company,
+          client_type: form.client_type,
+          notes: form.notes,
+        },
+      });
+
+      if (response.error || response.data?.error) {
+        toast.error("Erro ao criar cliente: " + (response.data?.error || response.error?.message));
+      } else {
+        toast.success(`Cliente ${form.full_name} adicionado com sucesso!`);
+        setForm({ full_name: "", email: "", phone: "", company: "", client_type: "novo", notes: "" });
+        setOpen(false);
+        fetchClients();
+      }
+    } catch (err: any) {
+      toast.error("Erro inesperado: " + err.message);
+    }
+    setLoading(false);
   };
 
   const toggleSelect = (id: string) => {

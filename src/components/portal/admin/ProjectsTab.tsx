@@ -38,13 +38,18 @@ const statusLabels: Record<string, string> = {
 };
 
 const projectTypes = [
+  "Logotipo Essencial",
   "Identidade Visual",
+  "Branding Completo",
   "Manual de Logotipo",
-  "Branding",
-  "Social Media",
-  "Website",
-  "Papelaria",
-  "Apresentação",
+  "Design de Conteúdo para Redes Sociais",
+  "Edição de Vídeo — Reels/Shorts",
+  "Edição de Vídeo — Institucional",
+  "Edição de Vídeo — Tutorial/Educativo",
+  "Landing Page Simples",
+  "Landing Page Completa",
+  "Site Institucional",
+  "Site Completo",
 ];
 
 const ProjectsTab = () => {
@@ -60,7 +65,7 @@ const ProjectsTab = () => {
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
 
   const [form, setForm] = useState({
-    name: "", type: "Identidade Visual", client_id: "", description: "",
+    name: "", type: "Logotipo Essencial", client_id: "", description: "",
     deadline: "", start_date: "", priority: "normal",
   });
 
@@ -113,7 +118,7 @@ const ProjectsTab = () => {
 
     toast.success("Projeto criado com etapas da metodologia!");
     setOpenCreate(false);
-    setForm({ name: "", type: "Identidade Visual", client_id: "", description: "", deadline: "", start_date: "", priority: "normal" });
+    setForm({ name: "", type: "Logotipo Essencial", client_id: "", description: "", deadline: "", start_date: "", priority: "normal" });
     fetchProjects();
     setLoading(false);
   };

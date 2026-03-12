@@ -472,15 +472,90 @@ const ProjectsTab = () => {
 
                 {/* Files */}
                 <div className="space-y-3">
-                  <label className="text-xs uppercase tracking-wider text-muted-foreground font-medium">Arquivos</label>
+                  <div className="flex items-center justify-between">
+                    <label className="text-xs uppercase tracking-wider text-muted-foreground font-medium">Arquivos</label>
+                    {selectedFileNames.size > 0 && (
+                      <AlertDialog>
+                        <AlertDialogTrigger asChild>
+                          <Button variant="destructive" size="sm" className="gap-1.5 h-7 text-xs">
+                            <Trash2 className="h-3.5 w-3.5" />
+                            Excluir ({selectedFileNames.size})
+                          </Button>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent>
+                          <AlertDialogHeader>
+                            <AlertDialogTitle>Excluir arquivos?</AlertDialogTitle>
+                            <AlertDialogDescription>
+                              {selectedFileNames.size} arquivo(s) serão removidos permanentemente.
+                            </AlertDialogDescription>
+                          </AlertDialogHeader>
+                          <AlertDialogFooter>
+                            <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                            <AlertDialogAction
+                              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                              onClick={async () => {
+                                if (!selectedProject) return;
+                                const paths = Array.from(selectedFileNames).map(
+                                  (name) => `${selectedProject.id}/${name}`
+                                );
+                                const { error } = await supabase.storage
+                                  .from("project-files")
+                                  .remove(paths);
+                                if (error) {
+                                  toast.error("Erro ao excluir arquivos");
+                                } else {
+                                  toast.success(`${selectedFileNames.size} arquivo(s) excluído(s)`);
+                                  setSelectedFileNames(new Set());
+                                  const { data } = await supabase.storage
+                                    .from("project-files")
+                                    .list(selectedProject.id);
+                                  if (data) setFiles(data);
+                                }
+                              }}
+                            >
+                              Excluir
+                            </AlertDialogAction>
+                          </AlertDialogFooter>
+                        </AlertDialogContent>
+                      </AlertDialog>
+                    )}
+                  </div>
                   <input type="file" ref={fileInputRef} className="hidden" onChange={handleFileUpload} />
                   <Button variant="outline" size="sm" onClick={() => fileInputRef.current?.click()} className="gap-2 w-full">
                     <Upload className="h-4 w-4" /> Enviar arquivo
                   </Button>
                   {files.length > 0 && (
                     <div className="space-y-2">
+                      <div className="flex items-center gap-2 px-1">
+                        <Checkbox
+                          checked={selectedFileNames.size === files.length && files.length > 0}
+                          onCheckedChange={() => {
+                            if (selectedFileNames.size === files.length) {
+                              setSelectedFileNames(new Set());
+                            } else {
+                              setSelectedFileNames(new Set(files.map((f) => f.name)));
+                            }
+                          }}
+                        />
+                        <span className="text-xs text-muted-foreground">Selecionar todos</span>
+                      </div>
                       {files.map((f) => (
-                        <div key={f.name} className="flex items-center justify-between p-3 rounded-lg border border-border">
+                        <div
+                          key={f.name}
+                          className={`flex items-center gap-3 p-3 rounded-lg border transition-colors ${
+                            selectedFileNames.has(f.name) ? "border-primary/50" : "border-border"
+                          }`}
+                        >
+                          <Checkbox
+                            checked={selectedFileNames.has(f.name)}
+                            onCheckedChange={() => {
+                              setSelectedFileNames((prev) => {
+                                const next = new Set(prev);
+                                next.has(f.name) ? next.delete(f.name) : next.add(f.name);
+                                return next;
+                              });
+                            }}
+                          />
                           <span className="text-sm text-foreground truncate flex-1">{f.name}</span>
                           <Button variant="ghost" size="sm" onClick={() => downloadFile(f.name)}>
                             <FileDown className="h-4 w-4" />

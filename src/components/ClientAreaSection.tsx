@@ -50,7 +50,7 @@ const benefits = [
 
 const ClientAreaSection = () => {
   return (
-    <section className="section-padding bg-primary text-primary-foreground">
+    <section className="section-padding border-t border-border bg-background text-foreground">
       <div className="container-editorial">
         {/* Header */}
         <motion.div

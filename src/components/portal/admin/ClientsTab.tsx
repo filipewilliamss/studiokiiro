@@ -34,6 +34,7 @@ const ClientsTab = () => {
   const [search, setSearch] = useState("");
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
   const [form, setForm] = useState({
     full_name: "",
     email: "",

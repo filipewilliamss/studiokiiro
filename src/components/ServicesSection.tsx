@@ -58,25 +58,42 @@ const ServicesSection = () => {
           </h2>
         </motion.div>
 
-        <div className="grid md:grid-cols-3 gap-6">
-          {services.map((service, i) => (
+        <div className="space-y-16">
+          {serviceCategories.map((cat, catIdx) => (
             <motion.div
-              key={service.title}
+              key={cat.category}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: false, amount: 0.2 }}
-              transition={{ duration: 0.6, delay: i * 0.15 }}
-              className="group p-8 md:p-10 rounded-2xl border border-border bg-card hover:border-primary/30 hover:bg-surface-hover transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_20px_60px_-15px_hsl(var(--primary)/0.1)]"
+              transition={{ duration: 0.6, delay: catIdx * 0.1 }}
             >
-              <div className="w-12 h-12 rounded-full border border-primary/30 flex items-center justify-center text-primary mb-8 group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-500">
-                {service.icon}
+              <div className="flex items-center gap-4 mb-8">
+                <div className="w-12 h-12 rounded-full border border-primary/30 flex items-center justify-center text-primary">
+                  {cat.icon}
+                </div>
+                <h3 className="font-display text-2xl md:text-3xl font-bold text-foreground">
+                  {cat.category}
+                </h3>
               </div>
-              <h3 className="font-display text-xl md:text-2xl font-bold mb-4 text-foreground group-hover:text-primary transition-colors duration-300">
-                {service.title}
-              </h3>
-              <p className="text-muted-foreground leading-relaxed">
-                {service.description}
-              </p>
+              <div className={`grid gap-4 ${cat.items.length > 2 ? 'sm:grid-cols-2 lg:grid-cols-4' : 'sm:grid-cols-2'}`}>
+                {cat.items.map((item, i) => (
+                  <motion.div
+                    key={item.title}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: false, amount: 0.2 }}
+                    transition={{ duration: 0.5, delay: i * 0.1 }}
+                    className="group p-6 md:p-8 rounded-2xl border border-border bg-card hover:border-primary/30 hover:bg-surface-hover transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_20px_60px_-15px_hsl(var(--primary)/0.1)]"
+                  >
+                    <h4 className="font-display text-lg font-bold mb-3 text-foreground group-hover:text-primary transition-colors duration-300">
+                      {item.title}
+                    </h4>
+                    <p className="text-muted-foreground text-sm leading-relaxed">
+                      {item.description}
+                    </p>
+                  </motion.div>
+                ))}
+              </div>
             </motion.div>
           ))}
         </div>

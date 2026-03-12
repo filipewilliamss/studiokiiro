@@ -1,11 +1,11 @@
 import { useAuth } from "@/contexts/AuthContext";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import { Button } from "@/components/ui/button";
-import { LogOut, FolderOpen, CheckCircle2, Clock, Circle, FileDown } from "lucide-react";
+import { LogOut, FolderOpen, CheckCircle2, Clock, Circle, FileDown, ExternalLink } from "lucide-react";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 interface Project {
   id: string;
@@ -25,6 +25,12 @@ interface Stage {
   completed_at: string | null;
 }
 
+interface ProjectFile {
+  name: string;
+  viewUrl: string | null;
+  downloadUrl: string | null;
+}
+
 const statusLabels: Record<string, string> = {
   briefing: "Briefing",
   planejamento: "Em planejamento",
@@ -39,7 +45,8 @@ const ClientDashboard = () => {
   const [projects, setProjects] = useState<Project[]>([]);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [stages, setStages] = useState<Stage[]>([]);
-  const [files, setFiles] = useState<{ name: string }[]>([]);
+  const [files, setFiles] = useState<ProjectFile[]>([]);
+  const [isLoadingFiles, setIsLoadingFiles] = useState(false);
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -54,20 +61,38 @@ const ClientDashboard = () => {
 
   const openProjectDetail = async (project: Project) => {
     setSelectedProject(project);
+    setIsLoadingFiles(true);
+    setFiles([]);
+
     const [stagesRes, filesRes] = await Promise.all([
       supabase.from("project_stages").select("*").eq("project_id", project.id).order("sort_order"),
       supabase.storage.from("project-files").list(project.id),
     ]);
-    if (stagesRes.data) setStages(stagesRes.data);
-    if (filesRes.data) setFiles(filesRes.data);
-  };
 
-  const downloadFile = async (fileName: string) => {
-    if (!selectedProject) return;
-    const { data } = await supabase.storage
-      .from("project-files")
-      .createSignedUrl(`${selectedProject.id}/${fileName}`, 60);
-    if (data?.signedUrl) window.open(data.signedUrl, "_blank");
+    if (stagesRes.data) setStages(stagesRes.data);
+
+    if (filesRes.data && filesRes.data.length > 0) {
+      const filesWithLinks = await Promise.all(
+        filesRes.data.map(async (file) => {
+          const objectPath = `${project.id}/${file.name}`;
+
+          const [viewRes, downloadRes] = await Promise.all([
+            supabase.storage.from("project-files").createSignedUrl(objectPath, 3600),
+            supabase.storage.from("project-files").createSignedUrl(objectPath, 3600, { download: file.name }),
+          ]);
+
+          return {
+            name: file.name,
+            viewUrl: viewRes.data?.signedUrl ?? null,
+            downloadUrl: downloadRes.data?.signedUrl ?? null,
+          };
+        }),
+      );
+
+      setFiles(filesWithLinks);
+    }
+
+    setIsLoadingFiles(false);
   };
 
   const activeProjects = projects.filter((p) => p.status !== "entregue");
@@ -194,92 +219,133 @@ const ClientDashboard = () => {
                 <p className="text-sm text-muted-foreground">{selectedProject.type}</p>
               </SheetHeader>
 
-              <div className="mt-6 space-y-6">
-                {/* Progress summary */}
-                <div className="bg-card border border-border rounded-xl p-4 space-y-2">
-                  <div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">Progresso geral</span>
-                    <span className="font-medium text-foreground">{selectedProject.progress}%</span>
-                  </div>
-                  <div className="h-2 bg-secondary rounded-full overflow-hidden">
-                    <div className="h-full bg-primary rounded-full transition-all" style={{ width: `${selectedProject.progress}%` }} />
-                  </div>
-                  <p className="text-xs text-muted-foreground">
-                    {completedStages} de {stages.length} etapas concluídas
-                  </p>
-                </div>
+              <div className="mt-6">
+                <Tabs defaultValue="status" className="space-y-4">
+                  <TabsList className="grid w-full grid-cols-2">
+                    <TabsTrigger value="status">Status</TabsTrigger>
+                    <TabsTrigger value="files">Arquivos</TabsTrigger>
+                  </TabsList>
 
-                {/* Methodology stages */}
-                {stages.length > 0 && (
-                  <div className="space-y-3">
-                    <label className="text-xs uppercase tracking-wider text-muted-foreground font-medium">
-                      Etapas — {selectedProject.type}
-                    </label>
-                    <div className="space-y-2">
-                      {stages.map((stage, idx) => {
-                        const isCompleted = stage.status === "concluida";
-                        const isCurrent = idx === currentStageIndex;
-                        return (
-                          <div
-                            key={stage.id}
-                            className={`flex items-start gap-3 p-3 rounded-lg border transition-colors ${
-                              isCurrent
-                                ? "border-primary/50 bg-primary/5"
-                                : isCompleted
-                                ? "border-border bg-card/50"
-                                : "border-border/50 bg-card/30"
-                            }`}
-                          >
-                            {isCompleted ? (
-                              <CheckCircle2 className="h-5 w-5 text-primary shrink-0 mt-0.5" />
-                            ) : isCurrent ? (
-                              <div className="h-5 w-5 rounded-full border-2 border-primary shrink-0 mt-0.5 flex items-center justify-center">
-                                <div className="h-2 w-2 rounded-full bg-primary animate-pulse" />
+                  <TabsContent value="status" className="space-y-6">
+                    {/* Progress summary */}
+                    <div className="bg-card border border-border rounded-xl p-4 space-y-2">
+                      <div className="flex justify-between text-sm">
+                        <span className="text-muted-foreground">Progresso geral</span>
+                        <span className="font-medium text-foreground">{selectedProject.progress}%</span>
+                      </div>
+                      <div className="h-2 bg-secondary rounded-full overflow-hidden">
+                        <div className="h-full bg-primary rounded-full transition-all" style={{ width: `${selectedProject.progress}%` }} />
+                      </div>
+                      <p className="text-xs text-muted-foreground">
+                        {completedStages} de {stages.length} etapas concluídas
+                      </p>
+                    </div>
+
+                    {/* Methodology stages */}
+                    {stages.length > 0 && (
+                      <div className="space-y-3">
+                        <label className="text-xs uppercase tracking-wider text-muted-foreground font-medium">
+                          Etapas — {selectedProject.type}
+                        </label>
+                        <div className="space-y-2">
+                          {stages.map((stage, idx) => {
+                            const isCompleted = stage.status === "concluida";
+                            const isCurrent = idx === currentStageIndex;
+                            return (
+                              <div
+                                key={stage.id}
+                                className={`flex items-start gap-3 p-3 rounded-lg border transition-colors ${
+                                  isCurrent
+                                    ? "border-primary/50 bg-primary/5"
+                                    : isCompleted
+                                    ? "border-border bg-card/50"
+                                    : "border-border/50 bg-card/30"
+                                }`}
+                              >
+                                {isCompleted ? (
+                                  <CheckCircle2 className="h-5 w-5 text-primary shrink-0 mt-0.5" />
+                                ) : isCurrent ? (
+                                  <div className="h-5 w-5 rounded-full border-2 border-primary shrink-0 mt-0.5 flex items-center justify-center">
+                                    <div className="h-2 w-2 rounded-full bg-primary animate-pulse" />
+                                  </div>
+                                ) : (
+                                  <Circle className="h-5 w-5 text-muted-foreground/40 shrink-0 mt-0.5" />
+                                )}
+                                <div className="flex-1 min-w-0">
+                                  <span className={`text-sm font-medium ${
+                                    isCompleted ? "text-muted-foreground line-through" : isCurrent ? "text-foreground" : "text-muted-foreground"
+                                  }`}>
+                                    {stage.name}
+                                  </span>
+                                  {stage.description && (
+                                    <p className="text-[11px] text-muted-foreground mt-0.5 line-clamp-2">{stage.description}</p>
+                                  )}
+                                  {stage.completed_at && (
+                                    <p className="text-[10px] text-primary mt-1">
+                                      ✓ {new Date(stage.completed_at).toLocaleDateString("pt-BR")}
+                                    </p>
+                                  )}
+                                  {isCurrent && (
+                                    <p className="text-[10px] text-primary font-medium mt-1">● Etapa atual</p>
+                                  )}
+                                </div>
                               </div>
-                            ) : (
-                              <Circle className="h-5 w-5 text-muted-foreground/40 shrink-0 mt-0.5" />
-                            )}
-                            <div className="flex-1 min-w-0">
-                              <span className={`text-sm font-medium ${
-                                isCompleted ? "text-muted-foreground line-through" : isCurrent ? "text-foreground" : "text-muted-foreground"
-                              }`}>
-                                {stage.name}
-                              </span>
-                              {stage.description && (
-                                <p className="text-[11px] text-muted-foreground mt-0.5 line-clamp-2">{stage.description}</p>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    )}
+                  </TabsContent>
+
+                  <TabsContent value="files" className="space-y-3">
+                    <label className="text-xs uppercase tracking-wider text-muted-foreground font-medium">Arquivos do Projeto</label>
+
+                    {isLoadingFiles ? (
+                      <div className="bg-card border border-border rounded-xl p-6 text-center">
+                        <p className="text-muted-foreground text-sm">Carregando arquivos...</p>
+                      </div>
+                    ) : files.length === 0 ? (
+                      <div className="bg-card border border-border rounded-xl p-6 text-center">
+                        <p className="text-muted-foreground text-sm">Nenhum arquivo disponível neste projeto.</p>
+                      </div>
+                    ) : (
+                      <div className="space-y-2">
+                        {files.map((file) => (
+                          <div key={file.name} className="flex items-center justify-between p-3 rounded-lg border border-border gap-3">
+                            <span className="text-sm text-foreground truncate flex-1">{file.name}</span>
+                            <div className="flex items-center gap-2 shrink-0">
+                              {file.viewUrl ? (
+                                <Button asChild variant="outline" size="sm" className="gap-1.5">
+                                  <a href={file.viewUrl} target="_blank" rel="noopener noreferrer">
+                                    <ExternalLink className="h-3.5 w-3.5" />
+                                    Abrir
+                                  </a>
+                                </Button>
+                              ) : (
+                                <Button variant="outline" size="sm" disabled>
+                                  Abrir
+                                </Button>
                               )}
-                              {stage.completed_at && (
-                                <p className="text-[10px] text-primary mt-1">
-                                  ✓ {new Date(stage.completed_at).toLocaleDateString("pt-BR")}
-                                </p>
-                              )}
-                              {isCurrent && (
-                                <p className="text-[10px] text-primary font-medium mt-1">● Etapa atual</p>
+
+                              {file.downloadUrl ? (
+                                <Button asChild variant="ghost" size="sm" className="gap-1.5">
+                                  <a href={file.downloadUrl} target="_blank" rel="noopener noreferrer">
+                                    <FileDown className="h-3.5 w-3.5" />
+                                    Baixar
+                                  </a>
+                                </Button>
+                              ) : (
+                                <Button variant="ghost" size="sm" disabled>
+                                  Baixar
+                                </Button>
                               )}
                             </div>
                           </div>
-                        );
-                      })}
-                    </div>
-                  </div>
-                )}
-
-                {/* Files */}
-                {files.length > 0 && (
-                  <div className="space-y-3">
-                    <label className="text-xs uppercase tracking-wider text-muted-foreground font-medium">Arquivos do Projeto</label>
-                    <div className="space-y-2">
-                      {files.map((f) => (
-                        <div key={f.name} className="flex items-center justify-between p-3 rounded-lg border border-border">
-                          <span className="text-sm text-foreground truncate flex-1">{f.name}</span>
-                          <Button variant="ghost" size="sm" onClick={() => downloadFile(f.name)}>
-                            <FileDown className="h-4 w-4" />
-                          </Button>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
+                        ))}
+                      </div>
+                    )}
+                  </TabsContent>
+                </Tabs>
               </div>
             </>
           )}

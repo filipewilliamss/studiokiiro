@@ -88,6 +88,13 @@ const Navbar = () => {
                 {link.label}
               </a>
             ))}
+            <a
+              href="/area-do-cliente"
+              onClick={() => setMenuOpen(false)}
+              className="text-sm text-primary hover:text-primary/80 transition-colors uppercase tracking-wide font-medium"
+            >
+              Área do Cliente
+            </a>
           </div>
         </motion.div>
       )}

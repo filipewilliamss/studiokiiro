@@ -8,6 +8,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { FolderPlus, ChevronRight, CheckCircle2, Circle, Clock, Upload, FileDown, Trash2 } from "lucide-react";
 import { toast } from "sonner";
+import { methodologyStages } from "@/data/methodologyStages";
 
 interface Profile { id: string; full_name: string; company: string | null; }
 interface Project {
@@ -33,6 +34,16 @@ const statusLabels: Record<string, string> = {
   briefing: "Briefing", planejamento: "Planejamento", producao: "Produção",
   revisao: "Revisão", finalizacao: "Finalização", entregue: "Entregue",
 };
+
+const projectTypes = [
+  "Identidade Visual",
+  "Manual de Logotipo",
+  "Branding",
+  "Social Media",
+  "Website",
+  "Papelaria",
+  "Apresentação",
+];
 
 const ProjectsTab = () => {
   const [projects, setProjects] = useState<Project[]>([]);
@@ -67,7 +78,8 @@ const ProjectsTab = () => {
   const handleCreate = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    const { error } = await supabase.from("projects").insert({
+
+    const { data: projectData, error } = await supabase.from("projects").insert({
       name: form.name,
       type: form.type,
       client_id: form.client_id,
@@ -75,15 +87,30 @@ const ProjectsTab = () => {
       deadline: form.deadline || null,
       start_date: form.start_date || null,
       priority: form.priority,
-    });
-    if (error) {
+    }).select("id").single();
+
+    if (error || !projectData) {
       toast.error("Erro ao criar projeto");
-    } else {
-      toast.success("Projeto criado!");
-      setOpenCreate(false);
-      setForm({ name: "", type: "Identidade Visual", client_id: "", description: "", deadline: "", start_date: "", priority: "normal" });
-      fetchProjects();
+      setLoading(false);
+      return;
     }
+
+    // Auto-create methodology stages if available for this type
+    const stages = methodologyStages[form.type];
+    if (stages && stages.length > 0) {
+      const stageInserts = stages.map((s) => ({
+        project_id: projectData.id,
+        name: s.name,
+        description: s.description,
+        sort_order: s.sort_order,
+      }));
+      await supabase.from("project_stages").insert(stageInserts);
+    }
+
+    toast.success("Projeto criado com etapas da metodologia!");
+    setOpenCreate(false);
+    setForm({ name: "", type: "Identidade Visual", client_id: "", description: "", deadline: "", start_date: "", priority: "normal" });
+    fetchProjects();
     setLoading(false);
   };
 
@@ -96,7 +123,6 @@ const ProjectsTab = () => {
       .order("sort_order");
     if (data) setStages(data);
 
-    // Fetch files
     const { data: fileData } = await supabase.storage
       .from("project-files")
       .list(project.id);
@@ -110,7 +136,6 @@ const ProjectsTab = () => {
       completed_at: newStatus === "concluido" ? new Date().toISOString() : null,
     }).eq("id", stage.id);
 
-    // Update progress
     const updated = stages.map((s) => s.id === stage.id ? { ...s, status: newStatus } : s);
     setStages(updated);
     const done = updated.filter((s) => s.status === "concluido").length;
@@ -155,7 +180,6 @@ const ProjectsTab = () => {
 
   return (
     <div className="space-y-6">
-      {/* Header */}
       <div className="flex items-center justify-between">
         <p className="text-sm text-muted-foreground">{projects.length} projeto(s)</p>
         <Dialog open={openCreate} onOpenChange={setOpenCreate}>
@@ -177,14 +201,16 @@ const ProjectsTab = () => {
                   <Select value={form.type} onValueChange={(v) => setForm({ ...form, type: v })}>
                     <SelectTrigger><SelectValue /></SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="Identidade Visual">Identidade Visual</SelectItem>
-                      <SelectItem value="Branding">Branding</SelectItem>
-                      <SelectItem value="Social Media">Social Media</SelectItem>
-                      <SelectItem value="Website">Website</SelectItem>
-                      <SelectItem value="Papelaria">Papelaria</SelectItem>
-                      <SelectItem value="Apresentação">Apresentação</SelectItem>
+                      {projectTypes.map((t) => (
+                        <SelectItem key={t} value={t}>{t}</SelectItem>
+                      ))}
                     </SelectContent>
                   </Select>
+                  {methodologyStages[form.type] && (
+                    <p className="text-[10px] text-primary">
+                      ✓ {methodologyStages[form.type].length} etapas da metodologia serão criadas automaticamente
+                    </p>
+                  )}
                 </div>
                 <div className="space-y-1.5">
                   <label className="text-xs uppercase tracking-wider text-muted-foreground font-medium">Prioridade</label>
@@ -306,7 +332,7 @@ const ProjectsTab = () => {
                 {/* Stages */}
                 <div className="space-y-3">
                   <div className="flex items-center justify-between">
-                    <label className="text-xs uppercase tracking-wider text-muted-foreground font-medium">Etapas</label>
+                    <label className="text-xs uppercase tracking-wider text-muted-foreground font-medium">Etapas da Metodologia</label>
                     <Button variant="ghost" size="sm" onClick={addStage} className="text-xs h-7">+ Etapa</Button>
                   </div>
                   {stages.length === 0 ? (
@@ -317,20 +343,23 @@ const ProjectsTab = () => {
                         <button
                           key={stage.id}
                           onClick={() => toggleStage(stage)}
-                          className="flex items-center gap-3 w-full p-3 rounded-lg border border-border hover:border-primary/30 transition-colors text-left"
+                          className="flex items-start gap-3 w-full p-3 rounded-lg border border-border hover:border-primary/30 transition-colors text-left"
                         >
                           {stage.status === "concluido" ? (
-                            <CheckCircle2 className="h-5 w-5 text-primary shrink-0" />
+                            <CheckCircle2 className="h-5 w-5 text-primary shrink-0 mt-0.5" />
                           ) : (
-                            <Circle className="h-5 w-5 text-muted-foreground shrink-0" />
+                            <Circle className="h-5 w-5 text-muted-foreground shrink-0 mt-0.5" />
                           )}
-                          <div className="flex-1">
-                            <span className={`text-sm ${stage.status === "concluido" ? "text-muted-foreground line-through" : "text-foreground"}`}>
+                          <div className="flex-1 min-w-0">
+                            <span className={`text-sm font-medium ${stage.status === "concluido" ? "text-muted-foreground line-through" : "text-foreground"}`}>
                               {stage.name}
                             </span>
+                            {stage.description && (
+                              <p className="text-[11px] text-muted-foreground mt-0.5 line-clamp-2">{stage.description}</p>
+                            )}
                             {stage.completed_at && (
-                              <p className="text-[10px] text-muted-foreground">
-                                Concluído em {new Date(stage.completed_at).toLocaleDateString("pt-BR")}
+                              <p className="text-[10px] text-primary mt-1">
+                                ✓ Concluído em {new Date(stage.completed_at).toLocaleDateString("pt-BR")}
                               </p>
                             )}
                           </div>

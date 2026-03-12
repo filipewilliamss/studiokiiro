@@ -1,4 +1,5 @@
 import { useAuth } from "@/contexts/AuthContext";
+import Navbar from "@/components/Navbar";
 import kiiroLogo from "@/assets/logo.png";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -12,12 +13,13 @@ const AdminDashboard = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="border-b border-border bg-card/50 backdrop-blur-sm sticky top-0 z-40">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+      <Navbar />
+
+      {/* Sub-header */}
+      <header className="border-b border-border bg-card/50 backdrop-blur-sm sticky top-16 md:top-20 z-30">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <img src={kiiroLogo} alt="Studio Kiiro" className="h-7" />
-            <span className="text-xs uppercase tracking-widest text-muted-foreground font-medium">Admin</span>
+            <span className="text-xs uppercase tracking-widest text-primary font-medium">Admin</span>
           </div>
           <Button variant="ghost" size="sm" onClick={signOut}>
             <LogOut className="h-4 w-4 mr-2" />

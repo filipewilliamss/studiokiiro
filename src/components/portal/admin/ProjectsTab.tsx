@@ -118,7 +118,7 @@ const ProjectsTab = () => {
 
     toast.success("Projeto criado com etapas da metodologia!");
     setOpenCreate(false);
-    setForm({ name: "", type: "Identidade Visual", client_id: "", description: "", deadline: "", start_date: "", priority: "normal" });
+    setForm({ name: "", type: "Logotipo Essencial", client_id: "", description: "", deadline: "", start_date: "", priority: "normal" });
     fetchProjects();
     setLoading(false);
   };

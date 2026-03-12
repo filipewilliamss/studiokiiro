@@ -30,6 +30,8 @@ interface ProjectFile {
   viewUrl: string | null;
   downloadUrl: string | null;
 }
+
+const statusLabels: Record<string, string> = {
   briefing: "Briefing",
   planejamento: "Em planejamento",
   producao: "Em produção",

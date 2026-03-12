@@ -32,7 +32,7 @@ const ProcessSection = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: false, amount: 0.3 }}
           transition={{ duration: 0.7 }}
-          className="mb-20"
+          className="mb-24"
         >
           <p className="text-sm uppercase tracking-[0.3em] text-primary-foreground/70 mb-4">Processo</p>
           <h2 className="font-display text-4xl md:text-6xl lg:text-7xl font-bold">

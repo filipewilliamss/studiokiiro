@@ -14,6 +14,35 @@ export type Database = {
   }
   public: {
     Tables: {
+      briefing_responses: {
+        Row: {
+          id: string
+          project_id: string
+          responses: Json
+          submitted_at: string
+        }
+        Insert: {
+          id?: string
+          project_id: string
+          responses?: Json
+          submitted_at?: string
+        }
+        Update: {
+          id?: string
+          project_id?: string
+          responses?: Json
+          submitted_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "briefing_responses_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: true
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       messages: {
         Row: {
           content: string

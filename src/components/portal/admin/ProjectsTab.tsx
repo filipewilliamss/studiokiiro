@@ -12,10 +12,11 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sh
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   FolderPlus, ChevronRight, CheckCircle2, Circle, Upload, FileDown, Trash2,
-  FolderOpen, DollarSign, MessageSquare, Send, Clock, Calendar, CreditCard,
+  FolderOpen, DollarSign, MessageSquare, Send, Clock, Calendar, CreditCard, ClipboardList,
 } from "lucide-react";
 import { toast } from "sonner";
 import { methodologyStages } from "@/data/methodologyStages";
+import { briefingQuestions, type BriefingQuestion } from "@/data/briefingQuestions";
 
 interface Profile { id: string; full_name: string; company: string | null; }
 interface Project {
@@ -78,6 +79,7 @@ const ProjectsTab = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
+  const [briefingResponse, setBriefingResponse] = useState<Record<string, string> | null>(null);
 
   const [form, setForm] = useState({
     name: "", type: "Logotipo Essencial", client_id: "", description: "",
@@ -161,11 +163,13 @@ const ProjectsTab = () => {
     setMessages([]);
     setNewMessage("");
 
-    const [stagesRes, filesRes, paymentRes, messagesRes] = await Promise.all([
+    setBriefingResponse(null);
+    const [stagesRes, filesRes, paymentRes, messagesRes, briefingRes] = await Promise.all([
       supabase.from("project_stages").select("*").eq("project_id", project.id).order("sort_order"),
       supabase.storage.from("project-files").list(project.id),
       supabase.from("payments").select("*").eq("project_id", project.id).maybeSingle(),
       supabase.from("messages").select("*").eq("project_id", project.id).order("created_at", { ascending: true }),
+      supabase.from("briefing_responses").select("responses").eq("project_id", project.id).maybeSingle(),
     ]);
 
     if (stagesRes.data) setStages(stagesRes.data);
@@ -185,6 +189,7 @@ const ProjectsTab = () => {
       setFinanceForm({ budget_total: "", initial_payment: "", initial_payment_date: "", installments_total: "1", installments_paid: "0", next_payment_date: "", notes: "" });
     }
     if (messagesRes.data) setMessages(messagesRes.data);
+    if (briefingRes.data) setBriefingResponse(briefingRes.data.responses as Record<string, string>);
   };
 
   const toggleStage = async (stage: Stage) => {
@@ -435,10 +440,14 @@ const ProjectsTab = () => {
 
               <div className="mt-6">
                 <Tabs defaultValue="status" className="space-y-6">
-                  <TabsList className="bg-card border border-border h-11 p-1 gap-1 grid grid-cols-4 w-full">
+                  <TabsList className="bg-card border border-border h-11 p-1 gap-1 grid grid-cols-5 w-full">
                     <TabsTrigger value="status" className="gap-1.5 text-xs data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
                       <CheckCircle2 className="h-3.5 w-3.5" />
                       <span className="hidden sm:inline">Status</span>
+                    </TabsTrigger>
+                    <TabsTrigger value="briefing" className="gap-1.5 text-xs data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+                      <ClipboardList className="h-3.5 w-3.5" />
+                      <span className="hidden sm:inline">Briefing</span>
                     </TabsTrigger>
                     <TabsTrigger value="files" className="gap-1.5 text-xs data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
                       <FolderOpen className="h-3.5 w-3.5" />
@@ -496,6 +505,30 @@ const ProjectsTab = () => {
                         </div>
                       )}
                     </div>
+                  </TabsContent>
+
+                  {/* BRIEFING TAB */}
+                  <TabsContent value="briefing" className="space-y-4">
+                    <label className="text-xs uppercase tracking-wider text-muted-foreground font-medium">Respostas do Briefing</label>
+                    {!briefingResponse ? (
+                      <div className="bg-card border border-border rounded-xl p-6 text-center">
+                        <ClipboardList className="h-8 w-8 text-muted-foreground/40 mx-auto mb-2" />
+                        <p className="text-muted-foreground text-sm">O cliente ainda não respondeu o briefing.</p>
+                      </div>
+                    ) : (
+                      <div className="space-y-3">
+                        {(briefingQuestions[selectedProject.type] || []).map((q: BriefingQuestion) => {
+                          const answer = briefingResponse[q.id];
+                          if (!answer) return null;
+                          return (
+                            <div key={q.id} className="bg-card border border-border rounded-lg p-4 space-y-1">
+                              <label className="text-xs font-medium text-muted-foreground">{q.question}</label>
+                              <p className="text-sm text-foreground whitespace-pre-wrap">{answer}</p>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    )}
                   </TabsContent>
 
                   {/* FILES TAB */}

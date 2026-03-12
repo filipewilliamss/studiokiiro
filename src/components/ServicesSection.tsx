@@ -16,14 +16,14 @@ const serviceCategories = [
     ],
   },
   {
-    category: "Design para Mídias Sociais",
+    category: "Design de Conteúdo para Redes Sociais",
     icon: (
       <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
       </svg>
     ),
     items: [
-      { title: "Pacote Pontual", description: "Criação de posts, stories e templates sob demanda para campanhas ou necessidades específicas." },
+      { title: "Pacote Pontual", description: "Criação de posts, stories, carrosséis e templates sob demanda para campanhas ou necessidades específicas." },
       { title: "Retainer Mensal", description: "Gestão visual contínua das suas redes sociais com entregas recorrentes e consistência de marca." },
     ],
   },
@@ -37,6 +37,7 @@ const serviceCategories = [
     items: [
       { title: "Reels / Shorts", description: "Edições dinâmicas e envolventes para Instagram Reels, YouTube Shorts e TikTok." },
       { title: "Institucional (2-5min)", description: "Vídeos institucionais profissionais para apresentar sua empresa, produto ou serviço." },
+      { title: "Tutorial / Educativo", description: "Vídeos didáticos e explicativos para cursos, onboarding ou conteúdo educacional." },
     ],
   },
   {
@@ -47,11 +48,14 @@ const serviceCategories = [
       </svg>
     ),
     items: [
-      { title: "Landing Page", description: "Página única otimizada para conversão, com design estratégico e responsivo." },
-      { title: "Site Institucional", description: "Presença digital completa com múltiplas páginas, alinhada à identidade da sua marca." },
+      { title: "Landing Page Simples", description: "Página única com até 6 seções, otimizada para conversão e com design responsivo." },
+      { title: "Landing Page Completa", description: "Página robusta com até 12 seções, estratégia de conversão avançada e design premium." },
+      { title: "Site Institucional", description: "Presença digital completa com 3-5 páginas, alinhada à identidade da sua marca." },
+      { title: "Site Completo", description: "Solução digital completa com 5-8 páginas, funcionalidades avançadas e integração total." },
     ],
   },
 ];
+
 const ServicesSection = () => {
   return (
     <section id="servicos" className="section-padding">

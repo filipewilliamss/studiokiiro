@@ -56,6 +56,38 @@ export const methodologyStages: Record<string, MethodologyStage[]> = {
       sort_order: 4,
     },
   ],
+  "Branding Completo": [
+    {
+      name: "Fase 1 — Imersão Estratégica e Posicionamento",
+      description: "Sessão de imersão profunda no negócio, análise de mercado e concorrência, definição de arquétipos e personalidade de marca, posicionamento estratégico completo.",
+      sort_order: 0,
+    },
+    {
+      name: "Fase 2 — Conceituação e Direção Criativa",
+      description: "Pesquisa visual aprofundada, criação de 3 moodboards estratégicos com rationale, definição de território visual e aprovação da direção criativa.",
+      sort_order: 1,
+    },
+    {
+      name: "Fase 3 — Criação do Logotipo e Sistema Visual",
+      description: "Desenvolvimento de 3 propostas de logotipo, sistema de cores completo, tipografia, elementos gráficos, padrões e texturas de apoio.",
+      sort_order: 2,
+    },
+    {
+      name: "Fase 4 — Refinamento e Expansão do Sistema",
+      description: "Refinamento do logotipo e sistema visual, criação de papelaria completa, aplicações em materiais e mockups profissionais.",
+      sort_order: 3,
+    },
+    {
+      name: "Fase 5 — Manual de Marca Completo",
+      description: "Diagramação do manual de marca completo (40-60 páginas) com diretrizes detalhadas de uso, aplicações, tom de voz e estratégia visual.",
+      sort_order: 4,
+    },
+    {
+      name: "Fase 6 — Entrega e Alinhamento Final",
+      description: "Exportação completa de todos os arquivos, reunião de apresentação do manual, orientações de gestão da marca e encerramento formal.",
+      sort_order: 5,
+    },
+  ],
   "Manual de Logotipo": [
     {
       name: "Fase 1 — Recebimento e Diagnóstico",
@@ -78,7 +110,7 @@ export const methodologyStages: Record<string, MethodologyStage[]> = {
       sort_order: 3,
     },
   ],
-  "Design para Mídias Sociais": [
+  "Design de Conteúdo para Redes Sociais": [
     {
       name: "Fase 1 — Briefing e Estratégia Visual",
       description: "Reunião de briefing visual, levantamento e análise da identidade visual, definição do guia de estilo para redes sociais e aprovação da lista de peças.",
@@ -100,7 +132,7 @@ export const methodologyStages: Record<string, MethodologyStage[]> = {
       sort_order: 3,
     },
   ],
-  "Edição de Vídeo": [
+  "Edição de Vídeo — Reels/Shorts": [
     {
       name: "Fase 1 — Briefing e Roteiro Visual",
       description: "Reunião de briefing de vídeo, checklist do material bruto, estruturação do roteiro/script de edição e pesquisa de referências de trilha e estilo.",
@@ -122,10 +154,54 @@ export const methodologyStages: Record<string, MethodologyStage[]> = {
       sort_order: 3,
     },
   ],
-  "Sites e Landing Pages": [
+  "Edição de Vídeo — Institucional": [
+    {
+      name: "Fase 1 — Briefing e Roteiro Visual",
+      description: "Reunião de briefing de vídeo institucional, checklist do material bruto, estruturação do roteiro/script de edição e pesquisa de referências de trilha e estilo.",
+      sort_order: 0,
+    },
+    {
+      name: "Fase 2 — Edição Bruta e Montagem (Rough Cut)",
+      description: "Organização do projeto no software de edição, montagem do rough cut com seleção de takes e trilha provisória, ajuste de pacing e apresentação ao cliente.",
+      sort_order: 1,
+    },
+    {
+      name: "Fase 3 — Refinamento e Efeitos (Fine Cut)",
+      description: "Edição de detalhe e transições, color grading narrativo em duas etapas, mixagem de áudio profissional e inclusão de gráficos, legendas e elementos visuais da marca.",
+      sort_order: 2,
+    },
+    {
+      name: "Fase 4 — Revisão e Exportação Final",
+      description: "Aplicação de feedback final (1 rodada inclusa), revisão técnica completa, exportação otimizada por plataforma (YouTube, LinkedIn, Instagram) e entrega organizada.",
+      sort_order: 3,
+    },
+  ],
+  "Edição de Vídeo — Tutorial/Educativo": [
+    {
+      name: "Fase 1 — Briefing e Roteiro Visual",
+      description: "Reunião de briefing de vídeo educativo, checklist do material bruto, estruturação do roteiro/script didático e pesquisa de referências de estilo e ritmo.",
+      sort_order: 0,
+    },
+    {
+      name: "Fase 2 — Edição Bruta e Montagem (Rough Cut)",
+      description: "Organização do projeto no software de edição, montagem do rough cut com seleção de takes, trilha provisória e ajuste de pacing educativo.",
+      sort_order: 1,
+    },
+    {
+      name: "Fase 3 — Refinamento e Efeitos (Fine Cut)",
+      description: "Edição de detalhe com L-cuts e J-cuts, color grading, mixagem de áudio, inclusão de gráficos explicativos, legendas dinâmicas e elementos visuais da marca.",
+      sort_order: 2,
+    },
+    {
+      name: "Fase 4 — Revisão e Exportação Final",
+      description: "Aplicação de feedback final (1 rodada inclusa), revisão técnica completa, exportação otimizada por plataforma e entrega organizada.",
+      sort_order: 3,
+    },
+  ],
+  "Landing Page Simples": [
     {
       name: "Fase 1 — Briefing e Estratégia Digital",
-      description: "Reunião de briefing digital, análise de referências e concorrência, definição da arquitetura de informação (sitemap) e levantamento de conteúdos necessários.",
+      description: "Reunião de briefing digital, análise de referências e concorrência, definição da arquitetura de informação (até 6 seções) e levantamento de conteúdos necessários.",
       sort_order: 0,
     },
     {
@@ -136,6 +212,87 @@ export const methodologyStages: Record<string, MethodologyStage[]> = {
     {
       name: "Fase 3 — Desenvolvimento e Construção",
       description: "Construção das seções com fidelidade ao design, configuração de responsividade, integração de formulários e funcionalidades, otimização de performance e SEO básico.",
+      sort_order: 2,
+    },
+    {
+      name: "Fase 4 — Revisão e Ajustes",
+      description: "Aplicação de feedback (1 rodada inclusa), testes cross-browser e cross-device, revisão final de conteúdo e qualidade, aprovação para publicação.",
+      sort_order: 3,
+    },
+    {
+      name: "Fase 5 — Publicação e Entrega",
+      description: "Publicação no domínio do cliente, testes finais em produção, documento de acesso e orientações de gestão e entrega formal com encerramento.",
+      sort_order: 4,
+    },
+  ],
+  "Landing Page Completa": [
+    {
+      name: "Fase 1 — Briefing e Estratégia Digital",
+      description: "Reunião de briefing digital, análise de referências e concorrência, definição da arquitetura de informação (até 12 seções) e levantamento de conteúdos necessários.",
+      sort_order: 0,
+    },
+    {
+      name: "Fase 2 — Design e Prototipagem Visual",
+      description: "Desenvolvimento do design de todas as seções, hierarquia visual e estratégia de conversão avançada, adaptação para mobile/responsividade e aprovação do protótipo.",
+      sort_order: 1,
+    },
+    {
+      name: "Fase 3 — Desenvolvimento e Construção",
+      description: "Construção das seções com fidelidade ao design, configuração de responsividade, integração de formulários e funcionalidades avançadas, otimização de performance e SEO.",
+      sort_order: 2,
+    },
+    {
+      name: "Fase 4 — Revisão e Ajustes",
+      description: "Aplicação de feedback (1 rodada inclusa), testes cross-browser e cross-device, revisão final de conteúdo e qualidade, aprovação para publicação.",
+      sort_order: 3,
+    },
+    {
+      name: "Fase 5 — Publicação e Entrega",
+      description: "Publicação no domínio do cliente, testes finais em produção, documento de acesso e orientações de gestão e entrega formal com encerramento.",
+      sort_order: 4,
+    },
+  ],
+  "Site Institucional": [
+    {
+      name: "Fase 1 — Briefing e Estratégia Digital",
+      description: "Reunião de briefing digital, análise de referências e concorrência, definição da arquitetura de informação (3-5 páginas com sitemap) e levantamento de conteúdos.",
+      sort_order: 0,
+    },
+    {
+      name: "Fase 2 — Design e Prototipagem Visual",
+      description: "Desenvolvimento do design de todas as páginas e seções, hierarquia visual, navegação e estratégia de conversão, adaptação para mobile e aprovação do protótipo.",
+      sort_order: 1,
+    },
+    {
+      name: "Fase 3 — Desenvolvimento e Construção",
+      description: "Construção de todas as páginas com fidelidade ao design, configuração de responsividade, integração de formulários, funcionalidades e otimização de performance e SEO.",
+      sort_order: 2,
+    },
+    {
+      name: "Fase 4 — Revisão e Ajustes",
+      description: "Aplicação de feedback (1 rodada inclusa), testes cross-browser e cross-device, revisão final de conteúdo e qualidade, aprovação para publicação.",
+      sort_order: 3,
+    },
+    {
+      name: "Fase 5 — Publicação e Entrega",
+      description: "Publicação no domínio do cliente, testes finais em produção, documento de acesso e orientações de gestão e entrega formal com encerramento.",
+      sort_order: 4,
+    },
+  ],
+  "Site Completo": [
+    {
+      name: "Fase 1 — Briefing e Estratégia Digital",
+      description: "Reunião de briefing digital aprofundado, análise de referências e concorrência, definição da arquitetura de informação (5-8 páginas com sitemap) e levantamento de conteúdos.",
+      sort_order: 0,
+    },
+    {
+      name: "Fase 2 — Design e Prototipagem Visual",
+      description: "Desenvolvimento do design de todas as páginas e seções, hierarquia visual, navegação complexa, estratégia de conversão avançada, adaptação para mobile e aprovação.",
+      sort_order: 1,
+    },
+    {
+      name: "Fase 3 — Desenvolvimento e Construção",
+      description: "Construção de todas as páginas com fidelidade ao design, configuração de responsividade, integração de formulários, funcionalidades avançadas, otimização de performance e SEO.",
       sort_order: 2,
     },
     {

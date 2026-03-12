@@ -38,13 +38,18 @@ const statusLabels: Record<string, string> = {
 };
 
 const projectTypes = [
+  "Logotipo Essencial",
   "Identidade Visual",
+  "Branding Completo",
   "Manual de Logotipo",
-  "Branding",
-  "Social Media",
-  "Website",
-  "Papelaria",
-  "Apresentação",
+  "Design de Conteúdo para Redes Sociais",
+  "Edição de Vídeo — Reels/Shorts",
+  "Edição de Vídeo — Institucional",
+  "Edição de Vídeo — Tutorial/Educativo",
+  "Landing Page Simples",
+  "Landing Page Completa",
+  "Site Institucional",
+  "Site Completo",
 ];
 
 const ProjectsTab = () => {

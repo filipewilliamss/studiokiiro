@@ -1,6 +1,9 @@
 import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import kiiroLogo from "@/assets/logo.png";
+
+const BASE_URL = "https://www.studiokiiro.com";
 
 const navLinks = [
   { label: "Sobre", href: "#sobre" },

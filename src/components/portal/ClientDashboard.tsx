@@ -73,8 +73,8 @@ const ClientDashboard = () => {
   const activeProjects = projects.filter((p) => p.status !== "entregue");
   const completedProjects = projects.filter((p) => p.status === "entregue");
 
-  const completedStages = stages.filter((s) => s.status === "concluido").length;
-  const currentStageIndex = stages.findIndex((s) => s.status !== "concluido");
+  const completedStages = stages.filter((s) => s.status === "concluida").length;
+  const currentStageIndex = stages.findIndex((s) => s.status !== "concluida");
 
   return (
     <div className="min-h-screen bg-background">

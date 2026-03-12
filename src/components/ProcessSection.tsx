@@ -1,70 +1,96 @@
 import { motion } from "framer-motion";
+import { useState } from "react";
 
-const steps = [
+const serviceProcesses = [
   {
-    number: "01",
-    title: "Briefing",
-    description:
-      "Entendemos suas necessidades, seu público e seus objetivos para alinhar expectativas e definir a direção criativa.",
-    clientView:
-      "Você recebe acesso ao painel e acompanha o briefing validado e a direção criativa aprovada.",
+    label: "Identidade Visual",
+    steps: [
+      { number: "01", title: "Imersão e Estratégia", description: "Entendemos o negócio, o público e os objetivos para criar uma base estratégica sólida." },
+      { number: "02", title: "Conceituação", description: "Traduzimos a estratégia em direções visuais com moodboards e referências curadas." },
+      { number: "03", title: "Criação", description: "Desenvolvemos o logotipo e o sistema visual com atenção a cada detalhe." },
+      { number: "04", title: "Refinamento", description: "Ajustamos e expandimos o sistema visual com base no seu feedback." },
+      { number: "05", title: "Entrega", description: "Entregamos todos os arquivos organizados com manual de identidade visual." },
+    ],
   },
   {
-    number: "02",
-    title: "Pesquisa & Conceito",
-    description:
-      "Analisamos o mercado, referências e concorrentes para criar um conceito visual sólido e estratégico.",
-    clientView:
-      "Na plataforma, você visualiza moodboards e referências apresentadas, tudo documentado.",
+    label: "Redes Sociais",
+    steps: [
+      { number: "01", title: "Briefing e Estratégia", description: "Definimos o guia de estilo, tipos de peças e formatos prioritários para suas redes." },
+      { number: "02", title: "Templates e Layout", description: "Criamos os templates base e simulamos como o feed vai ficar com consistência visual." },
+      { number: "03", title: "Produção", description: "Produzimos todas as peças (posts, carrosséis, stories) com excelência técnica." },
+      { number: "04", title: "Entrega", description: "Entregamos as peças organizadas por plataforma e formato, prontas para publicar." },
+    ],
   },
   {
-    number: "03",
-    title: "Criação",
-    description:
-      "Desenvolvemos a identidade visual, peças e materiais com atenção a cada detalhe, do conceito à execução.",
-    clientView:
-      "Acompanhe o progresso em tempo real e envie feedbacks diretamente pelo painel.",
+    label: "Edição de Vídeo",
+    steps: [
+      { number: "01", title: "Briefing e Roteiro", description: "Definimos objetivo, público, tom e estrutura narrativa do vídeo." },
+      { number: "02", title: "Rough Cut", description: "Montamos a estrutura do vídeo focando em narrativa e ritmo para sua aprovação." },
+      { number: "03", title: "Fine Cut", description: "Refinamos com transições, color grading, mixagem de áudio e elementos gráficos." },
+      { number: "04", title: "Exportação", description: "Exportamos otimizado para cada plataforma com revisão técnica completa." },
+    ],
   },
   {
-    number: "04",
-    title: "Entrega & Suporte",
-    description:
-      "Entregamos todos os arquivos finais organizados, junto com o manual de marca e suporte para implementação.",
-    clientView:
-      "Todos os arquivos ficam disponíveis na sua biblioteca, organizados e prontos para download.",
+    label: "Sites e Landing Pages",
+    steps: [
+      { number: "01", title: "Estratégia Digital", description: "Definimos arquitetura de informação, seções e estrutura de conversão." },
+      { number: "02", title: "Design", description: "Criamos o protótipo visual de alta fidelidade para desktop e mobile." },
+      { number: "03", title: "Desenvolvimento", description: "Construímos o site com fidelidade ao design, responsividade e performance." },
+      { number: "04", title: "Revisão", description: "Testes cross-browser, ajustes finais e aprovação para publicação." },
+      { number: "05", title: "Publicação", description: "Publicamos no seu domínio com testes finais e documentação de acesso." },
+    ],
   },
 ];
 
 const ProcessSection = () => {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const activeProcess = serviceProcesses[activeIndex];
+
   return (
-    <section
-      id="processo"
-      className="section-padding border-t border-border bg-primary text-primary-foreground"
-    >
+    <section id="processo" className="section-padding border-t border-border bg-primary text-primary-foreground">
       <div className="container-editorial">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: false, amount: 0.3 }}
           transition={{ duration: 0.7 }}
-          className="mb-24"
+          className="mb-16"
         >
-          <p className="text-sm uppercase tracking-[0.3em] text-primary-foreground/70 mb-4">
-            Processo
-          </p>
-          <h2 className="font-display text-4xl md:text-6xl lg:text-7xl font-bold">
-            Como trabalhamos
-          </h2>
+          <p className="text-sm uppercase tracking-[0.3em] text-primary-foreground/70 mb-4">Processo</p>
+          <h2 className="font-display text-4xl md:text-6xl lg:text-7xl font-bold">Como trabalhamos</h2>
         </motion.div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
-          {steps.map((step, i) => (
+        {/* Service tabs */}
+        <div className="flex flex-wrap gap-2 mb-12">
+          {serviceProcesses.map((sp, i) => (
+            <button
+              key={sp.label}
+              onClick={() => setActiveIndex(i)}
+              className={`px-5 py-2 rounded-full text-sm font-medium transition-all duration-300 border ${
+                i === activeIndex
+                  ? "bg-primary-foreground text-primary border-primary-foreground"
+                  : "bg-transparent text-primary-foreground/60 border-primary-foreground/20 hover:border-primary-foreground/40 hover:text-primary-foreground"
+              }`}
+            >
+              {sp.label}
+            </button>
+          ))}
+        </div>
+
+        {/* Steps */}
+        <motion.div
+          key={activeIndex}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4 }}
+          className={`grid gap-8 ${activeProcess.steps.length > 4 ? "sm:grid-cols-2 lg:grid-cols-5" : `sm:grid-cols-2 lg:grid-cols-${activeProcess.steps.length}`}`}
+        >
+          {activeProcess.steps.map((step, i) => (
             <motion.div
               key={step.number}
               initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: false, amount: 0.2 }}
-              transition={{ duration: 0.6, delay: i * 0.12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: i * 0.1 }}
               className="relative"
             >
               <span className="font-display text-6xl md:text-7xl font-bold text-primary-foreground/15 leading-none">
@@ -73,31 +99,12 @@ const ProcessSection = () => {
               <h3 className="font-display text-xl font-bold mt-2 mb-3 text-primary-foreground">
                 {step.title}
               </h3>
-              <p className="text-primary-foreground/70 text-sm leading-relaxed mb-4">
+              <p className="text-primary-foreground/70 text-sm leading-relaxed">
                 {step.description}
               </p>
-              {/* Client area connection */}
-              <div className="flex items-start gap-2 pt-3 border-t border-primary-foreground/10">
-                <svg
-                  className="w-4 h-4 mt-0.5 flex-shrink-0 text-primary-foreground/50"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={1.5}
-                    d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                  />
-                </svg>
-                <p className="text-primary-foreground/50 text-xs leading-relaxed">
-                  {step.clientView}
-                </p>
-              </div>
             </motion.div>
           ))}
-        </div>
+        </motion.div>
 
         {/* Footer note */}
         <motion.div
@@ -109,10 +116,7 @@ const ProcessSection = () => {
         >
           <p className="text-primary-foreground/60 text-sm">
             Cada etapa é visível no seu{" "}
-            <a
-              href="/area-do-cliente"
-              className="underline underline-offset-4 hover:text-primary-foreground transition-colors"
-            >
+            <a href="/area-do-cliente" className="underline underline-offset-4 hover:text-primary-foreground transition-colors">
               painel exclusivo
             </a>
             . Sem surpresas, sem dúvidas — só clareza do início ao fim.

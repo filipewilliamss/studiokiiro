@@ -50,7 +50,7 @@ const benefits = [
 
 const ClientAreaSection = () => {
   return (
-    <section className="section-padding border-t border-border">
+    <section className="section-padding bg-primary text-primary-foreground">
       <div className="container-editorial">
         {/* Header */}
         <motion.div
@@ -60,15 +60,15 @@ const ClientAreaSection = () => {
           transition={{ duration: 0.7 }}
           className="mb-16 md:mb-24"
         >
-          <p className="text-sm uppercase tracking-[0.3em] text-primary mb-4">
+          <p className="text-sm uppercase tracking-[0.3em] text-primary-foreground/70 mb-4">
             Área do Cliente
           </p>
           <h2 className="font-display text-4xl md:text-6xl lg:text-7xl font-bold mb-6">
             Acompanhe seu projeto
             <br />
-            <span className="text-gradient-kiiro">em tempo real</span>
+            em tempo real
           </h2>
-          <p className="text-muted-foreground text-lg md:text-xl max-w-2xl leading-relaxed">
+          <p className="text-primary-foreground/80 text-lg md:text-xl max-w-2xl leading-relaxed">
             No Studio Kiiro, cada cliente tem acesso a um painel exclusivo onde
             acompanha as fases do projeto, acessa arquivos entregues e visualiza
             o financeiro — tudo com transparência e organização.
@@ -84,16 +84,16 @@ const ClientAreaSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: false, amount: 0.2 }}
               transition={{ duration: 0.5, delay: i * 0.08 }}
-              className="group flex gap-4 p-6 rounded-2xl border border-border bg-card hover:border-primary/30 transition-all duration-500"
+              className="group flex gap-4 p-6 rounded-2xl border border-primary-foreground/15 bg-primary-foreground/5 hover:bg-primary-foreground/10 transition-all duration-500"
             >
-              <div className="flex-shrink-0 w-10 h-10 rounded-full border border-primary/30 flex items-center justify-center text-primary">
+              <div className="flex-shrink-0 w-10 h-10 rounded-full border border-primary-foreground/30 flex items-center justify-center text-primary-foreground">
                 {b.icon}
               </div>
               <div>
-                <h4 className="font-display text-base font-bold text-foreground mb-1">
+                <h4 className="font-display text-base font-bold text-primary-foreground mb-1">
                   {b.title}
                 </h4>
-                <p className="text-muted-foreground text-sm leading-relaxed">
+                <p className="text-primary-foreground/70 text-sm leading-relaxed">
                   {b.description}
                 </p>
               </div>
@@ -109,38 +109,27 @@ const ClientAreaSection = () => {
           transition={{ duration: 0.7 }}
           className="relative"
         >
-          <div className="rounded-2xl border border-border bg-card overflow-hidden">
+          <div className="rounded-2xl border border-primary-foreground/15 bg-primary-foreground/5 overflow-hidden">
             {/* Browser chrome bar */}
-            <div className="flex items-center gap-2 px-5 py-3 border-b border-border bg-secondary/50">
+            <div className="flex items-center gap-2 px-5 py-3 border-b border-primary-foreground/10 bg-primary-foreground/5">
               <span className="w-3 h-3 rounded-full bg-destructive/60" />
-              <span className="w-3 h-3 rounded-full bg-primary/40" />
-              <span className="w-3 h-3 rounded-full bg-muted-foreground/30" />
-              <span className="ml-4 text-xs text-muted-foreground font-mono">
+              <span className="w-3 h-3 rounded-full bg-primary-foreground/30" />
+              <span className="w-3 h-3 rounded-full bg-primary-foreground/20" />
+              <span className="ml-4 text-xs text-primary-foreground/50 font-mono">
                 studiokiiro.com/area-do-cliente
               </span>
             </div>
 
             {/* Placeholder for screenshots */}
-            <div className="aspect-video flex items-center justify-center bg-secondary/30">
+            <div className="aspect-video flex items-center justify-center bg-primary-foreground/5">
               <div className="text-center px-6">
-                <div className="w-16 h-16 mx-auto mb-4 rounded-full border-2 border-dashed border-primary/30 flex items-center justify-center">
-                  <svg
-                    className="w-7 h-7 text-primary/50"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={1.5}
-                      d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
-                    />
+                <div className="w-16 h-16 mx-auto mb-4 rounded-full border-2 border-dashed border-primary-foreground/30 flex items-center justify-center">
+                  <svg className="w-7 h-7 text-primary-foreground/40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                   </svg>
                 </div>
-                <p className="text-muted-foreground text-sm">
-                  Insira aqui os prints ou mockups da interface da Área do
-                  Cliente
+                <p className="text-primary-foreground/50 text-sm">
+                  Insira aqui os prints ou mockups da interface da Área do Cliente
                 </p>
               </div>
             </div>
@@ -150,21 +139,11 @@ const ClientAreaSection = () => {
           <div className="mt-10 text-center">
             <a
               href="/area-do-cliente"
-              className="inline-flex items-center gap-2 px-8 py-3 rounded-full bg-primary text-primary-foreground font-display font-bold text-sm uppercase tracking-wider hover:bg-primary/90 transition-colors duration-300"
+              className="inline-flex items-center gap-2 px-8 py-3 rounded-full bg-primary-foreground text-primary font-display font-bold text-sm uppercase tracking-wider hover:bg-primary-foreground/90 transition-colors duration-300"
             >
               Acessar minha área
-              <svg
-                className="w-4 h-4"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M17 8l4 4m0 0l-4 4m4-4H3"
-                />
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
               </svg>
             </a>
           </div>

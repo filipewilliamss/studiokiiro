@@ -189,6 +189,7 @@ const ProjectsTab = () => {
       setFinanceForm({ budget_total: "", initial_payment: "", initial_payment_date: "", installments_total: "1", installments_paid: "0", next_payment_date: "", notes: "" });
     }
     if (messagesRes.data) setMessages(messagesRes.data);
+    if (briefingRes.data) setBriefingResponse(briefingRes.data.responses as Record<string, string>);
   };
 
   const toggleStage = async (stage: Stage) => {

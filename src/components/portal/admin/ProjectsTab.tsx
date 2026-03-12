@@ -163,11 +163,13 @@ const ProjectsTab = () => {
     setMessages([]);
     setNewMessage("");
 
-    const [stagesRes, filesRes, paymentRes, messagesRes] = await Promise.all([
+    setBriefingResponse(null);
+    const [stagesRes, filesRes, paymentRes, messagesRes, briefingRes] = await Promise.all([
       supabase.from("project_stages").select("*").eq("project_id", project.id).order("sort_order"),
       supabase.storage.from("project-files").list(project.id),
       supabase.from("payments").select("*").eq("project_id", project.id).maybeSingle(),
       supabase.from("messages").select("*").eq("project_id", project.id).order("created_at", { ascending: true }),
+      supabase.from("briefing_responses").select("responses").eq("project_id", project.id).maybeSingle(),
     ]);
 
     if (stagesRes.data) setStages(stagesRes.data);

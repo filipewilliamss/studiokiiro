@@ -73,6 +73,25 @@ const ServicesSection = () => {
           </h2>
         </motion.div>
 
+        {/* Micro-highlight */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: false, amount: 0.5 }}
+          transition={{ duration: 0.6 }}
+          className="mb-16 flex items-center gap-3 px-5 py-3 rounded-full border border-primary/20 bg-primary/5 w-fit"
+        >
+          <svg className="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+          </svg>
+          <span className="text-xs text-muted-foreground">
+            Todos os serviços incluem acesso ao{" "}
+            <a href="/area-do-cliente" className="text-primary hover:underline underline-offset-4">
+              painel exclusivo de acompanhamento
+            </a>
+          </span>
+        </motion.div>
+
         <div className="space-y-16">
           {serviceCategories.map((cat, catIdx) => (
             <motion.div

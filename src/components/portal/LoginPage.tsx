@@ -3,6 +3,7 @@ import { supabase } from "@/integrations/supabase/client";
 import kiiroLogo from "@/assets/logo.png";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Mail, Sparkles, CheckCircle } from "lucide-react";
 
 const LoginPage = () => {

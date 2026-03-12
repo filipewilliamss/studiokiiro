@@ -25,7 +25,11 @@ interface Stage {
   completed_at: string | null;
 }
 
-const statusLabels: Record<string, string> = {
+interface ProjectFile {
+  name: string;
+  viewUrl: string | null;
+  downloadUrl: string | null;
+}
   briefing: "Briefing",
   planejamento: "Em planejamento",
   producao: "Em produção",

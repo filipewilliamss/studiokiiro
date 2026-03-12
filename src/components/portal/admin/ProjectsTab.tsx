@@ -131,17 +131,35 @@ const ProjectsTab = () => {
   };
 
   const toggleStage = async (stage: Stage) => {
-    const newStatus = stage.status === "concluido" ? "pendente" : "concluido";
-    await supabase.from("project_stages").update({
-      status: newStatus,
-      completed_at: newStatus === "concluido" ? new Date().toISOString() : null,
-    }).eq("id", stage.id);
+    const newStatus = stage.status === "concluida" ? "pendente" : "concluida";
+    const completedAt = newStatus === "concluida" ? new Date().toISOString() : null;
 
-    const updated = stages.map((s) => s.id === stage.id ? { ...s, status: newStatus, completed_at: newStatus === "concluido" ? new Date().toISOString() : null } : s);
+    const { error } = await supabase
+      .from("project_stages")
+      .update({ status: newStatus, completed_at: completedAt })
+      .eq("id", stage.id);
+
+    if (error) {
+      toast.error("Erro ao atualizar etapa");
+      return;
+    }
+
+    const updated = stages.map((s) =>
+      s.id === stage.id ? { ...s, status: newStatus, completed_at: completedAt } : s
+    );
     setStages(updated);
-    const done = updated.filter((s) => s.status === "concluido").length;
-    const progress = Math.round((done / updated.length) * 100);
-    await supabase.from("projects").update({ progress }).eq("id", selectedProject!.id);
+
+    const done = updated.filter((s) => s.status === "concluida").length;
+    const progress = updated.length > 0 ? Math.round((done / updated.length) * 100) : 0;
+
+    const { error: projectError } = await supabase
+      .from("projects")
+      .update({ progress })
+      .eq("id", selectedProject!.id);
+
+    if (projectError) {
+      toast.error("Erro ao atualizar progresso do projeto");
+    }
   };
 
   const addStage = async () => {
@@ -346,13 +364,13 @@ const ProjectsTab = () => {
                           onClick={() => toggleStage(stage)}
                           className="flex items-start gap-3 w-full p-3 rounded-lg border border-border hover:border-primary/30 transition-colors text-left"
                         >
-                          {stage.status === "concluido" ? (
+                          {stage.status === "concluida" ? (
                             <CheckCircle2 className="h-5 w-5 text-primary shrink-0 mt-0.5" />
                           ) : (
                             <Circle className="h-5 w-5 text-muted-foreground shrink-0 mt-0.5" />
                           )}
                           <div className="flex-1 min-w-0">
-                            <span className={`text-sm font-medium ${stage.status === "concluido" ? "text-muted-foreground line-through" : "text-foreground"}`}>
+                            <span className={`text-sm font-medium ${stage.status === "concluida" ? "text-muted-foreground line-through" : "text-foreground"}`}>
                               {stage.name}
                             </span>
                             {stage.description && (

@@ -73,8 +73,8 @@ const ClientDashboard = () => {
   const activeProjects = projects.filter((p) => p.status !== "entregue");
   const completedProjects = projects.filter((p) => p.status === "entregue");
 
-  const completedStages = stages.filter((s) => s.status === "concluido").length;
-  const currentStageIndex = stages.findIndex((s) => s.status !== "concluido");
+  const completedStages = stages.filter((s) => s.status === "concluida").length;
+  const currentStageIndex = stages.findIndex((s) => s.status !== "concluida");
 
   return (
     <div className="min-h-screen bg-background">
@@ -217,7 +217,7 @@ const ClientDashboard = () => {
                     </label>
                     <div className="space-y-2">
                       {stages.map((stage, idx) => {
-                        const isCompleted = stage.status === "concluido";
+                        const isCompleted = stage.status === "concluida";
                         const isCurrent = idx === currentStageIndex;
                         return (
                           <div

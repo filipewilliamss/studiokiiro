@@ -79,6 +79,7 @@ const ProjectsTab = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
+  const [briefingResponse, setBriefingResponse] = useState<Record<string, string> | null>(null);
 
   const [form, setForm] = useState({
     name: "", type: "Logotipo Essencial", client_id: "", description: "",

@@ -1,32 +1,43 @@
 import { motion } from "framer-motion";
 
-const services = [
+const serviceCategories = [
   {
-    title: "Identidade Visual",
-    description: "Logo, paleta de cores, tipografia e manual de marca completo. Uma identidade que posiciona sua empresa como referência no mercado.",
+    category: "Identidade Visual",
     icon: (
       <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
       </svg>
     ),
+    items: [
+      { title: "Pacote 1 — Logotipo Essencial", description: "Criação de logotipo profissional com versões e arquivos prontos para uso." },
+      { title: "Pacote 2 — Identidade Visual", description: "Logotipo + paleta de cores, tipografia e elementos visuais que posicionam sua marca." },
+      { title: "Pacote 3 — Branding Completo", description: "Identidade visual completa com manual de marca, papelaria, aplicações e estratégia visual." },
+      { title: "Serviço Avulso — Manual do Logotipo", description: "Para quem já tem logotipo mas precisa de um manual profissional e arquivos editáveis organizados." },
+    ],
   },
   {
-    title: "Social Media",
-    description: "Posts, stories e templates personalizados que mantêm sua marca relevante e visualmente consistente nas redes sociais.",
+    category: "Design para Mídias Sociais",
     icon: (
       <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
       </svg>
     ),
+    items: [
+      { title: "Pacote Pontual", description: "Criação de posts, stories e templates sob demanda para campanhas ou necessidades específicas." },
+      { title: "Retainer Mensal", description: "Gestão visual contínua das suas redes sociais com entregas recorrentes e consistência de marca." },
+    ],
   },
   {
-    title: "Edição de Vídeo",
-    description: "Edições dinâmicas para YouTube, Instagram e TikTok que prendem a atenção e fortalecem a presença digital da sua marca.",
+    category: "Edição de Vídeo",
     icon: (
       <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
       </svg>
     ),
+    items: [
+      { title: "Reels / Shorts", description: "Edições dinâmicas e envolventes para Instagram Reels, YouTube Shorts e TikTok." },
+      { title: "Institucional (2-5min)", description: "Vídeos institucionais profissionais para apresentar sua empresa, produto ou serviço." },
+    ],
   },
 ];
 
@@ -47,25 +58,42 @@ const ServicesSection = () => {
           </h2>
         </motion.div>
 
-        <div className="grid md:grid-cols-3 gap-6">
-          {services.map((service, i) => (
+        <div className="space-y-16">
+          {serviceCategories.map((cat, catIdx) => (
             <motion.div
-              key={service.title}
+              key={cat.category}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: false, amount: 0.2 }}
-              transition={{ duration: 0.6, delay: i * 0.15 }}
-              className="group p-8 md:p-10 rounded-2xl border border-border bg-card hover:border-primary/30 hover:bg-surface-hover transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_20px_60px_-15px_hsl(var(--primary)/0.1)]"
+              transition={{ duration: 0.6, delay: catIdx * 0.1 }}
             >
-              <div className="w-12 h-12 rounded-full border border-primary/30 flex items-center justify-center text-primary mb-8 group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-500">
-                {service.icon}
+              <div className="flex items-center gap-4 mb-8">
+                <div className="w-12 h-12 rounded-full border border-primary/30 flex items-center justify-center text-primary">
+                  {cat.icon}
+                </div>
+                <h3 className="font-display text-2xl md:text-3xl font-bold text-foreground">
+                  {cat.category}
+                </h3>
               </div>
-              <h3 className="font-display text-xl md:text-2xl font-bold mb-4 text-foreground group-hover:text-primary transition-colors duration-300">
-                {service.title}
-              </h3>
-              <p className="text-muted-foreground leading-relaxed">
-                {service.description}
-              </p>
+              <div className={`grid gap-4 ${cat.items.length > 2 ? 'sm:grid-cols-2 lg:grid-cols-4' : 'sm:grid-cols-2'}`}>
+                {cat.items.map((item, i) => (
+                  <motion.div
+                    key={item.title}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: false, amount: 0.2 }}
+                    transition={{ duration: 0.5, delay: i * 0.1 }}
+                    className="group p-6 md:p-8 rounded-2xl border border-border bg-card hover:border-primary/30 hover:bg-surface-hover transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_20px_60px_-15px_hsl(var(--primary)/0.1)]"
+                  >
+                    <h4 className="font-display text-lg font-bold mb-3 text-foreground group-hover:text-primary transition-colors duration-300">
+                      {item.title}
+                    </h4>
+                    <p className="text-muted-foreground text-sm leading-relaxed">
+                      {item.description}
+                    </p>
+                  </motion.div>
+                ))}
+              </div>
             </motion.div>
           ))}
         </div>

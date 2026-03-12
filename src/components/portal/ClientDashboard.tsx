@@ -5,10 +5,15 @@ import Navbar from "@/components/Navbar";
 import { Button } from "@/components/ui/button";
 import {
   LogOut, FolderOpen, CheckCircle2, Clock, Circle, FileDown,
-  ExternalLink, DollarSign, MessageSquare, Send, ArrowLeft,
+  ExternalLink, DollarSign, MessageSquare, Send, ArrowLeft, ClipboardList,
 } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
+import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { toast } from "sonner";
+import { briefingQuestions } from "@/data/briefingQuestions";
 
 interface Project {
   id: string;
@@ -78,13 +83,32 @@ const ClientDashboard = () => {
   const [isLoadingFiles, setIsLoadingFiles] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
+  // Briefing state
+  const [briefingSubmitted, setBriefingSubmitted] = useState<boolean>(false);
+  const [briefingOpen, setBriefingOpen] = useState(false);
+  const [briefingAnswers, setBriefingAnswers] = useState<Record<string, string>>({});
+  const [submittingBriefing, setSubmittingBriefing] = useState(false);
+  // Track which projects have pending briefings
+  const [projectBriefingStatus, setProjectBriefingStatus] = useState<Record<string, boolean>>({});
+
   useEffect(() => {
     const fetchProjects = async () => {
       const { data } = await supabase
         .from("projects")
         .select("id, name, type, status, progress, deadline")
         .order("created_at", { ascending: false });
-      if (data) setProjects(data);
+      if (data) {
+        setProjects(data);
+        // Check briefing status for all projects
+        const { data: briefings } = await supabase
+          .from("briefing_responses")
+          .select("project_id")
+          .in("project_id", data.map((p) => p.id));
+        const submittedIds = new Set((briefings || []).map((b: any) => b.project_id));
+        const statusMap: Record<string, boolean> = {};
+        data.forEach((p) => { statusMap[p.id] = submittedIds.has(p.id); });
+        setProjectBriefingStatus(statusMap);
+      }
     };
     fetchProjects();
   }, []);
@@ -115,6 +139,8 @@ const ClientDashboard = () => {
     setFiles([]);
     setPayment(null);
     setMessages([]);
+    setBriefingAnswers({});
+    setBriefingSubmitted(projectBriefingStatus[project.id] || false);
 
     const [stagesRes, filesRes, paymentRes, messagesRes] = await Promise.all([
       supabase.from("project_stages").select("*").eq("project_id", project.id).order("sort_order"),
@@ -159,11 +185,43 @@ const ClientDashboard = () => {
     setSendingMessage(false);
   };
 
+  const submitBriefing = async () => {
+    if (!selectedProject) return;
+    const questions = briefingQuestions[selectedProject.type];
+    if (!questions) return;
+
+    // Validate required
+    const missing = questions.filter((q) => q.required && !briefingAnswers[q.id]?.trim());
+    if (missing.length > 0) {
+      toast.error(`Preencha os campos obrigatórios: ${missing.map((q) => q.question.slice(0, 40)).join(", ")}`);
+      return;
+    }
+
+    setSubmittingBriefing(true);
+    const { error } = await supabase.from("briefing_responses").insert({
+      project_id: selectedProject.id,
+      responses: briefingAnswers,
+    });
+
+    if (error) {
+      toast.error("Erro ao enviar briefing. Tente novamente.");
+    } else {
+      toast.success("Briefing enviado com sucesso! 🎉");
+      setBriefingSubmitted(true);
+      setBriefingOpen(false);
+      setProjectBriefingStatus((prev) => ({ ...prev, [selectedProject.id]: true }));
+    }
+    setSubmittingBriefing(false);
+  };
+
   const activeProjects = projects.filter((p) => p.status !== "entregue");
   const completedProjects = projects.filter((p) => p.status === "entregue");
 
   const completedStages = stages.filter((s) => s.status === "concluida").length;
   const currentStageIndex = stages.findIndex((s) => s.status !== "concluida");
+
+  const currentBriefingQuestions = selectedProject ? briefingQuestions[selectedProject.type] : null;
+  const showBriefingBanner = selectedProject && !briefingSubmitted && currentBriefingQuestions;
 
   // If a project is selected, show detail view
   if (selectedProject) {
@@ -196,6 +254,81 @@ const ClientDashboard = () => {
               </span>
             </div>
           </div>
+
+          {/* Briefing banner */}
+          {showBriefingBanner && (
+            <div className="bg-primary/10 border border-primary/30 rounded-xl p-5 flex items-center justify-between gap-4">
+              <div className="flex items-start gap-3">
+                <ClipboardList className="h-5 w-5 text-primary shrink-0 mt-0.5" />
+                <div>
+                  <h3 className="text-sm font-medium text-foreground">Briefing Pendente</h3>
+                  <p className="text-xs text-muted-foreground mt-0.5">
+                    Responda o briefing para que possamos iniciar o seu projeto com todas as informações necessárias.
+                  </p>
+                </div>
+              </div>
+              <Button onClick={() => setBriefingOpen(true)} className="shrink-0 gap-2">
+                <ClipboardList className="h-4 w-4" />
+                Responder Briefing
+              </Button>
+            </div>
+          )}
+
+          {/* Briefing Dialog */}
+          <Dialog open={briefingOpen} onOpenChange={setBriefingOpen}>
+            <DialogContent className="sm:max-w-2xl max-h-[85vh] overflow-y-auto">
+              <DialogHeader>
+                <DialogTitle style={{ fontFamily: "var(--font-display)" }}>
+                  Briefing — {selectedProject.type}
+                </DialogTitle>
+                <p className="text-sm text-muted-foreground mt-1">
+                  Preencha com o máximo de detalhes possível para um resultado incrível.
+                </p>
+              </DialogHeader>
+              <div className="space-y-5 mt-4">
+                {currentBriefingQuestions?.map((q) => (
+                  <div key={q.id} className="space-y-1.5">
+                    <label className="text-sm font-medium text-foreground">
+                      {q.question} {q.required && <span className="text-destructive">*</span>}
+                    </label>
+                    {q.type === "text" && (
+                      <Input
+                        value={briefingAnswers[q.id] || ""}
+                        onChange={(e) => setBriefingAnswers((prev) => ({ ...prev, [q.id]: e.target.value }))}
+                        placeholder="Sua resposta..."
+                      />
+                    )}
+                    {q.type === "textarea" && (
+                      <Textarea
+                        value={briefingAnswers[q.id] || ""}
+                        onChange={(e) => setBriefingAnswers((prev) => ({ ...prev, [q.id]: e.target.value }))}
+                        placeholder="Sua resposta..."
+                        rows={3}
+                      />
+                    )}
+                    {q.type === "select" && q.options && (
+                      <Select
+                        value={briefingAnswers[q.id] || ""}
+                        onValueChange={(v) => setBriefingAnswers((prev) => ({ ...prev, [q.id]: v }))}
+                      >
+                        <SelectTrigger><SelectValue placeholder="Selecione uma opção" /></SelectTrigger>
+                        <SelectContent>
+                          {q.options.map((opt) => <SelectItem key={opt} value={opt}>{opt}</SelectItem>)}
+                        </SelectContent>
+                      </Select>
+                    )}
+                  </div>
+                ))}
+
+                <div className="flex justify-end gap-2 pt-4 border-t border-border">
+                  <Button variant="ghost" onClick={() => setBriefingOpen(false)}>Cancelar</Button>
+                  <Button onClick={submitBriefing} disabled={submittingBriefing}>
+                    {submittingBriefing ? "Enviando..." : "Enviar Briefing"}
+                  </Button>
+                </div>
+              </div>
+            </DialogContent>
+          </Dialog>
 
           {/* Tabs */}
           <Tabs defaultValue="status" className="space-y-6">
@@ -325,7 +458,6 @@ const ClientDashboard = () => {
                 </div>
               ) : (
                 <div className="space-y-4">
-                  {/* Budget card */}
                   <div className="bg-card border border-border rounded-xl p-5 space-y-4">
                     <div className="flex items-center justify-between">
                       <span className="text-sm text-muted-foreground">Orçamento Total</span>
@@ -356,7 +488,6 @@ const ClientDashboard = () => {
                     )}
                   </div>
 
-                  {/* Installments */}
                   {payment.installments_total != null && payment.installments_total > 0 && (
                     <div className="bg-card border border-border rounded-xl p-5 space-y-3">
                       <div className="flex items-center justify-between text-sm">
@@ -397,7 +528,6 @@ const ClientDashboard = () => {
               <label className="text-xs uppercase tracking-wider text-muted-foreground font-medium">Mensagens e Feedbacks</label>
 
               <div className="bg-card border border-border rounded-xl overflow-hidden flex flex-col" style={{ height: "400px" }}>
-                {/* Messages list */}
                 <div className="flex-1 overflow-y-auto p-4 space-y-3">
                   {messages.length === 0 ? (
                     <div className="flex items-center justify-center h-full">
@@ -427,7 +557,6 @@ const ClientDashboard = () => {
                   <div ref={messagesEndRef} />
                 </div>
 
-                {/* Input */}
                 <div className="border-t border-border p-3 flex gap-2">
                   <Textarea
                     value={newMessage}
@@ -503,9 +632,16 @@ const ClientDashboard = () => {
                       <h3 className="font-medium text-foreground">{project.name}</h3>
                       <p className="text-xs text-muted-foreground mt-0.5">{project.type}</p>
                     </div>
-                    <span className="text-xs px-2.5 py-1 rounded-full bg-primary/10 text-primary font-medium">
-                      {statusLabels[project.status] || project.status}
-                    </span>
+                    <div className="flex items-center gap-2">
+                      {!projectBriefingStatus[project.id] && (
+                        <span className="text-[10px] px-2 py-0.5 rounded-full bg-destructive/10 text-destructive font-medium">
+                          Briefing pendente
+                        </span>
+                      )}
+                      <span className="text-xs px-2.5 py-1 rounded-full bg-primary/10 text-primary font-medium">
+                        {statusLabels[project.status] || project.status}
+                      </span>
+                    </div>
                   </div>
                   <div className="space-y-1.5">
                     <div className="flex justify-between text-xs text-muted-foreground">

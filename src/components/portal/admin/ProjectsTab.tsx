@@ -12,10 +12,11 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sh
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   FolderPlus, ChevronRight, CheckCircle2, Circle, Upload, FileDown, Trash2,
-  FolderOpen, DollarSign, MessageSquare, Send, Clock, Calendar, CreditCard,
+  FolderOpen, DollarSign, MessageSquare, Send, Clock, Calendar, CreditCard, ClipboardList,
 } from "lucide-react";
 import { toast } from "sonner";
 import { methodologyStages } from "@/data/methodologyStages";
+import { briefingQuestions, type BriefingQuestion } from "@/data/briefingQuestions";
 
 interface Profile { id: string; full_name: string; company: string | null; }
 interface Project {

@@ -39,7 +39,7 @@ const ProjectModal = ({ project, onClose }: ProjectModalProps) => {
           {project.title}
         </h2>
 
-        <div className="grid md:grid-cols-3 gap-12 mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 mb-16">
           <div>
             <h3 className="font-display text-sm uppercase tracking-widest text-primary mb-3">Desafio</h3>
             <p className="text-secondary-foreground leading-relaxed">{project.challenge}</p>

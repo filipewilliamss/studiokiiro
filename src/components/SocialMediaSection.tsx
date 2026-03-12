@@ -43,7 +43,7 @@ const SocialMediaSection = () => {
           className="mb-20"
         >
           <p className="text-sm uppercase tracking-[0.3em] text-primary mb-4">Portfólio</p>
-          <h2 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold">
+          <h2 className="font-display text-3xl md:text-5xl lg:text-6xl font-bold">
             Artes para Mídias Sociais
           </h2>
           <p className="text-muted-foreground mt-6 max-w-2xl text-lg">
@@ -51,7 +51,7 @@ const SocialMediaSection = () => {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {placeholderItems.map((item, i) => (
             <motion.div
               key={item.id}

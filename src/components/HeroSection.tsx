@@ -43,7 +43,7 @@ const HeroSection = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.3 }}
         >
-          <p className="text-muted-foreground text-base md:text-lg max-w-xl mx-auto mb-12">
+          <p className="text-muted-foreground text-sm sm:text-base md:text-lg max-w-xl mx-auto mb-12 px-4">
             Identidade Visual · Social Media · Edição de Vídeo
           </p>
         </motion.div>

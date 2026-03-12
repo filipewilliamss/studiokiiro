@@ -21,7 +21,7 @@ const AboutSection = () => {
                 <br />
                 <span className="text-gradient-kiiro">bem-vindo!</span>
               </h2>
-              <p className="text-sm md:text-base text-secondary-foreground mt-6 font-display whitespace-nowrap">
+              <p className="text-xs sm:text-sm md:text-base text-secondary-foreground mt-6 font-display md:whitespace-nowrap">
                 Filipe Williams — Designer Gráfico & Fundador do Studio Kiiro
               </p>
             </div>

@@ -102,6 +102,34 @@ const ClientsTab = () => {
     }, 2000);
   };
 
+  const toggleSelect = (id: string) => {
+    setSelectedIds((prev) => {
+      const next = new Set(prev);
+      next.has(id) ? next.delete(id) : next.add(id);
+      return next;
+    });
+  };
+
+  const toggleSelectAll = () => {
+    if (selectedIds.size === filtered.length) {
+      setSelectedIds(new Set());
+    } else {
+      setSelectedIds(new Set(filtered.map((c) => c.id)));
+    }
+  };
+
+  const handleDelete = async () => {
+    const ids = Array.from(selectedIds);
+    const { error } = await supabase.from("profiles").delete().in("id", ids);
+    if (error) {
+      toast.error("Erro ao excluir clientes");
+    } else {
+      toast.success(`${ids.length} cliente(s) excluído(s)`);
+      setSelectedIds(new Set());
+      fetchClients();
+    }
+  };
+
   const filtered = clients.filter((c) =>
     (c.full_name + c.email + c.company).toLowerCase().includes(search.toLowerCase())
   );

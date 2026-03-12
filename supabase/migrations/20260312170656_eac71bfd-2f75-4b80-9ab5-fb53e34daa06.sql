@@ -1,0 +1,2 @@
+ALTER TABLE public.projects DROP CONSTRAINT projects_priority_check;
+ALTER TABLE public.projects ADD CONSTRAINT projects_priority_check CHECK (priority = ANY (ARRAY['baixa'::text, 'normal'::text, 'alta'::text, 'urgente'::text]));

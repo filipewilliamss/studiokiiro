@@ -81,24 +81,14 @@ const PortfolioSection = () => {
           </div>
         </motion.div>
 
-        {/* Featured project — cinematic hero card */}
-        {projects.length > 0 && (
-          <FeaturedCard
-            project={projects[0]}
-            isHovered={hoveredId === projects[0].id}
-            onHover={() => setHoveredId(projects[0].id)}
-            onLeave={() => setHoveredId(null)}
-            onClick={() => setSelectedProject(projects[0])}
-          />
-        )}
-
-        {/* Project grid with staggered reveals */}
-        <div className="grid md:grid-cols-3 gap-4 md:gap-5 mt-5">
-          {projects.slice(1).map((project, i) => (
-            <ProjectCard
+        {/* All projects — uniform grid */}
+        <div className="grid md:grid-cols-2 gap-5 md:gap-6">
+          {projects.map((project, i) => (
+            <UniformCard
               key={project.id}
               project={project}
               index={i}
+              total={projects.length}
               isHovered={hoveredId === project.id}
               onHover={() => setHoveredId(project.id)}
               onLeave={() => setHoveredId(null)}

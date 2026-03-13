@@ -120,7 +120,7 @@ const ProjectModal = ({ project, onClose }: ProjectModalProps) => {
             <img
               src={project.logo}
               alt=""
-              className="max-w-[60%] max-h-[60%] object-contain"
+              className="max-w-[90%] max-h-[85%] object-contain"
               onLoad={() => setImageLoaded(true)}
             />
           </motion.div>

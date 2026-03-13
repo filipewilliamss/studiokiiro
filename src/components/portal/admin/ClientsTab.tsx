@@ -7,7 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { Checkbox } from "@/components/ui/checkbox";
-import { UserPlus, Building2, Mail, Phone, Search, Trash2 } from "lucide-react";
+import { UserPlus, Building2, Mail, Phone, Search, Trash2, Pencil } from "lucide-react";
 import { toast } from "sonner";
 
 interface Profile {
@@ -35,6 +35,7 @@ const ClientsTab = () => {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
+  const [editingClient, setEditingClient] = useState<Profile | null>(null);
   const [form, setForm] = useState({
     full_name: "",
     email: "",
@@ -56,40 +57,56 @@ const ClientsTab = () => {
     fetchClients();
   }, []);
 
-  const handleCreate = async (e: React.FormEvent) => {
+  const openCreateDialog = () => {
+    setEditingClient(null);
+    setForm({ full_name: "", email: "", phone: "", company: "", client_type: "novo", notes: "" });
+    setOpen(true);
+  };
+
+  const openEditDialog = (client: Profile) => {
+    setEditingClient(client);
+    setForm({
+      full_name: client.full_name,
+      email: client.email || "",
+      phone: client.phone || "",
+      company: client.company || "",
+      client_type: client.client_type || "novo",
+      notes: client.notes || "",
+    });
+    setOpen(true);
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
 
-    try {
-      const { data: { session } } = await supabase.auth.getSession();
-      if (!session) {
-        toast.error("Você precisa estar logado");
-        setLoading(false);
-        return;
-      }
-
-      const response = await supabase.functions.invoke("create-client", {
-        body: {
-          email: form.email,
-          full_name: form.full_name,
-          phone: form.phone,
-          company: form.company,
-          client_type: form.client_type,
-          notes: form.notes,
-        },
-      });
-
-      if (response.error || response.data?.error) {
-        toast.error("Erro ao criar cliente: " + (response.data?.error || response.error?.message));
-      } else {
-        toast.success(`Cliente ${form.full_name} adicionado com sucesso!`);
-        setForm({ full_name: "", email: "", phone: "", company: "", client_type: "novo", notes: "" });
-        setOpen(false);
-        fetchClients();
-      }
-    } catch (err: any) {
-      toast.error("Erro inesperado: " + err.message);
+    if (editingClient) {
+      const { error } = await supabase.from("profiles").update({
+        full_name: form.full_name,
+        phone: form.phone || null,
+        company: form.company || null,
+        client_type: form.client_type,
+        notes: form.notes || null,
+      }).eq("id", editingClient.id);
+      if (error) toast.error("Erro ao atualizar cliente");
+      else { toast.success("Cliente atualizado!"); setOpen(false); setEditingClient(null); fetchClients(); }
+    } else {
+      try {
+        const { data: { session } } = await supabase.auth.getSession();
+        if (!session) { toast.error("Você precisa estar logado"); setLoading(false); return; }
+        const response = await supabase.functions.invoke("create-client", {
+          body: { email: form.email, full_name: form.full_name, phone: form.phone, company: form.company, client_type: form.client_type, notes: form.notes },
+        });
+        if (response.error || response.data?.error) {
+          toast.error("Erro ao criar cliente: " + (response.data?.error || response.error?.message));
+        } else {
+          toast.success(`Cliente ${form.full_name} adicionado com sucesso!`);
+          setOpen(false);
+          fetchClients();
+        }
+      } catch (err: any) { toast.error("Erro inesperado: " + err.message); }
     }
+    setForm({ full_name: "", email: "", phone: "", company: "", client_type: "novo", notes: "" });
     setLoading(false);
   };
 
@@ -164,18 +181,18 @@ const ClientsTab = () => {
             </AlertDialog>
           )}
         </div>
-        <Dialog open={open} onOpenChange={setOpen}>
+        <Dialog open={open} onOpenChange={(o) => { if (!o) setEditingClient(null); setOpen(o); }}>
           <DialogTrigger asChild>
-            <Button className="gap-2">
+            <Button className="gap-2" onClick={openCreateDialog}>
               <UserPlus className="h-4 w-4" />
               Novo Cliente
             </Button>
           </DialogTrigger>
           <DialogContent className="sm:max-w-md">
             <DialogHeader>
-              <DialogTitle style={{ fontFamily: "var(--font-display)" }}>Adicionar Cliente</DialogTitle>
+              <DialogTitle style={{ fontFamily: "var(--font-display)" }}>{editingClient ? "Editar Cliente" : "Adicionar Cliente"}</DialogTitle>
             </DialogHeader>
-            <form onSubmit={handleCreate} className="space-y-4 mt-2">
+            <form onSubmit={handleSubmit} className="space-y-4 mt-2">
               <div className="grid grid-cols-2 gap-3">
                 <div className="col-span-2 space-y-1.5">
                   <label className="text-xs uppercase tracking-wider text-muted-foreground font-medium">Nome completo *</label>
@@ -251,7 +268,7 @@ const ClientsTab = () => {
               <div className="flex justify-end gap-2 pt-2">
                 <Button type="button" variant="ghost" onClick={() => setOpen(false)}>Cancelar</Button>
                 <Button type="submit" disabled={loading}>
-                  {loading ? "Adicionando..." : "Adicionar Cliente"}
+                  {loading ? "Salvando..." : editingClient ? "Salvar Alterações" : "Adicionar Cliente"}
                 </Button>
               </div>
             </form>
@@ -310,9 +327,14 @@ const ClientsTab = () => {
                     </div>
                   </div>
                 </div>
-                <span className="text-xs px-2.5 py-1 rounded-full bg-primary/10 text-primary font-medium">
-                  {clientTypeLabels[client.client_type || "novo"] || client.client_type}
-                </span>
+                <div className="flex items-center gap-2">
+                  <span className="text-xs px-2.5 py-1 rounded-full bg-primary/10 text-primary font-medium">
+                    {clientTypeLabels[client.client_type || "novo"] || client.client_type}
+                  </span>
+                  <Button variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground hover:text-primary" onClick={() => openEditDialog(client)}>
+                    <Pencil className="h-3.5 w-3.5" />
+                  </Button>
+                </div>
               </div>
               {client.notes && (
                 <p className="text-xs text-muted-foreground mt-3 border-t border-border pt-3 ml-8">{client.notes}</p>

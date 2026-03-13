@@ -7,7 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { Checkbox } from "@/components/ui/checkbox";
-import { DollarSign, Plus, Calendar, CreditCard, TrendingUp, Trash2 } from "lucide-react";
+import { DollarSign, Plus, Calendar, CreditCard, TrendingUp, Trash2, Pencil } from "lucide-react";
 import { toast } from "sonner";
 
 interface Project { id: string; name: string; }
@@ -34,6 +34,7 @@ const FinanceTab = () => {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
+  const [editingPayment, setEditingPayment] = useState<Payment | null>(null);
   const [form, setForm] = useState({
     project_id: "",
     budget_total: "",
@@ -65,10 +66,32 @@ const FinanceTab = () => {
   const initialNum = parseFloat(form.initial_payment) || 0;
   const autoRemaining = Math.max(0, budgetNum - initialNum);
 
-  const handleCreate = async (e: React.FormEvent) => {
+  const openCreateDialog = () => {
+    setEditingPayment(null);
+    setForm({ project_id: "", budget_total: "", initial_payment: "", initial_payment_date: "", remaining_amount: "", installments_total: "1", installments_paid: "0", next_payment_date: "", notes: "" });
+    setOpen(true);
+  };
+
+  const openEditDialog = (payment: Payment) => {
+    setEditingPayment(payment);
+    setForm({
+      project_id: payment.project_id,
+      budget_total: String(payment.budget_total),
+      initial_payment: String(payment.initial_payment ?? ""),
+      initial_payment_date: payment.initial_payment_date ?? "",
+      remaining_amount: String(payment.remaining_amount ?? ""),
+      installments_total: String(payment.installments_total ?? "1"),
+      installments_paid: String(payment.installments_paid ?? "0"),
+      next_payment_date: payment.next_payment_date ?? "",
+      notes: payment.notes ?? "",
+    });
+    setOpen(true);
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    const { error } = await supabase.from("payments").insert({
+    const payload = {
       project_id: form.project_id,
       budget_total: budgetNum,
       initial_payment: initialNum,
@@ -78,15 +101,18 @@ const FinanceTab = () => {
       installments_paid: parseInt(form.installments_paid) || 0,
       next_payment_date: form.next_payment_date || null,
       notes: form.notes || null,
-    });
-    if (error) {
-      toast.error("Erro ao salvar dados financeiros");
+    };
+
+    if (editingPayment) {
+      const { error } = await supabase.from("payments").update(payload).eq("id", editingPayment.id);
+      if (error) toast.error("Erro ao atualizar");
+      else { toast.success("Registro atualizado!"); setOpen(false); setEditingPayment(null); fetchPayments(); }
     } else {
-      toast.success("Dados financeiros salvos!");
-      setOpen(false);
-      setForm({ project_id: "", budget_total: "", initial_payment: "", initial_payment_date: "", remaining_amount: "", installments_total: "1", installments_paid: "0", next_payment_date: "", notes: "" });
-      fetchPayments();
+      const { error } = await supabase.from("payments").insert(payload);
+      if (error) toast.error("Erro ao salvar dados financeiros");
+      else { toast.success("Dados financeiros salvos!"); setOpen(false); fetchPayments(); }
     }
+    setForm({ project_id: "", budget_total: "", initial_payment: "", initial_payment_date: "", remaining_amount: "", installments_total: "1", installments_paid: "0", next_payment_date: "", notes: "" });
     setLoading(false);
   };
 
@@ -183,15 +209,15 @@ const FinanceTab = () => {
             </AlertDialog>
           )}
         </div>
-        <Dialog open={open} onOpenChange={setOpen}>
+        <Dialog open={open} onOpenChange={(o) => { if (!o) setEditingPayment(null); setOpen(o); }}>
           <DialogTrigger asChild>
-            <Button className="gap-2"><Plus className="h-4 w-4" /> Novo Registro</Button>
+            <Button className="gap-2" onClick={openCreateDialog}><Plus className="h-4 w-4" /> Novo Registro</Button>
           </DialogTrigger>
           <DialogContent className="sm:max-w-md">
             <DialogHeader>
-              <DialogTitle style={{ fontFamily: "var(--font-display)" }}>Dados Financeiros</DialogTitle>
+              <DialogTitle style={{ fontFamily: "var(--font-display)" }}>{editingPayment ? "Editar Registro" : "Dados Financeiros"}</DialogTitle>
             </DialogHeader>
-            <form onSubmit={handleCreate} className="space-y-4 mt-2">
+            <form onSubmit={handleSubmit} className="space-y-4 mt-2">
               <div className="space-y-1.5">
                 <label className="text-xs uppercase tracking-wider text-muted-foreground font-medium">Projeto *</label>
                 <Select value={form.project_id} onValueChange={(v) => setForm({ ...form, project_id: v })}>
@@ -244,7 +270,7 @@ const FinanceTab = () => {
               <div className="flex justify-end gap-2 pt-2">
                 <Button type="button" variant="ghost" onClick={() => setOpen(false)}>Cancelar</Button>
                 <Button type="submit" disabled={loading || !form.project_id}>
-                  {loading ? "Salvando..." : "Salvar"}
+                  {loading ? "Salvando..." : editingPayment ? "Salvar Alterações" : "Salvar"}
                 </Button>
               </div>
             </form>
@@ -291,11 +317,16 @@ const FinanceTab = () => {
                           Orçamento: {formatCurrency(Number(payment.budget_total))}
                         </p>
                       </div>
-                      <div className="text-right">
-                        <p className="text-lg font-semibold text-primary" style={{ fontFamily: "var(--font-display)" }}>
-                          {formatCurrency(Number(payment.remaining_amount))}
-                        </p>
-                        <p className="text-[10px] text-muted-foreground uppercase tracking-wider">a receber</p>
+                      <div className="flex items-start gap-2">
+                        <div className="text-right">
+                          <p className="text-lg font-semibold text-primary" style={{ fontFamily: "var(--font-display)" }}>
+                            {formatCurrency(Number(payment.remaining_amount))}
+                          </p>
+                          <p className="text-[10px] text-muted-foreground uppercase tracking-wider">a receber</p>
+                        </div>
+                        <Button variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground hover:text-primary" onClick={() => openEditDialog(payment)}>
+                          <Pencil className="h-3.5 w-3.5" />
+                        </Button>
                       </div>
                     </div>
                     <div className="grid grid-cols-3 gap-3 pt-2 border-t border-border">

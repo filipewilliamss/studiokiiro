@@ -123,8 +123,16 @@ const ClientDashboard = () => {
         .order("created_at", { ascending: false });
       if (data) setQuotes(data as any);
     };
+    const fetchServiceOrders = async () => {
+      const { data } = await supabase
+        .from("service_orders")
+        .select("*, profiles(full_name, email)")
+        .order("created_at", { ascending: false });
+      if (data) setServiceOrders(data as any);
+    };
     fetchProjects();
     fetchQuotes();
+    fetchServiceOrders();
   }, []);
 
   // Realtime messages

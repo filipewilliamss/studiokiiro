@@ -262,7 +262,7 @@ const ProjectModal = ({ project, onClose }: ProjectModalProps) => {
               <img
                 src={project.logo}
                 alt={`Logo ${project.title}`}
-                className="w-[280%] max-w-none object-contain"
+                className="w-[196%] max-w-none object-contain"
               />
             </div>
           </div>

@@ -82,18 +82,12 @@ const AdminDashboard = () => {
         />
       )}
 
-      {/* Layered background */}
-      <div className="fixed inset-0 bg-background" />
+      {/* Layered background - white */}
+      <div className="fixed inset-0 bg-white" />
       <div
-        className="fixed inset-0 pointer-events-none"
+        className="fixed inset-0 pointer-events-none opacity-[0.04]"
         style={{
-          backgroundImage: `radial-gradient(ellipse 80% 60% at 50% 30%, hsl(var(--secondary)) 0%, transparent 70%)`,
-        }}
-      />
-      <div
-        className="fixed inset-0 pointer-events-none opacity-[0.03]"
-        style={{
-          backgroundImage: `linear-gradient(hsl(var(--border)) 1px, transparent 1px), linear-gradient(90deg, hsl(var(--border)) 1px, transparent 1px)`,
+          backgroundImage: `linear-gradient(hsl(0 0% 80%) 1px, transparent 1px), linear-gradient(90deg, hsl(0 0% 80%) 1px, transparent 1px)`,
           backgroundSize: "48px 48px",
         }}
       />

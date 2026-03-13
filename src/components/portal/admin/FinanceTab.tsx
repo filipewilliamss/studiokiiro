@@ -66,10 +66,32 @@ const FinanceTab = () => {
   const initialNum = parseFloat(form.initial_payment) || 0;
   const autoRemaining = Math.max(0, budgetNum - initialNum);
 
-  const handleCreate = async (e: React.FormEvent) => {
+  const openCreateDialog = () => {
+    setEditingPayment(null);
+    setForm({ project_id: "", budget_total: "", initial_payment: "", initial_payment_date: "", remaining_amount: "", installments_total: "1", installments_paid: "0", next_payment_date: "", notes: "" });
+    setOpen(true);
+  };
+
+  const openEditDialog = (payment: Payment) => {
+    setEditingPayment(payment);
+    setForm({
+      project_id: payment.project_id,
+      budget_total: String(payment.budget_total),
+      initial_payment: String(payment.initial_payment ?? ""),
+      initial_payment_date: payment.initial_payment_date ?? "",
+      remaining_amount: String(payment.remaining_amount ?? ""),
+      installments_total: String(payment.installments_total ?? "1"),
+      installments_paid: String(payment.installments_paid ?? "0"),
+      next_payment_date: payment.next_payment_date ?? "",
+      notes: payment.notes ?? "",
+    });
+    setOpen(true);
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    const { error } = await supabase.from("payments").insert({
+    const payload = {
       project_id: form.project_id,
       budget_total: budgetNum,
       initial_payment: initialNum,
@@ -79,15 +101,18 @@ const FinanceTab = () => {
       installments_paid: parseInt(form.installments_paid) || 0,
       next_payment_date: form.next_payment_date || null,
       notes: form.notes || null,
-    });
-    if (error) {
-      toast.error("Erro ao salvar dados financeiros");
+    };
+
+    if (editingPayment) {
+      const { error } = await supabase.from("payments").update(payload).eq("id", editingPayment.id);
+      if (error) toast.error("Erro ao atualizar");
+      else { toast.success("Registro atualizado!"); setOpen(false); setEditingPayment(null); fetchPayments(); }
     } else {
-      toast.success("Dados financeiros salvos!");
-      setOpen(false);
-      setForm({ project_id: "", budget_total: "", initial_payment: "", initial_payment_date: "", remaining_amount: "", installments_total: "1", installments_paid: "0", next_payment_date: "", notes: "" });
-      fetchPayments();
+      const { error } = await supabase.from("payments").insert(payload);
+      if (error) toast.error("Erro ao salvar dados financeiros");
+      else { toast.success("Dados financeiros salvos!"); setOpen(false); fetchPayments(); }
     }
+    setForm({ project_id: "", budget_total: "", initial_payment: "", initial_payment_date: "", remaining_amount: "", installments_total: "1", installments_paid: "0", next_payment_date: "", notes: "" });
     setLoading(false);
   };
 

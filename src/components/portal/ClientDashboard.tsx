@@ -266,22 +266,7 @@ const ClientDashboard = () => {
 
   // Shared wrapper for both views
   const PageWrapper = ({ children }: { children: React.ReactNode }) => (
-    <div
-      className="min-h-screen relative"
-      onMouseMove={handleMouseMove}
-      onMouseEnter={() => setIsInPanel(true)}
-      onMouseLeave={() => setIsInPanel(false)}
-    >
-      {/* Custom cursor */}
-      {isInPanel && (
-        <div
-          className="fixed w-8 h-8 rounded-full border-2 border-primary/40 pointer-events-none z-[9999] mix-blend-difference transition-[width,height,border-color] duration-150"
-          style={{
-            transform: `translate(${cursorPos.x - 16}px, ${cursorPos.y - 16}px)`,
-            willChange: 'transform',
-          }}
-        />
-      )}
+    <div className="min-h-screen relative">
       {/* Layered background */}
       <div className="fixed inset-0 bg-white" />
       <div

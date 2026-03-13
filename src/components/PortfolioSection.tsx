@@ -196,28 +196,39 @@ const UniformCard = ({
         }}
         transition={{ type: "spring", stiffness: 200, damping: 25 }}
       >
-        {/* Cursor glow */}
-        <motion.div
-          className="absolute inset-0 pointer-events-none z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-          style={{
-            background: `radial-gradient(circle at ${glowX}% ${glowY}%, hsl(var(--primary) / 0.25) 0%, transparent 60%)`,
-          }}
-        />
-
+        {/* Background logo layer (stays still for depth) */}
         <motion.div
           style={{ y: imgY }}
-          className="absolute inset-0 flex items-center justify-center p-14 md:p-20"
+          className="absolute inset-0 flex items-center justify-center p-6 md:p-10"
+        >
+          <motion.img
+            src={project.logo}
+            alt=""
+            className="w-[85%] h-[85%] object-contain opacity-15 blur-[2px] select-none"
+            animate={{
+              scale: isHovered ? 0.95 : 1,
+            }}
+            transition={{ type: "spring", stiffness: 120, damping: 25 }}
+          />
+        </motion.div>
+
+        {/* Foreground logo layer (follows cursor, feels detached) */}
+        <motion.div
+          className="absolute inset-0 flex items-center justify-center p-6 md:p-10 z-10"
         >
           <motion.img
             src={project.logo}
             alt={`Logo ${project.title}`}
-            className="max-w-[90%] max-h-[85%] object-contain"
+            className="w-[85%] h-[85%] object-contain drop-shadow-[0_8px_24px_rgba(0,0,0,0.5)]"
             animate={{
-              scale: isHovered ? 1.12 : 1,
-              x: isHovered ? (mousePos.x - 0.5) * 15 : 0,
-              y: isHovered ? (mousePos.y - 0.5) * 15 : 0,
+              scale: isHovered ? 1.18 : 1,
+              x: isHovered ? (mousePos.x - 0.5) * 30 : 0,
+              y: isHovered ? (mousePos.y - 0.5) * 30 : 0,
+              rotateX: isHovered ? (mousePos.y - 0.5) * -6 : 0,
+              rotateY: isHovered ? (mousePos.x - 0.5) * 6 : 0,
             }}
-            transition={{ type: "spring", stiffness: 150, damping: 20 }}
+            transition={{ type: "spring", stiffness: 180, damping: 18 }}
+            style={{ perspective: 600 }}
           />
         </motion.div>
 

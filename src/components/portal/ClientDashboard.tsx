@@ -81,8 +81,6 @@ const ClientDashboard = () => {
   const [sendingMessage, setSendingMessage] = useState(false);
   const [isLoadingFiles, setIsLoadingFiles] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 });
-  const [isInPanel, setIsInPanel] = useState(false);
 
   // Briefing state
   const [briefingSubmitted, setBriefingSubmitted] = useState<boolean>(false);

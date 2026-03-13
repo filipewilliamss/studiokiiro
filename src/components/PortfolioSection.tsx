@@ -206,7 +206,7 @@ const UniformCard = ({
             alt=""
             className="w-[85%] h-[85%] object-contain opacity-15 blur-[2px] select-none"
             animate={{
-              scale: isHovered ? 0.95 : 1,
+              scale: isHovered ? baseLogoScale * 0.95 : baseLogoScale,
             }}
             transition={{ type: "spring", stiffness: 120, damping: 25 }}
           />

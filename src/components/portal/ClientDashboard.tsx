@@ -665,7 +665,8 @@ const ClientDashboard = () => {
                   <div className="flex gap-2">
                     <Button
                       onClick={() => respondToQuote(quote, "aprovado")}
-                      className="flex-1 gap-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white"
+                      className="flex-1 gap-2 rounded-xl"
+                      style={{ backgroundColor: "hsl(142, 71%, 35%)", color: "white" }}
                     >
                       <ThumbsUp className="h-4 w-4" />
                       Aprovar Orçamento

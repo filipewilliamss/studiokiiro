@@ -317,11 +317,16 @@ const FinanceTab = () => {
                           Orçamento: {formatCurrency(Number(payment.budget_total))}
                         </p>
                       </div>
-                      <div className="text-right">
-                        <p className="text-lg font-semibold text-primary" style={{ fontFamily: "var(--font-display)" }}>
-                          {formatCurrency(Number(payment.remaining_amount))}
-                        </p>
-                        <p className="text-[10px] text-muted-foreground uppercase tracking-wider">a receber</p>
+                      <div className="flex items-start gap-2">
+                        <div className="text-right">
+                          <p className="text-lg font-semibold text-primary" style={{ fontFamily: "var(--font-display)" }}>
+                            {formatCurrency(Number(payment.remaining_amount))}
+                          </p>
+                          <p className="text-[10px] text-muted-foreground uppercase tracking-wider">a receber</p>
+                        </div>
+                        <Button variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground hover:text-primary" onClick={() => openEditDialog(payment)}>
+                          <Pencil className="h-3.5 w-3.5" />
+                        </Button>
                       </div>
                     </div>
                     <div className="grid grid-cols-3 gap-3 pt-2 border-t border-border">

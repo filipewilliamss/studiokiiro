@@ -142,7 +142,7 @@ const ServiceOrdersTab = () => {
       terms_conditions: form.terms_conditions || null,
       notes: form.notes || null,
       status: form.status,
-      items: form.items.filter(i => i.description.trim()),
+      items: form.items.filter(i => i.description.trim()) as unknown as any,
       deadline: form.deadline || null,
     };
 

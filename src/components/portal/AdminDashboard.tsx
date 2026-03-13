@@ -42,9 +42,6 @@ const AdminDashboard = () => {
     fetchCounts();
   }, [activeTab]);
 
-  const handleMouseMove = useCallback((e: React.MouseEvent) => {
-    setCursorPos({ x: e.clientX, y: e.clientY });
-  }, []);
 
   const summaryCards = [
     { label: "Clientes ativos", value: counts.clients, icon: Users },

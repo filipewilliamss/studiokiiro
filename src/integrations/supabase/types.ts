@@ -261,6 +261,122 @@ export type Database = {
           },
         ]
       }
+      quotes: {
+        Row: {
+          client_id: string
+          client_response_at: string | null
+          created_at: string
+          description: string | null
+          id: string
+          items: Json
+          notes: string | null
+          payment_terms: string | null
+          project_type: string
+          sequential_number: number
+          status: string
+          total_value: number
+          validity_date: string | null
+        }
+        Insert: {
+          client_id: string
+          client_response_at?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          items?: Json
+          notes?: string | null
+          payment_terms?: string | null
+          project_type?: string
+          sequential_number?: number
+          status?: string
+          total_value?: number
+          validity_date?: string | null
+        }
+        Update: {
+          client_id?: string
+          client_response_at?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          items?: Json
+          notes?: string | null
+          payment_terms?: string | null
+          project_type?: string
+          sequential_number?: number
+          status?: string
+          total_value?: number
+          validity_date?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "quotes_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      service_orders: {
+        Row: {
+          client_id: string
+          created_at: string
+          description: string | null
+          id: string
+          notes: string | null
+          payment_terms: string | null
+          project_id: string | null
+          sequential_number: number
+          service_type: string
+          status: string
+          terms_conditions: string | null
+          total_value: number
+        }
+        Insert: {
+          client_id: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          notes?: string | null
+          payment_terms?: string | null
+          project_id?: string | null
+          sequential_number?: number
+          service_type?: string
+          status?: string
+          terms_conditions?: string | null
+          total_value?: number
+        }
+        Update: {
+          client_id?: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          notes?: string | null
+          payment_terms?: string | null
+          project_id?: string | null
+          sequential_number?: number
+          service_type?: string
+          status?: string
+          terms_conditions?: string | null
+          total_value?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "service_orders_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "service_orders_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       user_roles: {
         Row: {
           id: string

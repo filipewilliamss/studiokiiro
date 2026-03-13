@@ -287,7 +287,6 @@ const UniformCard = ({
 };
 
 export default PortfolioSection;
-const FeaturedCard = ({
   project,
   isHovered,
   onHover,

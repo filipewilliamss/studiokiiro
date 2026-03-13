@@ -649,24 +649,37 @@ const ClientDashboard = () => {
 
   // Project list view (main dashboard)
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-white">
       <Navbar />
-      <header className="border-b border-primary/10 bg-card/80 backdrop-blur-xl sticky top-16 md:top-20 z-30 mt-16 md:mt-20">
+      <header className="border-b border-black/10 bg-white/70 backdrop-blur-xl sticky top-16 md:top-20 z-30 mt-16 md:mt-20">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between">
-          <h2 className="text-sm font-medium text-primary uppercase tracking-widest font-display">Área do Cliente</h2>
-          <Button variant="ghost" size="sm" onClick={signOut} className="text-muted-foreground hover:text-foreground">
+          <div className="flex items-center gap-3">
+            <Sparkles className="h-3.5 w-3.5 text-primary" />
+            <h2 className="text-sm font-medium text-primary uppercase tracking-widest font-display">Área do Cliente</h2>
+          </div>
+          <Button variant="ghost" size="sm" onClick={signOut} className="text-black/50 hover:text-black">
             <LogOut className="h-4 w-4 mr-2" />Sair
           </Button>
         </div>
       </header>
 
       <main className="max-w-5xl mx-auto px-4 sm:px-6 py-8 space-y-8">
-        {/* Welcome with gradient accent */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
-          <h1 className="text-3xl font-bold text-foreground font-display">
-            Olá, <span className="text-gradient-kiiro">{profile?.full_name || "Cliente"}</span>.
-          </h1>
-          <p className="text-sm text-muted-foreground mt-1">Acompanhe seus projetos em tempo real.</p>
+        {/* Welcome hero card with yellow background */}
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="relative">
+          <div className="absolute -inset-4 rounded-3xl bg-primary/20 blur-2xl pointer-events-none" />
+          <div className="relative overflow-hidden rounded-2xl border border-primary/30 bg-primary p-7 sm:p-9 shadow-2xl shadow-primary/20">
+            <div className="absolute top-0 right-0 w-96 h-96 bg-white/[0.08] rounded-full blur-[100px] -translate-y-1/2 translate-x-1/4 pointer-events-none" />
+            <div className="relative">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-black/10 border border-black/10 mb-4">
+                <span className="w-1.5 h-1.5 rounded-full bg-primary-foreground animate-pulse" />
+                <span className="text-[10px] uppercase tracking-[0.3em] text-primary-foreground font-semibold">Painel ativo</span>
+              </div>
+              <h1 className="text-3xl font-bold text-primary-foreground font-display">
+                Olá, {profile?.full_name || "Cliente"}.
+              </h1>
+              <p className="text-sm text-primary-foreground/70 mt-2">Acompanhe seus projetos em tempo real.</p>
+            </div>
+          </div>
         </motion.div>
 
         {/* Pending quotes banner */}

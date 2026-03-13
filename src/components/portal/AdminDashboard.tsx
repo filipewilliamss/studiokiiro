@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import Navbar from "@/components/Navbar";
@@ -25,8 +25,6 @@ const AdminDashboard = () => {
   const { profile, signOut } = useAuth();
   const [activeTab, setActiveTab] = useState<TabKey>("clients");
   const [counts, setCounts] = useState({ clients: 0, projects: 0, quotes: 0 });
-  const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 });
-  const [isInPanel, setIsInPanel] = useState(false);
 
   useEffect(() => {
     const fetchCounts = async () => {
@@ -44,9 +42,6 @@ const AdminDashboard = () => {
     fetchCounts();
   }, [activeTab]);
 
-  const handleMouseMove = useCallback((e: React.MouseEvent) => {
-    setCursorPos({ x: e.clientX, y: e.clientY });
-  }, []);
 
   const summaryCards = [
     { label: "Clientes ativos", value: counts.clients, icon: Users },
@@ -65,23 +60,7 @@ const AdminDashboard = () => {
   };
 
   return (
-    <div
-      className="min-h-screen relative"
-      onMouseMove={handleMouseMove}
-      onMouseEnter={() => setIsInPanel(true)}
-      onMouseLeave={() => setIsInPanel(false)}
-    >
-      {/* Custom cursor */}
-      {isInPanel && (
-        <div
-          className="fixed w-8 h-8 rounded-full border-2 border-primary/40 pointer-events-none z-[9999] mix-blend-difference transition-[width,height,border-color] duration-150"
-          style={{
-            transform: `translate(${cursorPos.x - 16}px, ${cursorPos.y - 16}px)`,
-            willChange: 'transform',
-          }}
-        />
-      )}
-
+    <div className="min-h-screen relative">
       {/* Layered background */}
       <div className="fixed inset-0 bg-white" />
       {/* Radial gradient for depth */}

@@ -299,8 +299,8 @@ const ClientsTab = () => {
           filtered.map((client) => (
             <div
               key={client.id}
-              className={`relative bg-card/60 border rounded-xl p-5 transition-all duration-300 group hover:shadow-lg hover:shadow-primary/[0.03] overflow-hidden ${
-                selectedIds.has(client.id) ? "border-primary/40 bg-primary/[0.03]" : "border-border/40 hover:border-primary/25"
+              className={`relative bg-black border rounded-xl p-5 transition-all duration-300 group hover:shadow-lg hover:shadow-primary/[0.05] overflow-hidden ${
+                selectedIds.has(client.id) ? "border-primary/40" : "border-black/80 hover:border-primary/25"
               }`}
             >
               {/* Yellow accent line on hover */}
@@ -314,21 +314,21 @@ const ClientsTab = () => {
                     className="mt-1"
                   />
                   <div className="space-y-1.5">
-                    <h3 className="font-display font-semibold text-[15px] text-foreground group-hover:text-primary transition-colors duration-300">{client.full_name || "Sem nome"}</h3>
-                    <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-muted-foreground">
+                    <h3 className="font-display font-semibold text-[15px] text-white group-hover:text-primary transition-colors duration-300">{client.full_name || "Sem nome"}</h3>
+                    <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-white/50">
                       {client.email && (
                         <span className="flex items-center gap-1.5">
-                          <Mail className="h-3 w-3 text-muted-foreground/60" /> {client.email}
+                          <Mail className="h-3 w-3 text-white/30" /> {client.email}
                         </span>
                       )}
                       {client.phone && (
                         <span className="flex items-center gap-1.5">
-                          <Phone className="h-3 w-3 text-muted-foreground/60" /> {client.phone}
+                          <Phone className="h-3 w-3 text-white/30" /> {client.phone}
                         </span>
                       )}
                       {client.company && (
                         <span className="flex items-center gap-1.5">
-                          <Building2 className="h-3 w-3 text-muted-foreground/60" /> {client.company}
+                          <Building2 className="h-3 w-3 text-white/30" /> {client.company}
                         </span>
                       )}
                     </div>
@@ -338,13 +338,13 @@ const ClientsTab = () => {
                   <span className="text-[11px] px-3 py-1 rounded-full bg-primary/10 text-primary font-semibold border border-primary/15 tracking-wide">
                     {clientTypeLabels[client.client_type || "novo"] || client.client_type}
                   </span>
-                  <Button variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground hover:text-primary hover:bg-primary/10 transition-all duration-300" onClick={() => openEditDialog(client)}>
+                  <Button variant="ghost" size="icon" className="h-8 w-8 text-white/40 hover:text-primary hover:bg-primary/10 transition-all duration-300" onClick={() => openEditDialog(client)}>
                     <Pencil className="h-3.5 w-3.5" />
                   </Button>
                 </div>
               </div>
               {client.notes && (
-                <p className="text-xs text-muted-foreground/80 mt-3 border-t border-border/30 pt-3 ml-8">{client.notes}</p>
+                <p className="text-xs text-white/40 mt-3 border-t border-white/10 pt-3 ml-8">{client.notes}</p>
               )}
             </div>
           ))

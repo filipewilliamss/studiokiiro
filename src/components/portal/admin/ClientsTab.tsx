@@ -327,9 +327,14 @@ const ClientsTab = () => {
                     </div>
                   </div>
                 </div>
-                <span className="text-xs px-2.5 py-1 rounded-full bg-primary/10 text-primary font-medium">
-                  {clientTypeLabels[client.client_type || "novo"] || client.client_type}
-                </span>
+                <div className="flex items-center gap-2">
+                  <span className="text-xs px-2.5 py-1 rounded-full bg-primary/10 text-primary font-medium">
+                    {clientTypeLabels[client.client_type || "novo"] || client.client_type}
+                  </span>
+                  <Button variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground hover:text-primary" onClick={() => openEditDialog(client)}>
+                    <Pencil className="h-3.5 w-3.5" />
+                  </Button>
+                </div>
               </div>
               {client.notes && (
                 <p className="text-xs text-muted-foreground mt-3 border-t border-border pt-3 ml-8">{client.notes}</p>

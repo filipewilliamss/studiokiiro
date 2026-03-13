@@ -221,7 +221,7 @@ const UniformCard = ({
             alt={`Logo ${project.title}`}
             className="w-[85%] h-[85%] object-contain drop-shadow-[0_8px_24px_rgba(0,0,0,0.5)]"
             animate={{
-              scale: isHovered ? 1.18 : 1,
+              scale: isHovered ? baseLogoScale * 1.18 : baseLogoScale,
               x: isHovered ? (mousePos.x - 0.5) * 30 : 0,
               y: isHovered ? (mousePos.y - 0.5) * 30 : 0,
               rotateX: isHovered ? (mousePos.y - 0.5) * -6 : 0,

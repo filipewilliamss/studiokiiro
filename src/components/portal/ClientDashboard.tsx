@@ -268,7 +268,7 @@ const ClientDashboard = () => {
     return (
       <div className="min-h-screen bg-white">
         <Navbar />
-        <header className="border-b border-primary/10 bg-card/80 backdrop-blur-xl sticky top-16 md:top-20 z-30 mt-16 md:mt-20">
+        <header className="border-b border-black/10 bg-white/70 backdrop-blur-xl sticky top-16 md:top-20 z-30 mt-16 md:mt-20">
           <div className="max-w-5xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between">
             <button onClick={() => setSelectedProject(null)} className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors group">
               <ArrowLeft className="h-4 w-4 group-hover:-translate-x-1 transition-transform" />

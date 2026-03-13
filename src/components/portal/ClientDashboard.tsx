@@ -225,6 +225,36 @@ const ClientDashboard = () => {
     }
   };
 
+  const getOsHash = (order: ServiceOrder) => {
+    const date = new Date(order.created_at);
+    return `${date.getFullYear()}${String(date.getMonth() + 1).padStart(2, "0")}${String(order.sequential_number).padStart(4, "0")}`;
+  };
+
+  const formatCurrencyValue = (v: number) =>
+    new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(v);
+
+  const formatDateLong = (dateStr: string) => {
+    const date = new Date(dateStr);
+    return date.toLocaleDateString("pt-BR", { day: "numeric", month: "long", year: "numeric" });
+  };
+
+  const formatDateTimeLong = (dateStr: string) => {
+    const date = new Date(dateStr);
+    return `${date.toLocaleDateString("pt-BR", { day: "numeric", month: "long", year: "numeric" })} às ${date.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" })}`;
+  };
+
+  const handlePrintOS = () => {
+    if (!osPrintRef.current) return;
+    const printWindow = window.open("", "_blank");
+    if (!printWindow) return;
+    printWindow.document.write(`<!DOCTYPE html><html><head><title>Ordem de Serviço</title>
+      <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+      <style>* { margin: 0; padding: 0; box-sizing: border-box; } body { font-family: 'Space Grotesk', sans-serif; color: #1a1a1a; } @media print { body { -webkit-print-color-adjust: exact; print-color-adjust: exact; } }</style>
+    </head><body>${osPrintRef.current.innerHTML}</body></html>`);
+    printWindow.document.close();
+    setTimeout(() => { printWindow.print(); }, 500);
+  };
+
   const activeProjects = projects.filter((p) => p.status !== "entregue");
   const completedProjects = projects.filter((p) => p.status === "entregue");
   const completedStages = stages.filter((s) => s.status === "concluida").length;

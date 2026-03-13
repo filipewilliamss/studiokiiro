@@ -213,12 +213,9 @@ const AdminDashboard = () => {
             transition={{ duration: 0.5, delay: 0.25 }}
             className="relative"
           >
-            {/* Outer glow */}
-            <div className="absolute -inset-1 rounded-3xl bg-gradient-to-b from-primary/[0.03] via-transparent to-transparent pointer-events-none" />
-
-            <div className="relative rounded-2xl border border-border/40 bg-card/40 backdrop-blur-md shadow-2xl shadow-background/60 p-1.5 sm:p-2.5">
+            <div className="relative rounded-2xl border border-black/10 bg-background shadow-2xl shadow-black/5 p-1.5 sm:p-2.5">
               {/* Inner pane */}
-              <div className="rounded-xl border border-border/20 bg-card/70 backdrop-blur-sm p-5 sm:p-7 min-h-[400px]">
+              <div className="rounded-xl border border-black/5 bg-background p-5 sm:p-7 min-h-[400px]">
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={activeTab}

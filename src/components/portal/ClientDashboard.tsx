@@ -266,7 +266,7 @@ const ClientDashboard = () => {
   // Project detail view
   if (selectedProject) {
     return (
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen bg-white">
         <Navbar />
         <header className="border-b border-primary/10 bg-card/80 backdrop-blur-xl sticky top-16 md:top-20 z-30 mt-16 md:mt-20">
           <div className="max-w-5xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between">

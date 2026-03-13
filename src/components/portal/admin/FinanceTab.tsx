@@ -34,6 +34,7 @@ const FinanceTab = () => {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
+  const [editingPayment, setEditingPayment] = useState<Payment | null>(null);
   const [form, setForm] = useState({
     project_id: "",
     budget_total: "",

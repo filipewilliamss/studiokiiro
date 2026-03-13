@@ -93,6 +93,11 @@ const ClientDashboard = () => {
   const [quotes, setQuotes] = useState<Quote[]>([]);
   const [respondingQuote, setRespondingQuote] = useState<Quote | null>(null);
 
+  // Service orders state
+  const [serviceOrders, setServiceOrders] = useState<ServiceOrder[]>([]);
+  const [viewOrder, setViewOrder] = useState<ServiceOrder | null>(null);
+  const osPrintRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     const fetchProjects = async () => {
       const { data } = await supabase

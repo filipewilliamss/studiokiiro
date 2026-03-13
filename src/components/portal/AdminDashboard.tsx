@@ -106,7 +106,7 @@ const AdminDashboard = () => {
                 Última atualização há 2 min
               </span>
             </div>
-            <Button variant="ghost" size="sm" onClick={signOut} className="text-muted-foreground hover:text-foreground gap-2 text-xs hover:bg-secondary/60 transition-all duration-300">
+            <Button variant="ghost" size="sm" onClick={signOut} className="text-black/50 hover:text-black gap-2 text-xs hover:bg-black/5 transition-all duration-300">
               <LogOut className="h-3.5 w-3.5" />
               Sair
             </Button>

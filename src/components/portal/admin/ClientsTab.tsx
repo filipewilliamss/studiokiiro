@@ -181,18 +181,18 @@ const ClientsTab = () => {
             </AlertDialog>
           )}
         </div>
-        <Dialog open={open} onOpenChange={setOpen}>
+        <Dialog open={open} onOpenChange={(o) => { if (!o) setEditingClient(null); setOpen(o); }}>
           <DialogTrigger asChild>
-            <Button className="gap-2">
+            <Button className="gap-2" onClick={openCreateDialog}>
               <UserPlus className="h-4 w-4" />
               Novo Cliente
             </Button>
           </DialogTrigger>
           <DialogContent className="sm:max-w-md">
             <DialogHeader>
-              <DialogTitle style={{ fontFamily: "var(--font-display)" }}>Adicionar Cliente</DialogTitle>
+              <DialogTitle style={{ fontFamily: "var(--font-display)" }}>{editingClient ? "Editar Cliente" : "Adicionar Cliente"}</DialogTitle>
             </DialogHeader>
-            <form onSubmit={handleCreate} className="space-y-4 mt-2">
+            <form onSubmit={handleSubmit} className="space-y-4 mt-2">
               <div className="grid grid-cols-2 gap-3">
                 <div className="col-span-2 space-y-1.5">
                   <label className="text-xs uppercase tracking-wider text-muted-foreground font-medium">Nome completo *</label>

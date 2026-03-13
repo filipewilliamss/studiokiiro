@@ -270,7 +270,7 @@ const FinanceTab = () => {
               <div className="flex justify-end gap-2 pt-2">
                 <Button type="button" variant="ghost" onClick={() => setOpen(false)}>Cancelar</Button>
                 <Button type="submit" disabled={loading || !form.project_id}>
-                  {loading ? "Salvando..." : "Salvar"}
+                  {loading ? "Salvando..." : editingPayment ? "Salvar Alterações" : "Salvar"}
                 </Button>
               </div>
             </form>

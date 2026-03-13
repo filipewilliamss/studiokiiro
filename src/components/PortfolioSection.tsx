@@ -135,7 +135,158 @@ const PortfolioSection = () => {
   );
 };
 
-/* ─── Featured Card (Hero) ─── */
+/* ─── Uniform Card ─── */
+const UniformCard = ({
+  project,
+  index,
+  total,
+  isHovered,
+  onHover,
+  onLeave,
+  onClick,
+}: {
+  project: Project;
+  index: number;
+  total: number;
+  isHovered: boolean;
+  onHover: () => void;
+  onLeave: () => void;
+  onClick: () => void;
+}) => {
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "end start"],
+  });
+  const imgY = useTransform(scrollYProgress, [0, 1], [25, -25]);
+
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 50 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: false, amount: 0.15 }}
+      transition={{
+        duration: 0.9,
+        delay: index * 0.1,
+        ease: [0.22, 1, 0.36, 1],
+      }}
+      onClick={onClick}
+      onMouseEnter={onHover}
+      onMouseLeave={onLeave}
+      className="group cursor-pointer"
+    >
+      <div
+        className="relative aspect-[16/9] rounded-2xl overflow-hidden"
+        style={{ backgroundColor: project.bgColor }}
+      >
+        <motion.div
+          style={{ y: imgY }}
+          className="absolute inset-0 flex items-center justify-center p-14 md:p-20"
+        >
+          <motion.img
+            src={project.logo}
+            alt={`Logo ${project.title}`}
+            className="max-w-[55%] max-h-[60%] object-contain"
+            animate={{ scale: isHovered ? 1.08 : 1 }}
+            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+          />
+        </motion.div>
+
+        <motion.div
+          className="absolute inset-0 flex items-center justify-center"
+          initial={false}
+          animate={{
+            backgroundColor: isHovered ? "rgba(0,0,0,0.7)" : "rgba(0,0,0,0)",
+            backdropFilter: isHovered ? "blur(8px)" : "blur(0px)",
+          }}
+          transition={{ duration: 0.6 }}
+        >
+          <motion.div
+            initial={false}
+            animate={{
+              opacity: isHovered ? 1 : 0,
+              y: isHovered ? 0 : 20,
+              scale: isHovered ? 1 : 0.9,
+            }}
+            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+            className="text-center"
+          >
+            <p className="text-xs uppercase tracking-[0.4em] text-primary/80 mb-3 font-display">
+              Explorar case
+            </p>
+            <span className="inline-flex items-center gap-3 px-7 py-3 rounded-full border border-primary/60 text-primary text-xs uppercase tracking-[0.15em] font-display font-semibold backdrop-blur-md">
+              Abrir história completa
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M7 17L17 7M17 7H7M17 7v10" />
+              </svg>
+            </span>
+          </motion.div>
+        </motion.div>
+
+        <div className="absolute bottom-0 left-0 right-0 p-5 md:p-8 bg-gradient-to-t from-black/70 via-black/30 to-transparent">
+          <div className="flex items-end justify-between">
+            <div>
+              <motion.p
+                initial={false}
+                animate={{ x: isHovered ? 6 : 0 }}
+                transition={{ duration: 0.4 }}
+                className="text-[10px] uppercase tracking-[0.3em] text-primary font-display mb-1.5"
+              >
+                {project.category}
+              </motion.p>
+              <motion.h3
+                initial={false}
+                animate={{ x: isHovered ? 6 : 0 }}
+                transition={{ duration: 0.5 }}
+                className="font-display text-xl md:text-2xl font-bold text-white"
+              >
+                {project.title}
+              </motion.h3>
+            </div>
+            <motion.div
+              initial={false}
+              animate={{
+                x: isHovered ? 0 : 10,
+                opacity: isHovered ? 1 : 0,
+              }}
+              transition={{ duration: 0.4 }}
+            >
+              <div className="w-9 h-9 rounded-full border border-primary/40 flex items-center justify-center">
+                <svg className="w-3.5 h-3.5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 17L17 7M17 7H7M17 7v10" />
+                </svg>
+              </div>
+            </motion.div>
+          </div>
+        </div>
+
+        <div className="absolute top-5 right-5">
+          <span className="font-display text-[10px] uppercase tracking-[0.3em] text-white/40 font-medium">
+            {String(index + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}
+          </span>
+        </div>
+      </div>
+
+      <div className="flex flex-wrap gap-2 mt-4">
+        {project.tags.map((tag, i) => (
+          <motion.span
+            key={tag}
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: false }}
+            transition={{ duration: 0.4, delay: i * 0.05 }}
+            className="text-[10px] uppercase tracking-[0.15em] text-muted-foreground border border-border/60 rounded-full px-3 py-1.5 group-hover:border-primary/30 group-hover:text-primary/70 transition-all duration-500"
+          >
+            {tag}
+          </motion.span>
+        ))}
+      </div>
+    </motion.div>
+  );
+};
+
+export default PortfolioSection;
 const FeaturedCard = ({
   project,
   isHovered,

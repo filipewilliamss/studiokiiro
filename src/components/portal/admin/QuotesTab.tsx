@@ -5,8 +5,10 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
-import { FilePlus, Hash, Calendar, CheckCircle2, XCircle, Clock, Trash2, Plus } from "lucide-react";
+import { Checkbox } from "@/components/ui/checkbox";
+import { FilePlus, Hash, Calendar, CheckCircle2, XCircle, Clock, Trash2, Plus, Pencil } from "lucide-react";
 import { toast } from "sonner";
 
 interface Profile { id: string; full_name: string; company: string | null; }
@@ -35,18 +37,20 @@ const statusConfig: Record<string, { label: string; color: string; icon: React.R
   recusado: { label: "Recusado", color: "bg-destructive/10 text-destructive", icon: <XCircle className="h-3.5 w-3.5" /> },
 };
 
+const emptyForm = { client_id: "", project_type: "Identidade Visual", description: "", payment_terms: "", validity_date: "", notes: "", status: "pendente" };
+const emptyItems: QuoteItem[] = [{ description: "", quantity: 1, unit_price: 0 }];
+
 const QuotesTab = () => {
   const [quotes, setQuotes] = useState<Quote[]>([]);
   const [clients, setClients] = useState<Profile[]>([]);
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [viewQuote, setViewQuote] = useState<Quote | null>(null);
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
+  const [editingQuote, setEditingQuote] = useState<Quote | null>(null);
 
-  const [form, setForm] = useState({
-    client_id: "", project_type: "Identidade Visual", description: "",
-    payment_terms: "", validity_date: "", notes: "",
-  });
-  const [items, setItems] = useState<QuoteItem[]>([{ description: "", quantity: 1, unit_price: 0 }]);
+  const [form, setForm] = useState(emptyForm);
+  const [items, setItems] = useState<QuoteItem[]>([...emptyItems]);
 
   const fetchAll = async () => {
     const [quotesRes, clientsRes] = await Promise.all([
@@ -67,11 +71,34 @@ const QuotesTab = () => {
     setItems(items.map((item, i) => i === idx ? { ...item, [field]: value } : item));
   };
 
-  const handleCreate = async (e: React.FormEvent) => {
+  const openCreateDialog = () => {
+    setEditingQuote(null);
+    setForm(emptyForm);
+    setItems([...emptyItems]);
+    setOpen(true);
+  };
+
+  const openEditDialog = (quote: Quote) => {
+    setEditingQuote(quote);
+    setForm({
+      client_id: quote.client_id,
+      project_type: quote.project_type,
+      description: quote.description || "",
+      payment_terms: quote.payment_terms || "",
+      validity_date: quote.validity_date || "",
+      notes: quote.notes || "",
+      status: quote.status,
+    });
+    setItems(quote.items?.length ? [...quote.items] : [...emptyItems]);
+    setOpen(true);
+    setViewQuote(null);
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     const validItems = items.filter((i) => i.description.trim());
-    const { error } = await supabase.from("quotes").insert({
+    const payload = {
       client_id: form.client_id,
       project_type: form.project_type,
       description: form.description || null,
@@ -80,114 +107,172 @@ const QuotesTab = () => {
       payment_terms: form.payment_terms || null,
       validity_date: form.validity_date || null,
       notes: form.notes || null,
-    });
-    if (error) toast.error("Erro ao criar orçamento");
-    else {
-      toast.success("Orçamento criado e disponível para o cliente!");
-      setOpen(false);
-      setForm({ client_id: "", project_type: "Identidade Visual", description: "", payment_terms: "", validity_date: "", notes: "" });
-      setItems([{ description: "", quantity: 1, unit_price: 0 }]);
-      fetchAll();
+      status: form.status,
+    };
+
+    if (editingQuote) {
+      const { error } = await supabase.from("quotes").update(payload).eq("id", editingQuote.id);
+      if (error) toast.error("Erro ao atualizar orçamento");
+      else { toast.success("Orçamento atualizado!"); setOpen(false); fetchAll(); }
+    } else {
+      const { error } = await supabase.from("quotes").insert(payload);
+      if (error) toast.error("Erro ao criar orçamento");
+      else { toast.success("Orçamento criado e disponível para o cliente!"); setOpen(false); fetchAll(); }
     }
+    setForm(emptyForm);
+    setItems([...emptyItems]);
+    setEditingQuote(null);
     setLoading(false);
+  };
+
+  const toggleSelect = (id: string) => {
+    setSelectedIds((prev) => { const next = new Set(prev); next.has(id) ? next.delete(id) : next.add(id); return next; });
+  };
+  const toggleSelectAll = () => {
+    setSelectedIds(selectedIds.size === quotes.length ? new Set() : new Set(quotes.map((q) => q.id)));
+  };
+  const handleDelete = async () => {
+    const ids = Array.from(selectedIds);
+    const { error } = await supabase.from("quotes").delete().in("id", ids);
+    if (error) toast.error("Erro ao excluir orçamentos");
+    else { toast.success(`${ids.length} orçamento(s) excluído(s)`); setSelectedIds(new Set()); fetchAll(); }
   };
 
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <p className="text-sm text-muted-foreground">{quotes.length} orçamento(s)</p>
-        <Dialog open={open} onOpenChange={setOpen}>
-          <DialogTrigger asChild>
-            <Button className="gap-2"><FilePlus className="h-4 w-4" /> Novo Orçamento</Button>
-          </DialogTrigger>
-          <DialogContent className="sm:max-w-xl max-h-[85vh] overflow-y-auto">
-            <DialogHeader>
-              <DialogTitle style={{ fontFamily: "var(--font-display)" }}>Novo Orçamento</DialogTitle>
-            </DialogHeader>
-            <form onSubmit={handleCreate} className="space-y-4 mt-2">
-              <div className="grid grid-cols-2 gap-3">
-                <div className="space-y-1.5">
-                  <label className="text-xs uppercase tracking-wider text-muted-foreground font-medium">Cliente *</label>
-                  <Select value={form.client_id} onValueChange={(v) => setForm({ ...form, client_id: v })}>
-                    <SelectTrigger><SelectValue placeholder="Selecione" /></SelectTrigger>
-                    <SelectContent>{clients.map((c) => <SelectItem key={c.id} value={c.id}>{c.full_name}</SelectItem>)}</SelectContent>
-                  </Select>
-                </div>
-                <div className="space-y-1.5">
-                  <label className="text-xs uppercase tracking-wider text-muted-foreground font-medium">Serviço</label>
-                  <Select value={form.project_type} onValueChange={(v) => setForm({ ...form, project_type: v })}>
-                    <SelectTrigger><SelectValue /></SelectTrigger>
-                    <SelectContent>{projectTypes.map((t) => <SelectItem key={t} value={t}>{t}</SelectItem>)}</SelectContent>
-                  </Select>
-                </div>
-              </div>
-
-              <div className="space-y-1.5">
-                <label className="text-xs uppercase tracking-wider text-muted-foreground font-medium">Descrição</label>
-                <Textarea value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} rows={2} />
-              </div>
-
-              {/* Items */}
-              <div className="space-y-3">
-                <div className="flex items-center justify-between">
-                  <label className="text-xs uppercase tracking-wider text-muted-foreground font-medium">Itens do Orçamento</label>
-                  <Button type="button" variant="ghost" size="sm" onClick={addItem} className="text-xs h-7 gap-1"><Plus className="h-3 w-3" />Item</Button>
-                </div>
-                {items.map((item, idx) => (
-                  <div key={idx} className="grid grid-cols-12 gap-2 items-end">
-                    <div className="col-span-6 space-y-1">
-                      {idx === 0 && <label className="text-[10px] text-muted-foreground">Descrição</label>}
-                      <Input value={item.description} onChange={(e) => updateItem(idx, "description", e.target.value)} placeholder="Serviço..." />
-                    </div>
-                    <div className="col-span-2 space-y-1">
-                      {idx === 0 && <label className="text-[10px] text-muted-foreground">Qtd</label>}
-                      <Input type="number" min="1" value={item.quantity} onChange={(e) => updateItem(idx, "quantity", parseInt(e.target.value) || 1)} />
-                    </div>
-                    <div className="col-span-3 space-y-1">
-                      {idx === 0 && <label className="text-[10px] text-muted-foreground">Valor Unit.</label>}
-                      <Input type="number" step="0.01" value={item.unit_price || ""} onChange={(e) => updateItem(idx, "unit_price", parseFloat(e.target.value) || 0)} placeholder="0,00" />
-                    </div>
-                    <div className="col-span-1">
-                      {items.length > 1 && (
-                        <Button type="button" variant="ghost" size="icon" onClick={() => removeItem(idx)} className="h-9 w-9 text-muted-foreground hover:text-destructive">
-                          <Trash2 className="h-3.5 w-3.5" />
-                        </Button>
-                      )}
-                    </div>
-                  </div>
-                ))}
-                <div className="flex justify-end pt-2 border-t border-border">
-                  <p className="text-sm font-medium">Total: <span className="text-primary font-display font-bold">{formatCurrency(totalValue)}</span></p>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-2 gap-3">
-                <div className="space-y-1.5">
-                  <label className="text-xs uppercase tracking-wider text-muted-foreground font-medium">Condições de pagamento</label>
-                  <Textarea value={form.payment_terms} onChange={(e) => setForm({ ...form, payment_terms: e.target.value })} rows={2} placeholder="Ex: 50% + 50%" />
-                </div>
-                <div className="space-y-1.5">
-                  <label className="text-xs uppercase tracking-wider text-muted-foreground font-medium">Validade</label>
-                  <Input type="date" value={form.validity_date} onChange={(e) => setForm({ ...form, validity_date: e.target.value })} />
-                </div>
-              </div>
-
-              <div className="space-y-1.5">
-                <label className="text-xs uppercase tracking-wider text-muted-foreground font-medium">Observações</label>
-                <Textarea value={form.notes} onChange={(e) => setForm({ ...form, notes: e.target.value })} rows={2} />
-              </div>
-
-              <div className="flex justify-end gap-2 pt-2">
-                <Button type="button" variant="ghost" onClick={() => setOpen(false)}>Cancelar</Button>
-                <Button type="submit" disabled={loading || !form.client_id}>{loading ? "Criando..." : "Criar Orçamento"}</Button>
-              </div>
-            </form>
-          </DialogContent>
-        </Dialog>
+        <div className="flex items-center gap-2">
+          <p className="text-sm text-muted-foreground">{quotes.length} orçamento(s)</p>
+          {selectedIds.size > 0 && (
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button variant="destructive" size="sm" className="gap-2"><Trash2 className="h-4 w-4" />Excluir ({selectedIds.size})</Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Excluir orçamentos?</AlertDialogTitle>
+                  <AlertDialogDescription>{selectedIds.size} orçamento(s) serão removidos permanentemente.</AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                  <AlertDialogAction onClick={handleDelete} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">Excluir</AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+          )}
+        </div>
+        <Button className="gap-2" onClick={openCreateDialog}><FilePlus className="h-4 w-4" /> Novo Orçamento</Button>
       </div>
+
+      {/* Create/Edit Dialog */}
+      <Dialog open={open} onOpenChange={(o) => { if (!o) { setEditingQuote(null); } setOpen(o); }}>
+        <DialogContent className="sm:max-w-xl max-h-[85vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle style={{ fontFamily: "var(--font-display)" }}>{editingQuote ? "Editar Orçamento" : "Novo Orçamento"}</DialogTitle>
+          </DialogHeader>
+          <form onSubmit={handleSubmit} className="space-y-4 mt-2">
+            <div className="grid grid-cols-2 gap-3">
+              <div className="space-y-1.5">
+                <label className="text-xs uppercase tracking-wider text-muted-foreground font-medium">Cliente *</label>
+                <Select value={form.client_id} onValueChange={(v) => setForm({ ...form, client_id: v })}>
+                  <SelectTrigger><SelectValue placeholder="Selecione" /></SelectTrigger>
+                  <SelectContent>{clients.map((c) => <SelectItem key={c.id} value={c.id}>{c.full_name}</SelectItem>)}</SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-1.5">
+                <label className="text-xs uppercase tracking-wider text-muted-foreground font-medium">Serviço</label>
+                <Select value={form.project_type} onValueChange={(v) => setForm({ ...form, project_type: v })}>
+                  <SelectTrigger><SelectValue /></SelectTrigger>
+                  <SelectContent>{projectTypes.map((t) => <SelectItem key={t} value={t}>{t}</SelectItem>)}</SelectContent>
+                </Select>
+              </div>
+            </div>
+
+            {editingQuote && (
+              <div className="space-y-1.5">
+                <label className="text-xs uppercase tracking-wider text-muted-foreground font-medium">Status</label>
+                <Select value={form.status} onValueChange={(v) => setForm({ ...form, status: v })}>
+                  <SelectTrigger><SelectValue /></SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="pendente">Pendente</SelectItem>
+                    <SelectItem value="aprovado">Aprovado</SelectItem>
+                    <SelectItem value="recusado">Recusado</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            )}
+
+            <div className="space-y-1.5">
+              <label className="text-xs uppercase tracking-wider text-muted-foreground font-medium">Descrição</label>
+              <Textarea value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} rows={2} />
+            </div>
+
+            {/* Items */}
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <label className="text-xs uppercase tracking-wider text-muted-foreground font-medium">Itens do Orçamento</label>
+                <Button type="button" variant="ghost" size="sm" onClick={addItem} className="text-xs h-7 gap-1"><Plus className="h-3 w-3" />Item</Button>
+              </div>
+              {items.map((item, idx) => (
+                <div key={idx} className="grid grid-cols-12 gap-2 items-end">
+                  <div className="col-span-6 space-y-1">
+                    {idx === 0 && <label className="text-[10px] text-muted-foreground">Descrição</label>}
+                    <Input value={item.description} onChange={(e) => updateItem(idx, "description", e.target.value)} placeholder="Serviço..." />
+                  </div>
+                  <div className="col-span-2 space-y-1">
+                    {idx === 0 && <label className="text-[10px] text-muted-foreground">Qtd</label>}
+                    <Input type="number" min="1" value={item.quantity} onChange={(e) => updateItem(idx, "quantity", parseInt(e.target.value) || 1)} />
+                  </div>
+                  <div className="col-span-3 space-y-1">
+                    {idx === 0 && <label className="text-[10px] text-muted-foreground">Valor Unit.</label>}
+                    <Input type="number" step="0.01" value={item.unit_price || ""} onChange={(e) => updateItem(idx, "unit_price", parseFloat(e.target.value) || 0)} placeholder="0,00" />
+                  </div>
+                  <div className="col-span-1">
+                    {items.length > 1 && (
+                      <Button type="button" variant="ghost" size="icon" onClick={() => removeItem(idx)} className="h-9 w-9 text-muted-foreground hover:text-destructive">
+                        <Trash2 className="h-3.5 w-3.5" />
+                      </Button>
+                    )}
+                  </div>
+                </div>
+              ))}
+              <div className="flex justify-end pt-2 border-t border-border">
+                <p className="text-sm font-medium">Total: <span className="text-primary font-display font-bold">{formatCurrency(totalValue)}</span></p>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-3">
+              <div className="space-y-1.5">
+                <label className="text-xs uppercase tracking-wider text-muted-foreground font-medium">Condições de pagamento</label>
+                <Textarea value={form.payment_terms} onChange={(e) => setForm({ ...form, payment_terms: e.target.value })} rows={2} placeholder="Ex: 50% + 50%" />
+              </div>
+              <div className="space-y-1.5">
+                <label className="text-xs uppercase tracking-wider text-muted-foreground font-medium">Validade</label>
+                <Input type="date" value={form.validity_date} onChange={(e) => setForm({ ...form, validity_date: e.target.value })} />
+              </div>
+            </div>
+
+            <div className="space-y-1.5">
+              <label className="text-xs uppercase tracking-wider text-muted-foreground font-medium">Observações</label>
+              <Textarea value={form.notes} onChange={(e) => setForm({ ...form, notes: e.target.value })} rows={2} />
+            </div>
+
+            <div className="flex justify-end gap-2 pt-2">
+              <Button type="button" variant="ghost" onClick={() => setOpen(false)}>Cancelar</Button>
+              <Button type="submit" disabled={loading || !form.client_id}>{loading ? "Salvando..." : editingQuote ? "Salvar Alterações" : "Criar Orçamento"}</Button>
+            </div>
+          </form>
+        </DialogContent>
+      </Dialog>
 
       {/* Quotes list */}
       <div className="grid gap-3">
+        {quotes.length > 0 && (
+          <div className="flex items-center gap-2 px-1">
+            <Checkbox checked={selectedIds.size === quotes.length && quotes.length > 0} onCheckedChange={toggleSelectAll} />
+            <span className="text-xs text-muted-foreground">Selecionar todos</span>
+          </div>
+        )}
         {quotes.length === 0 ? (
           <div className="bg-card border border-border rounded-xl p-8 text-center">
             <p className="text-muted-foreground text-sm">Nenhum orçamento.</p>
@@ -195,37 +280,39 @@ const QuotesTab = () => {
         ) : quotes.map((quote) => {
           const cfg = statusConfig[quote.status] || statusConfig.pendente;
           return (
-            <button
+            <div
               key={quote.id}
-              onClick={() => setViewQuote(quote)}
-              className="bg-card border border-border rounded-xl p-5 hover:border-primary/30 transition-all text-left w-full"
+              className={`bg-card border rounded-xl p-5 hover:border-primary/30 transition-all ${selectedIds.has(quote.id) ? "border-primary/50" : "border-border"}`}
             >
-              <div className="flex items-start justify-between">
-                <div className="space-y-1">
-                  <div className="flex items-center gap-2">
-                    <Hash className="h-4 w-4 text-primary" />
-                    <span className="font-display font-bold text-primary">ORC-{String(quote.sequential_number).padStart(4, "0")}</span>
-                    <span className={`text-xs px-2 py-0.5 rounded-full font-medium flex items-center gap-1 ${cfg.color}`}>
-                      {cfg.icon} {cfg.label}
-                    </span>
+              <div className="flex items-start gap-3">
+                <Checkbox checked={selectedIds.has(quote.id)} onCheckedChange={() => toggleSelect(quote.id)} className="mt-1" />
+                <button onClick={() => setViewQuote(quote)} className="flex-1 text-left">
+                  <div className="flex items-start justify-between">
+                    <div className="space-y-1">
+                      <div className="flex items-center gap-2">
+                        <Hash className="h-4 w-4 text-primary" />
+                        <span className="font-display font-bold text-primary">ORC-{String(quote.sequential_number).padStart(4, "0")}</span>
+                        <span className={`text-xs px-2 py-0.5 rounded-full font-medium flex items-center gap-1 ${cfg.color}`}>
+                          {cfg.icon} {cfg.label}
+                        </span>
+                      </div>
+                      <h3 className="font-medium text-foreground">{(quote as any).profiles?.full_name || "—"}</h3>
+                      <p className="text-xs text-muted-foreground">{quote.project_type}</p>
+                    </div>
+                    <div className="text-right space-y-1">
+                      <p className="font-display font-semibold text-foreground">{formatCurrency(Number(quote.total_value))}</p>
+                      <p className="text-xs text-muted-foreground flex items-center gap-1 justify-end">
+                        <Calendar className="h-3 w-3" />
+                        {new Date(quote.created_at).toLocaleDateString("pt-BR")}
+                      </p>
+                    </div>
                   </div>
-                  <h3 className="font-medium text-foreground">{(quote as any).profiles?.full_name || "—"}</h3>
-                  <p className="text-xs text-muted-foreground">{quote.project_type}</p>
-                </div>
-                <div className="text-right space-y-1">
-                  <p className="font-display font-semibold text-foreground">{formatCurrency(Number(quote.total_value))}</p>
-                  <p className="text-xs text-muted-foreground flex items-center gap-1 justify-end">
-                    <Calendar className="h-3 w-3" />
-                    {new Date(quote.created_at).toLocaleDateString("pt-BR")}
-                  </p>
-                </div>
+                </button>
+                <Button variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground hover:text-primary" onClick={() => openEditDialog(quote)}>
+                  <Pencil className="h-3.5 w-3.5" />
+                </Button>
               </div>
-              {quote.client_response_at && (
-                <p className="text-xs text-muted-foreground mt-2 border-t border-border pt-2">
-                  Respondido em {new Date(quote.client_response_at).toLocaleDateString("pt-BR")}
-                </p>
-              )}
-            </button>
+            </div>
           );
         })}
       </div>
@@ -241,6 +328,11 @@ const QuotesTab = () => {
                 </SheetTitle>
               </SheetHeader>
               <div className="mt-6 space-y-6">
+                <div className="flex justify-end">
+                  <Button variant="outline" size="sm" className="gap-2" onClick={() => openEditDialog(viewQuote)}>
+                    <Pencil className="h-3.5 w-3.5" /> Editar
+                  </Button>
+                </div>
                 <div className="space-y-2">
                   <label className="text-xs uppercase tracking-wider text-muted-foreground font-medium">Cliente</label>
                   <p className="text-sm text-foreground">{(viewQuote as any).profiles?.full_name || "—"}</p>
@@ -255,8 +347,6 @@ const QuotesTab = () => {
                     <p className="text-sm text-foreground whitespace-pre-wrap">{viewQuote.description}</p>
                   </div>
                 )}
-
-                {/* Items */}
                 <div className="space-y-3">
                   <label className="text-xs uppercase tracking-wider text-muted-foreground font-medium">Itens</label>
                   <div className="border border-border rounded-xl overflow-hidden">
@@ -280,14 +370,12 @@ const QuotesTab = () => {
                     </div>
                   </div>
                 </div>
-
                 {viewQuote.payment_terms && (
                   <div className="space-y-2">
                     <label className="text-xs uppercase tracking-wider text-muted-foreground font-medium">Condições de Pagamento</label>
                     <p className="text-sm text-foreground whitespace-pre-wrap">{viewQuote.payment_terms}</p>
                   </div>
                 )}
-
                 <div className="space-y-2">
                   <label className="text-xs uppercase tracking-wider text-muted-foreground font-medium">Status</label>
                   <div className="flex items-center gap-2">

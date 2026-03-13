@@ -17,6 +17,8 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { toast } from "sonner";
 import { briefingQuestions } from "@/data/briefingQuestions";
 import { motion, AnimatePresence } from "framer-motion";
+import kiiroLogo from "@/assets/logo.png";
+import { motion, AnimatePresence } from "framer-motion";
 
 interface Project {
   id: string; name: string; type: string; status: string; progress: number; deadline: string | null;

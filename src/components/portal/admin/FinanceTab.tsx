@@ -209,15 +209,15 @@ const FinanceTab = () => {
             </AlertDialog>
           )}
         </div>
-        <Dialog open={open} onOpenChange={setOpen}>
+        <Dialog open={open} onOpenChange={(o) => { if (!o) setEditingPayment(null); setOpen(o); }}>
           <DialogTrigger asChild>
-            <Button className="gap-2"><Plus className="h-4 w-4" /> Novo Registro</Button>
+            <Button className="gap-2" onClick={openCreateDialog}><Plus className="h-4 w-4" /> Novo Registro</Button>
           </DialogTrigger>
           <DialogContent className="sm:max-w-md">
             <DialogHeader>
-              <DialogTitle style={{ fontFamily: "var(--font-display)" }}>Dados Financeiros</DialogTitle>
+              <DialogTitle style={{ fontFamily: "var(--font-display)" }}>{editingPayment ? "Editar Registro" : "Dados Financeiros"}</DialogTitle>
             </DialogHeader>
-            <form onSubmit={handleCreate} className="space-y-4 mt-2">
+            <form onSubmit={handleSubmit} className="space-y-4 mt-2">
               <div className="space-y-1.5">
                 <label className="text-xs uppercase tracking-wider text-muted-foreground font-medium">Projeto *</label>
                 <Select value={form.project_id} onValueChange={(v) => setForm({ ...form, project_id: v })}>

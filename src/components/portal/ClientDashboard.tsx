@@ -38,6 +38,19 @@ interface Quote {
   items: QuoteItem[]; total_value: number; payment_terms: string | null;
   validity_date: string | null; status: string; created_at: string; notes: string | null;
 }
+interface ServiceItem { description: string; qty: number; unit_price: number; }
+interface ServiceOrder {
+  id: string; sequential_number: number; service_type: string; description: string | null;
+  total_value: number; payment_terms: string | null; notes: string | null;
+  status: string; created_at: string; items: ServiceItem[]; deadline: string | null;
+  profiles?: { full_name: string; email: string | null };
+}
+
+const PROVIDER = {
+  name: "Filipe Soares",
+  document: "449.403.838-57",
+  address: "Rua Osvaldo Avilez, 147 - Casa 2, Jardim Ponte Alta I, Guarulhos/SP, CEP 07179300",
+};
 
 const statusLabels: Record<string, string> = {
   briefing: "Briefing", planejamento: "Em planejamento", producao: "Em produção",

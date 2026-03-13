@@ -122,14 +122,12 @@ const AdminDashboard = () => {
             className="relative"
           >
             {/* Glow behind card */}
-            <div className="absolute -inset-4 rounded-3xl bg-primary/[0.04] blur-2xl pointer-events-none" />
-            <div className="absolute -inset-1 rounded-3xl bg-gradient-to-br from-primary/10 via-transparent to-primary/5 pointer-events-none" />
+            <div className="absolute -inset-4 rounded-3xl bg-primary/20 blur-2xl pointer-events-none" />
 
-            <div className="relative overflow-hidden rounded-2xl border border-primary/10 bg-gradient-to-br from-card via-card/95 to-secondary/20 p-7 sm:p-9 lg:p-11 backdrop-blur-sm shadow-2xl shadow-background/80">
+            <div className="relative overflow-hidden rounded-2xl border border-primary/30 bg-primary p-7 sm:p-9 lg:p-11 shadow-2xl shadow-primary/20">
               {/* Decorative orbs */}
-              <div className="absolute top-0 right-0 w-96 h-96 bg-primary/[0.06] rounded-full blur-[100px] -translate-y-1/2 translate-x-1/4 pointer-events-none" />
-              <div className="absolute bottom-0 left-0 w-64 h-64 bg-primary/[0.03] rounded-full blur-[80px] translate-y-1/3 -translate-x-1/4 pointer-events-none" />
-              <div className="absolute top-1/2 left-1/2 w-32 h-32 bg-primary/[0.02] rounded-full blur-[60px] -translate-x-1/2 -translate-y-1/2 pointer-events-none" />
+              <div className="absolute top-0 right-0 w-96 h-96 bg-white/[0.08] rounded-full blur-[100px] -translate-y-1/2 translate-x-1/4 pointer-events-none" />
+              <div className="absolute bottom-0 left-0 w-64 h-64 bg-black/[0.06] rounded-full blur-[80px] translate-y-1/3 -translate-x-1/4 pointer-events-none" />
 
               <div className="relative flex flex-col lg:flex-row gap-8 lg:gap-14 items-start">
                 {/* Left: Welcome text */}

@@ -7,7 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { Checkbox } from "@/components/ui/checkbox";
-import { UserPlus, Building2, Mail, Phone, Search, Trash2, Pencil } from "lucide-react";
+import { UserPlus, Building2, Mail, Phone, Search, Trash2, Pencil, Users } from "lucide-react";
 import { toast } from "sonner";
 
 interface Profile {
@@ -288,17 +288,24 @@ const ClientsTab = () => {
           </div>
         )}
         {filtered.length === 0 ? (
-          <div className="bg-card border border-border rounded-xl p-8 text-center">
-            <p className="text-muted-foreground text-sm">Nenhum cliente encontrado.</p>
+          <div className="bg-card/50 border border-border/40 rounded-2xl p-12 text-center backdrop-blur-sm">
+            <div className="w-16 h-16 rounded-2xl bg-secondary/40 border border-border/30 flex items-center justify-center mx-auto mb-4">
+              <Users className="h-7 w-7 text-muted-foreground/50" />
+            </div>
+            <p className="text-foreground font-display font-semibold text-lg mb-1">Nenhum cliente por aqui… ainda.</p>
+            <p className="text-muted-foreground text-sm max-w-sm mx-auto">Quando você adicionar um cliente, ele aparece neste painel para você acompanhar cada detalhe.</p>
           </div>
         ) : (
           filtered.map((client) => (
             <div
               key={client.id}
-              className={`bg-card border rounded-xl p-5 hover:border-primary/30 transition-colors group ${
-                selectedIds.has(client.id) ? "border-primary/50" : "border-border"
+              className={`relative bg-card/60 border rounded-xl p-5 transition-all duration-300 group hover:shadow-lg hover:shadow-primary/[0.03] overflow-hidden ${
+                selectedIds.has(client.id) ? "border-primary/40 bg-primary/[0.03]" : "border-border/40 hover:border-primary/25"
               }`}
             >
+              {/* Yellow accent line on hover */}
+              <div className="absolute left-0 top-0 bottom-0 w-[3px] bg-primary rounded-full scale-y-0 group-hover:scale-y-100 transition-transform duration-300 origin-center" />
+
               <div className="flex items-start justify-between">
                 <div className="flex items-start gap-3">
                   <Checkbox
@@ -306,38 +313,38 @@ const ClientsTab = () => {
                     onCheckedChange={() => toggleSelect(client.id)}
                     className="mt-1"
                   />
-                  <div className="space-y-1">
-                    <h3 className="font-medium text-foreground">{client.full_name || "Sem nome"}</h3>
+                  <div className="space-y-1.5">
+                    <h3 className="font-display font-semibold text-[15px] text-foreground group-hover:text-primary transition-colors duration-300">{client.full_name || "Sem nome"}</h3>
                     <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-muted-foreground">
                       {client.email && (
-                        <span className="flex items-center gap-1">
-                          <Mail className="h-3 w-3" /> {client.email}
+                        <span className="flex items-center gap-1.5">
+                          <Mail className="h-3 w-3 text-muted-foreground/60" /> {client.email}
                         </span>
                       )}
                       {client.phone && (
-                        <span className="flex items-center gap-1">
-                          <Phone className="h-3 w-3" /> {client.phone}
+                        <span className="flex items-center gap-1.5">
+                          <Phone className="h-3 w-3 text-muted-foreground/60" /> {client.phone}
                         </span>
                       )}
                       {client.company && (
-                        <span className="flex items-center gap-1">
-                          <Building2 className="h-3 w-3" /> {client.company}
+                        <span className="flex items-center gap-1.5">
+                          <Building2 className="h-3 w-3 text-muted-foreground/60" /> {client.company}
                         </span>
                       )}
                     </div>
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="text-xs px-2.5 py-1 rounded-full bg-primary/10 text-primary font-medium">
+                  <span className="text-[11px] px-3 py-1 rounded-full bg-primary/10 text-primary font-semibold border border-primary/15 tracking-wide">
                     {clientTypeLabels[client.client_type || "novo"] || client.client_type}
                   </span>
-                  <Button variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground hover:text-primary" onClick={() => openEditDialog(client)}>
+                  <Button variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground hover:text-primary hover:bg-primary/10 transition-all duration-300" onClick={() => openEditDialog(client)}>
                     <Pencil className="h-3.5 w-3.5" />
                   </Button>
                 </div>
               </div>
               {client.notes && (
-                <p className="text-xs text-muted-foreground mt-3 border-t border-border pt-3 ml-8">{client.notes}</p>
+                <p className="text-xs text-muted-foreground/80 mt-3 border-t border-border/30 pt-3 ml-8">{client.notes}</p>
               )}
             </div>
           ))

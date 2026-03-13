@@ -98,9 +98,6 @@ const ClientDashboard = () => {
   const [viewOrder, setViewOrder] = useState<ServiceOrder | null>(null);
   const osPrintRef = useRef<HTMLDivElement>(null);
 
-  const handleMouseMove = useCallback((e: React.MouseEvent) => {
-    setCursorPos({ x: e.clientX, y: e.clientY });
-  }, []);
 
   useEffect(() => {
     const fetchProjects = async () => {

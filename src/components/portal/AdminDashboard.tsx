@@ -96,12 +96,12 @@ const AdminDashboard = () => {
         <Navbar />
 
         {/* Sticky sub-header */}
-        <header className="border-b border-border/40 bg-background/70 backdrop-blur-2xl sticky top-16 md:top-20 z-30 mt-16 md:mt-20">
+        <header className="border-b border-black/10 bg-white/70 backdrop-blur-2xl sticky top-16 md:top-20 z-30 mt-16 md:mt-20">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 h-12 flex items-center justify-between">
             <div className="flex items-center gap-3">
               <Sparkles className="h-3.5 w-3.5 text-primary" />
               <span className="text-[11px] uppercase tracking-[0.3em] text-primary font-semibold">Studio Workspace</span>
-              <span className="hidden sm:inline-flex items-center gap-1.5 text-[10px] text-muted-foreground ml-2 border-l border-border/40 pl-3">
+              <span className="hidden sm:inline-flex items-center gap-1.5 text-[10px] text-black/50 ml-2 border-l border-black/10 pl-3">
                 <Clock className="h-3 w-3" />
                 Última atualização há 2 min
               </span>

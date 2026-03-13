@@ -25,8 +25,6 @@ const AdminDashboard = () => {
   const { profile, signOut } = useAuth();
   const [activeTab, setActiveTab] = useState<TabKey>("clients");
   const [counts, setCounts] = useState({ clients: 0, projects: 0, quotes: 0 });
-  const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 });
-  const [isInPanel, setIsInPanel] = useState(false);
 
   useEffect(() => {
     const fetchCounts = async () => {

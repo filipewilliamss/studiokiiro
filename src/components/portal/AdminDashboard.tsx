@@ -132,16 +132,16 @@ const AdminDashboard = () => {
               <div className="relative flex flex-col lg:flex-row gap-8 lg:gap-14 items-start">
                 {/* Left: Welcome text */}
                 <div className="flex-1 min-w-0">
-                  <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary/10 border border-primary/15 mb-6">
-                    <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-                    <span className="text-[10px] uppercase tracking-[0.3em] text-primary font-semibold">Painel ativo</span>
+                  <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-black/10 border border-black/10 mb-6">
+                    <span className="w-1.5 h-1.5 rounded-full bg-primary-foreground animate-pulse" />
+                    <span className="text-[10px] uppercase tracking-[0.3em] text-primary-foreground font-semibold">Painel ativo</span>
                   </div>
-                  <h1 className="font-display text-2xl sm:text-3xl lg:text-[2.5rem] font-bold text-foreground leading-[1.15] mb-4">
+                  <h1 className="font-display text-2xl sm:text-3xl lg:text-[2.5rem] font-bold text-primary-foreground leading-[1.15] mb-4">
                     Bem-vindo ao seu estúdio
                     <br />
-                    <span className="text-gradient-kiiro">dentro do Studio Kiiro.</span>
+                    dentro do Studio Kiiro.
                   </h1>
-                  <p className="text-muted-foreground text-sm sm:text-[15px] leading-relaxed max-w-xl">
+                  <p className="text-primary-foreground/70 text-sm sm:text-[15px] leading-relaxed max-w-xl">
                     Aqui você acompanha clientes, projetos, orçamentos, finanças e ordens de serviço com a mesma atenção aos detalhes que colocamos no design.
                   </p>
                 </div>

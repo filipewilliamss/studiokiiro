@@ -163,9 +163,9 @@ const UniformCard = ({
     });
   }, []);
 
+  const baseLogoScale = project.id === 3 ? 1.5 : 1;
   const rotateX = isHovered ? (mousePos.y - 0.5) * -8 : 0;
   const rotateY = isHovered ? (mousePos.x - 0.5) * 8 : 0;
-  const glowX = mousePos.x * 100;
   const glowY = mousePos.y * 100;
 
   return (

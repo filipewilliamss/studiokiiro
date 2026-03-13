@@ -299,8 +299,8 @@ const ClientsTab = () => {
           filtered.map((client) => (
             <div
               key={client.id}
-              className={`relative bg-card/60 border rounded-xl p-5 transition-all duration-300 group hover:shadow-lg hover:shadow-primary/[0.03] overflow-hidden ${
-                selectedIds.has(client.id) ? "border-primary/40 bg-primary/[0.03]" : "border-border/40 hover:border-primary/25"
+              className={`relative bg-black border rounded-xl p-5 transition-all duration-300 group hover:shadow-lg hover:shadow-primary/[0.05] overflow-hidden ${
+                selectedIds.has(client.id) ? "border-primary/40" : "border-black/80 hover:border-primary/25"
               }`}
             >
               {/* Yellow accent line on hover */}

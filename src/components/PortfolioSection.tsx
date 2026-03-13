@@ -211,7 +211,7 @@ const UniformCard = ({
           <motion.img
             src={project.logo}
             alt={`Logo ${project.title}`}
-            className="max-w-[55%] max-h-[60%] object-contain"
+            className="max-w-[90%] max-h-[85%] object-contain"
             animate={{
               scale: isHovered ? 1.12 : 1,
               x: isHovered ? (mousePos.x - 0.5) * 15 : 0,

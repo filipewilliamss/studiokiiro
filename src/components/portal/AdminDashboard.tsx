@@ -187,8 +187,8 @@ const AdminDashboard = () => {
                     onClick={() => setActiveTab(tab.key)}
                     className={`relative flex items-center gap-2.5 px-5 py-3 rounded-xl text-sm font-medium transition-all duration-300 ${
                       isActive
-                        ? "bg-primary text-primary-foreground shadow-lg shadow-primary/25"
-                        : "text-muted-foreground hover:text-foreground hover:bg-secondary/50"
+                        ? "bg-background text-foreground shadow-lg shadow-black/10"
+                        : "text-black/40 hover:text-black hover:bg-black/5"
                     }`}
                   >
                     <tab.icon className={`h-4 w-4 transition-transform duration-300 ${isActive ? "" : "group-hover:scale-110"}`} />

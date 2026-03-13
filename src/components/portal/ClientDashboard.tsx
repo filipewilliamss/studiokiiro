@@ -835,6 +835,162 @@ const ClientDashboard = () => {
             </div>
           </motion.section>
         )}
+
+        {/* Service Orders section */}
+        {serviceOrders.length > 0 && (
+          <motion.section
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.25 }}
+            className="space-y-3"
+          >
+            <div className="flex items-center gap-2">
+              <FileText className="h-4 w-4 text-primary" />
+              <h2 className="text-sm font-medium uppercase tracking-wider text-muted-foreground">Ordens de Serviço</h2>
+            </div>
+            <div className="grid gap-3">
+              {serviceOrders.map((order) => (
+                <motion.div
+                  key={order.id}
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  className="bg-card/80 border border-border/50 rounded-2xl p-5 hover:border-primary/20 transition-all"
+                >
+                  <div className="flex items-start justify-between mb-2">
+                    <div>
+                      <div className="flex items-center gap-2">
+                        <Hash className="h-4 w-4 text-primary" />
+                        <span className="font-display font-bold text-primary">OS #{getOsHash(order)}</span>
+                      </div>
+                      <p className="text-sm text-foreground mt-1 font-medium">{order.service_type}</p>
+                      {order.description && <p className="text-xs text-muted-foreground mt-0.5">{order.description}</p>}
+                    </div>
+                    <p className="font-display font-bold text-xl text-foreground">{formatCurrencyValue(Number(order.total_value))}</p>
+                  </div>
+                  <div className="flex items-center justify-between mt-3">
+                    <span className="text-xs text-muted-foreground">
+                      {new Date(order.created_at).toLocaleDateString("pt-BR")}
+                      {order.deadline && ` · Prazo: ${new Date(order.deadline + "T00:00:00").toLocaleDateString("pt-BR")}`}
+                    </span>
+                    <Button variant="outline" size="sm" className="gap-2 rounded-xl" onClick={() => setViewOrder(order)}>
+                      <FileText className="h-3.5 w-3.5" />
+                      Ver Documento
+                    </Button>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </motion.section>
+        )}
+
+        {/* OS View/Print Modal */}
+        <Dialog open={!!viewOrder} onOpenChange={(o) => !o && setViewOrder(null)}>
+          <DialogContent className="sm:max-w-3xl max-h-[90vh] overflow-y-auto p-0">
+            {viewOrder && (
+              <>
+                <div className="flex justify-end gap-2 p-4 pb-0">
+                  <Button onClick={handlePrintOS} variant="outline" className="gap-2">
+                    <Printer className="h-4 w-4" /> Imprimir / PDF
+                  </Button>
+                </div>
+                <div ref={osPrintRef}>
+                  <div style={{ background: "#1a1a1a", color: "#fff", padding: "32px 40px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                    <div>
+                      <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "11px", textTransform: "uppercase", letterSpacing: "4px", color: "#999", marginBottom: "8px" }}>Ordem de Serviço</h2>
+                      <h1 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "28px", fontWeight: 700, color: "#fff", marginBottom: "8px" }}>{PROVIDER.name}</h1>
+                      <p style={{ fontSize: "13px", color: "#aaa", lineHeight: 1.5 }}>{PROVIDER.document}<br />{PROVIDER.address}</p>
+                    </div>
+                    <img src={kiiroLogo} alt="Studio Kiiro" style={{ height: "48px" }} />
+                  </div>
+                  <div style={{ padding: "32px 40px" }}>
+                    <div style={{ marginBottom: "28px" }}>
+                      <div style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "11px", textTransform: "uppercase", letterSpacing: "3px", color: "#666", fontWeight: 600, marginBottom: "14px" }}>Cliente</div>
+                      <div style={{ border: "1px solid #e5e5e5", borderRadius: "4px", padding: "20px 24px" }}>
+                        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px" }}>
+                          <div>
+                            <div style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "10px", textTransform: "uppercase", letterSpacing: "2px", color: "#999", marginBottom: "4px" }}>Nome</div>
+                            <div style={{ fontSize: "14px", color: "#1a1a1a" }}>{viewOrder.profiles?.full_name || profile?.full_name || "—"}</div>
+                          </div>
+                          <div>
+                            <div style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "10px", textTransform: "uppercase", letterSpacing: "2px", color: "#999", marginBottom: "4px" }}>Contato</div>
+                            <div style={{ fontSize: "14px", color: "#1a1a1a" }}>{viewOrder.profiles?.email || "—"}</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div style={{ marginBottom: "28px" }}>
+                      <div style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "11px", textTransform: "uppercase", letterSpacing: "3px", color: "#666", fontWeight: 600, marginBottom: "14px" }}>Resumo</div>
+                      <div style={{ border: "1px solid #e5e5e5", borderRadius: "4px", padding: "20px 24px" }}>
+                        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px" }}>
+                          <div>
+                            <div style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "10px", textTransform: "uppercase", letterSpacing: "2px", color: "#999", marginBottom: "4px" }}>Título</div>
+                            <div style={{ fontSize: "14px", color: "#1a1a1a" }}>{viewOrder.service_type}</div>
+                          </div>
+                          <div>
+                            <div style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "10px", textTransform: "uppercase", letterSpacing: "2px", color: "#999", marginBottom: "4px" }}>Vencimento</div>
+                            <div style={{ fontSize: "14px", color: "#1a1a1a" }}>{viewOrder.deadline ? formatDateLong(viewOrder.deadline) : "—"}</div>
+                          </div>
+                          <div>
+                            <div style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "10px", textTransform: "uppercase", letterSpacing: "2px", color: "#999", marginBottom: "4px" }}>Descrição</div>
+                            <div style={{ fontSize: "14px", color: "#1a1a1a", lineHeight: 1.5 }}>{viewOrder.description || "—"}</div>
+                          </div>
+                          <div>
+                            <div style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "10px", textTransform: "uppercase", letterSpacing: "2px", color: "#999", marginBottom: "4px" }}>Responsável</div>
+                            <div style={{ fontSize: "14px", color: "#1a1a1a" }}>{PROVIDER.name}</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    {Array.isArray(viewOrder.items) && viewOrder.items.length > 0 && viewOrder.items.some((i: any) => i.description) && (
+                      <div style={{ marginBottom: "28px" }}>
+                        <div style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "11px", textTransform: "uppercase", letterSpacing: "3px", color: "#666", fontWeight: 600, marginBottom: "14px" }}>Itens e Serviços</div>
+                        <div style={{ border: "1px solid #e5e5e5", borderRadius: "4px", padding: "0" }}>
+                          <table style={{ width: "100%", borderCollapse: "collapse" }}>
+                            <thead>
+                              <tr>
+                                <th style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "10px", textTransform: "uppercase", letterSpacing: "2px", color: "#999", padding: "14px 16px", textAlign: "left", borderBottom: "1px solid #e5e5e5" }}>Descrição</th>
+                                <th style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "10px", textTransform: "uppercase", letterSpacing: "2px", color: "#999", padding: "14px 16px", textAlign: "right", borderBottom: "1px solid #e5e5e5" }}>Qtd</th>
+                                <th style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "10px", textTransform: "uppercase", letterSpacing: "2px", color: "#999", padding: "14px 16px", textAlign: "right", borderBottom: "1px solid #e5e5e5" }}>Valor Unit.</th>
+                                <th style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "10px", textTransform: "uppercase", letterSpacing: "2px", color: "#999", padding: "14px 16px", textAlign: "right", borderBottom: "1px solid #e5e5e5" }}>Total</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {(viewOrder.items as ServiceItem[]).filter((i) => i.description).map((item, idx) => (
+                                <tr key={idx}>
+                                  <td style={{ padding: "14px 16px", fontSize: "14px", borderBottom: "1px solid #f0f0f0" }}>{item.description}</td>
+                                  <td style={{ padding: "14px 16px", fontSize: "14px", textAlign: "right", borderBottom: "1px solid #f0f0f0" }}>{item.qty}</td>
+                                  <td style={{ padding: "14px 16px", fontSize: "14px", textAlign: "right", borderBottom: "1px solid #f0f0f0" }}>{formatCurrencyValue(item.unit_price)}</td>
+                                  <td style={{ padding: "14px 16px", fontSize: "14px", textAlign: "right", borderBottom: "1px solid #f0f0f0" }}>{formatCurrencyValue(item.qty * item.unit_price)}</td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                          <div style={{ display: "flex", justifyContent: "flex-end", alignItems: "center", gap: "16px", padding: "16px" }}>
+                            <span style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "10px", textTransform: "uppercase", letterSpacing: "2px", color: "#999" }}>Total Geral</span>
+                            <span style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "22px", fontWeight: 700, color: "#1a1a1a" }}>{formatCurrencyValue(Number(viewOrder.total_value))}</span>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                    {(!Array.isArray(viewOrder.items) || viewOrder.items.length === 0 || !viewOrder.items.some((i: any) => i.description)) && (
+                      <div style={{ marginBottom: "28px" }}>
+                        <div style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "11px", textTransform: "uppercase", letterSpacing: "3px", color: "#666", fontWeight: 600, marginBottom: "14px" }}>Valor</div>
+                        <div style={{ border: "1px solid #e5e5e5", borderRadius: "4px", padding: "20px 24px", textAlign: "right" }}>
+                          <span style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "10px", textTransform: "uppercase", letterSpacing: "2px", color: "#999", marginRight: "16px" }}>Total Geral</span>
+                          <span style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "22px", fontWeight: 700, color: "#1a1a1a" }}>{formatCurrencyValue(Number(viewOrder.total_value))}</span>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                  <div style={{ textAlign: "center", padding: "40px", color: "#999", fontSize: "12px", lineHeight: 1.8, borderTop: "1px solid #e5e5e5", marginTop: "20px" }}>
+                    OS #{getOsHash(viewOrder)} gerada em {formatDateTimeLong(viewOrder.created_at)}<br />
+                    Documento emitido via Studio Kiiro
+                  </div>
+                </div>
+              </>
+            )}
+          </DialogContent>
+        </Dialog>
       </main>
     </div>
   );

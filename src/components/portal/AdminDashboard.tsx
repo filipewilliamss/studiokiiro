@@ -196,7 +196,7 @@ const AdminDashboard = () => {
                     {isActive && (
                       <motion.div
                         layoutId="activeTabGlow"
-                        className="absolute inset-0 rounded-xl bg-primary -z-10"
+                        className="absolute inset-0 rounded-xl bg-background -z-10"
                         transition={{ type: "spring", stiffness: 400, damping: 30 }}
                       />
                     )}

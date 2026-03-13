@@ -318,17 +318,17 @@ const ClientsTab = () => {
                     <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-white/50">
                       {client.email && (
                         <span className="flex items-center gap-1.5">
-                          <Mail className="h-3 w-3 text-muted-foreground/60" /> {client.email}
+                          <Mail className="h-3 w-3 text-white/30" /> {client.email}
                         </span>
                       )}
                       {client.phone && (
                         <span className="flex items-center gap-1.5">
-                          <Phone className="h-3 w-3 text-muted-foreground/60" /> {client.phone}
+                          <Phone className="h-3 w-3 text-white/30" /> {client.phone}
                         </span>
                       )}
                       {client.company && (
                         <span className="flex items-center gap-1.5">
-                          <Building2 className="h-3 w-3 text-muted-foreground/60" /> {client.company}
+                          <Building2 className="h-3 w-3 text-white/30" /> {client.company}
                         </span>
                       )}
                     </div>

@@ -155,14 +155,14 @@ const AdminDashboard = () => {
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ duration: 0.5, delay: 0.25 + i * 0.1, ease: [0.22, 1, 0.36, 1] }}
                       whileHover={{ scale: 1.03, transition: { duration: 0.2 } }}
-                      className="group flex-1 lg:w-56 rounded-xl border border-border/50 bg-secondary/20 p-4 flex items-center gap-3.5 transition-all duration-300 hover:border-primary/40 hover:bg-secondary/30 hover:shadow-lg hover:shadow-primary/5 cursor-default"
+                      className="group flex-1 lg:w-56 rounded-xl border border-black/10 bg-black/5 p-4 flex items-center gap-3.5 transition-all duration-300 hover:border-primary-foreground/30 hover:bg-black/10 cursor-default"
                     >
-                      <div className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 bg-primary/10 text-primary transition-all duration-300 group-hover:bg-primary/20 group-hover:shadow-md group-hover:shadow-primary/10">
+                      <div className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 bg-primary-foreground/10 text-primary-foreground transition-all duration-300">
                         <card.icon className="h-4.5 w-4.5" />
                       </div>
                       <div className="min-w-0">
-                        <span className="block text-2xl sm:text-3xl font-bold font-display text-foreground leading-none transition-colors duration-300 group-hover:text-primary">{card.value}</span>
-                        <span className="block text-[10px] uppercase tracking-[0.15em] text-muted-foreground mt-1 truncate">{card.label}</span>
+                        <span className="block text-2xl sm:text-3xl font-bold font-display text-primary-foreground leading-none">{card.value}</span>
+                        <span className="block text-[10px] uppercase tracking-[0.15em] text-primary-foreground/60 mt-1 truncate">{card.label}</span>
                       </div>
                     </motion.div>
                   ))}

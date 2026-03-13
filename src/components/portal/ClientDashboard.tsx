@@ -1,5 +1,5 @@
 import { useAuth } from "@/contexts/AuthContext";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import Navbar from "@/components/Navbar";
 import { Button } from "@/components/ui/button";
@@ -81,6 +81,8 @@ const ClientDashboard = () => {
   const [sendingMessage, setSendingMessage] = useState(false);
   const [isLoadingFiles, setIsLoadingFiles] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 });
+  const [isInPanel, setIsInPanel] = useState(false);
 
   // Briefing state
   const [briefingSubmitted, setBriefingSubmitted] = useState<boolean>(false);
@@ -97,6 +99,10 @@ const ClientDashboard = () => {
   const [serviceOrders, setServiceOrders] = useState<ServiceOrder[]>([]);
   const [viewOrder, setViewOrder] = useState<ServiceOrder | null>(null);
   const osPrintRef = useRef<HTMLDivElement>(null);
+
+  const handleMouseMove = useCallback((e: React.MouseEvent) => {
+    setCursorPos({ x: e.clientX, y: e.clientY });
+  }, []);
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -263,50 +269,87 @@ const ClientDashboard = () => {
   const showBriefingBanner = selectedProject && !briefingSubmitted && currentBriefingQuestions;
   const pendingQuotes = quotes.filter((q) => q.status === "pendente");
 
+  // Shared wrapper for both views
+  const PageWrapper = ({ children }: { children: React.ReactNode }) => (
+    <div
+      className="min-h-screen relative"
+      onMouseMove={handleMouseMove}
+      onMouseEnter={() => setIsInPanel(true)}
+      onMouseLeave={() => setIsInPanel(false)}
+    >
+      {/* Custom cursor */}
+      {isInPanel && (
+        <div
+          className="fixed w-8 h-8 rounded-full border-2 border-primary/40 pointer-events-none z-[9999] mix-blend-difference transition-[width,height,border-color] duration-150"
+          style={{
+            transform: `translate(${cursorPos.x - 16}px, ${cursorPos.y - 16}px)`,
+            willChange: 'transform',
+          }}
+        />
+      )}
+      {/* Layered background */}
+      <div className="fixed inset-0 bg-white" />
+      <div
+        className="fixed inset-0 pointer-events-none"
+        style={{
+          background: 'radial-gradient(ellipse 70% 50% at 50% 40%, hsl(0 0% 97%) 0%, transparent 100%)',
+        }}
+      />
+      <div
+        className="fixed inset-0 pointer-events-none opacity-[0.03]"
+        style={{
+          backgroundImage: `linear-gradient(hsl(0 0% 75%) 1px, transparent 1px), linear-gradient(90deg, hsl(0 0% 75%) 1px, transparent 1px)`,
+          backgroundSize: "48px 48px",
+        }}
+      />
+      <div className="relative z-10">{children}</div>
+    </div>
+  );
+
   // Project detail view
   if (selectedProject) {
     return (
-      <div className="min-h-screen bg-white">
+      <PageWrapper>
         <Navbar />
-        <header className="border-b border-black/10 bg-white/70 backdrop-blur-xl sticky top-16 md:top-20 z-30 mt-16 md:mt-20">
+        <header className="border-b border-black/8 bg-white/80 backdrop-blur-xl sticky top-16 md:top-20 z-30 mt-16 md:mt-20">
           <div className="max-w-5xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between">
-            <button onClick={() => setSelectedProject(null)} className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors group">
+            <button onClick={() => setSelectedProject(null)} className="flex items-center gap-2 text-sm text-black/40 hover:text-primary transition-colors group">
               <ArrowLeft className="h-4 w-4 group-hover:-translate-x-1 transition-transform" />
               Voltar
             </button>
-            <Button variant="ghost" size="sm" onClick={signOut} className="text-muted-foreground hover:text-foreground">
+            <Button variant="ghost" size="sm" onClick={signOut} className="text-black/40 hover:text-black">
               <LogOut className="h-4 w-4 mr-2" />
               Sair
             </Button>
           </div>
         </header>
 
-        <main className="max-w-5xl mx-auto px-4 sm:px-6 py-8 space-y-6">
+        <main className="max-w-5xl mx-auto px-4 sm:px-6 py-10 space-y-8">
           {/* Project header with gradient */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4 }}
-            className={`rounded-2xl bg-gradient-to-br ${statusGradients[selectedProject.status] || "from-muted to-muted/50"} border border-border/50 p-6`}
+            className={`rounded-2xl bg-gradient-to-br ${statusGradients[selectedProject.status] || "from-muted to-muted/50"} border border-black/8 p-6 sm:p-8 hover:-translate-y-0.5 hover:shadow-lg transition-all duration-400`}
           >
-            <h1 className="text-2xl font-bold text-foreground font-display">{selectedProject.name}</h1>
+            <h1 className="text-2xl sm:text-3xl font-bold text-black font-display">{selectedProject.name}</h1>
             <div className="flex items-center gap-3 mt-2">
-              <p className="text-sm text-muted-foreground">{selectedProject.type}</p>
-              <span className="text-xs px-3 py-1 rounded-full bg-primary/20 text-primary font-semibold border border-primary/30">
+              <p className="text-sm text-black/50">{selectedProject.type}</p>
+              <span className="text-xs px-3 py-1 rounded-full bg-primary/20 text-black font-semibold border border-primary/30">
                 {statusLabels[selectedProject.status] || selectedProject.status}
               </span>
             </div>
             {/* Progress bar */}
-            <div className="mt-4 space-y-1.5">
+            <div className="mt-5 space-y-1.5">
               <div className="flex justify-between text-xs">
-                <span className="text-muted-foreground">Progresso geral</span>
-                <span className="font-semibold text-primary">{selectedProject.progress}%</span>
+                <span className="text-black/50">Progresso geral</span>
+                <span className="font-bold text-black">{selectedProject.progress}%</span>
               </div>
-              <div className="h-2 bg-background/50 rounded-full overflow-hidden backdrop-blur-sm">
+              <div className="h-2.5 bg-white/60 rounded-full overflow-hidden backdrop-blur-sm">
                 <motion.div
                   initial={{ width: 0 }}
                   animate={{ width: `${selectedProject.progress}%` }}
-                  transition={{ duration: 0.8, ease: "easeOut" }}
+                  transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
                   className="h-full bg-gradient-to-r from-primary to-kiiro-glow rounded-full"
                 />
               </div>
@@ -320,15 +363,15 @@ const ClientDashboard = () => {
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.95 }}
-                className="bg-gradient-to-r from-primary/15 to-primary/5 border border-primary/30 rounded-2xl p-5 flex items-center justify-between gap-4"
+                className="bg-gradient-to-r from-primary/10 to-primary/5 border border-primary/20 rounded-2xl p-5 flex items-center justify-between gap-4"
               >
                 <div className="flex items-start gap-3">
                   <div className="h-10 w-10 rounded-xl bg-primary/20 flex items-center justify-center">
                     <ClipboardList className="h-5 w-5 text-primary" />
                   </div>
                   <div>
-                    <h3 className="text-sm font-semibold text-foreground">Briefing Pendente</h3>
-                    <p className="text-xs text-muted-foreground mt-0.5">
+                    <h3 className="text-sm font-semibold text-black">Briefing Pendente</h3>
+                    <p className="text-xs text-black/50 mt-0.5">
                       Responda o briefing para iniciarmos seu projeto.
                     </p>
                   </div>
@@ -348,7 +391,7 @@ const ClientDashboard = () => {
                 <DialogTitle style={{ fontFamily: "var(--font-display)" }}>
                   Briefing — {selectedProject.type}
                 </DialogTitle>
-                <p className="text-sm text-muted-foreground mt-1">
+                <p className="text-sm text-black/50 mt-1">
                   Preencha com o máximo de detalhes possível para um resultado incrível.
                 </p>
               </DialogHeader>
@@ -363,7 +406,7 @@ const ClientDashboard = () => {
                   }
                   return (
                     <div key={q.id} className="space-y-1.5">
-                      <label className="text-sm font-medium text-foreground">
+                      <label className="text-sm font-medium text-black">
                         {q.question} {q.required && <span className="text-destructive">*</span>}
                       </label>
                       {(q.type === "text" || q.type === "email" || q.type === "phone") && (
@@ -390,7 +433,7 @@ const ClientDashboard = () => {
                             {q.options.map((opt) => (
                               <label key={opt} className="flex items-center gap-2.5 p-2.5 rounded-xl hover:bg-primary/5 cursor-pointer transition-colors border border-transparent hover:border-primary/20">
                                 <input type="radio" name={q.id} checked={(briefingAnswers[q.id] || "").startsWith(opt)} onChange={() => setBriefingAnswers((prev) => ({ ...prev, [q.id]: opt }))} className="h-4 w-4 text-primary accent-primary" />
-                                <span className="text-sm text-foreground">{opt}</span>
+                                <span className="text-sm text-black">{opt}</span>
                               </label>
                             ))}
                           </div>
@@ -411,7 +454,7 @@ const ClientDashboard = () => {
                                   const newSelected = checked ? [...selected, opt] : selected.filter((s) => s !== opt);
                                   setBriefingAnswers((prev) => ({ ...prev, [q.id]: newSelected.join("|||") }));
                                 }} />
-                                <span className="text-sm text-foreground">{opt}</span>
+                                <span className="text-sm text-black">{opt}</span>
                               </label>
                             );
                           })}
@@ -420,7 +463,7 @@ const ClientDashboard = () => {
                     </div>
                   );
                 })}
-                <div className="flex justify-end gap-2 pt-4 border-t border-border">
+                <div className="flex justify-end gap-2 pt-4 border-t border-black/10">
                   <Button variant="ghost" onClick={() => setBriefingOpen(false)}>Cancelar</Button>
                   <Button onClick={submitBriefing} disabled={submittingBriefing} className="rounded-xl">{submittingBriefing ? "Enviando..." : "Enviar Briefing"}</Button>
                 </div>
@@ -430,254 +473,269 @@ const ClientDashboard = () => {
 
           {/* Tabs */}
           <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
-            <Tabs defaultValue="status" className="space-y-6">
-              <TabsList className="bg-card/80 backdrop-blur-sm border border-border/50 h-12 p-1 gap-1 grid grid-cols-4 w-full rounded-2xl">
-                <TabsTrigger value="status" className="gap-1.5 text-xs rounded-xl data-[state=active]:bg-primary data-[state=active]:text-primary-foreground transition-all">
+            <Tabs defaultValue="status" className="space-y-8">
+              <TabsList className="bg-black/[0.02] backdrop-blur-sm border border-black/8 h-12 p-1.5 gap-1 grid grid-cols-4 w-full rounded-2xl">
+                <TabsTrigger value="status" className="gap-1.5 text-xs rounded-xl data-[state=active]:bg-white data-[state=active]:text-black data-[state=active]:shadow-md transition-all text-black/35">
                   <CheckCircle2 className="h-3.5 w-3.5" /><span className="hidden sm:inline">Status</span>
                 </TabsTrigger>
-                <TabsTrigger value="files" className="gap-1.5 text-xs rounded-xl data-[state=active]:bg-primary data-[state=active]:text-primary-foreground transition-all">
+                <TabsTrigger value="files" className="gap-1.5 text-xs rounded-xl data-[state=active]:bg-white data-[state=active]:text-black data-[state=active]:shadow-md transition-all text-black/35">
                   <FolderOpen className="h-3.5 w-3.5" /><span className="hidden sm:inline">Arquivos</span>
                 </TabsTrigger>
-                <TabsTrigger value="finance" className="gap-1.5 text-xs rounded-xl data-[state=active]:bg-primary data-[state=active]:text-primary-foreground transition-all">
+                <TabsTrigger value="finance" className="gap-1.5 text-xs rounded-xl data-[state=active]:bg-white data-[state=active]:text-black data-[state=active]:shadow-md transition-all text-black/35">
                   <DollarSign className="h-3.5 w-3.5" /><span className="hidden sm:inline">Financeiro</span>
                 </TabsTrigger>
-                <TabsTrigger value="messages" className="gap-1.5 text-xs rounded-xl data-[state=active]:bg-primary data-[state=active]:text-primary-foreground transition-all">
+                <TabsTrigger value="messages" className="gap-1.5 text-xs rounded-xl data-[state=active]:bg-white data-[state=active]:text-black data-[state=active]:shadow-md transition-all text-black/35">
                   <MessageSquare className="h-3.5 w-3.5" /><span className="hidden sm:inline">Mensagens</span>
                 </TabsTrigger>
               </TabsList>
 
               {/* STATUS TAB */}
               <TabsContent value="status" className="space-y-6">
-                <p className="text-xs text-muted-foreground">{completedStages} de {stages.length} etapas concluídas</p>
-                {stages.length > 0 && (
-                  <div className="space-y-2">
-                    {stages.map((stage, idx) => {
-                      const isCompleted = stage.status === "concluida";
-                      const isCurrent = idx === currentStageIndex;
-                      return (
-                        <motion.div
-                          key={stage.id}
-                          initial={{ opacity: 0, x: -10 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          transition={{ delay: idx * 0.05 }}
-                          className={`flex items-start gap-3 p-4 rounded-2xl border transition-all ${
-                            isCurrent ? "border-primary/50 bg-primary/5 shadow-[0_0_20px_-5px_hsl(var(--primary)/0.15)]" : isCompleted ? "border-border/50 bg-card/50" : "border-border/30 bg-card/30"
-                          }`}
-                        >
-                          {isCompleted ? (
-                            <CheckCircle2 className="h-5 w-5 text-primary shrink-0 mt-0.5" />
-                          ) : isCurrent ? (
-                            <div className="h-5 w-5 rounded-full border-2 border-primary shrink-0 mt-0.5 flex items-center justify-center">
-                              <div className="h-2 w-2 rounded-full bg-primary animate-pulse" />
+                <div className="rounded-2xl border border-black/8 bg-white shadow-lg shadow-black/[0.03] p-6 sm:p-8 space-y-4">
+                  <p className="text-xs text-black/40 font-medium">{completedStages} de {stages.length} etapas concluídas</p>
+                  {stages.length > 0 && (
+                    <div className="space-y-2.5">
+                      {stages.map((stage, idx) => {
+                        const isCompleted = stage.status === "concluida";
+                        const isCurrent = idx === currentStageIndex;
+                        return (
+                          <motion.div
+                            key={stage.id}
+                            initial={{ opacity: 0, x: -10 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ delay: idx * 0.05 }}
+                            className={`relative flex items-start gap-3 p-4 rounded-xl border transition-all duration-300 group hover:-translate-y-px ${
+                              isCurrent ? "border-primary/30 bg-primary/5 shadow-md shadow-primary/10" : isCompleted ? "border-black/8 bg-black/[0.02]" : "border-black/5 bg-transparent"
+                            }`}
+                          >
+                            {/* Yellow accent on hover */}
+                            <div className="absolute left-0 top-2 bottom-2 w-[3px] bg-primary rounded-full scale-y-0 group-hover:scale-y-100 transition-transform duration-200 origin-center" />
+                            {isCompleted ? (
+                              <CheckCircle2 className="h-5 w-5 text-primary shrink-0 mt-0.5" />
+                            ) : isCurrent ? (
+                              <div className="h-5 w-5 rounded-full border-2 border-primary shrink-0 mt-0.5 flex items-center justify-center">
+                                <div className="h-2 w-2 rounded-full bg-primary animate-pulse" />
+                              </div>
+                            ) : (
+                              <Circle className="h-5 w-5 text-black/20 shrink-0 mt-0.5" />
+                            )}
+                            <div className="flex-1 min-w-0">
+                              <span className={`text-sm font-medium ${isCompleted ? "text-black/40 line-through" : isCurrent ? "text-black" : "text-black/30"}`}>{stage.name}</span>
+                              {stage.description && <p className="text-[11px] text-black/35 mt-0.5 line-clamp-2">{stage.description}</p>}
+                              {stage.completed_at && <p className="text-[10px] text-primary mt-1">✓ {new Date(stage.completed_at).toLocaleDateString("pt-BR")}</p>}
+                              {isCurrent && <p className="text-[10px] text-primary font-semibold mt-1 flex items-center gap-1"><Sparkles className="h-3 w-3" /> Etapa atual</p>}
                             </div>
-                          ) : (
-                            <Circle className="h-5 w-5 text-muted-foreground/30 shrink-0 mt-0.5" />
-                          )}
-                          <div className="flex-1 min-w-0">
-                            <span className={`text-sm font-medium ${isCompleted ? "text-muted-foreground line-through" : isCurrent ? "text-foreground" : "text-muted-foreground/60"}`}>{stage.name}</span>
-                            {stage.description && <p className="text-[11px] text-muted-foreground mt-0.5 line-clamp-2">{stage.description}</p>}
-                            {stage.completed_at && <p className="text-[10px] text-primary mt-1">✓ {new Date(stage.completed_at).toLocaleDateString("pt-BR")}</p>}
-                            {isCurrent && <p className="text-[10px] text-primary font-semibold mt-1 flex items-center gap-1"><Sparkles className="h-3 w-3" /> Etapa atual</p>}
-                          </div>
-                        </motion.div>
-                      );
-                    })}
-                  </div>
-                )}
+                          </motion.div>
+                        );
+                      })}
+                    </div>
+                  )}
+                </div>
               </TabsContent>
 
               {/* FILES TAB */}
-              <TabsContent value="files" className="space-y-3">
-                <label className="text-xs uppercase tracking-wider text-muted-foreground font-medium">Arquivos do Projeto</label>
-                {isLoadingFiles ? (
-                  <div className="bg-card/50 border border-border/50 rounded-2xl p-6 text-center">
-                    <div className="animate-pulse text-muted-foreground text-sm">Carregando arquivos...</div>
-                  </div>
-                ) : files.length === 0 ? (
-                  <div className="bg-card/50 border border-border/50 rounded-2xl p-8 text-center">
-                    <FolderOpen className="h-8 w-8 text-muted-foreground/30 mx-auto mb-2" />
-                    <p className="text-muted-foreground text-sm">Nenhum arquivo disponível.</p>
-                  </div>
-                ) : (
-                  <div className="space-y-2">
-                    {files.map((file, idx) => (
-                      <motion.div
-                        key={file.name}
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: idx * 0.05 }}
-                        className="flex items-center justify-between p-4 rounded-2xl border border-border/50 bg-card/50 hover:border-primary/20 transition-all gap-3 group"
-                      >
-                        <span className="text-sm text-foreground truncate flex-1">{file.name}</span>
-                        <div className="flex items-center gap-2 shrink-0">
-                          {file.viewUrl && (
-                            <Button asChild variant="outline" size="sm" className="gap-1.5 rounded-xl">
-                              <a href={file.viewUrl} target="_blank" rel="noopener noreferrer"><ExternalLink className="h-3.5 w-3.5" />Abrir</a>
-                            </Button>
-                          )}
-                          {file.downloadUrl && (
-                            <Button asChild variant="ghost" size="sm" className="gap-1.5 rounded-xl">
-                              <a href={file.downloadUrl} target="_blank" rel="noopener noreferrer"><FileDown className="h-3.5 w-3.5" />Baixar</a>
-                            </Button>
-                          )}
-                        </div>
-                      </motion.div>
-                    ))}
-                  </div>
-                )}
+              <TabsContent value="files" className="space-y-4">
+                <div className="rounded-2xl border border-black/8 bg-white shadow-lg shadow-black/[0.03] p-6 sm:p-8">
+                  <label className="text-[10px] uppercase tracking-[0.3em] text-black/35 font-semibold">Arquivos do Projeto</label>
+                  {isLoadingFiles ? (
+                    <div className="py-12 text-center">
+                      <div className="animate-pulse text-black/30 text-sm">Carregando arquivos...</div>
+                    </div>
+                  ) : files.length === 0 ? (
+                    <div className="py-12 text-center">
+                      <FolderOpen className="h-8 w-8 text-black/15 mx-auto mb-2" />
+                      <p className="text-black/35 text-sm">Nenhum arquivo disponível.</p>
+                    </div>
+                  ) : (
+                    <div className="space-y-2 mt-4">
+                      {files.map((file, idx) => (
+                        <motion.div
+                          key={file.name}
+                          initial={{ opacity: 0, y: 10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: idx * 0.05 }}
+                          className="relative flex items-center justify-between p-4 rounded-xl border border-black/8 bg-black/[0.02] hover:border-primary/20 hover:-translate-y-px hover:shadow-md transition-all duration-300 gap-3 group"
+                        >
+                          <div className="absolute left-0 top-2 bottom-2 w-[3px] bg-primary rounded-full scale-y-0 group-hover:scale-y-100 transition-transform duration-200 origin-center" />
+                          <span className="text-sm text-black truncate flex-1 pl-2">{file.name}</span>
+                          <div className="flex items-center gap-2 shrink-0">
+                            {file.viewUrl && (
+                              <Button asChild variant="outline" size="sm" className="gap-1.5 rounded-xl text-black border-black/10">
+                                <a href={file.viewUrl} target="_blank" rel="noopener noreferrer"><ExternalLink className="h-3.5 w-3.5" />Abrir</a>
+                              </Button>
+                            )}
+                            {file.downloadUrl && (
+                              <Button asChild variant="ghost" size="sm" className="gap-1.5 rounded-xl text-black/50">
+                                <a href={file.downloadUrl} target="_blank" rel="noopener noreferrer"><FileDown className="h-3.5 w-3.5" />Baixar</a>
+                              </Button>
+                            )}
+                          </div>
+                        </motion.div>
+                      ))}
+                    </div>
+                  )}
+                </div>
               </TabsContent>
 
               {/* FINANCE TAB */}
               <TabsContent value="finance" className="space-y-4">
-                <label className="text-xs uppercase tracking-wider text-muted-foreground font-medium">Detalhes Financeiros</label>
-                {!payment ? (
-                  <div className="bg-card/50 border border-border/50 rounded-2xl p-8 text-center">
-                    <DollarSign className="h-8 w-8 text-muted-foreground/30 mx-auto mb-2" />
-                    <p className="text-muted-foreground text-sm">Nenhuma informação financeira disponível.</p>
-                  </div>
-                ) : (
-                  <div className="space-y-4">
-                    <div className="bg-gradient-to-br from-primary/10 to-transparent border border-primary/20 rounded-2xl p-5 space-y-4">
-                      <div className="flex items-center justify-between">
-                        <span className="text-sm text-muted-foreground">Orçamento Total</span>
-                        <span className="text-2xl font-bold text-foreground font-display">{formatCurrency(payment.budget_total)}</span>
-                      </div>
-                      {payment.initial_payment != null && payment.initial_payment > 0 && (
-                        <div className="flex items-center justify-between text-sm">
-                          <span className="text-muted-foreground">Entrada</span>
-                          <div className="text-right">
-                            <span className="text-foreground font-medium">{formatCurrency(payment.initial_payment)}</span>
-                            {payment.initial_payment_date && (
-                              <span className="text-muted-foreground text-xs ml-2">({new Date(payment.initial_payment_date + "T00:00:00").toLocaleDateString("pt-BR")})</span>
-                            )}
-                          </div>
-                        </div>
-                      )}
-                      {payment.remaining_amount != null && (
-                        <div className="flex items-center justify-between text-sm">
-                          <span className="text-muted-foreground">Saldo Restante</span>
-                          <span className="text-primary font-semibold">{formatCurrency(payment.remaining_amount)}</span>
-                        </div>
-                      )}
+                <div className="rounded-2xl border border-black/8 bg-white shadow-lg shadow-black/[0.03] p-6 sm:p-8 space-y-5">
+                  <label className="text-[10px] uppercase tracking-[0.3em] text-black/35 font-semibold">Detalhes Financeiros</label>
+                  {!payment ? (
+                    <div className="py-12 text-center">
+                      <DollarSign className="h-8 w-8 text-black/15 mx-auto mb-2" />
+                      <p className="text-black/35 text-sm">Nenhuma informação financeira disponível.</p>
                     </div>
-                    {payment.installments_total != null && payment.installments_total > 0 && (
-                      <div className="bg-card/50 border border-border/50 rounded-2xl p-5 space-y-3">
-                        <div className="flex items-center justify-between text-sm">
-                          <span className="text-muted-foreground">Parcelas</span>
-                          <span className="text-foreground font-medium">{payment.installments_paid ?? 0} de {payment.installments_total} pagas</span>
+                  ) : (
+                    <div className="space-y-4">
+                      <div className="bg-gradient-to-br from-primary/10 to-transparent border border-primary/15 rounded-xl p-5 space-y-4">
+                        <div className="flex items-center justify-between">
+                          <span className="text-sm text-black/50">Orçamento Total</span>
+                          <span className="text-2xl font-bold text-black font-display">{formatCurrency(payment.budget_total)}</span>
                         </div>
-                        <div className="h-2 bg-secondary rounded-full overflow-hidden">
-                          <motion.div
-                            initial={{ width: 0 }}
-                            animate={{ width: `${((payment.installments_paid ?? 0) / payment.installments_total) * 100}%` }}
-                            transition={{ duration: 0.8 }}
-                            className="h-full bg-gradient-to-r from-primary to-kiiro-glow rounded-full"
-                          />
-                        </div>
-                        {payment.next_payment_date && (
-                          <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
-                            <Clock className="h-3 w-3" />
-                            <span>Próximo: {new Date(payment.next_payment_date + "T00:00:00").toLocaleDateString("pt-BR")}</span>
+                        {payment.initial_payment != null && payment.initial_payment > 0 && (
+                          <div className="flex items-center justify-between text-sm">
+                            <span className="text-black/50">Entrada</span>
+                            <div className="text-right">
+                              <span className="text-black font-medium">{formatCurrency(payment.initial_payment)}</span>
+                              {payment.initial_payment_date && (
+                                <span className="text-black/35 text-xs ml-2">({new Date(payment.initial_payment_date + "T00:00:00").toLocaleDateString("pt-BR")})</span>
+                              )}
+                            </div>
+                          </div>
+                        )}
+                        {payment.remaining_amount != null && (
+                          <div className="flex items-center justify-between text-sm">
+                            <span className="text-black/50">Saldo Restante</span>
+                            <span className="text-primary font-semibold">{formatCurrency(payment.remaining_amount)}</span>
                           </div>
                         )}
                       </div>
-                    )}
-                    {payment.notes && (
-                      <div className="bg-card/50 border border-border/50 rounded-2xl p-4">
-                        <label className="text-xs uppercase tracking-wider text-muted-foreground font-medium">Observações</label>
-                        <p className="text-sm text-foreground mt-2 whitespace-pre-wrap">{payment.notes}</p>
-                      </div>
-                    )}
-                  </div>
-                )}
+                      {payment.installments_total != null && payment.installments_total > 0 && (
+                        <div className="border border-black/8 rounded-xl p-5 space-y-3">
+                          <div className="flex items-center justify-between text-sm">
+                            <span className="text-black/50">Parcelas</span>
+                            <span className="text-black font-medium">{payment.installments_paid ?? 0} de {payment.installments_total} pagas</span>
+                          </div>
+                          <div className="h-2.5 bg-black/5 rounded-full overflow-hidden">
+                            <motion.div
+                              initial={{ width: 0 }}
+                              animate={{ width: `${((payment.installments_paid ?? 0) / payment.installments_total) * 100}%` }}
+                              transition={{ duration: 0.8, delay: 0.2 }}
+                              className="h-full bg-gradient-to-r from-primary to-kiiro-glow rounded-full"
+                            />
+                          </div>
+                          {payment.next_payment_date && (
+                            <div className="flex items-center gap-1.5 text-xs text-black/40">
+                              <Clock className="h-3 w-3" />
+                              <span>Próximo: {new Date(payment.next_payment_date + "T00:00:00").toLocaleDateString("pt-BR")}</span>
+                            </div>
+                          )}
+                        </div>
+                      )}
+                      {payment.notes && (
+                        <div className="border border-black/8 rounded-xl p-4">
+                          <label className="text-[10px] uppercase tracking-[0.3em] text-black/35 font-semibold">Observações</label>
+                          <p className="text-sm text-black mt-2 whitespace-pre-wrap">{payment.notes}</p>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
               </TabsContent>
 
               {/* MESSAGES TAB */}
               <TabsContent value="messages" className="space-y-4">
-                <label className="text-xs uppercase tracking-wider text-muted-foreground font-medium">Mensagens e Feedbacks</label>
-                <div className="bg-card/50 border border-border/50 rounded-2xl overflow-hidden flex flex-col" style={{ height: "400px" }}>
-                  <div className="flex-1 overflow-y-auto p-4 space-y-3">
-                    {messages.length === 0 ? (
-                      <div className="flex items-center justify-center h-full">
-                        <div className="text-center">
-                          <MessageSquare className="h-8 w-8 text-muted-foreground/30 mx-auto mb-2" />
-                          <p className="text-muted-foreground text-sm">Envie a primeira mensagem!</p>
-                        </div>
-                      </div>
-                    ) : messages.map((msg) => {
-                      const isOwn = msg.sender_id === user?.id;
-                      return (
-                        <motion.div
-                          key={msg.id}
-                          initial={{ opacity: 0, y: 10, scale: 0.95 }}
-                          animate={{ opacity: 1, y: 0, scale: 1 }}
-                          className={`flex ${isOwn ? "justify-end" : "justify-start"}`}
-                        >
-                          <div className={`max-w-[80%] px-4 py-2.5 text-sm ${
-                            isOwn ? "bg-gradient-to-br from-primary to-kiiro-dark text-primary-foreground rounded-2xl rounded-br-md" : "bg-secondary text-foreground rounded-2xl rounded-bl-md"
-                          }`}>
-                            <p className="whitespace-pre-wrap">{msg.content}</p>
-                            <p className={`text-[10px] mt-1 ${isOwn ? "text-primary-foreground/60" : "text-muted-foreground"}`}>
-                              {new Date(msg.created_at).toLocaleString("pt-BR", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" })}
-                            </p>
-                          </div>
-                        </motion.div>
-                      );
-                    })}
-                    <div ref={messagesEndRef} />
+                <div className="rounded-2xl border border-black/8 bg-white shadow-lg shadow-black/[0.03] overflow-hidden">
+                  <div className="px-6 pt-5 pb-3">
+                    <label className="text-[10px] uppercase tracking-[0.3em] text-black/35 font-semibold">Mensagens e Feedbacks</label>
                   </div>
-                  <div className="border-t border-border/50 p-3 flex gap-2 bg-card/30">
-                    <Textarea
-                      value={newMessage}
-                      onChange={(e) => setNewMessage(e.target.value)}
-                      placeholder="Escreva sua mensagem..."
-                      className="min-h-[40px] max-h-[100px] resize-none text-sm rounded-xl"
-                      onKeyDown={(e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); sendMessage(); } }}
-                    />
-                    <Button onClick={sendMessage} disabled={!newMessage.trim() || sendingMessage} size="icon" className="shrink-0 h-10 w-10 rounded-xl">
-                      <Send className="h-4 w-4" />
-                    </Button>
+                  <div className="flex flex-col" style={{ height: "400px" }}>
+                    <div className="flex-1 overflow-y-auto px-6 py-4 space-y-3">
+                      {messages.length === 0 ? (
+                        <div className="flex items-center justify-center h-full">
+                          <div className="text-center">
+                            <MessageSquare className="h-8 w-8 text-black/15 mx-auto mb-2" />
+                            <p className="text-black/35 text-sm">Envie a primeira mensagem!</p>
+                          </div>
+                        </div>
+                      ) : messages.map((msg) => {
+                        const isOwn = msg.sender_id === user?.id;
+                        return (
+                          <motion.div
+                            key={msg.id}
+                            initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                            animate={{ opacity: 1, y: 0, scale: 1 }}
+                            className={`flex ${isOwn ? "justify-end" : "justify-start"}`}
+                          >
+                            <div className={`max-w-[80%] px-4 py-2.5 text-sm ${
+                              isOwn ? "bg-gradient-to-br from-primary to-kiiro-dark text-black rounded-2xl rounded-br-md" : "bg-black/5 text-black rounded-2xl rounded-bl-md"
+                            }`}>
+                              <p className="whitespace-pre-wrap">{msg.content}</p>
+                              <p className={`text-[10px] mt-1 ${isOwn ? "text-black/50" : "text-black/35"}`}>
+                                {new Date(msg.created_at).toLocaleString("pt-BR", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" })}
+                              </p>
+                            </div>
+                          </motion.div>
+                        );
+                      })}
+                      <div ref={messagesEndRef} />
+                    </div>
+                    <div className="border-t border-black/8 p-3 flex gap-2 bg-black/[0.02]">
+                      <Textarea
+                        value={newMessage}
+                        onChange={(e) => setNewMessage(e.target.value)}
+                        placeholder="Escreva sua mensagem..."
+                        className="min-h-[40px] max-h-[100px] resize-none text-sm rounded-xl"
+                        onKeyDown={(e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); sendMessage(); } }}
+                      />
+                      <Button onClick={sendMessage} disabled={!newMessage.trim() || sendingMessage} size="icon" className="shrink-0 h-10 w-10 rounded-xl">
+                        <Send className="h-4 w-4" />
+                      </Button>
+                    </div>
                   </div>
                 </div>
               </TabsContent>
             </Tabs>
           </motion.div>
         </main>
-      </div>
+      </PageWrapper>
     );
   }
 
   // Project list view (main dashboard)
   return (
-    <div className="min-h-screen bg-white">
+    <PageWrapper>
       <Navbar />
-      <header className="border-b border-black/10 bg-white/70 backdrop-blur-xl sticky top-16 md:top-20 z-30 mt-16 md:mt-20">
+      <header className="border-b border-black/8 bg-white/80 backdrop-blur-xl sticky top-16 md:top-20 z-30 mt-16 md:mt-20">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <Sparkles className="h-3.5 w-3.5 text-primary" />
-            <h2 className="text-sm font-medium text-primary uppercase tracking-widest font-display">Área do Cliente</h2>
+            <h2 className="text-[11px] font-semibold text-primary uppercase tracking-[0.3em] font-display">Área do Cliente</h2>
           </div>
-          <Button variant="ghost" size="sm" onClick={signOut} className="text-black/50 hover:text-black">
+          <Button variant="ghost" size="sm" onClick={signOut} className="text-black/40 hover:text-black">
             <LogOut className="h-4 w-4 mr-2" />Sair
           </Button>
         </div>
       </header>
 
-      <main className="max-w-5xl mx-auto px-4 sm:px-6 py-8 space-y-8">
+      <main className="max-w-5xl mx-auto px-4 sm:px-6 py-10 space-y-10">
         {/* Welcome hero card with yellow background */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="relative">
-          <div className="absolute -inset-4 rounded-3xl bg-primary/20 blur-2xl pointer-events-none" />
-          <div className="relative overflow-hidden rounded-2xl border border-primary/30 bg-primary p-7 sm:p-9 shadow-2xl shadow-primary/20">
-            <div className="absolute top-0 right-0 w-96 h-96 bg-white/[0.08] rounded-full blur-[100px] -translate-y-1/2 translate-x-1/4 pointer-events-none" />
+          <div className="absolute -inset-6 rounded-3xl bg-primary/15 blur-3xl pointer-events-none" />
+          <div className="relative overflow-hidden rounded-2xl border border-primary/20 bg-primary p-7 sm:p-9 shadow-2xl shadow-primary/20 hover:-translate-y-0.5 hover:shadow-[0_20px_60px_-15px_hsl(var(--primary)/0.3)] transition-all duration-500">
+            <div className="absolute top-0 right-0 w-96 h-96 bg-white/[0.06] rounded-full blur-[100px] -translate-y-1/2 translate-x-1/4 pointer-events-none" />
             <div className="relative">
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-black/10 border border-black/10 mb-4">
-                <span className="w-1.5 h-1.5 rounded-full bg-primary-foreground animate-pulse" />
-                <span className="text-[10px] uppercase tracking-[0.3em] text-primary-foreground font-semibold">Painel ativo</span>
+                <span className="w-1.5 h-1.5 rounded-full bg-black animate-pulse" />
+                <span className="text-[10px] uppercase tracking-[0.3em] text-black font-bold">Painel do Cliente</span>
               </div>
-              <h1 className="text-3xl font-bold text-primary-foreground font-display">
+              <h1 className="text-2xl sm:text-3xl font-bold text-black font-display">
                 Olá, {profile?.full_name || "Cliente"}.
               </h1>
-              <p className="text-sm text-primary-foreground/70 mt-2">Acompanhe seus projetos em tempo real.</p>
+              <p className="text-sm text-black/60 mt-2 max-w-lg">
+                Seu projeto em tempo real. Atualizado por nós, visível por você.
+              </p>
             </div>
           </div>
         </motion.div>
@@ -689,18 +747,18 @@ const ClientDashboard = () => {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0 }}
-              className="space-y-3"
+              className="space-y-4"
             >
               <div className="flex items-center gap-2">
                 <Receipt className="h-4 w-4 text-primary" />
-                <h2 className="text-sm font-medium uppercase tracking-wider text-muted-foreground">Orçamentos Pendentes</h2>
+                <h2 className="text-[10px] font-semibold uppercase tracking-[0.3em] text-black/35">Orçamentos Pendentes</h2>
               </div>
               {pendingQuotes.map((quote) => (
                 <motion.div
                   key={quote.id}
                   initial={{ opacity: 0, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  className="bg-gradient-to-r from-primary/10 to-transparent border border-primary/20 rounded-2xl p-5"
+                  className="rounded-2xl border border-black/8 bg-white shadow-lg shadow-black/[0.03] p-6 hover:-translate-y-0.5 hover:shadow-xl transition-all duration-300"
                 >
                   <div className="flex items-start justify-between mb-3">
                     <div>
@@ -708,27 +766,27 @@ const ClientDashboard = () => {
                         <Hash className="h-4 w-4 text-primary" />
                         <span className="font-display font-bold text-primary">ORC-{String(quote.sequential_number).padStart(4, "0")}</span>
                       </div>
-                      <p className="text-sm text-foreground mt-1 font-medium">{quote.project_type}</p>
-                      {quote.description && <p className="text-xs text-muted-foreground mt-0.5">{quote.description}</p>}
+                      <p className="text-sm text-black mt-1 font-medium">{quote.project_type}</p>
+                      {quote.description && <p className="text-xs text-black/40 mt-0.5">{quote.description}</p>}
                     </div>
-                    <p className="font-display font-bold text-xl text-foreground">{formatCurrency(Number(quote.total_value))}</p>
+                    <p className="font-display font-bold text-xl text-black">{formatCurrency(Number(quote.total_value))}</p>
                   </div>
 
                   {/* Items */}
                   {(quote.items as any[])?.length > 0 && (
-                    <div className="border border-border/50 rounded-xl overflow-hidden mb-3">
+                    <div className="border border-black/8 rounded-xl overflow-hidden mb-3">
                       {(quote.items as any[]).map((item: any, idx: number) => (
-                        <div key={idx} className="flex items-center justify-between px-4 py-2 text-sm border-b border-border/50 last:border-0">
-                          <span className="text-foreground">{item.description}</span>
-                          <span className="text-muted-foreground">{item.quantity}x {formatCurrency(item.unit_price)}</span>
+                        <div key={idx} className="flex items-center justify-between px-4 py-2.5 text-sm border-b border-black/5 last:border-0">
+                          <span className="text-black">{item.description}</span>
+                          <span className="text-black/40">{item.quantity}x {formatCurrency(item.unit_price)}</span>
                         </div>
                       ))}
                     </div>
                   )}
 
                   {quote.payment_terms && (
-                    <p className="text-xs text-muted-foreground mb-3">
-                      <span className="font-medium">Condições:</span> {quote.payment_terms}
+                    <p className="text-xs text-black/40 mb-3">
+                      <span className="font-medium text-black/60">Condições:</span> {quote.payment_terms}
                     </p>
                   )}
 
@@ -765,11 +823,12 @@ const ClientDashboard = () => {
         >
           <div className="flex items-center gap-2">
             <FolderOpen className="h-4 w-4 text-primary" />
-            <h2 className="text-sm font-medium uppercase tracking-wider text-muted-foreground">Projetos Ativos</h2>
+            <h2 className="text-[10px] font-semibold uppercase tracking-[0.3em] text-black/35">Projetos Ativos</h2>
           </div>
           {activeProjects.length === 0 ? (
-            <div className="bg-card/50 border border-border/50 rounded-2xl p-8 text-center">
-              <p className="text-muted-foreground text-sm">Nenhum projeto ativo no momento.</p>
+            <div className="rounded-2xl border border-black/8 bg-white shadow-lg shadow-black/[0.03] p-10 text-center">
+              <FolderOpen className="h-8 w-8 text-black/15 mx-auto mb-2" />
+              <p className="text-black/35 text-sm">Nenhum projeto ativo no momento.</p>
             </div>
           ) : (
             <div className="grid gap-4">
@@ -780,12 +839,14 @@ const ClientDashboard = () => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.1 + idx * 0.05 }}
                   onClick={() => openProjectDetail(project)}
-                  className={`bg-card/80 border border-border/50 rounded-2xl p-5 hover:border-primary/30 hover:shadow-[0_0_30px_-10px_hsl(var(--primary)/0.15)] transition-all text-left w-full group`}
+                  className="relative rounded-2xl border border-black/8 bg-white shadow-lg shadow-black/[0.03] p-6 hover:border-primary/20 hover:-translate-y-0.5 hover:shadow-xl transition-all duration-300 text-left w-full group overflow-hidden"
                 >
+                  {/* Yellow accent line */}
+                  <div className="absolute left-0 top-3 bottom-3 w-[3px] bg-primary rounded-full scale-y-0 group-hover:scale-y-100 transition-transform duration-200 origin-center" />
                   <div className="flex items-start justify-between mb-3">
                     <div>
-                      <h3 className="font-semibold text-foreground group-hover:text-primary transition-colors">{project.name}</h3>
-                      <p className="text-xs text-muted-foreground mt-0.5">{project.type}</p>
+                      <h3 className="font-semibold text-black group-hover:text-primary transition-colors">{project.name}</h3>
+                      <p className="text-xs text-black/40 mt-0.5">{project.type}</p>
                     </div>
                     <div className="flex items-center gap-2">
                       {!projectBriefingStatus[project.id] && (
@@ -793,22 +854,27 @@ const ClientDashboard = () => {
                           Briefing pendente
                         </span>
                       )}
-                      <span className="text-xs px-3 py-1 rounded-full bg-primary/10 text-primary font-semibold border border-primary/20">
+                      <span className="text-xs px-3 py-1 rounded-full bg-primary/10 text-black font-semibold border border-primary/20">
                         {statusLabels[project.status] || project.status}
                       </span>
                     </div>
                   </div>
                   <div className="space-y-1.5">
-                    <div className="flex justify-between text-xs text-muted-foreground">
+                    <div className="flex justify-between text-xs text-black/40">
                       <span>Progresso</span>
-                      <span className="font-semibold text-primary">{project.progress}%</span>
+                      <span className="font-bold text-black">{project.progress}%</span>
                     </div>
-                    <div className="h-1.5 bg-secondary rounded-full overflow-hidden">
-                      <div className="h-full bg-gradient-to-r from-primary to-kiiro-glow rounded-full transition-all duration-500" style={{ width: `${project.progress}%` }} />
+                    <div className="h-2 bg-black/5 rounded-full overflow-hidden">
+                      <motion.div
+                        initial={{ width: 0 }}
+                        animate={{ width: `${project.progress}%` }}
+                        transition={{ duration: 0.6, delay: 0.2 + idx * 0.05 }}
+                        className="h-full bg-gradient-to-r from-primary to-kiiro-glow rounded-full"
+                      />
                     </div>
                   </div>
                   {project.deadline && (
-                    <div className="flex items-center gap-1.5 mt-3 text-xs text-muted-foreground">
+                    <div className="flex items-center gap-1.5 mt-3 text-xs text-black/35">
                       <Clock className="h-3 w-3" />
                       <span>Previsão: {new Date(project.deadline).toLocaleDateString("pt-BR")}</span>
                     </div>
@@ -829,20 +895,21 @@ const ClientDashboard = () => {
           >
             <div className="flex items-center gap-2">
               <CheckCircle2 className="h-4 w-4 text-primary" />
-              <h2 className="text-sm font-medium uppercase tracking-wider text-muted-foreground">Projetos Finalizados</h2>
+              <h2 className="text-[10px] font-semibold uppercase tracking-[0.3em] text-black/35">Projetos Finalizados</h2>
             </div>
             <div className="grid gap-3">
               {completedProjects.map((project) => (
                 <button
                   key={project.id}
                   onClick={() => openProjectDetail(project)}
-                  className="bg-card/50 border border-border/30 rounded-2xl p-4 flex items-center justify-between hover:border-primary/20 transition-all w-full text-left"
+                  className="relative rounded-2xl border border-black/5 bg-white shadow-sm p-5 flex items-center justify-between hover:border-primary/15 hover:-translate-y-px hover:shadow-md transition-all duration-300 w-full text-left group overflow-hidden"
                 >
+                  <div className="absolute left-0 top-2 bottom-2 w-[3px] bg-primary rounded-full scale-y-0 group-hover:scale-y-100 transition-transform duration-200 origin-center" />
                   <div>
-                    <h3 className="font-medium text-foreground text-sm">{project.name}</h3>
-                    <p className="text-xs text-muted-foreground">{project.type}</p>
+                    <h3 className="font-medium text-black text-sm">{project.name}</h3>
+                    <p className="text-xs text-black/35">{project.type}</p>
                   </div>
-                  <span className="text-xs text-muted-foreground">Entregue ✓</span>
+                  <span className="text-xs text-black/30">Entregue ✓</span>
                 </button>
               ))}
             </div>
@@ -855,37 +922,38 @@ const ClientDashboard = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.25 }}
-            className="space-y-3"
+            className="space-y-4"
           >
             <div className="flex items-center gap-2">
               <FileText className="h-4 w-4 text-primary" />
-              <h2 className="text-sm font-medium uppercase tracking-wider text-muted-foreground">Ordens de Serviço</h2>
+              <h2 className="text-[10px] font-semibold uppercase tracking-[0.3em] text-black/35">Ordens de Serviço</h2>
             </div>
-            <div className="grid gap-3">
+            <div className="grid gap-4">
               {serviceOrders.map((order) => (
                 <motion.div
                   key={order.id}
                   initial={{ opacity: 0, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  className="bg-card/80 border border-border/50 rounded-2xl p-5 hover:border-primary/20 transition-all"
+                  className="relative rounded-2xl border border-black/8 bg-white shadow-lg shadow-black/[0.03] p-6 hover:border-primary/20 hover:-translate-y-0.5 hover:shadow-xl transition-all duration-300 group overflow-hidden"
                 >
+                  <div className="absolute left-0 top-3 bottom-3 w-[3px] bg-primary rounded-full scale-y-0 group-hover:scale-y-100 transition-transform duration-200 origin-center" />
                   <div className="flex items-start justify-between mb-2">
                     <div>
                       <div className="flex items-center gap-2">
                         <Hash className="h-4 w-4 text-primary" />
                         <span className="font-display font-bold text-primary">OS #{getOsHash(order)}</span>
                       </div>
-                      <p className="text-sm text-foreground mt-1 font-medium">{order.service_type}</p>
-                      {order.description && <p className="text-xs text-muted-foreground mt-0.5">{order.description}</p>}
+                      <p className="text-sm text-black mt-1 font-medium">{order.service_type}</p>
+                      {order.description && <p className="text-xs text-black/40 mt-0.5">{order.description}</p>}
                     </div>
-                    <p className="font-display font-bold text-xl text-foreground">{formatCurrencyValue(Number(order.total_value))}</p>
+                    <p className="font-display font-bold text-xl text-black">{formatCurrencyValue(Number(order.total_value))}</p>
                   </div>
                   <div className="flex items-center justify-between mt-3">
-                    <span className="text-xs text-muted-foreground">
+                    <span className="text-xs text-black/35">
                       {new Date(order.created_at).toLocaleDateString("pt-BR")}
                       {order.deadline && ` · Prazo: ${new Date(order.deadline + "T00:00:00").toLocaleDateString("pt-BR")}`}
                     </span>
-                    <Button variant="outline" size="sm" className="gap-2 rounded-xl" onClick={() => setViewOrder(order)}>
+                    <Button variant="outline" size="sm" className="gap-2 rounded-xl border-black/10 text-black" onClick={() => setViewOrder(order)}>
                       <FileText className="h-3.5 w-3.5" />
                       Ver Documento
                     </Button>
@@ -1005,7 +1073,7 @@ const ClientDashboard = () => {
           </DialogContent>
         </Dialog>
       </main>
-    </div>
+    </PageWrapper>
   );
 };
 

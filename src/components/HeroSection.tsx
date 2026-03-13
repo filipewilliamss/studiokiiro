@@ -67,14 +67,13 @@ const HeroSection = () => {
             Solicitar Orçamento
           </a>
         </motion.div>
-      </div>
 
         {/* Animated arrow */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.2 }}
-          className="mt-10 flex justify-center"
+          className="mt-12 flex justify-center"
         >
           <motion.svg
             animate={{ y: [0, 10, 0] }}
@@ -87,6 +86,7 @@ const HeroSection = () => {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
           </motion.svg>
         </motion.div>
+      </div>
     </section>
   );
 };

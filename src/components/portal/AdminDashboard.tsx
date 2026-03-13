@@ -73,25 +73,21 @@ const AdminDashboard = () => {
     >
       {/* Custom cursor */}
       {isInPanel && (
-        <motion.div
+        <div
           className="fixed w-8 h-8 rounded-full border-2 border-primary/40 pointer-events-none z-[9999] mix-blend-difference"
-          animate={{ x: cursorPos.x - 16, y: cursorPos.y - 16 }}
-          transition={{ type: "spring", stiffness: 500, damping: 30, mass: 0.5 }}
+          style={{
+            transform: `translate(${cursorPos.x - 16}px, ${cursorPos.y - 16}px)`,
+            willChange: 'transform',
+          }}
         />
       )}
 
-      {/* Layered background */}
-      <div className="fixed inset-0 bg-background" />
+      {/* Layered background - white */}
+      <div className="fixed inset-0 bg-white" />
       <div
-        className="fixed inset-0 pointer-events-none"
+        className="fixed inset-0 pointer-events-none opacity-[0.04]"
         style={{
-          backgroundImage: `radial-gradient(ellipse 80% 60% at 50% 30%, hsl(var(--secondary)) 0%, transparent 70%)`,
-        }}
-      />
-      <div
-        className="fixed inset-0 pointer-events-none opacity-[0.03]"
-        style={{
-          backgroundImage: `linear-gradient(hsl(var(--border)) 1px, transparent 1px), linear-gradient(90deg, hsl(var(--border)) 1px, transparent 1px)`,
+          backgroundImage: `linear-gradient(hsl(0 0% 80%) 1px, transparent 1px), linear-gradient(90deg, hsl(0 0% 80%) 1px, transparent 1px)`,
           backgroundSize: "48px 48px",
         }}
       />
@@ -100,17 +96,17 @@ const AdminDashboard = () => {
         <Navbar />
 
         {/* Sticky sub-header */}
-        <header className="border-b border-border/40 bg-background/70 backdrop-blur-2xl sticky top-16 md:top-20 z-30 mt-16 md:mt-20">
+        <header className="border-b border-black/10 bg-white/70 backdrop-blur-2xl sticky top-16 md:top-20 z-30 mt-16 md:mt-20">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 h-12 flex items-center justify-between">
             <div className="flex items-center gap-3">
               <Sparkles className="h-3.5 w-3.5 text-primary" />
               <span className="text-[11px] uppercase tracking-[0.3em] text-primary font-semibold">Studio Workspace</span>
-              <span className="hidden sm:inline-flex items-center gap-1.5 text-[10px] text-muted-foreground ml-2 border-l border-border/40 pl-3">
+              <span className="hidden sm:inline-flex items-center gap-1.5 text-[10px] text-black/50 ml-2 border-l border-black/10 pl-3">
                 <Clock className="h-3 w-3" />
                 Última atualização há 2 min
               </span>
             </div>
-            <Button variant="ghost" size="sm" onClick={signOut} className="text-muted-foreground hover:text-foreground gap-2 text-xs hover:bg-secondary/60 transition-all duration-300">
+            <Button variant="ghost" size="sm" onClick={signOut} className="text-black/50 hover:text-black gap-2 text-xs hover:bg-black/5 transition-all duration-300">
               <LogOut className="h-3.5 w-3.5" />
               Sair
             </Button>
@@ -126,28 +122,26 @@ const AdminDashboard = () => {
             className="relative"
           >
             {/* Glow behind card */}
-            <div className="absolute -inset-4 rounded-3xl bg-primary/[0.04] blur-2xl pointer-events-none" />
-            <div className="absolute -inset-1 rounded-3xl bg-gradient-to-br from-primary/10 via-transparent to-primary/5 pointer-events-none" />
+            <div className="absolute -inset-4 rounded-3xl bg-primary/20 blur-2xl pointer-events-none" />
 
-            <div className="relative overflow-hidden rounded-2xl border border-primary/10 bg-gradient-to-br from-card via-card/95 to-secondary/20 p-7 sm:p-9 lg:p-11 backdrop-blur-sm shadow-2xl shadow-background/80">
+            <div className="relative overflow-hidden rounded-2xl border border-primary/30 bg-primary p-7 sm:p-9 lg:p-11 shadow-2xl shadow-primary/20">
               {/* Decorative orbs */}
-              <div className="absolute top-0 right-0 w-96 h-96 bg-primary/[0.06] rounded-full blur-[100px] -translate-y-1/2 translate-x-1/4 pointer-events-none" />
-              <div className="absolute bottom-0 left-0 w-64 h-64 bg-primary/[0.03] rounded-full blur-[80px] translate-y-1/3 -translate-x-1/4 pointer-events-none" />
-              <div className="absolute top-1/2 left-1/2 w-32 h-32 bg-primary/[0.02] rounded-full blur-[60px] -translate-x-1/2 -translate-y-1/2 pointer-events-none" />
+              <div className="absolute top-0 right-0 w-96 h-96 bg-white/[0.08] rounded-full blur-[100px] -translate-y-1/2 translate-x-1/4 pointer-events-none" />
+              <div className="absolute bottom-0 left-0 w-64 h-64 bg-black/[0.06] rounded-full blur-[80px] translate-y-1/3 -translate-x-1/4 pointer-events-none" />
 
               <div className="relative flex flex-col lg:flex-row gap-8 lg:gap-14 items-start">
                 {/* Left: Welcome text */}
                 <div className="flex-1 min-w-0">
-                  <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary/10 border border-primary/15 mb-6">
-                    <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-                    <span className="text-[10px] uppercase tracking-[0.3em] text-primary font-semibold">Painel ativo</span>
+                  <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-black/10 border border-black/10 mb-6">
+                    <span className="w-1.5 h-1.5 rounded-full bg-primary-foreground animate-pulse" />
+                    <span className="text-[10px] uppercase tracking-[0.3em] text-primary-foreground font-semibold">Painel ativo</span>
                   </div>
-                  <h1 className="font-display text-2xl sm:text-3xl lg:text-[2.5rem] font-bold text-foreground leading-[1.15] mb-4">
+                  <h1 className="font-display text-2xl sm:text-3xl lg:text-[2.5rem] font-bold text-primary-foreground leading-[1.15] mb-4">
                     Bem-vindo ao seu estúdio
                     <br />
-                    <span className="text-gradient-kiiro">dentro do Studio Kiiro.</span>
+                    dentro do Studio Kiiro.
                   </h1>
-                  <p className="text-muted-foreground text-sm sm:text-[15px] leading-relaxed max-w-xl">
+                  <p className="text-primary-foreground/70 text-sm sm:text-[15px] leading-relaxed max-w-xl">
                     Aqui você acompanha clientes, projetos, orçamentos, finanças e ordens de serviço com a mesma atenção aos detalhes que colocamos no design.
                   </p>
                 </div>
@@ -161,14 +155,14 @@ const AdminDashboard = () => {
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ duration: 0.5, delay: 0.25 + i * 0.1, ease: [0.22, 1, 0.36, 1] }}
                       whileHover={{ scale: 1.03, transition: { duration: 0.2 } }}
-                      className="group flex-1 lg:w-56 rounded-xl border border-border/50 bg-secondary/20 p-4 flex items-center gap-3.5 transition-all duration-300 hover:border-primary/40 hover:bg-secondary/30 hover:shadow-lg hover:shadow-primary/5 cursor-default"
+                      className="group flex-1 lg:w-56 rounded-xl border border-black/10 bg-black/5 p-4 flex items-center gap-3.5 transition-all duration-300 hover:border-primary-foreground/30 hover:bg-black/10 cursor-default"
                     >
-                      <div className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 bg-primary/10 text-primary transition-all duration-300 group-hover:bg-primary/20 group-hover:shadow-md group-hover:shadow-primary/10">
+                      <div className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 bg-primary-foreground/10 text-primary-foreground transition-all duration-300">
                         <card.icon className="h-4.5 w-4.5" />
                       </div>
                       <div className="min-w-0">
-                        <span className="block text-2xl sm:text-3xl font-bold font-display text-foreground leading-none transition-colors duration-300 group-hover:text-primary">{card.value}</span>
-                        <span className="block text-[10px] uppercase tracking-[0.15em] text-muted-foreground mt-1 truncate">{card.label}</span>
+                        <span className="block text-2xl sm:text-3xl font-bold font-display text-primary-foreground leading-none">{card.value}</span>
+                        <span className="block text-[10px] uppercase tracking-[0.15em] text-primary-foreground/60 mt-1 truncate">{card.label}</span>
                       </div>
                     </motion.div>
                   ))}
@@ -183,8 +177,8 @@ const AdminDashboard = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.15 }}
           >
-            <p className="text-[10px] uppercase tracking-[0.35em] text-muted-foreground mb-3.5 ml-1 font-medium">Seções do seu estúdio</p>
-            <div className="rounded-2xl border border-border/40 bg-secondary/15 backdrop-blur-md p-2 flex flex-wrap gap-1.5">
+            <p className="text-[10px] uppercase tracking-[0.35em] text-black/40 mb-3.5 ml-1 font-medium">Seções do seu estúdio</p>
+            <div className="rounded-2xl border border-black/10 bg-black/[0.03] backdrop-blur-md p-2 flex flex-wrap gap-1.5">
               {tabs.map((tab) => {
                 const isActive = activeTab === tab.key;
                 return (
@@ -193,8 +187,8 @@ const AdminDashboard = () => {
                     onClick={() => setActiveTab(tab.key)}
                     className={`relative flex items-center gap-2.5 px-5 py-3 rounded-xl text-sm font-medium transition-all duration-300 ${
                       isActive
-                        ? "bg-primary text-primary-foreground shadow-lg shadow-primary/25"
-                        : "text-muted-foreground hover:text-foreground hover:bg-secondary/50"
+                        ? "bg-background text-foreground shadow-lg shadow-black/10"
+                        : "text-black/40 hover:text-black hover:bg-black/5"
                     }`}
                   >
                     <tab.icon className={`h-4 w-4 transition-transform duration-300 ${isActive ? "" : "group-hover:scale-110"}`} />
@@ -202,7 +196,7 @@ const AdminDashboard = () => {
                     {isActive && (
                       <motion.div
                         layoutId="activeTabGlow"
-                        className="absolute inset-0 rounded-xl bg-primary -z-10"
+                        className="absolute inset-0 rounded-xl bg-background -z-10"
                         transition={{ type: "spring", stiffness: 400, damping: 30 }}
                       />
                     )}
@@ -219,12 +213,9 @@ const AdminDashboard = () => {
             transition={{ duration: 0.5, delay: 0.25 }}
             className="relative"
           >
-            {/* Outer glow */}
-            <div className="absolute -inset-1 rounded-3xl bg-gradient-to-b from-primary/[0.03] via-transparent to-transparent pointer-events-none" />
-
-            <div className="relative rounded-2xl border border-border/40 bg-card/40 backdrop-blur-md shadow-2xl shadow-background/60 p-1.5 sm:p-2.5">
+            <div className="relative rounded-2xl border border-black/10 bg-background shadow-2xl shadow-black/5 p-1.5 sm:p-2.5">
               {/* Inner pane */}
-              <div className="rounded-xl border border-border/20 bg-card/70 backdrop-blur-sm p-5 sm:p-7 min-h-[400px]">
+              <div className="rounded-xl border border-black/5 bg-background p-5 sm:p-7 min-h-[400px]">
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={activeTab}

@@ -177,8 +177,8 @@ const AdminDashboard = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.15 }}
           >
-            <p className="text-[10px] uppercase tracking-[0.35em] text-muted-foreground mb-3.5 ml-1 font-medium">Seções do seu estúdio</p>
-            <div className="rounded-2xl border border-border/40 bg-secondary/15 backdrop-blur-md p-2 flex flex-wrap gap-1.5">
+            <p className="text-[10px] uppercase tracking-[0.35em] text-black/40 mb-3.5 ml-1 font-medium">Seções do seu estúdio</p>
+            <div className="rounded-2xl border border-black/10 bg-black/[0.03] backdrop-blur-md p-2 flex flex-wrap gap-1.5">
               {tabs.map((tab) => {
                 const isActive = activeTab === tab.key;
                 return (

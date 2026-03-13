@@ -1,5 +1,5 @@
-import { useRef, useEffect, useState } from "react";
-import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
+import { useRef, useEffect, useState, useCallback } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
 import type { Project } from "./PortfolioSection";
 
 interface ProjectModalProps {
@@ -10,21 +10,28 @@ interface ProjectModalProps {
 const ProjectModal = ({ project, onClose }: ProjectModalProps) => {
   const pages = project.pages || [];
   const containerRef = useRef<HTMLDivElement>(null);
-  const heroRef = useRef<HTMLDivElement>(null);
   const [imageLoaded, setImageLoaded] = useState(false);
+  const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 });
+  const [isMoving, setIsMoving] = useState(false);
+  const moveTimeout = useRef<number>(0);
 
-  // Lock body scroll
   useEffect(() => {
     document.body.style.overflow = "hidden";
     return () => { document.body.style.overflow = ""; };
   }, []);
 
-  // Keyboard close
   useEffect(() => {
     const handler = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
   }, [onClose]);
+
+  const handleGlobalMouseMove = useCallback((e: React.MouseEvent) => {
+    setCursorPos({ x: e.clientX, y: e.clientY });
+    setIsMoving(true);
+    clearTimeout(moveTimeout.current);
+    moveTimeout.current = window.setTimeout(() => setIsMoving(false), 150);
+  }, []);
 
   const { scrollYProgress } = useScroll({ container: containerRef });
   const heroScale = useTransform(scrollYProgress, [0, 0.15], [1, 0.92]);
@@ -44,7 +51,23 @@ const ProjectModal = ({ project, onClose }: ProjectModalProps) => {
       exit={{ opacity: 0 }}
       transition={{ duration: 0.4 }}
       className="fixed inset-0 z-50 bg-background"
+      onMouseMove={handleGlobalMouseMove}
     >
+      {/* Custom cursor glow */}
+      <motion.div
+        className="fixed w-64 h-64 rounded-full pointer-events-none z-[55] mix-blend-screen"
+        animate={{
+          x: cursorPos.x - 128,
+          y: cursorPos.y - 128,
+          scale: isMoving ? 1.2 : 0.8,
+          opacity: isMoving ? 0.15 : 0.08,
+        }}
+        transition={{ type: "spring", stiffness: 200, damping: 30 }}
+        style={{
+          background: `radial-gradient(circle, hsl(var(--primary) / 0.6) 0%, transparent 70%)`,
+        }}
+      />
+
       {/* Progress bar */}
       <motion.div
         className="fixed top-0 left-0 h-[2px] bg-primary z-[60]"
@@ -61,7 +84,7 @@ const ProjectModal = ({ project, onClose }: ProjectModalProps) => {
         </svg>
       </button>
 
-      {/* Counter */}
+      {/* Back */}
       <div className="fixed top-5 left-5 z-[60]">
         <button
           onClick={onClose}
@@ -78,11 +101,9 @@ const ProjectModal = ({ project, onClose }: ProjectModalProps) => {
       <div ref={containerRef} className="h-full overflow-y-auto scroll-smooth">
         {/* ═══ HERO ═══ */}
         <motion.div
-          ref={heroRef}
           style={{ scale: heroScale, opacity: heroOpacity }}
           className="relative h-screen flex items-center justify-center overflow-hidden"
         >
-          {/* Background with project color */}
           <div
             className="absolute inset-0 transition-opacity duration-1000"
             style={{
@@ -90,7 +111,6 @@ const ProjectModal = ({ project, onClose }: ProjectModalProps) => {
             }}
           />
 
-          {/* Floating logo */}
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: imageLoaded ? 0.08 : 0, scale: 1.1 }}
@@ -105,7 +125,6 @@ const ProjectModal = ({ project, onClose }: ProjectModalProps) => {
             />
           </motion.div>
 
-          {/* Hero text */}
           <div className="relative z-10 text-center px-6 max-w-4xl">
             <motion.p
               initial={{ opacity: 0, y: 20 }}
@@ -136,7 +155,6 @@ const ProjectModal = ({ project, onClose }: ProjectModalProps) => {
               </motion.p>
             )}
 
-            {/* Tags */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -154,7 +172,6 @@ const ProjectModal = ({ project, onClose }: ProjectModalProps) => {
             </motion.div>
           </div>
 
-          {/* Scroll indicator */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -177,61 +194,18 @@ const ProjectModal = ({ project, onClose }: ProjectModalProps) => {
 
         {/* ═══ CASE STUDY CHAPTERS ═══ */}
         <div className="relative">
-          {/* Decorative line */}
           <div className="absolute left-1/2 top-0 w-px h-full bg-gradient-to-b from-primary/20 via-border/30 to-transparent hidden md:block" />
 
           <div className="max-w-5xl mx-auto px-4 sm:px-6 py-24 md:py-32 space-y-32 md:space-y-48">
             {caseStudySections.map((section, i) => (
-              <motion.div
-                key={section.label}
-                initial={{ opacity: 0, y: 60 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.3 }}
-                transition={{
-                  duration: 0.8,
-                  ease: [0.22, 1, 0.36, 1],
-                }}
-                className={`flex flex-col ${i % 2 === 0 ? "md:items-start md:text-left" : "md:items-end md:text-right"}`}
-              >
-                <div className="max-w-lg">
-                  {/* Chapter number */}
-                  <motion.div
-                    initial={{ opacity: 0, scale: 0.5 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5, delay: 0.1 }}
-                    className="mb-6"
-                  >
-                    <span className="inline-flex items-center justify-center w-12 h-12 rounded-full border border-primary/30 text-xl">
-                      {section.icon}
-                    </span>
-                  </motion.div>
-
-                  <h3 className="font-display text-xs uppercase tracking-[0.3em] text-primary mb-4 font-semibold">
-                    {section.label}
-                  </h3>
-                  <p className="text-secondary-foreground text-lg md:text-xl leading-relaxed">
-                    {section.content}
-                  </p>
-
-                  {/* Accent line */}
-                  <motion.div
-                    initial={{ width: 0 }}
-                    whileInView={{ width: "60px" }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.6, delay: 0.3 }}
-                    className={`h-px bg-primary/40 mt-8 ${i % 2 !== 0 ? "md:ml-auto" : ""}`}
-                  />
-                </div>
-              </motion.div>
+              <CaseStudyChapter key={section.label} section={section} index={i} />
             ))}
           </div>
         </div>
 
-        {/* ═══ IMAGE GALLERY — Cinematic reveal ═══ */}
+        {/* ═══ IMAGE GALLERY ═══ */}
         {pages.length > 0 && (
           <div className="pb-16">
-            {/* Section divider */}
             <motion.div
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
@@ -279,7 +253,6 @@ const ProjectModal = ({ project, onClose }: ProjectModalProps) => {
           </div>
         )}
 
-        {/* Fallback if no pages */}
         {pages.length === 0 && (
           <div className="max-w-4xl mx-auto px-4 sm:px-6 py-20">
             <div
@@ -317,7 +290,7 @@ const ProjectModal = ({ project, onClose }: ProjectModalProps) => {
               href={`https://wa.me/5511991076096?text=Olá! Vi o projeto ${project.title} e gostaria de criar uma identidade visual assim!`}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-3 px-10 py-4 bg-primary text-primary-foreground font-display font-semibold rounded-full hover:bg-kiiro-dark transition-all duration-500 text-sm uppercase tracking-[0.1em] group"
+              className="inline-flex items-center gap-3 px-10 py-4 bg-primary text-primary-foreground font-display font-semibold rounded-full hover:bg-primary/90 transition-all duration-500 text-sm uppercase tracking-[0.1em] group"
             >
               Solicitar Orçamento
               <svg
@@ -336,7 +309,85 @@ const ProjectModal = ({ project, onClose }: ProjectModalProps) => {
   );
 };
 
-/* ─── Gallery Image with scroll-reveal ─── */
+/* ─── Case Study Chapter with cursor-reactive tilt ─── */
+const CaseStudyChapter = ({
+  section,
+  index,
+}: {
+  section: { label: string; content: string; icon: string };
+  index: number;
+}) => {
+  const ref = useRef<HTMLDivElement>(null);
+  const [mouse, setMouse] = useState({ x: 0.5, y: 0.5 });
+
+  const handleMove = useCallback((e: React.MouseEvent) => {
+    if (!ref.current) return;
+    const rect = ref.current.getBoundingClientRect();
+    setMouse({
+      x: (e.clientX - rect.left) / rect.width,
+      y: (e.clientY - rect.top) / rect.height,
+    });
+  }, []);
+
+  return (
+    <motion.div
+      ref={ref}
+      onMouseMove={handleMove}
+      initial={{ opacity: 0, y: 60 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.3 }}
+      transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+      className={`flex flex-col ${index % 2 === 0 ? "md:items-start md:text-left" : "md:items-end md:text-right"}`}
+    >
+      <motion.div
+        className="max-w-lg relative p-8 rounded-2xl border border-transparent hover:border-border/40 transition-colors duration-500"
+        whileHover={{
+          rotateX: (mouse.y - 0.5) * -4,
+          rotateY: (mouse.x - 0.5) * 4,
+        }}
+        style={{ perspective: 600 }}
+        transition={{ type: "spring", stiffness: 200, damping: 25 }}
+      >
+        {/* Hover glow */}
+        <div
+          className="absolute inset-0 rounded-2xl opacity-0 hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+          style={{
+            background: `radial-gradient(circle at ${mouse.x * 100}% ${mouse.y * 100}%, hsl(var(--primary) / 0.08) 0%, transparent 60%)`,
+          }}
+        />
+
+        <motion.div
+          initial={{ opacity: 0, scale: 0.5 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+          className="mb-6"
+        >
+          <span className="inline-flex items-center justify-center w-12 h-12 rounded-full border border-primary/30 text-xl">
+            {section.icon}
+          </span>
+        </motion.div>
+
+        <h3 className="font-display text-xs uppercase tracking-[0.3em] text-primary mb-4 font-semibold">
+          {section.label}
+        </h3>
+        <p className="text-secondary-foreground text-lg md:text-xl leading-relaxed">
+          {section.content}
+        </p>
+
+        <motion.div
+          initial={{ width: 0 }}
+          whileInView={{ width: "60px" }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.3 }}
+          className={`h-px bg-primary/40 mt-8 ${index % 2 !== 0 ? "md:ml-auto" : ""}`}
+        />
+      </motion.div>
+    </motion.div>
+  );
+};
+
+/* ─── Gallery Image with scroll-reveal + cursor tilt ─── */
 const GalleryImage = ({
   src,
   alt,
@@ -349,6 +400,9 @@ const GalleryImage = ({
   fullWidth?: boolean;
 }) => {
   const ref = useRef<HTMLDivElement>(null);
+  const [mouse, setMouse] = useState({ x: 0.5, y: 0.5 });
+  const [hovered, setHovered] = useState(false);
+
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start end", "center center"],
@@ -357,20 +411,47 @@ const GalleryImage = ({
   const scale = useTransform(scrollYProgress, [0, 1], [0.95, 1]);
   const opacity = useTransform(scrollYProgress, [0, 0.3], [0, 1]);
 
+  const handleMove = useCallback((e: React.MouseEvent) => {
+    if (!ref.current) return;
+    const rect = ref.current.getBoundingClientRect();
+    setMouse({
+      x: (e.clientX - rect.left) / rect.width,
+      y: (e.clientY - rect.top) / rect.height,
+    });
+  }, []);
+
   return (
     <motion.div
       ref={ref}
-      style={{ y, scale, opacity }}
-      className={fullWidth ? "" : ""}
+      style={{ y, scale, opacity, perspective: 800 }}
+      onMouseMove={handleMove}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
     >
-      <div className="rounded-xl overflow-hidden bg-card/30">
+      <motion.div
+        className="rounded-xl overflow-hidden bg-card/30"
+        animate={{
+          rotateX: hovered ? (mouse.y - 0.5) * -5 : 0,
+          rotateY: hovered ? (mouse.x - 0.5) * 5 : 0,
+        }}
+        transition={{ type: "spring", stiffness: 200, damping: 25 }}
+      >
+        {/* Cursor light */}
+        {hovered && (
+          <div
+            className="absolute inset-0 pointer-events-none z-10"
+            style={{
+              background: `radial-gradient(circle at ${mouse.x * 100}% ${mouse.y * 100}%, hsl(var(--primary) / 0.12) 0%, transparent 50%)`,
+            }}
+          />
+        )}
         <img
           src={src}
           alt={alt}
-          className="w-full block"
+          className="w-full block relative z-0"
           loading="lazy"
         />
-      </div>
+      </motion.div>
     </motion.div>
   );
 };

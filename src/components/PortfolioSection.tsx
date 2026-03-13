@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useCallback } from "react";
 import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import ProjectModal from "./ProjectModal";
 import { projects } from "@/data/projects";
@@ -64,8 +64,8 @@ const PortfolioSection = () => {
               transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
               className="font-display text-5xl md:text-7xl lg:text-[5.5rem] font-bold text-foreground leading-[0.9] tracking-tight"
             >
-              Histórias que<br />
-              <span className="text-gradient-kiiro">transformam</span> marcas
+              Projetos<br />
+              <span className="text-gradient-kiiro">Selecionados</span>
             </motion.h2>
             <motion.p
               initial={{ opacity: 0, y: 20 }}
@@ -74,7 +74,7 @@ const PortfolioSection = () => {
               transition={{ duration: 0.7, delay: 0.3 }}
               className="text-muted-foreground max-w-xs text-sm leading-relaxed md:text-right md:pb-2"
             >
-              Cada projeto é uma jornada — do conceito cru à identidade que marca.
+              Cada projeto é uma jornada — do conceito à identidade que marca.
             </motion.p>
           </div>
         </motion.div>
@@ -127,7 +127,7 @@ const PortfolioSection = () => {
   );
 };
 
-/* ─── Uniform Card ─── */
+/* ─── Uniform Card with cursor-tracking ─── */
 const UniformCard = ({
   project,
   index,
@@ -146,11 +146,27 @@ const UniformCard = ({
   onClick: () => void;
 }) => {
   const ref = useRef<HTMLDivElement>(null);
+  const [mousePos, setMousePos] = useState({ x: 0.5, y: 0.5 });
+
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start end", "end start"],
   });
   const imgY = useTransform(scrollYProgress, [0, 1], [25, -25]);
+
+  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    if (!ref.current) return;
+    const rect = ref.current.getBoundingClientRect();
+    setMousePos({
+      x: (e.clientX - rect.left) / rect.width,
+      y: (e.clientY - rect.top) / rect.height,
+    });
+  }, []);
+
+  const rotateX = isHovered ? (mousePos.y - 0.5) * -8 : 0;
+  const rotateY = isHovered ? (mousePos.x - 0.5) * 8 : 0;
+  const glowX = mousePos.x * 100;
+  const glowY = mousePos.y * 100;
 
   return (
     <motion.div
@@ -166,12 +182,28 @@ const UniformCard = ({
       onClick={onClick}
       onMouseEnter={onHover}
       onMouseLeave={onLeave}
+      onMouseMove={handleMouseMove}
       className="group cursor-pointer"
+      style={{ perspective: 800 }}
     >
-      <div
+      <motion.div
         className="relative aspect-[16/9] rounded-2xl overflow-hidden"
         style={{ backgroundColor: project.bgColor }}
+        animate={{
+          rotateX,
+          rotateY,
+          scale: isHovered ? 1.02 : 1,
+        }}
+        transition={{ type: "spring", stiffness: 200, damping: 25 }}
       >
+        {/* Cursor glow */}
+        <motion.div
+          className="absolute inset-0 pointer-events-none z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+          style={{
+            background: `radial-gradient(circle at ${glowX}% ${glowY}%, hsl(var(--primary) / 0.25) 0%, transparent 60%)`,
+          }}
+        />
+
         <motion.div
           style={{ y: imgY }}
           className="absolute inset-0 flex items-center justify-center p-14 md:p-20"
@@ -180,8 +212,12 @@ const UniformCard = ({
             src={project.logo}
             alt={`Logo ${project.title}`}
             className="max-w-[55%] max-h-[60%] object-contain"
-            animate={{ scale: isHovered ? 1.08 : 1 }}
-            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+            animate={{
+              scale: isHovered ? 1.12 : 1,
+              x: isHovered ? (mousePos.x - 0.5) * 15 : 0,
+              y: isHovered ? (mousePos.y - 0.5) * 15 : 0,
+            }}
+            transition={{ type: "spring", stiffness: 150, damping: 20 }}
           />
         </motion.div>
 
@@ -204,11 +240,8 @@ const UniformCard = ({
             transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
             className="text-center"
           >
-            <p className="text-xs uppercase tracking-[0.4em] text-primary/80 mb-3 font-display">
-              Explorar case
-            </p>
             <span className="inline-flex items-center gap-3 px-7 py-3 rounded-full border border-primary/60 text-primary text-xs uppercase tracking-[0.15em] font-display font-semibold backdrop-blur-md">
-              Abrir história completa
+              Explorar Case
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M7 17L17 7M17 7H7M17 7v10" />
               </svg>
@@ -231,7 +264,7 @@ const UniformCard = ({
                 initial={false}
                 animate={{ x: isHovered ? 6 : 0 }}
                 transition={{ duration: 0.5 }}
-                className="font-display text-xl md:text-2xl font-bold text-white"
+                className="font-display text-xl md:text-2xl font-bold text-foreground"
               >
                 {project.title}
               </motion.h3>
@@ -241,6 +274,7 @@ const UniformCard = ({
               animate={{
                 x: isHovered ? 0 : 10,
                 opacity: isHovered ? 1 : 0,
+                rotate: isHovered ? 0 : -45,
               }}
               transition={{ duration: 0.4 }}
             >
@@ -254,11 +288,11 @@ const UniformCard = ({
         </div>
 
         <div className="absolute top-5 right-5">
-          <span className="font-display text-[10px] uppercase tracking-[0.3em] text-white/40 font-medium">
+          <span className="font-display text-[10px] uppercase tracking-[0.3em] text-foreground/40 font-medium">
             {String(index + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}
           </span>
         </div>
-      </div>
+      </motion.div>
 
       <div className="flex flex-wrap gap-2 mt-4">
         {project.tags.map((tag, i) => (

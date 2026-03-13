@@ -57,40 +57,56 @@ const ClientsTab = () => {
     fetchClients();
   }, []);
 
-  const handleCreate = async (e: React.FormEvent) => {
+  const openCreateDialog = () => {
+    setEditingClient(null);
+    setForm({ full_name: "", email: "", phone: "", company: "", client_type: "novo", notes: "" });
+    setOpen(true);
+  };
+
+  const openEditDialog = (client: Profile) => {
+    setEditingClient(client);
+    setForm({
+      full_name: client.full_name,
+      email: client.email || "",
+      phone: client.phone || "",
+      company: client.company || "",
+      client_type: client.client_type || "novo",
+      notes: client.notes || "",
+    });
+    setOpen(true);
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
 
-    try {
-      const { data: { session } } = await supabase.auth.getSession();
-      if (!session) {
-        toast.error("Você precisa estar logado");
-        setLoading(false);
-        return;
-      }
-
-      const response = await supabase.functions.invoke("create-client", {
-        body: {
-          email: form.email,
-          full_name: form.full_name,
-          phone: form.phone,
-          company: form.company,
-          client_type: form.client_type,
-          notes: form.notes,
-        },
-      });
-
-      if (response.error || response.data?.error) {
-        toast.error("Erro ao criar cliente: " + (response.data?.error || response.error?.message));
-      } else {
-        toast.success(`Cliente ${form.full_name} adicionado com sucesso!`);
-        setForm({ full_name: "", email: "", phone: "", company: "", client_type: "novo", notes: "" });
-        setOpen(false);
-        fetchClients();
-      }
-    } catch (err: any) {
-      toast.error("Erro inesperado: " + err.message);
+    if (editingClient) {
+      const { error } = await supabase.from("profiles").update({
+        full_name: form.full_name,
+        phone: form.phone || null,
+        company: form.company || null,
+        client_type: form.client_type,
+        notes: form.notes || null,
+      }).eq("id", editingClient.id);
+      if (error) toast.error("Erro ao atualizar cliente");
+      else { toast.success("Cliente atualizado!"); setOpen(false); setEditingClient(null); fetchClients(); }
+    } else {
+      try {
+        const { data: { session } } = await supabase.auth.getSession();
+        if (!session) { toast.error("Você precisa estar logado"); setLoading(false); return; }
+        const response = await supabase.functions.invoke("create-client", {
+          body: { email: form.email, full_name: form.full_name, phone: form.phone, company: form.company, client_type: form.client_type, notes: form.notes },
+        });
+        if (response.error || response.data?.error) {
+          toast.error("Erro ao criar cliente: " + (response.data?.error || response.error?.message));
+        } else {
+          toast.success(`Cliente ${form.full_name} adicionado com sucesso!`);
+          setOpen(false);
+          fetchClients();
+        }
+      } catch (err: any) { toast.error("Erro inesperado: " + err.message); }
     }
+    setForm({ full_name: "", email: "", phone: "", company: "", client_type: "novo", notes: "" });
     setLoading(false);
   };
 

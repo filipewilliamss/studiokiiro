@@ -35,6 +35,7 @@ const ClientsTab = () => {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
+  const [editingClient, setEditingClient] = useState<Profile | null>(null);
   const [form, setForm] = useState({
     full_name: "",
     email: "",

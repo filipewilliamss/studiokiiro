@@ -321,8 +321,10 @@ export type Database = {
         Row: {
           client_id: string
           created_at: string
+          deadline: string | null
           description: string | null
           id: string
+          items: Json
           notes: string | null
           payment_terms: string | null
           project_id: string | null
@@ -335,8 +337,10 @@ export type Database = {
         Insert: {
           client_id: string
           created_at?: string
+          deadline?: string | null
           description?: string | null
           id?: string
+          items?: Json
           notes?: string | null
           payment_terms?: string | null
           project_id?: string | null
@@ -349,8 +353,10 @@ export type Database = {
         Update: {
           client_id?: string
           created_at?: string
+          deadline?: string | null
           description?: string | null
           id?: string
+          items?: Json
           notes?: string | null
           payment_terms?: string | null
           project_id?: string | null

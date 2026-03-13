@@ -314,7 +314,7 @@ const ClientsTab = () => {
                     className="mt-1"
                   />
                   <div className="space-y-1.5">
-                    <h3 className="font-display font-semibold text-[15px] text-foreground group-hover:text-primary transition-colors duration-300">{client.full_name || "Sem nome"}</h3>
+                    <h3 className="font-display font-semibold text-[15px] text-white group-hover:text-primary transition-colors duration-300">{client.full_name || "Sem nome"}</h3>
                     <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-muted-foreground">
                       {client.email && (
                         <span className="flex items-center gap-1.5">

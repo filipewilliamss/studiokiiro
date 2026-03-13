@@ -344,7 +344,7 @@ const ClientsTab = () => {
                 </div>
               </div>
               {client.notes && (
-                <p className="text-xs text-muted-foreground/80 mt-3 border-t border-border/30 pt-3 ml-8">{client.notes}</p>
+                <p className="text-xs text-white/40 mt-3 border-t border-white/10 pt-3 ml-8">{client.notes}</p>
               )}
             </div>
           ))

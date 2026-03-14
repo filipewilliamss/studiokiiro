@@ -479,8 +479,8 @@ const ClientDashboard = () => {
 
               {/* STATUS TAB */}
               <TabsContent value="status" className="space-y-6">
-                <div className="rounded-2xl border border-black/8 bg-white shadow-lg shadow-black/[0.03] p-6 sm:p-8 space-y-4">
-                  <p className="text-xs text-black/40 font-medium">{completedStages} de {stages.length} etapas concluídas</p>
+                <div className="rounded-2xl border border-white/10 bg-black p-6 sm:p-8 space-y-4">
+                  <p className="text-xs text-white/40 font-medium">{completedStages} de {stages.length} etapas concluídas</p>
                   {stages.length > 0 && (
                     <div className="space-y-2.5">
                       {stages.map((stage, idx) => {

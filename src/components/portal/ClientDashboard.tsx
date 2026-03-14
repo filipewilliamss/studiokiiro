@@ -523,16 +523,16 @@ const ClientDashboard = () => {
 
               {/* FILES TAB */}
               <TabsContent value="files" className="space-y-4">
-                <div className="rounded-2xl border border-black/8 bg-white shadow-lg shadow-black/[0.03] p-6 sm:p-8">
-                  <label className="text-[10px] uppercase tracking-[0.3em] text-black/35 font-semibold">Arquivos do Projeto</label>
+                <div className="rounded-2xl border border-white/10 bg-black p-6 sm:p-8">
+                  <label className="text-[10px] uppercase tracking-[0.3em] text-white/40 font-semibold">Arquivos do Projeto</label>
                   {isLoadingFiles ? (
                     <div className="py-12 text-center">
-                      <div className="animate-pulse text-black/30 text-sm">Carregando arquivos...</div>
+                      <div className="animate-pulse text-white/30 text-sm">Carregando arquivos...</div>
                     </div>
                   ) : files.length === 0 ? (
                     <div className="py-12 text-center">
-                      <FolderOpen className="h-8 w-8 text-black/15 mx-auto mb-2" />
-                      <p className="text-black/35 text-sm">Nenhum arquivo disponível.</p>
+                      <FolderOpen className="h-8 w-8 text-white/15 mx-auto mb-2" />
+                      <p className="text-white/35 text-sm">Nenhum arquivo disponível.</p>
                     </div>
                   ) : (
                     <div className="space-y-2 mt-4">
@@ -542,18 +542,18 @@ const ClientDashboard = () => {
                           initial={{ opacity: 0, y: 10 }}
                           animate={{ opacity: 1, y: 0 }}
                           transition={{ delay: idx * 0.05 }}
-                          className="relative flex items-center justify-between p-4 rounded-xl border border-black/8 bg-black/[0.02] hover:border-primary/20 hover:-translate-y-px hover:shadow-md transition-all duration-300 gap-3 group"
+                          className="relative flex items-center justify-between p-4 rounded-xl border border-white/10 bg-white/5 hover:border-primary/20 hover:-translate-y-px hover:shadow-md transition-all duration-300 gap-3 group"
                         >
                           <div className="absolute left-0 top-2 bottom-2 w-[3px] bg-primary rounded-full scale-y-0 group-hover:scale-y-100 transition-transform duration-200 origin-center" />
-                          <span className="text-sm text-black truncate flex-1 pl-2">{file.name}</span>
+                          <span className="text-sm text-white truncate flex-1 pl-2">{file.name}</span>
                           <div className="flex items-center gap-2 shrink-0">
                             {file.viewUrl && (
-                              <Button asChild variant="outline" size="sm" className="gap-1.5 rounded-xl text-black border-black/10">
+                              <Button asChild variant="outline" size="sm" className="gap-1.5 rounded-xl text-white border-white/20 hover:bg-white/10">
                                 <a href={file.viewUrl} target="_blank" rel="noopener noreferrer"><ExternalLink className="h-3.5 w-3.5" />Abrir</a>
                               </Button>
                             )}
                             {file.downloadUrl && (
-                              <Button asChild variant="ghost" size="sm" className="gap-1.5 rounded-xl text-black/50">
+                              <Button asChild variant="ghost" size="sm" className="gap-1.5 rounded-xl text-white/50 hover:text-white">
                                 <a href={file.downloadUrl} target="_blank" rel="noopener noreferrer"><FileDown className="h-3.5 w-3.5" />Baixar</a>
                               </Button>
                             )}

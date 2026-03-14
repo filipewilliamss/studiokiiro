@@ -13,8 +13,11 @@ const navLinks = [
   { label: "Contato", href: "#contato" },
 ];
 
+interface NavbarProps {
+  forceBlack?: boolean;
+}
 
-const Navbar = () => {
+const Navbar = ({ forceBlack = false }: NavbarProps) => {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const location = useLocation();
@@ -29,14 +32,22 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  const bgClass = forceBlack
+    ? "bg-black border-b border-white/10"
+    : scrolled
+      ? "bg-background/90 backdrop-blur-md border-b border-border"
+      : "bg-transparent";
+
+  const textClass = forceBlack ? "text-white/60 hover:text-primary" : "text-muted-foreground hover:text-primary";
+  const areaClienteTextClass = forceBlack ? "text-primary hover:text-primary/80" : "text-primary hover:text-primary/80";
+  const menuBtnClass = forceBlack ? "text-white" : "text-foreground";
+
   return (
     <motion.nav
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.6 }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        scrolled ? "bg-background/90 backdrop-blur-md border-b border-border" : "bg-transparent"
-      }`}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${bgClass}`}
     >
       <div className="container-editorial flex items-center justify-between h-16 md:h-20">
         <a href={logoHref} className="flex items-center">
@@ -49,14 +60,14 @@ const Navbar = () => {
             <a
               key={link.href}
               href={getHref(link.href)}
-              className="text-sm text-muted-foreground hover:text-primary transition-colors duration-300 tracking-wide uppercase"
+              className={`text-sm transition-colors duration-300 tracking-wide uppercase ${textClass}`}
             >
               {link.label}
             </a>
           ))}
           <a
             href="/area-do-cliente"
-            className="text-sm text-primary hover:text-primary/80 transition-colors duration-300 tracking-wide uppercase font-medium"
+            className={`text-sm transition-colors duration-300 tracking-wide uppercase font-medium ${areaClienteTextClass}`}
           >
             Área do Cliente
           </a>
@@ -65,7 +76,7 @@ const Navbar = () => {
         {/* Mobile toggle */}
         <button
           onClick={() => setMenuOpen(!menuOpen)}
-          className="md:hidden text-foreground"
+          className={`md:hidden ${menuBtnClass}`}
           aria-label="Menu"
         >
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -83,7 +94,7 @@ const Navbar = () => {
         <motion.div
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="md:hidden bg-background/95 backdrop-blur-md border-b border-border"
+          className={`md:hidden border-b ${forceBlack ? "bg-black/95 backdrop-blur-md border-white/10" : "bg-background/95 backdrop-blur-md border-border"}`}
         >
           <div className="container-editorial py-6 flex flex-col gap-4">
             {navLinks.map((link) => (
@@ -91,7 +102,7 @@ const Navbar = () => {
                 key={link.href}
                 href={getHref(link.href)}
                 onClick={() => setMenuOpen(false)}
-                className="text-sm text-muted-foreground hover:text-primary transition-colors uppercase tracking-wide"
+                className={`text-sm transition-colors uppercase tracking-wide ${textClass}`}
               >
                 {link.label}
               </a>
@@ -99,7 +110,7 @@ const Navbar = () => {
             <a
               href="/area-do-cliente"
               onClick={() => setMenuOpen(false)}
-              className="text-sm text-primary hover:text-primary/80 transition-colors uppercase tracking-wide font-medium"
+              className={`text-sm transition-colors uppercase tracking-wide font-medium ${areaClienteTextClass}`}
             >
               Área do Cliente
             </a>

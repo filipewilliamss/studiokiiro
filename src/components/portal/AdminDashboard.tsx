@@ -3,7 +3,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import Navbar from "@/components/Navbar";
 import { Button } from "@/components/ui/button";
-import { LogOut, Users, FolderKanban, DollarSign, FileText, Receipt, Sparkles, Layers, BarChart3, Clock } from "lucide-react";
+import { LogOut, Users, FolderKanban, DollarSign, FileText, Receipt, Layers, BarChart3, Clock } from "lucide-react";
 import ClientsTab from "./admin/ClientsTab";
 import ProjectsTab from "./admin/ProjectsTab";
 import FinanceTab from "./admin/FinanceTab";
@@ -42,7 +42,6 @@ const AdminDashboard = () => {
     fetchCounts();
   }, [activeTab]);
 
-
   const summaryCards = [
     { label: "Clientes ativos", value: counts.clients, icon: Users },
     { label: "Projetos em andamento", value: counts.projects, icon: Layers },
@@ -61,7 +60,7 @@ const AdminDashboard = () => {
 
   return (
     <div className="min-h-screen relative">
-      {/* Layered background */}
+      {/* White background */}
       <div className="fixed inset-0 bg-white" />
       {/* Radial gradient for depth */}
       <div
@@ -80,20 +79,19 @@ const AdminDashboard = () => {
       />
 
       <div className="relative z-10">
-        <Navbar />
+        <Navbar forceBlack />
 
-        {/* Sticky sub-header */}
-        <header className="border-b border-black/8 bg-white/80 backdrop-blur-2xl sticky top-16 md:top-20 z-30 mt-16 md:mt-20">
+        {/* Sticky sub-header — black */}
+        <header className="border-b border-white/10 bg-black sticky top-16 md:top-20 z-30 mt-16 md:mt-20">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 h-12 flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <Sparkles className="h-3.5 w-3.5 text-primary" />
-              <span className="text-[11px] uppercase tracking-[0.3em] text-primary font-semibold">Studio Workspace</span>
-              <span className="hidden sm:inline-flex items-center gap-1.5 text-[10px] text-black/40 ml-2 border-l border-black/10 pl-3">
+              <span className="text-[11px] uppercase tracking-[0.3em] text-primary font-semibold">Studio Kiiro Workspace</span>
+              <span className="hidden sm:inline-flex items-center gap-1.5 text-[10px] text-white/40 ml-2 border-l border-white/10 pl-3">
                 <Clock className="h-3 w-3" />
                 Ferramenta interna do Studio Kiiro
               </span>
             </div>
-            <Button variant="ghost" size="sm" onClick={signOut} className="text-black/50 hover:text-black gap-2 text-xs hover:bg-black/5 transition-all duration-300">
+            <Button variant="ghost" size="sm" onClick={signOut} className="text-white/50 hover:text-white gap-2 text-xs hover:bg-white/5 transition-all duration-300">
               <LogOut className="h-3.5 w-3.5" />
               Sair
             </Button>
@@ -101,18 +99,16 @@ const AdminDashboard = () => {
         </header>
 
         <main className="max-w-7xl mx-auto px-4 sm:px-6 py-10 space-y-10">
-          {/* ── Hero Card ── */}
+          {/* ── Hero Card — yellow ── */}
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
             className="relative"
           >
-            {/* Glow behind card */}
             <div className="absolute -inset-6 rounded-3xl bg-primary/15 blur-3xl pointer-events-none" />
 
             <div className="relative overflow-hidden rounded-2xl border border-primary/20 bg-primary p-7 sm:p-9 lg:p-11 shadow-2xl shadow-primary/20 hover:-translate-y-0.5 hover:shadow-[0_20px_60px_-15px_hsl(var(--primary)/0.3)] transition-all duration-500">
-              {/* Decorative orbs */}
               <div className="absolute top-0 right-0 w-96 h-96 bg-white/[0.06] rounded-full blur-[100px] -translate-y-1/2 translate-x-1/4 pointer-events-none" />
               <div className="absolute bottom-0 left-0 w-64 h-64 bg-black/[0.04] rounded-full blur-[80px] translate-y-1/3 -translate-x-1/4 pointer-events-none" />
 
@@ -133,7 +129,7 @@ const AdminDashboard = () => {
                   </p>
                 </div>
 
-                {/* Right: Summary mini-cards */}
+                {/* Right: Summary mini-cards — black bg */}
                 <div className="flex flex-row lg:flex-col gap-3 w-full lg:w-auto">
                   {summaryCards.map((card, i) => (
                     <motion.div
@@ -142,14 +138,14 @@ const AdminDashboard = () => {
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ duration: 0.5, delay: 0.25 + i * 0.1, ease: [0.22, 1, 0.36, 1] }}
                       whileHover={{ scale: 1.04, y: -2, transition: { duration: 0.2 } }}
-                      className="group flex-1 lg:w-56 rounded-xl border border-black/10 bg-black/5 p-4 flex items-center gap-3.5 transition-all duration-300 hover:border-black/25 hover:bg-black/10 hover:shadow-lg hover:shadow-black/5 cursor-default"
+                      className="group flex-1 lg:w-56 rounded-xl border border-white/10 bg-black p-4 flex items-center gap-3.5 transition-all duration-300 hover:border-primary/30 hover:shadow-lg hover:shadow-black/10 cursor-default"
                     >
-                      <div className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 bg-black/10 text-black transition-all duration-300">
+                      <div className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 bg-white/10 text-primary transition-all duration-300">
                         <card.icon className="h-4.5 w-4.5" />
                       </div>
                       <div className="min-w-0">
-                        <span className="block text-2xl sm:text-3xl font-bold font-display text-black leading-none">{card.value}</span>
-                        <span className="block text-[10px] uppercase tracking-[0.15em] text-black/50 mt-1 truncate font-medium">{card.label}</span>
+                        <span className="block text-2xl sm:text-3xl font-bold font-display text-white leading-none">{card.value}</span>
+                        <span className="block text-[10px] uppercase tracking-[0.15em] text-white/50 mt-1 font-medium">{card.label}</span>
                       </div>
                     </motion.div>
                   ))}
@@ -158,14 +154,14 @@ const AdminDashboard = () => {
             </div>
           </motion.div>
 
-          {/* ── Navigation Pills ── */}
+          {/* ── Navigation Pills — black container ── */}
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.15 }}
           >
             <p className="text-[10px] uppercase tracking-[0.35em] text-black/35 mb-3.5 ml-1 font-semibold">Seções do seu estúdio</p>
-            <div className="rounded-2xl border border-black/8 bg-black/[0.02] backdrop-blur-md p-2 flex flex-wrap gap-1.5">
+            <div className="rounded-2xl border border-white/10 bg-black p-2 flex flex-wrap gap-1.5">
               {tabs.map((tab) => {
                 const isActive = activeTab === tab.key;
                 return (
@@ -174,8 +170,8 @@ const AdminDashboard = () => {
                     onClick={() => setActiveTab(tab.key)}
                     className={`relative flex items-center gap-2.5 px-5 py-3 rounded-xl text-sm font-medium transition-all duration-300 ${
                       isActive
-                        ? "bg-white text-black shadow-lg shadow-black/8"
-                        : "text-black/35 hover:text-black/70 hover:bg-black/5"
+                        ? "bg-white/10 text-primary shadow-lg shadow-black/20"
+                        : "text-white/35 hover:text-white/70 hover:bg-white/5"
                     }`}
                   >
                     <tab.icon className={`h-4 w-4 transition-transform duration-300 ${isActive ? "" : "group-hover:scale-110"}`} />
@@ -183,7 +179,7 @@ const AdminDashboard = () => {
                     {isActive && (
                       <motion.div
                         layoutId="activeTabGlow"
-                        className="absolute inset-0 rounded-xl bg-white -z-10"
+                        className="absolute inset-0 rounded-xl bg-white/10 -z-10"
                         transition={{ type: "spring", stiffness: 400, damping: 30 }}
                       />
                     )}
@@ -193,16 +189,15 @@ const AdminDashboard = () => {
             </div>
           </motion.div>
 
-          {/* ── Content Area ── */}
+          {/* ── Content Area — black container ── */}
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.25 }}
             className="relative"
           >
-            <div className="relative rounded-2xl border border-black/8 bg-white shadow-xl shadow-black/[0.04] p-1.5 sm:p-2.5">
-              {/* Inner pane */}
-              <div className="rounded-xl border border-black/5 bg-white p-5 sm:p-7 min-h-[400px]">
+            <div className="relative rounded-2xl border border-white/10 bg-[#0a0a0a] shadow-xl shadow-black/[0.1] p-1.5 sm:p-2.5">
+              <div className="rounded-xl border border-white/5 bg-[#111111] p-5 sm:p-7 min-h-[400px]">
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={activeTab}

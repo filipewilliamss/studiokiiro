@@ -291,14 +291,14 @@ const ClientDashboard = () => {
   if (selectedProject) {
     return (
       <PageWrapper>
-        <Navbar />
-        <header className="border-b border-black/8 bg-white/80 backdrop-blur-xl sticky top-16 md:top-20 z-30 mt-16 md:mt-20">
+        <Navbar forceBlack />
+        <header className="border-b border-white/10 bg-black sticky top-16 md:top-20 z-30 mt-16 md:mt-20">
           <div className="max-w-5xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between">
-            <button onClick={() => setSelectedProject(null)} className="flex items-center gap-2 text-sm text-black/40 hover:text-primary transition-colors group">
+            <button onClick={() => setSelectedProject(null)} className="flex items-center gap-2 text-sm text-white/40 hover:text-primary transition-colors group">
               <ArrowLeft className="h-4 w-4 group-hover:-translate-x-1 transition-transform" />
               Voltar
             </button>
-            <Button variant="ghost" size="sm" onClick={signOut} className="text-black/40 hover:text-black">
+            <Button variant="ghost" size="sm" onClick={signOut} className="text-white/40 hover:text-white">
               <LogOut className="h-4 w-4 mr-2" />
               Sair
             </Button>

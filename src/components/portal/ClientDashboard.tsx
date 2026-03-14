@@ -505,11 +505,11 @@ const ClientDashboard = () => {
                                 <div className="h-2 w-2 rounded-full bg-primary animate-pulse" />
                               </div>
                             ) : (
-                              <Circle className="h-5 w-5 text-black/20 shrink-0 mt-0.5" />
+                              <Circle className="h-5 w-5 text-white/20 shrink-0 mt-0.5" />
                             )}
                             <div className="flex-1 min-w-0">
-                              <span className={`text-sm font-medium ${isCompleted ? "text-black/40 line-through" : isCurrent ? "text-black" : "text-black/30"}`}>{stage.name}</span>
-                              {stage.description && <p className="text-[11px] text-black/35 mt-0.5 line-clamp-2">{stage.description}</p>}
+                              <span className={`text-sm font-medium ${isCompleted ? "text-white/40 line-through" : isCurrent ? "text-white" : "text-white/30"}`}>{stage.name}</span>
+                              {stage.description && <p className="text-[11px] text-white/35 mt-0.5 line-clamp-2">{stage.description}</p>}
                               {stage.completed_at && <p className="text-[10px] text-primary mt-1">✓ {new Date(stage.completed_at).toLocaleDateString("pt-BR")}</p>}
                               {isCurrent && <p className="text-[10px] text-primary font-semibold mt-1 flex items-center gap-1"><Sparkles className="h-3 w-3" /> Etapa atual</p>}
                             </div>

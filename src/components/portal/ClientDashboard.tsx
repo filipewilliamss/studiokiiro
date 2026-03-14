@@ -567,45 +567,45 @@ const ClientDashboard = () => {
 
               {/* FINANCE TAB */}
               <TabsContent value="finance" className="space-y-4">
-                <div className="rounded-2xl border border-black/8 bg-white shadow-lg shadow-black/[0.03] p-6 sm:p-8 space-y-5">
-                  <label className="text-[10px] uppercase tracking-[0.3em] text-black/35 font-semibold">Detalhes Financeiros</label>
+                <div className="rounded-2xl border border-white/10 bg-black p-6 sm:p-8 space-y-5">
+                  <label className="text-[10px] uppercase tracking-[0.3em] text-white/40 font-semibold">Detalhes Financeiros</label>
                   {!payment ? (
                     <div className="py-12 text-center">
-                      <DollarSign className="h-8 w-8 text-black/15 mx-auto mb-2" />
-                      <p className="text-black/35 text-sm">Nenhuma informação financeira disponível.</p>
+                      <DollarSign className="h-8 w-8 text-white/15 mx-auto mb-2" />
+                      <p className="text-white/35 text-sm">Nenhuma informação financeira disponível.</p>
                     </div>
                   ) : (
                     <div className="space-y-4">
-                      <div className="bg-gradient-to-br from-primary/10 to-transparent border border-primary/15 rounded-xl p-5 space-y-4">
+                      <div className="bg-primary/10 border border-primary/20 rounded-xl p-5 space-y-4">
                         <div className="flex items-center justify-between">
-                          <span className="text-sm text-black/50">Orçamento Total</span>
-                          <span className="text-2xl font-bold text-black font-display">{formatCurrency(payment.budget_total)}</span>
+                          <span className="text-sm text-white/50">Orçamento Total</span>
+                          <span className="text-2xl font-bold text-primary font-display">{formatCurrency(payment.budget_total)}</span>
                         </div>
                         {payment.initial_payment != null && payment.initial_payment > 0 && (
                           <div className="flex items-center justify-between text-sm">
-                            <span className="text-black/50">Entrada</span>
+                            <span className="text-white/50">Entrada</span>
                             <div className="text-right">
-                              <span className="text-black font-medium">{formatCurrency(payment.initial_payment)}</span>
+                              <span className="text-white font-medium">{formatCurrency(payment.initial_payment)}</span>
                               {payment.initial_payment_date && (
-                                <span className="text-black/35 text-xs ml-2">({new Date(payment.initial_payment_date + "T00:00:00").toLocaleDateString("pt-BR")})</span>
+                                <span className="text-white/35 text-xs ml-2">({new Date(payment.initial_payment_date + "T00:00:00").toLocaleDateString("pt-BR")})</span>
                               )}
                             </div>
                           </div>
                         )}
                         {payment.remaining_amount != null && (
                           <div className="flex items-center justify-between text-sm">
-                            <span className="text-black/50">Saldo Restante</span>
+                            <span className="text-white/50">Saldo Restante</span>
                             <span className="text-primary font-semibold">{formatCurrency(payment.remaining_amount)}</span>
                           </div>
                         )}
                       </div>
                       {payment.installments_total != null && payment.installments_total > 0 && (
-                        <div className="border border-black/8 rounded-xl p-5 space-y-3">
+                        <div className="border border-white/10 rounded-xl p-5 space-y-3">
                           <div className="flex items-center justify-between text-sm">
-                            <span className="text-black/50">Parcelas</span>
-                            <span className="text-black font-medium">{payment.installments_paid ?? 0} de {payment.installments_total} pagas</span>
+                            <span className="text-white/50">Parcelas</span>
+                            <span className="text-white font-medium">{payment.installments_paid ?? 0} de {payment.installments_total} pagas</span>
                           </div>
-                          <div className="h-2.5 bg-black/5 rounded-full overflow-hidden">
+                          <div className="h-2.5 bg-white/10 rounded-full overflow-hidden">
                             <motion.div
                               initial={{ width: 0 }}
                               animate={{ width: `${((payment.installments_paid ?? 0) / payment.installments_total) * 100}%` }}
@@ -614,7 +614,7 @@ const ClientDashboard = () => {
                             />
                           </div>
                           {payment.next_payment_date && (
-                            <div className="flex items-center gap-1.5 text-xs text-black/40">
+                            <div className="flex items-center gap-1.5 text-xs text-white/40">
                               <Clock className="h-3 w-3" />
                               <span>Próximo: {new Date(payment.next_payment_date + "T00:00:00").toLocaleDateString("pt-BR")}</span>
                             </div>
@@ -622,9 +622,9 @@ const ClientDashboard = () => {
                         </div>
                       )}
                       {payment.notes && (
-                        <div className="border border-black/8 rounded-xl p-4">
-                          <label className="text-[10px] uppercase tracking-[0.3em] text-black/35 font-semibold">Observações</label>
-                          <p className="text-sm text-black mt-2 whitespace-pre-wrap">{payment.notes}</p>
+                        <div className="border border-white/10 rounded-xl p-4">
+                          <label className="text-[10px] uppercase tracking-[0.3em] text-white/40 font-semibold">Observações</label>
+                          <p className="text-sm text-white/80 mt-2 whitespace-pre-wrap">{payment.notes}</p>
                         </div>
                       )}
                     </div>

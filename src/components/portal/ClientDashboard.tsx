@@ -808,9 +808,9 @@ const ClientDashboard = () => {
           transition={{ delay: 0.1 }}
           className="space-y-4"
         >
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 bg-black rounded-xl px-4 py-2.5">
             <FolderOpen className="h-4 w-4 text-primary" />
-            <h2 className="text-[10px] font-semibold uppercase tracking-[0.3em] text-black/35">Projetos Ativos</h2>
+            <h2 className="text-[10px] font-semibold uppercase tracking-[0.3em] text-white/60">Projetos Ativos</h2>
           </div>
           {activeProjects.length === 0 ? (
             <div className="rounded-2xl border border-black/8 bg-white shadow-lg shadow-black/[0.03] p-10 text-center">

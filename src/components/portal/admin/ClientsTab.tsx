@@ -284,7 +284,7 @@ const ClientsTab = () => {
               checked={selectedIds.size === filtered.length && filtered.length > 0}
               onCheckedChange={toggleSelectAll}
             />
-            <span className="text-xs text-muted-foreground">Selecionar todos</span>
+            <span className="text-xs text-white/40">Selecionar todos</span>
           </div>
         )}
         {filtered.length === 0 ? (

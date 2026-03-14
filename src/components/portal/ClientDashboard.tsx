@@ -493,7 +493,7 @@ const ClientDashboard = () => {
                             animate={{ opacity: 1, x: 0 }}
                             transition={{ delay: idx * 0.05 }}
                             className={`relative flex items-start gap-3 p-4 rounded-xl border transition-all duration-300 group hover:-translate-y-px ${
-                              isCurrent ? "border-primary/30 bg-primary/5 shadow-md shadow-primary/10" : isCompleted ? "border-black/8 bg-black/[0.02]" : "border-black/5 bg-transparent"
+                              isCurrent ? "border-primary/30 bg-primary/10 shadow-md shadow-primary/10" : isCompleted ? "border-white/10 bg-white/5" : "border-white/5 bg-transparent"
                             }`}
                           >
                             {/* Yellow accent on hover */}

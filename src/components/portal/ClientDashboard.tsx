@@ -57,13 +57,14 @@ const statusLabels: Record<string, string> = {
   revisao: "Em revisão", finalizacao: "Finalização", entregue: "Entregue",
 };
 
+// All project headers now use yellow (primary) background
 const statusGradients: Record<string, string> = {
-  briefing: "from-blue-500/20 to-blue-600/5",
-  planejamento: "from-amber-500/20 to-amber-600/5",
-  producao: "from-primary/20 to-primary/5",
-  revisao: "from-purple-500/20 to-purple-600/5",
-  finalizacao: "from-emerald-500/20 to-emerald-600/5",
-  entregue: "from-muted to-muted/50",
+  briefing: "",
+  planejamento: "",
+  producao: "",
+  revisao: "",
+  finalizacao: "",
+  entregue: "",
 };
 
 const formatCurrency = (value: number) =>
@@ -290,14 +291,14 @@ const ClientDashboard = () => {
   if (selectedProject) {
     return (
       <PageWrapper>
-        <Navbar />
-        <header className="border-b border-black/8 bg-white/80 backdrop-blur-xl sticky top-16 md:top-20 z-30 mt-16 md:mt-20">
+        <Navbar forceBlack />
+        <header className="border-b border-white/10 bg-black sticky top-16 md:top-20 z-30 mt-16 md:mt-20">
           <div className="max-w-5xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between">
-            <button onClick={() => setSelectedProject(null)} className="flex items-center gap-2 text-sm text-black/40 hover:text-primary transition-colors group">
+            <button onClick={() => setSelectedProject(null)} className="flex items-center gap-2 text-sm text-white/40 hover:text-primary transition-colors group">
               <ArrowLeft className="h-4 w-4 group-hover:-translate-x-1 transition-transform" />
               Voltar
             </button>
-            <Button variant="ghost" size="sm" onClick={signOut} className="text-black/40 hover:text-black">
+            <Button variant="ghost" size="sm" onClick={signOut} className="text-white/40 hover:text-white">
               <LogOut className="h-4 w-4 mr-2" />
               Sair
             </Button>
@@ -305,33 +306,40 @@ const ClientDashboard = () => {
         </header>
 
         <main className="max-w-5xl mx-auto px-4 sm:px-6 py-10 space-y-8">
-          {/* Project header with gradient */}
+          {/* Project header — yellow bg with immersive animation */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4 }}
-            className={`rounded-2xl bg-gradient-to-br ${statusGradients[selectedProject.status] || "from-muted to-muted/50"} border border-black/8 p-6 sm:p-8 hover:-translate-y-0.5 hover:shadow-lg transition-all duration-400`}
+            initial={{ opacity: 0, y: 30, scale: 0.96 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+            className="relative"
           >
-            <h1 className="text-2xl sm:text-3xl font-bold text-black font-display">{selectedProject.name}</h1>
-            <div className="flex items-center gap-3 mt-2">
-              <p className="text-sm text-black/50">{selectedProject.type}</p>
-              <span className="text-xs px-3 py-1 rounded-full bg-primary/20 text-black font-semibold border border-primary/30">
-                {statusLabels[selectedProject.status] || selectedProject.status}
-              </span>
-            </div>
-            {/* Progress bar */}
-            <div className="mt-5 space-y-1.5">
-              <div className="flex justify-between text-xs">
-                <span className="text-black/50">Progresso geral</span>
-                <span className="font-bold text-black">{selectedProject.progress}%</span>
-              </div>
-              <div className="h-2.5 bg-white/60 rounded-full overflow-hidden backdrop-blur-sm">
-                <motion.div
-                  initial={{ width: 0 }}
-                  animate={{ width: `${selectedProject.progress}%` }}
-                  transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
-                  className="h-full bg-gradient-to-r from-primary to-kiiro-glow rounded-full"
-                />
+            <div className="absolute -inset-4 rounded-3xl bg-primary/15 blur-2xl pointer-events-none" />
+            <div className="relative overflow-hidden rounded-2xl border border-primary/20 bg-primary p-6 sm:p-8 shadow-2xl shadow-primary/20 hover:-translate-y-0.5 hover:shadow-[0_20px_60px_-15px_hsl(var(--primary)/0.3)] transition-all duration-500">
+              <div className="absolute top-0 right-0 w-80 h-80 bg-white/[0.06] rounded-full blur-[80px] -translate-y-1/2 translate-x-1/4 pointer-events-none" />
+              <div className="absolute bottom-0 left-0 w-48 h-48 bg-black/[0.04] rounded-full blur-[60px] translate-y-1/3 -translate-x-1/4 pointer-events-none" />
+              <div className="relative">
+                <h1 className="text-2xl sm:text-3xl font-bold text-black font-display">{selectedProject.name}</h1>
+                <div className="flex items-center gap-3 mt-2">
+                  <p className="text-sm text-black/60">{selectedProject.type}</p>
+                  <span className="text-xs px-3 py-1 rounded-full bg-black/10 text-black font-semibold border border-black/10">
+                    {statusLabels[selectedProject.status] || selectedProject.status}
+                  </span>
+                </div>
+                {/* Progress bar */}
+                <div className="mt-5 space-y-1.5">
+                  <div className="flex justify-between text-xs">
+                    <span className="text-black/60">Progresso geral</span>
+                    <span className="font-bold text-black">{selectedProject.progress}%</span>
+                  </div>
+                  <div className="h-2.5 bg-black/10 rounded-full overflow-hidden">
+                    <motion.div
+                      initial={{ width: 0 }}
+                      animate={{ width: `${selectedProject.progress}%` }}
+                      transition={{ duration: 0.8, ease: "easeOut", delay: 0.3 }}
+                      className="h-full bg-black rounded-full"
+                    />
+                  </div>
+                </div>
               </div>
             </div>
           </motion.div>
@@ -454,25 +462,25 @@ const ClientDashboard = () => {
           {/* Tabs */}
           <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
             <Tabs defaultValue="status" className="space-y-8">
-              <TabsList className="bg-black/[0.02] backdrop-blur-sm border border-black/8 h-12 p-1.5 gap-1 grid grid-cols-4 w-full rounded-2xl">
-                <TabsTrigger value="status" className="gap-1.5 text-xs rounded-xl data-[state=active]:bg-white data-[state=active]:text-black data-[state=active]:shadow-md transition-all text-black/35">
+              <TabsList className="bg-black border border-white/10 h-12 p-1.5 gap-1 grid grid-cols-4 w-full rounded-2xl">
+                <TabsTrigger value="status" className="gap-1.5 text-xs rounded-xl data-[state=active]:bg-white/10 data-[state=active]:text-primary data-[state=active]:shadow-md transition-all text-white/35">
                   <CheckCircle2 className="h-3.5 w-3.5" /><span className="hidden sm:inline">Status</span>
                 </TabsTrigger>
-                <TabsTrigger value="files" className="gap-1.5 text-xs rounded-xl data-[state=active]:bg-white data-[state=active]:text-black data-[state=active]:shadow-md transition-all text-black/35">
+                <TabsTrigger value="files" className="gap-1.5 text-xs rounded-xl data-[state=active]:bg-white/10 data-[state=active]:text-primary data-[state=active]:shadow-md transition-all text-white/35">
                   <FolderOpen className="h-3.5 w-3.5" /><span className="hidden sm:inline">Arquivos</span>
                 </TabsTrigger>
-                <TabsTrigger value="finance" className="gap-1.5 text-xs rounded-xl data-[state=active]:bg-white data-[state=active]:text-black data-[state=active]:shadow-md transition-all text-black/35">
+                <TabsTrigger value="finance" className="gap-1.5 text-xs rounded-xl data-[state=active]:bg-white/10 data-[state=active]:text-primary data-[state=active]:shadow-md transition-all text-white/35">
                   <DollarSign className="h-3.5 w-3.5" /><span className="hidden sm:inline">Financeiro</span>
                 </TabsTrigger>
-                <TabsTrigger value="messages" className="gap-1.5 text-xs rounded-xl data-[state=active]:bg-white data-[state=active]:text-black data-[state=active]:shadow-md transition-all text-black/35">
+                <TabsTrigger value="messages" className="gap-1.5 text-xs rounded-xl data-[state=active]:bg-white/10 data-[state=active]:text-primary data-[state=active]:shadow-md transition-all text-white/35">
                   <MessageSquare className="h-3.5 w-3.5" /><span className="hidden sm:inline">Mensagens</span>
                 </TabsTrigger>
               </TabsList>
 
               {/* STATUS TAB */}
               <TabsContent value="status" className="space-y-6">
-                <div className="rounded-2xl border border-black/8 bg-white shadow-lg shadow-black/[0.03] p-6 sm:p-8 space-y-4">
-                  <p className="text-xs text-black/40 font-medium">{completedStages} de {stages.length} etapas concluídas</p>
+                <div className="rounded-2xl border border-white/10 bg-black p-6 sm:p-8 space-y-4">
+                  <p className="text-xs text-white/40 font-medium">{completedStages} de {stages.length} etapas concluídas</p>
                   {stages.length > 0 && (
                     <div className="space-y-2.5">
                       {stages.map((stage, idx) => {
@@ -485,7 +493,7 @@ const ClientDashboard = () => {
                             animate={{ opacity: 1, x: 0 }}
                             transition={{ delay: idx * 0.05 }}
                             className={`relative flex items-start gap-3 p-4 rounded-xl border transition-all duration-300 group hover:-translate-y-px ${
-                              isCurrent ? "border-primary/30 bg-primary/5 shadow-md shadow-primary/10" : isCompleted ? "border-black/8 bg-black/[0.02]" : "border-black/5 bg-transparent"
+                              isCurrent ? "border-primary/30 bg-primary/10 shadow-md shadow-primary/10" : isCompleted ? "border-white/10 bg-white/5" : "border-white/5 bg-transparent"
                             }`}
                           >
                             {/* Yellow accent on hover */}
@@ -497,11 +505,11 @@ const ClientDashboard = () => {
                                 <div className="h-2 w-2 rounded-full bg-primary animate-pulse" />
                               </div>
                             ) : (
-                              <Circle className="h-5 w-5 text-black/20 shrink-0 mt-0.5" />
+                              <Circle className="h-5 w-5 text-white/20 shrink-0 mt-0.5" />
                             )}
                             <div className="flex-1 min-w-0">
-                              <span className={`text-sm font-medium ${isCompleted ? "text-black/40 line-through" : isCurrent ? "text-black" : "text-black/30"}`}>{stage.name}</span>
-                              {stage.description && <p className="text-[11px] text-black/35 mt-0.5 line-clamp-2">{stage.description}</p>}
+                              <span className={`text-sm font-medium ${isCompleted ? "text-white/40 line-through" : isCurrent ? "text-white" : "text-white/30"}`}>{stage.name}</span>
+                              {stage.description && <p className="text-[11px] text-white/35 mt-0.5 line-clamp-2">{stage.description}</p>}
                               {stage.completed_at && <p className="text-[10px] text-primary mt-1">✓ {new Date(stage.completed_at).toLocaleDateString("pt-BR")}</p>}
                               {isCurrent && <p className="text-[10px] text-primary font-semibold mt-1 flex items-center gap-1"><Sparkles className="h-3 w-3" /> Etapa atual</p>}
                             </div>
@@ -515,16 +523,16 @@ const ClientDashboard = () => {
 
               {/* FILES TAB */}
               <TabsContent value="files" className="space-y-4">
-                <div className="rounded-2xl border border-black/8 bg-white shadow-lg shadow-black/[0.03] p-6 sm:p-8">
-                  <label className="text-[10px] uppercase tracking-[0.3em] text-black/35 font-semibold">Arquivos do Projeto</label>
+                <div className="rounded-2xl border border-white/10 bg-black p-6 sm:p-8">
+                  <label className="text-[10px] uppercase tracking-[0.3em] text-white/40 font-semibold">Arquivos do Projeto</label>
                   {isLoadingFiles ? (
                     <div className="py-12 text-center">
-                      <div className="animate-pulse text-black/30 text-sm">Carregando arquivos...</div>
+                      <div className="animate-pulse text-white/30 text-sm">Carregando arquivos...</div>
                     </div>
                   ) : files.length === 0 ? (
                     <div className="py-12 text-center">
-                      <FolderOpen className="h-8 w-8 text-black/15 mx-auto mb-2" />
-                      <p className="text-black/35 text-sm">Nenhum arquivo disponível.</p>
+                      <FolderOpen className="h-8 w-8 text-white/15 mx-auto mb-2" />
+                      <p className="text-white/35 text-sm">Nenhum arquivo disponível.</p>
                     </div>
                   ) : (
                     <div className="space-y-2 mt-4">
@@ -534,18 +542,18 @@ const ClientDashboard = () => {
                           initial={{ opacity: 0, y: 10 }}
                           animate={{ opacity: 1, y: 0 }}
                           transition={{ delay: idx * 0.05 }}
-                          className="relative flex items-center justify-between p-4 rounded-xl border border-black/8 bg-black/[0.02] hover:border-primary/20 hover:-translate-y-px hover:shadow-md transition-all duration-300 gap-3 group"
+                          className="relative flex items-center justify-between p-4 rounded-xl border border-white/10 bg-white/5 hover:border-primary/20 hover:-translate-y-px hover:shadow-md transition-all duration-300 gap-3 group"
                         >
                           <div className="absolute left-0 top-2 bottom-2 w-[3px] bg-primary rounded-full scale-y-0 group-hover:scale-y-100 transition-transform duration-200 origin-center" />
-                          <span className="text-sm text-black truncate flex-1 pl-2">{file.name}</span>
+                          <span className="text-sm text-white truncate flex-1 pl-2">{file.name}</span>
                           <div className="flex items-center gap-2 shrink-0">
                             {file.viewUrl && (
-                              <Button asChild variant="outline" size="sm" className="gap-1.5 rounded-xl text-black border-black/10">
+                              <Button asChild variant="outline" size="sm" className="gap-1.5 rounded-xl text-white border-white/20 hover:bg-white/10">
                                 <a href={file.viewUrl} target="_blank" rel="noopener noreferrer"><ExternalLink className="h-3.5 w-3.5" />Abrir</a>
                               </Button>
                             )}
                             {file.downloadUrl && (
-                              <Button asChild variant="ghost" size="sm" className="gap-1.5 rounded-xl text-black/50">
+                              <Button asChild variant="ghost" size="sm" className="gap-1.5 rounded-xl text-white/50 hover:text-white">
                                 <a href={file.downloadUrl} target="_blank" rel="noopener noreferrer"><FileDown className="h-3.5 w-3.5" />Baixar</a>
                               </Button>
                             )}
@@ -559,45 +567,45 @@ const ClientDashboard = () => {
 
               {/* FINANCE TAB */}
               <TabsContent value="finance" className="space-y-4">
-                <div className="rounded-2xl border border-black/8 bg-white shadow-lg shadow-black/[0.03] p-6 sm:p-8 space-y-5">
-                  <label className="text-[10px] uppercase tracking-[0.3em] text-black/35 font-semibold">Detalhes Financeiros</label>
+                <div className="rounded-2xl border border-white/10 bg-black p-6 sm:p-8 space-y-5">
+                  <label className="text-[10px] uppercase tracking-[0.3em] text-white/40 font-semibold">Detalhes Financeiros</label>
                   {!payment ? (
                     <div className="py-12 text-center">
-                      <DollarSign className="h-8 w-8 text-black/15 mx-auto mb-2" />
-                      <p className="text-black/35 text-sm">Nenhuma informação financeira disponível.</p>
+                      <DollarSign className="h-8 w-8 text-white/15 mx-auto mb-2" />
+                      <p className="text-white/35 text-sm">Nenhuma informação financeira disponível.</p>
                     </div>
                   ) : (
                     <div className="space-y-4">
-                      <div className="bg-gradient-to-br from-primary/10 to-transparent border border-primary/15 rounded-xl p-5 space-y-4">
+                      <div className="bg-primary/10 border border-primary/20 rounded-xl p-5 space-y-4">
                         <div className="flex items-center justify-between">
-                          <span className="text-sm text-black/50">Orçamento Total</span>
-                          <span className="text-2xl font-bold text-black font-display">{formatCurrency(payment.budget_total)}</span>
+                          <span className="text-sm text-white/50">Orçamento Total</span>
+                          <span className="text-2xl font-bold text-primary font-display">{formatCurrency(payment.budget_total)}</span>
                         </div>
                         {payment.initial_payment != null && payment.initial_payment > 0 && (
                           <div className="flex items-center justify-between text-sm">
-                            <span className="text-black/50">Entrada</span>
+                            <span className="text-white/50">Entrada</span>
                             <div className="text-right">
-                              <span className="text-black font-medium">{formatCurrency(payment.initial_payment)}</span>
+                              <span className="text-white font-medium">{formatCurrency(payment.initial_payment)}</span>
                               {payment.initial_payment_date && (
-                                <span className="text-black/35 text-xs ml-2">({new Date(payment.initial_payment_date + "T00:00:00").toLocaleDateString("pt-BR")})</span>
+                                <span className="text-white/35 text-xs ml-2">({new Date(payment.initial_payment_date + "T00:00:00").toLocaleDateString("pt-BR")})</span>
                               )}
                             </div>
                           </div>
                         )}
                         {payment.remaining_amount != null && (
                           <div className="flex items-center justify-between text-sm">
-                            <span className="text-black/50">Saldo Restante</span>
+                            <span className="text-white/50">Saldo Restante</span>
                             <span className="text-primary font-semibold">{formatCurrency(payment.remaining_amount)}</span>
                           </div>
                         )}
                       </div>
                       {payment.installments_total != null && payment.installments_total > 0 && (
-                        <div className="border border-black/8 rounded-xl p-5 space-y-3">
+                        <div className="border border-white/10 rounded-xl p-5 space-y-3">
                           <div className="flex items-center justify-between text-sm">
-                            <span className="text-black/50">Parcelas</span>
-                            <span className="text-black font-medium">{payment.installments_paid ?? 0} de {payment.installments_total} pagas</span>
+                            <span className="text-white/50">Parcelas</span>
+                            <span className="text-white font-medium">{payment.installments_paid ?? 0} de {payment.installments_total} pagas</span>
                           </div>
-                          <div className="h-2.5 bg-black/5 rounded-full overflow-hidden">
+                          <div className="h-2.5 bg-white/10 rounded-full overflow-hidden">
                             <motion.div
                               initial={{ width: 0 }}
                               animate={{ width: `${((payment.installments_paid ?? 0) / payment.installments_total) * 100}%` }}
@@ -606,7 +614,7 @@ const ClientDashboard = () => {
                             />
                           </div>
                           {payment.next_payment_date && (
-                            <div className="flex items-center gap-1.5 text-xs text-black/40">
+                            <div className="flex items-center gap-1.5 text-xs text-white/40">
                               <Clock className="h-3 w-3" />
                               <span>Próximo: {new Date(payment.next_payment_date + "T00:00:00").toLocaleDateString("pt-BR")}</span>
                             </div>
@@ -614,9 +622,9 @@ const ClientDashboard = () => {
                         </div>
                       )}
                       {payment.notes && (
-                        <div className="border border-black/8 rounded-xl p-4">
-                          <label className="text-[10px] uppercase tracking-[0.3em] text-black/35 font-semibold">Observações</label>
-                          <p className="text-sm text-black mt-2 whitespace-pre-wrap">{payment.notes}</p>
+                        <div className="border border-white/10 rounded-xl p-4">
+                          <label className="text-[10px] uppercase tracking-[0.3em] text-white/40 font-semibold">Observações</label>
+                          <p className="text-sm text-white/80 mt-2 whitespace-pre-wrap">{payment.notes}</p>
                         </div>
                       )}
                     </div>
@@ -626,17 +634,17 @@ const ClientDashboard = () => {
 
               {/* MESSAGES TAB */}
               <TabsContent value="messages" className="space-y-4">
-                <div className="rounded-2xl border border-black/8 bg-white shadow-lg shadow-black/[0.03] overflow-hidden">
+                <div className="rounded-2xl border border-white/10 bg-black overflow-hidden">
                   <div className="px-6 pt-5 pb-3">
-                    <label className="text-[10px] uppercase tracking-[0.3em] text-black/35 font-semibold">Mensagens e Feedbacks</label>
+                    <label className="text-[10px] uppercase tracking-[0.3em] text-white/40 font-semibold">Mensagens e Feedbacks</label>
                   </div>
                   <div className="flex flex-col" style={{ height: "400px" }}>
                     <div className="flex-1 overflow-y-auto px-6 py-4 space-y-3">
                       {messages.length === 0 ? (
                         <div className="flex items-center justify-center h-full">
                           <div className="text-center">
-                            <MessageSquare className="h-8 w-8 text-black/15 mx-auto mb-2" />
-                            <p className="text-black/35 text-sm">Envie a primeira mensagem!</p>
+                            <MessageSquare className="h-8 w-8 text-white/15 mx-auto mb-2" />
+                            <p className="text-white/35 text-sm">Envie a primeira mensagem!</p>
                           </div>
                         </div>
                       ) : messages.map((msg) => {
@@ -649,10 +657,10 @@ const ClientDashboard = () => {
                             className={`flex ${isOwn ? "justify-end" : "justify-start"}`}
                           >
                             <div className={`max-w-[80%] px-4 py-2.5 text-sm ${
-                              isOwn ? "bg-gradient-to-br from-primary to-kiiro-dark text-black rounded-2xl rounded-br-md" : "bg-black/5 text-black rounded-2xl rounded-bl-md"
+                              isOwn ? "bg-gradient-to-br from-primary to-kiiro-dark text-black rounded-2xl rounded-br-md" : "bg-white/10 text-white rounded-2xl rounded-bl-md"
                             }`}>
                               <p className="whitespace-pre-wrap">{msg.content}</p>
-                              <p className={`text-[10px] mt-1 ${isOwn ? "text-black/50" : "text-black/35"}`}>
+                              <p className={`text-[10px] mt-1 ${isOwn ? "text-black/50" : "text-white/35"}`}>
                                 {new Date(msg.created_at).toLocaleString("pt-BR", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" })}
                               </p>
                             </div>
@@ -661,12 +669,12 @@ const ClientDashboard = () => {
                       })}
                       <div ref={messagesEndRef} />
                     </div>
-                    <div className="border-t border-black/8 p-3 flex gap-2 bg-black/[0.02]">
+                    <div className="border-t border-white/10 p-3 flex gap-2 bg-white/5">
                       <Textarea
                         value={newMessage}
                         onChange={(e) => setNewMessage(e.target.value)}
                         placeholder="Escreva sua mensagem..."
-                        className="min-h-[40px] max-h-[100px] resize-none text-sm rounded-xl"
+                        className="min-h-[40px] max-h-[100px] resize-none text-sm rounded-xl bg-white/10 border-white/10 text-white placeholder:text-white/30"
                         onKeyDown={(e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); sendMessage(); } }}
                       />
                       <Button onClick={sendMessage} disabled={!newMessage.trim() || sendingMessage} size="icon" className="shrink-0 h-10 w-10 rounded-xl">
@@ -686,14 +694,13 @@ const ClientDashboard = () => {
   // Project list view (main dashboard)
   return (
     <PageWrapper>
-      <Navbar />
-      <header className="border-b border-black/8 bg-white/80 backdrop-blur-xl sticky top-16 md:top-20 z-30 mt-16 md:mt-20">
+      <Navbar forceBlack />
+      <header className="border-b border-white/10 bg-black sticky top-16 md:top-20 z-30 mt-16 md:mt-20">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <Sparkles className="h-3.5 w-3.5 text-primary" />
-            <h2 className="text-[11px] font-semibold text-primary uppercase tracking-[0.3em] font-display">Área do Cliente</h2>
+            <h2 className="text-[11px] font-semibold text-primary uppercase tracking-[0.3em] font-display">Studio Kiiro Workspace</h2>
           </div>
-          <Button variant="ghost" size="sm" onClick={signOut} className="text-black/40 hover:text-black">
+          <Button variant="ghost" size="sm" onClick={signOut} className="text-white/40 hover:text-white">
             <LogOut className="h-4 w-4 mr-2" />Sair
           </Button>
         </div>
@@ -729,9 +736,9 @@ const ClientDashboard = () => {
               exit={{ opacity: 0 }}
               className="space-y-4"
             >
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 bg-black rounded-xl px-4 py-2.5">
                 <Receipt className="h-4 w-4 text-primary" />
-                <h2 className="text-[10px] font-semibold uppercase tracking-[0.3em] text-black/35">Orçamentos Pendentes</h2>
+                <h2 className="text-[10px] font-semibold uppercase tracking-[0.3em] text-white/60">Orçamentos Pendentes</h2>
               </div>
               {pendingQuotes.map((quote) => (
                 <motion.div
@@ -801,9 +808,9 @@ const ClientDashboard = () => {
           transition={{ delay: 0.1 }}
           className="space-y-4"
         >
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 bg-black rounded-xl px-4 py-2.5">
             <FolderOpen className="h-4 w-4 text-primary" />
-            <h2 className="text-[10px] font-semibold uppercase tracking-[0.3em] text-black/35">Projetos Ativos</h2>
+            <h2 className="text-[10px] font-semibold uppercase tracking-[0.3em] text-white/60">Projetos Ativos</h2>
           </div>
           {activeProjects.length === 0 ? (
             <div className="rounded-2xl border border-black/8 bg-white shadow-lg shadow-black/[0.03] p-10 text-center">
@@ -873,9 +880,9 @@ const ClientDashboard = () => {
             transition={{ delay: 0.2 }}
             className="space-y-4"
           >
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 bg-black rounded-xl px-4 py-2.5">
               <CheckCircle2 className="h-4 w-4 text-primary" />
-              <h2 className="text-[10px] font-semibold uppercase tracking-[0.3em] text-black/35">Projetos Finalizados</h2>
+              <h2 className="text-[10px] font-semibold uppercase tracking-[0.3em] text-white/60">Projetos Finalizados</h2>
             </div>
             <div className="grid gap-3">
               {completedProjects.map((project) => (
@@ -904,9 +911,9 @@ const ClientDashboard = () => {
             transition={{ delay: 0.25 }}
             className="space-y-4"
           >
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 bg-black rounded-xl px-4 py-2.5">
               <FileText className="h-4 w-4 text-primary" />
-              <h2 className="text-[10px] font-semibold uppercase tracking-[0.3em] text-black/35">Ordens de Serviço</h2>
+              <h2 className="text-[10px] font-semibold uppercase tracking-[0.3em] text-white/60">Ordens de Serviço</h2>
             </div>
             <div className="grid gap-4">
               {serviceOrders.map((order) => (

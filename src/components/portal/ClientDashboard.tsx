@@ -634,17 +634,17 @@ const ClientDashboard = () => {
 
               {/* MESSAGES TAB */}
               <TabsContent value="messages" className="space-y-4">
-                <div className="rounded-2xl border border-black/8 bg-white shadow-lg shadow-black/[0.03] overflow-hidden">
+                <div className="rounded-2xl border border-white/10 bg-black overflow-hidden">
                   <div className="px-6 pt-5 pb-3">
-                    <label className="text-[10px] uppercase tracking-[0.3em] text-black/35 font-semibold">Mensagens e Feedbacks</label>
+                    <label className="text-[10px] uppercase tracking-[0.3em] text-white/40 font-semibold">Mensagens e Feedbacks</label>
                   </div>
                   <div className="flex flex-col" style={{ height: "400px" }}>
                     <div className="flex-1 overflow-y-auto px-6 py-4 space-y-3">
                       {messages.length === 0 ? (
                         <div className="flex items-center justify-center h-full">
                           <div className="text-center">
-                            <MessageSquare className="h-8 w-8 text-black/15 mx-auto mb-2" />
-                            <p className="text-black/35 text-sm">Envie a primeira mensagem!</p>
+                            <MessageSquare className="h-8 w-8 text-white/15 mx-auto mb-2" />
+                            <p className="text-white/35 text-sm">Envie a primeira mensagem!</p>
                           </div>
                         </div>
                       ) : messages.map((msg) => {
@@ -657,10 +657,10 @@ const ClientDashboard = () => {
                             className={`flex ${isOwn ? "justify-end" : "justify-start"}`}
                           >
                             <div className={`max-w-[80%] px-4 py-2.5 text-sm ${
-                              isOwn ? "bg-gradient-to-br from-primary to-kiiro-dark text-black rounded-2xl rounded-br-md" : "bg-black/5 text-black rounded-2xl rounded-bl-md"
+                              isOwn ? "bg-gradient-to-br from-primary to-kiiro-dark text-black rounded-2xl rounded-br-md" : "bg-white/10 text-white rounded-2xl rounded-bl-md"
                             }`}>
                               <p className="whitespace-pre-wrap">{msg.content}</p>
-                              <p className={`text-[10px] mt-1 ${isOwn ? "text-black/50" : "text-black/35"}`}>
+                              <p className={`text-[10px] mt-1 ${isOwn ? "text-black/50" : "text-white/35"}`}>
                                 {new Date(msg.created_at).toLocaleString("pt-BR", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" })}
                               </p>
                             </div>
@@ -669,12 +669,12 @@ const ClientDashboard = () => {
                       })}
                       <div ref={messagesEndRef} />
                     </div>
-                    <div className="border-t border-black/8 p-3 flex gap-2 bg-black/[0.02]">
+                    <div className="border-t border-white/10 p-3 flex gap-2 bg-white/5">
                       <Textarea
                         value={newMessage}
                         onChange={(e) => setNewMessage(e.target.value)}
                         placeholder="Escreva sua mensagem..."
-                        className="min-h-[40px] max-h-[100px] resize-none text-sm rounded-xl"
+                        className="min-h-[40px] max-h-[100px] resize-none text-sm rounded-xl bg-white/10 border-white/10 text-white placeholder:text-white/30"
                         onKeyDown={(e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); sendMessage(); } }}
                       />
                       <Button onClick={sendMessage} disabled={!newMessage.trim() || sendingMessage} size="icon" className="shrink-0 h-10 w-10 rounded-xl">

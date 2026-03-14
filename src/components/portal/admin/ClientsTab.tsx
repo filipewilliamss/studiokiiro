@@ -288,12 +288,12 @@ const ClientsTab = () => {
           </div>
         )}
         {filtered.length === 0 ? (
-          <div className="bg-card/50 border border-border/40 rounded-2xl p-12 text-center backdrop-blur-sm">
-            <div className="w-16 h-16 rounded-2xl bg-secondary/40 border border-border/30 flex items-center justify-center mx-auto mb-4">
-              <Users className="h-7 w-7 text-muted-foreground/50" />
+          <div className="bg-white/5 border border-white/10 rounded-2xl p-12 text-center">
+            <div className="w-16 h-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mx-auto mb-4">
+              <Users className="h-7 w-7 text-white/30" />
             </div>
-            <p className="text-foreground font-display font-semibold text-lg mb-1">Nenhum cliente por aqui… ainda.</p>
-            <p className="text-muted-foreground text-sm max-w-sm mx-auto">Quando você adicionar um cliente, ele aparece neste painel para você acompanhar cada detalhe.</p>
+            <p className="text-white font-display font-semibold text-lg mb-1">Nenhum cliente por aqui… ainda.</p>
+            <p className="text-white/40 text-sm max-w-sm mx-auto">Quando você adicionar um cliente, ele aparece neste painel para você acompanhar cada detalhe.</p>
           </div>
         ) : (
           filtered.map((client) => (

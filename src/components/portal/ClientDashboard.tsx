@@ -57,13 +57,14 @@ const statusLabels: Record<string, string> = {
   revisao: "Em revisão", finalizacao: "Finalização", entregue: "Entregue",
 };
 
+// All project headers now use yellow (primary) background
 const statusGradients: Record<string, string> = {
-  briefing: "from-blue-500/20 to-blue-600/5",
-  planejamento: "from-amber-500/20 to-amber-600/5",
-  producao: "from-primary/20 to-primary/5",
-  revisao: "from-purple-500/20 to-purple-600/5",
-  finalizacao: "from-emerald-500/20 to-emerald-600/5",
-  entregue: "from-muted to-muted/50",
+  briefing: "",
+  planejamento: "",
+  producao: "",
+  revisao: "",
+  finalizacao: "",
+  entregue: "",
 };
 
 const formatCurrency = (value: number) =>

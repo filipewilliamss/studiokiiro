@@ -374,28 +374,28 @@ const ClientDashboard = () => {
 
           {/* Briefing Dialog */}
           <Dialog open={briefingOpen} onOpenChange={setBriefingOpen}>
-            <DialogContent className="sm:max-w-2xl max-h-[85vh] overflow-y-auto">
+            <DialogContent className="sm:max-w-2xl max-h-[85vh] overflow-y-auto bg-[#0D0D0D] border-[#222] text-[#F5F5F5]">
               <DialogHeader>
-                <DialogTitle style={{ fontFamily: "var(--font-display)" }}>
+                <DialogTitle style={{ fontFamily: "var(--font-display)" }} className="text-[#F5F5F5] text-xl">
                   Briefing — {selectedProject.type}
                 </DialogTitle>
-                <p className="text-sm text-black/50 mt-1">
+                <p className="text-sm text-[#B3B3B3] mt-1">
                   Preencha com o máximo de detalhes possível para um resultado incrível.
                 </p>
               </DialogHeader>
-              <div className="space-y-5 mt-4">
+              <div className="space-y-7 mt-4">
                 {currentBriefingQuestions?.map((q) => {
                   if (q.type === "section") {
                     return (
-                      <div key={q.id} className="pt-4 pb-1 border-b border-primary/20">
-                        <h3 className="text-sm font-semibold text-primary uppercase tracking-wide">{q.question}</h3>
+                      <div key={q.id} className="pt-6 pb-2 border-b border-[#2A2A2A] mt-4">
+                        <h3 className="text-base font-bold text-primary uppercase tracking-widest">{q.question}</h3>
                       </div>
                     );
                   }
                   return (
-                    <div key={q.id} className="space-y-1.5">
-                      <label className="text-sm font-medium text-black">
-                        {q.question} {q.required && <span className="text-destructive">*</span>}
+                    <div key={q.id} className="space-y-2.5">
+                      <label className="text-[15px] font-medium text-[#F5F5F5] leading-snug">
+                        {q.question} {q.required && <span className="text-primary font-bold">*</span>}
                       </label>
                       {(q.type === "text" || q.type === "email" || q.type === "phone") && (
                         <Input
@@ -403,7 +403,7 @@ const ClientDashboard = () => {
                           value={briefingAnswers[q.id] || ""}
                           onChange={(e) => setBriefingAnswers((prev) => ({ ...prev, [q.id]: e.target.value }))}
                           placeholder={q.placeholder || "Sua resposta..."}
-                          className="rounded-xl"
+                          className="rounded-xl bg-[#1A1A1A] border-[#333] text-[#F5F5F5] placeholder:text-[#666] focus-visible:ring-primary focus-visible:border-primary focus-visible:shadow-[0_0_8px_hsl(46_95%_54%/0.15)]"
                         />
                       )}
                       {q.type === "textarea" && (
@@ -412,21 +412,21 @@ const ClientDashboard = () => {
                           onChange={(e) => setBriefingAnswers((prev) => ({ ...prev, [q.id]: e.target.value }))}
                           placeholder={q.placeholder || "Sua resposta..."}
                           rows={3}
-                          className="rounded-xl"
+                          className="rounded-xl bg-[#1A1A1A] border-[#333] text-[#F5F5F5] placeholder:text-[#666] focus-visible:ring-primary focus-visible:border-primary focus-visible:shadow-[0_0_8px_hsl(46_95%_54%/0.15)]"
                         />
                       )}
                       {q.type === "select" && q.options && (
                         <div className="space-y-2">
                           <div className="space-y-1.5">
                             {q.options.map((opt) => (
-                              <label key={opt} className="flex items-center gap-2.5 p-2.5 rounded-xl hover:bg-primary/5 cursor-pointer transition-colors border border-transparent hover:border-primary/20">
+                              <label key={opt} className="flex items-center gap-2.5 p-3 rounded-xl hover:bg-white/5 cursor-pointer transition-colors border border-transparent hover:border-primary/20">
                                 <input type="radio" name={q.id} checked={(briefingAnswers[q.id] || "").startsWith(opt)} onChange={() => setBriefingAnswers((prev) => ({ ...prev, [q.id]: opt }))} className="h-4 w-4 text-primary accent-primary" />
-                                <span className="text-sm text-black">{opt}</span>
+                                <span className="text-sm text-[#F5F5F5]">{opt}</span>
                               </label>
                             ))}
                           </div>
                           {q.hasConditionalText && briefingAnswers[q.id] && (
-                            <Input value={briefingAnswers[`${q.id}_detail`] || ""} onChange={(e) => setBriefingAnswers((prev) => ({ ...prev, [`${q.id}_detail`]: e.target.value }))} placeholder="Especifique..." className="ml-6 rounded-xl" />
+                            <Input value={briefingAnswers[`${q.id}_detail`] || ""} onChange={(e) => setBriefingAnswers((prev) => ({ ...prev, [`${q.id}_detail`]: e.target.value }))} placeholder="Especifique..." className="ml-6 rounded-xl bg-[#1A1A1A] border-[#333] text-[#F5F5F5] placeholder:text-[#666] focus-visible:ring-primary focus-visible:border-primary" />
                           )}
                         </div>
                       )}
@@ -437,12 +437,12 @@ const ClientDashboard = () => {
                             const selected = currentVal.split("|||").filter(Boolean);
                             const isChecked = selected.includes(opt);
                             return (
-                              <label key={opt} className="flex items-center gap-2.5 p-2.5 rounded-xl hover:bg-primary/5 cursor-pointer transition-colors border border-transparent hover:border-primary/20">
+                              <label key={opt} className="flex items-center gap-2.5 p-3 rounded-xl hover:bg-white/5 cursor-pointer transition-colors border border-transparent hover:border-primary/20">
                                 <Checkbox checked={isChecked} onCheckedChange={(checked) => {
                                   const newSelected = checked ? [...selected, opt] : selected.filter((s) => s !== opt);
                                   setBriefingAnswers((prev) => ({ ...prev, [q.id]: newSelected.join("|||") }));
-                                }} />
-                                <span className="text-sm text-black">{opt}</span>
+                                }} className="border-[#555] data-[state=checked]:bg-primary data-[state=checked]:border-primary" />
+                                <span className="text-sm text-[#F5F5F5]">{opt}</span>
                               </label>
                             );
                           })}
@@ -451,8 +451,8 @@ const ClientDashboard = () => {
                     </div>
                   );
                 })}
-                <div className="flex justify-end gap-2 pt-4 border-t border-black/10">
-                  <Button variant="ghost" onClick={() => setBriefingOpen(false)}>Cancelar</Button>
+                <div className="flex justify-end gap-2 pt-5 border-t border-[#2A2A2A]">
+                  <Button variant="ghost" onClick={() => setBriefingOpen(false)} className="text-[#B3B3B3] hover:text-[#F5F5F5] hover:bg-white/5">Cancelar</Button>
                   <Button onClick={submitBriefing} disabled={submittingBriefing} className="rounded-xl">{submittingBriefing ? "Enviando..." : "Enviar Briefing"}</Button>
                 </div>
               </div>

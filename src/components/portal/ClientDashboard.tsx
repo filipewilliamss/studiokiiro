@@ -602,7 +602,7 @@ const ClientDashboard = () => {
                       {payment.installments_total != null && payment.installments_total > 0 && (
                         <div className="border border-white/10 rounded-xl p-5 space-y-3">
                           <div className="flex items-center justify-between text-sm">
-                            <span className="text-white/50">Parcelas</span>
+                            <span className="text-white/60">Parcelas</span>
                             <span className="text-white font-medium">{payment.installments_paid ?? 0} de {payment.installments_total} pagas</span>
                           </div>
                           <div className="h-2.5 bg-white/10 rounded-full overflow-hidden">

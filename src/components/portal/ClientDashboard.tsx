@@ -687,7 +687,7 @@ const ClientDashboard = () => {
             </Tabs>
           </motion.div>
         </main>
-      </PageWrapper>
+      </DashboardPageWrapper>
     );
   }
 

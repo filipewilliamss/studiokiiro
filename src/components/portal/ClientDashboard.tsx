@@ -623,7 +623,7 @@ const ClientDashboard = () => {
                       )}
                       {payment.notes && (
                         <div className="border border-white/10 rounded-xl p-4">
-                          <label className="text-[10px] uppercase tracking-[0.3em] text-white/40 font-semibold">Observações</label>
+                          <label className="text-[10px] uppercase tracking-[0.3em] text-white/50 font-semibold">Observações</label>
                           <p className="text-sm text-white/80 mt-2 whitespace-pre-wrap">{payment.notes}</p>
                         </div>
                       )}

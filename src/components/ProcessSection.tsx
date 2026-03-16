@@ -71,7 +71,7 @@ const ProcessSection = () => {
         </motion.div>
 
         {/* Service tabs */}
-        <div className="flex flex-wrap gap-2 mb-12">
+        <div className="flex flex-wrap gap-2 mb-8 sm:mb-12">
           {serviceProcesses.map((sp, i) => (
             <button
               key={sp.label}
@@ -93,7 +93,7 @@ const ProcessSection = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
-          className={`grid gap-8 ${activeProcess.steps.length > 4 ? "sm:grid-cols-2 lg:grid-cols-5" : `sm:grid-cols-2 lg:grid-cols-${activeProcess.steps.length}`}`}
+          className={`grid gap-6 sm:gap-8 ${activeProcess.steps.length > 4 ? "sm:grid-cols-2 lg:grid-cols-5" : activeProcess.steps.length === 4 ? "sm:grid-cols-2 lg:grid-cols-4" : "sm:grid-cols-2 lg:grid-cols-3"}`}
         >
           {activeProcess.steps.map((step, i) => (
             <motion.div
@@ -103,7 +103,7 @@ const ProcessSection = () => {
               transition={{ duration: 0.5, delay: i * 0.1 }}
               className="relative"
             >
-              <span className="font-display text-6xl md:text-7xl font-bold text-primary-foreground/15 leading-none">
+              <span className="font-display text-5xl md:text-7xl font-bold text-primary-foreground/15 leading-none">
                 {step.number}
               </span>
               <h3 className="font-display text-xl font-bold mt-2 mb-3 text-primary-foreground">

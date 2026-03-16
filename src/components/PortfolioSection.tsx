@@ -34,14 +34,14 @@ const PortfolioSection = () => {
     <section
       id="portfolio"
       ref={sectionRef}
-      className="relative py-32 md:py-48 border-t border-border overflow-hidden"
+      className="relative py-20 sm:py-32 md:py-48 border-t border-border overflow-hidden"
     >
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] rounded-full bg-primary/[0.03] blur-[120px] pointer-events-none" />
 
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           style={{ y: headerY, opacity: headerOpacity }}
-          className="mb-24 md:mb-40"
+          className="mb-12 sm:mb-24 md:mb-40"
         >
           <motion.div
             initial={{ opacity: 0 }}
@@ -62,7 +62,7 @@ const PortfolioSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: false, amount: 0.3 }}
               transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-              className="font-display text-5xl md:text-7xl lg:text-[5.5rem] font-bold text-foreground leading-[0.9] tracking-tight"
+              className="font-display text-4xl sm:text-5xl md:text-7xl lg:text-[5.5rem] font-bold text-foreground leading-[0.9] tracking-tight"
             >
               Projetos<br />
               <span className="text-gradient-kiiro">Selecionados</span>

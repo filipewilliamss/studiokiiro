@@ -233,18 +233,29 @@ const ProposalGate = ({ quotes, profileId, onQuotesUpdated }: ProposalGateProps)
               {/* Items table */}
               {(quote.items as any[])?.length > 0 && (
                 <div className="border border-white/10 rounded-xl overflow-hidden">
-                  <div className="grid grid-cols-12 gap-2 px-4 py-2.5 bg-white/5 text-[10px] uppercase tracking-wider text-white/40 font-medium">
+                  <div className="hidden sm:grid grid-cols-12 gap-2 px-4 py-2.5 bg-white/5 text-[10px] uppercase tracking-wider text-white/40 font-medium">
                     <span className="col-span-6">Descrição</span>
                     <span className="col-span-2 text-center">Qtd</span>
                     <span className="col-span-2 text-right">Valor unit.</span>
                     <span className="col-span-2 text-right">Total</span>
                   </div>
                   {(quote.items as any[]).map((item: any, idx: number) => (
-                    <div key={idx} className="grid grid-cols-12 gap-2 px-4 py-3 border-t border-white/5 text-sm">
-                      <span className="col-span-6 text-white">{item.description}</span>
-                      <span className="col-span-2 text-center text-white/55">{item.quantity}</span>
-                      <span className="col-span-2 text-right text-white/55">{formatCurrency(item.unit_price)}</span>
-                      <span className="col-span-2 text-right font-medium text-white">{formatCurrency(item.quantity * item.unit_price)}</span>
+                    <div key={idx} className="border-t border-white/5">
+                      {/* Desktop row */}
+                      <div className="hidden sm:grid grid-cols-12 gap-2 px-4 py-3 text-sm">
+                        <span className="col-span-6 text-white">{item.description}</span>
+                        <span className="col-span-2 text-center text-white/55">{item.quantity}</span>
+                        <span className="col-span-2 text-right text-white/55">{formatCurrency(item.unit_price)}</span>
+                        <span className="col-span-2 text-right font-medium text-white">{formatCurrency(item.quantity * item.unit_price)}</span>
+                      </div>
+                      {/* Mobile stacked */}
+                      <div className="sm:hidden px-4 py-3 space-y-1">
+                        <p className="text-sm text-white font-medium">{item.description}</p>
+                        <div className="flex justify-between text-xs text-white/55">
+                          <span>{item.quantity}x {formatCurrency(item.unit_price)}</span>
+                          <span className="font-medium text-white">{formatCurrency(item.quantity * item.unit_price)}</span>
+                        </div>
+                      </div>
                     </div>
                   ))}
                 </div>

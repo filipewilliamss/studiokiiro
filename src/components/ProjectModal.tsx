@@ -120,7 +120,7 @@ const ProjectModal = ({ project, onClose }: ProjectModalProps) => {
             <img
               src={project.logo}
               alt=""
-              className="w-[196%] max-w-none object-contain"
+              className="w-full sm:w-[196%] max-w-none object-contain"
               onLoad={() => setImageLoaded(true)}
             />
           </motion.div>
@@ -139,7 +139,7 @@ const ProjectModal = ({ project, onClose }: ProjectModalProps) => {
               initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-              className="font-display text-5xl sm:text-6xl md:text-8xl font-bold text-foreground leading-[0.9] tracking-tight mb-8"
+              className="font-display text-3xl sm:text-5xl md:text-8xl font-bold text-foreground leading-[0.9] tracking-tight mb-8"
             >
               {project.title}
             </motion.h1>
@@ -262,7 +262,7 @@ const ProjectModal = ({ project, onClose }: ProjectModalProps) => {
               <img
                 src={project.logo}
                 alt={`Logo ${project.title}`}
-                className="w-[196%] max-w-none object-contain"
+                className="w-full sm:w-[196%] max-w-none object-contain"
               />
             </div>
           </div>

@@ -133,7 +133,7 @@ const AdminDashboard = () => {
                 </div>
 
                 {/* Right: Summary mini-cards — black bg */}
-                <div className="flex flex-row lg:flex-col gap-3 w-full lg:w-auto">
+                <div className="flex flex-col sm:flex-row lg:flex-col gap-3 w-full lg:w-auto">
                   {summaryCards.map((card, i) => (
                     <motion.div
                       key={card.label}
@@ -164,7 +164,7 @@ const AdminDashboard = () => {
             transition={{ duration: 0.5, delay: 0.15 }}
           >
             <p className="text-[10px] uppercase tracking-[0.35em] text-white/35 mb-3.5 ml-1 font-semibold">Seções do seu estúdio</p>
-            <div className="rounded-xl border border-white/10 bg-black p-2 flex flex-wrap gap-1.5">
+            <div className="rounded-xl border border-white/10 bg-black p-2 flex flex-wrap gap-1.5 overflow-x-auto">
               {tabs.map((tab) => {
                 const isActive = activeTab === tab.key;
                 return (

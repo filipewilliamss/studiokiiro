@@ -789,9 +789,9 @@ const ClientDashboard = () => {
                   {(quote.items as any[])?.length > 0 && (
                     <div className="border border-white/10 rounded-xl overflow-hidden mb-3">
                       {(quote.items as any[]).map((item: any, idx: number) => (
-                        <div key={idx} className="flex items-center justify-between px-4 py-2.5 text-sm border-b border-white/5 last:border-0">
-                          <span className="text-white">{item.description}</span>
-                          <span className="text-white/55">{item.quantity}x {formatCurrency(item.unit_price)}</span>
+                        <div key={idx} className="flex flex-col sm:flex-row sm:items-center justify-between px-4 py-2.5 text-sm border-b border-white/5 last:border-0 gap-0.5 sm:gap-2">
+                          <span className="text-white truncate">{item.description}</span>
+                          <span className="text-white/55 text-xs sm:text-sm shrink-0">{item.quantity}x {formatCurrency(item.unit_price)}</span>
                         </div>
                       ))}
                     </div>
@@ -856,12 +856,12 @@ const ClientDashboard = () => {
                 >
                   {/* Yellow accent line */}
                   <div className="absolute left-0 top-3 bottom-3 w-[3px] bg-primary rounded-full scale-y-0 group-hover:scale-y-100 transition-transform duration-200 origin-center" />
-                  <div className="flex items-start justify-between mb-3">
+                   <div className="flex flex-col sm:flex-row sm:items-start justify-between mb-3 gap-2">
                     <div>
                       <h3 className="font-semibold text-white group-hover:text-primary transition-colors">{project.name}</h3>
                       <p className="text-xs text-white/55 mt-0.5">{project.type}</p>
                     </div>
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 flex-wrap shrink-0">
                       {!projectBriefingStatus[project.id] && (
                         <span className="text-[10px] px-2.5 py-1 rounded-lg bg-destructive/10 text-destructive font-medium border border-destructive/20">
                           Briefing pendente

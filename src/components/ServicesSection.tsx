@@ -13,6 +13,7 @@ const serviceCategories = [
       { title: "Pacote 2 — Identidade Visual", description: "Logotipo + paleta de cores, tipografia e elementos visuais que posicionam sua marca." },
       { title: "Pacote 3 — Branding Completo", description: "Identidade visual completa com manual de marca, papelaria, aplicações e estratégia visual." },
       { title: "Serviço Avulso — Manual do Logotipo", description: "Para quem já tem logotipo mas precisa de um manual profissional e arquivos editáveis organizados." },
+      { title: "Personal Brand Kit", description: "Kit completo de identidade pessoal para criadores de conteúdo: logo, paleta, tipografia, templates de Canva e mini-guia editorial." },
     ],
   },
   {

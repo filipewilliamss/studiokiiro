@@ -1,8 +1,8 @@
 import { motion } from "framer-motion";
 import socialMedia1 from "@/assets/social-media-1.jpg";
-import socialMedia2 from "@/assets/social-media-2.jpg";
+import carrosselMockup from "@/assets/carrossel-mockup.png";
 import socialMedia3 from "@/assets/social-media-3.png";
-import socialMedia4 from "@/assets/social-media-4.png";
+import storyMockup from "@/assets/story-mockup.png";
 
 const placeholderItems = [
   {
@@ -15,13 +15,13 @@ const placeholderItems = [
     id: 2,
     title: "Stories & Reels",
     description: "Conteúdos dinâmicos e criativos que aumentam o alcance e a conexão com o público.",
-    image: socialMedia4,
+    image: storyMockup,
   },
   {
     id: 3,
     title: "Carrosséis Educativos",
     description: "Design informativo que entrega valor e posiciona a marca como autoridade.",
-    image: socialMedia2,
+    image: carrosselMockup,
   },
   {
     id: 4,

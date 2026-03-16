@@ -124,7 +124,20 @@ const ClientDashboard = () => {
   const [clientProfileId, setClientProfileId] = useState<string | null>(null);
 
 
+  const fetchQuotes = async () => {
+    const { data } = await supabase
+      .from("quotes")
+      .select("*")
+      .order("created_at", { ascending: false });
+    if (data) setQuotes(data as any);
+  };
+
   useEffect(() => {
+    const fetchProfileId = async () => {
+      if (!user) return;
+      const { data } = await supabase.from("profiles").select("id").eq("user_id", user.id).single();
+      if (data) setClientProfileId(data.id);
+    };
     const fetchProjects = async () => {
       const { data } = await supabase
         .from("projects")
@@ -142,13 +155,6 @@ const ClientDashboard = () => {
         setProjectBriefingStatus(statusMap);
       }
     };
-    const fetchQuotes = async () => {
-      const { data } = await supabase
-        .from("quotes")
-        .select("*")
-        .order("created_at", { ascending: false });
-      if (data) setQuotes(data as any);
-    };
     const fetchServiceOrders = async () => {
       const { data } = await supabase
         .from("service_orders")
@@ -156,10 +162,11 @@ const ClientDashboard = () => {
         .order("created_at", { ascending: false });
       if (data) setServiceOrders(data as any);
     };
+    fetchProfileId();
     fetchProjects();
     fetchQuotes();
     fetchServiceOrders();
-  }, []);
+  }, [user]);
 
   // Realtime messages
   useEffect(() => {

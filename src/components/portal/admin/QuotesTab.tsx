@@ -325,7 +325,7 @@ const QuotesTab = () => {
             >
               <div className="flex items-start gap-3">
                 <Checkbox checked={selectedIds.has(quote.id)} onCheckedChange={() => toggleSelect(quote.id)} className="mt-1" />
-                <button onClick={() => setViewQuote(quote)} className="flex-1 text-left">
+                <button onClick={() => openQuoteDetail(quote)} className="flex-1 text-left">
                   <div className="flex items-start justify-between">
                     <div className="space-y-1">
                       <div className="flex items-center gap-2">

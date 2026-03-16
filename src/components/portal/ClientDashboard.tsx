@@ -768,7 +768,7 @@ const ClientDashboard = () => {
                       {(quote.items as any[]).map((item: any, idx: number) => (
                         <div key={idx} className="flex items-center justify-between px-4 py-2.5 text-sm border-b border-black/5 last:border-0">
                           <span className="text-black">{item.description}</span>
-                          <span className="text-black/40">{item.quantity}x {formatCurrency(item.unit_price)}</span>
+                          <span className="text-black/55">{item.quantity}x {formatCurrency(item.unit_price)}</span>
                         </div>
                       ))}
                     </div>

@@ -192,7 +192,7 @@ const QuotesTab = () => {
               </div>
               <div className="space-y-1.5">
                 <label className="text-xs uppercase tracking-wider text-muted-foreground font-medium">Serviço</label>
-                <Select value={form.project_type} onValueChange={(v) => setForm({ ...form, project_type: v })}>
+                <Select value={form.project_type} onValueChange={(v) => setForm({ ...form, project_type: v, description: projectDescriptions[v] || "" })}>
                   <SelectTrigger><SelectValue /></SelectTrigger>
                   <SelectContent>{projectTypes.map((t) => <SelectItem key={t} value={t}>{t}</SelectItem>)}</SelectContent>
                 </Select>

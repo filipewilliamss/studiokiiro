@@ -594,7 +594,7 @@ const ClientDashboard = () => {
                         )}
                         {payment.remaining_amount != null && (
                           <div className="flex items-center justify-between text-sm">
-                            <span className="text-white/50">Saldo Restante</span>
+                            <span className="text-white/60">Saldo Restante</span>
                             <span className="text-primary font-semibold">{formatCurrency(payment.remaining_amount)}</span>
                           </div>
                         )}

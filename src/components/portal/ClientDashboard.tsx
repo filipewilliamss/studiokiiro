@@ -789,9 +789,9 @@ const ClientDashboard = () => {
                   {(quote.items as any[])?.length > 0 && (
                     <div className="border border-white/10 rounded-xl overflow-hidden mb-3">
                       {(quote.items as any[]).map((item: any, idx: number) => (
-                        <div key={idx} className="flex items-center justify-between px-4 py-2.5 text-sm border-b border-white/5 last:border-0">
-                          <span className="text-white">{item.description}</span>
-                          <span className="text-white/55">{item.quantity}x {formatCurrency(item.unit_price)}</span>
+                        <div key={idx} className="flex flex-col sm:flex-row sm:items-center justify-between px-4 py-2.5 text-sm border-b border-white/5 last:border-0 gap-0.5 sm:gap-2">
+                          <span className="text-white truncate">{item.description}</span>
+                          <span className="text-white/55 text-xs sm:text-sm shrink-0">{item.quantity}x {formatCurrency(item.unit_price)}</span>
                         </div>
                       ))}
                     </div>

@@ -168,10 +168,10 @@ const AdminDashboard = () => {
                   <button
                     key={tab.key}
                     onClick={() => setActiveTab(tab.key)}
-                    className={`relative flex items-center gap-2.5 px-5 py-3 rounded-xl text-sm font-medium transition-all duration-300 ${
+                    className={`relative flex items-center gap-2.5 px-5 py-3 rounded-lg text-sm font-medium transition-all duration-200 ${
                       isActive
                         ? "bg-white/10 text-primary shadow-lg shadow-black/20"
-                        : "text-white/35 hover:text-white/70 hover:bg-white/5"
+                        : "text-white/40 hover:text-white/70 hover:bg-white/[0.04]"
                     }`}
                   >
                     <tab.icon className={`h-4 w-4 transition-transform duration-300 ${isActive ? "" : "group-hover:scale-110"}`} />

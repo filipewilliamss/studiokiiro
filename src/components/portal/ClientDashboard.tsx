@@ -290,7 +290,7 @@ const ClientDashboard = () => {
   // Project detail view
   if (selectedProject) {
     return (
-      <PageWrapper>
+      <DashboardPageWrapper>
         <Navbar forceBlack />
         <header className="border-b border-white/10 bg-black sticky top-16 md:top-20 z-30 mt-16 md:mt-20">
           <div className="max-w-5xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between">

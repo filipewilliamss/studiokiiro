@@ -713,7 +713,7 @@ const ClientDashboard = () => {
         {/* Welcome hero card with yellow background */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="relative">
           <div className="absolute -inset-6 rounded-3xl bg-primary/15 blur-3xl pointer-events-none" />
-          <div className="relative overflow-hidden rounded-2xl border border-primary/20 bg-primary p-7 sm:p-9 shadow-2xl shadow-primary/20 hover:-translate-y-0.5 hover:shadow-[0_20px_60px_-15px_hsl(var(--primary)/0.3)] transition-all duration-500">
+          <div className="relative overflow-hidden rounded-2xl border border-primary/20 bg-primary p-7 sm:p-9 shadow-2xl shadow-primary/20 hover:-translate-y-[1px] hover:shadow-[0_20px_60px_-15px_hsl(var(--primary)/0.35)] transition-all duration-500">
             <div className="absolute top-0 right-0 w-96 h-96 bg-white/[0.06] rounded-full blur-[100px] -translate-y-1/2 translate-x-1/4 pointer-events-none" />
             <div className="relative">
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-black/10 border border-black/10 mb-4">

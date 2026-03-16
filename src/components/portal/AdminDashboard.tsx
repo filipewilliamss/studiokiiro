@@ -108,7 +108,7 @@ const AdminDashboard = () => {
           >
             <div className="absolute -inset-6 rounded-3xl bg-primary/15 blur-3xl pointer-events-none" />
 
-            <div className="relative overflow-hidden rounded-2xl border border-primary/20 bg-primary p-7 sm:p-9 lg:p-11 shadow-2xl shadow-primary/20 hover:-translate-y-0.5 hover:shadow-[0_20px_60px_-15px_hsl(var(--primary)/0.3)] transition-all duration-500">
+            <div className="relative overflow-hidden rounded-2xl border border-primary/20 bg-primary p-7 sm:p-9 lg:p-11 shadow-2xl shadow-primary/20 hover:-translate-y-[1px] hover:shadow-[0_20px_60px_-15px_hsl(var(--primary)/0.35)] transition-all duration-500">
               <div className="absolute top-0 right-0 w-96 h-96 bg-white/[0.06] rounded-full blur-[100px] -translate-y-1/2 translate-x-1/4 pointer-events-none" />
               <div className="absolute bottom-0 left-0 w-64 h-64 bg-black/[0.04] rounded-full blur-[80px] translate-y-1/3 -translate-x-1/4 pointer-events-none" />
 

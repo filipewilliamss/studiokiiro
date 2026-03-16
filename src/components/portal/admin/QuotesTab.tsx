@@ -63,6 +63,7 @@ const QuotesTab = () => {
   const [viewQuote, setViewQuote] = useState<Quote | null>(null);
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
   const [editingQuote, setEditingQuote] = useState<Quote | null>(null);
+  const [rejectionFeedback, setRejectionFeedback] = useState<QuoteRejection | null>(null);
 
   const [form, setForm] = useState(emptyForm);
   const [items, setItems] = useState<QuoteItem[]>([...emptyItems]);

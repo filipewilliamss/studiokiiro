@@ -844,7 +844,7 @@ const ClientDashboard = () => {
                           Briefing pendente
                         </span>
                       )}
-                      <span className="text-xs px-3 py-1 rounded-full bg-primary/10 text-black font-semibold border border-primary/20">
+                      <span className="text-[10px] px-2.5 py-1 rounded-lg bg-primary/10 text-black font-semibold border border-primary/20">
                         {statusLabels[project.status] || project.status}
                       </span>
                     </div>

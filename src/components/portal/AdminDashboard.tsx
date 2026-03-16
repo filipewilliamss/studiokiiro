@@ -174,7 +174,7 @@ const AdminDashboard = () => {
                         : "text-white/40 hover:text-white/70 hover:bg-white/[0.04]"
                     }`}
                   >
-                    <tab.icon className={`h-4 w-4 transition-transform duration-300 ${isActive ? "" : "group-hover:scale-110"}`} />
+                    <tab.icon className={`h-4 w-4 transition-transform duration-200 ${isActive ? "" : "group-hover:scale-110"}`} />
                     <span className="hidden sm:inline">{tab.label}</span>
                     {isActive && (
                       <motion.div

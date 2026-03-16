@@ -154,6 +154,29 @@ const QuotesTab = () => {
     else { toast.success(`${ids.length} orçamento(s) excluído(s)`); setSelectedIds(new Set()); fetchAll(); }
   };
 
+  const handleAdminConfirm = async (quote: Quote) => {
+    const { error } = await supabase.from("quotes").update({ admin_confirmed: true }).eq("id", quote.id);
+    if (error) toast.error("Erro ao confirmar");
+    else {
+      toast.success("Projeto confirmado e área do cliente liberada! ✅");
+      setViewQuote({ ...quote, admin_confirmed: true });
+      fetchAll();
+    }
+  };
+
+  const fetchRejectionFeedback = async (quoteId: string) => {
+    const { data } = await supabase.from("quote_rejections").select("*").eq("quote_id", quoteId).maybeSingle();
+    setRejectionFeedback(data as any);
+  };
+
+  const openQuoteDetail = (quote: Quote) => {
+    setViewQuote(quote);
+    setRejectionFeedback(null);
+    if (quote.status === "recusado") {
+      fetchRejectionFeedback(quote.id);
+    }
+  };
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">

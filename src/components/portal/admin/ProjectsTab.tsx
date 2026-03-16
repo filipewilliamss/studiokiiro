@@ -12,7 +12,7 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sh
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   FolderPlus, ChevronRight, CheckCircle2, Circle, Upload, FileDown, Trash2,
-  FolderOpen, DollarSign, MessageSquare, Send, Clock, Calendar, CreditCard, ClipboardList,
+  FolderOpen, DollarSign, MessageSquare, Send, Clock, Calendar, CreditCard, ClipboardList, Pencil, Check, X,
 } from "lucide-react";
 import { toast } from "sonner";
 import { methodologyStages } from "@/data/methodologyStages";
@@ -80,6 +80,8 @@ const ProjectsTab = () => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
   const [briefingResponse, setBriefingResponse] = useState<Record<string, string> | null>(null);
+  const [editingName, setEditingName] = useState(false);
+  const [editName, setEditName] = useState("");
 
   const [form, setForm] = useState({
     name: "", type: "Logotipo Essencial", client_id: "", description: "",
@@ -430,7 +432,53 @@ const ProjectsTab = () => {
           {selectedProject && (
             <>
               <SheetHeader>
-                <SheetTitle style={{ fontFamily: "var(--font-display)" }}>{selectedProject.name}</SheetTitle>
+                <div className="flex items-center gap-2">
+                  {editingName ? (
+                    <div className="flex items-center gap-2 flex-1">
+                      <Input
+                        value={editName}
+                        onChange={(e) => setEditName(e.target.value)}
+                        className="font-display font-bold text-lg h-9"
+                        autoFocus
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter") {
+                            e.preventDefault();
+                            if (editName.trim()) {
+                              supabase.from("projects").update({ name: editName.trim() }).eq("id", selectedProject.id).then(({ error }) => {
+                                if (error) { toast.error("Erro ao renomear"); return; }
+                                setSelectedProject({ ...selectedProject, name: editName.trim() });
+                                fetchProjects();
+                                toast.success("Nome atualizado!");
+                              });
+                            }
+                            setEditingName(false);
+                          } else if (e.key === "Escape") {
+                            setEditingName(false);
+                          }
+                        }}
+                      />
+                      <Button size="icon" variant="ghost" className="h-8 w-8 text-primary" onClick={() => {
+                        if (editName.trim()) {
+                          supabase.from("projects").update({ name: editName.trim() }).eq("id", selectedProject.id).then(({ error }) => {
+                            if (error) { toast.error("Erro ao renomear"); return; }
+                            setSelectedProject({ ...selectedProject, name: editName.trim() });
+                            fetchProjects();
+                            toast.success("Nome atualizado!");
+                          });
+                        }
+                        setEditingName(false);
+                      }}><Check className="h-4 w-4" /></Button>
+                      <Button size="icon" variant="ghost" className="h-8 w-8 text-muted-foreground" onClick={() => setEditingName(false)}><X className="h-4 w-4" /></Button>
+                    </div>
+                  ) : (
+                    <>
+                      <SheetTitle style={{ fontFamily: "var(--font-display)" }}>{selectedProject.name}</SheetTitle>
+                      <Button size="icon" variant="ghost" className="h-7 w-7 text-muted-foreground hover:text-primary" onClick={() => { setEditName(selectedProject.name); setEditingName(true); }}>
+                        <Pencil className="h-3.5 w-3.5" />
+                      </Button>
+                    </>
+                  )}
+                </div>
                 <div className="flex items-center gap-2">
                   <p className="text-sm text-muted-foreground">{selectedProject.type}</p>
                   <span className="text-xs text-muted-foreground">•</span>

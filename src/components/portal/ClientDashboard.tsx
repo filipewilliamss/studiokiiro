@@ -939,7 +939,7 @@ const ClientDashboard = () => {
                     <p className="font-display font-bold text-xl text-black">{formatCurrencyValue(Number(order.total_value))}</p>
                   </div>
                   <div className="flex items-center justify-between mt-3">
-                    <span className="text-xs text-black/35">
+                    <span className="text-xs text-black/50">
                       {new Date(order.created_at).toLocaleDateString("pt-BR")}
                       {order.deadline && ` · Prazo: ${new Date(order.deadline + "T00:00:00").toLocaleDateString("pt-BR")}`}
                     </span>

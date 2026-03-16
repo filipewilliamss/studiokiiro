@@ -583,7 +583,7 @@ const ClientDashboard = () => {
                         </div>
                         {payment.initial_payment != null && payment.initial_payment > 0 && (
                           <div className="flex items-center justify-between text-sm">
-                            <span className="text-white/50">Entrada</span>
+                            <span className="text-white/60">Entrada</span>
                             <div className="text-right">
                               <span className="text-white font-medium">{formatCurrency(payment.initial_payment)}</span>
                               {payment.initial_payment_date && (

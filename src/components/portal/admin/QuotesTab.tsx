@@ -427,7 +427,7 @@ const QuotesTab = () => {
                 )}
                 <div className="space-y-2">
                   <label className="text-xs uppercase tracking-wider text-muted-foreground font-medium">Status</label>
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 flex-wrap">
                     {(() => {
                       const cfg = statusConfig[viewQuote.status] || statusConfig.pendente;
                       return (
@@ -436,8 +436,69 @@ const QuotesTab = () => {
                         </span>
                       );
                     })()}
+                    {viewQuote.status === "aprovado" && viewQuote.admin_confirmed && (
+                      <span className="text-xs px-3 py-1.5 rounded-full font-medium flex items-center gap-1.5 bg-emerald-500/10 text-emerald-400">
+                        <ShieldCheck className="h-3.5 w-3.5" /> Confirmado
+                      </span>
+                    )}
+                    {viewQuote.status === "aprovado" && !viewQuote.admin_confirmed && (
+                      <span className="text-xs px-3 py-1.5 rounded-full font-medium flex items-center gap-1.5 bg-amber-500/10 text-amber-400">
+                        <Clock className="h-3.5 w-3.5" /> Aguardando sua confirmação
+                      </span>
+                    )}
                   </div>
                 </div>
+
+                {/* Admin confirmation button */}
+                {viewQuote.status === "aprovado" && !viewQuote.admin_confirmed && (
+                  <div className="rounded-xl border border-emerald-500/20 bg-emerald-500/5 p-4 space-y-3">
+                    <div className="flex items-start gap-3">
+                      <ShieldCheck className="h-5 w-5 text-emerald-400 mt-0.5" />
+                      <div>
+                        <p className="text-sm font-medium text-foreground">Proposta aceita pelo cliente</p>
+                        <p className="text-xs text-muted-foreground mt-0.5">
+                          O cliente aceitou esta proposta. Confirme abaixo para liberar a área completa do cliente.
+                        </p>
+                      </div>
+                    </div>
+                    <Button
+                      onClick={() => handleAdminConfirm(viewQuote)}
+                      className="w-full gap-2 rounded-xl"
+                      style={{ backgroundColor: "hsl(142, 71%, 35%)", color: "white" }}
+                    >
+                      <ShieldCheck className="h-4 w-4" />
+                      Confirmar recebimento / Iniciar projeto
+                    </Button>
+                  </div>
+                )}
+
+                {/* Rejection feedback */}
+                {viewQuote.status === "recusado" && rejectionFeedback && (
+                  <div className="rounded-xl border border-destructive/20 bg-destructive/5 p-4 space-y-3">
+                    <div className="flex items-center gap-2">
+                      <MessageSquareText className="h-4 w-4 text-destructive" />
+                      <p className="text-sm font-medium text-foreground">Feedback do cliente</p>
+                    </div>
+                    <div className="space-y-2 text-sm">
+                      <div>
+                        <p className="text-xs text-muted-foreground">Motivo da recusa</p>
+                        <p className="text-foreground">{rejectionFeedback.reason}</p>
+                      </div>
+                      {rejectionFeedback.decision_factor && (
+                        <div>
+                          <p className="text-xs text-muted-foreground">Fator decisivo</p>
+                          <p className="text-foreground">{rejectionFeedback.decision_factor}</p>
+                        </div>
+                      )}
+                      {rejectionFeedback.comment && (
+                        <div>
+                          <p className="text-xs text-muted-foreground">Comentário</p>
+                          <p className="text-foreground whitespace-pre-wrap">{rejectionFeedback.comment}</p>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
               </div>
             </>
           )}

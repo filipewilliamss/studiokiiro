@@ -121,6 +121,7 @@ const ClientDashboard = () => {
   const [serviceOrders, setServiceOrders] = useState<ServiceOrder[]>([]);
   const [viewOrder, setViewOrder] = useState<ServiceOrder | null>(null);
   const osPrintRef = useRef<HTMLDivElement>(null);
+  const [clientProfileId, setClientProfileId] = useState<string | null>(null);
 
 
   useEffect(() => {

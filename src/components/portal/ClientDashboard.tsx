@@ -892,14 +892,14 @@ const ClientDashboard = () => {
                 <button
                   key={project.id}
                   onClick={() => openProjectDetail(project)}
-                  className="relative rounded-2xl border border-black/5 bg-white shadow-sm p-5 flex items-center justify-between hover:border-primary/15 hover:-translate-y-0.5 hover:shadow-md transition-all duration-200 w-full text-left group overflow-hidden"
+                  className="relative rounded-2xl border border-white/10 bg-[#0a0a0a] p-5 flex items-center justify-between hover:border-primary/15 hover:-translate-y-0.5 hover:shadow-md hover:shadow-black/20 transition-all duration-200 w-full text-left group overflow-hidden"
                 >
                   <div className="absolute left-0 top-2 bottom-2 w-[3px] bg-primary rounded-full scale-y-0 group-hover:scale-y-100 transition-transform duration-200 origin-center" />
                   <div>
-                    <h3 className="font-medium text-black text-sm">{project.name}</h3>
-                    <p className="text-xs text-black/50">{project.type}</p>
+                    <h3 className="font-medium text-white text-sm">{project.name}</h3>
+                    <p className="text-xs text-white/50">{project.type}</p>
                   </div>
-                  <span className="text-xs text-black/30">Entregue ✓</span>
+                  <span className="text-xs text-white/30">Entregue ✓</span>
                 </button>
               ))}
             </div>

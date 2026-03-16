@@ -93,7 +93,7 @@ const ProcessSection = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
-          className={`grid gap-8 ${activeProcess.steps.length > 4 ? "sm:grid-cols-2 lg:grid-cols-5" : `sm:grid-cols-2 lg:grid-cols-${activeProcess.steps.length}`}`}
+          className={`grid gap-6 sm:gap-8 ${activeProcess.steps.length > 4 ? "sm:grid-cols-2 lg:grid-cols-5" : activeProcess.steps.length === 4 ? "sm:grid-cols-2 lg:grid-cols-4" : "sm:grid-cols-2 lg:grid-cols-3"}`}
         >
           {activeProcess.steps.map((step, i) => (
             <motion.div

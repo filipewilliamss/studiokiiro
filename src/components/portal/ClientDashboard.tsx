@@ -699,6 +699,9 @@ const ClientDashboard = () => {
         <div className="max-w-5xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <h2 className="text-[11px] font-semibold text-primary uppercase tracking-[0.3em] font-display">Studio Kiiro Workspace</h2>
+            <span className="hidden sm:inline-flex items-center gap-1.5 text-[10px] text-white/40 ml-2 border-l border-white/10 pl-3">
+              Seu projeto em tempo real
+            </span>
           </div>
           <Button variant="ghost" size="sm" onClick={signOut} className="text-white/40 hover:text-white">
             <LogOut className="h-4 w-4 mr-2" />Sair

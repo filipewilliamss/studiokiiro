@@ -462,17 +462,17 @@ const ClientDashboard = () => {
           {/* Tabs */}
           <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
             <Tabs defaultValue="status" className="space-y-8">
-              <TabsList className="bg-black border border-white/10 h-12 p-1.5 gap-1 grid grid-cols-4 w-full rounded-2xl">
-                <TabsTrigger value="status" className="gap-1.5 text-xs rounded-xl data-[state=active]:bg-white/10 data-[state=active]:text-primary data-[state=active]:shadow-md transition-all text-white/35">
+              <TabsList className="bg-black border border-white/10 h-12 p-1.5 gap-1 grid grid-cols-4 w-full rounded-xl">
+                <TabsTrigger value="status" className="gap-1.5 text-xs rounded-lg data-[state=active]:bg-white/10 data-[state=active]:text-primary data-[state=active]:shadow-md transition-all duration-200 text-white/40 hover:text-white/60 hover:bg-white/[0.03]">
                   <CheckCircle2 className="h-3.5 w-3.5" /><span className="hidden sm:inline">Status</span>
                 </TabsTrigger>
-                <TabsTrigger value="files" className="gap-1.5 text-xs rounded-xl data-[state=active]:bg-white/10 data-[state=active]:text-primary data-[state=active]:shadow-md transition-all text-white/35">
+                <TabsTrigger value="files" className="gap-1.5 text-xs rounded-lg data-[state=active]:bg-white/10 data-[state=active]:text-primary data-[state=active]:shadow-md transition-all duration-200 text-white/40 hover:text-white/60 hover:bg-white/[0.03]">
                   <FolderOpen className="h-3.5 w-3.5" /><span className="hidden sm:inline">Arquivos</span>
                 </TabsTrigger>
-                <TabsTrigger value="finance" className="gap-1.5 text-xs rounded-xl data-[state=active]:bg-white/10 data-[state=active]:text-primary data-[state=active]:shadow-md transition-all text-white/35">
+                <TabsTrigger value="finance" className="gap-1.5 text-xs rounded-lg data-[state=active]:bg-white/10 data-[state=active]:text-primary data-[state=active]:shadow-md transition-all duration-200 text-white/40 hover:text-white/60 hover:bg-white/[0.03]">
                   <DollarSign className="h-3.5 w-3.5" /><span className="hidden sm:inline">Financeiro</span>
                 </TabsTrigger>
-                <TabsTrigger value="messages" className="gap-1.5 text-xs rounded-xl data-[state=active]:bg-white/10 data-[state=active]:text-primary data-[state=active]:shadow-md transition-all text-white/35">
+                <TabsTrigger value="messages" className="gap-1.5 text-xs rounded-lg data-[state=active]:bg-white/10 data-[state=active]:text-primary data-[state=active]:shadow-md transition-all duration-200 text-white/40 hover:text-white/60 hover:bg-white/[0.03]">
                   <MessageSquare className="h-3.5 w-3.5" /><span className="hidden sm:inline">Mensagens</span>
                 </TabsTrigger>
               </TabsList>

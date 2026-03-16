@@ -850,7 +850,7 @@ const ClientDashboard = () => {
                     </div>
                   </div>
                   <div className="space-y-1.5">
-                    <div className="flex justify-between text-xs text-black/40">
+                    <div className="flex justify-between text-xs text-black/55">
                       <span>Progresso</span>
                       <span className="font-bold text-black">{project.progress}%</span>
                     </div>

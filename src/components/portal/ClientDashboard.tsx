@@ -956,7 +956,7 @@ const ClientDashboard = () => {
 
         {/* OS View/Print Modal */}
         <Dialog open={!!viewOrder} onOpenChange={(o) => !o && setViewOrder(null)}>
-          <DialogContent className="sm:max-w-3xl max-h-[90vh] overflow-y-auto p-0">
+          <DialogContent className="sm:max-w-3xl max-h-[90vh] overflow-y-auto p-0 bg-[#0a0a0a] border-white/10">
             {viewOrder && (
               <>
                 <div className="flex justify-end gap-2 p-4 pb-0">

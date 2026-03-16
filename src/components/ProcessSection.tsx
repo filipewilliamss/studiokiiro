@@ -71,7 +71,7 @@ const ProcessSection = () => {
         </motion.div>
 
         {/* Service tabs */}
-        <div className="flex flex-wrap gap-2 mb-12">
+        <div className="flex flex-wrap gap-2 mb-8 sm:mb-12">
           {serviceProcesses.map((sp, i) => (
             <button
               key={sp.label}

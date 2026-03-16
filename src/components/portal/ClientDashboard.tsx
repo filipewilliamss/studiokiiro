@@ -578,7 +578,7 @@ const ClientDashboard = () => {
                     <div className="space-y-4">
                       <div className="bg-primary/10 border border-primary/20 rounded-xl p-5 space-y-4">
                         <div className="flex items-center justify-between">
-                          <span className="text-sm text-white/50">Orçamento Total</span>
+                          <span className="text-sm text-white/60">Orçamento Total</span>
                           <span className="text-2xl font-bold text-primary font-display">{formatCurrency(payment.budget_total)}</span>
                         </div>
                         {payment.initial_payment != null && payment.initial_payment > 0 && (

@@ -840,7 +840,7 @@ const ClientDashboard = () => {
                     </div>
                     <div className="flex items-center gap-2">
                       {!projectBriefingStatus[project.id] && (
-                        <span className="text-[10px] px-2.5 py-1 rounded-full bg-destructive/10 text-destructive font-medium border border-destructive/20">
+                        <span className="text-[10px] px-2.5 py-1 rounded-lg bg-destructive/10 text-destructive font-medium border border-destructive/20">
                           Briefing pendente
                         </span>
                       )}

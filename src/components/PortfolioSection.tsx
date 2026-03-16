@@ -34,7 +34,7 @@ const PortfolioSection = () => {
     <section
       id="portfolio"
       ref={sectionRef}
-      className="relative py-32 md:py-48 border-t border-border overflow-hidden"
+      className="relative py-20 sm:py-32 md:py-48 border-t border-border overflow-hidden"
     >
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] rounded-full bg-primary/[0.03] blur-[120px] pointer-events-none" />
 

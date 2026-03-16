@@ -80,6 +80,8 @@ const ProjectsTab = () => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
   const [briefingResponse, setBriefingResponse] = useState<Record<string, string> | null>(null);
+  const [editingName, setEditingName] = useState(false);
+  const [editName, setEditName] = useState("");
 
   const [form, setForm] = useState({
     name: "", type: "Logotipo Essencial", client_id: "", description: "",

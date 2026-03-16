@@ -816,9 +816,9 @@ const ClientDashboard = () => {
             <h2 className="text-[10px] font-semibold uppercase tracking-[0.3em] text-white/60">Projetos Ativos</h2>
           </div>
           {activeProjects.length === 0 ? (
-            <div className="rounded-2xl border border-black/8 bg-white shadow-lg shadow-black/[0.03] p-10 text-center">
-              <FolderOpen className="h-8 w-8 text-black/15 mx-auto mb-2" />
-              <p className="text-black/35 text-sm">Nenhum projeto ativo no momento.</p>
+            <div className="rounded-2xl border border-white/10 bg-[#0a0a0a] p-10 text-center">
+              <FolderOpen className="h-8 w-8 text-white/15 mx-auto mb-2" />
+              <p className="text-white/35 text-sm">Nenhum projeto ativo no momento.</p>
             </div>
           ) : (
             <div className="grid gap-4">

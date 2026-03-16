@@ -37,6 +37,7 @@ interface Quote {
   id: string; sequential_number: number; project_type: string; description: string | null;
   items: QuoteItem[]; total_value: number; payment_terms: string | null;
   validity_date: string | null; status: string; created_at: string; notes: string | null;
+  client_id: string; admin_confirmed: boolean;
 }
 interface ServiceItem { description: string; qty: number; unit_price: number; }
 interface ServiceOrder {

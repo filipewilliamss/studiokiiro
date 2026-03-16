@@ -27,7 +27,7 @@ const placeholderItems = [
     id: 4,
     title: "Capas & Destaques",
     description: "Elementos visuais coesos que fortalecem a primeira impressão do perfil.",
-    image: socialMedia3,
+    image: destaquesMockup,
   },
 ];
 

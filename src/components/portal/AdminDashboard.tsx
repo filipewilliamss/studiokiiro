@@ -133,7 +133,7 @@ const AdminDashboard = () => {
                 </div>
 
                 {/* Right: Summary mini-cards — black bg */}
-                <div className="flex flex-row lg:flex-col gap-3 w-full lg:w-auto">
+                <div className="flex flex-col sm:flex-row lg:flex-col gap-3 w-full lg:w-auto">
                   {summaryCards.map((card, i) => (
                     <motion.div
                       key={card.label}

@@ -864,7 +864,7 @@ const ClientDashboard = () => {
                     </div>
                   </div>
                   {project.deadline && (
-                    <div className="flex items-center gap-1.5 mt-3 text-xs text-black/35">
+                    <div className="flex items-center gap-1.5 mt-3 text-xs text-black/50">
                       <Clock className="h-3 w-3" />
                       <span>Previsão: {new Date(project.deadline).toLocaleDateString("pt-BR")}</span>
                     </div>

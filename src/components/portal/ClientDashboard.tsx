@@ -70,6 +70,27 @@ const statusGradients: Record<string, string> = {
 const formatCurrency = (value: number) =>
   new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(value);
 
+const DashboardPageWrapper = ({ children }: { children: ReactNode }) => (
+  <div className="min-h-screen relative">
+    {/* Layered background */}
+    <div className="fixed inset-0 bg-white" />
+    <div
+      className="fixed inset-0 pointer-events-none"
+      style={{
+        background: "radial-gradient(ellipse 70% 50% at 50% 40%, hsl(0 0% 97%) 0%, transparent 100%)",
+      }}
+    />
+    <div
+      className="fixed inset-0 pointer-events-none opacity-[0.03]"
+      style={{
+        backgroundImage: "linear-gradient(hsl(0 0% 75%) 1px, transparent 1px), linear-gradient(90deg, hsl(0 0% 75%) 1px, transparent 1px)",
+        backgroundSize: "48px 48px",
+      }}
+    />
+    <div className="relative z-10">{children}</div>
+  </div>
+);
+
 const ClientDashboard = () => {
   const { user, profile, signOut } = useAuth();
   const [projects, setProjects] = useState<Project[]>([]);

@@ -523,8 +523,8 @@ const ClientDashboard = () => {
 
               {/* FILES TAB */}
               <TabsContent value="files" className="space-y-4">
-                <div className="rounded-2xl border border-white/10 bg-black p-6 sm:p-8">
-                  <label className="text-[10px] uppercase tracking-[0.3em] text-white/40 font-semibold">Arquivos do Projeto</label>
+                <div className="rounded-xl border border-white/10 bg-black p-6 sm:p-8">
+                  <label className="text-[10px] uppercase tracking-[0.3em] text-white/50 font-semibold">Arquivos do Projeto</label>
                   {isLoadingFiles ? (
                     <div className="py-12 text-center">
                       <div className="animate-pulse text-white/30 text-sm">Carregando arquivos...</div>

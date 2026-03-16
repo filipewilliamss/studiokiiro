@@ -62,7 +62,7 @@ const PortfolioSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: false, amount: 0.3 }}
               transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-              className="font-display text-5xl md:text-7xl lg:text-[5.5rem] font-bold text-foreground leading-[0.9] tracking-tight"
+              className="font-display text-4xl sm:text-5xl md:text-7xl lg:text-[5.5rem] font-bold text-foreground leading-[0.9] tracking-tight"
             >
               Projetos<br />
               <span className="text-gradient-kiiro">Selecionados</span>

@@ -103,7 +103,7 @@ const ProcessSection = () => {
               transition={{ duration: 0.5, delay: i * 0.1 }}
               className="relative"
             >
-              <span className="font-display text-6xl md:text-7xl font-bold text-primary-foreground/15 leading-none">
+              <span className="font-display text-5xl md:text-7xl font-bold text-primary-foreground/15 leading-none">
                 {step.number}
               </span>
               <h3 className="font-display text-xl font-bold mt-2 mb-3 text-primary-foreground">

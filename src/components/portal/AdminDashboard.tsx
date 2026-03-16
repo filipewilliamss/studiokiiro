@@ -164,7 +164,7 @@ const AdminDashboard = () => {
             transition={{ duration: 0.5, delay: 0.15 }}
           >
             <p className="text-[10px] uppercase tracking-[0.35em] text-white/35 mb-3.5 ml-1 font-semibold">Seções do seu estúdio</p>
-            <div className="rounded-xl border border-white/10 bg-black p-2 flex flex-wrap gap-1.5">
+            <div className="rounded-xl border border-white/10 bg-black p-2 flex flex-wrap gap-1.5 overflow-x-auto">
               {tabs.map((tab) => {
                 const isActive = activeTab === tab.key;
                 return (

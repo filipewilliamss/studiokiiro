@@ -40,7 +40,7 @@ const SocialMediaSection = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: false, amount: 0.3 }}
           transition={{ duration: 0.7 }}
-          className="mb-24"
+          className="mb-12 sm:mb-16 md:mb-24"
         >
           <p className="text-sm uppercase tracking-[0.3em] text-primary mb-4">Portfólio</p>
           <h2 className="font-display text-4xl md:text-6xl lg:text-7xl font-bold">

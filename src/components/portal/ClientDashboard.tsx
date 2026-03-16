@@ -609,7 +609,7 @@ const ClientDashboard = () => {
                             <motion.div
                               initial={{ width: 0 }}
                               animate={{ width: `${((payment.installments_paid ?? 0) / payment.installments_total) * 100}%` }}
-                              transition={{ duration: 0.8, delay: 0.2 }}
+                              transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
                               className="h-full bg-gradient-to-r from-primary to-kiiro-glow rounded-full"
                             />
                           </div>

@@ -15,7 +15,7 @@ const placeholderItems = [
     id: 2,
     title: "Stories & Reels",
     description: "Conteúdos dinâmicos e criativos que aumentam o alcance e a conexão com o público.",
-    image: socialMedia4,
+    image: storyMockup,
   },
   {
     id: 3,

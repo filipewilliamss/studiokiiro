@@ -33,7 +33,7 @@ const placeholderItems = [
 
 const SocialMediaSection = () => {
   return (
-    <section id="social-media" className="section-padding border-t border-border bg-white">
+    <section id="social-media" className="section-padding border-t border-border bg-background">
       <div className="container-editorial">
         <motion.div
           initial={{ opacity: 0, y: 30 }}

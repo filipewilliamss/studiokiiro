@@ -748,7 +748,7 @@ const ClientDashboard = () => {
                   key={quote.id}
                   initial={{ opacity: 0, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  className="rounded-2xl border border-black/8 bg-white shadow-lg shadow-black/[0.03] p-6 hover:-translate-y-0.5 hover:shadow-xl transition-all duration-200 group overflow-hidden relative"
+                  className="rounded-2xl border border-white/10 bg-[#0a0a0a] p-6 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-black/20 transition-all duration-200 group overflow-hidden relative"
                 >
                   <div className="flex items-start justify-between mb-3">
                     <div>
@@ -756,27 +756,27 @@ const ClientDashboard = () => {
                         <Hash className="h-4 w-4 text-primary" />
                         <span className="font-display font-bold text-primary">ORC-{String(quote.sequential_number).padStart(4, "0")}</span>
                       </div>
-                      <p className="text-sm text-black mt-1 font-medium">{quote.project_type}</p>
-                      {quote.description && <p className="text-xs text-black/55 mt-0.5">{quote.description}</p>}
+                      <p className="text-sm text-white mt-1 font-medium">{quote.project_type}</p>
+                      {quote.description && <p className="text-xs text-white/55 mt-0.5">{quote.description}</p>}
                     </div>
-                    <p className="font-display font-bold text-xl text-black">{formatCurrency(Number(quote.total_value))}</p>
+                    <p className="font-display font-bold text-xl text-white">{formatCurrency(Number(quote.total_value))}</p>
                   </div>
 
                   {/* Items */}
                   {(quote.items as any[])?.length > 0 && (
-                    <div className="border border-black/8 rounded-xl overflow-hidden mb-3">
+                    <div className="border border-white/10 rounded-xl overflow-hidden mb-3">
                       {(quote.items as any[]).map((item: any, idx: number) => (
-                        <div key={idx} className="flex items-center justify-between px-4 py-2.5 text-sm border-b border-black/5 last:border-0">
-                          <span className="text-black">{item.description}</span>
-                          <span className="text-black/55">{item.quantity}x {formatCurrency(item.unit_price)}</span>
+                        <div key={idx} className="flex items-center justify-between px-4 py-2.5 text-sm border-b border-white/5 last:border-0">
+                          <span className="text-white">{item.description}</span>
+                          <span className="text-white/55">{item.quantity}x {formatCurrency(item.unit_price)}</span>
                         </div>
                       ))}
                     </div>
                   )}
 
                   {quote.payment_terms && (
-                    <p className="text-xs text-black/40 mb-3">
-                      <span className="font-medium text-black/60">Condições:</span> {quote.payment_terms}
+                    <p className="text-xs text-white/40 mb-3">
+                      <span className="font-medium text-white/60">Condições:</span> {quote.payment_terms}
                     </p>
                   )}
 

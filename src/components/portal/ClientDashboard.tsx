@@ -314,28 +314,28 @@ const ClientDashboard = () => {
             className="relative"
           >
             <div className="absolute -inset-4 rounded-3xl bg-primary/15 blur-2xl pointer-events-none" />
-            <div className="relative overflow-hidden rounded-2xl border border-primary/20 bg-primary p-6 sm:p-8 shadow-2xl shadow-primary/20 hover:-translate-y-0.5 hover:shadow-[0_20px_60px_-15px_hsl(var(--primary)/0.3)] transition-all duration-500">
+            <div className="relative overflow-hidden rounded-2xl border border-primary/20 bg-primary p-6 sm:p-8 shadow-2xl shadow-primary/20 hover:-translate-y-[1px] hover:shadow-[0_20px_60px_-15px_hsl(var(--primary)/0.35)] transition-all duration-500">
               <div className="absolute top-0 right-0 w-80 h-80 bg-white/[0.06] rounded-full blur-[80px] -translate-y-1/2 translate-x-1/4 pointer-events-none" />
               <div className="absolute bottom-0 left-0 w-48 h-48 bg-black/[0.04] rounded-full blur-[60px] translate-y-1/3 -translate-x-1/4 pointer-events-none" />
               <div className="relative">
                 <h1 className="text-2xl sm:text-3xl font-bold text-black font-display">{selectedProject.name}</h1>
                 <div className="flex items-center gap-3 mt-2">
-                  <p className="text-sm text-black/60">{selectedProject.type}</p>
-                  <span className="text-xs px-3 py-1 rounded-full bg-black/10 text-black font-semibold border border-black/10">
+                  <p className="text-sm text-black/70">{selectedProject.type}</p>
+                  <span className="text-[10px] px-2.5 py-1 rounded-lg bg-black/10 text-black font-semibold border border-black/10">
                     {statusLabels[selectedProject.status] || selectedProject.status}
                   </span>
                 </div>
                 {/* Progress bar */}
                 <div className="mt-5 space-y-1.5">
                   <div className="flex justify-between text-xs">
-                    <span className="text-black/60">Progresso geral</span>
+                    <span className="text-black/70">Progresso geral</span>
                     <span className="font-bold text-black">{selectedProject.progress}%</span>
                   </div>
-                  <div className="h-2.5 bg-black/10 rounded-full overflow-hidden">
+                  <div className="h-2.5 bg-black/15 rounded-full overflow-hidden">
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{ width: `${selectedProject.progress}%` }}
-                      transition={{ duration: 0.8, ease: "easeOut", delay: 0.3 }}
+                      transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1], delay: 0.3 }}
                       className="h-full bg-black rounded-full"
                     />
                   </div>
@@ -462,25 +462,25 @@ const ClientDashboard = () => {
           {/* Tabs */}
           <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
             <Tabs defaultValue="status" className="space-y-8">
-              <TabsList className="bg-black border border-white/10 h-12 p-1.5 gap-1 grid grid-cols-4 w-full rounded-2xl">
-                <TabsTrigger value="status" className="gap-1.5 text-xs rounded-xl data-[state=active]:bg-white/10 data-[state=active]:text-primary data-[state=active]:shadow-md transition-all text-white/35">
+              <TabsList className="bg-black border border-white/10 h-12 p-1.5 gap-1 grid grid-cols-4 w-full rounded-xl">
+                <TabsTrigger value="status" className="gap-1.5 text-xs rounded-lg data-[state=active]:bg-white/10 data-[state=active]:text-primary data-[state=active]:shadow-md transition-all duration-200 text-white/40 hover:text-white/60 hover:bg-white/[0.03]">
                   <CheckCircle2 className="h-3.5 w-3.5" /><span className="hidden sm:inline">Status</span>
                 </TabsTrigger>
-                <TabsTrigger value="files" className="gap-1.5 text-xs rounded-xl data-[state=active]:bg-white/10 data-[state=active]:text-primary data-[state=active]:shadow-md transition-all text-white/35">
+                <TabsTrigger value="files" className="gap-1.5 text-xs rounded-lg data-[state=active]:bg-white/10 data-[state=active]:text-primary data-[state=active]:shadow-md transition-all duration-200 text-white/40 hover:text-white/60 hover:bg-white/[0.03]">
                   <FolderOpen className="h-3.5 w-3.5" /><span className="hidden sm:inline">Arquivos</span>
                 </TabsTrigger>
-                <TabsTrigger value="finance" className="gap-1.5 text-xs rounded-xl data-[state=active]:bg-white/10 data-[state=active]:text-primary data-[state=active]:shadow-md transition-all text-white/35">
+                <TabsTrigger value="finance" className="gap-1.5 text-xs rounded-lg data-[state=active]:bg-white/10 data-[state=active]:text-primary data-[state=active]:shadow-md transition-all duration-200 text-white/40 hover:text-white/60 hover:bg-white/[0.03]">
                   <DollarSign className="h-3.5 w-3.5" /><span className="hidden sm:inline">Financeiro</span>
                 </TabsTrigger>
-                <TabsTrigger value="messages" className="gap-1.5 text-xs rounded-xl data-[state=active]:bg-white/10 data-[state=active]:text-primary data-[state=active]:shadow-md transition-all text-white/35">
+                <TabsTrigger value="messages" className="gap-1.5 text-xs rounded-lg data-[state=active]:bg-white/10 data-[state=active]:text-primary data-[state=active]:shadow-md transition-all duration-200 text-white/40 hover:text-white/60 hover:bg-white/[0.03]">
                   <MessageSquare className="h-3.5 w-3.5" /><span className="hidden sm:inline">Mensagens</span>
                 </TabsTrigger>
               </TabsList>
 
               {/* STATUS TAB */}
               <TabsContent value="status" className="space-y-6">
-                <div className="rounded-2xl border border-white/10 bg-black p-6 sm:p-8 space-y-4">
-                  <p className="text-xs text-white/40 font-medium">{completedStages} de {stages.length} etapas concluídas</p>
+                <div className="rounded-xl border border-white/10 bg-black p-6 sm:p-8 space-y-4">
+                  <p className="text-xs text-white/50 font-medium">{completedStages} de {stages.length} etapas concluídas</p>
                   {stages.length > 0 && (
                     <div className="space-y-2.5">
                       {stages.map((stage, idx) => {
@@ -492,7 +492,7 @@ const ClientDashboard = () => {
                             initial={{ opacity: 0, x: -10 }}
                             animate={{ opacity: 1, x: 0 }}
                             transition={{ delay: idx * 0.05 }}
-                            className={`relative flex items-start gap-3 p-4 rounded-xl border transition-all duration-300 group hover:-translate-y-px ${
+                            className={`relative flex items-start gap-3 p-4 rounded-xl border transition-all duration-200 group hover:-translate-y-0.5 hover:shadow-md ${
                               isCurrent ? "border-primary/30 bg-primary/10 shadow-md shadow-primary/10" : isCompleted ? "border-white/10 bg-white/5" : "border-white/5 bg-transparent"
                             }`}
                           >
@@ -523,8 +523,8 @@ const ClientDashboard = () => {
 
               {/* FILES TAB */}
               <TabsContent value="files" className="space-y-4">
-                <div className="rounded-2xl border border-white/10 bg-black p-6 sm:p-8">
-                  <label className="text-[10px] uppercase tracking-[0.3em] text-white/40 font-semibold">Arquivos do Projeto</label>
+                <div className="rounded-xl border border-white/10 bg-black p-6 sm:p-8">
+                  <label className="text-[10px] uppercase tracking-[0.3em] text-white/50 font-semibold">Arquivos do Projeto</label>
                   {isLoadingFiles ? (
                     <div className="py-12 text-center">
                       <div className="animate-pulse text-white/30 text-sm">Carregando arquivos...</div>
@@ -542,7 +542,7 @@ const ClientDashboard = () => {
                           initial={{ opacity: 0, y: 10 }}
                           animate={{ opacity: 1, y: 0 }}
                           transition={{ delay: idx * 0.05 }}
-                          className="relative flex items-center justify-between p-4 rounded-xl border border-white/10 bg-white/5 hover:border-primary/20 hover:-translate-y-px hover:shadow-md transition-all duration-300 gap-3 group"
+                          className="relative flex items-center justify-between p-4 rounded-xl border border-white/10 bg-white/5 hover:border-primary/20 hover:-translate-y-0.5 hover:shadow-md transition-all duration-200 gap-3 group"
                         >
                           <div className="absolute left-0 top-2 bottom-2 w-[3px] bg-primary rounded-full scale-y-0 group-hover:scale-y-100 transition-transform duration-200 origin-center" />
                           <span className="text-sm text-white truncate flex-1 pl-2">{file.name}</span>
@@ -567,8 +567,8 @@ const ClientDashboard = () => {
 
               {/* FINANCE TAB */}
               <TabsContent value="finance" className="space-y-4">
-                <div className="rounded-2xl border border-white/10 bg-black p-6 sm:p-8 space-y-5">
-                  <label className="text-[10px] uppercase tracking-[0.3em] text-white/40 font-semibold">Detalhes Financeiros</label>
+                <div className="rounded-xl border border-white/10 bg-black p-6 sm:p-8 space-y-5">
+                  <label className="text-[10px] uppercase tracking-[0.3em] text-white/50 font-semibold">Detalhes Financeiros</label>
                   {!payment ? (
                     <div className="py-12 text-center">
                       <DollarSign className="h-8 w-8 text-white/15 mx-auto mb-2" />
@@ -578,12 +578,12 @@ const ClientDashboard = () => {
                     <div className="space-y-4">
                       <div className="bg-primary/10 border border-primary/20 rounded-xl p-5 space-y-4">
                         <div className="flex items-center justify-between">
-                          <span className="text-sm text-white/50">Orçamento Total</span>
+                          <span className="text-sm text-white/60">Orçamento Total</span>
                           <span className="text-2xl font-bold text-primary font-display">{formatCurrency(payment.budget_total)}</span>
                         </div>
                         {payment.initial_payment != null && payment.initial_payment > 0 && (
                           <div className="flex items-center justify-between text-sm">
-                            <span className="text-white/50">Entrada</span>
+                            <span className="text-white/60">Entrada</span>
                             <div className="text-right">
                               <span className="text-white font-medium">{formatCurrency(payment.initial_payment)}</span>
                               {payment.initial_payment_date && (
@@ -594,7 +594,7 @@ const ClientDashboard = () => {
                         )}
                         {payment.remaining_amount != null && (
                           <div className="flex items-center justify-between text-sm">
-                            <span className="text-white/50">Saldo Restante</span>
+                            <span className="text-white/60">Saldo Restante</span>
                             <span className="text-primary font-semibold">{formatCurrency(payment.remaining_amount)}</span>
                           </div>
                         )}
@@ -602,14 +602,14 @@ const ClientDashboard = () => {
                       {payment.installments_total != null && payment.installments_total > 0 && (
                         <div className="border border-white/10 rounded-xl p-5 space-y-3">
                           <div className="flex items-center justify-between text-sm">
-                            <span className="text-white/50">Parcelas</span>
+                            <span className="text-white/60">Parcelas</span>
                             <span className="text-white font-medium">{payment.installments_paid ?? 0} de {payment.installments_total} pagas</span>
                           </div>
                           <div className="h-2.5 bg-white/10 rounded-full overflow-hidden">
                             <motion.div
                               initial={{ width: 0 }}
                               animate={{ width: `${((payment.installments_paid ?? 0) / payment.installments_total) * 100}%` }}
-                              transition={{ duration: 0.8, delay: 0.2 }}
+                              transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
                               className="h-full bg-gradient-to-r from-primary to-kiiro-glow rounded-full"
                             />
                           </div>
@@ -623,7 +623,7 @@ const ClientDashboard = () => {
                       )}
                       {payment.notes && (
                         <div className="border border-white/10 rounded-xl p-4">
-                          <label className="text-[10px] uppercase tracking-[0.3em] text-white/40 font-semibold">Observações</label>
+                          <label className="text-[10px] uppercase tracking-[0.3em] text-white/50 font-semibold">Observações</label>
                           <p className="text-sm text-white/80 mt-2 whitespace-pre-wrap">{payment.notes}</p>
                         </div>
                       )}
@@ -636,7 +636,7 @@ const ClientDashboard = () => {
               <TabsContent value="messages" className="space-y-4">
                 <div className="rounded-2xl border border-white/10 bg-black overflow-hidden">
                   <div className="px-6 pt-5 pb-3">
-                    <label className="text-[10px] uppercase tracking-[0.3em] text-white/40 font-semibold">Mensagens e Feedbacks</label>
+                    <label className="text-[10px] uppercase tracking-[0.3em] text-white/50 font-semibold">Mensagens e Feedbacks</label>
                   </div>
                   <div className="flex flex-col" style={{ height: "400px" }}>
                     <div className="flex-1 overflow-y-auto px-6 py-4 space-y-3">
@@ -699,6 +699,9 @@ const ClientDashboard = () => {
         <div className="max-w-5xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <h2 className="text-[11px] font-semibold text-primary uppercase tracking-[0.3em] font-display">Studio Kiiro Workspace</h2>
+            <span className="hidden sm:inline-flex items-center gap-1.5 text-[10px] text-white/40 ml-2 border-l border-white/10 pl-3">
+              Seu projeto em tempo real
+            </span>
           </div>
           <Button variant="ghost" size="sm" onClick={signOut} className="text-white/40 hover:text-white">
             <LogOut className="h-4 w-4 mr-2" />Sair
@@ -710,7 +713,7 @@ const ClientDashboard = () => {
         {/* Welcome hero card with yellow background */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="relative">
           <div className="absolute -inset-6 rounded-3xl bg-primary/15 blur-3xl pointer-events-none" />
-          <div className="relative overflow-hidden rounded-2xl border border-primary/20 bg-primary p-7 sm:p-9 shadow-2xl shadow-primary/20 hover:-translate-y-0.5 hover:shadow-[0_20px_60px_-15px_hsl(var(--primary)/0.3)] transition-all duration-500">
+          <div className="relative overflow-hidden rounded-2xl border border-primary/20 bg-primary p-7 sm:p-9 shadow-2xl shadow-primary/20 hover:-translate-y-[1px] hover:shadow-[0_20px_60px_-15px_hsl(var(--primary)/0.35)] transition-all duration-500">
             <div className="absolute top-0 right-0 w-96 h-96 bg-white/[0.06] rounded-full blur-[100px] -translate-y-1/2 translate-x-1/4 pointer-events-none" />
             <div className="relative">
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-black/10 border border-black/10 mb-4">
@@ -720,7 +723,7 @@ const ClientDashboard = () => {
               <h1 className="text-2xl sm:text-3xl font-bold text-black font-display">
                 Olá, {profile?.full_name || "Cliente"}.
               </h1>
-              <p className="text-sm text-black/60 mt-2 max-w-lg">
+              <p className="text-sm text-black/70 mt-2 max-w-lg">
                 Seu projeto em tempo real. Atualizado por nós, visível por você.
               </p>
             </div>
@@ -745,7 +748,7 @@ const ClientDashboard = () => {
                   key={quote.id}
                   initial={{ opacity: 0, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  className="rounded-2xl border border-black/8 bg-white shadow-lg shadow-black/[0.03] p-6 hover:-translate-y-0.5 hover:shadow-xl transition-all duration-300"
+                  className="rounded-2xl border border-black/8 bg-white shadow-lg shadow-black/[0.03] p-6 hover:-translate-y-0.5 hover:shadow-xl transition-all duration-200 group overflow-hidden relative"
                 >
                   <div className="flex items-start justify-between mb-3">
                     <div>
@@ -754,7 +757,7 @@ const ClientDashboard = () => {
                         <span className="font-display font-bold text-primary">ORC-{String(quote.sequential_number).padStart(4, "0")}</span>
                       </div>
                       <p className="text-sm text-black mt-1 font-medium">{quote.project_type}</p>
-                      {quote.description && <p className="text-xs text-black/40 mt-0.5">{quote.description}</p>}
+                      {quote.description && <p className="text-xs text-black/55 mt-0.5">{quote.description}</p>}
                     </div>
                     <p className="font-display font-bold text-xl text-black">{formatCurrency(Number(quote.total_value))}</p>
                   </div>
@@ -765,7 +768,7 @@ const ClientDashboard = () => {
                       {(quote.items as any[]).map((item: any, idx: number) => (
                         <div key={idx} className="flex items-center justify-between px-4 py-2.5 text-sm border-b border-black/5 last:border-0">
                           <span className="text-black">{item.description}</span>
-                          <span className="text-black/40">{item.quantity}x {formatCurrency(item.unit_price)}</span>
+                          <span className="text-black/55">{item.quantity}x {formatCurrency(item.unit_price)}</span>
                         </div>
                       ))}
                     </div>
@@ -826,42 +829,42 @@ const ClientDashboard = () => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.1 + idx * 0.05 }}
                   onClick={() => openProjectDetail(project)}
-                  className="relative rounded-2xl border border-black/8 bg-white shadow-lg shadow-black/[0.03] p-6 hover:border-primary/20 hover:-translate-y-0.5 hover:shadow-xl transition-all duration-300 text-left w-full group overflow-hidden"
+                  className="relative rounded-2xl border border-black/8 bg-white shadow-lg shadow-black/[0.03] p-6 hover:border-primary/20 hover:-translate-y-0.5 hover:shadow-xl transition-all duration-200 text-left w-full group overflow-hidden"
                 >
                   {/* Yellow accent line */}
                   <div className="absolute left-0 top-3 bottom-3 w-[3px] bg-primary rounded-full scale-y-0 group-hover:scale-y-100 transition-transform duration-200 origin-center" />
                   <div className="flex items-start justify-between mb-3">
                     <div>
                       <h3 className="font-semibold text-black group-hover:text-primary transition-colors">{project.name}</h3>
-                      <p className="text-xs text-black/40 mt-0.5">{project.type}</p>
+                      <p className="text-xs text-black/55 mt-0.5">{project.type}</p>
                     </div>
                     <div className="flex items-center gap-2">
                       {!projectBriefingStatus[project.id] && (
-                        <span className="text-[10px] px-2.5 py-1 rounded-full bg-destructive/10 text-destructive font-medium border border-destructive/20">
+                        <span className="text-[10px] px-2.5 py-1 rounded-lg bg-destructive/10 text-destructive font-medium border border-destructive/20">
                           Briefing pendente
                         </span>
                       )}
-                      <span className="text-xs px-3 py-1 rounded-full bg-primary/10 text-black font-semibold border border-primary/20">
+                      <span className="text-[10px] px-2.5 py-1 rounded-lg bg-primary/10 text-black font-semibold border border-primary/20">
                         {statusLabels[project.status] || project.status}
                       </span>
                     </div>
                   </div>
                   <div className="space-y-1.5">
-                    <div className="flex justify-between text-xs text-black/40">
+                    <div className="flex justify-between text-xs text-black/55">
                       <span>Progresso</span>
                       <span className="font-bold text-black">{project.progress}%</span>
                     </div>
-                    <div className="h-2 bg-black/5 rounded-full overflow-hidden">
+                    <div className="h-2 bg-black/8 rounded-full overflow-hidden">
                       <motion.div
                         initial={{ width: 0 }}
                         animate={{ width: `${project.progress}%` }}
-                        transition={{ duration: 0.6, delay: 0.2 + idx * 0.05 }}
+                        transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1], delay: 0.15 + idx * 0.05 }}
                         className="h-full bg-gradient-to-r from-primary to-kiiro-glow rounded-full"
                       />
                     </div>
                   </div>
                   {project.deadline && (
-                    <div className="flex items-center gap-1.5 mt-3 text-xs text-black/35">
+                    <div className="flex items-center gap-1.5 mt-3 text-xs text-black/50">
                       <Clock className="h-3 w-3" />
                       <span>Previsão: {new Date(project.deadline).toLocaleDateString("pt-BR")}</span>
                     </div>
@@ -889,12 +892,12 @@ const ClientDashboard = () => {
                 <button
                   key={project.id}
                   onClick={() => openProjectDetail(project)}
-                  className="relative rounded-2xl border border-black/5 bg-white shadow-sm p-5 flex items-center justify-between hover:border-primary/15 hover:-translate-y-px hover:shadow-md transition-all duration-300 w-full text-left group overflow-hidden"
+                  className="relative rounded-2xl border border-black/5 bg-white shadow-sm p-5 flex items-center justify-between hover:border-primary/15 hover:-translate-y-0.5 hover:shadow-md transition-all duration-200 w-full text-left group overflow-hidden"
                 >
                   <div className="absolute left-0 top-2 bottom-2 w-[3px] bg-primary rounded-full scale-y-0 group-hover:scale-y-100 transition-transform duration-200 origin-center" />
                   <div>
                     <h3 className="font-medium text-black text-sm">{project.name}</h3>
-                    <p className="text-xs text-black/35">{project.type}</p>
+                    <p className="text-xs text-black/50">{project.type}</p>
                   </div>
                   <span className="text-xs text-black/30">Entregue ✓</span>
                 </button>
@@ -921,7 +924,7 @@ const ClientDashboard = () => {
                   key={order.id}
                   initial={{ opacity: 0, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  className="relative rounded-2xl border border-black/8 bg-white shadow-lg shadow-black/[0.03] p-6 hover:border-primary/20 hover:-translate-y-0.5 hover:shadow-xl transition-all duration-300 group overflow-hidden"
+                  className="relative rounded-2xl border border-black/8 bg-white shadow-lg shadow-black/[0.03] p-6 hover:border-primary/20 hover:-translate-y-0.5 hover:shadow-xl transition-all duration-200 group overflow-hidden"
                 >
                   <div className="absolute left-0 top-3 bottom-3 w-[3px] bg-primary rounded-full scale-y-0 group-hover:scale-y-100 transition-transform duration-200 origin-center" />
                   <div className="flex items-start justify-between mb-2">
@@ -931,12 +934,12 @@ const ClientDashboard = () => {
                         <span className="font-display font-bold text-primary">OS #{getOsHash(order)}</span>
                       </div>
                       <p className="text-sm text-black mt-1 font-medium">{order.service_type}</p>
-                      {order.description && <p className="text-xs text-black/40 mt-0.5">{order.description}</p>}
+                      {order.description && <p className="text-xs text-black/55 mt-0.5">{order.description}</p>}
                     </div>
                     <p className="font-display font-bold text-xl text-black">{formatCurrencyValue(Number(order.total_value))}</p>
                   </div>
                   <div className="flex items-center justify-between mt-3">
-                    <span className="text-xs text-black/35">
+                    <span className="text-xs text-black/50">
                       {new Date(order.created_at).toLocaleDateString("pt-BR")}
                       {order.deadline && ` · Prazo: ${new Date(order.deadline + "T00:00:00").toLocaleDateString("pt-BR")}`}
                     </span>

@@ -108,7 +108,7 @@ const AdminDashboard = () => {
           >
             <div className="absolute -inset-6 rounded-3xl bg-primary/15 blur-3xl pointer-events-none" />
 
-            <div className="relative overflow-hidden rounded-2xl border border-primary/20 bg-primary p-7 sm:p-9 lg:p-11 shadow-2xl shadow-primary/20 hover:-translate-y-0.5 hover:shadow-[0_20px_60px_-15px_hsl(var(--primary)/0.3)] transition-all duration-500">
+            <div className="relative overflow-hidden rounded-2xl border border-primary/20 bg-primary p-7 sm:p-9 lg:p-11 shadow-2xl shadow-primary/20 hover:-translate-y-[1px] hover:shadow-[0_20px_60px_-15px_hsl(var(--primary)/0.35)] transition-all duration-500">
               <div className="absolute top-0 right-0 w-96 h-96 bg-white/[0.06] rounded-full blur-[100px] -translate-y-1/2 translate-x-1/4 pointer-events-none" />
               <div className="absolute bottom-0 left-0 w-64 h-64 bg-black/[0.04] rounded-full blur-[80px] translate-y-1/3 -translate-x-1/4 pointer-events-none" />
 
@@ -138,14 +138,14 @@ const AdminDashboard = () => {
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ duration: 0.5, delay: 0.25 + i * 0.1, ease: [0.22, 1, 0.36, 1] }}
                       whileHover={{ scale: 1.04, y: -2, transition: { duration: 0.2 } }}
-                      className="group flex-1 lg:w-56 rounded-xl border border-white/10 bg-black p-4 flex items-center gap-3.5 transition-all duration-300 hover:border-primary/30 hover:shadow-lg hover:shadow-black/10 cursor-default"
+                      className="group flex-1 lg:w-56 rounded-xl border border-white/10 bg-black p-4 flex items-center gap-3.5 transition-all duration-200 hover:border-primary/30 hover:shadow-lg hover:shadow-black/10 cursor-default"
                     >
                       <div className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 bg-white/10 text-primary transition-all duration-300">
                         <card.icon className="h-4.5 w-4.5" />
                       </div>
                       <div className="min-w-0">
                         <span className="block text-2xl sm:text-3xl font-bold font-display text-white leading-none">{card.value}</span>
-                        <span className="block text-[10px] uppercase tracking-[0.15em] text-white/50 mt-1 font-medium">{card.label}</span>
+                        <span className="block text-[10px] uppercase tracking-[0.15em] text-white/55 mt-1 font-medium">{card.label}</span>
                       </div>
                     </motion.div>
                   ))}
@@ -161,25 +161,25 @@ const AdminDashboard = () => {
             transition={{ duration: 0.5, delay: 0.15 }}
           >
             <p className="text-[10px] uppercase tracking-[0.35em] text-black/35 mb-3.5 ml-1 font-semibold">Seções do seu estúdio</p>
-            <div className="rounded-2xl border border-white/10 bg-black p-2 flex flex-wrap gap-1.5">
+            <div className="rounded-xl border border-white/10 bg-black p-2 flex flex-wrap gap-1.5">
               {tabs.map((tab) => {
                 const isActive = activeTab === tab.key;
                 return (
                   <button
                     key={tab.key}
                     onClick={() => setActiveTab(tab.key)}
-                    className={`relative flex items-center gap-2.5 px-5 py-3 rounded-xl text-sm font-medium transition-all duration-300 ${
+                    className={`relative flex items-center gap-2.5 px-5 py-3 rounded-lg text-sm font-medium transition-all duration-200 ${
                       isActive
                         ? "bg-white/10 text-primary shadow-lg shadow-black/20"
-                        : "text-white/35 hover:text-white/70 hover:bg-white/5"
+                        : "text-white/40 hover:text-white/70 hover:bg-white/[0.04]"
                     }`}
                   >
-                    <tab.icon className={`h-4 w-4 transition-transform duration-300 ${isActive ? "" : "group-hover:scale-110"}`} />
+                    <tab.icon className={`h-4 w-4 transition-transform duration-200 ${isActive ? "" : "group-hover:scale-110"}`} />
                     <span className="hidden sm:inline">{tab.label}</span>
                     {isActive && (
                       <motion.div
-                        layoutId="activeTabGlow"
-                        className="absolute inset-0 rounded-xl bg-white/10 -z-10"
+                        layoutId="adminActiveTabGlow"
+                        className="absolute inset-0 rounded-lg bg-white/10 -z-10"
                         transition={{ type: "spring", stiffness: 400, damping: 30 }}
                       />
                     )}

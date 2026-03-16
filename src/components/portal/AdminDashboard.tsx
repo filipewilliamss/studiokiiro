@@ -18,6 +18,7 @@ const tabs = [
   { key: "finance", label: "Financeiro", icon: DollarSign },
   { key: "quotes", label: "Orçamentos", icon: Receipt },
   { key: "service-orders", label: "Ordens de Serviço", icon: FileText },
+  { key: "methodology", label: "Metodologia", icon: BookOpen },
 ] as const;
 
 type TabKey = (typeof tabs)[number]["key"];

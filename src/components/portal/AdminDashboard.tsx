@@ -3,12 +3,13 @@ import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import Navbar from "@/components/Navbar";
 import { Button } from "@/components/ui/button";
-import { LogOut, Users, FolderKanban, DollarSign, FileText, Receipt, Layers, BarChart3, Clock } from "lucide-react";
+import { LogOut, Users, FolderKanban, DollarSign, FileText, Receipt, Layers, BarChart3, Clock, BookOpen } from "lucide-react";
 import ClientsTab from "./admin/ClientsTab";
 import ProjectsTab from "./admin/ProjectsTab";
 import FinanceTab from "./admin/FinanceTab";
 import ServiceOrdersTab from "./admin/ServiceOrdersTab";
 import QuotesTab from "./admin/QuotesTab";
+import MethodologyTab from "./admin/MethodologyTab";
 import { motion, AnimatePresence } from "framer-motion";
 
 const tabs = [
@@ -17,6 +18,7 @@ const tabs = [
   { key: "finance", label: "Financeiro", icon: DollarSign },
   { key: "quotes", label: "Orçamentos", icon: Receipt },
   { key: "service-orders", label: "Ordens de Serviço", icon: FileText },
+  { key: "methodology", label: "Metodologia", icon: BookOpen },
 ] as const;
 
 type TabKey = (typeof tabs)[number]["key"];
@@ -55,6 +57,7 @@ const AdminDashboard = () => {
       case "finance": return <FinanceTab />;
       case "quotes": return <QuotesTab />;
       case "service-orders": return <ServiceOrdersTab />;
+      case "methodology": return <MethodologyTab />;
     }
   };
 

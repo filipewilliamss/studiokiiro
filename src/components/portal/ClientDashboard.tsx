@@ -829,14 +829,14 @@ const ClientDashboard = () => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.1 + idx * 0.05 }}
                   onClick={() => openProjectDetail(project)}
-                  className="relative rounded-2xl border border-black/8 bg-white shadow-lg shadow-black/[0.03] p-6 hover:border-primary/20 hover:-translate-y-0.5 hover:shadow-xl transition-all duration-200 text-left w-full group overflow-hidden"
+                  className="relative rounded-2xl border border-white/10 bg-[#0a0a0a] p-6 hover:border-primary/20 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-black/20 transition-all duration-200 text-left w-full group overflow-hidden"
                 >
                   {/* Yellow accent line */}
                   <div className="absolute left-0 top-3 bottom-3 w-[3px] bg-primary rounded-full scale-y-0 group-hover:scale-y-100 transition-transform duration-200 origin-center" />
                   <div className="flex items-start justify-between mb-3">
                     <div>
-                      <h3 className="font-semibold text-black group-hover:text-primary transition-colors">{project.name}</h3>
-                      <p className="text-xs text-black/55 mt-0.5">{project.type}</p>
+                      <h3 className="font-semibold text-white group-hover:text-primary transition-colors">{project.name}</h3>
+                      <p className="text-xs text-white/55 mt-0.5">{project.type}</p>
                     </div>
                     <div className="flex items-center gap-2">
                       {!projectBriefingStatus[project.id] && (
@@ -844,17 +844,17 @@ const ClientDashboard = () => {
                           Briefing pendente
                         </span>
                       )}
-                      <span className="text-[10px] px-2.5 py-1 rounded-lg bg-primary/10 text-black font-semibold border border-primary/20">
+                      <span className="text-[10px] px-2.5 py-1 rounded-lg bg-primary/10 text-primary font-semibold border border-primary/20">
                         {statusLabels[project.status] || project.status}
                       </span>
                     </div>
                   </div>
                   <div className="space-y-1.5">
-                    <div className="flex justify-between text-xs text-black/55">
+                    <div className="flex justify-between text-xs text-white/55">
                       <span>Progresso</span>
-                      <span className="font-bold text-black">{project.progress}%</span>
+                      <span className="font-bold text-white">{project.progress}%</span>
                     </div>
-                    <div className="h-2 bg-black/8 rounded-full overflow-hidden">
+                    <div className="h-2 bg-white/10 rounded-full overflow-hidden">
                       <motion.div
                         initial={{ width: 0 }}
                         animate={{ width: `${project.progress}%` }}

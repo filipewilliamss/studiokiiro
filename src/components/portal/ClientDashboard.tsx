@@ -73,7 +73,7 @@ const formatCurrency = (value: number) =>
 const DashboardPageWrapper = ({ children }: { children: ReactNode }) => (
   <div className="min-h-screen relative">
     {/* Layered background */}
-    <div className="fixed inset-0 bg-white" />
+    <div className="fixed inset-0 bg-black" />
     <div
       className="fixed inset-0 pointer-events-none"
       style={{

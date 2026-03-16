@@ -261,8 +261,54 @@ export type Database = {
           },
         ]
       }
+      quote_rejections: {
+        Row: {
+          client_id: string
+          comment: string | null
+          created_at: string
+          decision_factor: string | null
+          id: string
+          quote_id: string
+          reason: string
+        }
+        Insert: {
+          client_id: string
+          comment?: string | null
+          created_at?: string
+          decision_factor?: string | null
+          id?: string
+          quote_id: string
+          reason: string
+        }
+        Update: {
+          client_id?: string
+          comment?: string | null
+          created_at?: string
+          decision_factor?: string | null
+          id?: string
+          quote_id?: string
+          reason?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "quote_rejections_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "quote_rejections_quote_id_fkey"
+            columns: ["quote_id"]
+            isOneToOne: false
+            referencedRelation: "quotes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       quotes: {
         Row: {
+          admin_confirmed: boolean
           client_id: string
           client_response_at: string | null
           created_at: string
@@ -278,6 +324,7 @@ export type Database = {
           validity_date: string | null
         }
         Insert: {
+          admin_confirmed?: boolean
           client_id: string
           client_response_at?: string | null
           created_at?: string
@@ -293,6 +340,7 @@ export type Database = {
           validity_date?: string | null
         }
         Update: {
+          admin_confirmed?: boolean
           client_id?: string
           client_response_at?: string | null
           created_at?: string

@@ -48,6 +48,15 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
+  // Keep admin session alive forever by refreshing periodically
+  useEffect(() => {
+    if (role !== "admin") return;
+    const interval = setInterval(async () => {
+      await supabase.auth.refreshSession();
+    }, 30 * 60 * 1000); // every 30 minutes
+    return () => clearInterval(interval);
+  }, [role]);
+
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (_event, session) => {

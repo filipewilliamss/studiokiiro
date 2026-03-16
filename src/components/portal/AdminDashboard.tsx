@@ -63,20 +63,20 @@ const AdminDashboard = () => {
 
   return (
     <div className="min-h-screen relative">
-      {/* White background */}
-      <div className="fixed inset-0 bg-white" />
+      {/* Black background */}
+      <div className="fixed inset-0 bg-black" />
       {/* Radial gradient for depth */}
       <div
         className="fixed inset-0 pointer-events-none"
         style={{
-          background: 'radial-gradient(ellipse 70% 50% at 50% 40%, hsl(0 0% 96%) 0%, transparent 100%)',
+          background: 'radial-gradient(ellipse 70% 50% at 50% 40%, hsl(0 0% 8%) 0%, transparent 100%)',
         }}
       />
       {/* Grid pattern */}
       <div
         className="fixed inset-0 pointer-events-none opacity-[0.035]"
         style={{
-          backgroundImage: `linear-gradient(hsl(0 0% 75%) 1px, transparent 1px), linear-gradient(90deg, hsl(0 0% 75%) 1px, transparent 1px)`,
+          backgroundImage: `linear-gradient(hsl(0 0% 25%) 1px, transparent 1px), linear-gradient(90deg, hsl(0 0% 25%) 1px, transparent 1px)`,
           backgroundSize: "48px 48px",
         }}
       />
@@ -163,7 +163,7 @@ const AdminDashboard = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.15 }}
           >
-            <p className="text-[10px] uppercase tracking-[0.35em] text-black/35 mb-3.5 ml-1 font-semibold">Seções do seu estúdio</p>
+            <p className="text-[10px] uppercase tracking-[0.35em] text-white/35 mb-3.5 ml-1 font-semibold">Seções do seu estúdio</p>
             <div className="rounded-xl border border-white/10 bg-black p-2 flex flex-wrap gap-1.5">
               {tabs.map((tab) => {
                 const isActive = activeTab === tab.key;

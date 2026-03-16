@@ -286,27 +286,6 @@ const ClientDashboard = () => {
   const showBriefingBanner = selectedProject && !briefingSubmitted && currentBriefingQuestions;
   const pendingQuotes = quotes.filter((q) => q.status === "pendente");
 
-  // Shared wrapper for both views
-  const PageWrapper = ({ children }: { children: React.ReactNode }) => (
-    <div className="min-h-screen relative">
-      {/* Layered background */}
-      <div className="fixed inset-0 bg-white" />
-      <div
-        className="fixed inset-0 pointer-events-none"
-        style={{
-          background: 'radial-gradient(ellipse 70% 50% at 50% 40%, hsl(0 0% 97%) 0%, transparent 100%)',
-        }}
-      />
-      <div
-        className="fixed inset-0 pointer-events-none opacity-[0.03]"
-        style={{
-          backgroundImage: `linear-gradient(hsl(0 0% 75%) 1px, transparent 1px), linear-gradient(90deg, hsl(0 0% 75%) 1px, transparent 1px)`,
-          backgroundSize: "48px 48px",
-        }}
-      />
-      <div className="relative z-10">{children}</div>
-    </div>
-  );
 
   // Project detail view
   if (selectedProject) {

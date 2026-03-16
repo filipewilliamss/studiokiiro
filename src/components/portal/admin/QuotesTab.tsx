@@ -23,7 +23,7 @@ interface Quote {
 
 const projectTypes = [
   "Logotipo Essencial", "Identidade Visual", "Branding Completo", "Manual de Logotipo",
-  "Design de Conteúdo para Redes Sociais", "Edição de Vídeo — Reels/Shorts",
+  "Personal Brand Kit", "Design de Conteúdo para Redes Sociais", "Edição de Vídeo — Reels/Shorts",
   "Edição de Vídeo — Institucional", "Edição de Vídeo — Tutorial/Educativo",
   "Landing Page Simples", "Landing Page Completa", "Site Institucional", "Site Completo",
 ];

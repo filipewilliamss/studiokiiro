@@ -13,6 +13,16 @@ const serviceProcesses = [
     ],
   },
   {
+    label: "Personal Brand Kit",
+    steps: [
+      { number: "01", title: "Imersão Pessoal", description: "Descobrimos quem você é como marca, sua essência, público e como quer ser percebido." },
+      { number: "02", title: "Direção Visual", description: "Criamos moodboards editoriais com paleta, tipografia e atmosfera visual para aprovação." },
+      { number: "03", title: "Logo e Sistema", description: "Desenvolvemos seu logo pessoal, sistema de cores, tipografia e elemento gráfico de apoio." },
+      { number: "04", title: "Templates", description: "Criamos 5 templates editáveis no Canva e mockups de feed e perfil do Instagram." },
+      { number: "05", title: "Guia e Entrega", description: "Entregamos o mini-guia editorial, todos os arquivos e templates prontos para usar." },
+    ],
+  },
+  {
     label: "Redes Sociais",
     steps: [
       { number: "01", title: "Briefing e Estratégia", description: "Definimos o guia de estilo, tipos de peças e formatos prioritários para suas redes." },

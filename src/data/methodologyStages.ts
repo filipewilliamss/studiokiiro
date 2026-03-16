@@ -306,4 +306,31 @@ export const methodologyStages: Record<string, MethodologyStage[]> = {
       sort_order: 4,
     },
   ],
+  "Personal Brand Kit": [
+    {
+      name: "Fase 1 — Imersão e Descoberta Pessoal",
+      description: "Reunião de descoberta pessoal aprofundada, análise do perfil digital atual, mapeamento do público e concorrência, construção do mapa de personalidade visual em 3 eixos e validação com o cliente.",
+      sort_order: 0,
+    },
+    {
+      name: "Fase 2 — Direção Visual e Moodboard",
+      description: "Criação de 2 moodboards editoriais com direção visual distinta, paleta de cores preliminar para cada direção, referências tipográficas disponíveis no Canva e apresentação para aprovação da direção.",
+      sort_order: 1,
+    },
+    {
+      name: "Fase 3 — Criação do Logo e Sistema Visual",
+      description: "Esboços e exploração do logo pessoal, desenvolvimento de 2 propostas completas com versão circular para perfil, sistema de cores finalizado (HEX/RGB), tipografia digital, elemento gráfico de apoio e mockups de apresentação.",
+      sort_order: 2,
+    },
+    {
+      name: "Fase 4 — Templates de Canva e Mockups",
+      description: "Criação de 5 templates editáveis no Canva (2 posts estáticos, 1 carrossel, 1 story, 1 highlight cover), mockup de feed com 9 posts simulados e mockup de perfil do Instagram finalizado.",
+      sort_order: 3,
+    },
+    {
+      name: "Fase 5 — Mini-guia e Entrega Final",
+      description: "Diagramação do mini-guia editorial de identidade pessoal (12-16 páginas), exportação completa de arquivos do logo (AI, PNG, JPG, PDF), templates compartilhados via Canva, documento Leia-me e entrega formal.",
+      sort_order: 4,
+    },
+  ],
 };

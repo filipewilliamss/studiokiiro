@@ -1,5 +1,5 @@
 import { useAuth } from "@/contexts/AuthContext";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, type ReactNode } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import Navbar from "@/components/Navbar";
 import { Button } from "@/components/ui/button";
@@ -69,6 +69,27 @@ const statusGradients: Record<string, string> = {
 
 const formatCurrency = (value: number) =>
   new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(value);
+
+const DashboardPageWrapper = ({ children }: { children: ReactNode }) => (
+  <div className="min-h-screen relative">
+    {/* Layered background */}
+    <div className="fixed inset-0 bg-white" />
+    <div
+      className="fixed inset-0 pointer-events-none"
+      style={{
+        background: "radial-gradient(ellipse 70% 50% at 50% 40%, hsl(0 0% 97%) 0%, transparent 100%)",
+      }}
+    />
+    <div
+      className="fixed inset-0 pointer-events-none opacity-[0.03]"
+      style={{
+        backgroundImage: "linear-gradient(hsl(0 0% 75%) 1px, transparent 1px), linear-gradient(90deg, hsl(0 0% 75%) 1px, transparent 1px)",
+        backgroundSize: "48px 48px",
+      }}
+    />
+    <div className="relative z-10">{children}</div>
+  </div>
+);
 
 const ClientDashboard = () => {
   const { user, profile, signOut } = useAuth();
@@ -265,32 +286,11 @@ const ClientDashboard = () => {
   const showBriefingBanner = selectedProject && !briefingSubmitted && currentBriefingQuestions;
   const pendingQuotes = quotes.filter((q) => q.status === "pendente");
 
-  // Shared wrapper for both views
-  const PageWrapper = ({ children }: { children: React.ReactNode }) => (
-    <div className="min-h-screen relative">
-      {/* Layered background */}
-      <div className="fixed inset-0 bg-white" />
-      <div
-        className="fixed inset-0 pointer-events-none"
-        style={{
-          background: 'radial-gradient(ellipse 70% 50% at 50% 40%, hsl(0 0% 97%) 0%, transparent 100%)',
-        }}
-      />
-      <div
-        className="fixed inset-0 pointer-events-none opacity-[0.03]"
-        style={{
-          backgroundImage: `linear-gradient(hsl(0 0% 75%) 1px, transparent 1px), linear-gradient(90deg, hsl(0 0% 75%) 1px, transparent 1px)`,
-          backgroundSize: "48px 48px",
-        }}
-      />
-      <div className="relative z-10">{children}</div>
-    </div>
-  );
 
   // Project detail view
   if (selectedProject) {
     return (
-      <PageWrapper>
+      <DashboardPageWrapper>
         <Navbar forceBlack />
         <header className="border-b border-white/10 bg-black sticky top-16 md:top-20 z-30 mt-16 md:mt-20">
           <div className="max-w-5xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between">
@@ -687,13 +687,13 @@ const ClientDashboard = () => {
             </Tabs>
           </motion.div>
         </main>
-      </PageWrapper>
+      </DashboardPageWrapper>
     );
   }
 
   // Project list view (main dashboard)
   return (
-    <PageWrapper>
+    <DashboardPageWrapper>
       <Navbar forceBlack />
       <header className="border-b border-white/10 bg-black sticky top-16 md:top-20 z-30 mt-16 md:mt-20">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between">
@@ -1060,7 +1060,7 @@ const ClientDashboard = () => {
           </DialogContent>
         </Dialog>
       </main>
-    </PageWrapper>
+    </DashboardPageWrapper>
   );
 };
 

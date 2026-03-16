@@ -836,7 +836,7 @@ const ClientDashboard = () => {
                   <div className="flex items-start justify-between mb-3">
                     <div>
                       <h3 className="font-semibold text-black group-hover:text-primary transition-colors">{project.name}</h3>
-                      <p className="text-xs text-black/40 mt-0.5">{project.type}</p>
+                      <p className="text-xs text-black/55 mt-0.5">{project.type}</p>
                     </div>
                     <div className="flex items-center gap-2">
                       {!projectBriefingStatus[project.id] && (

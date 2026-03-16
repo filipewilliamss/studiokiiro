@@ -748,7 +748,7 @@ const ClientDashboard = () => {
                   key={quote.id}
                   initial={{ opacity: 0, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  className="rounded-2xl border border-black/8 bg-white shadow-lg shadow-black/[0.03] p-6 hover:-translate-y-0.5 hover:shadow-xl transition-all duration-300"
+                  className="rounded-2xl border border-black/8 bg-white shadow-lg shadow-black/[0.03] p-6 hover:-translate-y-0.5 hover:shadow-xl transition-all duration-200 group overflow-hidden relative"
                 >
                   <div className="flex items-start justify-between mb-3">
                     <div>

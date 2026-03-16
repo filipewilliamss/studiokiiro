@@ -18,6 +18,7 @@ import { toast } from "sonner";
 import { briefingQuestions } from "@/data/briefingQuestions";
 import { motion, AnimatePresence } from "framer-motion";
 import kiiroLogo from "@/assets/logo.png";
+import ProposalGate from "./ProposalGate";
 
 interface Project {
   id: string; name: string; type: string; status: string; progress: number; deadline: string | null;
@@ -37,6 +38,7 @@ interface Quote {
   id: string; sequential_number: number; project_type: string; description: string | null;
   items: QuoteItem[]; total_value: number; payment_terms: string | null;
   validity_date: string | null; status: string; created_at: string; notes: string | null;
+  client_id: string; admin_confirmed: boolean;
 }
 interface ServiceItem { description: string; qty: number; unit_price: number; }
 interface ServiceOrder {
@@ -119,9 +121,23 @@ const ClientDashboard = () => {
   const [serviceOrders, setServiceOrders] = useState<ServiceOrder[]>([]);
   const [viewOrder, setViewOrder] = useState<ServiceOrder | null>(null);
   const osPrintRef = useRef<HTMLDivElement>(null);
+  const [clientProfileId, setClientProfileId] = useState<string | null>(null);
 
+
+  const fetchQuotes = async () => {
+    const { data } = await supabase
+      .from("quotes")
+      .select("*")
+      .order("created_at", { ascending: false });
+    if (data) setQuotes(data as any);
+  };
 
   useEffect(() => {
+    const fetchProfileId = async () => {
+      if (!user) return;
+      const { data } = await supabase.from("profiles").select("id").eq("user_id", user.id).single();
+      if (data) setClientProfileId(data.id);
+    };
     const fetchProjects = async () => {
       const { data } = await supabase
         .from("projects")
@@ -139,13 +155,6 @@ const ClientDashboard = () => {
         setProjectBriefingStatus(statusMap);
       }
     };
-    const fetchQuotes = async () => {
-      const { data } = await supabase
-        .from("quotes")
-        .select("*")
-        .order("created_at", { ascending: false });
-      if (data) setQuotes(data as any);
-    };
     const fetchServiceOrders = async () => {
       const { data } = await supabase
         .from("service_orders")
@@ -153,10 +162,11 @@ const ClientDashboard = () => {
         .order("created_at", { ascending: false });
       if (data) setServiceOrders(data as any);
     };
+    fetchProfileId();
     fetchProjects();
     fetchQuotes();
     fetchServiceOrders();
-  }, []);
+  }, [user]);
 
   // Realtime messages
   useEffect(() => {
@@ -286,6 +296,19 @@ const ClientDashboard = () => {
   const showBriefingBanner = selectedProject && !briefingSubmitted && currentBriefingQuestions;
   const pendingQuotes = quotes.filter((q) => q.status === "pendente");
 
+  // Gate: check if client has any confirmed quote (approved + admin_confirmed)
+  const hasConfirmedAccess = quotes.some((q) => q.status === "aprovado" && q.admin_confirmed);
+
+  // If no confirmed access yet and there are quotes, show the ProposalGate
+  if (!hasConfirmedAccess && quotes.length > 0 && clientProfileId && !selectedProject) {
+    return (
+      <ProposalGate
+        quotes={quotes}
+        profileId={clientProfileId}
+        onQuotesUpdated={fetchQuotes}
+      />
+    );
+  }
 
   // Project detail view
   if (selectedProject) {

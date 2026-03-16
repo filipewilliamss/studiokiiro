@@ -8,7 +8,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Checkbox } from "@/components/ui/checkbox";
-import { FilePlus, Hash, Calendar, CheckCircle2, XCircle, Clock, Trash2, Plus, Pencil } from "lucide-react";
+import { FilePlus, Hash, Calendar, CheckCircle2, XCircle, Clock, Trash2, Plus, Pencil, ShieldCheck, MessageSquareText } from "lucide-react";
 import { toast } from "sonner";
 
 interface Profile { id: string; full_name: string; company: string | null; }
@@ -18,7 +18,11 @@ interface Quote {
   description: string | null; items: QuoteItem[]; total_value: number;
   payment_terms: string | null; validity_date: string | null; status: string;
   client_response_at: string | null; notes: string | null; created_at: string;
+  admin_confirmed: boolean;
   profiles?: Profile;
+}
+interface QuoteRejection {
+  id: string; reason: string; decision_factor: string | null; comment: string | null; created_at: string;
 }
 
 const projectDescriptions: Record<string, string> = {
@@ -59,6 +63,7 @@ const QuotesTab = () => {
   const [viewQuote, setViewQuote] = useState<Quote | null>(null);
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
   const [editingQuote, setEditingQuote] = useState<Quote | null>(null);
+  const [rejectionFeedback, setRejectionFeedback] = useState<QuoteRejection | null>(null);
 
   const [form, setForm] = useState(emptyForm);
   const [items, setItems] = useState<QuoteItem[]>([...emptyItems]);
@@ -147,6 +152,29 @@ const QuotesTab = () => {
     const { error } = await supabase.from("quotes").delete().in("id", ids);
     if (error) toast.error("Erro ao excluir orçamentos");
     else { toast.success(`${ids.length} orçamento(s) excluído(s)`); setSelectedIds(new Set()); fetchAll(); }
+  };
+
+  const handleAdminConfirm = async (quote: Quote) => {
+    const { error } = await supabase.from("quotes").update({ admin_confirmed: true }).eq("id", quote.id);
+    if (error) toast.error("Erro ao confirmar");
+    else {
+      toast.success("Projeto confirmado e área do cliente liberada! ✅");
+      setViewQuote({ ...quote, admin_confirmed: true });
+      fetchAll();
+    }
+  };
+
+  const fetchRejectionFeedback = async (quoteId: string) => {
+    const { data } = await supabase.from("quote_rejections").select("*").eq("quote_id", quoteId).maybeSingle();
+    setRejectionFeedback(data as any);
+  };
+
+  const openQuoteDetail = (quote: Quote) => {
+    setViewQuote(quote);
+    setRejectionFeedback(null);
+    if (quote.status === "recusado") {
+      fetchRejectionFeedback(quote.id);
+    }
   };
 
   return (
@@ -297,7 +325,7 @@ const QuotesTab = () => {
             >
               <div className="flex items-start gap-3">
                 <Checkbox checked={selectedIds.has(quote.id)} onCheckedChange={() => toggleSelect(quote.id)} className="mt-1" />
-                <button onClick={() => setViewQuote(quote)} className="flex-1 text-left">
+                <button onClick={() => openQuoteDetail(quote)} className="flex-1 text-left">
                   <div className="flex items-start justify-between">
                     <div className="space-y-1">
                       <div className="flex items-center gap-2">
@@ -306,6 +334,16 @@ const QuotesTab = () => {
                         <span className={`text-xs px-2 py-0.5 rounded-full font-medium flex items-center gap-1 ${cfg.color}`}>
                           {cfg.icon} {cfg.label}
                         </span>
+                        {quote.status === "aprovado" && !quote.admin_confirmed && (
+                          <span className="text-[10px] px-2 py-0.5 rounded-full font-medium flex items-center gap-1 bg-amber-500/10 text-amber-400">
+                            <Clock className="h-3 w-3" /> Aguardando confirmação
+                          </span>
+                        )}
+                        {quote.status === "aprovado" && quote.admin_confirmed && (
+                          <span className="text-[10px] px-2 py-0.5 rounded-full font-medium flex items-center gap-1 bg-emerald-500/10 text-emerald-400">
+                            <ShieldCheck className="h-3 w-3" /> Confirmado
+                          </span>
+                        )}
                       </div>
                       <h3 className="font-medium text-foreground">{(quote as any).profiles?.full_name || "—"}</h3>
                       <p className="text-xs text-muted-foreground">{quote.project_type}</p>
@@ -389,7 +427,7 @@ const QuotesTab = () => {
                 )}
                 <div className="space-y-2">
                   <label className="text-xs uppercase tracking-wider text-muted-foreground font-medium">Status</label>
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 flex-wrap">
                     {(() => {
                       const cfg = statusConfig[viewQuote.status] || statusConfig.pendente;
                       return (
@@ -398,8 +436,69 @@ const QuotesTab = () => {
                         </span>
                       );
                     })()}
+                    {viewQuote.status === "aprovado" && viewQuote.admin_confirmed && (
+                      <span className="text-xs px-3 py-1.5 rounded-full font-medium flex items-center gap-1.5 bg-emerald-500/10 text-emerald-400">
+                        <ShieldCheck className="h-3.5 w-3.5" /> Confirmado
+                      </span>
+                    )}
+                    {viewQuote.status === "aprovado" && !viewQuote.admin_confirmed && (
+                      <span className="text-xs px-3 py-1.5 rounded-full font-medium flex items-center gap-1.5 bg-amber-500/10 text-amber-400">
+                        <Clock className="h-3.5 w-3.5" /> Aguardando sua confirmação
+                      </span>
+                    )}
                   </div>
                 </div>
+
+                {/* Admin confirmation button */}
+                {viewQuote.status === "aprovado" && !viewQuote.admin_confirmed && (
+                  <div className="rounded-xl border border-emerald-500/20 bg-emerald-500/5 p-4 space-y-3">
+                    <div className="flex items-start gap-3">
+                      <ShieldCheck className="h-5 w-5 text-emerald-400 mt-0.5" />
+                      <div>
+                        <p className="text-sm font-medium text-foreground">Proposta aceita pelo cliente</p>
+                        <p className="text-xs text-muted-foreground mt-0.5">
+                          O cliente aceitou esta proposta. Confirme abaixo para liberar a área completa do cliente.
+                        </p>
+                      </div>
+                    </div>
+                    <Button
+                      onClick={() => handleAdminConfirm(viewQuote)}
+                      className="w-full gap-2 rounded-xl"
+                      style={{ backgroundColor: "hsl(142, 71%, 35%)", color: "white" }}
+                    >
+                      <ShieldCheck className="h-4 w-4" />
+                      Confirmar recebimento / Iniciar projeto
+                    </Button>
+                  </div>
+                )}
+
+                {/* Rejection feedback */}
+                {viewQuote.status === "recusado" && rejectionFeedback && (
+                  <div className="rounded-xl border border-destructive/20 bg-destructive/5 p-4 space-y-3">
+                    <div className="flex items-center gap-2">
+                      <MessageSquareText className="h-4 w-4 text-destructive" />
+                      <p className="text-sm font-medium text-foreground">Feedback do cliente</p>
+                    </div>
+                    <div className="space-y-2 text-sm">
+                      <div>
+                        <p className="text-xs text-muted-foreground">Motivo da recusa</p>
+                        <p className="text-foreground">{rejectionFeedback.reason}</p>
+                      </div>
+                      {rejectionFeedback.decision_factor && (
+                        <div>
+                          <p className="text-xs text-muted-foreground">Fator decisivo</p>
+                          <p className="text-foreground">{rejectionFeedback.decision_factor}</p>
+                        </div>
+                      )}
+                      {rejectionFeedback.comment && (
+                        <div>
+                          <p className="text-xs text-muted-foreground">Comentário</p>
+                          <p className="text-foreground whitespace-pre-wrap">{rejectionFeedback.comment}</p>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
               </div>
             </>
           )}

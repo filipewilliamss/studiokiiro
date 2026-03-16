@@ -567,8 +567,8 @@ const ClientDashboard = () => {
 
               {/* FINANCE TAB */}
               <TabsContent value="finance" className="space-y-4">
-                <div className="rounded-2xl border border-white/10 bg-black p-6 sm:p-8 space-y-5">
-                  <label className="text-[10px] uppercase tracking-[0.3em] text-white/40 font-semibold">Detalhes Financeiros</label>
+                <div className="rounded-xl border border-white/10 bg-black p-6 sm:p-8 space-y-5">
+                  <label className="text-[10px] uppercase tracking-[0.3em] text-white/50 font-semibold">Detalhes Financeiros</label>
                   {!payment ? (
                     <div className="py-12 text-center">
                       <DollarSign className="h-8 w-8 text-white/15 mx-auto mb-2" />

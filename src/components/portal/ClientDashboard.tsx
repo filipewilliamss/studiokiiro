@@ -296,6 +296,19 @@ const ClientDashboard = () => {
   const showBriefingBanner = selectedProject && !briefingSubmitted && currentBriefingQuestions;
   const pendingQuotes = quotes.filter((q) => q.status === "pendente");
 
+  // Gate: check if client has any confirmed quote (approved + admin_confirmed)
+  const hasConfirmedAccess = quotes.some((q) => q.status === "aprovado" && q.admin_confirmed);
+
+  // If no confirmed access yet and there are quotes, show the ProposalGate
+  if (!hasConfirmedAccess && quotes.length > 0 && clientProfileId && !selectedProject) {
+    return (
+      <ProposalGate
+        quotes={quotes}
+        profileId={clientProfileId}
+        onQuotesUpdated={fetchQuotes}
+      />
+    );
+  }
 
   // Project detail view
   if (selectedProject) {

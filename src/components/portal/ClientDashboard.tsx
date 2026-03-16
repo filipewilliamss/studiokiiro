@@ -83,7 +83,7 @@ const DashboardPageWrapper = ({ children }: { children: ReactNode }) => (
     <div
       className="fixed inset-0 pointer-events-none opacity-[0.03]"
       style={{
-        backgroundImage: "linear-gradient(hsl(0 0% 75%) 1px, transparent 1px), linear-gradient(90deg, hsl(0 0% 75%) 1px, transparent 1px)",
+        backgroundImage: "linear-gradient(hsl(0 0% 25%) 1px, transparent 1px), linear-gradient(90deg, hsl(0 0% 25%) 1px, transparent 1px)",
         backgroundSize: "48px 48px",
       }}
     />

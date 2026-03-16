@@ -861,7 +861,7 @@ const ClientDashboard = () => {
                       <h3 className="font-semibold text-white group-hover:text-primary transition-colors">{project.name}</h3>
                       <p className="text-xs text-white/55 mt-0.5">{project.type}</p>
                     </div>
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 flex-wrap shrink-0">
                       {!projectBriefingStatus[project.id] && (
                         <span className="text-[10px] px-2.5 py-1 rounded-lg bg-destructive/10 text-destructive font-medium border border-destructive/20">
                           Briefing pendente

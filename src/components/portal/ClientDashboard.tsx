@@ -314,28 +314,28 @@ const ClientDashboard = () => {
             className="relative"
           >
             <div className="absolute -inset-4 rounded-3xl bg-primary/15 blur-2xl pointer-events-none" />
-            <div className="relative overflow-hidden rounded-2xl border border-primary/20 bg-primary p-6 sm:p-8 shadow-2xl shadow-primary/20 hover:-translate-y-0.5 hover:shadow-[0_20px_60px_-15px_hsl(var(--primary)/0.3)] transition-all duration-500">
+            <div className="relative overflow-hidden rounded-2xl border border-primary/20 bg-primary p-6 sm:p-8 shadow-2xl shadow-primary/20 hover:-translate-y-[1px] hover:shadow-[0_20px_60px_-15px_hsl(var(--primary)/0.35)] transition-all duration-500">
               <div className="absolute top-0 right-0 w-80 h-80 bg-white/[0.06] rounded-full blur-[80px] -translate-y-1/2 translate-x-1/4 pointer-events-none" />
               <div className="absolute bottom-0 left-0 w-48 h-48 bg-black/[0.04] rounded-full blur-[60px] translate-y-1/3 -translate-x-1/4 pointer-events-none" />
               <div className="relative">
                 <h1 className="text-2xl sm:text-3xl font-bold text-black font-display">{selectedProject.name}</h1>
                 <div className="flex items-center gap-3 mt-2">
-                  <p className="text-sm text-black/60">{selectedProject.type}</p>
-                  <span className="text-xs px-3 py-1 rounded-full bg-black/10 text-black font-semibold border border-black/10">
+                  <p className="text-sm text-black/70">{selectedProject.type}</p>
+                  <span className="text-[10px] px-2.5 py-1 rounded-lg bg-black/10 text-black font-semibold border border-black/10">
                     {statusLabels[selectedProject.status] || selectedProject.status}
                   </span>
                 </div>
                 {/* Progress bar */}
                 <div className="mt-5 space-y-1.5">
                   <div className="flex justify-between text-xs">
-                    <span className="text-black/60">Progresso geral</span>
+                    <span className="text-black/70">Progresso geral</span>
                     <span className="font-bold text-black">{selectedProject.progress}%</span>
                   </div>
-                  <div className="h-2.5 bg-black/10 rounded-full overflow-hidden">
+                  <div className="h-2.5 bg-black/15 rounded-full overflow-hidden">
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{ width: `${selectedProject.progress}%` }}
-                      transition={{ duration: 0.8, ease: "easeOut", delay: 0.3 }}
+                      transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1], delay: 0.3 }}
                       className="h-full bg-black rounded-full"
                     />
                   </div>

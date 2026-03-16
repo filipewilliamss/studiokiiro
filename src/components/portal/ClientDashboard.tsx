@@ -542,7 +542,7 @@ const ClientDashboard = () => {
                           initial={{ opacity: 0, y: 10 }}
                           animate={{ opacity: 1, y: 0 }}
                           transition={{ delay: idx * 0.05 }}
-                          className="relative flex items-center justify-between p-4 rounded-xl border border-white/10 bg-white/5 hover:border-primary/20 hover:-translate-y-px hover:shadow-md transition-all duration-300 gap-3 group"
+                          className="relative flex items-center justify-between p-4 rounded-xl border border-white/10 bg-white/5 hover:border-primary/20 hover:-translate-y-0.5 hover:shadow-md transition-all duration-200 gap-3 group"
                         >
                           <div className="absolute left-0 top-2 bottom-2 w-[3px] bg-primary rounded-full scale-y-0 group-hover:scale-y-100 transition-transform duration-200 origin-center" />
                           <span className="text-sm text-white truncate flex-1 pl-2">{file.name}</span>

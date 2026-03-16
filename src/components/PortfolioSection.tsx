@@ -41,7 +41,7 @@ const PortfolioSection = () => {
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           style={{ y: headerY, opacity: headerOpacity }}
-          className="mb-24 md:mb-40"
+          className="mb-12 sm:mb-24 md:mb-40"
         >
           <motion.div
             initial={{ opacity: 0 }}

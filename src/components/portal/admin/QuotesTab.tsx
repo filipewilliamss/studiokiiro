@@ -21,12 +21,23 @@ interface Quote {
   profiles?: Profile;
 }
 
-const projectTypes = [
-  "Logotipo Essencial", "Identidade Visual", "Branding Completo", "Manual de Logotipo",
-  "Personal Brand Kit", "Design de Conteúdo para Redes Sociais", "Edição de Vídeo — Reels/Shorts",
-  "Edição de Vídeo — Institucional", "Edição de Vídeo — Tutorial/Educativo",
-  "Landing Page Simples", "Landing Page Completa", "Site Institucional", "Site Completo",
-];
+const projectDescriptions: Record<string, string> = {
+  "Logotipo Essencial": "Criação de logotipo profissional com versões principal, secundária e submark, incluindo paleta de cores e tipografia definida.",
+  "Identidade Visual": "Desenvolvimento completo de identidade visual com logotipo, paleta de cores, tipografia, elementos gráficos e manual básico de aplicação.",
+  "Branding Completo": "Estratégia de marca completa incluindo posicionamento, identidade visual, tom de voz, diretrizes de comunicação e manual de marca detalhado.",
+  "Manual de Logotipo": "Documentação técnica do logotipo com regras de uso, variações, área de proteção, aplicações corretas e incorretas, e especificações de cores.",
+  "Personal Brand Kit": "Kit de marca pessoal com identidade visual, templates para redes sociais, assinatura de e-mail e materiais de apresentação profissional.",
+  "Design de Conteúdo para Redes Sociais": "Criação de artes para feed e stories com identidade visual aplicada, incluindo templates editáveis e planejamento visual de grid.",
+  "Edição de Vídeo — Reels/Shorts": "Edição profissional de vídeos curtos para Reels e Shorts, com cortes dinâmicos, legendas, trilha sonora e motion graphics.",
+  "Edição de Vídeo — Institucional": "Edição de vídeo institucional com narrativa profissional, correção de cor, trilha sonora, legendas e finalização em alta qualidade.",
+  "Edição de Vídeo — Tutorial/Educativo": "Edição de vídeo tutorial/educativo com didática visual, destaques de tela, legendas, transições e organização de conteúdo.",
+  "Landing Page Simples": "Criação de landing page de alta conversão com design responsivo, seção hero, CTA principal e formulário de contato.",
+  "Landing Page Completa": "Landing page completa com múltiplas seções, depoimentos, FAQ, integrações e otimização para conversão e SEO.",
+  "Site Institucional": "Desenvolvimento de site institucional com páginas essenciais (home, sobre, serviços, contato), design responsivo e otimização SEO.",
+  "Site Completo": "Site completo com múltiplas páginas, blog, área de portfólio, integrações avançadas, painel administrativo e otimização de performance.",
+};
+
+const projectTypes = Object.keys(projectDescriptions);
 
 const formatCurrency = (v: number) =>
   new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(v);

@@ -723,7 +723,7 @@ const ClientDashboard = () => {
               <h1 className="text-2xl sm:text-3xl font-bold text-black font-display">
                 Olá, {profile?.full_name || "Cliente"}.
               </h1>
-              <p className="text-sm text-black/60 mt-2 max-w-lg">
+              <p className="text-sm text-black/70 mt-2 max-w-lg">
                 Seu projeto em tempo real. Atualizado por nós, visível por você.
               </p>
             </div>

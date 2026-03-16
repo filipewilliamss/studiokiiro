@@ -18,6 +18,7 @@ import { toast } from "sonner";
 import { briefingQuestions } from "@/data/briefingQuestions";
 import { motion, AnimatePresence } from "framer-motion";
 import kiiroLogo from "@/assets/logo.png";
+import ProposalGate from "./ProposalGate";
 
 interface Project {
   id: string; name: string; type: string; status: string; progress: number; deadline: string | null;

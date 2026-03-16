@@ -924,7 +924,7 @@ const ClientDashboard = () => {
                   key={order.id}
                   initial={{ opacity: 0, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  className="relative rounded-2xl border border-black/8 bg-white shadow-lg shadow-black/[0.03] p-6 hover:border-primary/20 hover:-translate-y-0.5 hover:shadow-xl transition-all duration-200 group overflow-hidden"
+                  className="relative rounded-2xl border border-white/10 bg-[#0a0a0a] p-6 hover:border-primary/20 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-black/20 transition-all duration-200 group overflow-hidden"
                 >
                   <div className="absolute left-0 top-3 bottom-3 w-[3px] bg-primary rounded-full scale-y-0 group-hover:scale-y-100 transition-transform duration-200 origin-center" />
                   <div className="flex items-start justify-between mb-2">
@@ -933,17 +933,17 @@ const ClientDashboard = () => {
                         <Hash className="h-4 w-4 text-primary" />
                         <span className="font-display font-bold text-primary">OS #{getOsHash(order)}</span>
                       </div>
-                      <p className="text-sm text-black mt-1 font-medium">{order.service_type}</p>
-                      {order.description && <p className="text-xs text-black/55 mt-0.5">{order.description}</p>}
+                      <p className="text-sm text-white mt-1 font-medium">{order.service_type}</p>
+                      {order.description && <p className="text-xs text-white/55 mt-0.5">{order.description}</p>}
                     </div>
-                    <p className="font-display font-bold text-xl text-black">{formatCurrencyValue(Number(order.total_value))}</p>
+                    <p className="font-display font-bold text-xl text-white">{formatCurrencyValue(Number(order.total_value))}</p>
                   </div>
                   <div className="flex items-center justify-between mt-3">
-                    <span className="text-xs text-black/50">
+                    <span className="text-xs text-white/50">
                       {new Date(order.created_at).toLocaleDateString("pt-BR")}
                       {order.deadline && ` · Prazo: ${new Date(order.deadline + "T00:00:00").toLocaleDateString("pt-BR")}`}
                     </span>
-                    <Button variant="outline" size="sm" className="gap-2 rounded-xl border-black/10 text-black" onClick={() => setViewOrder(order)}>
+                    <Button variant="outline" size="sm" className="gap-2 rounded-xl border-white/10 text-white hover:bg-white/10" onClick={() => setViewOrder(order)}>
                       <FileText className="h-3.5 w-3.5" />
                       Ver Documento
                     </Button>

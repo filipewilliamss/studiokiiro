@@ -934,7 +934,7 @@ const ClientDashboard = () => {
                         <span className="font-display font-bold text-primary">OS #{getOsHash(order)}</span>
                       </div>
                       <p className="text-sm text-black mt-1 font-medium">{order.service_type}</p>
-                      {order.description && <p className="text-xs text-black/40 mt-0.5">{order.description}</p>}
+                      {order.description && <p className="text-xs text-black/55 mt-0.5">{order.description}</p>}
                     </div>
                     <p className="font-display font-bold text-xl text-black">{formatCurrencyValue(Number(order.total_value))}</p>
                   </div>

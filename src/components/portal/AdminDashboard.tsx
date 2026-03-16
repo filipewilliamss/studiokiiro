@@ -178,8 +178,8 @@ const AdminDashboard = () => {
                     <span className="hidden sm:inline">{tab.label}</span>
                     {isActive && (
                       <motion.div
-                        layoutId="activeTabGlow"
-                        className="absolute inset-0 rounded-xl bg-white/10 -z-10"
+                        layoutId="adminActiveTabGlow"
+                        className="absolute inset-0 rounded-lg bg-white/10 -z-10"
                         transition={{ type: "spring", stiffness: 400, damping: 30 }}
                       />
                     )}

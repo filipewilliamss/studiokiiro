@@ -18,7 +18,11 @@ interface Quote {
   description: string | null; items: QuoteItem[]; total_value: number;
   payment_terms: string | null; validity_date: string | null; status: string;
   client_response_at: string | null; notes: string | null; created_at: string;
+  admin_confirmed: boolean;
   profiles?: Profile;
+}
+interface QuoteRejection {
+  id: string; reason: string; decision_factor: string | null; comment: string | null; created_at: string;
 }
 
 const projectDescriptions: Record<string, string> = {

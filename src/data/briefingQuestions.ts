@@ -304,6 +304,55 @@ const sitesLandingPages: BriefingQuestion[] = [
 ];
 
 // ==========================================
+// BRIEFING 08 — PERSONAL BRAND KIT
+// ==========================================
+const personalBrandKit: BriefingQuestion[] = [
+  { id: "s1", question: "Seção 1: Você e Sua Marca Pessoal", type: "section" },
+  { id: "brand_name", question: "Qual é o seu nome ou nome artístico que será usado como marca?", type: "text", required: true },
+  { id: "niche", question: "Qual é o seu nicho ou área de conteúdo principal?", type: "text", required: true, placeholder: "Ex: Finanças pessoais, moda sustentável, fitness, marketing digital, gastronomia" },
+  { id: "content_time", question: "Há quanto tempo você produz conteúdo online?", type: "select", options: ["Estou começando agora", "Menos de 6 meses", "Entre 6 meses e 1 ano", "Entre 1 e 3 anos", "Mais de 3 anos"], required: true },
+  { id: "platforms", question: "Em quais plataformas você está presente ou pretende estar? (Selecione todas que se aplicam)", type: "checkbox", options: ["Instagram", "TikTok", "YouTube", "LinkedIn", "Pinterest", "Podcast", "Twitter/X", "Outro"], required: true },
+  { id: "value_description", question: "Descreva brevemente o que você faz e que valor ou transformação entrega para quem te acompanha:", type: "textarea", required: true },
+
+  { id: "s2", question: "Seção 2: Sua Personalidade e Essência", type: "section" },
+  { id: "personality_adjectives", question: "Descreva sua personalidade em até 5 adjetivos:", type: "text", required: true, placeholder: "Ex: Direta, criativa, acolhedora, irreverente, sofisticada" },
+  { id: "place_metaphor", question: "Se você fosse um lugar do mundo, qual seria e por quê?", type: "textarea", placeholder: "Esta pergunta parece inusitada mas nos ajuda muito a entender sua essência visual" },
+  { id: "core_values", question: "Quais são os seus 3 valores inegociáveis como criador e como pessoa?", type: "textarea", required: true },
+  { id: "not_represent", question: "O que você definitivamente NÃO é e não quer que sua marca transmita?", type: "textarea", required: true, placeholder: "Esta resposta é tão importante quanto saber quem você é" },
+  { id: "first_impression", question: "Qual sentimento você quer provocar em alguém que entra no seu perfil pela primeira vez?", type: "textarea", required: true, placeholder: "Ex: Inspiração, confiança, pertencimento, leveza, sofisticação" },
+
+  { id: "s3", question: "Seção 3: Seu Público", type: "section" },
+  { id: "ideal_audience", question: "Descreva o perfil de quem você quer atrair com sua marca pessoal:", type: "textarea", required: true, placeholder: "Idade aproximada, estilo de vida, o que essa pessoa busca, quais são seus desejos e medos" },
+  { id: "unwanted_audience", question: "Quem você NÃO quer atrair? Descreva o perfil:", type: "textarea" },
+  { id: "audience_feedback", question: "O que seu público fala sobre você nos comentários ou mensagens que mais te orgulha?", type: "textarea" },
+
+  { id: "s4", question: "Seção 4: Estética e Referências Visuais", type: "section" },
+  { id: "visual_aesthetic", question: "Como você descreveria a estética visual que representa você?", type: "select", options: ["Clean e minimalista", "Colorido e vibrante", "Sofisticado e premium", "Orgânico e natural", "Escuro e misterioso", "Retrô e nostálgico", "Moderno e tech", "Ousado e impactante", "Sem preferência definida — quero uma recomendação", "Outro"], required: true, hasConditionalText: true },
+  { id: "liked_references", question: "Cole aqui perfis, feeds ou marcas que você admira visualmente e explique o que te atrai em cada um:", type: "textarea", placeholder: "Podem ser criadores, marcas, fotógrafos ou qualquer referência visual" },
+  { id: "disliked_references", question: "Cole aqui exemplos de estética que você definitivamente NÃO quer para sua marca:", type: "textarea" },
+  { id: "color_identity", question: "Existe alguma cor que representa você ou que você usa muito no dia a dia?", type: "textarea" },
+  { id: "color_avoid", question: "Existe alguma cor que você definitivamente não quer na sua identidade?", type: "textarea" },
+
+  { id: "s5", question: "Seção 5: Seu Conteúdo e Uso dos Templates", type: "section" },
+  { id: "content_types", question: "Quais tipos de conteúdo você publica com mais frequência? (Selecione todos que se aplicam)", type: "checkbox", options: ["Posts educativos ou informativos", "Posts de citações ou frases", "Carrosséis com passo a passo ou listas", "Stories de bastidores ou dia a dia", "Reels ou vídeos curtos", "Conteúdo de vendas ou divulgação", "Outro"], required: true },
+  { id: "canva_usage", question: "Você já usa o Canva para criar seus posts atualmente?", type: "select", options: ["Sim, uso com frequência", "Já usei mas não uso regularmente", "Nunca usei mas estou disposto a aprender", "Prefiro usar outra ferramenta"], required: true },
+  { id: "professional_photos", question: "Você tem fotos profissionais suas para usar nos templates e no feed?", type: "select", options: ["Sim, tenho um bom banco de fotos profissionais", "Tenho algumas fotos mas não são profissionais", "Não tenho fotos profissionais ainda"], required: true },
+
+  { id: "s6", question: "Seção 6: Situação Atual", type: "section" },
+  { id: "existing_visual", question: "Você já tem algum elemento visual criado para sua marca pessoal?", type: "select", options: ["Sim, tenho logo e identidade visual definida", "Tenho apenas um logo ou algo básico", "Não tenho nada definido ainda"], required: true },
+  { id: "existing_description", question: "Se marcou que já tem algo, envie ou descreva o que existe atualmente:", type: "textarea", placeholder: "Cole links do Google Drive, Dropbox ou WeTransfer com os arquivos" },
+  { id: "biggest_problem", question: "Qual é o maior problema visual que você sente na sua presença digital hoje?", type: "textarea", placeholder: "Ex: Falta consistência, parece amador, não representa quem sou, não sei como padronizar" },
+
+  { id: "s7", question: "Seção 7: Dados para Contato", type: "section" },
+  { id: "contact_name", question: "Nome completo:", type: "text", required: true },
+  { id: "contact_email", question: "E-mail para contato:", type: "email", required: true },
+  { id: "contact_phone", question: "WhatsApp:", type: "phone", required: true },
+  { id: "instagram_profile", question: "Perfil do Instagram (principal):", type: "text", required: true },
+  { id: "other_profiles", question: "Outros perfis relevantes (YouTube, TikTok, LinkedIn):", type: "text" },
+  { id: "how_found", question: "Como você nos encontrou?", type: "select", options: ["Instagram", "Indicação de amigo ou cliente", "Google", "LinkedIn", "Outro"], hasConditionalText: true },
+];
+
+// ==========================================
 // MAP TO PROJECT TYPES
 // ==========================================
 export const briefingQuestions: Record<string, BriefingQuestion[]> = {
@@ -311,6 +360,7 @@ export const briefingQuestions: Record<string, BriefingQuestion[]> = {
   "Identidade Visual": identidadeVisual,
   "Branding Completo": brandingCompleto,
   "Manual de Logotipo": manualLogotipo,
+  "Personal Brand Kit": personalBrandKit,
   "Design de Conteúdo para Redes Sociais": designRedesSociais,
   "Edição de Vídeo — Reels/Shorts": edicaoVideo,
   "Edição de Vídeo — Institucional": edicaoVideo,

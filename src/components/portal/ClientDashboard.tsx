@@ -358,8 +358,8 @@ const ClientDashboard = () => {
                     <ClipboardList className="h-5 w-5 text-primary" />
                   </div>
                   <div>
-                    <h3 className="text-sm font-semibold text-black">Briefing Pendente</h3>
-                    <p className="text-xs text-black/50 mt-0.5">
+                    <h3 className="text-sm font-semibold text-white">Briefing Pendente</h3>
+                    <p className="text-xs text-white/50 mt-0.5">
                       Responda o briefing para iniciarmos seu projeto.
                     </p>
                   </div>

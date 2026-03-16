@@ -856,7 +856,7 @@ const ClientDashboard = () => {
                 >
                   {/* Yellow accent line */}
                   <div className="absolute left-0 top-3 bottom-3 w-[3px] bg-primary rounded-full scale-y-0 group-hover:scale-y-100 transition-transform duration-200 origin-center" />
-                  <div className="flex items-start justify-between mb-3">
+                   <div className="flex flex-col sm:flex-row sm:items-start justify-between mb-3 gap-2">
                     <div>
                       <h3 className="font-semibold text-white group-hover:text-primary transition-colors">{project.name}</h3>
                       <p className="text-xs text-white/55 mt-0.5">{project.type}</p>

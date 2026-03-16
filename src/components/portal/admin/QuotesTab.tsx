@@ -334,6 +334,16 @@ const QuotesTab = () => {
                         <span className={`text-xs px-2 py-0.5 rounded-full font-medium flex items-center gap-1 ${cfg.color}`}>
                           {cfg.icon} {cfg.label}
                         </span>
+                        {quote.status === "aprovado" && !quote.admin_confirmed && (
+                          <span className="text-[10px] px-2 py-0.5 rounded-full font-medium flex items-center gap-1 bg-amber-500/10 text-amber-400">
+                            <Clock className="h-3 w-3" /> Aguardando confirmação
+                          </span>
+                        )}
+                        {quote.status === "aprovado" && quote.admin_confirmed && (
+                          <span className="text-[10px] px-2 py-0.5 rounded-full font-medium flex items-center gap-1 bg-emerald-500/10 text-emerald-400">
+                            <ShieldCheck className="h-3 w-3" /> Confirmado
+                          </span>
+                        )}
                       </div>
                       <h3 className="font-medium text-foreground">{(quote as any).profiles?.full_name || "—"}</h3>
                       <p className="text-xs text-muted-foreground">{quote.project_type}</p>

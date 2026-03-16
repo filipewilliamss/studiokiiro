@@ -77,7 +77,7 @@ const DashboardPageWrapper = ({ children }: { children: ReactNode }) => (
     <div
       className="fixed inset-0 pointer-events-none"
       style={{
-        background: "radial-gradient(ellipse 70% 50% at 50% 40%, hsl(0 0% 97%) 0%, transparent 100%)",
+        background: "radial-gradient(ellipse 70% 50% at 50% 40%, hsl(0 0% 8%) 0%, transparent 100%)",
       }}
     />
     <div

@@ -358,8 +358,8 @@ const ClientDashboard = () => {
                     <ClipboardList className="h-5 w-5 text-primary" />
                   </div>
                   <div>
-                    <h3 className="text-sm font-semibold text-black">Briefing Pendente</h3>
-                    <p className="text-xs text-black/50 mt-0.5">
+                    <h3 className="text-sm font-semibold text-white">Briefing Pendente</h3>
+                    <p className="text-xs text-white/50 mt-0.5">
                       Responda o briefing para iniciarmos seu projeto.
                     </p>
                   </div>
@@ -748,7 +748,7 @@ const ClientDashboard = () => {
                   key={quote.id}
                   initial={{ opacity: 0, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  className="rounded-2xl border border-black/8 bg-white shadow-lg shadow-black/[0.03] p-6 hover:-translate-y-0.5 hover:shadow-xl transition-all duration-200 group overflow-hidden relative"
+                  className="rounded-2xl border border-white/10 bg-[#0a0a0a] p-6 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-black/20 transition-all duration-200 group overflow-hidden relative"
                 >
                   <div className="flex items-start justify-between mb-3">
                     <div>
@@ -756,27 +756,27 @@ const ClientDashboard = () => {
                         <Hash className="h-4 w-4 text-primary" />
                         <span className="font-display font-bold text-primary">ORC-{String(quote.sequential_number).padStart(4, "0")}</span>
                       </div>
-                      <p className="text-sm text-black mt-1 font-medium">{quote.project_type}</p>
-                      {quote.description && <p className="text-xs text-black/55 mt-0.5">{quote.description}</p>}
+                      <p className="text-sm text-white mt-1 font-medium">{quote.project_type}</p>
+                      {quote.description && <p className="text-xs text-white/55 mt-0.5">{quote.description}</p>}
                     </div>
-                    <p className="font-display font-bold text-xl text-black">{formatCurrency(Number(quote.total_value))}</p>
+                    <p className="font-display font-bold text-xl text-white">{formatCurrency(Number(quote.total_value))}</p>
                   </div>
 
                   {/* Items */}
                   {(quote.items as any[])?.length > 0 && (
-                    <div className="border border-black/8 rounded-xl overflow-hidden mb-3">
+                    <div className="border border-white/10 rounded-xl overflow-hidden mb-3">
                       {(quote.items as any[]).map((item: any, idx: number) => (
-                        <div key={idx} className="flex items-center justify-between px-4 py-2.5 text-sm border-b border-black/5 last:border-0">
-                          <span className="text-black">{item.description}</span>
-                          <span className="text-black/55">{item.quantity}x {formatCurrency(item.unit_price)}</span>
+                        <div key={idx} className="flex items-center justify-between px-4 py-2.5 text-sm border-b border-white/5 last:border-0">
+                          <span className="text-white">{item.description}</span>
+                          <span className="text-white/55">{item.quantity}x {formatCurrency(item.unit_price)}</span>
                         </div>
                       ))}
                     </div>
                   )}
 
                   {quote.payment_terms && (
-                    <p className="text-xs text-black/40 mb-3">
-                      <span className="font-medium text-black/60">Condições:</span> {quote.payment_terms}
+                    <p className="text-xs text-white/40 mb-3">
+                      <span className="font-medium text-white/60">Condições:</span> {quote.payment_terms}
                     </p>
                   )}
 
@@ -816,9 +816,9 @@ const ClientDashboard = () => {
             <h2 className="text-[10px] font-semibold uppercase tracking-[0.3em] text-white/60">Projetos Ativos</h2>
           </div>
           {activeProjects.length === 0 ? (
-            <div className="rounded-2xl border border-black/8 bg-white shadow-lg shadow-black/[0.03] p-10 text-center">
-              <FolderOpen className="h-8 w-8 text-black/15 mx-auto mb-2" />
-              <p className="text-black/35 text-sm">Nenhum projeto ativo no momento.</p>
+            <div className="rounded-2xl border border-white/10 bg-[#0a0a0a] p-10 text-center">
+              <FolderOpen className="h-8 w-8 text-white/15 mx-auto mb-2" />
+              <p className="text-white/35 text-sm">Nenhum projeto ativo no momento.</p>
             </div>
           ) : (
             <div className="grid gap-4">
@@ -829,14 +829,14 @@ const ClientDashboard = () => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.1 + idx * 0.05 }}
                   onClick={() => openProjectDetail(project)}
-                  className="relative rounded-2xl border border-black/8 bg-white shadow-lg shadow-black/[0.03] p-6 hover:border-primary/20 hover:-translate-y-0.5 hover:shadow-xl transition-all duration-200 text-left w-full group overflow-hidden"
+                  className="relative rounded-2xl border border-white/10 bg-[#0a0a0a] p-6 hover:border-primary/20 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-black/20 transition-all duration-200 text-left w-full group overflow-hidden"
                 >
                   {/* Yellow accent line */}
                   <div className="absolute left-0 top-3 bottom-3 w-[3px] bg-primary rounded-full scale-y-0 group-hover:scale-y-100 transition-transform duration-200 origin-center" />
                   <div className="flex items-start justify-between mb-3">
                     <div>
-                      <h3 className="font-semibold text-black group-hover:text-primary transition-colors">{project.name}</h3>
-                      <p className="text-xs text-black/55 mt-0.5">{project.type}</p>
+                      <h3 className="font-semibold text-white group-hover:text-primary transition-colors">{project.name}</h3>
+                      <p className="text-xs text-white/55 mt-0.5">{project.type}</p>
                     </div>
                     <div className="flex items-center gap-2">
                       {!projectBriefingStatus[project.id] && (
@@ -844,17 +844,17 @@ const ClientDashboard = () => {
                           Briefing pendente
                         </span>
                       )}
-                      <span className="text-[10px] px-2.5 py-1 rounded-lg bg-primary/10 text-black font-semibold border border-primary/20">
+                      <span className="text-[10px] px-2.5 py-1 rounded-lg bg-primary/10 text-primary font-semibold border border-primary/20">
                         {statusLabels[project.status] || project.status}
                       </span>
                     </div>
                   </div>
                   <div className="space-y-1.5">
-                    <div className="flex justify-between text-xs text-black/55">
+                    <div className="flex justify-between text-xs text-white/55">
                       <span>Progresso</span>
-                      <span className="font-bold text-black">{project.progress}%</span>
+                      <span className="font-bold text-white">{project.progress}%</span>
                     </div>
-                    <div className="h-2 bg-black/8 rounded-full overflow-hidden">
+                    <div className="h-2 bg-white/10 rounded-full overflow-hidden">
                       <motion.div
                         initial={{ width: 0 }}
                         animate={{ width: `${project.progress}%` }}
@@ -864,7 +864,7 @@ const ClientDashboard = () => {
                     </div>
                   </div>
                   {project.deadline && (
-                    <div className="flex items-center gap-1.5 mt-3 text-xs text-black/50">
+                    <div className="flex items-center gap-1.5 mt-3 text-xs text-white/50">
                       <Clock className="h-3 w-3" />
                       <span>Previsão: {new Date(project.deadline).toLocaleDateString("pt-BR")}</span>
                     </div>
@@ -892,14 +892,14 @@ const ClientDashboard = () => {
                 <button
                   key={project.id}
                   onClick={() => openProjectDetail(project)}
-                  className="relative rounded-2xl border border-black/5 bg-white shadow-sm p-5 flex items-center justify-between hover:border-primary/15 hover:-translate-y-0.5 hover:shadow-md transition-all duration-200 w-full text-left group overflow-hidden"
+                  className="relative rounded-2xl border border-white/10 bg-[#0a0a0a] p-5 flex items-center justify-between hover:border-primary/15 hover:-translate-y-0.5 hover:shadow-md hover:shadow-black/20 transition-all duration-200 w-full text-left group overflow-hidden"
                 >
                   <div className="absolute left-0 top-2 bottom-2 w-[3px] bg-primary rounded-full scale-y-0 group-hover:scale-y-100 transition-transform duration-200 origin-center" />
                   <div>
-                    <h3 className="font-medium text-black text-sm">{project.name}</h3>
-                    <p className="text-xs text-black/50">{project.type}</p>
+                    <h3 className="font-medium text-white text-sm">{project.name}</h3>
+                    <p className="text-xs text-white/50">{project.type}</p>
                   </div>
-                  <span className="text-xs text-black/30">Entregue ✓</span>
+                  <span className="text-xs text-white/30">Entregue ✓</span>
                 </button>
               ))}
             </div>
@@ -924,7 +924,7 @@ const ClientDashboard = () => {
                   key={order.id}
                   initial={{ opacity: 0, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  className="relative rounded-2xl border border-black/8 bg-white shadow-lg shadow-black/[0.03] p-6 hover:border-primary/20 hover:-translate-y-0.5 hover:shadow-xl transition-all duration-200 group overflow-hidden"
+                  className="relative rounded-2xl border border-white/10 bg-[#0a0a0a] p-6 hover:border-primary/20 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-black/20 transition-all duration-200 group overflow-hidden"
                 >
                   <div className="absolute left-0 top-3 bottom-3 w-[3px] bg-primary rounded-full scale-y-0 group-hover:scale-y-100 transition-transform duration-200 origin-center" />
                   <div className="flex items-start justify-between mb-2">
@@ -933,17 +933,17 @@ const ClientDashboard = () => {
                         <Hash className="h-4 w-4 text-primary" />
                         <span className="font-display font-bold text-primary">OS #{getOsHash(order)}</span>
                       </div>
-                      <p className="text-sm text-black mt-1 font-medium">{order.service_type}</p>
-                      {order.description && <p className="text-xs text-black/55 mt-0.5">{order.description}</p>}
+                      <p className="text-sm text-white mt-1 font-medium">{order.service_type}</p>
+                      {order.description && <p className="text-xs text-white/55 mt-0.5">{order.description}</p>}
                     </div>
-                    <p className="font-display font-bold text-xl text-black">{formatCurrencyValue(Number(order.total_value))}</p>
+                    <p className="font-display font-bold text-xl text-white">{formatCurrencyValue(Number(order.total_value))}</p>
                   </div>
                   <div className="flex items-center justify-between mt-3">
-                    <span className="text-xs text-black/50">
+                    <span className="text-xs text-white/50">
                       {new Date(order.created_at).toLocaleDateString("pt-BR")}
                       {order.deadline && ` · Prazo: ${new Date(order.deadline + "T00:00:00").toLocaleDateString("pt-BR")}`}
                     </span>
-                    <Button variant="outline" size="sm" className="gap-2 rounded-xl border-black/10 text-black" onClick={() => setViewOrder(order)}>
+                    <Button variant="outline" size="sm" className="gap-2 rounded-xl border-white/10 text-white hover:bg-white/10" onClick={() => setViewOrder(order)}>
                       <FileText className="h-3.5 w-3.5" />
                       Ver Documento
                     </Button>
@@ -956,7 +956,7 @@ const ClientDashboard = () => {
 
         {/* OS View/Print Modal */}
         <Dialog open={!!viewOrder} onOpenChange={(o) => !o && setViewOrder(null)}>
-          <DialogContent className="sm:max-w-3xl max-h-[90vh] overflow-y-auto p-0">
+          <DialogContent className="sm:max-w-3xl max-h-[90vh] overflow-y-auto p-0 bg-[#0a0a0a] border-white/10">
             {viewOrder && (
               <>
                 <div className="flex justify-end gap-2 p-4 pb-0">

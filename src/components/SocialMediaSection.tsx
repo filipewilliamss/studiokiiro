@@ -21,7 +21,7 @@ const placeholderItems = [
     id: 3,
     title: "Carrosséis Educativos",
     description: "Design informativo que entrega valor e posiciona a marca como autoridade.",
-    image: socialMedia2,
+    image: carrosselMockup,
   },
   {
     id: 4,

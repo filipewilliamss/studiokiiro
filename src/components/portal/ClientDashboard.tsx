@@ -636,7 +636,7 @@ const ClientDashboard = () => {
               <TabsContent value="messages" className="space-y-4">
                 <div className="rounded-2xl border border-white/10 bg-black overflow-hidden">
                   <div className="px-6 pt-5 pb-3">
-                    <label className="text-[10px] uppercase tracking-[0.3em] text-white/40 font-semibold">Mensagens e Feedbacks</label>
+                    <label className="text-[10px] uppercase tracking-[0.3em] text-white/50 font-semibold">Mensagens e Feedbacks</label>
                   </div>
                   <div className="flex flex-col" style={{ height: "400px" }}>
                     <div className="flex-1 overflow-y-auto px-6 py-4 space-y-3">

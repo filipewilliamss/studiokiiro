@@ -145,7 +145,7 @@ const AdminDashboard = () => {
                       </div>
                       <div className="min-w-0">
                         <span className="block text-2xl sm:text-3xl font-bold font-display text-white leading-none">{card.value}</span>
-                        <span className="block text-[10px] uppercase tracking-[0.15em] text-white/50 mt-1 font-medium">{card.label}</span>
+                        <span className="block text-[10px] uppercase tracking-[0.15em] text-white/55 mt-1 font-medium">{card.label}</span>
                       </div>
                     </motion.div>
                   ))}

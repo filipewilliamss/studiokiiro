@@ -854,11 +854,11 @@ const ClientDashboard = () => {
                       <span>Progresso</span>
                       <span className="font-bold text-black">{project.progress}%</span>
                     </div>
-                    <div className="h-2 bg-black/5 rounded-full overflow-hidden">
+                    <div className="h-2 bg-black/8 rounded-full overflow-hidden">
                       <motion.div
                         initial={{ width: 0 }}
                         animate={{ width: `${project.progress}%` }}
-                        transition={{ duration: 0.6, delay: 0.2 + idx * 0.05 }}
+                        transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1], delay: 0.15 + idx * 0.05 }}
                         className="h-full bg-gradient-to-r from-primary to-kiiro-glow rounded-full"
                       />
                     </div>

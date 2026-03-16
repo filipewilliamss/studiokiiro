@@ -757,7 +757,7 @@ const ClientDashboard = () => {
                         <span className="font-display font-bold text-primary">ORC-{String(quote.sequential_number).padStart(4, "0")}</span>
                       </div>
                       <p className="text-sm text-black mt-1 font-medium">{quote.project_type}</p>
-                      {quote.description && <p className="text-xs text-black/40 mt-0.5">{quote.description}</p>}
+                      {quote.description && <p className="text-xs text-black/55 mt-0.5">{quote.description}</p>}
                     </div>
                     <p className="font-display font-bold text-xl text-black">{formatCurrency(Number(quote.total_value))}</p>
                   </div>

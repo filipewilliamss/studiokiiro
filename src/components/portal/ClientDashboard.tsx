@@ -1060,7 +1060,7 @@ const ClientDashboard = () => {
           </DialogContent>
         </Dialog>
       </main>
-    </PageWrapper>
+    </DashboardPageWrapper>
   );
 };
 

@@ -22,6 +22,9 @@ interface Payment {
   installments_paid: number;
   next_payment_date: string | null;
   notes: string | null;
+  has_commission: boolean;
+  commission_rate: number;
+  commission_amount: number;
   projects?: { name: string };
 }
 

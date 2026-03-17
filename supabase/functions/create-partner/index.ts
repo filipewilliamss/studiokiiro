@@ -16,24 +16,34 @@ Deno.serve(async (req) => {
       Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!
     );
 
-    // Verify caller is admin
-    const authHeader = req.headers.get("Authorization")!;
-    const { data: { user: caller } } = await supabaseAdmin.auth.getUser(
-      authHeader.replace("Bearer ", "")
-    );
-    if (!caller) throw new Error("Não autenticado");
-
-    const { data: roleData } = await supabaseAdmin
-      .from("user_roles")
-      .select("role")
-      .eq("user_id", caller.id)
-      .eq("role", "admin")
-      .single();
-    if (!roleData) throw new Error("Sem permissão de admin");
+    const authHeader = req.headers.get("Authorization");
+    
+    // Try auth-based admin check first, fall back to service role key check
+    let isAdmin = false;
+    
+    if (authHeader) {
+      const token = authHeader.replace("Bearer ", "");
+      // Check if it's the service role key itself (for internal calls)
+      if (token === Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")) {
+        isAdmin = true;
+      } else {
+        const { data: { user: caller } } = await supabaseAdmin.auth.getUser(token);
+        if (caller) {
+          const { data: roleData } = await supabaseAdmin
+            .from("user_roles")
+            .select("role")
+            .eq("user_id", caller.id)
+            .eq("role", "admin")
+            .single();
+          if (roleData) isAdmin = true;
+        }
+      }
+    }
+    
+    if (!isAdmin) throw new Error("Sem permissão de admin");
 
     const { email, full_name, password } = await req.json();
 
-    // Create user with password and auto-confirmed email
     const { data: newUser, error: createError } = await supabaseAdmin.auth.admin.createUser({
       email,
       password,
@@ -43,14 +53,12 @@ Deno.serve(async (req) => {
 
     if (createError) throw createError;
 
-    // Assign partner role
     const { error: roleError } = await supabaseAdmin
       .from("user_roles")
       .insert({ user_id: newUser.user.id, role: "partner" });
 
     if (roleError) throw roleError;
 
-    // Update profile
     const { error: updateError } = await supabaseAdmin
       .from("profiles")
       .update({ full_name })

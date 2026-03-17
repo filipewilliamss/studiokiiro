@@ -411,7 +411,18 @@ const FinanceTab = () => {
                     </div>
 
                     {payment.sales_rep && (
-                      <p className="text-[10px] text-muted-foreground pt-1">Vendedor: {payment.sales_rep}</p>
+                      <div className="flex items-center justify-between pt-1">
+                        <p className="text-[10px] text-muted-foreground">Vendedor: {payment.sales_rep}</p>
+                        {payment.has_commission && (
+                          <span className={`text-[10px] px-2 py-0.5 rounded-full border font-medium ${
+                            payment.commission_paid_to_partner
+                              ? "text-emerald-400 bg-emerald-400/10 border-emerald-400/20"
+                              : "text-primary bg-primary/10 border-primary/20"
+                          }`}>
+                            Comissão: {payment.commission_paid_to_partner ? "Paga" : "Pendente"}
+                          </span>
+                        )}
+                      </div>
                     )}
                     {payment.notes && <p className="text-xs text-muted-foreground border-t border-border pt-2">{payment.notes}</p>}
                   </div>

@@ -2,6 +2,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import LoginPage from "@/components/portal/LoginPage";
 import AdminDashboard from "@/components/portal/AdminDashboard";
 import ClientDashboard from "@/components/portal/ClientDashboard";
+import PartnerDashboard from "@/components/portal/PartnerDashboard";
 
 const AreaDoCliente = () => {
   const { user, role, loading } = useAuth();
@@ -20,6 +21,10 @@ const AreaDoCliente = () => {
 
   if (role === "admin") {
     return <AdminDashboard />;
+  }
+
+  if (role === "partner") {
+    return <PartnerDashboard />;
   }
 
   return <ClientDashboard />;

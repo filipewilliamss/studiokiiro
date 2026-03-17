@@ -81,6 +81,7 @@ const SaleFormDialog = ({ open, onOpenChange, editingPayment, servicePrices, onS
         other_costs: String(editingPayment.other_costs ?? ""),
         payment_fees_pct: String(editingPayment.payment_fees_pct ?? ""),
         payment_status: editingPayment.payment_status ?? "pendente",
+        commission_paid_to_partner: editingPayment.commission_paid_to_partner ?? false,
       });
     } else {
       setForm({ ...defaultForm, sale_date: new Date().toISOString().split("T")[0] });

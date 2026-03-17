@@ -133,6 +133,8 @@ export type Database = {
         Row: {
           budget_total: number
           commission_amount: number
+          commission_paid_date: string | null
+          commission_paid_to_partner: boolean
           commission_rate: number
           created_at: string
           freelancer_cost: number | null
@@ -159,6 +161,8 @@ export type Database = {
         Insert: {
           budget_total?: number
           commission_amount?: number
+          commission_paid_date?: string | null
+          commission_paid_to_partner?: boolean
           commission_rate?: number
           created_at?: string
           freelancer_cost?: number | null
@@ -185,6 +189,8 @@ export type Database = {
         Update: {
           budget_total?: number
           commission_amount?: number
+          commission_paid_date?: string | null
+          commission_paid_to_partner?: boolean
           commission_rate?: number
           created_at?: string
           freelancer_cost?: number | null
@@ -313,6 +319,7 @@ export type Database = {
           description: string | null
           id: string
           name: string
+          partner_notes: string | null
           priority: string
           progress: number
           start_date: string | null
@@ -327,6 +334,7 @@ export type Database = {
           description?: string | null
           id?: string
           name: string
+          partner_notes?: string | null
           priority?: string
           progress?: number
           start_date?: string | null
@@ -341,6 +349,7 @@ export type Database = {
           description?: string | null
           id?: string
           name?: string
+          partner_notes?: string | null
           priority?: string
           progress?: number
           start_date?: string | null
@@ -581,6 +590,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      get_partner_name: { Args: { _user_id: string }; Returns: string }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]

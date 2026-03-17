@@ -133,6 +133,8 @@ const SaleFormDialog = ({ open, onOpenChange, editingPayment, servicePrices, onS
       payment_fees_pct: feesPct,
       payment_fees_amount: feesAmount,
       payment_status: form.payment_status,
+      commission_paid_to_partner: form.commission_paid_to_partner,
+      commission_paid_date: form.commission_paid_to_partner ? new Date().toISOString().split("T")[0] : null,
     };
 
     if (editingPayment) {

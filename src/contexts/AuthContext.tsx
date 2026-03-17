@@ -32,20 +32,26 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [loading, setLoading] = useState(true);
 
   const fetchUserData = async (userId: string) => {
-    const [rolesRes, profileRes] = await Promise.all([
-      supabase.from("user_roles").select("role").eq("user_id", userId),
-      supabase.from("profiles").select("full_name, company").eq("user_id", userId).single(),
-    ]);
+    try {
+      const [rolesRes, profileRes] = await Promise.all([
+        supabase.from("user_roles").select("role").eq("user_id", userId),
+        supabase.from("profiles").select("full_name, company").eq("user_id", userId).single(),
+      ]);
 
-    if (rolesRes.data && rolesRes.data.length > 0) {
-      setRole(rolesRes.data[0].role);
-    } else {
+      if (rolesRes.data && rolesRes.data.length > 0) {
+        setRole(rolesRes.data[0].role);
+      } else {
+        setRole("client");
+      }
+
+      if (profileRes.data) {
+        setProfile(profileRes.data);
+      } else {
+        setProfile(null);
+      }
+    } catch (err) {
+      console.error("Error fetching user data:", err);
       setRole("client");
-    }
-
-    if (profileRes.data) {
-      setProfile(profileRes.data);
-    } else {
       setProfile(null);
     }
   };

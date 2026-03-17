@@ -23,6 +23,7 @@ interface Project {
   id: string; name: string; type: string; status: string;
   progress: number; deadline: string | null; start_date: string | null;
   description: string | null; client_id: string; priority: string;
+  partner_notes: string | null;
   profiles?: Profile;
 }
 interface Stage {

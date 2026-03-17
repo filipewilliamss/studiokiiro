@@ -59,6 +59,7 @@ const emptyForm = {
 };
 
 const ServiceOrdersTab = () => {
+  const { user } = useAuth();
   const [orders, setOrders] = useState<ServiceOrder[]>([]);
   const [clients, setClients] = useState<Profile[]>([]);
   const [projects, setProjects] = useState<Project[]>([]);
@@ -77,12 +78,17 @@ const ServiceOrdersTab = () => {
       supabase.from("profiles").select("id, full_name, company, phone, email"),
       supabase.from("projects").select("id, name, type"),
     ]);
+
+    if (ordersRes.error || clientsRes.error || projectsRes.error) return;
     if (ordersRes.data) setOrders(ordersRes.data as any);
     if (clientsRes.data) setClients(clientsRes.data);
     if (projectsRes.data) setProjects(projectsRes.data);
   };
 
-  useEffect(() => { fetchAll(); }, []);
+  useEffect(() => {
+    if (!user) return;
+    fetchAll();
+  }, [user?.id]);
 
   const calcTotal = (items: ServiceItem[]) =>
     items.reduce((sum, item) => sum + (item.qty * item.unit_price), 0);

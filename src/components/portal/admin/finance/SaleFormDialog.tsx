@@ -6,7 +6,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Switch } from "@/components/ui/switch";
-import { Percent } from "lucide-react";
+import { Percent, DollarSign } from "lucide-react";
 import { toast } from "sonner";
 import { Payment, ServicePrice, Profile, formatCurrency, PAYMENT_METHODS, PAYMENT_STATUSES, statusLabels } from "./types";
 

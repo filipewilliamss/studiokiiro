@@ -24,7 +24,47 @@ const FinanceTab = () => {
   const [open, setOpen] = useState(false);
   const [editingPayment, setEditingPayment] = useState<Payment | null>(null);
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
-...
+
+  // Filters
+  const now = new Date();
+  const [filterMonth, setFilterMonth] = useState(`${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`);
+  const [filterService, setFilterService] = useState("all");
+  const [filterStatus, setFilterStatus] = useState("all");
+
+  const fetchAll = () => {
+    fetchPayments();
+    fetchFixedCosts();
+    fetchServicePrices();
+    fetchMonthlyGoals();
+  };
+
+  const fetchPayments = async () => {
+    const { data, error } = await supabase.from("payments").select("*, projects(name, type)").order("sale_date", { ascending: false });
+    if (error) {
+      toast.error("Não foi possível carregar o financeiro");
+      return;
+    }
+    if (data) setPayments(data as any);
+  };
+
+  const fetchFixedCosts = async () => {
+    const { data, error } = await supabase.from("fixed_costs").select("*").order("sort_order");
+    if (error) return;
+    if (data) setFixedCosts(data as any);
+  };
+
+  const fetchServicePrices = async () => {
+    const { data, error } = await supabase.from("service_prices").select("*").order("sort_order");
+    if (error) return;
+    if (data) setServicePrices(data as any);
+  };
+
+  const fetchMonthlyGoals = async () => {
+    const { data, error } = await supabase.from("monthly_goals").select("*");
+    if (error) return;
+    if (data) setMonthlyGoals(data as any);
+  };
+
   useEffect(() => {
     if (!user) return;
     fetchAll();

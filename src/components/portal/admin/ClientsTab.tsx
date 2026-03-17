@@ -10,7 +10,26 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 import { Checkbox } from "@/components/ui/checkbox";
 import { UserPlus, Building2, Mail, Phone, Search, Trash2, Pencil, Users } from "lucide-react";
 import { toast } from "sonner";
-...
+
+interface Profile {
+  id: string;
+  user_id: string;
+  full_name: string;
+  email: string | null;
+  phone: string | null;
+  company: string | null;
+  client_type: string | null;
+  notes: string | null;
+  created_at: string;
+}
+
+const clientTypeLabels: Record<string, string> = {
+  novo: "Novo",
+  ativo: "Ativo",
+  recorrente: "Recorrente",
+  inativo: "Inativo",
+};
+
 const ClientsTab = () => {
   const { user } = useAuth();
   const [clients, setClients] = useState<Profile[]>([]);

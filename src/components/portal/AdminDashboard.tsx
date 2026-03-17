@@ -24,25 +24,33 @@ const tabs = [
 type TabKey = (typeof tabs)[number]["key"];
 
 const AdminDashboard = () => {
-  const { profile, signOut } = useAuth();
+  const { profile, signOut, user } = useAuth();
   const [activeTab, setActiveTab] = useState<TabKey>("clients");
   const [counts, setCounts] = useState({ clients: 0, projects: 0, quotes: 0 });
 
   useEffect(() => {
     const fetchCounts = async () => {
-      const [{ count: clientCount }, { count: projectCount }, { count: quoteCount }] = await Promise.all([
+      if (!user) return;
+
+      const [clientsRes, projectsRes, quotesRes] = await Promise.all([
         supabase.from("profiles").select("*", { count: "exact", head: true }),
         supabase.from("projects").select("*", { count: "exact", head: true }).in("status", ["em_andamento", "em andamento", "ativo"]),
         supabase.from("quotes").select("*", { count: "exact", head: true }).eq("status", "pendente"),
       ]);
+
+      if (clientsRes.error || projectsRes.error || quotesRes.error) {
+        return;
+      }
+
       setCounts({
-        clients: clientCount ?? 0,
-        projects: projectCount ?? 0,
-        quotes: quoteCount ?? 0,
+        clients: clientsRes.count ?? 0,
+        projects: projectsRes.count ?? 0,
+        quotes: quotesRes.count ?? 0,
       });
     };
+
     fetchCounts();
-  }, [activeTab]);
+  }, [activeTab, user?.id]);
 
   const summaryCards = [
     { label: "Clientes ativos", value: counts.clients, icon: Users },

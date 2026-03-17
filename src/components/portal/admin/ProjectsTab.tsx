@@ -109,7 +109,11 @@ const ProjectsTab = () => {
     if (data) setClients(data);
   };
 
-  useEffect(() => { fetchProjects(); fetchClients(); }, []);
+  useEffect(() => {
+    if (!user) return;
+    fetchProjects();
+    fetchClients();
+  }, [user?.id]);
 
   // Realtime messages
   useEffect(() => {

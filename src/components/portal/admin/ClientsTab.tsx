@@ -48,10 +48,24 @@ const ClientsTab = () => {
   });
 
   const fetchClients = async () => {
-    const { data, error } = await supabase
+    // First get user_ids that have admin or partner roles (to exclude them)
+    const { data: roleUsers } = await supabase
+      .from("user_roles")
+      .select("user_id")
+      .in("role", ["admin", "partner"]);
+
+    const excludeIds = (roleUsers || []).map((r) => r.user_id);
+
+    let query = supabase
       .from("profiles")
       .select("*")
       .order("created_at", { ascending: false });
+
+    if (excludeIds.length > 0) {
+      query = query.not("user_id", "in", `(${excludeIds.join(",")})`);
+    }
+
+    const { data, error } = await query;
 
     if (error) {
       toast.error("Não foi possível carregar os clientes");

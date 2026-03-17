@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
+import { createContext, useContext, useEffect, useState, useCallback, type ReactNode } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import type { User, Session } from "@supabase/supabase-js";
 
@@ -31,53 +31,77 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [profile, setProfile] = useState<{ full_name: string; company: string | null } | null>(null);
   const [loading, setLoading] = useState(true);
 
-  const fetchUserData = async (userId: string) => {
-    try {
-      const [rolesRes, profileRes] = await Promise.all([
-        supabase.from("user_roles").select("role").eq("user_id", userId),
-        supabase.from("profiles").select("full_name, company").eq("user_id", userId).single(),
-      ]);
-
-      if (rolesRes.data && rolesRes.data.length > 0) {
-        setRole(rolesRes.data[0].role);
-      } else {
-        setRole("client");
-      }
-
-      if (profileRes.data) {
-        setProfile(profileRes.data);
-      } else {
-        setProfile(null);
-      }
-    } catch (err) {
-      console.error("Error fetching user data:", err);
-      setRole("client");
+  // Separate effect for fetching user data when user changes
+  // This avoids the race condition of querying DB inside onAuthStateChange
+  useEffect(() => {
+    if (!user) {
+      setRole(null);
       setProfile(null);
+      return;
     }
-  };
 
+    let cancelled = false;
+
+    const fetchUserData = async () => {
+      try {
+        // Small delay to ensure the auth token is fully propagated
+        await new Promise((r) => setTimeout(r, 100));
+
+        const [rolesRes, profileRes] = await Promise.all([
+          supabase.from("user_roles").select("role").eq("user_id", user.id),
+          supabase.from("profiles").select("full_name, company").eq("user_id", user.id).single(),
+        ]);
+
+        if (cancelled) return;
+
+        if (rolesRes.data && rolesRes.data.length > 0) {
+          setRole(rolesRes.data[0].role as UserRole);
+        } else {
+          setRole("client");
+        }
+
+        if (profileRes.data) {
+          setProfile(profileRes.data);
+        } else {
+          setProfile(null);
+        }
+      } catch (err) {
+        console.error("Error fetching user data:", err);
+        if (!cancelled) {
+          setRole("client");
+          setProfile(null);
+        }
+      }
+    };
+
+    fetchUserData();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [user?.id]);
+
+  // Auth listener + initial session
   useEffect(() => {
     let initialized = false;
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (_event, session) => {
+      (_event, session) => {
         setSession(session);
         setUser(session?.user ?? null);
 
-        if (session?.user) {
-          await fetchUserData(session.user.id);
-        } else {
-          setRole(null);
-          setProfile(null);
-        }
         if (!initialized) {
           initialized = true;
-          setLoading(false);
+          // If no user, stop loading immediately
+          // If user exists, loading will stop after fetchUserData completes (via the other effect)
+          if (!session?.user) {
+            setLoading(false);
+          }
         }
       }
     );
 
-    // Fallback timeout to prevent infinite loading
+    // Fallback timeout
     const timeout = setTimeout(() => {
       if (!initialized) {
         initialized = true;
@@ -91,13 +115,25 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     };
   }, []);
 
-  const signOut = async () => {
-    await supabase.auth.signOut();
+  // Stop loading once role is determined (for logged-in users)
+  useEffect(() => {
+    if (role !== null && loading) {
+      setLoading(false);
+    }
+  }, [role, loading]);
+
+  const signOut = useCallback(async () => {
+    try {
+      await supabase.auth.signOut();
+    } catch (err) {
+      console.error("Error signing out:", err);
+    }
+    // Always clear state, even if signOut fails
     setUser(null);
     setSession(null);
     setRole(null);
     setProfile(null);
-  };
+  }, []);
 
   return (
     <AuthContext.Provider value={{ user, session, role, profile, loading, signOut }}>

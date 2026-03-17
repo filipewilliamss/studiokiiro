@@ -277,10 +277,10 @@ const PartnerDashboard = () => {
                 <span className="text-[10px] uppercase tracking-[0.3em] text-black font-bold">Parceiro ativo</span>
               </div>
               <h1 className="font-display text-2xl sm:text-3xl font-bold text-black leading-tight mb-3">
-                Painel do Parceiro — Studio Kiiro
+                Olá {profile?.full_name || "Parceiro"}
               </h1>
               <p className="text-sm text-black/70 max-w-xl">
-                Acompanhe o andamento dos projetos que você trouxe para o estúdio e suas comissões.
+                Seja bem-vindo ao seu painel de parceiro do Studio Kiiro. Acompanhe o andamento dos projetos que você trouxe para o estúdio e suas comissões.
               </p>
             </div>
           </div>

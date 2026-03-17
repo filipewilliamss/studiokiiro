@@ -131,9 +131,7 @@ const AdminDashboard = () => {
                     <span className="text-[10px] uppercase tracking-[0.3em] text-black font-bold">Painel ativo</span>
                   </div>
                   <h1 className="font-display text-2xl sm:text-3xl lg:text-[2.5rem] font-bold text-black leading-[1.15] mb-4">
-                    Bem-vindo ao seu estúdio
-                    <br />
-                    dentro do Studio Kiiro.
+                    Bem-vindo {profile?.full_name || ""}, ao sistema do Studio Kiiro.
                   </h1>
                   <p className="text-black/70 text-sm sm:text-[15px] leading-relaxed max-w-xl">
                     Aqui você acompanha clientes, projetos, orçamentos, finanças e ordens de serviço com a mesma atenção aos detalhes que colocamos no design.

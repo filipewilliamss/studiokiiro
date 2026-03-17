@@ -150,40 +150,64 @@ const FinanceTab = () => {
           <BarChart3 className="h-4 w-4 text-primary" />
           <h2 className="text-sm font-bold uppercase tracking-wider text-foreground">Indicadores — {monthLabel(filterMonth)}</h2>
         </div>
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
-          {[
-            { label: "Faturamento Bruto", value: kpi.revenue, color: "text-primary" },
-            { label: "Custos de Venda", value: kpi.salesCosts, color: "text-rose-400" },
-            { label: "Margem Contribuição", value: kpi.contributionMargin, color: kpi.contributionMargin >= 0 ? "text-emerald-400" : "text-destructive" },
-            { label: "Custos Fixos", value: totalFixedCosts, color: "text-amber-400" },
-            { label: "Lucro Operacional", value: kpi.operatingProfit, color: kpi.operatingProfit >= 0 ? "text-emerald-400" : "text-destructive" },
-            { label: `Lucro Líquido (${taxRate}% imp.)`, value: kpi.netProfit, color: kpi.netProfit >= 0 ? "text-emerald-400" : "text-destructive" },
-            { label: "% Custos s/ Fat.", value: null, color: "text-muted-foreground", pct: kpi.commissionPct },
-          ].map((card, i) => (
-            <motion.div
-              key={card.label}
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.05 }}
-              className="bg-card border border-border rounded-xl p-4 space-y-1"
-            >
-              <span className="text-[10px] uppercase tracking-wider text-muted-foreground">{card.label}</span>
-              <p className={`text-lg font-bold ${card.color}`} style={{ fontFamily: "var(--font-display)" }}>
-                {card.pct !== undefined ? `${card.pct.toFixed(1)}%` : formatCurrency(card.value!)}
-              </p>
-            </motion.div>
-          ))}
-        </div>
-        {/* Ticket médio */}
-        {kpi.avgTicket.length > 0 && (
-          <div className="flex flex-wrap gap-2">
-            {kpi.avgTicket.map(t => (
-              <div key={t.type} className="bg-card border border-border rounded-lg px-3 py-2">
-                <span className="text-[10px] uppercase tracking-wider text-muted-foreground block">Ticket Médio — {t.type}</span>
-                <span className="text-sm font-semibold text-foreground">{formatCurrency(t.avg)}</span>
-              </div>
+        <TooltipProvider delayDuration={200}>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+            {[
+              { label: "Faturamento Bruto", value: kpi.revenue, color: "text-primary", tip: "Soma de todos os valores fechados no período." },
+              { label: "Custos de Venda", value: kpi.salesCosts, color: "text-rose-400", tip: "Comissões + taxas + custos diretos dos projetos." },
+              { label: "Margem Contribuição", value: kpi.contributionMargin, color: kpi.contributionMargin >= 0 ? "text-emerald-400" : "text-destructive", tip: "Faturamento − Custos de venda." },
+              { label: "Custos Fixos", value: totalFixedCosts, color: "text-amber-400", tip: "Soma dos custos fixos mensais cadastrados." },
+              { label: "Lucro Operacional", value: kpi.operatingProfit, color: kpi.operatingProfit >= 0 ? "text-emerald-400" : "text-destructive", tip: "Margem de contribuição − Custos fixos." },
+              { label: `Lucro Líquido (${taxRate}% imp.)`, value: kpi.netProfit, color: kpi.netProfit >= 0 ? "text-emerald-400" : "text-destructive", tip: "Lucro operacional − Impostos estimados." },
+              { label: "% Custos de Venda / Faturamento", value: null, color: "text-muted-foreground", pct: kpi.commissionPct, tip: "Custos de venda ÷ Faturamento × 100." },
+            ].map((card, i) => (
+              <motion.div
+                key={card.label}
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.05 }}
+                className="bg-card border border-border rounded-xl p-4 space-y-1"
+              >
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <span className="text-[10px] uppercase tracking-wider text-muted-foreground flex items-center gap-1 cursor-help">
+                      {card.label}
+                      <Info className="h-2.5 w-2.5 opacity-50" />
+                    </span>
+                  </TooltipTrigger>
+                  <TooltipContent side="top" className="max-w-[200px] text-xs">
+                    {card.tip}
+                  </TooltipContent>
+                </Tooltip>
+                <p className={`text-lg font-bold ${card.color}`} style={{ fontFamily: "var(--font-display)" }}>
+                  {card.pct !== undefined ? `${card.pct.toFixed(1)}%` : formatCurrency(card.value!)}
+                </p>
+              </motion.div>
             ))}
           </div>
+        </TooltipProvider>
+        {/* Ticket médio */}
+        {kpi.avgTicket.length > 0 && (
+          <TooltipProvider delayDuration={200}>
+            <div className="flex flex-wrap gap-2">
+              {kpi.avgTicket.map(t => (
+                <div key={t.type} className="bg-card border border-border rounded-lg px-3 py-2">
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <span className="text-[10px] uppercase tracking-wider text-muted-foreground block cursor-help flex items-center gap-1">
+                        Ticket Médio — {t.type}
+                        <Info className="h-2.5 w-2.5 opacity-50" />
+                      </span>
+                    </TooltipTrigger>
+                    <TooltipContent side="top" className="max-w-[200px] text-xs">
+                      Faturamento ÷ número de projetos no período.
+                    </TooltipContent>
+                  </Tooltip>
+                  <span className="text-sm font-semibold text-foreground">{formatCurrency(t.avg)}</span>
+                </div>
+              ))}
+            </div>
+          </TooltipProvider>
         )}
       </div>
 

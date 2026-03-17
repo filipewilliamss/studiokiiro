@@ -43,6 +43,30 @@ export type Database = {
           },
         ]
       }
+      fixed_costs: {
+        Row: {
+          created_at: string
+          id: string
+          name: string
+          sort_order: number
+          value: number
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          name: string
+          sort_order?: number
+          value?: number
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name?: string
+          sort_order?: number
+          value?: number
+        }
+        Relationships: []
+      }
       messages: {
         Row: {
           content: string
@@ -75,12 +99,43 @@ export type Database = {
           },
         ]
       }
+      monthly_goals: {
+        Row: {
+          created_at: string
+          id: string
+          month: string
+          profit_goal: number
+          revenue_goal: number
+          tax_rate: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          month: string
+          profit_goal?: number
+          revenue_goal?: number
+          tax_rate?: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          month?: string
+          profit_goal?: number
+          revenue_goal?: number
+          tax_rate?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
       payments: {
         Row: {
           budget_total: number
           commission_amount: number
           commission_rate: number
           created_at: string
+          freelancer_cost: number | null
           has_commission: boolean
           id: string
           initial_payment: number | null
@@ -89,8 +144,16 @@ export type Database = {
           installments_total: number | null
           next_payment_date: string | null
           notes: string | null
+          other_costs: number | null
+          payment_fees_amount: number | null
+          payment_fees_pct: number | null
+          payment_method: string | null
+          payment_status: string | null
           project_id: string
           remaining_amount: number | null
+          sale_date: string | null
+          sales_rep: string | null
+          service_price_id: string | null
           updated_at: string
         }
         Insert: {
@@ -98,6 +161,7 @@ export type Database = {
           commission_amount?: number
           commission_rate?: number
           created_at?: string
+          freelancer_cost?: number | null
           has_commission?: boolean
           id?: string
           initial_payment?: number | null
@@ -106,8 +170,16 @@ export type Database = {
           installments_total?: number | null
           next_payment_date?: string | null
           notes?: string | null
+          other_costs?: number | null
+          payment_fees_amount?: number | null
+          payment_fees_pct?: number | null
+          payment_method?: string | null
+          payment_status?: string | null
           project_id: string
           remaining_amount?: number | null
+          sale_date?: string | null
+          sales_rep?: string | null
+          service_price_id?: string | null
           updated_at?: string
         }
         Update: {
@@ -115,6 +187,7 @@ export type Database = {
           commission_amount?: number
           commission_rate?: number
           created_at?: string
+          freelancer_cost?: number | null
           has_commission?: boolean
           id?: string
           initial_payment?: number | null
@@ -123,8 +196,16 @@ export type Database = {
           installments_total?: number | null
           next_payment_date?: string | null
           notes?: string | null
+          other_costs?: number | null
+          payment_fees_amount?: number | null
+          payment_fees_pct?: number | null
+          payment_method?: string | null
+          payment_status?: string | null
           project_id?: string
           remaining_amount?: number | null
+          sale_date?: string | null
+          sales_rep?: string | null
+          service_price_id?: string | null
           updated_at?: string
         }
         Relationships: [
@@ -133,6 +214,13 @@ export type Database = {
             columns: ["project_id"]
             isOneToOne: false
             referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "payments_service_price_id_fkey"
+            columns: ["service_price_id"]
+            isOneToOne: false
+            referencedRelation: "service_prices"
             referencedColumns: ["id"]
           },
         ]
@@ -439,6 +527,36 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      service_prices: {
+        Row: {
+          category: string
+          created_at: string
+          current_price: number
+          id: string
+          name: string
+          sort_order: number
+          target_price: number
+        }
+        Insert: {
+          category: string
+          created_at?: string
+          current_price?: number
+          id?: string
+          name: string
+          sort_order?: number
+          target_price?: number
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          current_price?: number
+          id?: string
+          name?: string
+          sort_order?: number
+          target_price?: number
+        }
+        Relationships: []
       }
       user_roles: {
         Row: {

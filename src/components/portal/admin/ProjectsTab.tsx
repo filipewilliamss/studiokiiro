@@ -531,6 +531,24 @@ const ProjectsTab = () => {
                       </Select>
                     </div>
 
+                    {/* Partner notes */}
+                    <div className="space-y-2">
+                      <label className="text-xs uppercase tracking-wider text-muted-foreground font-medium">Observação do Studio (visível para o parceiro)</label>
+                      <Textarea
+                        defaultValue={selectedProject.partner_notes || ""}
+                        rows={3}
+                        placeholder="Ex.: Aguardar resposta do cliente até sexta..."
+                        onBlur={async (e) => {
+                          const val = e.target.value.trim() || null;
+                          if (val !== selectedProject.partner_notes) {
+                            await supabase.from("projects").update({ partner_notes: val }).eq("id", selectedProject.id);
+                            setSelectedProject({ ...selectedProject, partner_notes: val });
+                            toast.success("Observação salva");
+                          }
+                        }}
+                      />
+                    </div>
+
                     {/* Stages */}
                     <div className="space-y-3">
                       <div className="flex items-center justify-between">

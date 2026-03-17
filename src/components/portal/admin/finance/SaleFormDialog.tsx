@@ -39,6 +39,7 @@ const defaultForm = {
   other_costs: "",
   payment_fees_pct: "",
   payment_status: "pendente",
+  commission_paid_to_partner: false,
 };
 
 const SaleFormDialog = ({ open, onOpenChange, editingPayment, servicePrices, onSaved }: Props) => {

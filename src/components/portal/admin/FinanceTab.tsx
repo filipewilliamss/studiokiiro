@@ -7,7 +7,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { Checkbox } from "@/components/ui/checkbox";
-import { DollarSign, Plus, Calendar, CreditCard, TrendingUp, Trash2, Pencil } from "lucide-react";
+import { Switch } from "@/components/ui/switch";
+import { DollarSign, Plus, Calendar, CreditCard, TrendingUp, Trash2, Pencil, Percent } from "lucide-react";
 import { toast } from "sonner";
 
 interface Project { id: string; name: string; }
@@ -22,11 +23,29 @@ interface Payment {
   installments_paid: number;
   next_payment_date: string | null;
   notes: string | null;
+  has_commission: boolean;
+  commission_rate: number;
+  commission_amount: number;
   projects?: { name: string };
 }
 
 const formatCurrency = (v: number) =>
   new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(v);
+
+const COMMISSION_RATE = 30;
+
+const defaultForm = {
+  project_id: "",
+  budget_total: "",
+  initial_payment: "",
+  initial_payment_date: "",
+  remaining_amount: "",
+  installments_total: "1",
+  installments_paid: "0",
+  next_payment_date: "",
+  notes: "",
+  has_commission: false,
+};
 
 const FinanceTab = () => {
   const [payments, setPayments] = useState<Payment[]>([]);
@@ -35,17 +54,7 @@ const FinanceTab = () => {
   const [loading, setLoading] = useState(false);
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
   const [editingPayment, setEditingPayment] = useState<Payment | null>(null);
-  const [form, setForm] = useState({
-    project_id: "",
-    budget_total: "",
-    initial_payment: "",
-    initial_payment_date: "",
-    remaining_amount: "",
-    installments_total: "1",
-    installments_paid: "0",
-    next_payment_date: "",
-    notes: "",
-  });
+  const [form, setForm] = useState({ ...defaultForm });
 
   const fetchPayments = async () => {
     const { data } = await supabase
@@ -65,10 +74,12 @@ const FinanceTab = () => {
   const budgetNum = parseFloat(form.budget_total) || 0;
   const initialNum = parseFloat(form.initial_payment) || 0;
   const autoRemaining = Math.max(0, budgetNum - initialNum);
+  const autoCommission = form.has_commission ? budgetNum * (COMMISSION_RATE / 100) : 0;
+  const netAfterCommission = Math.max(0, budgetNum - autoCommission);
 
   const openCreateDialog = () => {
     setEditingPayment(null);
-    setForm({ project_id: "", budget_total: "", initial_payment: "", initial_payment_date: "", remaining_amount: "", installments_total: "1", installments_paid: "0", next_payment_date: "", notes: "" });
+    setForm({ ...defaultForm });
     setOpen(true);
   };
 
@@ -84,6 +95,7 @@ const FinanceTab = () => {
       installments_paid: String(payment.installments_paid ?? "0"),
       next_payment_date: payment.next_payment_date ?? "",
       notes: payment.notes ?? "",
+      has_commission: payment.has_commission ?? false,
     });
     setOpen(true);
   };
@@ -91,6 +103,7 @@ const FinanceTab = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+    const commissionAmount = form.has_commission ? budgetNum * (COMMISSION_RATE / 100) : 0;
     const payload = {
       project_id: form.project_id,
       budget_total: budgetNum,
@@ -101,6 +114,9 @@ const FinanceTab = () => {
       installments_paid: parseInt(form.installments_paid) || 0,
       next_payment_date: form.next_payment_date || null,
       notes: form.notes || null,
+      has_commission: form.has_commission,
+      commission_rate: form.has_commission ? COMMISSION_RATE : 0,
+      commission_amount: commissionAmount,
     };
 
     if (editingPayment) {
@@ -112,7 +128,7 @@ const FinanceTab = () => {
       if (error) toast.error("Erro ao salvar dados financeiros");
       else { toast.success("Dados financeiros salvos!"); setOpen(false); fetchPayments(); }
     }
-    setForm({ project_id: "", budget_total: "", initial_payment: "", initial_payment_date: "", remaining_amount: "", installments_total: "1", installments_paid: "0", next_payment_date: "", notes: "" });
+    setForm({ ...defaultForm });
     setLoading(false);
   };
 
@@ -147,11 +163,12 @@ const FinanceTab = () => {
   const totalBudget = payments.reduce((acc, p) => acc + Number(p.budget_total), 0);
   const totalReceived = payments.reduce((acc, p) => acc + Number(p.initial_payment), 0);
   const totalRemaining = payments.reduce((acc, p) => acc + Number(p.remaining_amount), 0);
+  const totalCommission = payments.reduce((acc, p) => acc + Number(p.commission_amount || 0), 0);
 
   return (
     <div className="space-y-6">
       {/* Summary cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <div className="bg-card border border-border rounded-xl p-5 space-y-2">
           <div className="flex items-center gap-2">
             <TrendingUp className="h-4 w-4 text-primary" />
@@ -179,6 +196,17 @@ const FinanceTab = () => {
             {formatCurrency(totalRemaining)}
           </p>
         </div>
+        {totalCommission > 0 && (
+          <div className="bg-card border border-border rounded-xl p-5 space-y-2">
+            <div className="flex items-center gap-2">
+              <Percent className="h-4 w-4 text-rose-400" />
+              <span className="text-xs uppercase tracking-wider text-muted-foreground">Comissões</span>
+            </div>
+            <p className="text-2xl font-semibold text-rose-400" style={{ fontFamily: "var(--font-display)" }}>
+              {formatCurrency(totalCommission)}
+            </p>
+          </div>
+        )}
       </div>
 
       {/* Add button + delete */}
@@ -263,6 +291,33 @@ const FinanceTab = () => {
                   <Input type="date" value={form.next_payment_date} onChange={(e) => setForm({ ...form, next_payment_date: e.target.value })} />
                 </div>
               </div>
+
+              {/* Commission toggle */}
+              <div className="border border-border rounded-lg p-3 space-y-2">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <Percent className="h-4 w-4 text-rose-400" />
+                    <label className="text-xs uppercase tracking-wider text-muted-foreground font-medium">Comissão Vendedor (30%)</label>
+                  </div>
+                  <Switch
+                    checked={form.has_commission}
+                    onCheckedChange={(checked) => setForm({ ...form, has_commission: checked })}
+                  />
+                </div>
+                {form.has_commission && budgetNum > 0 && (
+                  <div className="flex items-center justify-between pt-1 border-t border-border">
+                    <span className="text-xs text-muted-foreground">Comissão calculada:</span>
+                    <span className="text-sm font-semibold text-rose-400">{formatCurrency(autoCommission)}</span>
+                  </div>
+                )}
+                {form.has_commission && budgetNum > 0 && (
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs text-muted-foreground">Valor líquido (após comissão):</span>
+                    <span className="text-sm font-semibold text-foreground">{formatCurrency(netAfterCommission)}</span>
+                  </div>
+                )}
+              </div>
+
               <div className="space-y-1.5">
                 <label className="text-xs uppercase tracking-wider text-muted-foreground font-medium">Observações</label>
                 <Textarea value={form.notes} onChange={(e) => setForm({ ...form, notes: e.target.value })} rows={2} />
@@ -296,6 +351,7 @@ const FinanceTab = () => {
         ) : (
           payments.map((payment) => {
             const remaining = Number(payment.installments_total) - Number(payment.installments_paid);
+            const hasComm = payment.has_commission && Number(payment.commission_amount) > 0;
             return (
               <div
                 key={payment.id}
@@ -356,6 +412,22 @@ const FinanceTab = () => {
                         </p>
                       </div>
                     </div>
+                    {/* Commission info */}
+                    {hasComm && (
+                      <div className="flex items-center gap-3 pt-2 border-t border-border">
+                        <Percent className="h-3.5 w-3.5 text-rose-400 shrink-0" />
+                        <div className="flex-1 flex flex-wrap items-center gap-x-4 gap-y-1">
+                          <div>
+                            <p className="text-[10px] text-muted-foreground uppercase tracking-wider">Comissão ({payment.commission_rate}%)</p>
+                            <p className="text-sm font-medium text-rose-400">{formatCurrency(Number(payment.commission_amount))}</p>
+                          </div>
+                          <div>
+                            <p className="text-[10px] text-muted-foreground uppercase tracking-wider">Líquido</p>
+                            <p className="text-sm font-medium text-foreground">{formatCurrency(Number(payment.budget_total) - Number(payment.commission_amount))}</p>
+                          </div>
+                        </div>
+                      </div>
+                    )}
                     {payment.notes && (
                       <p className="text-xs text-muted-foreground border-t border-border pt-2">{payment.notes}</p>
                     )}

@@ -48,6 +48,7 @@ const FinanceTab = () => {
     installments_paid: "0",
     next_payment_date: "",
     notes: "",
+    has_commission: false,
   });
 
   const fetchPayments = async () => {

@@ -45,17 +45,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
     if (profileRes.data) {
       setProfile(profileRes.data);
+    } else {
+      setProfile(null);
     }
   };
-
-  // Keep admin session alive forever by refreshing periodically
-  useEffect(() => {
-    if (role !== "admin") return;
-    const interval = setInterval(async () => {
-      await supabase.auth.refreshSession();
-    }, 30 * 60 * 1000); // every 30 minutes
-    return () => clearInterval(interval);
-  }, [role]);
 
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
@@ -64,7 +57,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         setUser(session?.user ?? null);
 
         if (session?.user) {
-          setTimeout(() => fetchUserData(session.user.id), 0);
+          await fetchUserData(session.user.id);
         } else {
           setRole(null);
           setProfile(null);
@@ -73,11 +66,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       }
     );
 
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    supabase.auth.getSession().then(async ({ data: { session } }) => {
       setSession(session);
       setUser(session?.user ?? null);
       if (session?.user) {
-        fetchUserData(session.user.id);
+        await fetchUserData(session.user.id);
+      } else {
+        setRole(null);
+        setProfile(null);
       }
       setLoading(false);
     });

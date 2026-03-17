@@ -1,5 +1,6 @@
 import { useEffect, useState, useMemo } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -15,6 +16,7 @@ import SaleFormDialog from "./finance/SaleFormDialog";
 import { Payment, FixedCost, ServicePrice, MonthlyGoal, formatCurrency, statusLabels } from "./finance/types";
 
 const FinanceTab = () => {
+  const { user } = useAuth();
   const [payments, setPayments] = useState<Payment[]>([]);
   const [fixedCosts, setFixedCosts] = useState<FixedCost[]>([]);
   const [servicePrices, setServicePrices] = useState<ServicePrice[]>([]);
@@ -30,27 +32,43 @@ const FinanceTab = () => {
   const [filterStatus, setFilterStatus] = useState("all");
 
   const fetchAll = () => {
-    fetchPayments(); fetchFixedCosts(); fetchServicePrices(); fetchMonthlyGoals();
+    fetchPayments();
+    fetchFixedCosts();
+    fetchServicePrices();
+    fetchMonthlyGoals();
   };
 
   const fetchPayments = async () => {
-    const { data } = await supabase.from("payments").select("*, projects(name, type)").order("sale_date", { ascending: false });
+    const { data, error } = await supabase.from("payments").select("*, projects(name, type)").order("sale_date", { ascending: false });
+    if (error) {
+      toast.error("Não foi possível carregar o financeiro");
+      return;
+    }
     if (data) setPayments(data as any);
   };
+
   const fetchFixedCosts = async () => {
-    const { data } = await supabase.from("fixed_costs").select("*").order("sort_order");
+    const { data, error } = await supabase.from("fixed_costs").select("*").order("sort_order");
+    if (error) return;
     if (data) setFixedCosts(data as any);
   };
+
   const fetchServicePrices = async () => {
-    const { data } = await supabase.from("service_prices").select("*").order("sort_order");
+    const { data, error } = await supabase.from("service_prices").select("*").order("sort_order");
+    if (error) return;
     if (data) setServicePrices(data as any);
   };
+
   const fetchMonthlyGoals = async () => {
-    const { data } = await supabase.from("monthly_goals").select("*");
+    const { data, error } = await supabase.from("monthly_goals").select("*");
+    if (error) return;
     if (data) setMonthlyGoals(data as any);
   };
 
-  useEffect(() => { fetchAll(); }, []);
+  useEffect(() => {
+    if (!user) return;
+    fetchAll();
+  }, [user?.id]);
 
   // Filtered payments for the selected month
   const filteredPayments = useMemo(() => {

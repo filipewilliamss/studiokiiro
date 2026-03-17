@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -56,6 +57,7 @@ const emptyForm = { client_id: "", project_type: "Identidade Visual", descriptio
 const emptyItems: QuoteItem[] = [{ description: "", quantity: 1, unit_price: 0 }];
 
 const QuotesTab = () => {
+  const { user } = useAuth();
   const [quotes, setQuotes] = useState<Quote[]>([]);
   const [clients, setClients] = useState<Profile[]>([]);
   const [open, setOpen] = useState(false);
@@ -73,11 +75,16 @@ const QuotesTab = () => {
       supabase.from("quotes").select("*, profiles!quotes_client_id_fkey(id, full_name, company)").order("sequential_number", { ascending: false }),
       supabase.from("profiles").select("id, full_name, company"),
     ]);
+
+    if (quotesRes.error || clientsRes.error) return;
     if (quotesRes.data) setQuotes(quotesRes.data as any);
     if (clientsRes.data) setClients(clientsRes.data);
   };
 
-  useEffect(() => { fetchAll(); }, []);
+  useEffect(() => {
+    if (!user) return;
+    fetchAll();
+  }, [user?.id]);
 
   const totalValue = items.reduce((acc, i) => acc + i.quantity * i.unit_price, 0);
 

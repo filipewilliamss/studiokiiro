@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -30,6 +31,7 @@ const clientTypeLabels: Record<string, string> = {
 };
 
 const ClientsTab = () => {
+  const { user } = useAuth();
   const [clients, setClients] = useState<Profile[]>([]);
   const [search, setSearch] = useState("");
   const [open, setOpen] = useState(false);
@@ -46,16 +48,23 @@ const ClientsTab = () => {
   });
 
   const fetchClients = async () => {
-    const { data } = await supabase
+    const { data, error } = await supabase
       .from("profiles")
       .select("*")
       .order("created_at", { ascending: false });
+
+    if (error) {
+      toast.error("Não foi possível carregar os clientes");
+      return;
+    }
+
     if (data) setClients(data);
   };
 
   useEffect(() => {
+    if (!user) return;
     fetchClients();
-  }, []);
+  }, [user?.id]);
 
   const openCreateDialog = () => {
     setEditingClient(null);

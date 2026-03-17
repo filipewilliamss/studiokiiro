@@ -284,7 +284,17 @@ const SaleFormDialog = ({ open, onOpenChange, editingPayment, servicePrices, onS
             )}
           </div>
 
-          {/* Variable Costs */}
+          {/* Commission paid to partner toggle */}
+          {form.has_commission && (
+            <div className="flex items-center justify-between border border-border rounded-lg p-3">
+              <div className="flex items-center gap-2">
+                <DollarSign className="h-4 w-4 text-emerald-400" />
+                <label className="text-xs uppercase tracking-wider text-muted-foreground font-medium">Comissão paga ao parceiro</label>
+              </div>
+              <Switch checked={form.commission_paid_to_partner} onCheckedChange={c => setForm({ ...form, commission_paid_to_partner: c })} />
+            </div>
+          )}
+
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-1.5">
               <label className="text-xs uppercase tracking-wider text-muted-foreground font-medium">Taxas Pgto (%)</label>

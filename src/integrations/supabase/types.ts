@@ -78,7 +78,10 @@ export type Database = {
       payments: {
         Row: {
           budget_total: number
+          commission_amount: number
+          commission_rate: number
           created_at: string
+          has_commission: boolean
           id: string
           initial_payment: number | null
           initial_payment_date: string | null
@@ -92,7 +95,10 @@ export type Database = {
         }
         Insert: {
           budget_total?: number
+          commission_amount?: number
+          commission_rate?: number
           created_at?: string
+          has_commission?: boolean
           id?: string
           initial_payment?: number | null
           initial_payment_date?: string | null
@@ -106,7 +112,10 @@ export type Database = {
         }
         Update: {
           budget_total?: number
+          commission_amount?: number
+          commission_rate?: number
           created_at?: string
+          has_commission?: boolean
           id?: string
           initial_payment?: number | null
           initial_payment_date?: string | null

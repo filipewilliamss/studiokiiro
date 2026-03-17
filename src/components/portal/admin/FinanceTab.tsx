@@ -390,12 +390,25 @@ const FinanceTab = () => {
                     )}
 
                     {/* Margin */}
-                    {totalVarCosts > 0 && (
-                      <div className="flex items-center justify-between pt-2 border-t border-border">
-                        <span className="text-[10px] text-muted-foreground uppercase tracking-wider">Margem de Contribuição</span>
-                        <span className={`text-sm font-bold ${margin >= 0 ? "text-emerald-400" : "text-destructive"}`}>{formatCurrency(margin)}</span>
-                      </div>
-                    )}
+                    <div className="flex items-center justify-between pt-2 border-t border-border">
+                      <span className="text-[10px] text-muted-foreground uppercase tracking-wider">Margem Estimada</span>
+                      <span className={`text-sm font-bold ${
+                        Number(payment.budget_total) > 0
+                          ? (margin / Number(payment.budget_total)) * 100 >= 40
+                            ? "text-emerald-400"
+                            : (margin / Number(payment.budget_total)) * 100 < 20
+                              ? "text-amber-400"
+                              : "text-foreground"
+                          : "text-foreground"
+                      }`}>
+                        {formatCurrency(margin)}
+                        {Number(payment.budget_total) > 0 && (
+                          <span className="text-[10px] font-normal text-muted-foreground ml-1">
+                            ({((margin / Number(payment.budget_total)) * 100).toFixed(1)}%)
+                          </span>
+                        )}
+                      </span>
+                    </div>
 
                     {payment.sales_rep && (
                       <p className="text-[10px] text-muted-foreground pt-1">Vendedor: {payment.sales_rep}</p>

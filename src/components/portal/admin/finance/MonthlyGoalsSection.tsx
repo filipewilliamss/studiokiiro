@@ -1,0 +1,142 @@
+import { useState, useEffect } from "react";
+import { supabase } from "@/integrations/supabase/client";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Target } from "lucide-react";
+import { toast } from "sonner";
+import { MonthlyGoal, formatCurrency } from "./types";
+import { Progress } from "@/components/ui/progress";
+import { motion } from "framer-motion";
+
+interface Props {
+  month: string; // YYYY-MM
+  revenueAchieved: number;
+  profitAchieved: number;
+  goal: MonthlyGoal | null;
+  onRefresh: () => void;
+}
+
+const MonthlyGoalsSection = ({ month, revenueAchieved, profitAchieved, goal, onRefresh }: Props) => {
+  const [revenueGoal, setRevenueGoal] = useState(String(goal?.revenue_goal || 8000));
+  const [profitGoal, setProfitGoal] = useState(String(goal?.profit_goal || 3000));
+  const [taxRate, setTaxRate] = useState(String(goal?.tax_rate || 0));
+  const [saving, setSaving] = useState(false);
+
+  useEffect(() => {
+    setRevenueGoal(String(goal?.revenue_goal || 8000));
+    setProfitGoal(String(goal?.profit_goal || 3000));
+    setTaxRate(String(goal?.tax_rate || 0));
+  }, [goal]);
+
+  const saveGoals = async () => {
+    setSaving(true);
+    const payload = {
+      month,
+      revenue_goal: parseFloat(revenueGoal) || 0,
+      profit_goal: parseFloat(profitGoal) || 0,
+      tax_rate: parseFloat(taxRate) || 0,
+    };
+    if (goal) {
+      await supabase.from("monthly_goals").update(payload).eq("id", goal.id);
+    } else {
+      await supabase.from("monthly_goals").insert(payload);
+    }
+    toast.success("Metas salvas!");
+    setSaving(false);
+    onRefresh();
+  };
+
+  const revGoalNum = parseFloat(revenueGoal) || 1;
+  const profGoalNum = parseFloat(profitGoal) || 1;
+  const revPct = Math.min(100, (revenueAchieved / revGoalNum) * 100);
+  const profPct = Math.min(100, (profitAchieved / profGoalNum) * 100);
+  const revRemaining = Math.max(0, revGoalNum - revenueAchieved);
+  const profRemaining = Math.max(0, profGoalNum - profitAchieved);
+
+  return (
+    <div className="bg-card border border-border rounded-xl p-5 space-y-5">
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <Target className="h-4 w-4 text-primary" />
+          <h3 className="text-sm font-semibold text-foreground">Metas do Mês</h3>
+        </div>
+        <Button size="sm" variant="outline" className="text-xs h-7" onClick={saveGoals} disabled={saving}>
+          {saving ? "Salvando..." : "Salvar Metas"}
+        </Button>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+        {/* Revenue Goal */}
+        <div className="space-y-3">
+          <div className="flex items-center justify-between">
+            <label className="text-xs uppercase tracking-wider text-muted-foreground font-medium">Meta de Faturamento</label>
+            <Input
+              type="number" step="100" value={revenueGoal}
+              onChange={e => setRevenueGoal(e.target.value)}
+              className="w-32 h-7 text-xs text-right"
+            />
+          </div>
+          <div className="space-y-1.5">
+            <div className="relative h-3 rounded-full overflow-hidden bg-muted">
+              <motion.div
+                initial={{ width: 0 }}
+                animate={{ width: `${revPct}%` }}
+                transition={{ duration: 1, ease: "easeOut" }}
+                className={`h-full rounded-full transition-colors ${revPct >= 100 ? "bg-emerald-500" : "bg-amber-400"}`}
+              />
+            </div>
+            <div className="flex justify-between text-xs">
+              <span className={`font-semibold ${revPct >= 100 ? "text-emerald-400" : "text-amber-400"}`}>
+                {revPct.toFixed(0)}% da meta
+              </span>
+              <span className="text-muted-foreground">
+                {formatCurrency(revenueAchieved)} / {formatCurrency(revGoalNum)}
+              </span>
+            </div>
+            <p className="text-[10px] text-muted-foreground">Faltam {formatCurrency(revRemaining)}</p>
+          </div>
+        </div>
+
+        {/* Profit Goal */}
+        <div className="space-y-3">
+          <div className="flex items-center justify-between">
+            <label className="text-xs uppercase tracking-wider text-muted-foreground font-medium">Meta de Lucro Líquido</label>
+            <Input
+              type="number" step="100" value={profitGoal}
+              onChange={e => setProfitGoal(e.target.value)}
+              className="w-32 h-7 text-xs text-right"
+            />
+          </div>
+          <div className="space-y-1.5">
+            <div className="relative h-3 rounded-full overflow-hidden bg-muted">
+              <motion.div
+                initial={{ width: 0 }}
+                animate={{ width: `${profPct}%` }}
+                transition={{ duration: 1, ease: "easeOut", delay: 0.2 }}
+                className={`h-full rounded-full transition-colors ${profPct >= 100 ? "bg-emerald-500" : "bg-amber-400"}`}
+              />
+            </div>
+            <div className="flex justify-between text-xs">
+              <span className={`font-semibold ${profPct >= 100 ? "text-emerald-400" : "text-amber-400"}`}>
+                {profPct.toFixed(0)}% da meta
+              </span>
+              <span className="text-muted-foreground">
+                {formatCurrency(profitAchieved)} / {formatCurrency(profGoalNum)}
+              </span>
+            </div>
+            <p className="text-[10px] text-muted-foreground">Faltam {formatCurrency(profRemaining)}</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Tax Rate */}
+      <div className="flex items-center gap-3 border-t border-border pt-3">
+        <label className="text-xs uppercase tracking-wider text-muted-foreground font-medium whitespace-nowrap">% Impostos (p/ lucro líquido)</label>
+        <Input type="number" step="0.5" value={taxRate} onChange={e => setTaxRate(e.target.value)} className="w-20 h-7 text-xs text-right" />
+        <span className="text-xs text-muted-foreground">%</span>
+      </div>
+    </div>
+  );
+};
+
+export default MonthlyGoalsSection;

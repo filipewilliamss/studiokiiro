@@ -32,25 +32,33 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [loading, setLoading] = useState(true);
 
   const fetchUserData = async (userId: string) => {
-    const [rolesRes, profileRes] = await Promise.all([
-      supabase.from("user_roles").select("role").eq("user_id", userId),
-      supabase.from("profiles").select("full_name, company").eq("user_id", userId).single(),
-    ]);
+    try {
+      const [rolesRes, profileRes] = await Promise.all([
+        supabase.from("user_roles").select("role").eq("user_id", userId),
+        supabase.from("profiles").select("full_name, company").eq("user_id", userId).single(),
+      ]);
 
-    if (rolesRes.data && rolesRes.data.length > 0) {
-      setRole(rolesRes.data[0].role);
-    } else {
+      if (rolesRes.data && rolesRes.data.length > 0) {
+        setRole(rolesRes.data[0].role);
+      } else {
+        setRole("client");
+      }
+
+      if (profileRes.data) {
+        setProfile(profileRes.data);
+      } else {
+        setProfile(null);
+      }
+    } catch (err) {
+      console.error("Error fetching user data:", err);
       setRole("client");
-    }
-
-    if (profileRes.data) {
-      setProfile(profileRes.data);
-    } else {
       setProfile(null);
     }
   };
 
   useEffect(() => {
+    let initialized = false;
+
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (_event, session) => {
         setSession(session);
@@ -62,23 +70,25 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           setRole(null);
           setProfile(null);
         }
-        setLoading(false);
+        if (!initialized) {
+          initialized = true;
+          setLoading(false);
+        }
       }
     );
 
-    supabase.auth.getSession().then(async ({ data: { session } }) => {
-      setSession(session);
-      setUser(session?.user ?? null);
-      if (session?.user) {
-        await fetchUserData(session.user.id);
-      } else {
-        setRole(null);
-        setProfile(null);
+    // Fallback timeout to prevent infinite loading
+    const timeout = setTimeout(() => {
+      if (!initialized) {
+        initialized = true;
+        setLoading(false);
       }
-      setLoading(false);
-    });
+    }, 5000);
 
-    return () => subscription.unsubscribe();
+    return () => {
+      clearTimeout(timeout);
+      subscription.unsubscribe();
+    };
   }, []);
 
   const signOut = async () => {

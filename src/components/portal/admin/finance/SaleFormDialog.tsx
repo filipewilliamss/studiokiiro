@@ -6,7 +6,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Switch } from "@/components/ui/switch";
-import { Percent } from "lucide-react";
+import { Percent, DollarSign } from "lucide-react";
 import { toast } from "sonner";
 import { Payment, ServicePrice, Profile, formatCurrency, PAYMENT_METHODS, PAYMENT_STATUSES, statusLabels } from "./types";
 
@@ -39,6 +39,7 @@ const defaultForm = {
   other_costs: "",
   payment_fees_pct: "",
   payment_status: "pendente",
+  commission_paid_to_partner: false,
 };
 
 const SaleFormDialog = ({ open, onOpenChange, editingPayment, servicePrices, onSaved }: Props) => {
@@ -80,6 +81,7 @@ const SaleFormDialog = ({ open, onOpenChange, editingPayment, servicePrices, onS
         other_costs: String(editingPayment.other_costs ?? ""),
         payment_fees_pct: String(editingPayment.payment_fees_pct ?? ""),
         payment_status: editingPayment.payment_status ?? "pendente",
+        commission_paid_to_partner: editingPayment.commission_paid_to_partner ?? false,
       });
     } else {
       setForm({ ...defaultForm, sale_date: new Date().toISOString().split("T")[0] });
@@ -131,6 +133,8 @@ const SaleFormDialog = ({ open, onOpenChange, editingPayment, servicePrices, onS
       payment_fees_pct: feesPct,
       payment_fees_amount: feesAmount,
       payment_status: form.payment_status,
+      commission_paid_to_partner: form.commission_paid_to_partner,
+      commission_paid_date: form.commission_paid_to_partner ? new Date().toISOString().split("T")[0] : null,
     };
 
     if (editingPayment) {
@@ -280,7 +284,17 @@ const SaleFormDialog = ({ open, onOpenChange, editingPayment, servicePrices, onS
             )}
           </div>
 
-          {/* Variable Costs */}
+          {/* Commission paid to partner toggle */}
+          {form.has_commission && (
+            <div className="flex items-center justify-between border border-border rounded-lg p-3">
+              <div className="flex items-center gap-2">
+                <DollarSign className="h-4 w-4 text-emerald-400" />
+                <label className="text-xs uppercase tracking-wider text-muted-foreground font-medium">Comissão paga ao parceiro</label>
+              </div>
+              <Switch checked={form.commission_paid_to_partner} onCheckedChange={c => setForm({ ...form, commission_paid_to_partner: c })} />
+            </div>
+          )}
+
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-1.5">
               <label className="text-xs uppercase tracking-wider text-muted-foreground font-medium">Taxas Pgto (%)</label>

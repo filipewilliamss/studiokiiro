@@ -1,0 +1,500 @@
+import { useEffect, useState } from "react";
+import { useAuth } from "@/contexts/AuthContext";
+import { supabase } from "@/integrations/supabase/client";
+import Navbar from "@/components/Navbar";
+import { Button } from "@/components/ui/button";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  LogOut, FolderOpen, DollarSign, ArrowLeft, Clock, TrendingUp,
+  CheckCircle2, Circle, AlertCircle, Filter,
+} from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import kiiroLogo from "@/assets/logo.png";
+
+const formatCurrency = (v: number) =>
+  new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(v);
+
+const statusLabels: Record<string, string> = {
+  briefing: "Briefing", planejamento: "Em planejamento", producao: "Em produção",
+  revisao: "Em revisão", finalizacao: "Finalização", entregue: "Entregue",
+};
+
+interface PartnerProject {
+  id: string; name: string; type: string; status: string; progress: number;
+  deadline: string | null; start_date: string | null; partner_notes: string | null;
+  client_name: string;
+}
+
+interface PartnerPayment {
+  id: string; project_id: string; commission_amount: number; commission_paid_to_partner: boolean;
+  commission_paid_date: string | null; sale_date: string | null;
+  projects?: { name: string; type: string };
+}
+
+interface Stage {
+  id: string; name: string; status: string; sort_order: number; description: string | null; completed_at: string | null;
+}
+
+const PartnerDashboard = () => {
+  const { profile, signOut } = useAuth();
+  const [projects, setProjects] = useState<PartnerProject[]>([]);
+  const [payments, setPayments] = useState<PartnerPayment[]>([]);
+  const [activeView, setActiveView] = useState<"dashboard" | "commissions">("dashboard");
+  const [selectedProject, setSelectedProject] = useState<PartnerProject | null>(null);
+  const [stages, setStages] = useState<Stage[]>([]);
+
+  // Commission filters
+  const now = new Date();
+  const [filterMonth, setFilterMonth] = useState("all");
+  const [filterStatus, setFilterStatus] = useState("all");
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    // Fetch payments (filtered by RLS to partner's sales_rep)
+    const { data: paymentsData } = await supabase
+      .from("payments")
+      .select("id, project_id, commission_amount, commission_paid_to_partner, commission_paid_date, sale_date, projects(name, type)")
+      .order("sale_date", { ascending: false });
+
+    if (paymentsData) {
+      setPayments(paymentsData as any);
+
+      // Fetch projects for those payments
+      const projectIds = [...new Set(paymentsData.map(p => p.project_id))];
+      if (projectIds.length > 0) {
+        const { data: projectsData } = await supabase
+          .from("projects")
+          .select("id, name, type, status, progress, deadline, start_date, partner_notes, client_id")
+          .in("id", projectIds);
+
+        if (projectsData) {
+          // Get client names
+          const clientIds = [...new Set(projectsData.map(p => p.client_id))];
+          const { data: profilesData } = await supabase
+            .from("profiles")
+            .select("id, full_name")
+            .in("id", clientIds);
+
+          const profileMap = new Map((profilesData || []).map(p => [p.id, p.full_name]));
+
+          setProjects(projectsData.map(p => ({
+            ...p,
+            client_name: profileMap.get(p.client_id) || "Cliente",
+          })));
+        }
+      }
+    }
+  };
+
+  const openProjectDetail = async (project: PartnerProject) => {
+    setSelectedProject(project);
+    const { data } = await supabase
+      .from("project_stages")
+      .select("*")
+      .eq("project_id", project.id)
+      .order("sort_order");
+    if (data) setStages(data);
+  };
+
+  // KPIs
+  const totalCommissionsPending = payments
+    .filter(p => !p.commission_paid_to_partner)
+    .reduce((s, p) => s + Number(p.commission_amount), 0);
+  const totalCommissionsReceived = payments
+    .filter(p => p.commission_paid_to_partner)
+    .reduce((s, p) => s + Number(p.commission_amount), 0);
+  const totalCommissions = payments.reduce((s, p) => s + Number(p.commission_amount), 0);
+
+  const activeProjects = projects.filter(p => p.status !== "entregue");
+  const statusCounts: Record<string, number> = {};
+  projects.forEach(p => {
+    const label = statusLabels[p.status] || p.status;
+    statusCounts[label] = (statusCounts[label] || 0) + 1;
+  });
+
+  // Commission filters
+  const filteredPayments = payments.filter(p => {
+    const monthMatch = filterMonth === "all" || p.sale_date?.startsWith(filterMonth);
+    const statusMatch = filterStatus === "all"
+      ? true
+      : filterStatus === "pending" ? !p.commission_paid_to_partner : p.commission_paid_to_partner;
+    return monthMatch && statusMatch;
+  });
+
+  const availableMonths = [...new Set(payments.map(p => p.sale_date?.substring(0, 7)).filter(Boolean))].sort().reverse();
+
+  const monthLabel = (m: string) => {
+    const [y, mo] = m.split("-");
+    const months = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
+    return `${months[parseInt(mo) - 1]} ${y}`;
+  };
+
+  // Project detail view
+  if (selectedProject) {
+    const projectPayment = payments.find(p => p.project_id === selectedProject.id);
+    const completedStages = stages.filter(s => s.status === "concluida").length;
+
+    return (
+      <DashboardWrapper>
+        <Navbar forceBlack />
+        <header className="border-b border-white/10 bg-black sticky top-16 md:top-20 z-30 mt-16 md:mt-20">
+          <div className="max-w-5xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between">
+            <button onClick={() => setSelectedProject(null)} className="flex items-center gap-2 text-sm text-white/40 hover:text-primary transition-colors">
+              <ArrowLeft className="h-4 w-4" /> Voltar
+            </button>
+            <Button variant="ghost" size="sm" onClick={signOut} className="text-white/40 hover:text-white">
+              <LogOut className="h-4 w-4 mr-2" /> Sair
+            </Button>
+          </div>
+        </header>
+        <main className="max-w-5xl mx-auto px-4 sm:px-6 py-10 space-y-8">
+          {/* Project header */}
+          <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="relative">
+            <div className="absolute -inset-4 rounded-3xl bg-primary/15 blur-2xl pointer-events-none" />
+            <div className="relative overflow-hidden rounded-2xl border border-primary/20 bg-primary p-6 sm:p-8 shadow-2xl shadow-primary/20">
+              <div className="relative">
+                <h1 className="text-2xl sm:text-3xl font-bold text-black font-display">{selectedProject.name}</h1>
+                <div className="flex items-center gap-3 mt-2">
+                  <p className="text-sm text-black/70">{selectedProject.type}</p>
+                  <span className="text-[10px] px-2.5 py-1 rounded-lg bg-black/10 text-black font-semibold border border-black/10">
+                    {statusLabels[selectedProject.status] || selectedProject.status}
+                  </span>
+                </div>
+                <p className="text-xs text-black/60 mt-1">Cliente: {selectedProject.client_name}</p>
+                <div className="mt-5 space-y-1.5">
+                  <div className="flex justify-between text-xs">
+                    <span className="text-black/70">Progresso geral</span>
+                    <span className="font-bold text-black">{selectedProject.progress}%</span>
+                  </div>
+                  <div className="h-2.5 bg-black/15 rounded-full overflow-hidden">
+                    <motion.div initial={{ width: 0 }} animate={{ width: `${selectedProject.progress}%` }} transition={{ duration: 0.4, delay: 0.3 }} className="h-full bg-black rounded-full" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Partner notes */}
+          {selectedProject.partner_notes && (
+            <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="bg-primary/10 border border-primary/20 rounded-xl p-4">
+              <p className="text-[10px] uppercase tracking-wider text-primary font-bold mb-1">Observação do Studio</p>
+              <p className="text-sm text-foreground">{selectedProject.partner_notes}</p>
+            </motion.div>
+          )}
+
+          {/* Commission info */}
+          {projectPayment && (
+            <div className="bg-card border border-border rounded-xl p-4">
+              <p className="text-[10px] uppercase tracking-wider text-muted-foreground mb-2">Comissão deste projeto</p>
+              <div className="flex items-center justify-between">
+                <span className="text-lg font-bold text-foreground">{formatCurrency(Number(projectPayment.commission_amount))}</span>
+                <span className={`text-xs px-2.5 py-1 rounded-full border font-medium ${
+                  projectPayment.commission_paid_to_partner
+                    ? "text-emerald-400 bg-emerald-400/10 border-emerald-400/20"
+                    : "text-primary bg-primary/10 border-primary/20"
+                }`}>
+                  {projectPayment.commission_paid_to_partner ? "Recebida" : "A receber"}
+                </span>
+              </div>
+              {projectPayment.commission_paid_date && (
+                <p className="text-[10px] text-muted-foreground mt-1">
+                  Paga em {new Date(projectPayment.commission_paid_date).toLocaleDateString("pt-BR")}
+                </p>
+              )}
+            </div>
+          )}
+
+          {/* Stages */}
+          <div className="space-y-3">
+            <h2 className="text-sm font-bold uppercase tracking-wider text-foreground">Etapas do Projeto</h2>
+            <div className="space-y-2">
+              {stages.map((stage, i) => {
+                const isDone = stage.status === "concluida";
+                const isCurrent = !isDone && (i === 0 || stages[i - 1]?.status === "concluida");
+                return (
+                  <motion.div key={stage.id} initial={{ opacity: 0, x: -12 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.05 }}
+                    className={`flex items-start gap-3 p-3 rounded-xl border ${isCurrent ? "border-primary/30 bg-primary/5" : "border-border bg-card"}`}>
+                    {isDone ? <CheckCircle2 className="h-5 w-5 text-emerald-400 mt-0.5 flex-shrink-0" /> :
+                     isCurrent ? <Circle className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" /> :
+                     <Circle className="h-5 w-5 text-muted-foreground/30 mt-0.5 flex-shrink-0" />}
+                    <div>
+                      <p className={`text-sm font-medium ${isDone ? "text-muted-foreground line-through" : "text-foreground"}`}>{stage.name}</p>
+                      {stage.description && <p className="text-xs text-muted-foreground mt-0.5">{stage.description}</p>}
+                    </div>
+                  </motion.div>
+                );
+              })}
+              {stages.length === 0 && <p className="text-sm text-muted-foreground">Etapas ainda não definidas.</p>}
+            </div>
+          </div>
+
+          {/* Dates */}
+          <div className="grid grid-cols-2 gap-3">
+            {selectedProject.start_date && (
+              <div className="bg-card border border-border rounded-xl p-3">
+                <p className="text-[10px] uppercase tracking-wider text-muted-foreground">Início</p>
+                <p className="text-sm font-medium text-foreground">{new Date(selectedProject.start_date).toLocaleDateString("pt-BR")}</p>
+              </div>
+            )}
+            {selectedProject.deadline && (
+              <div className="bg-card border border-border rounded-xl p-3">
+                <p className="text-[10px] uppercase tracking-wider text-muted-foreground">Previsão de entrega</p>
+                <p className="text-sm font-medium text-foreground">{new Date(selectedProject.deadline).toLocaleDateString("pt-BR")}</p>
+              </div>
+            )}
+          </div>
+        </main>
+      </DashboardWrapper>
+    );
+  }
+
+  return (
+    <DashboardWrapper>
+      <Navbar forceBlack />
+      <header className="border-b border-white/10 bg-black sticky top-16 md:top-20 z-30 mt-16 md:mt-20">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 h-12 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <span className="text-[11px] uppercase tracking-[0.3em] text-primary font-semibold">Painel do Parceiro</span>
+          </div>
+          <Button variant="ghost" size="sm" onClick={signOut} className="text-white/50 hover:text-white gap-2 text-xs">
+            <LogOut className="h-3.5 w-3.5" /> Sair
+          </Button>
+        </div>
+      </header>
+
+      <main className="max-w-6xl mx-auto px-4 sm:px-6 py-10 space-y-8">
+        {/* Hero */}
+        <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }} className="relative">
+          <div className="absolute -inset-6 rounded-3xl bg-primary/15 blur-3xl pointer-events-none" />
+          <div className="relative overflow-hidden rounded-2xl border border-primary/20 bg-primary p-7 sm:p-9 shadow-2xl shadow-primary/20">
+            <div className="absolute top-0 right-0 w-96 h-96 bg-white/[0.06] rounded-full blur-[100px] -translate-y-1/2 translate-x-1/4 pointer-events-none" />
+            <div className="relative">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-black/10 border border-black/10 mb-5">
+                <span className="w-1.5 h-1.5 rounded-full bg-black animate-pulse" />
+                <span className="text-[10px] uppercase tracking-[0.3em] text-black font-bold">Parceiro ativo</span>
+              </div>
+              <h1 className="font-display text-2xl sm:text-3xl font-bold text-black leading-tight mb-3">
+                Painel do Parceiro — Studio Kiiro
+              </h1>
+              <p className="text-sm text-black/70 max-w-xl">
+                Acompanhe o andamento dos projetos que você trouxe para o estúdio e suas comissões.
+              </p>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* Navigation pills */}
+        <div className="rounded-xl border border-white/10 bg-black p-2 flex gap-1.5">
+          {[
+            { key: "dashboard" as const, label: "Projetos", icon: FolderOpen },
+            { key: "commissions" as const, label: "Minhas Comissões", icon: DollarSign },
+          ].map(tab => (
+            <button key={tab.key} onClick={() => setActiveView(tab.key)}
+              className={`relative flex items-center gap-2.5 px-5 py-3 rounded-lg text-sm font-medium transition-all duration-200 ${
+                activeView === tab.key ? "bg-white/10 text-primary shadow-lg" : "text-white/40 hover:text-white/70 hover:bg-white/[0.04]"
+              }`}>
+              <tab.icon className="h-4 w-4" />
+              <span>{tab.label}</span>
+            </button>
+          ))}
+        </div>
+
+        {/* Content */}
+        <AnimatePresence mode="wait">
+          <motion.div key={activeView} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} transition={{ duration: 0.3 }}>
+            <div className="rounded-2xl border border-white/10 bg-[#0a0a0a] shadow-xl p-1.5 sm:p-2.5">
+              <div className="rounded-xl border border-white/5 bg-[#111111] p-5 sm:p-7 min-h-[400px]">
+                {activeView === "dashboard" ? (
+                  <div className="space-y-6">
+                    {/* Summary cards */}
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                      <SummaryCard label="Projetos ativos" value={String(activeProjects.length)} />
+                      <SummaryCard label="A receber" value={formatCurrency(totalCommissionsPending)} color="text-primary" />
+                      <SummaryCard label="Já recebido" value={formatCurrency(totalCommissionsReceived)} color="text-emerald-400" />
+                      <SummaryCard label="Total gerado" value={formatCurrency(totalCommissions)} />
+                    </div>
+
+                    {/* Status breakdown */}
+                    {Object.keys(statusCounts).length > 0 && (
+                      <div className="flex flex-wrap gap-2">
+                        {Object.entries(statusCounts).map(([label, count]) => (
+                          <div key={label} className="bg-card border border-border rounded-lg px-3 py-2">
+                            <span className="text-[10px] uppercase tracking-wider text-muted-foreground block">{label}</span>
+                            <span className="text-sm font-semibold text-foreground">{count}</span>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+
+                    {/* Project list */}
+                    <div className="space-y-3">
+                      <h2 className="text-sm font-bold uppercase tracking-wider text-foreground">Seus Projetos</h2>
+                      {projects.length === 0 ? (
+                        <div className="bg-card border border-border rounded-xl p-8 text-center">
+                          <p className="text-muted-foreground text-sm">Nenhum projeto encontrado.</p>
+                        </div>
+                      ) : (
+                        projects.map((project, i) => {
+                          const pmt = payments.find(p => p.project_id === project.id);
+                          return (
+                            <motion.div key={project.id} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.05 }}
+                              onClick={() => openProjectDetail(project)}
+                              className="bg-card border border-border rounded-xl p-5 space-y-3 cursor-pointer hover:border-primary/30 transition-colors">
+                              <div className="flex items-start justify-between">
+                                <div>
+                                  <h3 className="font-medium text-foreground">{project.name}</h3>
+                                  <p className="text-xs text-muted-foreground mt-0.5">{project.client_name} · {project.type}</p>
+                                  <div className="flex items-center gap-2 mt-1.5 flex-wrap">
+                                    <span className="text-[10px] px-2 py-0.5 rounded-full border border-border bg-muted/30 text-muted-foreground">
+                                      {statusLabels[project.status] || project.status}
+                                    </span>
+                                    {project.start_date && (
+                                      <span className="text-[10px] text-muted-foreground flex items-center gap-1">
+                                        <Clock className="h-2.5 w-2.5" />
+                                        {new Date(project.start_date).toLocaleDateString("pt-BR")}
+                                      </span>
+                                    )}
+                                    {project.deadline && (
+                                      <span className="text-[10px] text-muted-foreground">
+                                        → {new Date(project.deadline).toLocaleDateString("pt-BR")}
+                                      </span>
+                                    )}
+                                  </div>
+                                </div>
+                                {pmt && (
+                                  <div className="text-right flex-shrink-0">
+                                    <p className="text-sm font-semibold text-foreground">{formatCurrency(Number(pmt.commission_amount))}</p>
+                                    <span className={`text-[10px] ${pmt.commission_paid_to_partner ? "text-emerald-400" : "text-primary"}`}>
+                                      {pmt.commission_paid_to_partner ? "Recebida" : "A receber"}
+                                    </span>
+                                  </div>
+                                )}
+                              </div>
+                              {/* Progress bar */}
+                              <div className="space-y-1">
+                                <div className="flex justify-between text-[10px]">
+                                  <span className="text-muted-foreground">Progresso</span>
+                                  <span className="font-medium text-foreground">{project.progress}%</span>
+                                </div>
+                                <div className="h-1.5 bg-muted rounded-full overflow-hidden">
+                                  <motion.div initial={{ width: 0 }} animate={{ width: `${project.progress}%` }} transition={{ duration: 0.4, delay: 0.2 }}
+                                    className="h-full bg-primary rounded-full" />
+                                </div>
+                              </div>
+                              {/* Partner notes preview */}
+                              {project.partner_notes && (
+                                <div className="bg-primary/5 border border-primary/10 rounded-lg px-3 py-2">
+                                  <p className="text-[10px] text-primary font-bold uppercase tracking-wider">Obs. Studio</p>
+                                  <p className="text-xs text-muted-foreground mt-0.5 line-clamp-2">{project.partner_notes}</p>
+                                </div>
+                              )}
+                            </motion.div>
+                          );
+                        })
+                      )}
+                    </div>
+                  </div>
+                ) : (
+                  /* Commissions tab */
+                  <div className="space-y-6">
+                    {/* Commission summary */}
+                    <div className="grid grid-cols-3 gap-3">
+                      <SummaryCard label="A receber" value={formatCurrency(totalCommissionsPending)} color="text-primary" />
+                      <SummaryCard label="Já recebido" value={formatCurrency(totalCommissionsReceived)} color="text-emerald-400" />
+                      <SummaryCard label="Total acumulado" value={formatCurrency(totalCommissions)} />
+                    </div>
+
+                    {/* Filters */}
+                    <div className="bg-card border border-border rounded-xl p-4">
+                      <div className="flex items-center gap-2 mb-3">
+                        <Filter className="h-4 w-4 text-primary" />
+                        <h3 className="text-sm font-semibold text-foreground">Filtros</h3>
+                      </div>
+                      <div className="flex flex-wrap gap-3">
+                        <Select value={filterMonth} onValueChange={setFilterMonth}>
+                          <SelectTrigger className="w-36 h-8 text-xs"><SelectValue /></SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="all">Todos os meses</SelectItem>
+                            {availableMonths.map(m => <SelectItem key={m} value={m!}>{monthLabel(m!)}</SelectItem>)}
+                          </SelectContent>
+                        </Select>
+                        <Select value={filterStatus} onValueChange={setFilterStatus}>
+                          <SelectTrigger className="w-36 h-8 text-xs"><SelectValue /></SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="all">Todos</SelectItem>
+                            <SelectItem value="pending">A receber</SelectItem>
+                            <SelectItem value="paid">Recebida</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                    </div>
+
+                    {/* Commission list */}
+                    <div className="space-y-3">
+                      {filteredPayments.length === 0 ? (
+                        <div className="bg-card border border-border rounded-xl p-8 text-center">
+                          <p className="text-muted-foreground text-sm">Nenhuma comissão encontrada.</p>
+                        </div>
+                      ) : (
+                        filteredPayments.map((payment, i) => (
+                          <motion.div key={payment.id} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.03 }}
+                            className="bg-card border border-border rounded-xl p-4 flex items-center justify-between gap-4">
+                            <div className="min-w-0">
+                              <p className="text-sm font-medium text-foreground truncate">{payment.projects?.name || "—"}</p>
+                              <p className="text-xs text-muted-foreground">{payment.projects?.type || "—"}</p>
+                              {payment.sale_date && (
+                                <p className="text-[10px] text-muted-foreground mt-0.5">
+                                  Venda em {new Date(payment.sale_date).toLocaleDateString("pt-BR")}
+                                </p>
+                              )}
+                            </div>
+                            <div className="text-right flex-shrink-0">
+                              <p className="text-sm font-bold text-foreground">{formatCurrency(Number(payment.commission_amount))}</p>
+                              <span className={`text-[10px] px-2 py-0.5 rounded-full border font-medium ${
+                                payment.commission_paid_to_partner
+                                  ? "text-emerald-400 bg-emerald-400/10 border-emerald-400/20"
+                                  : "text-primary bg-primary/10 border-primary/20"
+                              }`}>
+                                {payment.commission_paid_to_partner ? "Recebida" : "A receber"}
+                              </span>
+                              {payment.commission_paid_date && (
+                                <p className="text-[10px] text-muted-foreground mt-0.5">
+                                  {new Date(payment.commission_paid_date).toLocaleDateString("pt-BR")}
+                                </p>
+                              )}
+                            </div>
+                          </motion.div>
+                        ))
+                      )}
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          </motion.div>
+        </AnimatePresence>
+      </main>
+    </DashboardWrapper>
+  );
+};
+
+const DashboardWrapper = ({ children }: { children: React.ReactNode }) => (
+  <div className="min-h-screen relative">
+    <div className="fixed inset-0 bg-black" />
+    <div className="fixed inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse 70% 50% at 50% 40%, hsl(0 0% 8%) 0%, transparent 100%)" }} />
+    <div className="fixed inset-0 pointer-events-none opacity-[0.03]" style={{ backgroundImage: "linear-gradient(hsl(0 0% 25%) 1px, transparent 1px), linear-gradient(90deg, hsl(0 0% 25%) 1px, transparent 1px)", backgroundSize: "48px 48px" }} />
+    <div className="relative z-10">{children}</div>
+  </div>
+);
+
+const SummaryCard = ({ label, value, color = "text-foreground" }: { label: string; value: string; color?: string }) => (
+  <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="bg-card border border-border rounded-xl p-4 space-y-1">
+    <span className="text-[10px] uppercase tracking-wider text-muted-foreground">{label}</span>
+    <p className={`text-lg font-bold ${color}`} style={{ fontFamily: "var(--font-display)" }}>{value}</p>
+  </motion.div>
+);
+
+export default PartnerDashboard;

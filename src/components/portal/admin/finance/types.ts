@@ -45,6 +45,8 @@ export interface Payment {
   payment_fees_amount: number;
   payment_status: string;
   service_price_id: string | null;
+  commission_paid_to_partner: boolean;
+  commission_paid_date: string | null;
   created_at: string;
   projects?: { name: string; type: string };
 }

@@ -23,6 +23,7 @@ interface Project {
   id: string; name: string; type: string; status: string;
   progress: number; deadline: string | null; start_date: string | null;
   description: string | null; client_id: string; priority: string;
+  partner_notes: string | null;
   profiles?: Profile;
 }
 interface Stage {
@@ -528,6 +529,24 @@ const ProjectsTab = () => {
                         <SelectTrigger><SelectValue /></SelectTrigger>
                         <SelectContent>{Object.entries(statusLabels).map(([k, v]) => <SelectItem key={k} value={k}>{v}</SelectItem>)}</SelectContent>
                       </Select>
+                    </div>
+
+                    {/* Partner notes */}
+                    <div className="space-y-2">
+                      <label className="text-xs uppercase tracking-wider text-muted-foreground font-medium">Observação do Studio (visível para o parceiro)</label>
+                      <Textarea
+                        defaultValue={selectedProject.partner_notes || ""}
+                        rows={3}
+                        placeholder="Ex.: Aguardar resposta do cliente até sexta..."
+                        onBlur={async (e) => {
+                          const val = e.target.value.trim() || null;
+                          if (val !== selectedProject.partner_notes) {
+                            await supabase.from("projects").update({ partner_notes: val }).eq("id", selectedProject.id);
+                            setSelectedProject({ ...selectedProject, partner_notes: val });
+                            toast.success("Observação salva");
+                          }
+                        }}
+                      />
                     </div>
 
                     {/* Stages */}

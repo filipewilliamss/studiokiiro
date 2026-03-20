@@ -13,6 +13,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   FolderPlus, ChevronRight, CheckCircle2, Circle, Upload, FileDown, Trash2,
   FolderOpen, DollarSign, MessageSquare, Send, Clock, Calendar, CreditCard, ClipboardList, Pencil, Check, X,
+  Pause, Play,
 } from "lucide-react";
 import { toast } from "sonner";
 import { methodologyStages } from "@/data/methodologyStages";
@@ -47,11 +48,17 @@ const statusColors: Record<string, string> = {
   revisao: "bg-purple-500/10 text-purple-400",
   finalizacao: "bg-emerald-500/10 text-emerald-400",
   entregue: "bg-muted text-muted-foreground",
+  pausado: "bg-orange-500/10 text-orange-400",
 };
 const statusLabels: Record<string, string> = {
   briefing: "Briefing", planejamento: "Planejamento", producao: "Produção",
   revisao: "Revisão", finalizacao: "Finalização", entregue: "Entregue",
+  pausado: "Pausado",
 };
+
+const activeStatuses = ["briefing", "planejamento", "producao", "revisao", "finalizacao"];
+const deliveredStatuses = ["entregue"];
+const pausedStatuses = ["pausado"];
 
 const projectTypes = [
   "Logotipo Essencial", "Identidade Visual", "Branding Completo", "Manual de Logotipo",
@@ -394,25 +401,42 @@ const ProjectsTab = () => {
         </Dialog>
       </div>
 
-      {/* Project list */}
-      <div className="grid gap-3">
-        {projects.length > 0 && (
-          <div className="flex items-center gap-2 px-1">
-            <Checkbox checked={selectedIds.size === projects.length && projects.length > 0} onCheckedChange={toggleSelectAll} />
-            <span className="text-xs text-muted-foreground">Selecionar todos</span>
-          </div>
-        )}
-        {projects.map((project) => (
-          <div key={project.id} className={`bg-card border rounded-xl p-5 hover:border-primary/30 transition-all group ${selectedIds.has(project.id) ? "border-primary/50" : "border-border"}`}>
+      {/* Project list grouped by status */}
+      {(() => {
+        const activeProjects = projects.filter((p) => activeStatuses.includes(p.status));
+        const pausedProjects = projects.filter((p) => pausedStatuses.includes(p.status));
+        const deliveredProjects = projects.filter((p) => deliveredStatuses.includes(p.status));
+
+        const togglePause = async (project: Project, e: React.MouseEvent) => {
+          e.stopPropagation();
+          const newStatus = project.status === "pausado" ? "producao" : "pausado";
+          await supabase.from("projects").update({ status: newStatus }).eq("id", project.id);
+          toast.success(newStatus === "pausado" ? "Projeto pausado" : "Projeto retomado");
+          fetchProjects();
+        };
+
+        const renderProjectCard = (project: Project, isDelivered = false) => (
+          <div key={project.id} className={`bg-card border rounded-xl p-5 hover:border-primary/30 transition-all group ${selectedIds.has(project.id) ? "border-primary/50" : "border-border"} ${isDelivered ? "opacity-60" : ""}`}>
             <div className="flex items-start gap-3">
               <Checkbox checked={selectedIds.has(project.id)} onCheckedChange={() => toggleSelect(project.id)} className="mt-1" />
               <button onClick={() => openProjectDetail(project)} className="flex-1 text-left">
                 <div className="flex items-start justify-between mb-3">
                   <div>
-                    <h3 className="font-medium text-foreground group-hover:text-primary transition-colors">{project.name}</h3>
+                    <h3 className={`font-medium transition-colors ${isDelivered ? "text-muted-foreground" : "text-foreground group-hover:text-primary"}`}>{project.name}</h3>
                     <p className="text-xs text-muted-foreground mt-0.5">{project.type} • {(project as any).profiles?.full_name || "—"}</p>
                   </div>
                   <div className="flex items-center gap-2">
+                    {!isDelivered && (
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="h-7 w-7 text-muted-foreground hover:text-primary"
+                        onClick={(e) => togglePause(project, e)}
+                        title={project.status === "pausado" ? "Retomar projeto" : "Pausar projeto"}
+                      >
+                        {project.status === "pausado" ? <Play className="h-3.5 w-3.5" /> : <Pause className="h-3.5 w-3.5" />}
+                      </Button>
+                    )}
                     <span className={`text-xs px-2.5 py-1 rounded-full font-medium ${statusColors[project.status] || "bg-muted text-muted-foreground"}`}>{statusLabels[project.status] || project.status}</span>
                     <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
                   </div>
@@ -428,8 +452,49 @@ const ProjectsTab = () => {
               </button>
             </div>
           </div>
-        ))}
-      </div>
+        );
+
+        return (
+          <div className="space-y-8">
+            {projects.length > 0 && (
+              <div className="flex items-center gap-2 px-1">
+                <Checkbox checked={selectedIds.size === projects.length && projects.length > 0} onCheckedChange={toggleSelectAll} />
+                <span className="text-xs text-muted-foreground">Selecionar todos</span>
+              </div>
+            )}
+
+            {/* Em andamento */}
+            {activeProjects.length > 0 && (
+              <div className="space-y-3">
+                <p className="text-[10px] uppercase tracking-[0.3em] text-primary font-semibold ml-1">Em andamento ({activeProjects.length})</p>
+                <div className="grid gap-3">
+                  {activeProjects.map((p) => renderProjectCard(p))}
+                </div>
+              </div>
+            )}
+
+            {/* Pausados */}
+            {pausedProjects.length > 0 && (
+              <div className="space-y-3">
+                <p className="text-[10px] uppercase tracking-[0.3em] text-orange-400 font-semibold ml-1">Pausados ({pausedProjects.length})</p>
+                <div className="grid gap-3">
+                  {pausedProjects.map((p) => renderProjectCard(p))}
+                </div>
+              </div>
+            )}
+
+            {/* Entregues */}
+            {deliveredProjects.length > 0 && (
+              <div className="space-y-3">
+                <p className="text-[10px] uppercase tracking-[0.3em] text-muted-foreground font-semibold ml-1">Entregues ({deliveredProjects.length})</p>
+                <div className="grid gap-3">
+                  {deliveredProjects.map((p) => renderProjectCard(p, true))}
+                </div>
+              </div>
+            )}
+          </div>
+        );
+      })()}
 
       {/* Project detail sheet with tabs */}
       <Sheet open={!!selectedProject} onOpenChange={(open) => !open && setSelectedProject(null)}>

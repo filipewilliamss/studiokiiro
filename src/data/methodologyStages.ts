@@ -333,4 +333,31 @@ export const methodologyStages: Record<string, MethodologyStage[]> = {
       sort_order: 4,
     },
   ],
+  "Apresentações Comerciais e Institucionais": [
+    {
+      name: "Fase 1 — Briefing, Conteúdo e Estrutura Narrativa",
+      description: "Briefing de apresentação, recebimento de materiais, definição do nível de animação (sutil, médio ou imersivo), organização do conteúdo em mapa narrativo e validação com o cliente.",
+      sort_order: 0,
+    },
+    {
+      name: "Fase 2 — Conceito Visual e Estilo",
+      description: "Extração ou criação de identidade visual, criação de styleframe (capa + slide interno), definição do estilo de animação e aprovação do conceito visual.",
+      sort_order: 1,
+    },
+    {
+      name: "Fase 3 — Produção dos Slides com Animações",
+      description: "Produção sequencial dos slides com design imersivo, animações por camada, infográficos animados, slides de impacto e revisão interna de fluidez.",
+      sort_order: 2,
+    },
+    {
+      name: "Fase 4 — Revisão e Ajustes",
+      description: "Aplicação de feedback estruturado (até 2 rodadas inclusas), ajustes de conteúdo, design e animações mantendo coerência visual.",
+      sort_order: 3,
+    },
+    {
+      name: "Fase 5 — Finalização e Entrega",
+      description: "Checklist de qualidade final, entrega dos arquivos editáveis com animações, PDF estático, MP4 opcional e orientações de uso.",
+      sort_order: 4,
+    },
+  ],
 };

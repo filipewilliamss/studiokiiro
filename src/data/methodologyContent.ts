@@ -1350,6 +1350,140 @@ export const methodologyContent: Record<string, MethodologyContent> = {
     ],
     totalDeadline: { real: "12-17 dias úteis", client: "18-23 dias úteis" },
   },
+
+  "Apresentações Comerciais e Institucionais": {
+    serviceKey: "Apresentações Comerciais e Institucionais",
+    title: "Apresentações Comerciais e Institucionais",
+    subtitle: "Comunicação com Autoridade, Fluidez e Identidade",
+    date: "Março, 2026",
+    introduction:
+      "Nossa metodologia para criação de apresentações vai além dos slides estáticos. Desenvolvemos materiais imersivos, com animações estratégicas, hierarquia visual apurada e design de alto impacto, para que cada apresentação comunique com autoridade, fluidez e identidade. Seja para uma empresa, profissional, projeto social ou organização religiosa, o resultado é uma apresentação que não apenas informa — ela impressiona.",
+    principles: [
+      { title: "Narrativa Visual", description: "A história conduz o design, não o contrário." },
+      { title: "Movimento com Propósito", description: "Animações existem para guiar o olhar, não para decorar." },
+      { title: "Hierarquia Clara", description: "O que é mais importante chega primeiro, sempre." },
+      { title: "Identidade Coerente", description: "Cada slide reflete a marca ou projeto com consistência." },
+      { title: "Objetividade Imersiva", description: "Informação densa transformada em visual leve, dinâmico e memorável." },
+    ],
+    phases: [
+      {
+        title: "Fase 1: Briefing, Conteúdo e Estrutura Narrativa",
+        subtitle: "Entendendo o Propósito e Organizando a Narrativa",
+        objective: "Entender o propósito, o público e organizar o conteúdo em uma narrativa clara antes de qualquer design.",
+        deliverables: [
+          "Briefing de apresentação preenchido",
+          "Mapa de conteúdo (estrutura narrativa dos slides)",
+          "Definição do nível de animação (sutil, médio ou imersivo)",
+        ],
+        steps: [
+          { title: "Briefing e Coleta de Materiais", description: "Reunião ou questionário cobrindo: objetivo, público-alvo, tom de comunicação, identidade visual existente, número estimado de slides e contexto de uso (projetada ao vivo, enviada por link, impressa, publicada em redes). Recebimento dos materiais do cliente." },
+          { title: "Definição do Nível de Animação", description: "Sutil: transições suaves e entrada de elementos. Médio: animações por bloco, gráficos animados. Imersivo: slides em camadas, storytelling cinematográfico, motion design." },
+          { title: "Mapa Narrativo", description: "Organização do conteúdo em estrutura narrativa (introdução, desenvolvimento, clímax, chamada para ação ou encerramento). Envio ao cliente para validação." },
+        ],
+      },
+      {
+        title: "Fase 2: Conceito Visual e Estilo",
+        subtitle: "Definindo a Linguagem Visual e o Estilo de Animação",
+        objective: "Definir a linguagem visual e o estilo de animação antes de produzir os slides, garantindo coerência e intenção em cada detalhe.",
+        deliverables: [
+          "Styleframe aprovado (capa + 1 slide interno de referência)",
+          "Paleta de cores, tipografia e elementos visuais definidos",
+          "Definição do estilo de animação (referência de movimento, tempo, easing)",
+        ],
+        steps: [
+          { title: "Extração ou Criação de Identidade Visual", description: "Se o cliente tem identidade visual: extração de cores, fontes e padrões existentes. Se não tem: proposta de paleta e tipografia coerente com o tom, setor e público." },
+          { title: "Criação do Styleframe", description: "Desenvolvimento de 1 styleframe (capa + slide de conteúdo) como referência visual e de movimento." },
+          { title: "Definição do Estilo de Animação", description: "Velocidade das transições, tipo de entrada dos elementos (fade, slide, scale, wipe), uso de partículas, backgrounds dinâmicos ou vídeos de fundo se aplicável. Envio para aprovação." },
+        ],
+      },
+      {
+        title: "Fase 3: Produção dos Slides com Animações",
+        subtitle: "Montagem Completa com Design Imersivo",
+        objective: "Montar todos os slides com design imersivo e animações estratégicas, com base no mapa e no styleframe aprovados.",
+        deliverables: [
+          "Apresentação completa animada (versão para revisão)",
+          "Arquivo no formato combinado (PowerPoint animado, Google Slides ou Keynote)",
+        ],
+        steps: [
+          { title: "Produção Sequencial dos Slides", description: "Produção dos slides seguindo o mapa narrativo, aplicação da identidade visual, criação de animações por camada: entrada de título, texto, imagem/ícone e transições entre slides." },
+          { title: "Infográficos e Elementos Visuais", description: "Desenvolvimento de infográficos animados (gráficos de barra, pizza, linha com animação de construção), tratamento de imagens e criação de elementos visuais próprios." },
+          { title: "Slides de Impacto e Revisão Interna", description: "Criação de slides de citação, dado único em destaque, encerramento com CTA. Revisão interna de fluidez, timing das animações e legibilidade antes de enviar." },
+          { title: "Envio para Revisão", description: "Exportação da versão de revisão e envio ao cliente com link de visualização." },
+        ],
+      },
+      {
+        title: "Fase 4: Revisão e Ajustes",
+        subtitle: "Feedback Estruturado sem Perder Coerência",
+        objective: "Aplicar o feedback do cliente de forma estruturada, ajustando conteúdo, design e animações sem perder a coerência visual.",
+        deliverables: ["Apresentação revisada e aprovada"],
+        steps: [
+          { title: "1ª Rodada de Revisão", description: "Ajustes de texto, layout, cor, animações e ordem dos slides conforme feedback. Reenvio para aprovação final." },
+          { title: "2ª Rodada de Revisão (se necessário)", description: "Aplicação de ajustes adicionais. Limite: 2 rodadas de revisão inclusas. Rodadas adicionais = custo extra definido em contrato." },
+        ],
+      },
+      {
+        title: "Fase 5: Finalização e Entrega",
+        subtitle: "Arquivos Organizados e Prontos para Uso",
+        objective: "Entregar os arquivos organizados, nos formatos corretos, com as animações preservadas e orientações de uso.",
+        deliverables: [
+          "Arquivo editável com animações (PowerPoint, Keynote ou Google Slides)",
+          "Versão em PDF estática",
+          "Versão exportada em vídeo MP4 (opcional)",
+        ],
+        steps: [
+          { title: "Checklist de Qualidade Final", description: "Animações fluidas e sem travamentos? Fontes incorporadas corretamente? Imagens em resolução adequada? Versões exportadas (PDF + MP4 se aplicável)? Arquivo nomeado e organizado?" },
+          { title: "Entrega Formal", description: "Entrega via link em nuvem + e-mail profissional. Orientação rápida ao cliente sobre como editar o arquivo com segurança (o que pode editar sem quebrar as animações)." },
+          { title: "Encerramento", description: "Solicitação de depoimento/avaliação." },
+        ],
+      },
+    ],
+    schedule: [
+      {
+        title: "Fase 1 — Briefing, Conteúdo e Estrutura Narrativa",
+        realDeadline: "1-2 dias úteis",
+        clientDeadline: "2-3 dias úteis",
+        days: [
+          { day: "Dia 1 (1h30 dedicada)", tasks: ["Reunião ou questionário de briefing", "Recebimento dos materiais do cliente", "Definição do nível de animação desejado"], aiTips: ["ChatGPT/Claude para reorganizar textos densos em bullets objetivos e impactantes", "ChatGPT para sugerir estrutura narrativa com base no objetivo e público"] },
+          { day: "Dia 2 (1h dedicada)", tasks: ["Organização do conteúdo em mapa narrativo", "Envio do mapa ao cliente para validação"], note: "Prazo pausado aguardando aprovação do mapa — 24h" },
+        ],
+      },
+      {
+        title: "Fase 2 — Conceito Visual e Estilo",
+        realDeadline: "1-2 dias úteis",
+        clientDeadline: "2-3 dias úteis",
+        days: [
+          { day: "Dia 3 (1-2h dedicadas)", tasks: ["Extração ou criação de identidade visual", "Criação de 1 styleframe (capa + slide de conteúdo)", "Definição do estilo de animação", "Envio para aprovação do cliente"], note: "Prazo pausado aguardando aprovação do styleframe — 24h", aiTips: ["Midjourney/Firefly para testar backgrounds, composições e atmosferas visuais", "ChatGPT para sugerir paletas coerentes com o setor e posicionamento"] },
+        ],
+      },
+      {
+        title: "Fase 3 — Produção dos Slides com Animações",
+        realDeadline: "3-4 dias úteis",
+        clientDeadline: "4-5 dias úteis",
+        days: [
+          { day: "Dia 4-6 (2-3h dedicadas/dia)", tasks: ["Produção dos slides em sequência seguindo o mapa narrativo", "Aplicação da identidade visual em todos os slides", "Criação de animações por camada", "Desenvolvimento de infográficos animados", "Tratamento de imagens e criação de elementos visuais", "Criação de slides de impacto", "Revisão interna de fluidez e timing"], aiTips: ["ChatGPT para condensar textos longos em frases curtas e de impacto", "Midjourney para imagens de apoio e backgrounds", "Adobe Firefly para elementos gráficos e texturas de fundo"] },
+          { day: "Dia 7", tasks: ["Exportação da versão de revisão", "Envio ao cliente com link de visualização"], note: "Prazo pausado aguardando feedback — 48h" },
+        ],
+      },
+      {
+        title: "Fase 4 — Revisão e Ajustes",
+        realDeadline: "1-2 dias úteis",
+        clientDeadline: "2-3 dias úteis",
+        days: [
+          { day: "Dia 8 (1-2h dedicadas)", tasks: ["Aplicação da 1ª rodada de revisão", "Reenvio para aprovação final"], note: "Aguardando aprovação — 24h" },
+          { day: "Dia 9 (se necessário)", tasks: ["Aplicação da 2ª rodada de revisão"], note: "LIMITE: 2 rodadas de revisão inclusas. Rodadas adicionais = custo extra." },
+        ],
+      },
+      {
+        title: "Fase 5 — Finalização e Entrega",
+        realDeadline: "1 dia útil",
+        clientDeadline: "1-2 dias úteis",
+        days: [
+          { day: "Dia 10 (1-1h30 dedicada)", tasks: ["Checklist de qualidade final", "Entrega formal via link em nuvem + e-mail profissional", "Orientação ao cliente sobre edição segura do arquivo", "Solicitação de depoimento/avaliação"] },
+        ],
+      },
+    ],
+    totalDeadline: { real: "8-10 dias úteis", client: "12-14 dias úteis" },
+  },
 };
 
 // List of all available service keys for navigation

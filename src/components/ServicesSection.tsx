@@ -55,6 +55,17 @@ const serviceCategories = [
       { title: "Site Completo", description: "Solução digital completa com 5-8 páginas, funcionalidades avançadas e integração total." },
     ],
   },
+  {
+    category: "Apresentações",
+    icon: (
+      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h16.5M3.75 3l3.75 3.75M20.25 3v11.25A2.25 2.25 0 0118 16.5h-2.25M20.25 3l-3.75 3.75M12 20.25l-3-3h6l-3 3z" />
+      </svg>
+    ),
+    items: [
+      { title: "Apresentação Comercial e Institucional", description: "Apresentações imersivas com animações estratégicas para empresas, profissionais, projetos e organizações." },
+    ],
+  },
 ];
 
 const ServicesSection = () => {

@@ -65,6 +65,7 @@ const projectTypes = [
   "Personal Brand Kit", "Design de Conteúdo para Redes Sociais", "Edição de Vídeo — Reels/Shorts",
   "Edição de Vídeo — Institucional", "Edição de Vídeo — Tutorial/Educativo",
   "Landing Page Simples", "Landing Page Completa", "Site Institucional", "Site Completo",
+  "Apresentações Comerciais e Institucionais", "Layout de Transmissão",
 ];
 
 const formatCurrency = (v: number) =>

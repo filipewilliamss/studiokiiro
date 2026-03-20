@@ -48,11 +48,17 @@ const statusColors: Record<string, string> = {
   revisao: "bg-purple-500/10 text-purple-400",
   finalizacao: "bg-emerald-500/10 text-emerald-400",
   entregue: "bg-muted text-muted-foreground",
+  pausado: "bg-orange-500/10 text-orange-400",
 };
 const statusLabels: Record<string, string> = {
   briefing: "Briefing", planejamento: "Planejamento", producao: "Produção",
   revisao: "Revisão", finalizacao: "Finalização", entregue: "Entregue",
+  pausado: "Pausado",
 };
+
+const activeStatuses = ["briefing", "planejamento", "producao", "revisao", "finalizacao"];
+const deliveredStatuses = ["entregue"];
+const pausedStatuses = ["pausado"];
 
 const projectTypes = [
   "Logotipo Essencial", "Identidade Visual", "Branding Completo", "Manual de Logotipo",

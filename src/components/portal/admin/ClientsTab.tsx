@@ -104,6 +104,20 @@ const ClientsTab = () => {
     setLoading(true);
 
     if (editingClient) {
+      // Check if email changed - if so, update auth user email via edge function
+      const emailChanged = form.email && form.email !== editingClient.email;
+      
+      if (emailChanged) {
+        const response = await supabase.functions.invoke("update-client-email", {
+          body: { user_id: editingClient.user_id, new_email: form.email },
+        });
+        if (response.error || response.data?.error) {
+          toast.error("Erro ao atualizar e-mail: " + (response.data?.error || response.error?.message));
+          setLoading(false);
+          return;
+        }
+      }
+
       const { error } = await supabase.from("profiles").update({
         full_name: form.full_name,
         email: form.email || null,

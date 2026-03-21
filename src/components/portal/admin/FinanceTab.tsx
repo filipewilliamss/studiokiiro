@@ -310,147 +310,196 @@ const FinanceTab = () => {
         <Button className="gap-2" onClick={openCreate}><Plus className="h-4 w-4" /> Nova Venda</Button>
       </div>
 
-      {/* BLOCO 4 + 7 — Payment list */}
-      <div className="grid gap-3">
-        {filteredPayments.length > 0 && (
-          <div className="flex items-center gap-2 px-1">
-            <Checkbox checked={selectedIds.size === filteredPayments.length && filteredPayments.length > 0} onCheckedChange={toggleSelectAll} />
-            <span className="text-xs text-muted-foreground">Selecionar todos ({filteredPayments.length})</span>
-          </div>
-        )}
-        {filteredPayments.length === 0 ? (
-          <div className="bg-card border border-border rounded-xl p-8 text-center">
-            <p className="text-muted-foreground text-sm">Nenhum registro encontrado.</p>
-          </div>
-        ) : (
-          filteredPayments.map(payment => {
-            const remaining = Number(payment.installments_total) - Number(payment.installments_paid);
-            const hasComm = payment.has_commission && Number(payment.commission_amount) > 0;
-            const totalVarCosts = Number(payment.commission_amount || 0) + Number(payment.payment_fees_amount || 0) + Number(payment.freelancer_cost || 0) + Number(payment.other_costs || 0);
-            const margin = Number(payment.budget_total) - totalVarCosts;
-            const statusColor = payment.payment_status === "pago" ? "text-emerald-400 bg-emerald-400/10 border-emerald-400/20" : payment.payment_status === "parcialmente_pago" ? "text-amber-400 bg-amber-400/10 border-amber-400/20" : "text-muted-foreground bg-muted/30 border-border";
+      {/* BLOCO 4 + 7 — Payment list grouped by status */}
+      {(() => {
+        const receivedPayments = filteredPayments.filter(p => p.payment_status === "pago");
+        const pendingPayments = filteredPayments.filter(p => p.payment_status !== "pago");
 
-            return (
-              <div key={payment.id} className={`bg-card border rounded-xl p-5 space-y-3 ${selectedIds.has(payment.id) ? "border-primary/50" : "border-border"}`}>
-                <div className="flex items-start gap-3">
-                  <Checkbox checked={selectedIds.has(payment.id)} onCheckedChange={() => toggleSelect(payment.id)} className="mt-1" />
-                  <div className="flex-1 space-y-3">
-                    <div className="flex items-start justify-between">
-                      <div>
-                        <h3 className="font-medium text-foreground">{payment.projects?.name || "—"}</h3>
-                        <div className="flex items-center gap-2 mt-1 flex-wrap">
-                          <span className={`text-[10px] px-2 py-0.5 rounded-full border ${statusColor}`}>
-                            {statusLabels[payment.payment_status] || payment.payment_status}
-                          </span>
-                          {payment.payment_method && <span className="text-[10px] text-muted-foreground">{payment.payment_method}</span>}
-                          {payment.sale_date && (
-                            <span className="text-[10px] text-muted-foreground flex items-center gap-1">
-                              <Calendar className="h-2.5 w-2.5" />
-                              {new Date(payment.sale_date).toLocaleDateString("pt-BR")}
-                            </span>
-                          )}
-                        </div>
-                      </div>
-                      <div className="flex items-start gap-2">
-                        <div className="text-right">
-                          <p className="text-lg font-semibold text-primary" style={{ fontFamily: "var(--font-display)" }}>{formatCurrency(Number(payment.budget_total))}</p>
-                          <p className="text-[10px] text-muted-foreground uppercase tracking-wider">valor fechado</p>
-                        </div>
-                        <Button variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground hover:text-primary" onClick={() => openEdit(payment)}>
-                          <Pencil className="h-3.5 w-3.5" />
-                        </Button>
-                      </div>
-                    </div>
+        const renderPaymentCard = (payment: Payment) => {
+          const remaining = Number(payment.installments_total) - Number(payment.installments_paid);
+          const hasComm = payment.has_commission && Number(payment.commission_amount) > 0;
+          const totalVarCosts = Number(payment.commission_amount || 0) + Number(payment.payment_fees_amount || 0) + Number(payment.freelancer_cost || 0) + Number(payment.other_costs || 0);
+          const margin = Number(payment.budget_total) - totalVarCosts;
+          const statusColor = payment.payment_status === "pago" ? "text-emerald-400 bg-emerald-400/10 border-emerald-400/20" : payment.payment_status === "parcialmente_pago" ? "text-amber-400 bg-amber-400/10 border-amber-400/20" : "text-muted-foreground bg-muted/30 border-border";
 
-                    <div className="grid grid-cols-3 gap-3 pt-2 border-t border-border">
-                      <div>
-                        <p className="text-[10px] text-muted-foreground uppercase tracking-wider">Entrada</p>
-                        <p className="text-sm text-foreground font-medium">{formatCurrency(Number(payment.initial_payment))}</p>
-                      </div>
-                      <div>
-                        <p className="text-[10px] text-muted-foreground uppercase tracking-wider">Parcelas</p>
-                        <p className="text-sm text-foreground font-medium">{payment.installments_paid}/{payment.installments_total}</p>
-                        <p className="text-[10px] text-muted-foreground">{remaining} restante(s)</p>
-                      </div>
-                      <div>
-                        <p className="text-[10px] text-muted-foreground uppercase tracking-wider">A Receber</p>
-                        <p className="text-sm font-medium text-amber-400">{formatCurrency(Number(payment.remaining_amount))}</p>
-                      </div>
-                    </div>
-
-                    {/* Variable costs breakdown */}
-                    {totalVarCosts > 0 && (
-                      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-2 border-t border-border">
-                        {hasComm && (
-                          <div>
-                            <p className="text-[10px] text-muted-foreground uppercase tracking-wider">Comissão ({payment.commission_rate}%)</p>
-                            <p className="text-sm font-medium text-rose-400">{formatCurrency(Number(payment.commission_amount))}</p>
-                          </div>
-                        )}
-                        {Number(payment.payment_fees_amount) > 0 && (
-                          <div>
-                            <p className="text-[10px] text-muted-foreground uppercase tracking-wider">Taxas ({payment.payment_fees_pct}%)</p>
-                            <p className="text-sm font-medium text-rose-400">{formatCurrency(Number(payment.payment_fees_amount))}</p>
-                          </div>
-                        )}
-                        {Number(payment.freelancer_cost) > 0 && (
-                          <div>
-                            <p className="text-[10px] text-muted-foreground uppercase tracking-wider">Freelancer</p>
-                            <p className="text-sm font-medium text-rose-400">{formatCurrency(Number(payment.freelancer_cost))}</p>
-                          </div>
-                        )}
-                        {Number(payment.other_costs) > 0 && (
-                          <div>
-                            <p className="text-[10px] text-muted-foreground uppercase tracking-wider">Outros</p>
-                            <p className="text-sm font-medium text-rose-400">{formatCurrency(Number(payment.other_costs))}</p>
-                          </div>
-                        )}
-                      </div>
-                    )}
-
-                    {/* Margin */}
-                    <div className="flex items-center justify-between pt-2 border-t border-border">
-                      <span className="text-[10px] text-muted-foreground uppercase tracking-wider">Margem Estimada</span>
-                      <span className={`text-sm font-bold ${
-                        Number(payment.budget_total) > 0
-                          ? (margin / Number(payment.budget_total)) * 100 >= 40
-                            ? "text-emerald-400"
-                            : (margin / Number(payment.budget_total)) * 100 < 20
-                              ? "text-amber-400"
-                              : "text-foreground"
-                          : "text-foreground"
-                      }`}>
-                        {formatCurrency(margin)}
-                        {Number(payment.budget_total) > 0 && (
-                          <span className="text-[10px] font-normal text-muted-foreground ml-1">
-                            ({((margin / Number(payment.budget_total)) * 100).toFixed(1)}%)
-                          </span>
-                        )}
-                      </span>
-                    </div>
-
-                    {payment.sales_rep && (
-                      <div className="flex items-center justify-between pt-1">
-                        <p className="text-[10px] text-muted-foreground">Vendedor: {payment.sales_rep}</p>
-                        {payment.has_commission && (
-                          <span className={`text-[10px] px-2 py-0.5 rounded-full border font-medium ${
-                            payment.commission_paid_to_partner
-                              ? "text-emerald-400 bg-emerald-400/10 border-emerald-400/20"
-                              : "text-primary bg-primary/10 border-primary/20"
-                          }`}>
-                            Comissão: {payment.commission_paid_to_partner ? "Paga" : "Pendente"}
+          return (
+            <div key={payment.id} className={`bg-card border rounded-xl p-5 space-y-3 ${selectedIds.has(payment.id) ? "border-primary/50" : "border-border"}`}>
+              <div className="flex items-start gap-3">
+                <Checkbox checked={selectedIds.has(payment.id)} onCheckedChange={() => toggleSelect(payment.id)} className="mt-1" />
+                <div className="flex-1 space-y-3">
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <h3 className="font-medium text-foreground">{payment.projects?.name || "—"}</h3>
+                      <div className="flex items-center gap-2 mt-1 flex-wrap">
+                        <span className={`text-[10px] px-2 py-0.5 rounded-full border ${statusColor}`}>
+                          {statusLabels[payment.payment_status] || payment.payment_status}
+                        </span>
+                        {payment.payment_method && <span className="text-[10px] text-muted-foreground">{payment.payment_method}</span>}
+                        {payment.sale_date && (
+                          <span className="text-[10px] text-muted-foreground flex items-center gap-1">
+                            <Calendar className="h-2.5 w-2.5" />
+                            {new Date(payment.sale_date).toLocaleDateString("pt-BR")}
                           </span>
                         )}
                       </div>
-                    )}
-                    {payment.notes && <p className="text-xs text-muted-foreground border-t border-border pt-2">{payment.notes}</p>}
+                    </div>
+                    <div className="flex items-start gap-2">
+                      <div className="text-right">
+                        <p className="text-lg font-semibold text-primary" style={{ fontFamily: "var(--font-display)" }}>{formatCurrency(Number(payment.budget_total))}</p>
+                        <p className="text-[10px] text-muted-foreground uppercase tracking-wider">valor fechado</p>
+                      </div>
+                      <Button variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground hover:text-primary" onClick={() => openEdit(payment)}>
+                        <Pencil className="h-3.5 w-3.5" />
+                      </Button>
+                    </div>
                   </div>
+
+                  <div className="grid grid-cols-3 gap-3 pt-2 border-t border-border">
+                    <div>
+                      <p className="text-[10px] text-muted-foreground uppercase tracking-wider">Entrada</p>
+                      <p className="text-sm text-foreground font-medium">{formatCurrency(Number(payment.initial_payment))}</p>
+                    </div>
+                    <div>
+                      <p className="text-[10px] text-muted-foreground uppercase tracking-wider">Parcelas</p>
+                      <p className="text-sm text-foreground font-medium">{payment.installments_paid}/{payment.installments_total}</p>
+                      <p className="text-[10px] text-muted-foreground">{remaining} restante(s)</p>
+                    </div>
+                    <div>
+                      <p className="text-[10px] text-muted-foreground uppercase tracking-wider">A Receber</p>
+                      <p className="text-sm font-medium text-amber-400">{formatCurrency(Number(payment.remaining_amount))}</p>
+                    </div>
+                  </div>
+
+                  {totalVarCosts > 0 && (
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-2 border-t border-border">
+                      {hasComm && (
+                        <div>
+                          <p className="text-[10px] text-muted-foreground uppercase tracking-wider">Comissão ({payment.commission_rate}%)</p>
+                          <p className="text-sm font-medium text-rose-400">{formatCurrency(Number(payment.commission_amount))}</p>
+                        </div>
+                      )}
+                      {Number(payment.payment_fees_amount) > 0 && (
+                        <div>
+                          <p className="text-[10px] text-muted-foreground uppercase tracking-wider">Taxas ({payment.payment_fees_pct}%)</p>
+                          <p className="text-sm font-medium text-rose-400">{formatCurrency(Number(payment.payment_fees_amount))}</p>
+                        </div>
+                      )}
+                      {Number(payment.freelancer_cost) > 0 && (
+                        <div>
+                          <p className="text-[10px] text-muted-foreground uppercase tracking-wider">Freelancer</p>
+                          <p className="text-sm font-medium text-rose-400">{formatCurrency(Number(payment.freelancer_cost))}</p>
+                        </div>
+                      )}
+                      {Number(payment.other_costs) > 0 && (
+                        <div>
+                          <p className="text-[10px] text-muted-foreground uppercase tracking-wider">Outros</p>
+                          <p className="text-sm font-medium text-rose-400">{formatCurrency(Number(payment.other_costs))}</p>
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                  <div className="flex items-center justify-between pt-2 border-t border-border">
+                    <span className="text-[10px] text-muted-foreground uppercase tracking-wider">Margem Estimada</span>
+                    <span className={`text-sm font-bold ${
+                      Number(payment.budget_total) > 0
+                        ? (margin / Number(payment.budget_total)) * 100 >= 40
+                          ? "text-emerald-400"
+                          : (margin / Number(payment.budget_total)) * 100 < 20
+                            ? "text-amber-400"
+                            : "text-foreground"
+                        : "text-foreground"
+                    }`}>
+                      {formatCurrency(margin)}
+                      {Number(payment.budget_total) > 0 && (
+                        <span className="text-[10px] font-normal text-muted-foreground ml-1">
+                          ({((margin / Number(payment.budget_total)) * 100).toFixed(1)}%)
+                        </span>
+                      )}
+                    </span>
+                  </div>
+
+                  {payment.sales_rep && (
+                    <div className="flex items-center justify-between pt-1">
+                      <p className="text-[10px] text-muted-foreground">Vendedor: {payment.sales_rep}</p>
+                      {payment.has_commission && (
+                        <span className={`text-[10px] px-2 py-0.5 rounded-full border font-medium ${
+                          payment.commission_paid_to_partner
+                            ? "text-emerald-400 bg-emerald-400/10 border-emerald-400/20"
+                            : "text-primary bg-primary/10 border-primary/20"
+                        }`}>
+                          Comissão: {payment.commission_paid_to_partner ? "Paga" : "Pendente"}
+                        </span>
+                      )}
+                    </div>
+                  )}
+                  {payment.notes && <p className="text-xs text-muted-foreground border-t border-border pt-2">{payment.notes}</p>}
                 </div>
               </div>
-            );
-          })
-        )}
-      </div>
+            </div>
+          );
+        };
+
+        return (
+          <div className="space-y-4">
+            {filteredPayments.length > 0 && (
+              <div className="flex items-center gap-2 px-1">
+                <Checkbox checked={selectedIds.size === filteredPayments.length && filteredPayments.length > 0} onCheckedChange={toggleSelectAll} />
+                <span className="text-xs text-muted-foreground">Selecionar todos ({filteredPayments.length})</span>
+              </div>
+            )}
+            {filteredPayments.length === 0 ? (
+              <div className="bg-card border border-border rounded-xl p-8 text-center">
+                <p className="text-muted-foreground text-sm">Nenhum registro encontrado.</p>
+              </div>
+            ) : (
+              <>
+                {/* Pending payments */}
+                <Collapsible defaultOpen>
+                  <CollapsibleTrigger className="flex items-center gap-2 w-full group">
+                    <div className="flex items-center gap-2 flex-1">
+                      <Clock className="h-4 w-4 text-amber-400" />
+                      <h3 className="text-sm font-bold uppercase tracking-wider text-foreground">Pendentes / Parciais</h3>
+                      <span className="text-xs text-muted-foreground">({pendingPayments.length})</span>
+                    </div>
+                    <ChevronDown className="h-4 w-4 text-muted-foreground transition-transform group-data-[state=open]:rotate-180" />
+                  </CollapsibleTrigger>
+                  <CollapsibleContent className="mt-3">
+                    <div className="grid gap-3">
+                      {pendingPayments.length === 0 ? (
+                        <p className="text-sm text-muted-foreground text-center py-4">Nenhum pagamento pendente.</p>
+                      ) : (
+                        pendingPayments.map(renderPaymentCard)
+                      )}
+                    </div>
+                  </CollapsibleContent>
+                </Collapsible>
+
+                {/* Received payments */}
+                <Collapsible defaultOpen>
+                  <CollapsibleTrigger className="flex items-center gap-2 w-full group">
+                    <div className="flex items-center gap-2 flex-1">
+                      <CheckCircle2 className="h-4 w-4 text-emerald-400" />
+                      <h3 className="text-sm font-bold uppercase tracking-wider text-foreground">Recebidos</h3>
+                      <span className="text-xs text-muted-foreground">({receivedPayments.length})</span>
+                    </div>
+                    <ChevronDown className="h-4 w-4 text-muted-foreground transition-transform group-data-[state=open]:rotate-180" />
+                  </CollapsibleTrigger>
+                  <CollapsibleContent className="mt-3">
+                    <div className="grid gap-3">
+                      {receivedPayments.length === 0 ? (
+                        <p className="text-sm text-muted-foreground text-center py-4">Nenhum pagamento recebido.</p>
+                      ) : (
+                        receivedPayments.map(renderPaymentCard)
+                      )}
+                    </div>
+                  </CollapsibleContent>
+                </Collapsible>
+              </>
+            )}
+          </div>
+        );
+      })()}
 
       {/* Sale form dialog */}
       <SaleFormDialog

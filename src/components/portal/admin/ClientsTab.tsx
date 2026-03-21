@@ -106,6 +106,7 @@ const ClientsTab = () => {
     if (editingClient) {
       const { error } = await supabase.from("profiles").update({
         full_name: form.full_name,
+        email: form.email || null,
         phone: form.phone || null,
         company: form.company || null,
         client_type: form.client_type,

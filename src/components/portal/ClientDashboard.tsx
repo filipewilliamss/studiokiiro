@@ -126,6 +126,7 @@ const ClientDashboard = () => {
 
   // All payments for "next step" card
   const [allPayments, setAllPayments] = useState<Payment[]>([]);
+  const [activeTab, setActiveTab] = useState<"status" | "briefing" | "files" | "finance" | "messages">("status");
   const fetchQuotes = async () => {
     const { data } = await supabase
       .from("quotes")

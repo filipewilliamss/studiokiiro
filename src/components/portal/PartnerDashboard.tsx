@@ -187,11 +187,31 @@ const PartnerDashboard = () => {
             </div>
           </motion.div>
 
-          {/* Partner notes */}
+          {/* Quick Communication to Studio */}
+          <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="bg-card border border-border rounded-xl p-4 space-y-3">
+            <div className="flex items-center gap-2">
+              <MessageSquare className="h-4 w-4 text-primary" />
+              <p className="text-[10px] uppercase tracking-wider text-muted-foreground font-bold">Comunicação Rápida com o Studio</p>
+            </div>
+            <Textarea
+              placeholder="Ex.: Cliente André está pensando em um pack de reels..."
+              defaultValue={selectedProject.partner_message || ""}
+              className="text-sm bg-black/20 border-border/50 min-h-[80px]"
+              onBlur={async (e) => {
+                const val = e.target.value.trim() || null;
+                if (val !== selectedProject.partner_message) {
+                  await supabase.from("projects").update({ partner_message: val }).eq("id", selectedProject.id);
+                  toast.success("Mensagem enviada ao Studio!");
+                }
+              }}
+            />
+          </motion.div>
+
+          {/* Partner notes (read only for partner) */}
           {selectedProject.partner_notes && (
             <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="bg-primary/10 border border-primary/20 rounded-xl p-4">
-              <p className="text-[10px] uppercase tracking-wider text-primary font-bold mb-1">Observação do Studio</p>
-              <p className="text-sm text-foreground">{selectedProject.partner_notes}</p>
+              <p className="text-[10px] uppercase tracking-wider text-primary font-bold mb-1">Recado do Studio para você</p>
+              <p className="text-sm text-foreground italic">"{selectedProject.partner_notes}"</p>
             </motion.div>
           )}
 

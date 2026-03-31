@@ -4,6 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import Navbar from "@/components/Navbar";
 import { Button } from "@/components/ui/button";
 import { LogOut, Users, FolderKanban, DollarSign, FileText, Receipt, Layers, BarChart3, Clock, BookOpen } from "lucide-react";
+import NotificationBell from "./admin/NotificationBell";
 import ClientsTab from "./admin/ClientsTab";
 import ProjectsTab from "./admin/ProjectsTab";
 import FinanceTab from "./admin/FinanceTab";
@@ -102,10 +103,13 @@ const AdminDashboard = () => {
                 Ferramenta interna do Studio Kiiro
               </span>
             </div>
-            <Button variant="ghost" size="sm" onClick={signOut} className="text-white/50 hover:text-white gap-2 text-xs hover:bg-white/5 transition-all duration-300">
-              <LogOut className="h-3.5 w-3.5" />
-              Sair
-            </Button>
+            <div className="flex items-center gap-1">
+              <NotificationBell />
+              <Button variant="ghost" size="sm" onClick={signOut} className="text-white/50 hover:text-white gap-2 text-xs hover:bg-white/5 transition-all duration-300">
+                <LogOut className="h-3.5 w-3.5" />
+                Sair
+              </Button>
+            </div>
           </div>
         </header>
 

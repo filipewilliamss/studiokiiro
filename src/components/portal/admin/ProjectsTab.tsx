@@ -13,7 +13,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   FolderPlus, ChevronRight, CheckCircle2, Circle, Upload, FileDown, Trash2,
   FolderOpen, DollarSign, MessageSquare, Send, Clock, Calendar, CreditCard, ClipboardList, Pencil, Check, X,
-  Pause, Play,
+  Pause, Play, AlertTriangle,
 } from "lucide-react";
 import { toast } from "sonner";
 import { methodologyStages } from "@/data/methodologyStages";
@@ -442,7 +442,24 @@ const ProjectsTab = () => {
                     <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
                   </div>
                 </div>
-                <div className="flex items-center gap-4">
+                <div className="flex items-center gap-3">
+                  {/* Health indicator */}
+                  {!isDelivered && (() => {
+                    const now = new Date();
+                    const deadline = project.deadline ? new Date(project.deadline + "T00:00:00") : null;
+                    if (!deadline) return null;
+                    const daysLeft = Math.ceil((deadline.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
+                    const health = daysLeft < 0 ? "red" : daysLeft <= 3 ? "yellow" : "green";
+                    const label = daysLeft < 0 ? "Atrasado" : daysLeft <= 3 ? "Atenção" : "No Prazo";
+                    const colors = { green: "text-emerald-400", yellow: "text-amber-400", red: "text-red-400" };
+                    const bgColors = { green: "bg-emerald-400/10", yellow: "bg-amber-400/10", red: "bg-red-400/10" };
+                    return (
+                      <span className={`inline-flex items-center gap-1 text-[10px] px-2 py-0.5 rounded-full font-medium ${colors[health]} ${bgColors[health]}`} title={`${daysLeft}d restantes`}>
+                        {health === "red" ? <AlertTriangle className="h-3 w-3" /> : health === "yellow" ? <Clock className="h-3 w-3" /> : <CheckCircle2 className="h-3 w-3" />}
+                        {label}
+                      </span>
+                    );
+                  })()}
                   <div className="flex-1">
                     <div className="h-1.5 bg-secondary rounded-full overflow-hidden">
                       <div className="h-full bg-primary rounded-full transition-all" style={{ width: `${project.progress}%` }} />

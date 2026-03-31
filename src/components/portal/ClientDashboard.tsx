@@ -7,6 +7,7 @@ import {
   LogOut, FolderOpen, CheckCircle2, Clock, Circle, FileDown,
   ExternalLink, DollarSign, MessageSquare, Send, ArrowLeft, ClipboardList,
   Receipt, ThumbsUp, ThumbsDown, Hash, Sparkles, FileText, Printer,
+  ArrowRight, CreditCard, AlertCircle,
 } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
@@ -28,9 +29,9 @@ interface Stage {
 }
 interface ProjectFile { name: string; viewUrl: string | null; downloadUrl: string | null; }
 interface Payment {
-  id: string; budget_total: number; initial_payment: number | null; initial_payment_date: string | null;
+  id: string; project_id: string; budget_total: number; initial_payment: number | null; initial_payment_date: string | null;
   remaining_amount: number | null; installments_total: number | null; installments_paid: number | null;
-  next_payment_date: string | null; notes: string | null;
+  next_payment_date: string | null; notes: string | null; payment_status: string | null;
 }
 interface Message { id: string; sender_id: string; content: string; created_at: string; }
 interface QuoteItem { description: string; quantity: number; unit_price: number; }
@@ -123,7 +124,8 @@ const ClientDashboard = () => {
   const osPrintRef = useRef<HTMLDivElement>(null);
   const [clientProfileId, setClientProfileId] = useState<string | null>(null);
 
-
+  // All payments for "next step" card
+  const [allPayments, setAllPayments] = useState<Payment[]>([]);
   const fetchQuotes = async () => {
     const { data } = await supabase
       .from("quotes")
@@ -162,10 +164,21 @@ const ClientDashboard = () => {
         .order("created_at", { ascending: false });
       if (data) setServiceOrders(data as any);
     };
+    const fetchAllPayments = async () => {
+      const { data: projectsData } = await supabase.from("projects").select("id").neq("status", "entregue");
+      if (projectsData?.length) {
+        const { data: paymentsData } = await supabase
+          .from("payments")
+          .select("*")
+          .in("project_id", projectsData.map((p) => p.id));
+        if (paymentsData) setAllPayments(paymentsData as any);
+      }
+    };
     fetchProfileId();
     fetchProjects();
     fetchQuotes();
     fetchServiceOrders();
+    fetchAllPayments();
   }, [user]);
 
   // Realtime messages
@@ -591,7 +604,7 @@ const ClientDashboard = () => {
               {/* FINANCE TAB */}
               <TabsContent value="finance" className="space-y-4">
                 <div className="rounded-xl border border-white/10 bg-black p-6 sm:p-8 space-y-5">
-                  <label className="text-[10px] uppercase tracking-[0.3em] text-white/50 font-semibold">Detalhes Financeiros</label>
+                  <label className="text-[10px] uppercase tracking-[0.3em] text-white/50 font-semibold">Resumo Financeiro</label>
                   {!payment ? (
                     <div className="py-12 text-center">
                       <DollarSign className="h-8 w-8 text-white/15 mx-auto mb-2" />
@@ -599,11 +612,31 @@ const ClientDashboard = () => {
                     </div>
                   ) : (
                     <div className="space-y-4">
+                      {/* Main value card */}
                       <div className="bg-primary/10 border border-primary/20 rounded-xl p-5 space-y-4">
                         <div className="flex items-center justify-between">
-                          <span className="text-sm text-white/60">Orçamento Total</span>
+                          <span className="text-sm text-white/60">Valor Total do Projeto</span>
                           <span className="text-2xl font-bold text-primary font-display">{formatCurrency(payment.budget_total)}</span>
                         </div>
+
+                        {/* Payment status badge */}
+                        {(() => {
+                          const status = payment.payment_status || "pendente";
+                          const statusConfig: Record<string, { label: string; color: string; bgColor: string; icon: typeof CheckCircle2 }> = {
+                            pago: { label: "Pago", color: "text-emerald-400", bgColor: "bg-emerald-400/10 border-emerald-400/20", icon: CheckCircle2 },
+                            parcialmente_pago: { label: "Parcialmente Pago", color: "text-amber-400", bgColor: "bg-amber-400/10 border-amber-400/20", icon: Clock },
+                            pendente: { label: "Pendente", color: "text-orange-400", bgColor: "bg-orange-400/10 border-orange-400/20", icon: AlertCircle },
+                          };
+                          const cfg = statusConfig[status] || statusConfig.pendente;
+                          const StatusIcon = cfg.icon;
+                          return (
+                            <div className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border text-xs font-medium ${cfg.bgColor} ${cfg.color}`}>
+                              <StatusIcon className="h-3.5 w-3.5" />
+                              {cfg.label}
+                            </div>
+                          );
+                        })()}
+
                         {payment.initial_payment != null && payment.initial_payment > 0 && (
                           <div className="flex items-center justify-between text-sm">
                             <span className="text-white/60">Entrada</span>
@@ -622,11 +655,19 @@ const ClientDashboard = () => {
                           </div>
                         )}
                       </div>
+
+                      {/* Installments card */}
                       {payment.installments_total != null && payment.installments_total > 0 && (
                         <div className="border border-white/10 rounded-xl p-5 space-y-3">
                           <div className="flex items-center justify-between text-sm">
-                            <span className="text-white/60">Parcelas</span>
-                            <span className="text-white font-medium">{payment.installments_paid ?? 0} de {payment.installments_total} pagas</span>
+                            <span className="text-white/60">Parcelamento</span>
+                            <span className="text-white font-medium">
+                              {payment.installments_total}x de {formatCurrency(payment.remaining_amount != null && payment.installments_total > 0 ? payment.remaining_amount / payment.installments_total : 0)}
+                            </span>
+                          </div>
+                          <div className="flex items-center justify-between text-sm">
+                            <span className="text-white/60">Parcelas Pagas</span>
+                            <span className="text-white font-medium">{payment.installments_paid ?? 0} de {payment.installments_total}</span>
                           </div>
                           <div className="h-2.5 bg-white/10 rounded-full overflow-hidden">
                             <motion.div
@@ -636,10 +677,23 @@ const ClientDashboard = () => {
                               className="h-full bg-gradient-to-r from-primary to-kiiro-glow rounded-full"
                             />
                           </div>
-                          {payment.next_payment_date && (
-                            <div className="flex items-center gap-1.5 text-xs text-white/40">
-                              <Clock className="h-3 w-3" />
-                              <span>Próximo: {new Date(payment.next_payment_date + "T00:00:00").toLocaleDateString("pt-BR")}</span>
+
+                          {/* Next payment highlight */}
+                          {payment.next_payment_date && (payment.installments_paid ?? 0) < payment.installments_total && (
+                            <div className="mt-2 p-3 rounded-lg bg-primary/10 border border-primary/15 flex items-center justify-between">
+                              <div className="flex items-center gap-2">
+                                <CreditCard className="h-4 w-4 text-primary" />
+                                <div>
+                                  <p className="text-xs text-white/60">Próxima Parcela</p>
+                                  <p className="text-sm font-semibold text-white">
+                                    {formatCurrency(payment.remaining_amount != null && payment.installments_total > 0 ? payment.remaining_amount / payment.installments_total : 0)}
+                                  </p>
+                                </div>
+                              </div>
+                              <div className="text-right">
+                                <p className="text-[10px] text-white/40 uppercase tracking-wider">Vencimento</p>
+                                <p className="text-sm text-primary font-medium">{new Date(payment.next_payment_date + "T00:00:00").toLocaleDateString("pt-BR")}</p>
+                              </div>
                             </div>
                           )}
                         </div>
@@ -752,6 +806,67 @@ const ClientDashboard = () => {
             </div>
           </div>
         </motion.div>
+
+        {/* "Seu Próximo Passo" card */}
+        {(() => {
+          // Compute next step
+          const nextStep = (() => {
+            // 1. Pending quote?
+            if (pendingQuotes.length > 0) {
+              return { text: `Aprovar ou recusar o orçamento ORC-${String(pendingQuotes[0].sequential_number).padStart(4, "0")}`, icon: Receipt, action: "quote" };
+            }
+            // 2. Briefing pending?
+            const projectNeedingBriefing = activeProjects.find((p) => !projectBriefingStatus[p.id]);
+            if (projectNeedingBriefing) {
+              return { text: `Responder o briefing do projeto "${projectNeedingBriefing.name}"`, icon: ClipboardList, action: "briefing", projectId: projectNeedingBriefing.id };
+            }
+            // 3. Project in revision phase?
+            const projectInRevision = activeProjects.find((p) => p.status === "revisao");
+            if (projectInRevision) {
+              return { text: `Enviar feedback para "${projectInRevision.name}"`, icon: MessageSquare, action: "feedback", projectId: projectInRevision.id };
+            }
+            // 4. Payment pending?
+            const pendingPayment = allPayments.find((p) => (p.installments_paid ?? 0) < (p.installments_total ?? 1));
+            if (pendingPayment) {
+              const project = activeProjects.find((pr) => pr.id === pendingPayment.project_id);
+              const nextDate = pendingPayment.next_payment_date ? new Date(pendingPayment.next_payment_date + "T00:00:00").toLocaleDateString("pt-BR") : null;
+              return {
+                text: `Parcela pendente${project ? ` em "${project.name}"` : ""}${nextDate ? ` — Vencimento: ${nextDate}` : ""}`,
+                icon: CreditCard, action: "payment", projectId: pendingPayment.project_id,
+              };
+            }
+            return null;
+          })();
+
+          if (!nextStep) return null;
+          const StepIcon = nextStep.icon;
+          return (
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.05 }}
+              className="relative rounded-2xl border border-primary/20 bg-gradient-to-r from-primary/10 to-primary/5 p-5 sm:p-6 overflow-hidden group hover:-translate-y-0.5 hover:shadow-lg hover:shadow-primary/10 transition-all duration-200 cursor-pointer"
+              onClick={() => {
+                if (nextStep.action === "briefing" || nextStep.action === "feedback" || nextStep.action === "payment") {
+                  const project = activeProjects.find((p) => p.id === nextStep.projectId);
+                  if (project) openProjectDetail(project);
+                }
+              }}
+            >
+              <div className="absolute left-0 top-2 bottom-2 w-[3px] bg-primary rounded-full" />
+              <div className="flex items-center gap-4 pl-2">
+                <div className="h-10 w-10 rounded-xl bg-primary/20 flex items-center justify-center shrink-0">
+                  <StepIcon className="h-5 w-5 text-primary" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-[10px] uppercase tracking-[0.3em] text-primary font-bold mb-1">Seu Próximo Passo</p>
+                  <p className="text-sm text-white font-medium">{nextStep.text}</p>
+                </div>
+                <ArrowRight className="h-5 w-5 text-primary/50 group-hover:text-primary group-hover:translate-x-1 transition-all duration-200 shrink-0" />
+              </div>
+            </motion.div>
+          );
+        })()}
 
         {/* Pending quotes banner */}
         <AnimatePresence>

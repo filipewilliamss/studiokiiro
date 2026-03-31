@@ -266,8 +266,13 @@ const ProjectsTab = () => {
   const sendMessage = async () => {
     if (!newMessage.trim() || !selectedProject || !user) return;
     setSendingMessage(true);
+    
+    // Add phase prefix if there's a current stage
+    const currentStage = stages.find(s => s.status !== "concluida");
+    const phasePrefix = currentStage ? `[${currentStage.name}] ` : "";
+    
     await supabase.from("messages").insert({
-      project_id: selectedProject.id, sender_id: user.id, content: newMessage.trim(),
+      project_id: selectedProject.id, sender_id: user.id, content: phasePrefix + newMessage.trim(),
     });
     setNewMessage("");
     setSendingMessage(false);

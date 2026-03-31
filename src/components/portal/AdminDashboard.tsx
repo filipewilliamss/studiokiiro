@@ -3,7 +3,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import Navbar from "@/components/Navbar";
 import { Button } from "@/components/ui/button";
-import { LogOut, Users, FolderKanban, DollarSign, FileText, Receipt, Layers, BarChart3, Clock, BookOpen } from "lucide-react";
+import { LogOut, Users, FolderKanban, DollarSign, FileText, Receipt, Layers, BarChart3, Clock, BookOpen, Send } from "lucide-react";
 import NotificationBell from "./admin/NotificationBell";
 import ClientsTab from "./admin/ClientsTab";
 import ProjectsTab from "./admin/ProjectsTab";

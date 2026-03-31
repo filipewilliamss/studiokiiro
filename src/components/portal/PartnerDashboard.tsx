@@ -341,11 +341,17 @@ const PartnerDashboard = () => {
                 {activeView === "dashboard" ? (
                   <div className="space-y-6">
                     {/* Summary cards */}
-                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                    <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
                       <SummaryCard label="Projetos ativos" value={String(activeProjects.length)} />
                       <SummaryCard label="A receber" value={formatCurrency(totalCommissionsPending)} color="text-primary" />
                       <SummaryCard label="Já recebido" value={formatCurrency(totalCommissionsReceived)} color="text-emerald-400" />
-                      <SummaryCard label="Total gerado" value={formatCurrency(totalCommissions)} />
+                      {nextCommission && (
+                        <div className="col-span-2 bg-primary/10 border border-primary/20 rounded-xl p-4 flex flex-col justify-center">
+                          <p className="text-[10px] uppercase tracking-wider text-primary font-bold mb-1">Próxima comissão</p>
+                          <p className="text-lg font-bold text-foreground">{formatCurrency(Number(nextCommission.commission_amount))}</p>
+                          <p className="text-[10px] text-muted-foreground truncate">Projeto: {nextCommission.projects?.name}</p>
+                        </div>
+                      )}
                     </div>
 
                     {/* Status breakdown */}

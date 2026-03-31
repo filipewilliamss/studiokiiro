@@ -523,58 +523,31 @@ const ProjectsTab = () => {
         <SheetContent className="sm:max-w-2xl overflow-y-auto">
           {selectedProject && (
             <>
-              <SheetHeader>
-                <div className="flex items-center gap-2">
-                  {editingName ? (
-                    <div className="flex items-center gap-2 flex-1">
-                      <Input
-                        value={editName}
-                        onChange={(e) => setEditName(e.target.value)}
-                        className="font-display font-bold text-lg h-9"
-                        autoFocus
-                        onKeyDown={(e) => {
-                          if (e.key === "Enter") {
-                            e.preventDefault();
-                            if (editName.trim()) {
-                              supabase.from("projects").update({ name: editName.trim() }).eq("id", selectedProject.id).then(({ error }) => {
-                                if (error) { toast.error("Erro ao renomear"); return; }
-                                setSelectedProject({ ...selectedProject, name: editName.trim() });
-                                fetchProjects();
-                                toast.success("Nome atualizado!");
-                              });
-                            }
-                            setEditingName(false);
-                          } else if (e.key === "Escape") {
-                            setEditingName(false);
-                          }
-                        }}
-                      />
-                      <Button size="icon" variant="ghost" className="h-8 w-8 text-primary" onClick={() => {
-                        if (editName.trim()) {
-                          supabase.from("projects").update({ name: editName.trim() }).eq("id", selectedProject.id).then(({ error }) => {
-                            if (error) { toast.error("Erro ao renomear"); return; }
-                            setSelectedProject({ ...selectedProject, name: editName.trim() });
-                            fetchProjects();
-                            toast.success("Nome atualizado!");
-                          });
-                        }
-                        setEditingName(false);
-                      }}><Check className="h-4 w-4" /></Button>
-                      <Button size="icon" variant="ghost" className="h-8 w-8 text-muted-foreground" onClick={() => setEditingName(false)}><X className="h-4 w-4" /></Button>
-                    </div>
-                  ) : (
-                    <>
-                      <SheetTitle style={{ fontFamily: "var(--font-display)" }}>{selectedProject.name}</SheetTitle>
-                      <Button size="icon" variant="ghost" className="h-7 w-7 text-muted-foreground hover:text-primary" onClick={() => { setEditName(selectedProject.name); setEditingName(true); }}>
-                        <Pencil className="h-3.5 w-3.5" />
-                      </Button>
-                    </>
-                  )}
+              <SheetHeader className="flex flex-row items-start justify-between">
+                <div className="flex-1">
+                  <div className="flex items-center gap-2">
+...
+                    )}
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <p className="text-sm text-muted-foreground">{selectedProject.type}</p>
+                    <span className="text-xs text-muted-foreground">•</span>
+                    <p className="text-sm text-muted-foreground">{(selectedProject as any).profiles?.full_name || "—"}</p>
+                  </div>
                 </div>
-                <div className="flex items-center gap-2">
-                  <p className="text-sm text-muted-foreground">{selectedProject.type}</p>
-                  <span className="text-xs text-muted-foreground">•</span>
-                  <p className="text-sm text-muted-foreground">{(selectedProject as any).profiles?.full_name || "—"}</p>
+                <div className="flex items-center gap-2 mt-2">
+                  <Button variant="outline" size="sm" className="gap-2 text-xs" onClick={() => {
+                    const content = `CONTRATO DE PRESTAÇÃO DE SERVIÇOS DESIGN\n\nCONTRATANTE: ${selectedProject.profiles?.full_name}\nCONTRATADO: Studio Kiiro\n\nSERVIÇO: ${selectedProject.type}\nVALOR: ${payment ? formatCurrency(payment.budget_total) : "—"}\n\nESTE É UM MODELO DE CONTRATO AUTOMATIZADO...`;
+                    const blob = new Blob([content], { type: "text/plain" });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement("a");
+                    a.href = url;
+                    a.download = `Contrato_${selectedProject.name.replace(/ /g, "_")}.txt`;
+                    a.click();
+                    toast.success("Contrato (rascunho) gerado com sucesso!");
+                  }}>
+                    <FileText className="h-3.5 w-3.5" /> Gerar Contrato
+                  </Button>
                 </div>
               </SheetHeader>
 

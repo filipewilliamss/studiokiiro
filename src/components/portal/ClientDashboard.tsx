@@ -124,7 +124,8 @@ const ClientDashboard = () => {
   const osPrintRef = useRef<HTMLDivElement>(null);
   const [clientProfileId, setClientProfileId] = useState<string | null>(null);
 
-
+  // All payments for "next step" card
+  const [allPayments, setAllPayments] = useState<Payment[]>([]);
   const fetchQuotes = async () => {
     const { data } = await supabase
       .from("quotes")

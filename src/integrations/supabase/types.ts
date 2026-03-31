@@ -297,6 +297,54 @@ export type Database = {
         }
         Relationships: []
       }
+      project_feedbacks: {
+        Row: {
+          client_id: string
+          content: string
+          created_at: string
+          id: string
+          project_id: string
+          stage_id: string | null
+          status: string | null
+          updated_at: string
+        }
+        Insert: {
+          client_id: string
+          content: string
+          created_at?: string
+          id?: string
+          project_id: string
+          stage_id?: string | null
+          status?: string | null
+          updated_at?: string
+        }
+        Update: {
+          client_id?: string
+          content?: string
+          created_at?: string
+          id?: string
+          project_id?: string
+          stage_id?: string | null
+          status?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "project_feedbacks_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "project_feedbacks_stage_id_fkey"
+            columns: ["stage_id"]
+            isOneToOne: false
+            referencedRelation: "project_stages"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       project_stages: {
         Row: {
           completed_at: string | null

@@ -103,10 +103,13 @@ const AdminDashboard = () => {
                 Ferramenta interna do Studio Kiiro
               </span>
             </div>
-            <Button variant="ghost" size="sm" onClick={signOut} className="text-white/50 hover:text-white gap-2 text-xs hover:bg-white/5 transition-all duration-300">
-              <LogOut className="h-3.5 w-3.5" />
-              Sair
-            </Button>
+            <div className="flex items-center gap-1">
+              <NotificationBell />
+              <Button variant="ghost" size="sm" onClick={signOut} className="text-white/50 hover:text-white gap-2 text-xs hover:bg-white/5 transition-all duration-300">
+                <LogOut className="h-3.5 w-3.5" />
+                Sair
+              </Button>
+            </div>
           </div>
         </header>
 

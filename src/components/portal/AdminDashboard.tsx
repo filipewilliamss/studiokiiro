@@ -67,6 +67,7 @@ const AdminDashboard = () => {
       case "projects": return <ProjectsTab />;
       case "finance": return <FinanceTab />;
       case "quotes": return <QuotesTab />;
+      case "proposals": return <ProposalsTab />;
       case "service-orders": return <ServiceOrdersTab />;
       case "methodology": return <MethodologyTab />;
     }

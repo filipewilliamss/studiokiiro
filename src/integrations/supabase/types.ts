@@ -129,6 +129,33 @@ export type Database = {
         }
         Relationships: []
       }
+      partner_goals: {
+        Row: {
+          created_at: string
+          goal_amount: number
+          id: string
+          month: string
+          partner_id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          goal_amount?: number
+          id?: string
+          month: string
+          partner_id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          goal_amount?: number
+          id?: string
+          month?: string
+          partner_id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       payments: {
         Row: {
           budget_total: number
@@ -276,6 +303,7 @@ export type Database = {
           created_at: string
           description: string | null
           id: string
+          internal_tasks: Json | null
           name: string
           project_id: string
           sort_order: number
@@ -286,6 +314,7 @@ export type Database = {
           created_at?: string
           description?: string | null
           id?: string
+          internal_tasks?: Json | null
           name: string
           project_id: string
           sort_order?: number
@@ -296,6 +325,7 @@ export type Database = {
           created_at?: string
           description?: string | null
           id?: string
+          internal_tasks?: Json | null
           name?: string
           project_id?: string
           sort_order?: number
@@ -317,13 +347,16 @@ export type Database = {
           created_at: string
           deadline: string | null
           description: string | null
+          health_status: string | null
           id: string
           name: string
+          partner_message: string | null
           partner_notes: string | null
           priority: string
           progress: number
           start_date: string | null
           status: string
+          studio_observation: string | null
           type: string
           updated_at: string
         }
@@ -332,13 +365,16 @@ export type Database = {
           created_at?: string
           deadline?: string | null
           description?: string | null
+          health_status?: string | null
           id?: string
           name: string
+          partner_message?: string | null
           partner_notes?: string | null
           priority?: string
           progress?: number
           start_date?: string | null
           status?: string
+          studio_observation?: string | null
           type?: string
           updated_at?: string
         }
@@ -347,13 +383,16 @@ export type Database = {
           created_at?: string
           deadline?: string | null
           description?: string | null
+          health_status?: string | null
           id?: string
           name?: string
+          partner_message?: string | null
           partner_notes?: string | null
           priority?: string
           progress?: number
           start_date?: string | null
           status?: string
+          studio_observation?: string | null
           type?: string
           updated_at?: string
         }
@@ -419,6 +458,7 @@ export type Database = {
           client_response_at: string | null
           created_at: string
           description: string | null
+          estimated_margin: number | null
           id: string
           items: Json
           notes: string | null
@@ -426,6 +466,7 @@ export type Database = {
           project_type: string
           sequential_number: number
           status: string
+          sub_status: string | null
           total_value: number
           validity_date: string | null
         }
@@ -435,6 +476,7 @@ export type Database = {
           client_response_at?: string | null
           created_at?: string
           description?: string | null
+          estimated_margin?: number | null
           id?: string
           items?: Json
           notes?: string | null
@@ -442,6 +484,7 @@ export type Database = {
           project_type?: string
           sequential_number?: number
           status?: string
+          sub_status?: string | null
           total_value?: number
           validity_date?: string | null
         }
@@ -451,6 +494,7 @@ export type Database = {
           client_response_at?: string | null
           created_at?: string
           description?: string | null
+          estimated_margin?: number | null
           id?: string
           items?: Json
           notes?: string | null
@@ -458,6 +502,7 @@ export type Database = {
           project_type?: string
           sequential_number?: number
           status?: string
+          sub_status?: string | null
           total_value?: number
           validity_date?: string | null
         }
@@ -470,6 +515,33 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      service_goals: {
+        Row: {
+          created_at: string
+          goal_amount: number
+          id: string
+          month: string
+          service_type: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          goal_amount?: number
+          id?: string
+          month: string
+          service_type: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          goal_amount?: number
+          id?: string
+          month?: string
+          service_type?: string
+          updated_at?: string
+        }
+        Relationships: []
       }
       service_orders: {
         Row: {

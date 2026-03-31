@@ -12,7 +12,7 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sh
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   FolderPlus, ChevronRight, CheckCircle2, Circle, Upload, FileDown, Trash2,
-  FolderOpen, DollarSign, MessageSquare, Send, Clock, Calendar, CreditCard, ClipboardList, Pencil, Check, X,
+  FolderOpen, DollarSign, MessageSquare, Send, Clock, Calendar, CreditCard, ClipboardList, Pencil, Check, X, Plus,
   Pause, Play, AlertTriangle, FileText, Heart, Shield, Activity, ListTodo
 } from "lucide-react";
 import { toast } from "sonner";

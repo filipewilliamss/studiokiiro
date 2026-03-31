@@ -59,7 +59,7 @@ const PartnerDashboard = () => {
     // Fetch payments (filtered by RLS to partner's sales_rep)
     const { data: paymentsData } = await supabase
       .from("payments")
-      .select("id, project_id, commission_amount, commission_paid_to_partner, commission_paid_date, sale_date, projects(name, type)")
+      .select("id, project_id, commission_amount, commission_paid_to_partner, commission_paid_date, sale_date, projects(name, type, profiles(full_name))")
       .order("sale_date", { ascending: false });
 
     if (paymentsData) {

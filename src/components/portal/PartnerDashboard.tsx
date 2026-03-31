@@ -47,6 +47,9 @@ const PartnerDashboard = () => {
   const now = new Date();
   const [filterMonth, setFilterMonth] = useState("all");
   const [filterStatus, setFilterStatus] = useState("all");
+  const [filterClient, setFilterClient] = useState("all");
+  const [partnerMessage, setPartnerMessage] = useState("");
+  const [savingMessage, setSavingMessage] = useState(false);
 
   useEffect(() => {
     fetchData();

@@ -19,6 +19,7 @@ const tabs = [
   { key: "projects", label: "Projetos", icon: FolderKanban },
   { key: "finance", label: "Financeiro", icon: DollarSign },
   { key: "quotes", label: "Orçamentos", icon: Receipt },
+  { key: "proposals", label: "Propostas", icon: Send },
   { key: "service-orders", label: "Ordens de Serviço", icon: FileText },
   { key: "methodology", label: "Metodologia", icon: BookOpen },
 ] as const;

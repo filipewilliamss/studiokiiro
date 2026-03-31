@@ -80,6 +80,23 @@ const NotificationBell = () => {
         });
       }
 
+      // Recent feedbacks (last 7 days)
+      const { data: recentFeedbacks } = await supabase
+        .from("project_feedbacks")
+        .select("content, created_at, project_id, projects(name)")
+        .gte("created_at", weekAgo)
+        .order("created_at", { ascending: false })
+        .limit(3);
+
+      recentFeedbacks?.forEach((f: any) => {
+        notifs.push({
+          id: `feedback-${f.created_at}`,
+          icon: "message",
+          text: `Novo feedback em "${f.projects?.name || "Projeto"}"`,
+          time: formatTimeAgo(f.created_at),
+        });
+      });
+
       // Approved quotes (last 7 days)
       const { data: approvedQuotes } = await supabase
         .from("quotes")

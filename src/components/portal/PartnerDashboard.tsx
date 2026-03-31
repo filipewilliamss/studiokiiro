@@ -28,7 +28,7 @@ interface PartnerProject {
 interface PartnerPayment {
   id: string; project_id: string; commission_amount: number; commission_paid_to_partner: boolean;
   commission_paid_date: string | null; sale_date: string | null;
-  projects?: { name: string; type: string };
+  projects?: { name: string; type: string; profiles?: { full_name: string } };
 }
 
 interface Stage {

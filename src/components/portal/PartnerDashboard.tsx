@@ -39,7 +39,7 @@ const PartnerDashboard = () => {
   const { profile, signOut } = useAuth();
   const [projects, setProjects] = useState<PartnerProject[]>([]);
   const [payments, setPayments] = useState<PartnerPayment[]>([]);
-  const [activeView, setActiveView] = useState<"dashboard" | "commissions">("dashboard");
+  const [activeView, setActiveView] = useState<"dashboard" | "commissions" | "resources">("dashboard");
   const [selectedProject, setSelectedProject] = useState<PartnerProject | null>(null);
   const [stages, setStages] = useState<Stage[]>([]);
 

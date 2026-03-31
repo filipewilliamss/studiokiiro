@@ -191,7 +191,7 @@ const ProjectsTab = () => {
       supabase.from("briefing_responses").select("responses").eq("project_id", project.id).maybeSingle(),
     ]);
 
-    if (stagesRes.data) setStages(stagesRes.data);
+    if (stagesRes.data) setStages(stagesRes.data as any);
     if (filesRes.data) setFiles(filesRes.data);
     if (paymentRes.data) {
       setPayment(paymentRes.data);

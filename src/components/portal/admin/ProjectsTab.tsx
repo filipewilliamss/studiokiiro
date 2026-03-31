@@ -449,18 +449,14 @@ const ProjectsTab = () => {
                 <div className="flex items-center gap-3">
                   {/* Health indicator */}
                   {!isDelivered && (() => {
-                    const now = new Date();
-                    const deadline = project.deadline ? new Date(project.deadline + "T00:00:00") : null;
-                    if (!deadline) return null;
-                    const daysLeft = Math.ceil((deadline.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
-                    const health = daysLeft < 0 ? "red" : daysLeft <= 3 ? "yellow" : "green";
-                    const label = daysLeft < 0 ? "Atrasado" : daysLeft <= 3 ? "Atenção" : "No Prazo";
-                    const colors = { green: "text-emerald-400", yellow: "text-amber-400", red: "text-red-400" };
-                    const bgColors = { green: "bg-emerald-400/10", yellow: "bg-amber-400/10", red: "bg-red-400/10" };
+                    const health = project.health_status || "No Prazo";
+                    const colors: Record<string, string> = { "No Prazo": "text-emerald-400", "Atenção": "text-amber-400", "Atrasado": "text-red-400" };
+                    const bgColors: Record<string, string> = { "No Prazo": "bg-emerald-400/10", "Atenção": "bg-amber-400/10", "Atrasado": "bg-red-400/10" };
+                    const icons: Record<string, React.ReactNode> = { "No Prazo": <CheckCircle2 className="h-3 w-3" />, "Atenção": <Clock className="h-3 w-3" />, "Atrasado": <AlertTriangle className="h-3 w-3" /> };
                     return (
-                      <span className={`inline-flex items-center gap-1 text-[10px] px-2 py-0.5 rounded-full font-medium ${colors[health]} ${bgColors[health]}`} title={`${daysLeft}d restantes`}>
-                        {health === "red" ? <AlertTriangle className="h-3 w-3" /> : health === "yellow" ? <Clock className="h-3 w-3" /> : <CheckCircle2 className="h-3 w-3" />}
-                        {label}
+                      <span className={`inline-flex items-center gap-1 text-[10px] px-2 py-0.5 rounded-full font-medium ${colors[health] || colors["No Prazo"]} ${bgColors[health] || bgColors["No Prazo"]}`}>
+                        {icons[health] || icons["No Prazo"]}
+                        {health}
                       </span>
                     );
                   })()}

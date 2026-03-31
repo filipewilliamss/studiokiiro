@@ -10,6 +10,7 @@ import ProjectsTab from "./admin/ProjectsTab";
 import FinanceTab from "./admin/FinanceTab";
 import ServiceOrdersTab from "./admin/ServiceOrdersTab";
 import QuotesTab from "./admin/QuotesTab";
+import ProposalsTab from "./admin/ProposalsTab";
 import MethodologyTab from "./admin/MethodologyTab";
 import { motion, AnimatePresence } from "framer-motion";
 

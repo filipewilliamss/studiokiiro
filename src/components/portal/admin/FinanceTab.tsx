@@ -198,9 +198,21 @@ const FinanceTab = () => {
                     {card.tip}
                   </TooltipContent>
                 </Tooltip>
-                <p className={`text-lg font-bold ${card.color}`} style={{ fontFamily: "var(--font-display)" }}>
-                  {card.pct !== undefined ? `${card.pct.toFixed(1)}%` : formatCurrency(card.value!)}
-                </p>
+                <div className="flex items-center gap-2">
+                  <p className={`text-lg font-bold ${card.color}`} style={{ fontFamily: "var(--font-display)" }}>
+                    {card.pct !== undefined ? `${card.pct.toFixed(1)}%` : formatCurrency(card.value!)}
+                  </p>
+                  {card.value !== null && card.value > 0 && (
+                    <div className="flex items-center">
+                      <ArrowUp className="h-3 w-3 text-emerald-400" />
+                    </div>
+                  )}
+                  {card.value !== null && card.value < 0 && (
+                    <div className="flex items-center">
+                      <ArrowDown className="h-3 w-3 text-rose-400" />
+                    </div>
+                  )}
+                </div>
               </motion.div>
             ))}
           </div>

@@ -128,8 +128,11 @@ const PartnerDashboard = () => {
     const statusMatch = filterStatus === "all"
       ? true
       : filterStatus === "pending" ? !p.commission_paid_to_partner : p.commission_paid_to_partner;
-    return monthMatch && statusMatch;
+    const clientMatch = filterClient === "all" || p.projects?.profiles?.full_name === filterClient;
+    return monthMatch && statusMatch && clientMatch;
   });
+
+  const availableClients = [...new Set(payments.map(p => p.projects?.profiles?.full_name).filter(Boolean))].sort();
 
   const availableMonths = [...new Set(payments.map(p => p.sale_date?.substring(0, 7)).filter(Boolean))].sort().reverse();
 

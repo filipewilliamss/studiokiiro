@@ -310,6 +310,9 @@ const ClientDashboard = () => {
   const showBriefingBanner = selectedProject && !briefingSubmitted && currentBriefingQuestions;
   const pendingQuotes = quotes.filter((q) => q.status === "pendente");
 
+  const currentStage = stages.find(s => s.status !== "concluida");
+  const isReviewPhase = currentStage?.name.toLowerCase().includes("revisão") || currentStage?.name.toLowerCase().includes("entrega");
+
   // Gate: check if client has any confirmed quote (approved + admin_confirmed)
   const hasConfirmedAccess = quotes.some((q) => q.status === "aprovado" && q.admin_confirmed);
 

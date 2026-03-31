@@ -7,7 +7,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { DollarSign, Plus, Calendar, CreditCard, TrendingUp, Trash2, Pencil, Percent, BarChart3, Filter, Info, ChevronDown, CheckCircle2, Clock } from "lucide-react";
+import { DollarSign, Plus, Calendar, CreditCard, TrendingUp, Trash2, Pencil, Percent, BarChart3, Filter, Info, ChevronDown, CheckCircle2, Clock, ArrowUp, ArrowDown } from "lucide-react";
 import { toast } from "sonner";
 import { motion } from "framer-motion";
 import FixedCostsSection from "./finance/FixedCostsSection";

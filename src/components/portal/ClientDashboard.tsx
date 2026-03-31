@@ -29,9 +29,9 @@ interface Stage {
 }
 interface ProjectFile { name: string; viewUrl: string | null; downloadUrl: string | null; }
 interface Payment {
-  id: string; budget_total: number; initial_payment: number | null; initial_payment_date: string | null;
+  id: string; project_id: string; budget_total: number; initial_payment: number | null; initial_payment_date: string | null;
   remaining_amount: number | null; installments_total: number | null; installments_paid: number | null;
-  next_payment_date: string | null; notes: string | null;
+  next_payment_date: string | null; notes: string | null; payment_status: string | null;
 }
 interface Message { id: string; sender_id: string; content: string; created_at: string; }
 interface QuoteItem { description: string; quantity: number; unit_price: number; }

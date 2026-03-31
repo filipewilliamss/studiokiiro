@@ -321,6 +321,7 @@ const PartnerDashboard = () => {
           {[
             { key: "dashboard" as const, label: "Projetos", icon: FolderOpen },
             { key: "commissions" as const, label: "Minhas Comissões", icon: DollarSign },
+            { key: "resources" as const, label: "Recursos para Venda", icon: BookOpen },
           ].map(tab => (
             <button key={tab.key} onClick={() => setActiveView(tab.key)}
               className={`relative flex items-center gap-2.5 px-5 py-3 rounded-lg text-sm font-medium transition-all duration-200 ${

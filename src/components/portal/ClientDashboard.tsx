@@ -766,6 +766,67 @@ const ClientDashboard = () => {
           </div>
         </motion.div>
 
+        {/* "Seu Próximo Passo" card */}
+        {(() => {
+          // Compute next step
+          const nextStep = (() => {
+            // 1. Pending quote?
+            if (pendingQuotes.length > 0) {
+              return { text: `Aprovar ou recusar o orçamento ORC-${String(pendingQuotes[0].sequential_number).padStart(4, "0")}`, icon: Receipt, action: "quote" };
+            }
+            // 2. Briefing pending?
+            const projectNeedingBriefing = activeProjects.find((p) => !projectBriefingStatus[p.id]);
+            if (projectNeedingBriefing) {
+              return { text: `Responder o briefing do projeto "${projectNeedingBriefing.name}"`, icon: ClipboardList, action: "briefing", projectId: projectNeedingBriefing.id };
+            }
+            // 3. Project in revision phase?
+            const projectInRevision = activeProjects.find((p) => p.status === "revisao");
+            if (projectInRevision) {
+              return { text: `Enviar feedback para "${projectInRevision.name}"`, icon: MessageSquare, action: "feedback", projectId: projectInRevision.id };
+            }
+            // 4. Payment pending?
+            const pendingPayment = allPayments.find((p) => (p.installments_paid ?? 0) < (p.installments_total ?? 1));
+            if (pendingPayment) {
+              const project = activeProjects.find((pr) => pr.id === pendingPayment.project_id);
+              const nextDate = pendingPayment.next_payment_date ? new Date(pendingPayment.next_payment_date + "T00:00:00").toLocaleDateString("pt-BR") : null;
+              return {
+                text: `Parcela pendente${project ? ` em "${project.name}"` : ""}${nextDate ? ` — Vencimento: ${nextDate}` : ""}`,
+                icon: CreditCard, action: "payment", projectId: pendingPayment.project_id,
+              };
+            }
+            return null;
+          })();
+
+          if (!nextStep) return null;
+          const StepIcon = nextStep.icon;
+          return (
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.05 }}
+              className="relative rounded-2xl border border-primary/20 bg-gradient-to-r from-primary/10 to-primary/5 p-5 sm:p-6 overflow-hidden group hover:-translate-y-0.5 hover:shadow-lg hover:shadow-primary/10 transition-all duration-200 cursor-pointer"
+              onClick={() => {
+                if (nextStep.action === "briefing" || nextStep.action === "feedback" || nextStep.action === "payment") {
+                  const project = activeProjects.find((p) => p.id === nextStep.projectId);
+                  if (project) openProjectDetail(project);
+                }
+              }}
+            >
+              <div className="absolute left-0 top-2 bottom-2 w-[3px] bg-primary rounded-full" />
+              <div className="flex items-center gap-4 pl-2">
+                <div className="h-10 w-10 rounded-xl bg-primary/20 flex items-center justify-center shrink-0">
+                  <StepIcon className="h-5 w-5 text-primary" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-[10px] uppercase tracking-[0.3em] text-primary font-bold mb-1">Seu Próximo Passo</p>
+                  <p className="text-sm text-white font-medium">{nextStep.text}</p>
+                </div>
+                <ArrowRight className="h-5 w-5 text-primary/50 group-hover:text-primary group-hover:translate-x-1 transition-all duration-200 shrink-0" />
+              </div>
+            </motion.div>
+          );
+        })()}
+
         {/* Pending quotes banner */}
         <AnimatePresence>
           {pendingQuotes.length > 0 && (

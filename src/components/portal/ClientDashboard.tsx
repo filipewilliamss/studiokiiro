@@ -7,6 +7,7 @@ import {
   LogOut, FolderOpen, CheckCircle2, Clock, Circle, FileDown,
   ExternalLink, DollarSign, MessageSquare, Send, ArrowLeft, ClipboardList,
   Receipt, ThumbsUp, ThumbsDown, Hash, Sparkles, FileText, Printer,
+  ArrowRight, CreditCard, AlertCircle,
 } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";

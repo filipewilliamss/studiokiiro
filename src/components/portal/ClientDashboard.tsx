@@ -559,6 +559,34 @@ const ClientDashboard = () => {
                     </div>
                   )}
                 </div>
+
+                {isReviewPhase && (
+                  <div className="rounded-xl border border-primary/20 bg-primary/5 p-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <div className="space-y-1 text-center sm:text-left">
+                      <h3 className="text-sm font-bold text-primary uppercase tracking-wider">Central de Feedback</h3>
+                      <p className="text-xs text-white/60">Estamos na fase de revisão. Envie seus ajustes detalhados para nossa equipe.</p>
+                    </div>
+                    <Button
+                      onClick={() => {
+                        const feedback = prompt("Descreva detalhadamente os ajustes necessários:");
+                        if (feedback) {
+                          supabase.from("project_feedbacks").insert({
+                            project_id: selectedProject.id,
+                            stage_id: currentStage?.id,
+                            client_id: user?.id,
+                            content: feedback
+                          }).then(({ error }) => {
+                            if (error) toast.error("Erro ao enviar feedback");
+                            else toast.success("Feedback enviado com sucesso!");
+                          });
+                        }
+                      }}
+                      className="gap-2 rounded-xl w-full sm:w-auto"
+                    >
+                      <MessageSquare className="h-4 w-4" /> Enviar Feedback
+                    </Button>
+                  </div>
+                )}
               </TabsContent>
 
               {/* FILES TAB */}

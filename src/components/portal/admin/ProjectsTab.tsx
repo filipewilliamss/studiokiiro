@@ -617,26 +617,64 @@ const ProjectsTab = () => {
 
                   {/* STATUS TAB */}
                   <TabsContent value="status" className="space-y-6">
-                    {/* Status update */}
+                    <div className="grid grid-cols-2 gap-3">
+                      <div className="space-y-2">
+                        <label className="text-xs uppercase tracking-wider text-muted-foreground font-medium">Saúde do Projeto</label>
+                        <Select
+                          value={selectedProject.health_status || "No Prazo"}
+                          onValueChange={async (v) => {
+                            await supabase.from("projects").update({ health_status: v }).eq("id", selectedProject.id);
+                            setSelectedProject({ ...selectedProject, health_status: v });
+                            fetchProjects();
+                            toast.success("Saúde atualizada");
+                          }}
+                        >
+                          <SelectTrigger><SelectValue /></SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="No Prazo">No Prazo</SelectItem>
+                            <SelectItem value="Atenção">Atenção</SelectItem>
+                            <SelectItem value="Atrasado">Atrasado</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                      <div className="space-y-2">
+                        <label className="text-xs uppercase tracking-wider text-muted-foreground font-medium">Status do Projeto</label>
+                        <Select
+                          value={selectedProject.status}
+                          onValueChange={async (v) => {
+                            await supabase.from("projects").update({ status: v }).eq("id", selectedProject.id);
+                            setSelectedProject({ ...selectedProject, status: v });
+                            fetchProjects();
+                            toast.success("Status atualizado");
+                          }}
+                        >
+                          <SelectTrigger><SelectValue /></SelectTrigger>
+                          <SelectContent>{Object.entries(statusLabels).map(([k, v]) => <SelectItem key={k} value={k}>{v}</SelectItem>)}</SelectContent>
+                        </Select>
+                      </div>
+                    </div>
+
+                    {/* Studio Observation */}
                     <div className="space-y-2">
-                      <label className="text-xs uppercase tracking-wider text-muted-foreground font-medium">Status do Projeto</label>
-                      <Select
-                        value={selectedProject.status}
-                        onValueChange={async (v) => {
-                          await supabase.from("projects").update({ status: v }).eq("id", selectedProject.id);
-                          setSelectedProject({ ...selectedProject, status: v });
-                          fetchProjects();
-                          toast.success("Status atualizado");
+                      <label className="text-xs uppercase tracking-wider text-muted-foreground font-medium">Observação do Studio (Somente Admin)</label>
+                      <Textarea
+                        defaultValue={selectedProject.studio_observation || ""}
+                        rows={3}
+                        placeholder="Anotações estratégicas..."
+                        onBlur={async (e) => {
+                          const val = e.target.value.trim() || null;
+                          if (val !== selectedProject.studio_observation) {
+                            await supabase.from("projects").update({ studio_observation: val }).eq("id", selectedProject.id);
+                            setSelectedProject({ ...selectedProject, studio_observation: val });
+                            toast.success("Observação salva");
+                          }
                         }}
-                      >
-                        <SelectTrigger><SelectValue /></SelectTrigger>
-                        <SelectContent>{Object.entries(statusLabels).map(([k, v]) => <SelectItem key={k} value={k}>{v}</SelectItem>)}</SelectContent>
-                      </Select>
+                      />
                     </div>
 
                     {/* Partner notes */}
                     <div className="space-y-2">
-                      <label className="text-xs uppercase tracking-wider text-muted-foreground font-medium">Observação do Studio (visível para o parceiro)</label>
+                      <label className="text-xs uppercase tracking-wider text-muted-foreground font-medium">Observação para o Parceiro (Leitura Parceiro)</label>
                       <Textarea
                         defaultValue={selectedProject.partner_notes || ""}
                         rows={3}
@@ -661,16 +699,45 @@ const ProjectsTab = () => {
                       {stages.length === 0 ? (
                         <p className="text-sm text-muted-foreground">Nenhuma etapa criada.</p>
                       ) : (
-                        <div className="space-y-2">
+                        <div className="space-y-4">
                           {stages.map((stage) => (
-                            <button key={stage.id} onClick={() => toggleStage(stage)} className="flex items-start gap-3 w-full p-3 rounded-lg border border-border hover:border-primary/30 transition-colors text-left">
-                              {stage.status === "concluida" ? <CheckCircle2 className="h-5 w-5 text-primary shrink-0 mt-0.5" /> : <Circle className="h-5 w-5 text-muted-foreground shrink-0 mt-0.5" />}
-                              <div className="flex-1 min-w-0">
-                                <span className={`text-sm font-medium ${stage.status === "concluida" ? "text-muted-foreground line-through" : "text-foreground"}`}>{stage.name}</span>
-                                {stage.description && <p className="text-[11px] text-muted-foreground mt-0.5 line-clamp-2">{stage.description}</p>}
-                                {stage.completed_at && <p className="text-[10px] text-primary mt-1">✓ Concluído em {new Date(stage.completed_at).toLocaleDateString("pt-BR")}</p>}
+                            <div key={stage.id} className="space-y-2">
+                              <button onClick={() => toggleStage(stage)} className="flex items-start gap-3 w-full p-3 rounded-lg border border-border hover:border-primary/30 transition-colors text-left">
+                                {stage.status === "concluida" ? <CheckCircle2 className="h-5 w-5 text-primary shrink-0 mt-0.5" /> : <Circle className="h-5 w-5 text-muted-foreground shrink-0 mt-0.5" />}
+                                <div className="flex-1 min-w-0">
+                                  <span className={`text-sm font-medium ${stage.status === "concluida" ? "text-muted-foreground line-through" : "text-foreground"}`}>{stage.name}</span>
+                                  {stage.description && <p className="text-[11px] text-muted-foreground mt-0.5 line-clamp-2">{stage.description}</p>}
+                                  {stage.completed_at && <p className="text-[10px] text-primary mt-1">✓ Concluído em {new Date(stage.completed_at).toLocaleDateString("pt-BR")}</p>}
+                                </div>
+                              </button>
+                              
+                              {/* Internal Tasks */}
+                              <div className="ml-8 space-y-2">
+                                {(stage.internal_tasks || []).map((task, idx) => (
+                                  <div key={task.id} className="flex items-center gap-2">
+                                    <Checkbox
+                                      checked={task.completed}
+                                      onCheckedChange={async (checked) => {
+                                        const newTasks = [...(stage.internal_tasks || [])];
+                                        newTasks[idx] = { ...task, completed: !!checked };
+                                        await supabase.from("project_stages").update({ internal_tasks: newTasks as any }).eq("id", stage.id);
+                                        setStages(stages.map(s => s.id === stage.id ? { ...s, internal_tasks: newTasks } : s));
+                                      }}
+                                    />
+                                    <span className={`text-xs ${task.completed ? "text-muted-foreground line-through" : "text-foreground"}`}>{task.text}</span>
+                                  </div>
+                                ))}
+                                <Button variant="ghost" size="sm" className="h-6 text-[10px] text-muted-foreground gap-1" onClick={async () => {
+                                  const text = prompt("Nova sub-etapa:");
+                                  if (!text) return;
+                                  const newTasks = [...(stage.internal_tasks || []), { id: crypto.randomUUID(), text, completed: false }];
+                                  await supabase.from("project_stages").update({ internal_tasks: newTasks as any }).eq("id", stage.id);
+                                  setStages(stages.map(s => s.id === stage.id ? { ...s, internal_tasks: newTasks } : s));
+                                }}>
+                                  <Plus className="h-3 w-3" /> Adicionar sub-etapa
+                                </Button>
                               </div>
-                            </button>
+                            </div>
                           ))}
                         </div>
                       )}

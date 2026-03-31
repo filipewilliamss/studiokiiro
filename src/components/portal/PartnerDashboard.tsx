@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import {
   LogOut, FolderOpen, DollarSign, ArrowLeft, Clock, TrendingUp,
-  CheckCircle2, Circle, AlertCircle, Filter,
+  CheckCircle2, Circle, AlertCircle, Filter, MessageSquare, BookOpen, Download, LayoutDashboard, Search,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import kiiroLogo from "@/assets/logo.png";

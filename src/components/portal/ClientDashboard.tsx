@@ -592,7 +592,19 @@ const ClientDashboard = () => {
               {/* FILES TAB */}
               <TabsContent value="files" className="space-y-4">
                 <div className="rounded-xl border border-white/10 bg-black p-6 sm:p-8">
-                  <label className="text-[10px] uppercase tracking-[0.3em] text-white/50 font-semibold">Arquivos do Projeto</label>
+                  <div className="flex items-center justify-between mb-6">
+                    <label className="text-[10px] uppercase tracking-[0.3em] text-white/50 font-semibold">Arquivos do Projeto</label>
+                    {files.length > 0 && (
+                      <Button variant="outline" size="sm" className="gap-2 text-xs rounded-xl" onClick={() => {
+                        files.forEach(f => {
+                          if (f.downloadUrl) window.open(f.downloadUrl, '_blank');
+                        });
+                        toast.success("Iniciando downloads...");
+                      }}>
+                        <FileDown className="h-3.5 w-3.5" /> Baixar Todos
+                      </Button>
+                    )}
+                  </div>
                   {isLoadingFiles ? (
                     <div className="py-12 text-center">
                       <div className="animate-pulse text-white/30 text-sm">Carregando arquivos...</div>
@@ -603,31 +615,52 @@ const ClientDashboard = () => {
                       <p className="text-white/35 text-sm">Nenhum arquivo disponível.</p>
                     </div>
                   ) : (
-                    <div className="space-y-2 mt-4">
-                      {files.map((file, idx) => (
-                        <motion.div
-                          key={file.name}
-                          initial={{ opacity: 0, y: 10 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ delay: idx * 0.05 }}
-                          className="relative flex items-center justify-between p-4 rounded-xl border border-white/10 bg-white/5 hover:border-primary/20 hover:-translate-y-0.5 hover:shadow-md transition-all duration-200 gap-3 group"
-                        >
-                          <div className="absolute left-0 top-2 bottom-2 w-[3px] bg-primary rounded-full scale-y-0 group-hover:scale-y-100 transition-transform duration-200 origin-center" />
-                          <span className="text-sm text-white truncate flex-1 pl-2">{file.name}</span>
-                          <div className="flex items-center gap-2 shrink-0">
-                            {file.viewUrl && (
-                              <Button asChild variant="outline" size="sm" className="gap-1.5 rounded-xl text-white border-white/20 hover:bg-white/10">
-                                <a href={file.viewUrl} target="_blank" rel="noopener noreferrer"><ExternalLink className="h-3.5 w-3.5" />Abrir</a>
-                              </Button>
-                            )}
-                            {file.downloadUrl && (
-                              <Button asChild variant="ghost" size="sm" className="gap-1.5 rounded-xl text-white/50 hover:text-white">
-                                <a href={file.downloadUrl} target="_blank" rel="noopener noreferrer"><FileDown className="h-3.5 w-3.5" />Baixar</a>
-                              </Button>
-                            )}
+                    <div className="space-y-6">
+                      {/* Group files by prefix (e.g., 01_, 02_) */}
+                      {(() => {
+                        const groups: Record<string, typeof files> = {};
+                        files.forEach(f => {
+                          const parts = f.name.split('_');
+                          const group = parts.length > 1 && parts[0].length <= 3 ? parts[0] + "_" + parts[1] : "Geral";
+                          if (!groups[group]) groups[group] = [];
+                          groups[group].push(f);
+                        });
+
+                        return Object.entries(groups).sort().map(([groupName, groupFiles]) => (
+                          <div key={groupName} className="space-y-3">
+                            <div className="flex items-center gap-2 px-1">
+                              <Folder className="h-4 w-4 text-primary/60" />
+                              <span className="text-xs font-bold text-white/70 uppercase tracking-wider">{groupName.replace(/_/g, ' ')}</span>
+                            </div>
+                            <div className="grid gap-2">
+                              {groupFiles.map((file, idx) => (
+                                <motion.div
+                                  key={file.name}
+                                  initial={{ opacity: 0, y: 10 }}
+                                  animate={{ opacity: 1, y: 0 }}
+                                  transition={{ delay: idx * 0.05 }}
+                                  className="relative flex items-center justify-between p-4 rounded-xl border border-white/10 bg-white/5 hover:border-primary/20 hover:-translate-y-0.5 hover:shadow-md transition-all duration-200 gap-3 group"
+                                >
+                                  <div className="absolute left-0 top-2 bottom-2 w-[3px] bg-primary rounded-full scale-y-0 group-hover:scale-y-100 transition-transform duration-200 origin-center" />
+                                  <span className="text-sm text-white truncate flex-1 pl-2">{file.name}</span>
+                                  <div className="flex items-center gap-2 shrink-0">
+                                    {file.viewUrl && (
+                                      <Button asChild variant="outline" size="sm" className="gap-1.5 rounded-xl text-white border-white/20 hover:bg-white/10">
+                                        <a href={file.viewUrl} target="_blank" rel="noopener noreferrer"><ExternalLink className="h-3.5 w-3.5" />Abrir</a>
+                                      </Button>
+                                    )}
+                                    {file.downloadUrl && (
+                                      <Button asChild variant="ghost" size="sm" className="gap-1.5 rounded-xl text-white/50 hover:text-white">
+                                        <a href={file.downloadUrl} target="_blank" rel="noopener noreferrer"><FileDown className="h-3.5 w-3.5" />Baixar</a>
+                                      </Button>
+                                    )}
+                                  </div>
+                                </motion.div>
+                              ))}
+                            </div>
                           </div>
-                        </motion.div>
-                      ))}
+                        ));
+                      })()}
                     </div>
                   )}
                 </div>

@@ -20,7 +20,29 @@ const MonthlyGoalsSection = ({ month, revenueAchieved, profitAchieved, goal, onR
   const [revenueGoal, setRevenueGoal] = useState(String(goal?.revenue_goal || 8000));
   const [profitGoal, setProfitGoal] = useState(String(goal?.profit_goal || 3000));
   const [taxRate, setTaxRate] = useState(String(goal?.tax_rate || 0));
+  const [serviceGoals, setServiceGoals] = useState<{ service_type: string; goal_amount: number }[]>([]);
+  const [partnerGoals, setPartnerGoals] = useState<{ partner_id: string; goal_amount: number; partner_name?: string }[]>([]);
+  const [partners, setPartners] = useState<{ id: string; full_name: string }[]>([]);
   const [saving, setSaving] = useState(false);
+
+  useEffect(() => {
+    fetchGoals();
+    fetchPartners();
+  }, [month]);
+
+  const fetchGoals = async () => {
+    const [serviceRes, partnerRes] = await Promise.all([
+      supabase.from("service_goals").select("*").eq("month", month),
+      supabase.from("partner_goals").select("*, profiles!partner_goals_partner_id_fkey(full_name)").eq("month", month)
+    ]);
+    if (serviceRes.data) setServiceGoals(serviceRes.data as any);
+    if (partnerRes.data) setPartnerGoals(partnerRes.data.map((g: any) => ({ ...g, partner_name: g.profiles?.full_name })) as any);
+  };
+
+  const fetchPartners = async () => {
+    const { data } = await supabase.from("profiles").select("id, full_name").eq("client_type", "parceiro");
+    if (data) setPartners(data);
+  };
 
   useEffect(() => {
     setRevenueGoal(String(goal?.revenue_goal || 8000));

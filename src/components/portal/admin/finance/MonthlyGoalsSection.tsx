@@ -63,9 +63,23 @@ const MonthlyGoalsSection = ({ month, revenueAchieved, profitAchieved, goal, onR
     } else {
       await supabase.from("monthly_goals").insert(payload);
     }
+    // Save service goals
+    for (const sg of serviceGoals) {
+      const { data } = await supabase.from("service_goals").select("id").eq("month", month).eq("service_type", sg.service_type).maybeSingle();
+      if (data) await supabase.from("service_goals").update({ goal_amount: sg.goal_amount }).eq("id", data.id);
+      else await supabase.from("service_goals").insert({ month, service_type: sg.service_type, goal_amount: sg.goal_amount });
+    }
+    // Save partner goals
+    for (const pg of partnerGoals) {
+      const { data } = await supabase.from("partner_goals").select("id").eq("month", month).eq("partner_id", pg.partner_id).maybeSingle();
+      if (data) await supabase.from("partner_goals").update({ goal_amount: pg.goal_amount }).eq("id", data.id);
+      else await supabase.from("partner_goals").insert({ month, partner_id: pg.partner_id, goal_amount: pg.goal_amount });
+    }
+
     toast.success("Metas salvas!");
     setSaving(false);
     onRefresh();
+    fetchGoals();
   };
 
   const revGoalNum = parseFloat(revenueGoal) || 1;

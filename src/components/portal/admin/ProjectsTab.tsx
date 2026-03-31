@@ -25,6 +25,9 @@ interface Project {
   progress: number; deadline: string | null; start_date: string | null;
   description: string | null; client_id: string; priority: string;
   partner_notes: string | null;
+  studio_observation: string | null;
+  health_status: string | null;
+  partner_message: string | null;
   profiles?: Profile;
 }
 interface Stage {

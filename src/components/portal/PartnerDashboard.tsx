@@ -111,6 +111,10 @@ const PartnerDashboard = () => {
     .reduce((s, p) => s + Number(p.commission_amount), 0);
   const totalCommissions = payments.reduce((s, p) => s + Number(p.commission_amount), 0);
 
+  const nextCommission = payments
+    .filter(p => !p.commission_paid_to_partner)
+    .sort((a, b) => new Date(a.sale_date || "").getTime() - new Date(b.sale_date || "").getTime())[0];
+
   const activeProjects = projects.filter(p => p.status !== "entregue");
   const statusCounts: Record<string, number> = {};
   projects.forEach(p => {

@@ -141,7 +141,7 @@ const AdminDashboard = () => {
                     Bem-vindo {profile?.full_name || ""},<br />ao sistema do Studio Kiiro.
                   </h1>
                   <p className="text-black/70 text-sm sm:text-[15px] leading-relaxed max-w-xl">
-                    Aqui você acompanha clientes, projetos, orçamentos, finanças e ordens de serviço com a mesma atenção aos detalhes que colocamos no design.
+                    Aqui você acompanha clientes, projetos, orçamentos, finanças e ordens de serviço com a mesma atenção aos detalhes que colocamos no design. <span className="hidden sm:inline italic opacity-60">— Gerindo o presente, projetando o futuro.</span>
                   </p>
                 </div>
 

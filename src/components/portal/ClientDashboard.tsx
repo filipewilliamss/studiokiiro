@@ -866,7 +866,7 @@ const ClientDashboard = () => {
                 Olá, {profile?.full_name || "Cliente"}.
               </h1>
               <p className="text-sm text-black/70 mt-2 max-w-lg">
-                Seu projeto em tempo real. Atualizado por nós, visível por você.
+                Seu projeto em tempo real. Atualizado por nós, visível por você. <span className="hidden sm:inline italic opacity-60">— Transformando ideias em impacto visual.</span>
               </p>
             </div>
           </div>

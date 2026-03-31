@@ -282,7 +282,7 @@ const PartnerDashboard = () => {
                 <span className="text-[10px] uppercase tracking-[0.3em] text-black font-bold">Parceiro ativo</span>
               </div>
               <h1 className="font-display text-2xl sm:text-3xl font-bold text-black leading-tight mb-3">Olá {profile?.full_name || "Parceiro"}</h1>
-              <p className="text-sm text-black/70 max-w-xl">Seja bem-vindo ao seu painel de parceiro do Studio Kiiro. Acompanhe o andamento dos projetos que você trouxe para o estúdio e suas comissões.</p>
+              <p className="text-sm text-black/70 max-w-xl">Seja bem-vindo ao seu painel de parceiro do Studio Kiiro. Acompanhe o andamento dos projetos que você trouxe para o estúdio e suas comissões. <span className="hidden sm:inline italic opacity-60">— Sua ponte para grandes marcas começa aqui.</span></p>
             </div>
           </div>
         </motion.div>

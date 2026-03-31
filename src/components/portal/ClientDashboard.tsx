@@ -164,10 +164,21 @@ const ClientDashboard = () => {
         .order("created_at", { ascending: false });
       if (data) setServiceOrders(data as any);
     };
+    const fetchAllPayments = async () => {
+      const { data: projectsData } = await supabase.from("projects").select("id").neq("status", "entregue");
+      if (projectsData?.length) {
+        const { data: paymentsData } = await supabase
+          .from("payments")
+          .select("*")
+          .in("project_id", projectsData.map((p) => p.id));
+        if (paymentsData) setAllPayments(paymentsData as any);
+      }
+    };
     fetchProfileId();
     fetchProjects();
     fetchQuotes();
     fetchServiceOrders();
+    fetchAllPayments();
   }, [user]);
 
   // Realtime messages

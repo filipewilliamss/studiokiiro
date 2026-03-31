@@ -171,6 +171,69 @@ const MonthlyGoalsSection = ({ month, revenueAchieved, profitAchieved, goal, onR
         <Input type="number" step="0.5" value={taxRate} onChange={e => setTaxRate(e.target.value)} className="w-20 h-7 text-xs text-right" />
         <span className="text-xs text-muted-foreground">%</span>
       </div>
+
+      {/* Service Goals */}
+      <div className="space-y-4 pt-3 border-t border-border">
+        <div className="flex items-center justify-between">
+          <label className="text-xs uppercase tracking-wider text-muted-foreground font-medium">Metas por Serviço</label>
+          <Button variant="ghost" size="sm" className="h-6 text-[10px]" onClick={() => {
+            const type = prompt("Tipo de serviço:");
+            if (type) setServiceGoals([...serviceGoals, { service_type: type, goal_amount: 0 }]);
+          }}>+ Meta de Serviço</Button>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          {serviceGoals.map((sg, idx) => (
+            <div key={sg.service_type} className="flex items-center justify-between bg-black/20 p-2 rounded-lg border border-border/50">
+              <span className="text-[11px] font-medium text-foreground truncate max-w-[150px]">{sg.service_type}</span>
+              <Input
+                type="number"
+                value={sg.goal_amount}
+                onChange={e => {
+                  const newGoals = [...serviceGoals];
+                  newGoals[idx].goal_amount = parseFloat(e.target.value) || 0;
+                  setServiceGoals(newGoals);
+                }}
+                className="w-24 h-7 text-xs text-right"
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Partner Goals */}
+      <div className="space-y-4 pt-3 border-t border-border">
+        <div className="flex items-center justify-between">
+          <label className="text-xs uppercase tracking-wider text-muted-foreground font-medium">Metas por Parceiro</label>
+          <Select onValueChange={(v) => {
+            const partner = partners.find(p => p.id === v);
+            if (partner && !partnerGoals.find(pg => pg.partner_id === v)) {
+              setPartnerGoals([...partnerGoals, { partner_id: v, goal_amount: 0, partner_name: partner.full_name }]);
+            }
+          }}>
+            <SelectTrigger className="w-40 h-7 text-[10px]"><SelectValue placeholder="Adicionar Parceiro" /></SelectTrigger>
+            <SelectContent>
+              {partners.map(p => <SelectItem key={p.id} value={p.id}>{p.full_name}</SelectItem>)}
+            </SelectContent>
+          </Select>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          {partnerGoals.map((pg, idx) => (
+            <div key={pg.partner_id} className="flex items-center justify-between bg-black/20 p-2 rounded-lg border border-border/50">
+              <span className="text-[11px] font-medium text-foreground truncate max-w-[150px]">{pg.partner_name}</span>
+              <Input
+                type="number"
+                value={pg.goal_amount}
+                onChange={e => {
+                  const newGoals = [...partnerGoals];
+                  newGoals[idx].goal_amount = parseFloat(e.target.value) || 0;
+                  setPartnerGoals(newGoals);
+                }}
+                className="w-24 h-7 text-xs text-right"
+              />
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   );
 };

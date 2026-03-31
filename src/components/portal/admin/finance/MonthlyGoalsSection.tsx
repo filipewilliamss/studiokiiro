@@ -2,7 +2,8 @@ import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Target } from "lucide-react";
+import { Target, Plus } from "lucide-react";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "sonner";
 import { MonthlyGoal, formatCurrency } from "./types";
 import { Progress } from "@/components/ui/progress";
@@ -20,7 +21,29 @@ const MonthlyGoalsSection = ({ month, revenueAchieved, profitAchieved, goal, onR
   const [revenueGoal, setRevenueGoal] = useState(String(goal?.revenue_goal || 8000));
   const [profitGoal, setProfitGoal] = useState(String(goal?.profit_goal || 3000));
   const [taxRate, setTaxRate] = useState(String(goal?.tax_rate || 0));
+  const [serviceGoals, setServiceGoals] = useState<{ service_type: string; goal_amount: number }[]>([]);
+  const [partnerGoals, setPartnerGoals] = useState<{ partner_id: string; goal_amount: number; partner_name?: string }[]>([]);
+  const [partners, setPartners] = useState<{ id: string; full_name: string }[]>([]);
   const [saving, setSaving] = useState(false);
+
+  useEffect(() => {
+    fetchGoals();
+    fetchPartners();
+  }, [month]);
+
+  const fetchGoals = async () => {
+    const [serviceRes, partnerRes] = await Promise.all([
+      supabase.from("service_goals").select("*").eq("month", month),
+      supabase.from("partner_goals").select("*, profiles!partner_goals_partner_id_fkey(full_name)").eq("month", month)
+    ]);
+    if (serviceRes.data) setServiceGoals(serviceRes.data as any);
+    if (partnerRes.data) setPartnerGoals(partnerRes.data.map((g: any) => ({ ...g, partner_name: g.profiles?.full_name })) as any);
+  };
+
+  const fetchPartners = async () => {
+    const { data } = await supabase.from("profiles").select("id, full_name").eq("client_type", "parceiro");
+    if (data) setPartners(data);
+  };
 
   useEffect(() => {
     setRevenueGoal(String(goal?.revenue_goal || 8000));
@@ -41,9 +64,23 @@ const MonthlyGoalsSection = ({ month, revenueAchieved, profitAchieved, goal, onR
     } else {
       await supabase.from("monthly_goals").insert(payload);
     }
+    // Save service goals
+    for (const sg of serviceGoals) {
+      const { data } = await supabase.from("service_goals").select("id").eq("month", month).eq("service_type", sg.service_type).maybeSingle();
+      if (data) await supabase.from("service_goals").update({ goal_amount: sg.goal_amount }).eq("id", data.id);
+      else await supabase.from("service_goals").insert({ month, service_type: sg.service_type, goal_amount: sg.goal_amount });
+    }
+    // Save partner goals
+    for (const pg of partnerGoals) {
+      const { data } = await supabase.from("partner_goals").select("id").eq("month", month).eq("partner_id", pg.partner_id).maybeSingle();
+      if (data) await supabase.from("partner_goals").update({ goal_amount: pg.goal_amount }).eq("id", data.id);
+      else await supabase.from("partner_goals").insert({ month, partner_id: pg.partner_id, goal_amount: pg.goal_amount });
+    }
+
     toast.success("Metas salvas!");
     setSaving(false);
     onRefresh();
+    fetchGoals();
   };
 
   const revGoalNum = parseFloat(revenueGoal) || 1;
@@ -134,6 +171,69 @@ const MonthlyGoalsSection = ({ month, revenueAchieved, profitAchieved, goal, onR
         <label className="text-xs uppercase tracking-wider text-muted-foreground font-medium whitespace-nowrap">% Impostos (p/ lucro líquido)</label>
         <Input type="number" step="0.5" value={taxRate} onChange={e => setTaxRate(e.target.value)} className="w-20 h-7 text-xs text-right" />
         <span className="text-xs text-muted-foreground">%</span>
+      </div>
+
+      {/* Service Goals */}
+      <div className="space-y-4 pt-3 border-t border-border">
+        <div className="flex items-center justify-between">
+          <label className="text-xs uppercase tracking-wider text-muted-foreground font-medium">Metas por Serviço</label>
+          <Button variant="ghost" size="sm" className="h-6 text-[10px]" onClick={() => {
+            const type = prompt("Tipo de serviço:");
+            if (type) setServiceGoals([...serviceGoals, { service_type: type, goal_amount: 0 }]);
+          }}>+ Meta de Serviço</Button>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          {serviceGoals.map((sg, idx) => (
+            <div key={sg.service_type} className="flex items-center justify-between bg-black/20 p-2 rounded-lg border border-border/50">
+              <span className="text-[11px] font-medium text-foreground truncate max-w-[150px]">{sg.service_type}</span>
+              <Input
+                type="number"
+                value={sg.goal_amount}
+                onChange={e => {
+                  const newGoals = [...serviceGoals];
+                  newGoals[idx].goal_amount = parseFloat(e.target.value) || 0;
+                  setServiceGoals(newGoals);
+                }}
+                className="w-24 h-7 text-xs text-right"
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Partner Goals */}
+      <div className="space-y-4 pt-3 border-t border-border">
+        <div className="flex items-center justify-between">
+          <label className="text-xs uppercase tracking-wider text-muted-foreground font-medium">Metas por Parceiro</label>
+          <Select onValueChange={(v) => {
+            const partner = partners.find(p => p.id === v);
+            if (partner && !partnerGoals.find(pg => pg.partner_id === v)) {
+              setPartnerGoals([...partnerGoals, { partner_id: v, goal_amount: 0, partner_name: partner.full_name }]);
+            }
+          }}>
+            <SelectTrigger className="w-40 h-7 text-[10px]"><SelectValue placeholder="Adicionar Parceiro" /></SelectTrigger>
+            <SelectContent>
+              {partners.map(p => <SelectItem key={p.id} value={p.id}>{p.full_name}</SelectItem>)}
+            </SelectContent>
+          </Select>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          {partnerGoals.map((pg, idx) => (
+            <div key={pg.partner_id} className="flex items-center justify-between bg-black/20 p-2 rounded-lg border border-border/50">
+              <span className="text-[11px] font-medium text-foreground truncate max-w-[150px]">{pg.partner_name}</span>
+              <Input
+                type="number"
+                value={pg.goal_amount}
+                onChange={e => {
+                  const newGoals = [...partnerGoals];
+                  newGoals[idx].goal_amount = parseFloat(e.target.value) || 0;
+                  setPartnerGoals(newGoals);
+                }}
+                className="w-24 h-7 text-xs text-right"
+              />
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

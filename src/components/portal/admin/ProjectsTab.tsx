@@ -12,8 +12,8 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sh
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   FolderPlus, ChevronRight, CheckCircle2, Circle, Upload, FileDown, Trash2,
-  FolderOpen, DollarSign, MessageSquare, Send, Clock, Calendar, CreditCard, ClipboardList, Pencil, Check, X,
-  Pause, Play, AlertTriangle,
+  FolderOpen, DollarSign, MessageSquare, Send, Clock, Calendar, CreditCard, ClipboardList, Pencil, Check, X, Plus,
+  Pause, Play, AlertTriangle, FileText, Heart, Shield, Activity, ListTodo
 } from "lucide-react";
 import { toast } from "sonner";
 import { methodologyStages } from "@/data/methodologyStages";
@@ -25,11 +25,15 @@ interface Project {
   progress: number; deadline: string | null; start_date: string | null;
   description: string | null; client_id: string; priority: string;
   partner_notes: string | null;
+  studio_observation: string | null;
+  health_status: string | null;
+  partner_message: string | null;
   profiles?: Profile;
 }
 interface Stage {
   id: string; name: string; status: string; sort_order: number;
   description: string | null; completed_at: string | null;
+  internal_tasks: { id: string; text: string; completed: boolean }[] | null;
 }
 interface Payment {
   id: string; budget_total: number; initial_payment: number | null;
@@ -187,7 +191,7 @@ const ProjectsTab = () => {
       supabase.from("briefing_responses").select("responses").eq("project_id", project.id).maybeSingle(),
     ]);
 
-    if (stagesRes.data) setStages(stagesRes.data);
+    if (stagesRes.data) setStages(stagesRes.data as any);
     if (filesRes.data) setFiles(filesRes.data);
     if (paymentRes.data) {
       setPayment(paymentRes.data);
@@ -262,8 +266,13 @@ const ProjectsTab = () => {
   const sendMessage = async () => {
     if (!newMessage.trim() || !selectedProject || !user) return;
     setSendingMessage(true);
+    
+    // Add phase prefix if there's a current stage
+    const currentStage = stages.find(s => s.status !== "concluida");
+    const phasePrefix = currentStage ? `[${currentStage.name}] ` : "";
+    
     await supabase.from("messages").insert({
-      project_id: selectedProject.id, sender_id: user.id, content: newMessage.trim(),
+      project_id: selectedProject.id, sender_id: user.id, content: phasePrefix + newMessage.trim(),
     });
     setNewMessage("");
     setSendingMessage(false);
@@ -445,18 +454,14 @@ const ProjectsTab = () => {
                 <div className="flex items-center gap-3">
                   {/* Health indicator */}
                   {!isDelivered && (() => {
-                    const now = new Date();
-                    const deadline = project.deadline ? new Date(project.deadline + "T00:00:00") : null;
-                    if (!deadline) return null;
-                    const daysLeft = Math.ceil((deadline.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
-                    const health = daysLeft < 0 ? "red" : daysLeft <= 3 ? "yellow" : "green";
-                    const label = daysLeft < 0 ? "Atrasado" : daysLeft <= 3 ? "Atenção" : "No Prazo";
-                    const colors = { green: "text-emerald-400", yellow: "text-amber-400", red: "text-red-400" };
-                    const bgColors = { green: "bg-emerald-400/10", yellow: "bg-amber-400/10", red: "bg-red-400/10" };
+                    const health = project.health_status || "No Prazo";
+                    const colors: Record<string, string> = { "No Prazo": "text-emerald-400", "Atenção": "text-amber-400", "Atrasado": "text-red-400" };
+                    const bgColors: Record<string, string> = { "No Prazo": "bg-emerald-400/10", "Atenção": "bg-amber-400/10", "Atrasado": "bg-red-400/10" };
+                    const icons: Record<string, React.ReactNode> = { "No Prazo": <CheckCircle2 className="h-3 w-3" />, "Atenção": <Clock className="h-3 w-3" />, "Atrasado": <AlertTriangle className="h-3 w-3" /> };
                     return (
-                      <span className={`inline-flex items-center gap-1 text-[10px] px-2 py-0.5 rounded-full font-medium ${colors[health]} ${bgColors[health]}`} title={`${daysLeft}d restantes`}>
-                        {health === "red" ? <AlertTriangle className="h-3 w-3" /> : health === "yellow" ? <Clock className="h-3 w-3" /> : <CheckCircle2 className="h-3 w-3" />}
-                        {label}
+                      <span className={`inline-flex items-center gap-1 text-[10px] px-2 py-0.5 rounded-full font-medium ${colors[health] || colors["No Prazo"]} ${bgColors[health] || bgColors["No Prazo"]}`}>
+                        {icons[health] || icons["No Prazo"]}
+                        {health}
                       </span>
                     );
                   })()}
@@ -519,58 +524,74 @@ const ProjectsTab = () => {
         <SheetContent className="sm:max-w-2xl overflow-y-auto">
           {selectedProject && (
             <>
-              <SheetHeader>
-                <div className="flex items-center gap-2">
-                  {editingName ? (
-                    <div className="flex items-center gap-2 flex-1">
-                      <Input
-                        value={editName}
-                        onChange={(e) => setEditName(e.target.value)}
-                        className="font-display font-bold text-lg h-9"
-                        autoFocus
-                        onKeyDown={(e) => {
-                          if (e.key === "Enter") {
-                            e.preventDefault();
-                            if (editName.trim()) {
-                              supabase.from("projects").update({ name: editName.trim() }).eq("id", selectedProject.id).then(({ error }) => {
-                                if (error) { toast.error("Erro ao renomear"); return; }
-                                setSelectedProject({ ...selectedProject, name: editName.trim() });
-                                fetchProjects();
-                                toast.success("Nome atualizado!");
-                              });
+              <SheetHeader className="flex flex-row items-start justify-between">
+                <div className="flex-1">
+                  <div className="flex items-center gap-2">
+                    {editingName ? (
+                      <div className="flex items-center gap-2 flex-1">
+                        <Input
+                          value={editName}
+                          onChange={(e) => setEditName(e.target.value)}
+                          className="font-display font-bold text-lg h-9"
+                          autoFocus
+                          onKeyDown={(e) => {
+                            if (e.key === "Enter") {
+                              e.preventDefault();
+                              if (editName.trim()) {
+                                supabase.from("projects").update({ name: editName.trim() }).eq("id", selectedProject.id).then(({ error }) => {
+                                  if (error) { toast.error("Erro ao renomear"); return; }
+                                  setSelectedProject({ ...selectedProject, name: editName.trim() });
+                                  fetchProjects();
+                                  toast.success("Nome atualizado!");
+                                });
+                              }
+                              setEditingName(false);
+                            } else if (e.key === "Escape") {
+                              setEditingName(false);
                             }
-                            setEditingName(false);
-                          } else if (e.key === "Escape") {
-                            setEditingName(false);
+                          }}
+                        />
+                        <Button size="icon" variant="ghost" className="h-8 w-8 text-primary" onClick={() => {
+                          if (editName.trim()) {
+                            supabase.from("projects").update({ name: editName.trim() }).eq("id", selectedProject.id).then(({ error }) => {
+                              if (error) { toast.error("Erro ao renomear"); return; }
+                              setSelectedProject({ ...selectedProject, name: editName.trim() });
+                              fetchProjects();
+                              toast.success("Nome atualizado!");
+                            });
                           }
-                        }}
-                      />
-                      <Button size="icon" variant="ghost" className="h-8 w-8 text-primary" onClick={() => {
-                        if (editName.trim()) {
-                          supabase.from("projects").update({ name: editName.trim() }).eq("id", selectedProject.id).then(({ error }) => {
-                            if (error) { toast.error("Erro ao renomear"); return; }
-                            setSelectedProject({ ...selectedProject, name: editName.trim() });
-                            fetchProjects();
-                            toast.success("Nome atualizado!");
-                          });
-                        }
-                        setEditingName(false);
-                      }}><Check className="h-4 w-4" /></Button>
-                      <Button size="icon" variant="ghost" className="h-8 w-8 text-muted-foreground" onClick={() => setEditingName(false)}><X className="h-4 w-4" /></Button>
-                    </div>
-                  ) : (
-                    <>
-                      <SheetTitle style={{ fontFamily: "var(--font-display)" }}>{selectedProject.name}</SheetTitle>
-                      <Button size="icon" variant="ghost" className="h-7 w-7 text-muted-foreground hover:text-primary" onClick={() => { setEditName(selectedProject.name); setEditingName(true); }}>
-                        <Pencil className="h-3.5 w-3.5" />
-                      </Button>
-                    </>
-                  )}
+                          setEditingName(false);
+                        }}><Check className="h-4 w-4" /></Button>
+                        <Button size="icon" variant="ghost" className="h-8 w-8 text-muted-foreground" onClick={() => setEditingName(false)}><X className="h-4 w-4" /></Button>
+                      </div>
+                    ) : (
+                      <>
+                        <SheetTitle style={{ fontFamily: "var(--font-display)" }}>{selectedProject.name}</SheetTitle>
+                        <Button size="icon" variant="ghost" className="h-7 w-7 text-muted-foreground hover:text-primary" onClick={() => { setEditName(selectedProject.name); setEditingName(true); }}>
+                          <Pencil className="h-3.5 w-3.5" />
+                        </Button>
+                      </>
+                    )}
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <p className="text-sm text-muted-foreground">{selectedProject.type}</p>
+                    <span className="text-xs text-muted-foreground">•</span>
+                    <p className="text-sm text-muted-foreground">{(selectedProject as any).profiles?.full_name || "—"}</p>
+                  </div>
                 </div>
-                <div className="flex items-center gap-2">
-                  <p className="text-sm text-muted-foreground">{selectedProject.type}</p>
-                  <span className="text-xs text-muted-foreground">•</span>
-                  <p className="text-sm text-muted-foreground">{(selectedProject as any).profiles?.full_name || "—"}</p>
+                <div className="flex items-center gap-2 mt-2">
+                  <Button variant="outline" size="sm" className="gap-2 text-xs" onClick={() => {
+                    const content = `CONTRATO DE PRESTAÇÃO DE SERVIÇOS DESIGN\n\nCONTRATANTE: ${selectedProject.profiles?.full_name}\nCONTRATADO: Studio Kiiro\n\nSERVIÇO: ${selectedProject.type}\nVALOR: ${payment ? formatCurrency(payment.budget_total) : "—"}\n\nESTE É UM MODELO DE CONTRATO AUTOMATIZADO...`;
+                    const blob = new Blob([content], { type: "text/plain" });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement("a");
+                    a.href = url;
+                    a.download = `Contrato_${selectedProject.name.replace(/ /g, "_")}.txt`;
+                    a.click();
+                    toast.success("Contrato (rascunho) gerado com sucesso!");
+                  }}>
+                    <FileText className="h-3.5 w-3.5" /> Gerar Contrato
+                  </Button>
                 </div>
               </SheetHeader>
 
@@ -601,26 +622,64 @@ const ProjectsTab = () => {
 
                   {/* STATUS TAB */}
                   <TabsContent value="status" className="space-y-6">
-                    {/* Status update */}
+                    <div className="grid grid-cols-2 gap-3">
+                      <div className="space-y-2">
+                        <label className="text-xs uppercase tracking-wider text-muted-foreground font-medium">Saúde do Projeto</label>
+                        <Select
+                          value={selectedProject.health_status || "No Prazo"}
+                          onValueChange={async (v) => {
+                            await supabase.from("projects").update({ health_status: v }).eq("id", selectedProject.id);
+                            setSelectedProject({ ...selectedProject, health_status: v });
+                            fetchProjects();
+                            toast.success("Saúde atualizada");
+                          }}
+                        >
+                          <SelectTrigger><SelectValue /></SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="No Prazo">No Prazo</SelectItem>
+                            <SelectItem value="Atenção">Atenção</SelectItem>
+                            <SelectItem value="Atrasado">Atrasado</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                      <div className="space-y-2">
+                        <label className="text-xs uppercase tracking-wider text-muted-foreground font-medium">Status do Projeto</label>
+                        <Select
+                          value={selectedProject.status}
+                          onValueChange={async (v) => {
+                            await supabase.from("projects").update({ status: v }).eq("id", selectedProject.id);
+                            setSelectedProject({ ...selectedProject, status: v });
+                            fetchProjects();
+                            toast.success("Status atualizado");
+                          }}
+                        >
+                          <SelectTrigger><SelectValue /></SelectTrigger>
+                          <SelectContent>{Object.entries(statusLabels).map(([k, v]) => <SelectItem key={k} value={k}>{v}</SelectItem>)}</SelectContent>
+                        </Select>
+                      </div>
+                    </div>
+
+                    {/* Studio Observation */}
                     <div className="space-y-2">
-                      <label className="text-xs uppercase tracking-wider text-muted-foreground font-medium">Status do Projeto</label>
-                      <Select
-                        value={selectedProject.status}
-                        onValueChange={async (v) => {
-                          await supabase.from("projects").update({ status: v }).eq("id", selectedProject.id);
-                          setSelectedProject({ ...selectedProject, status: v });
-                          fetchProjects();
-                          toast.success("Status atualizado");
+                      <label className="text-xs uppercase tracking-wider text-muted-foreground font-medium">Observação do Studio (Somente Admin)</label>
+                      <Textarea
+                        defaultValue={selectedProject.studio_observation || ""}
+                        rows={3}
+                        placeholder="Anotações estratégicas..."
+                        onBlur={async (e) => {
+                          const val = e.target.value.trim() || null;
+                          if (val !== selectedProject.studio_observation) {
+                            await supabase.from("projects").update({ studio_observation: val }).eq("id", selectedProject.id);
+                            setSelectedProject({ ...selectedProject, studio_observation: val });
+                            toast.success("Observação salva");
+                          }
                         }}
-                      >
-                        <SelectTrigger><SelectValue /></SelectTrigger>
-                        <SelectContent>{Object.entries(statusLabels).map(([k, v]) => <SelectItem key={k} value={k}>{v}</SelectItem>)}</SelectContent>
-                      </Select>
+                      />
                     </div>
 
                     {/* Partner notes */}
                     <div className="space-y-2">
-                      <label className="text-xs uppercase tracking-wider text-muted-foreground font-medium">Observação do Studio (visível para o parceiro)</label>
+                      <label className="text-xs uppercase tracking-wider text-muted-foreground font-medium">Observação para o Parceiro (Leitura Parceiro)</label>
                       <Textarea
                         defaultValue={selectedProject.partner_notes || ""}
                         rows={3}
@@ -645,16 +704,45 @@ const ProjectsTab = () => {
                       {stages.length === 0 ? (
                         <p className="text-sm text-muted-foreground">Nenhuma etapa criada.</p>
                       ) : (
-                        <div className="space-y-2">
+                        <div className="space-y-4">
                           {stages.map((stage) => (
-                            <button key={stage.id} onClick={() => toggleStage(stage)} className="flex items-start gap-3 w-full p-3 rounded-lg border border-border hover:border-primary/30 transition-colors text-left">
-                              {stage.status === "concluida" ? <CheckCircle2 className="h-5 w-5 text-primary shrink-0 mt-0.5" /> : <Circle className="h-5 w-5 text-muted-foreground shrink-0 mt-0.5" />}
-                              <div className="flex-1 min-w-0">
-                                <span className={`text-sm font-medium ${stage.status === "concluida" ? "text-muted-foreground line-through" : "text-foreground"}`}>{stage.name}</span>
-                                {stage.description && <p className="text-[11px] text-muted-foreground mt-0.5 line-clamp-2">{stage.description}</p>}
-                                {stage.completed_at && <p className="text-[10px] text-primary mt-1">✓ Concluído em {new Date(stage.completed_at).toLocaleDateString("pt-BR")}</p>}
+                            <div key={stage.id} className="space-y-2">
+                              <button onClick={() => toggleStage(stage)} className="flex items-start gap-3 w-full p-3 rounded-lg border border-border hover:border-primary/30 transition-colors text-left">
+                                {stage.status === "concluida" ? <CheckCircle2 className="h-5 w-5 text-primary shrink-0 mt-0.5" /> : <Circle className="h-5 w-5 text-muted-foreground shrink-0 mt-0.5" />}
+                                <div className="flex-1 min-w-0">
+                                  <span className={`text-sm font-medium ${stage.status === "concluida" ? "text-muted-foreground line-through" : "text-foreground"}`}>{stage.name}</span>
+                                  {stage.description && <p className="text-[11px] text-muted-foreground mt-0.5 line-clamp-2">{stage.description}</p>}
+                                  {stage.completed_at && <p className="text-[10px] text-primary mt-1">✓ Concluído em {new Date(stage.completed_at).toLocaleDateString("pt-BR")}</p>}
+                                </div>
+                              </button>
+                              
+                              {/* Internal Tasks */}
+                              <div className="ml-8 space-y-2">
+                                {(stage.internal_tasks || []).map((task, idx) => (
+                                  <div key={task.id} className="flex items-center gap-2">
+                                    <Checkbox
+                                      checked={task.completed}
+                                      onCheckedChange={async (checked) => {
+                                        const newTasks = [...(stage.internal_tasks || [])];
+                                        newTasks[idx] = { ...task, completed: !!checked };
+                                        await supabase.from("project_stages").update({ internal_tasks: newTasks as any }).eq("id", stage.id);
+                                        setStages(stages.map(s => s.id === stage.id ? { ...s, internal_tasks: newTasks } : s));
+                                      }}
+                                    />
+                                    <span className={`text-xs ${task.completed ? "text-muted-foreground line-through" : "text-foreground"}`}>{task.text}</span>
+                                  </div>
+                                ))}
+                                <Button variant="ghost" size="sm" className="h-6 text-[10px] text-muted-foreground gap-1" onClick={async () => {
+                                  const text = prompt("Nova sub-etapa:");
+                                  if (!text) return;
+                                  const newTasks = [...(stage.internal_tasks || []), { id: crypto.randomUUID(), text, completed: false }];
+                                  await supabase.from("project_stages").update({ internal_tasks: newTasks as any }).eq("id", stage.id);
+                                  setStages(stages.map(s => s.id === stage.id ? { ...s, internal_tasks: newTasks } : s));
+                                }}>
+                                  <Plus className="h-3 w-3" /> Adicionar sub-etapa
+                                </Button>
                               </div>
-                            </button>
+                            </div>
                           ))}
                         </div>
                       )}

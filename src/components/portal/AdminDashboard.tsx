@@ -3,13 +3,14 @@ import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import Navbar from "@/components/Navbar";
 import { Button } from "@/components/ui/button";
-import { LogOut, Users, FolderKanban, DollarSign, FileText, Receipt, Layers, BarChart3, Clock, BookOpen } from "lucide-react";
+import { LogOut, Users, FolderKanban, DollarSign, FileText, Receipt, Layers, BarChart3, Clock, BookOpen, Send } from "lucide-react";
 import NotificationBell from "./admin/NotificationBell";
 import ClientsTab from "./admin/ClientsTab";
 import ProjectsTab from "./admin/ProjectsTab";
 import FinanceTab from "./admin/FinanceTab";
 import ServiceOrdersTab from "./admin/ServiceOrdersTab";
 import QuotesTab from "./admin/QuotesTab";
+import ProposalsTab from "./admin/ProposalsTab";
 import MethodologyTab from "./admin/MethodologyTab";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -18,6 +19,7 @@ const tabs = [
   { key: "projects", label: "Projetos", icon: FolderKanban },
   { key: "finance", label: "Financeiro", icon: DollarSign },
   { key: "quotes", label: "Orçamentos", icon: Receipt },
+  { key: "proposals", label: "Propostas", icon: Send },
   { key: "service-orders", label: "Ordens de Serviço", icon: FileText },
   { key: "methodology", label: "Metodologia", icon: BookOpen },
 ] as const;
@@ -65,6 +67,7 @@ const AdminDashboard = () => {
       case "projects": return <ProjectsTab />;
       case "finance": return <FinanceTab />;
       case "quotes": return <QuotesTab />;
+      case "proposals": return <ProposalsTab />;
       case "service-orders": return <ServiceOrdersTab />;
       case "methodology": return <MethodologyTab />;
     }
@@ -138,7 +141,7 @@ const AdminDashboard = () => {
                     Bem-vindo {profile?.full_name || ""},<br />ao sistema do Studio Kiiro.
                   </h1>
                   <p className="text-black/70 text-sm sm:text-[15px] leading-relaxed max-w-xl">
-                    Aqui você acompanha clientes, projetos, orçamentos, finanças e ordens de serviço com a mesma atenção aos detalhes que colocamos no design.
+                    Aqui você acompanha clientes, projetos, orçamentos, finanças e ordens de serviço com a mesma atenção aos detalhes que colocamos no design. <span className="hidden sm:inline italic opacity-60">— Gerindo o presente, projetando o futuro.</span>
                   </p>
                 </div>
 

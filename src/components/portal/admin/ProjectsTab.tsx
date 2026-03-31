@@ -33,6 +33,7 @@ interface Project {
 interface Stage {
   id: string; name: string; status: string; sort_order: number;
   description: string | null; completed_at: string | null;
+  internal_tasks: { id: string; text: string; completed: boolean }[] | null;
 }
 interface Payment {
   id: string; budget_total: number; initial_payment: number | null;

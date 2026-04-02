@@ -1,43 +1,21 @@
 import { motion } from "framer-motion";
-import kiiroLogo from "@/assets/logo.png";
-import patternBg from "@/assets/pattern.png";
 
 const HeroSection = () => {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Animated pattern background */}
-      <div className="absolute inset-0 opacity-[0.014]">
-        <motion.div
-          animate={{ x: [0, -500, 0] }}
-          transition={{ duration: 152, repeat: Infinity, ease: "linear" }}
-          className="absolute inset-0"
-          style={{
-            backgroundImage: `url(${patternBg})`,
-            backgroundRepeat: "repeat",
-            backgroundSize: "2520px",
-            width: "200%",
-            height: "100%",
-          }}
+      {/* Spline Background */}
+      <div className="absolute inset-0 z-0">
+        <iframe 
+          src="https://my.spline.design/untitled-Okn4OvV3B9lyrWP0c2qMReAx-2Hi/" 
+          frameBorder="0" 
+          width="100%" 
+          height="100%"
+          className="w-full h-full"
         />
       </div>
 
-      {/* Subtle glow */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[120px]" />
-
-      <div className="relative z-10 container-editorial text-center py-20">
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1, ease: "easeOut" }}
-          className="mb-10"
-        >
-          <img
-            src={kiiroLogo}
-            alt="Studio Kiiro"
-            className="h-28 sm:h-36 md:h-44 lg:h-52 mx-auto"
-          />
-        </motion.div>
-
+      {/* Content overlay */}
+      <div className="relative z-10 container-editorial text-center py-20 pointer-events-none">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -52,17 +30,17 @@ const HeroSection = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.6 }}
-          className="flex flex-col sm:flex-row gap-4 justify-center"
+          className="flex flex-col sm:flex-row gap-4 justify-center pointer-events-auto"
         >
           <a
             href="#portfolio"
-            className="px-8 py-4 bg-primary text-primary-foreground font-display font-semibold rounded-full hover:bg-kiiro-dark transition-all duration-300 text-base"
+            className="px-8 py-4 bg-primary text-primary-foreground font-display font-semibold rounded-full hover:bg-kiiro-dark transition-all duration-300 text-base shadow-lg backdrop-blur-sm"
           >
             Ver Projetos
           </a>
           <a
             href="#contato"
-            className="px-8 py-4 border border-border text-foreground font-display font-semibold rounded-full hover:border-primary hover:text-primary transition-all duration-300 text-base"
+            className="px-8 py-4 border border-border text-foreground font-display font-semibold rounded-full hover:border-primary hover:text-primary transition-all duration-300 text-base shadow-lg backdrop-blur-sm bg-background/10"
           >
             Solicitar Orçamento
           </a>

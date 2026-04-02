@@ -24,13 +24,13 @@ const HeroSection = () => {
         >
           <a
             href="#portfolio"
-            className="px-10 py-5 bg-primary/40 backdrop-blur-2xl border-t border-l border-white/50 border-r border-b border-white/20 text-primary-foreground font-display font-bold rounded-full hover:bg-primary/60 hover:scale-105 transition-all duration-300 text-lg shadow-[0_20px_50px_rgba(255,230,0,0.13),inset_0_2px_10px_rgba(255,255,255,0.4)] ring-1 ring-white/20 flex items-center justify-center"
+            className="px-10 py-5 bg-primary/40 backdrop-blur-2xl border-t border-l border-white/50 border-r border-b border-white/20 text-white font-display font-bold rounded-full hover:bg-primary/60 hover:scale-105 transition-all duration-300 text-lg shadow-[0_20px_50px_rgba(255,230,0,0.08),inset_0_2px_10px_rgba(255,255,255,0.4)] ring-1 ring-white/20 flex items-center justify-center"
           >
             Ver Projetos
           </a>
           <a
             href="#contato"
-            className="px-10 py-5 bg-white/10 backdrop-blur-2xl border-t border-l border-white/30 border-r border-b border-white/10 text-white font-display font-bold rounded-full hover:bg-white/20 hover:scale-105 transition-all duration-300 text-lg shadow-[0_20px_50px_rgba(255,230,0,0.13),inset_0_2px_10px_rgba(255,255,255,0.2)] ring-1 ring-white/10 flex items-center justify-center"
+            className="px-10 py-5 bg-white/10 backdrop-blur-2xl border-t border-l border-white/30 border-r border-b border-white/10 text-white font-display font-bold rounded-full hover:bg-white/20 hover:scale-105 transition-all duration-300 text-lg shadow-[0_20px_50px_rgba(255,230,0,0.08),inset_0_2px_10px_rgba(255,255,255,0.2)] ring-1 ring-white/10 flex items-center justify-center"
           >
             Solicitar Orçamento
           </a>
@@ -46,7 +46,7 @@ const HeroSection = () => {
           <motion.svg
             animate={{ y: [0, 10, 0] }}
             transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-            className="w-10 h-10 text-primary drop-shadow-[0_0_15px_rgba(255,230,0,0.13)]"
+            className="w-10 h-10 text-primary drop-shadow-[0_0_15px_rgba(255,230,0,0.08)]"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -57,7 +57,7 @@ const HeroSection = () => {
       </div>
 
       {/* Watermark cover for Spline/Hana */}
-      <div className="absolute bottom-0 right-0 w-[150px] h-[50px] bg-[#070807] z-20 pointer-events-none" />
+      <div className="absolute bottom-0 right-0 w-[170px] h-[70px] bg-[#070807] z-20 pointer-events-none" />
     </section>
   );
 };

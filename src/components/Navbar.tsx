@@ -50,9 +50,7 @@ const Navbar = ({ forceBlack = false }: NavbarProps) => {
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${bgClass}`}
     >
       <div className="container-editorial flex items-center justify-between h-16 md:h-20">
-        <a href={logoHref} className="flex items-center">
-          <img src={kiiroLogo} alt="Studio Kiiro" className="h-8 md:h-10" />
-        </a>
+        <div className="w-8 md:h-10 invisible" />
 
         {/* Desktop */}
         <div className="hidden md:flex items-center gap-8">

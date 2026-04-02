@@ -1,12 +1,17 @@
 import { motion } from "framer-motion";
-import Spline from "@splinetool/react-spline";
 
 const HeroSection = () => {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Spline Background */}
       <div className="absolute inset-0 z-0">
-        <Spline scene="https://prod.spline.design/Okn4OvV3B9lyrWP0/scene.splinecode" />
+        <iframe 
+          src="https://my.spline.design/untitled-Okn4OvV3B9lyrWP0c2qMReAx-2Hi/" 
+          frameBorder="0" 
+          width="100%" 
+          height="100%"
+          className="w-full h-full"
+        />
       </div>
 
       {/* Content overlay */}
@@ -60,9 +65,6 @@ const HeroSection = () => {
           </motion.svg>
         </motion.div>
       </div>
-    </section>
-  );
-};
     </section>
   );
 };

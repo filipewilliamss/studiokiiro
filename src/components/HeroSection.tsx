@@ -17,30 +17,20 @@ const HeroSection = () => {
       {/* Content overlay */}
       <div className="relative z-10 container-editorial text-center py-20 pointer-events-none">
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.3 }}
-        >
-          <p className="text-muted-foreground text-sm sm:text-base md:text-lg max-w-xl mx-auto mb-12 px-4">
-            Identidade Visual · Social Media · Edição de Vídeo
-          </p>
-        </motion.div>
-
-        <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.6 }}
-          className="flex flex-col sm:flex-row gap-4 justify-center pointer-events-auto mt-[150px]"
+          className="flex flex-col sm:flex-row gap-6 justify-center pointer-events-auto mt-[300px]"
         >
           <a
             href="#portfolio"
-            className="px-8 py-4 bg-primary/20 backdrop-blur-xl border border-white/30 text-primary-foreground font-display font-semibold rounded-full hover:bg-primary/40 transition-all duration-300 text-base shadow-[0_8px_32px_0_rgba(31,38,135,0.37)] ring-1 ring-white/10"
+            className="px-10 py-5 bg-primary/40 backdrop-blur-2xl border-t border-l border-white/50 border-r border-b border-white/20 text-primary-foreground font-display font-bold rounded-full hover:bg-primary/60 hover:scale-105 transition-all duration-300 text-lg shadow-[0_20px_50px_rgba(255,230,0,0.4),inset_0_2px_10px_rgba(255,255,255,0.4)] ring-1 ring-white/20 flex items-center justify-center"
           >
             Ver Projetos
           </a>
           <a
             href="#contato"
-            className="px-8 py-4 bg-white/5 backdrop-blur-xl border border-white/20 text-white font-display font-semibold rounded-full hover:bg-white/10 transition-all duration-300 text-base shadow-[0_8px_32px_0_rgba(0,0,0,0.37)] ring-1 ring-white/5"
+            className="px-10 py-5 bg-white/10 backdrop-blur-2xl border-t border-l border-white/30 border-r border-b border-white/10 text-white font-display font-bold rounded-full hover:bg-white/20 hover:scale-105 transition-all duration-300 text-lg shadow-[0_20px_50px_rgba(255,230,0,0.2),inset_0_2px_10px_rgba(255,255,255,0.2)] ring-1 ring-white/10 flex items-center justify-center"
           >
             Solicitar Orçamento
           </a>
@@ -51,12 +41,12 @@ const HeroSection = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.2 }}
-          className="mt-12 flex justify-center"
+          className="mt-16 flex justify-center"
         >
           <motion.svg
             animate={{ y: [0, 10, 0] }}
             transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-            className="w-8 h-8 text-primary"
+            className="w-10 h-10 text-primary drop-shadow-[0_0_15px_rgba(255,230,0,0.5)]"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -65,6 +55,9 @@ const HeroSection = () => {
           </motion.svg>
         </motion.div>
       </div>
+
+      {/* Watermark cover for Spline/Hana */}
+      <div className="absolute bottom-0 right-0 w-32 h-12 bg-background z-20 pointer-events-none" />
     </section>
   );
 };

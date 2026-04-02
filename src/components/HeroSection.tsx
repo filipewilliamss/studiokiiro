@@ -30,17 +30,17 @@ const HeroSection = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.6 }}
-          className="flex flex-col sm:flex-row gap-4 justify-center pointer-events-auto"
+          className="flex flex-col sm:flex-row gap-4 justify-center pointer-events-auto mt-[150px]"
         >
           <a
             href="#portfolio"
-            className="px-8 py-4 bg-primary text-primary-foreground font-display font-semibold rounded-full hover:bg-kiiro-dark transition-all duration-300 text-base shadow-lg backdrop-blur-sm"
+            className="px-8 py-4 bg-primary/20 backdrop-blur-xl border border-white/30 text-primary-foreground font-display font-semibold rounded-full hover:bg-primary/40 transition-all duration-300 text-base shadow-[0_8px_32px_0_rgba(31,38,135,0.37)] ring-1 ring-white/10"
           >
             Ver Projetos
           </a>
           <a
             href="#contato"
-            className="px-8 py-4 border border-border text-foreground font-display font-semibold rounded-full hover:border-primary hover:text-primary transition-all duration-300 text-base shadow-lg backdrop-blur-sm bg-background/10"
+            className="px-8 py-4 bg-white/5 backdrop-blur-xl border border-white/20 text-white font-display font-semibold rounded-full hover:bg-white/10 transition-all duration-300 text-base shadow-[0_8px_32px_0_rgba(0,0,0,0.37)] ring-1 ring-white/5"
           >
             Solicitar Orçamento
           </a>

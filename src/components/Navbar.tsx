@@ -17,14 +17,14 @@ interface NavbarProps {
   forceBlack?: boolean;
 }
 
-const Navbar = ({ forceBlack = false }: NavbarProps) => {
+const Navbar = ({ forceBlack = true }: NavbarProps) => {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const location = useLocation();
   const isHome = location.pathname === "/";
 
   const getHref = (anchor: string) => (isHome ? anchor : `${BASE_URL}/${anchor}`);
-  const logoHref = isHome ? "#" : BASE_URL;
+  const logoHref = "/";
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 50);
@@ -32,15 +32,10 @@ const Navbar = ({ forceBlack = false }: NavbarProps) => {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const bgClass = forceBlack
-    ? "bg-black border-b border-white/10"
-    : scrolled
-      ? "bg-background/90 backdrop-blur-md border-b border-border"
-      : "bg-transparent";
-
-  const textClass = forceBlack ? "text-white/60 hover:text-primary" : "text-muted-foreground hover:text-primary";
-  const areaClienteTextClass = forceBlack ? "text-primary hover:text-primary/80" : "text-primary hover:text-primary/80";
-  const menuBtnClass = forceBlack ? "text-white" : "text-foreground";
+  const bgClass = "bg-black border-b border-white/10 shadow-lg";
+  const textClass = "text-white/80 hover:text-primary";
+  const areaClienteTextClass = "text-primary hover:text-primary/80";
+  const menuBtnClass = "text-white";
 
   return (
     <motion.nav
@@ -50,7 +45,13 @@ const Navbar = ({ forceBlack = false }: NavbarProps) => {
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${bgClass}`}
     >
       <div className="container-editorial flex items-center justify-between h-16 md:h-20">
-        <div className="w-8 md:h-10 invisible" />
+        <a href={logoHref} className="flex items-center gap-2 group">
+          <img 
+            src={kiiroLogo} 
+            alt="Studio Kiiro" 
+            className="h-8 md:h-10 w-auto transition-transform duration-300 group-hover:scale-105" 
+          />
+        </a>
 
         {/* Desktop */}
         <div className="hidden md:flex items-center gap-8">

@@ -5,12 +5,21 @@ const HeroSection = () => {
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-transparent">
       {/* Spline Background only for Hero */}
       <div className="absolute inset-0 z-0 pointer-events-auto overflow-hidden flex items-center justify-center">
+        {/* Desktop Version */}
         <iframe 
           src="https://my.spline.design/untitled-Okn4OvV3B9lyrWP0c2qMReAx-2Hi/" 
           frameBorder="0" 
-          className="w-full h-full lg:w-screen lg:h-screen sm:scale-[0.9] lg:scale-[1.03] transition-all duration-700"
+          className="hidden lg:block w-full h-full lg:w-screen lg:h-screen lg:scale-[1.03] transition-all duration-700"
           style={{ border: 'none' }}
-          title="Spline 3D Background"
+          title="Spline 3D Background Desktop"
+        />
+        {/* Mobile/Tablet Version */}
+        <iframe 
+          src="https://my.spline.design/untitled-Okn4OvV3B9lyrWP0c2qMReAx-Bbh/" 
+          frameBorder="0" 
+          className="lg:hidden w-full h-full sm:scale-[0.9] transition-all duration-700"
+          style={{ border: 'none' }}
+          title="Spline 3D Background Mobile"
         />
       </div>
 

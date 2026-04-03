@@ -4,7 +4,7 @@ const HeroSection = () => {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-transparent">
       {/* Spline Background only for Hero */}
-      <div className="absolute inset-0 z-0 pointer-events-auto">
+      <div className="absolute top-[150px] left-0 right-0 bottom-[-150px] z-0 pointer-events-auto">
         <iframe 
           src="https://my.spline.design/untitled-Okn4OvV3B9lyrWP0c2qMReAx-2Hi/" 
           frameBorder="0" 

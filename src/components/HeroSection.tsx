@@ -4,13 +4,11 @@ const HeroSection = () => {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-transparent">
       {/* Spline Background only for Hero */}
-      <div className="absolute inset-0 z-0 pointer-events-auto overflow-hidden">
+      <div className="absolute inset-0 z-0 pointer-events-auto overflow-hidden flex items-center justify-center">
         <iframe 
           src="https://my.spline.design/untitled-Okn4OvV3B9lyrWP0c2qMReAx-2Hi/" 
           frameBorder="0" 
-          width="100%" 
-          height="100%"
-          className="w-full h-full scale-[0.8] sm:scale-[0.85] lg:scale-100 transition-transform duration-700 origin-center lg:origin-bottom translate-y-20 sm:translate-y-16 lg:translate-y-0"
+          className="w-full h-full lg:w-[100vw] lg:h-[100vh] scale-[0.7] sm:scale-[0.8] lg:scale-100 transition-all duration-700 origin-center lg:translate-y-0 translate-y-24 sm:translate-y-20"
           style={{ border: 'none' }}
           title="Spline 3D Background"
         />

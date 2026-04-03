@@ -22,7 +22,7 @@ const HeroSection = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.6 }}
-          className="flex flex-col sm:flex-row gap-6 justify-center pointer-events-auto mt-[500px]"
+          className="flex flex-col sm:flex-row gap-6 justify-center pointer-events-auto mt-[60vh] sm:mt-[50vh] md:mt-[40vh]"
         >
           <a
             href="#portfolio"

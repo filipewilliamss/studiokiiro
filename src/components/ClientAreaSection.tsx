@@ -64,7 +64,7 @@ const ClientAreaSection = () => {
           <p className="text-sm uppercase tracking-[0.3em] text-primary mb-4">
             Área do Cliente
           </p>
-          <h2 className="font-display text-4xl md:text-6xl lg:text-7xl font-bold mb-6">
+          <h2 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold mb-6">
             Acompanhe seu projeto
             <br />
             em tempo real

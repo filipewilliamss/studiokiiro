@@ -16,12 +16,12 @@ const AboutSection = () => {
           >
             <div>
               <p className="text-sm uppercase tracking-[0.3em] text-primary mb-4">Sobre</p>
-              <h2 className="font-display text-4xl md:text-6xl lg:text-7xl font-bold leading-tight">
+              <h2 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold leading-tight">
                 Seja muito
                 <br />
                 <span className="text-gradient-kiiro">bem-vindo!</span>
               </h2>
-              <p className="text-xs sm:text-sm md:text-base text-secondary-foreground mt-6 font-display md:whitespace-nowrap">
+              <p className="text-xs sm:text-sm md:text-base text-secondary-foreground mt-6 font-display">
                 Filipe Williams — Designer Gráfico & Fundador do Studio Kiiro
               </p>
             </div>

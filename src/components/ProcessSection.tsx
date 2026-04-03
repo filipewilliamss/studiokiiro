@@ -67,7 +67,7 @@ const ProcessSection = () => {
           className="mb-16"
         >
           <p className="text-sm uppercase tracking-[0.3em] text-primary-foreground/70 mb-4">Processo</p>
-          <h2 className="font-display text-4xl md:text-6xl lg:text-7xl font-bold">Como trabalhamos</h2>
+          <h2 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold">Como trabalhamos</h2>
         </motion.div>
 
         {/* Service tabs */}

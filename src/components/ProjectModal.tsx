@@ -350,7 +350,7 @@ const CaseStudyChapter = ({
       >
         {/* Hover glow */}
         <div
-          className="absolute inset-0 rounded-2xl opacity-0 hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+          className="absolute inset-0 rounded-2xl opacity-0 lg:hover:opacity-100 transition-opacity duration-500 pointer-events-none hidden lg:block"
           style={{
             background: `radial-gradient(circle at ${mouse.x * 100}% ${mouse.y * 100}%, hsl(var(--primary) / 0.08) 0%, transparent 60%)`,
           }}

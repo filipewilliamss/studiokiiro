@@ -4,7 +4,7 @@ const HeroSection = () => {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-transparent">
       {/* Spline Background only for Hero */}
-      <div className="absolute top-[150px] left-0 right-0 bottom-[-150px] z-0 pointer-events-auto">
+      <div className="absolute top-[100px] left-0 right-0 bottom-[-100px] z-0 pointer-events-auto">
         <iframe 
           src="https://my.spline.design/untitled-Okn4OvV3B9lyrWP0c2qMReAx-2Hi/" 
           frameBorder="0" 
@@ -22,7 +22,7 @@ const HeroSection = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.6 }}
-          className="flex flex-col sm:flex-row gap-6 justify-center pointer-events-auto mt-[400px]"
+          className="flex flex-col sm:flex-row gap-6 justify-center pointer-events-auto mt-[500px]"
         >
           <a
             href="#portfolio"

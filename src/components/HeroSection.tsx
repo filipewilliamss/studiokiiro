@@ -2,18 +2,8 @@ import { motion } from "framer-motion";
 
 const HeroSection = () => {
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Spline Background via iframe */}
-      <div className="absolute inset-0 z-0">
-        <iframe 
-          src="https://my.spline.design/untitled-Okn4OvV3B9lyrWP0c2qMReAx-2Hi/" 
-          frameBorder="0" 
-          width="100%" 
-          height="100%"
-          className="w-full h-full"
-          style={{ border: 'none' }}
-        />
-      </div>
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-transparent">
+      {/* Content overlay */}
 
       {/* Content overlay */}
       <div className="relative z-10 container-editorial text-center py-20 pointer-events-none">

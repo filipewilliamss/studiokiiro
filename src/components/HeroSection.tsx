@@ -57,7 +57,7 @@ const HeroSection = () => {
       </div>
 
       {/* Watermark cover for Spline - only in Hero, below WhatsApp button */}
-      <div className="absolute bottom-0 right-0 w-[170px] h-[70px] bg-[#070807] z-10 pointer-events-none" />
+      <div className="absolute bottom-0 right-0 w-[170px] h-[60px] bg-[#070807] z-10 pointer-events-none" />
     </section>
   );
 };

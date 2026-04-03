@@ -58,7 +58,7 @@ const HeroSection = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.2 }}
-          className="mt-16 md:mt-[39px] lg:mt-16 flex justify-center"
+          className="mt-16 md:mt-[34px] lg:mt-16 flex justify-center"
         >
           <motion.svg
             animate={{ y: [0, 10, 0] }}

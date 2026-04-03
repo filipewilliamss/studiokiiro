@@ -54,7 +54,7 @@ const Navbar = ({ forceBlack = true }: NavbarProps) => {
         </a>
 
         {/* Desktop */}
-        <div className="hidden md:flex items-center gap-8">
+        <div className="hidden lg:flex items-center gap-8">
           {navLinks.map((link) => (
             <a
               key={link.href}
@@ -75,7 +75,7 @@ const Navbar = ({ forceBlack = true }: NavbarProps) => {
         {/* Mobile toggle */}
         <button
           onClick={() => setMenuOpen(!menuOpen)}
-          className={`md:hidden ${menuBtnClass}`}
+          className={`lg:hidden ${menuBtnClass}`}
           aria-label="Menu"
         >
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -93,7 +93,7 @@ const Navbar = ({ forceBlack = true }: NavbarProps) => {
         <motion.div
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
-          className={`md:hidden border-b ${forceBlack ? "bg-black/95 backdrop-blur-md border-white/10" : "bg-background/95 backdrop-blur-md border-border"}`}
+          className={`lg:hidden border-b ${forceBlack ? "bg-black/95 backdrop-blur-md border-white/10" : "bg-background/95 backdrop-blur-md border-border"}`}
         >
           <div className="container-editorial py-6 flex flex-col gap-4">
             {navLinks.map((link) => (

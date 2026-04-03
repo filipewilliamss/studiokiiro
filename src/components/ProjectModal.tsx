@@ -55,7 +55,7 @@ const ProjectModal = ({ project, onClose }: ProjectModalProps) => {
     >
       {/* Custom cursor glow */}
       <motion.div
-        className="fixed w-64 h-64 rounded-full pointer-events-none z-[55] mix-blend-screen"
+        className="fixed w-64 h-64 rounded-full pointer-events-none z-[55] mix-blend-screen hidden lg:block"
         animate={{
           x: cursorPos.x - 128,
           y: cursorPos.y - 128,

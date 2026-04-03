@@ -20,7 +20,7 @@ const HeroSection = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.6 }}
-          className="flex flex-col sm:flex-row gap-6 justify-center pointer-events-auto mt-[calc(60vh+200px)] sm:mt-[calc(50vh+200px)] md:mt-[calc(40vh+200px)]"
+          className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center pointer-events-auto mt-[calc(40vh+150px)] sm:mt-[calc(45vh+180px)] lg:mt-[calc(40vh+200px)]"
         >
           <a
             href="#portfolio"

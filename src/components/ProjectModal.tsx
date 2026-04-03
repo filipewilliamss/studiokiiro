@@ -439,7 +439,7 @@ const GalleryImage = ({
         {/* Cursor light */}
         {hovered && (
           <div
-            className="absolute inset-0 pointer-events-none z-10"
+            className="absolute inset-0 pointer-events-none z-10 hidden lg:block"
             style={{
               background: `radial-gradient(circle at ${mouse.x * 100}% ${mouse.y * 100}%, hsl(var(--primary) / 0.12) 0%, transparent 50%)`,
             }}

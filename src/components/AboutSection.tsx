@@ -5,7 +5,7 @@ const AboutSection = () => {
   return (
     <section id="sobre" className="section-padding">
       <div className="container-editorial">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 lg:gap-x-24 gap-y-12 items-start">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 lg:gap-x-24 gap-y-12 items-stretch">
           {/* Top Left: Title + Photo */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}

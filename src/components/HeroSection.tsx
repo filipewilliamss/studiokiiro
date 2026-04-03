@@ -25,7 +25,7 @@ const HeroSection = () => {
         >
           <a
             href="#portfolio"
-            className="px-10 py-5 bg-primary/40 backdrop-blur-2xl border-t border-l border-white/50 border-r border-b border-white/20 text-[#070807] font-display font-bold rounded-full hover:bg-primary/60 hover:scale-105 transition-all duration-300 text-lg shadow-[0_20px_50px_rgba(255,230,0,0.08),inset_0_2px_10px_rgba(255,255,255,0.4)] ring-1 ring-white/20 flex items-center justify-center"
+            className="px-10 py-5 bg-primary/70 backdrop-blur-2xl border-t border-l border-white/80 border-r border-b border-white/20 text-[#070807] font-display font-bold rounded-full hover:bg-primary/90 hover:scale-105 transition-all duration-300 text-lg shadow-[0_20px_50px_rgba(255,230,0,0.08),inset_0_2px_20px_rgba(255,255,255,0.8)] ring-1 ring-white/30 flex items-center justify-center"
           >
             Ver Projetos
           </a>

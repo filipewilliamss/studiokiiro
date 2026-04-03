@@ -55,7 +55,7 @@ const ProjectModal = ({ project, onClose }: ProjectModalProps) => {
     >
       {/* Custom cursor glow */}
       <motion.div
-        className="fixed w-64 h-64 rounded-full pointer-events-none z-[55] mix-blend-screen"
+        className="fixed w-64 h-64 rounded-full pointer-events-none z-[55] mix-blend-screen hidden lg:block"
         animate={{
           x: cursorPos.x - 128,
           y: cursorPos.y - 128,
@@ -350,7 +350,7 @@ const CaseStudyChapter = ({
       >
         {/* Hover glow */}
         <div
-          className="absolute inset-0 rounded-2xl opacity-0 hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+          className="absolute inset-0 rounded-2xl opacity-0 lg:hover:opacity-100 transition-opacity duration-500 pointer-events-none hidden lg:block"
           style={{
             background: `radial-gradient(circle at ${mouse.x * 100}% ${mouse.y * 100}%, hsl(var(--primary) / 0.08) 0%, transparent 60%)`,
           }}
@@ -439,7 +439,7 @@ const GalleryImage = ({
         {/* Cursor light */}
         {hovered && (
           <div
-            className="absolute inset-0 pointer-events-none z-10"
+            className="absolute inset-0 pointer-events-none z-10 hidden lg:block"
             style={{
               background: `radial-gradient(circle at ${mouse.x * 100}% ${mouse.y * 100}%, hsl(var(--primary) / 0.12) 0%, transparent 50%)`,
             }}

@@ -70,7 +70,7 @@ const serviceCategories = [
 
 const ServicesSection = () => {
   return (
-    <section id="servicos" className="section-padding">
+    <section id="servicos" className="section-padding bg-background text-foreground border-t border-border">
       <div className="container-editorial">
         <motion.div
           initial={{ opacity: 0, y: 30 }}

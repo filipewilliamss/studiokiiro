@@ -17,7 +17,7 @@ const HeroSection = () => {
         <iframe 
           src="https://my.spline.design/untitled-Okn4OvV3B9lyrWP0c2qMReAx-UYX/" 
           frameBorder="0" 
-          className="hidden md:block lg:hidden w-full h-full md:scale-[0.95] transition-all duration-700"
+          className="hidden md:block lg:hidden w-full h-full md:scale-[1.09] transition-all duration-700"
           style={{ border: 'none' }}
           title="Spline 3D Background Tablet"
         />

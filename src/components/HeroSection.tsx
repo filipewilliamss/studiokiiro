@@ -8,7 +8,7 @@ const HeroSection = () => {
         <iframe 
           src="https://my.spline.design/untitled-Okn4OvV3B9lyrWP0c2qMReAx-2Hi/" 
           frameBorder="0" 
-          className="w-full h-full lg:w-screen lg:h-screen scale-[1.2] sm:scale-[0.9] lg:scale-[1.03] transition-all duration-700"
+          className="w-full h-full lg:w-screen lg:h-screen scale-[1.2] sm:scale-[0.9] lg:scale-[1.03] transition-all duration-700 -translate-x-[300px] sm:translate-x-0"
           style={{ border: 'none' }}
           title="Spline 3D Background"
         />

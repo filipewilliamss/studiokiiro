@@ -12,7 +12,7 @@ import {
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { toast } from "sonner";
 import { motion, AnimatePresence } from "framer-motion";
-import kiiroLogo from "@/assets/logo.png";
+import kiiroLogo from "@/assets/logo.webp";
 
 interface QuoteItem { description: string; quantity: number; unit_price: number; }
 interface Quote {

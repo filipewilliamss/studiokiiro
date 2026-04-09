@@ -1,8 +1,8 @@
 import { motion } from "framer-motion";
-import socialMedia1 from "@/assets/social-media-1.jpg";
-import carrosselMockup from "@/assets/carrossel-mockup.png";
-import destaquesMockup from "@/assets/destaques-mockup.png";
-import storyMockup from "@/assets/story-mockup.png";
+import socialMedia1 from "@/assets/social-media-1.webp";
+import carrosselMockup from "@/assets/carrossel-mockup.webp";
+import destaquesMockup from "@/assets/destaques-mockup.webp";
+import storyMockup from "@/assets/story-mockup.webp";
 
 const placeholderItems = [
   {

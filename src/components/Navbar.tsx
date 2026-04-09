@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
-import kiiroLogo from "@/assets/logo.png";
+import kiiroLogo from "@/assets/logo.webp";
 
 const BASE_URL = "https://studiokiiro.com";
 

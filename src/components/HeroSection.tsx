@@ -23,13 +23,14 @@ const HeroSection = () => {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-transparent">
       {/* Spline Background only for Hero */}
-      <div className="absolute inset-0 z-0 pointer-events-auto overflow-hidden flex items-center justify-center">
+      <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden flex items-center justify-center">
         {/* Desktop Version */}
         {screenSize === 'desktop' && (
           <iframe 
             src="https://my.spline.design/untitled-Okn4OvV3B9lyrWP0c2qMReAx-2Hi/" 
             frameBorder="0" 
-            className="w-full h-full lg:w-screen lg:h-screen lg:scale-[1.03] transition-all duration-700"
+            loading="eager"
+            className="w-full h-full lg:w-screen lg:h-screen lg:scale-[1.03]"
             style={{ border: 'none' }}
             title="Spline 3D Background Desktop"
           />
@@ -39,7 +40,8 @@ const HeroSection = () => {
           <iframe 
             src="https://my.spline.design/untitled-Okn4OvV3B9lyrWP0c2qMReAx-UYX/" 
             frameBorder="0" 
-            className="w-full h-full md:scale-[1.25] translate-y-[5%] transition-all duration-700"
+            loading="eager"
+            className="w-full h-full md:scale-[1.25] translate-y-[5%]"
             style={{ border: 'none' }}
             title="Spline 3D Background Tablet"
           />
@@ -47,9 +49,10 @@ const HeroSection = () => {
         {/* Mobile Version */}
         {screenSize === 'mobile' && (
           <iframe 
-            src="https://my.spline.design/untitled-Okn4OvV3B9lyrWP0c2qMReAx-Bbh/" 
+            src="https://my.spline.design/untitled-Okn4OvV3B9lyrWP0c2qMReAx-Bbh/?events=0" 
             frameBorder="0" 
-            className="w-full h-full sm:scale-[0.9] transition-all duration-700"
+            loading="eager"
+            className="w-full h-full"
             style={{ border: 'none' }}
             title="Spline 3D Background Mobile"
           />

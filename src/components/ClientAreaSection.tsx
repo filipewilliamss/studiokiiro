@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import areaDoClienteMockup from "@/assets/area-do-cliente-mockup.png";
+import areaDoClienteMockup from "@/assets/area-do-cliente-mockup.webp";
 
 const benefits = [
   {

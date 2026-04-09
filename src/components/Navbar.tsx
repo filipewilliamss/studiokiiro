@@ -1,9 +1,7 @@
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
-import kiiroLogo from "@/assets/logo.png";
-
-const BASE_URL = "https://studiokiiro.com";
+import kiiroLogo from "@/assets/logo.webp";
 
 const navLinks = [
   { label: "Sobre", href: "#sobre" },
@@ -23,7 +21,7 @@ const Navbar = ({ forceBlack = true }: NavbarProps) => {
   const location = useLocation();
   const isHome = location.pathname === "/";
 
-  const getHref = (anchor: string) => (isHome ? anchor : `${BASE_URL}/${anchor}`);
+  const getHref = (anchor: string) => (isHome ? anchor : `/${anchor}`);
   const logoHref = "/";
 
   useEffect(() => {

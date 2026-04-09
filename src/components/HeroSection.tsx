@@ -1,34 +1,59 @@
 import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
 
 const HeroSection = () => {
+  const [screenSize, setScreenSize] = useState<'mobile' | 'tablet' | 'desktop'>('desktop');
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 768) {
+        setScreenSize('mobile');
+      } else if (window.innerWidth < 1024) {
+        setScreenSize('tablet');
+      } else {
+        setScreenSize('desktop');
+      }
+    };
+
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-transparent">
       {/* Spline Background only for Hero */}
       <div className="absolute inset-0 z-0 pointer-events-auto overflow-hidden flex items-center justify-center">
         {/* Desktop Version */}
-        <iframe 
-          src="https://my.spline.design/untitled-Okn4OvV3B9lyrWP0c2qMReAx-2Hi/" 
-          frameBorder="0" 
-          className="hidden lg:block w-full h-full lg:w-screen lg:h-screen lg:scale-[1.03] transition-all duration-700"
-          style={{ border: 'none' }}
-          title="Spline 3D Background Desktop"
-        />
+        {screenSize === 'desktop' && (
+          <iframe 
+            src="https://my.spline.design/untitled-Okn4OvV3B9lyrWP0c2qMReAx-2Hi/" 
+            frameBorder="0" 
+            className="w-full h-full lg:w-screen lg:h-screen lg:scale-[1.03] transition-all duration-700"
+            style={{ border: 'none' }}
+            title="Spline 3D Background Desktop"
+          />
+        )}
         {/* Tablet Version */}
-        <iframe 
-          src="https://my.spline.design/untitled-Okn4OvV3B9lyrWP0c2qMReAx-UYX/" 
-          frameBorder="0" 
-          className="hidden md:block lg:hidden w-full h-full md:scale-[1.25] translate-y-[5%] transition-all duration-700"
-          style={{ border: 'none' }}
-          title="Spline 3D Background Tablet"
-        />
+        {screenSize === 'tablet' && (
+          <iframe 
+            src="https://my.spline.design/untitled-Okn4OvV3B9lyrWP0c2qMReAx-UYX/" 
+            frameBorder="0" 
+            className="w-full h-full md:scale-[1.25] translate-y-[5%] transition-all duration-700"
+            style={{ border: 'none' }}
+            title="Spline 3D Background Tablet"
+          />
+        )}
         {/* Mobile Version */}
-        <iframe 
-          src="https://my.spline.design/untitled-Okn4OvV3B9lyrWP0c2qMReAx-Bbh/" 
-          frameBorder="0" 
-          className="md:hidden w-full h-full sm:scale-[0.9] transition-all duration-700"
-          style={{ border: 'none' }}
-          title="Spline 3D Background Mobile"
-        />
+        {screenSize === 'mobile' && (
+          <iframe 
+            src="https://my.spline.design/untitled-Okn4OvV3B9lyrWP0c2qMReAx-Bbh/" 
+            frameBorder="0" 
+            className="w-full h-full sm:scale-[0.9] transition-all duration-700"
+            style={{ border: 'none' }}
+            title="Spline 3D Background Mobile"
+          />
+        )}
       </div>
 
       {/* Content overlay */}

@@ -1,4 +1,4 @@
-import kiiroLogo from "@/assets/logo.png";
+import kiiroLogo from "@/assets/logo.webp";
 
 const Footer = () => {
   return (

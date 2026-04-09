@@ -10,7 +10,7 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 import { Checkbox } from "@/components/ui/checkbox";
 import { FilePlus, Printer, Hash, Calendar, Trash2, Pencil, Plus, X } from "lucide-react";
 import { toast } from "sonner";
-import kiiroLogo from "@/assets/logo.png";
+import kiiroLogo from "@/assets/logo.webp";
 
 interface Profile { id: string; full_name: string; company: string | null; phone: string | null; email: string | null; }
 interface Project { id: string; name: string; type: string; }

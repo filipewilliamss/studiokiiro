@@ -43,7 +43,7 @@ const ContactSection = () => {
           className="space-y-6"
         >
           <input type="hidden" name="_subject" value="Nova Mensagem do Site Studio Kiiro!" />
-          <input type="hidden" name="_next" value="https://studiokiiro.com/obrigado" />
+          <input type="hidden" name="_next" value={`${typeof window !== 'undefined' ? window.location.origin : ''}/obrigado`} />
 
           <div>
             <label htmlFor="name" className="block text-sm font-display uppercase tracking-widest text-muted-foreground mb-2">

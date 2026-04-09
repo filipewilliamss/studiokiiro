@@ -34,7 +34,7 @@ const AboutSection = () => {
               transition={{ duration: 0.8, delay: 0.3 }}
               className="relative"
             >
-              <div className="relative overflow-hidden rounded-2xl md:w-[calc(100%+25px)] md:-ml-[12.5px] lg:w-full lg:ml-0">
+              <div className="relative overflow-hidden rounded-2xl md:w-[calc(100%+20px)] md:-ml-[10px] lg:w-full lg:ml-0">
                 <img
                   src={profilePicture}
                   alt="Filipe Williams — Fundador do Studio Kiiro"

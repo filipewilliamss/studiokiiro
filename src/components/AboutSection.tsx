@@ -5,14 +5,14 @@ const AboutSection = () => {
   return (
     <section id="sobre" className="section-padding">
       <div className="container-editorial">
-        <div className="grid md:grid-cols-2 gap-16 md:gap-24 items-end">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-12 md:gap-16 lg:gap-24 lg:items-end">
           {/* Left column - Title + Photo */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: false, amount: 0.3 }}
             transition={{ duration: 0.7 }}
-            className="space-y-8"
+            className="space-y-8 lg:row-span-2"
           >
             <div>
               <p className="text-sm uppercase tracking-[0.3em] text-primary mb-4">Sobre</p>
@@ -48,7 +48,7 @@ const AboutSection = () => {
             </motion.div>
           </motion.div>
 
-          {/* Right column - Text */}
+          {/* Right column - Text Part 1 (Top on Tablet) */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -62,6 +62,16 @@ const AboutSection = () => {
             <p className="text-base text-muted-foreground leading-relaxed">
               Construí minha carreira na prática e na raça. Sem atalhos. Aprendi com cada projeto entregue, com cada cliente atendido e com cada desafio superado. Hoje me especializo em Identidade Visual e Artes para Mídias Sociais — áreas onde posso unir técnica apurada, olhar artístico e pensamento estratégico para gerar resultados reais para marcas e negócios.
             </p>
+          </motion.div>
+
+          {/* Right column - Text Part 2 (Bottom/Full-width on Tablet) */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: false, amount: 0.3 }}
+            transition={{ duration: 0.7, delay: 0.4 }}
+            className="space-y-6 md:col-span-2 lg:col-span-1"
+          >
             <p className="text-base text-muted-foreground leading-relaxed">
               Já desenvolvi identidades visuais para empreendedores, pequenas empresas, ministérios de alcance internacional e negócios consolidados no mercado. Um dos projetos que mais me orgulha foi o rebranding de uma empresa de assistência técnica — depois do novo visual, o número de alunos cresceu e o negócio expandiu. Ver meu trabalho ganhar vida e gerar impacto real é o que me motiva todos os dias.
             </p>

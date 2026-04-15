@@ -33,7 +33,7 @@ const HeroSection = () => {
         {/* Desktop Version */}
         {screenSize === 'desktop' && (
           <iframe 
-            src="https://my.spline.design/untitled-Okn4OvV3B9lyrWP0c2qMReAx-2Hi/" 
+            src="https://my.spline.design/untitled-Okn4OvV3B9lyrWP0c2qMReAx-2Hi/?events=0" 
             frameBorder="0" 
             loading="lazy"
             onLoad={() => setIsIframeLoaded(true)}
@@ -45,7 +45,7 @@ const HeroSection = () => {
         {/* Tablet Version */}
         {screenSize === 'tablet' && (
           <iframe 
-            src="https://my.spline.design/untitled-Okn4OvV3B9lyrWP0c2qMReAx-UYX/" 
+            src="https://my.spline.design/untitled-Okn4OvV3B9lyrWP0c2qMReAx-UYX/?events=0" 
             frameBorder="0" 
             loading="lazy"
             onLoad={() => setIsIframeLoaded(true)}

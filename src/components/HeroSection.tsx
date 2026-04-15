@@ -2,7 +2,13 @@ import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
 
 const HeroSection = () => {
-  const [screenSize, setScreenSize] = useState<'mobile' | 'tablet' | 'desktop' | null>(null);
+  const [screenSize, setScreenSize] = useState<'mobile' | 'tablet' | 'desktop' | null>(() => {
+    if (typeof window === 'undefined') return null;
+    const width = window.innerWidth;
+    if (width < 768) return 'mobile';
+    if (width < 1024) return 'tablet';
+    return 'desktop';
+  });
   const [isIframeLoaded, setIsIframeLoaded] = useState(false);
 
   useEffect(() => {
@@ -17,8 +23,6 @@ const HeroSection = () => {
       }
     };
 
-    // Small delay to allow initial layout to settle
-    setTimeout(handleResize, 100);
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);

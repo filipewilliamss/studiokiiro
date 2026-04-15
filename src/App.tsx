@@ -8,6 +8,7 @@ import Index from "./pages/Index.tsx";
 import Obrigado from "./pages/Obrigado.tsx";
 import AreaDoCliente from "./pages/AreaDoCliente.tsx";
 import NotFound from "./pages/NotFound.tsx";
+import CookieConsent from "./components/CookieConsent.tsx";
 
 const queryClient = new QueryClient();
 
@@ -24,6 +25,7 @@ const App = () => (
             <Route path="/area-do-cliente" element={<AreaDoCliente />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
+          <CookieConsent />
         </AuthProvider>
       </BrowserRouter>
     </TooltipProvider>

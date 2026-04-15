@@ -2,34 +2,41 @@ import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
 
 const HeroSection = () => {
-  const [screenSize, setScreenSize] = useState<'mobile' | 'tablet' | 'desktop'>('desktop');
+  const [screenSize, setScreenSize] = useState<'mobile' | 'tablet' | 'desktop' | null>(null);
+  const [isIframeLoaded, setIsIframeLoaded] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth < 768) {
+      const width = window.innerWidth;
+      if (width < 768) {
         setScreenSize('mobile');
-      } else if (window.innerWidth < 1024) {
+      } else if (width < 1024) {
         setScreenSize('tablet');
       } else {
         setScreenSize('desktop');
       }
     };
 
-    handleResize();
+    // Small delay to allow initial layout to settle
+    setTimeout(handleResize, 100);
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-transparent">
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#070807]">
+      {/* Loading Placeholder */}
+      <div className={`absolute inset-0 z-[1] transition-opacity duration-1000 bg-[#070807] ${isIframeLoaded ? 'opacity-0 pointer-events-none' : 'opacity-100'}`} />
+
       {/* Spline Background only for Hero */}
       <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden flex items-center justify-center">
         {/* Desktop Version */}
         {screenSize === 'desktop' && (
           <iframe 
-            src="https://my.spline.design/untitled-Okn4OvV3B9lyrWP0c2qMReAx-2Hi/" 
+            src="https://my.spline.design/untitled-Okn4OvV3B9lyrWP0c2qMReAx-2Hi/?events=0" 
             frameBorder="0" 
-            loading="eager"
+            loading="lazy"
+            onLoad={() => setIsIframeLoaded(true)}
             className="w-full h-full lg:w-screen lg:h-screen lg:scale-[1.03]"
             style={{ border: 'none' }}
             title="Spline 3D Background Desktop"
@@ -38,9 +45,10 @@ const HeroSection = () => {
         {/* Tablet Version */}
         {screenSize === 'tablet' && (
           <iframe 
-            src="https://my.spline.design/untitled-Okn4OvV3B9lyrWP0c2qMReAx-UYX/" 
+            src="https://my.spline.design/untitled-Okn4OvV3B9lyrWP0c2qMReAx-UYX/?events=0" 
             frameBorder="0" 
-            loading="eager"
+            loading="lazy"
+            onLoad={() => setIsIframeLoaded(true)}
             className="w-full h-full md:scale-[1.25] translate-y-[5%]"
             style={{ border: 'none' }}
             title="Spline 3D Background Tablet"
@@ -51,7 +59,8 @@ const HeroSection = () => {
           <iframe 
             src="https://my.spline.design/untitled-Okn4OvV3B9lyrWP0c2qMReAx-Bbh/?events=0" 
             frameBorder="0" 
-            loading="eager"
+            loading="lazy"
+            onLoad={() => setIsIframeLoaded(true)}
             className="w-full h-full"
             style={{ border: 'none' }}
             title="Spline 3D Background Mobile"

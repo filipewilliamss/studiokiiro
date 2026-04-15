@@ -38,6 +38,7 @@ const AboutSection = () => {
                 <img
                   src={profilePicture}
                   alt="Filipe Williams — Fundador do Studio Kiiro"
+                  loading="lazy"
                   className="w-full object-cover aspect-[3/4] grayscale hover:grayscale-0 transition-all duration-700"
                 />
                 {/* Gradient overlay */}

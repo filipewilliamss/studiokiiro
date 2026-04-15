@@ -17,7 +17,8 @@ const HeroSection = () => {
       }
     };
 
-    handleResize();
+    // Small delay to allow initial layout to settle
+    setTimeout(handleResize, 100);
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);

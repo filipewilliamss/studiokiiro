@@ -2,7 +2,13 @@ import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
 
 const HeroSection = () => {
-  const [screenSize, setScreenSize] = useState<'mobile' | 'tablet' | 'desktop' | null>(null);
+  const [screenSize, setScreenSize] = useState<'mobile' | 'tablet' | 'desktop' | null>(() => {
+    if (typeof window === 'undefined') return null;
+    const width = window.innerWidth;
+    if (width < 768) return 'mobile';
+    if (width < 1024) return 'tablet';
+    return 'desktop';
+  });
   const [isIframeLoaded, setIsIframeLoaded] = useState(false);
 
   useEffect(() => {
@@ -17,25 +23,30 @@ const HeroSection = () => {
       }
     };
 
-    // Small delay to allow initial layout to settle
-    setTimeout(handleResize, 100);
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#070807]">
-      {/* Loading Placeholder */}
-      <div className={`absolute inset-0 z-[1] transition-opacity duration-1000 bg-[#070807] ${isIframeLoaded ? 'opacity-0 pointer-events-none' : 'opacity-100'}`} />
+      {/* Loading Placeholder with Spinner */}
+      <div className={`absolute inset-0 z-[1] transition-opacity duration-1000 bg-[#070807] flex flex-col items-center justify-center ${isIframeLoaded ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
+        {!isIframeLoaded && (
+          <div className="flex flex-col items-center gap-4">
+            <div className="w-12 h-12 border-4 border-primary/20 border-t-primary rounded-full animate-spin" />
+            <p className="text-white/40 font-display text-sm animate-pulse">Carregando experiência 3D...</p>
+          </div>
+        )}
+      </div>
 
       {/* Spline Background only for Hero */}
-      <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden flex items-center justify-center">
+      <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden flex items-center justify-center bg-[#070807]">
         {/* Desktop Version */}
         {screenSize === 'desktop' && (
           <iframe 
             src="https://my.spline.design/untitled-Okn4OvV3B9lyrWP0c2qMReAx-2Hi/?events=0" 
             frameBorder="0" 
-            loading="lazy"
+            loading="eager"
             onLoad={() => setIsIframeLoaded(true)}
             className="w-full h-full lg:w-screen lg:h-screen lg:scale-[1.03]"
             style={{ border: 'none' }}
@@ -47,7 +58,7 @@ const HeroSection = () => {
           <iframe 
             src="https://my.spline.design/untitled-Okn4OvV3B9lyrWP0c2qMReAx-UYX/?events=0" 
             frameBorder="0" 
-            loading="lazy"
+            loading="eager"
             onLoad={() => setIsIframeLoaded(true)}
             className="w-full h-full md:scale-[1.25] translate-y-[5%]"
             style={{ border: 'none' }}
@@ -59,7 +70,7 @@ const HeroSection = () => {
           <iframe 
             src="https://my.spline.design/untitled-Okn4OvV3B9lyrWP0c2qMReAx-Bbh/?events=0" 
             frameBorder="0" 
-            loading="lazy"
+            loading="eager"
             onLoad={() => setIsIframeLoaded(true)}
             className="w-full h-full"
             style={{ border: 'none' }}

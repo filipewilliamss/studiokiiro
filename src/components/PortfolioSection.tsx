@@ -204,6 +204,7 @@ const UniformCard = ({
           <motion.img
             src={project.logo}
             alt=""
+            loading="lazy"
             className="w-[85%] h-[85%] object-contain opacity-15 blur-[2px] select-none"
             animate={{
               scale: isHovered ? baseLogoScale * 0.95 : baseLogoScale,
@@ -219,6 +220,7 @@ const UniformCard = ({
           <motion.img
             src={project.logo}
             alt={`Logo ${project.title}`}
+            loading="lazy"
             className="w-[85%] h-[85%] object-contain drop-shadow-[0_8px_24px_rgba(0,0,0,0.5)]"
             animate={{
               scale: isHovered ? baseLogoScale * 1.18 : baseLogoScale,

@@ -110,24 +110,28 @@ const PortfolioSection = () => {
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.9 }}
                   transition={{ duration: 0.4, delay: i * 0.1 }}
-                  className="group cursor-pointer"
+                  className="group cursor-pointer bg-white/[0.03] border border-white/[0.08] rounded-[2px] overflow-hidden transition-all duration-300 hover:border-[#FFCA16]/30 hover:bg-[#FFCA16]/[0.04] hover:-translate-y-1"
                   onClick={() => setSelectedProject(project)}
                 >
-                  <div className="relative aspect-[4/5] overflow-hidden border border-white/10 bg-[#FFCA16]/[0.02] mb-6">
+                  <div className="relative aspect-[4/3] flex items-center justify-center p-12 bg-white/[0.04] overflow-hidden">
+                    {/* Pseudo-elemento decorativo */}
+                    <div className="absolute top-0 right-0 w-[60px] h-[60px] bg-gradient-to-br from-[#FFCA16]/[0.08] to-transparent" />
+                    
                     <img
                       src={project.logo}
                       alt={project.title}
-                      className="absolute inset-0 w-full h-full object-contain p-12 transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0"
+                      className="max-w-[65%] max-h-[80px] object-contain transition-transform duration-300 group-hover:scale-[1.05]"
                     />
-                    <div className="absolute inset-0 bg-[#070807]/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                   </div>
 
-                  <h3 className="font-display text-xl font-bold text-white mb-2 group-hover:text-[#FFCA16] transition-colors duration-300">
-                    {project.title}
-                  </h3>
-                  <p className="text-white/60 text-sm leading-relaxed">
-                    {project.category}
-                  </p>
+                  <div className="p-[20px_24px] border-t border-white/[0.06]">
+                    <h3 className="font-display text-base font-semibold text-white mb-1">
+                      {project.title}
+                    </h3>
+                    <p className="text-[#FFCA16]/60 text-[12px] font-normal uppercase tracking-[1.5px]">
+                      {project.category}
+                    </p>
+                  </div>
                 </motion.div>
               ))
             ) : (

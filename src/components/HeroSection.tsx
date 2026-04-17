@@ -160,9 +160,9 @@ const HeroSection = () => {
             className="text-white font-[800] leading-[0.9] text-left tracking-[-3px] font-display"
             style={{ fontSize: 'clamp(48px, 8vw, 96px)' }}
           >
-            Animação.<br />
-            <span className="text-[#FFCA16]">Identidade.</span><br />
-            Resultado.
+            Identidade.<br />
+            Estratégia.<br />
+            <span className="text-[#FFCA16]">Resultado.</span>
           </h1>
 
           <p className="mt-8 text-white/50 text-[16px] max-w-[420px] text-left font-[400] leading-relaxed font-display">

@@ -30,7 +30,9 @@ const Navbar = ({ forceBlack = true }: NavbarProps) => {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const bgClass = "bg-black border-b border-white/10 shadow-lg";
+  const bgClass = scrolled 
+    ? "bg-[#070807]/80 backdrop-blur-[10px] border-b border-white/10 shadow-lg" 
+    : "bg-transparent border-b border-transparent";
   const textClass = "text-white/80 hover:text-primary";
   const areaClienteTextClass = "text-primary hover:text-primary/80";
   const menuBtnClass = "text-white";

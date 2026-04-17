@@ -119,15 +119,15 @@ const HeroSection = () => {
         >
           <a
             href="#portfolio"
-            className="group relative px-10 py-5 bg-[#FFCA16] text-[#070807] font-bold rounded-[50px] transition-transform duration-300 ease-[cubic-bezier(0.175,0.885,0.32,1.275)] hover:scale-[1.05] flex items-center justify-center text-lg active:scale-95 shadow-[0_10px_30px_rgba(255,202,22,0.1)]"
+            className="group relative px-10 py-5 bg-[#FFCA16] text-[#070807] font-bold rounded-[50px] transition-all duration-300 hover:scale-[1.05] flex items-center justify-center text-lg active:scale-95 shadow-[0_10px_30px_rgba(255,202,22,0.15)]"
           >
             Ver Projetos
           </a>
           <a
             href="#contato"
-            className="group relative px-10 py-5 bg-transparent border-2 border-white text-white font-bold rounded-[50px] transition-transform duration-300 ease-[cubic-bezier(0.175,0.885,0.32,1.275)] hover:scale-[1.05] flex items-center justify-center text-lg active:scale-95"
+            className="group relative px-10 py-5 bg-transparent border border-[#FFCA16] text-[#FFCA16] font-bold rounded-[50px] transition-all duration-300 hover:scale-[1.05] flex items-center justify-center text-lg active:scale-95 hover:bg-[#FFCA16]/5"
           >
-            Solicitar Orçamento
+            Fale Conosco
           </a>
         </div>
       </div>

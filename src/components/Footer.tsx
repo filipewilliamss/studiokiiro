@@ -10,10 +10,10 @@ const Footer = () => {
             <a href="#" className="inline-block transition-transform hover:scale-105 duration-300">
               <img src={kiiroLogo} alt="Studio Kiiro" className="h-10" />
             </a>
-            <p className="mt-4 font-display font-normal text-[14px] text-white/50">
+            <p className="mt-4 font-display font-normal text-[12px] text-white/50">
               Arte em cada pixel.
             </p>
-            <p className="font-display font-normal text-[14px] text-[#FFCA16] max-w-[280px]">
+            <p className="font-display font-normal text-[12px] text-white/50 max-w-[280px]">
               Design estratégico que transforma marcas em referências visuais.
             </p>
           </div>

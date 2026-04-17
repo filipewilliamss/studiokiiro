@@ -21,54 +21,54 @@ const HeroSection = () => {
         defaults: { ease: 'power4.out' }
       });
 
-      tl.from(titleWords || [], {
-        y: 100,
-        opacity: 0,
-        duration: 1.2,
-        stagger: 0.1,
-      })
-      .from(subtitleRef.current, {
-        y: 20,
-        opacity: 0,
-        duration: 0.8,
-      }, '-=0.8')
-      .from(buttonsRef.current, {
-        y: 20,
-        opacity: 0,
-        duration: 0.8,
-      }, '-=0.6')
-      .from(scrollIndicatorRef.current, {
-        opacity: 0,
-        duration: 1,
-      }, '-=0.4');
-
-      // Scroll progress effect - Immersive scroll
-      gsap.to(titleRef.current, {
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top top',
-          end: 'bottom top',
-          scrub: 1,
-          pin: false,
-        },
-        y: -150,
-        scale: 0.95,
-        opacity: 0.3,
-      });
-
-      // Fill effect on scroll (color shift)
       if (titleWords) {
+        tl.from(titleWords, {
+          y: 100,
+          opacity: 0,
+          duration: 1.2,
+          stagger: 0.1,
+          clearProps: "all"
+        })
+        .from(subtitleRef.current, {
+          y: 20,
+          opacity: 0,
+          duration: 0.8,
+        }, '-=0.8')
+        .from(buttonsRef.current, {
+          y: 20,
+          opacity: 0,
+          duration: 0.8,
+        }, '-=0.6')
+        .from(scrollIndicatorRef.current, {
+          opacity: 0,
+          duration: 1,
+        }, '-=0.4');
+
+        // Scroll progress effect - Immersive scroll
+        gsap.to(titleRef.current, {
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: 'top top',
+            end: 'bottom top',
+            scrub: 1,
+          },
+          y: -150,
+          scale: 0.95,
+          opacity: 0.3,
+        });
+
+        // Fill effect on scroll (color shift)
         gsap.to(titleWords, {
           scrollTrigger: {
             trigger: sectionRef.current,
             start: 'top top',
             end: 'bottom 20%',
             scrub: 0.5,
+            immediateRender: false,
           },
           color: (i, target) => {
             return target.classList.contains('text-[#FFCA16]') ? '#FFCA16' : '#ffffff';
           },
-          opacity: 1,
           stagger: 0.1,
         });
       }
@@ -79,7 +79,7 @@ const HeroSection = () => {
   }, []);
 
   const titleText = "Design que Move. Estratégia que Converte.";
-  const words = titleText.split(' ');
+  const words = titleText.split(/\s+/);
 
   return (
     <section 
@@ -97,7 +97,7 @@ const HeroSection = () => {
           {words.map((word, i) => {
             const isYellow = word.includes('Move') || word.includes('Converte');
             return (
-              <span key={i} className="inline-block overflow-hidden mr-[0.2em] mb-[0.1em]">
+              <span key={i} className="inline-block overflow-hidden mr-[0.2em] mb-[0.15em] py-[0.1em] -my-[0.1em]">
                 <span className={`word inline-block ${isYellow ? 'text-[#FFCA16]' : 'text-white'}`}>
                   {word}
                 </span>

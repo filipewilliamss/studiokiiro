@@ -108,3 +108,50 @@
   from { width: 0; }
   to { width: 100%; }
 }
+
+/* Custom Sobre Section Styles */
+.sobre-section {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.sobre-titulo {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.sobre-conteudo {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  gap: 60px;
+}
+
+.sobre-foto {
+  width: 40%;
+  flex-shrink: 0;
+  object-fit: cover;
+}
+
+.sobre-paragrafos {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.sobre-paragrafos p {
+  margin: 0;
+}
+
+@media (max-width: 1024px) {
+  .sobre-conteudo {
+    flex-direction: column;
+    gap: 32px;
+  }
+  .sobre-foto {
+    width: 100%;
+  }
+}

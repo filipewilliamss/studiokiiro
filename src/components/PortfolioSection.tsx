@@ -1,25 +1,37 @@
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import ProjectModal from "./ProjectModal";
-import { projects } from "@/data/projects";
+import { motion } from "framer-motion";
+import socialMedia1 from "@/assets/social-media-1.webp";
+import carrosselMockup from "@/assets/carrossel-mockup.webp";
+import destaquesMockup from "@/assets/destaques-mockup.webp";
+import storyMockup from "@/assets/story-mockup.webp";
 
-export interface Project {
-  id: number;
-  title: string;
-  category: string;
-  bgColor: string;
-  intro?: string;
-  challenge: string;
-  solution: string;
-  result: string;
-  tags: string[];
-  logo: string;
-  pages?: string[];
-}
+const portfolioItems = [
+  {
+    id: 1,
+    title: "Feed Estratégico",
+    description: "Posts que comunicam, engajam e convertem — com identidade visual consistente.",
+    image: socialMedia1,
+  },
+  {
+    id: 2,
+    title: "Stories & Reels",
+    description: "Conteúdos dinâmicos e criativos que aumentam o alcance e a conexão com o público.",
+    image: storyMockup,
+  },
+  {
+    id: 3,
+    title: "Carrosséis Educativos",
+    description: "Design informativo que entrega valor e posiciona a marca como autoridade.",
+    image: carrosselMockup,
+  },
+  {
+    id: 4,
+    title: "Capas & Destaques",
+    description: "Elementos visuais coesos que fortalecem a primeira impressão do perfil.",
+    image: destaquesMockup,
+  },
+];
 
 const PortfolioSection = () => {
-  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
-
   return (
     <section id="portfolio" className="relative section-padding bg-[#070807] grid-pattern border-t border-white/[0.05]">
       <div className="container-editorial">
@@ -28,75 +40,48 @@ const PortfolioSection = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="flex flex-col md:flex-row md:items-end md:justify-between gap-8 mb-24"
+          className="mb-16 md:mb-24"
         >
-          <div>
-            <span className="inline-block px-4 py-1.5 border border-[#FFCA16] text-[#FFCA16] text-[11px] font-bold uppercase tracking-[3px] rounded-none mb-6">
-              PORTFÓLIO
-            </span>
-            <h2 className="font-display text-[40px] md:text-[56px] font-[800] text-white leading-none tracking-[-2px]">
-              PROJETOS SELECIONADOS
-            </h2>
-          </div>
-          <a 
-            href="#todos-projetos" 
-            className="px-8 py-4 border border-white text-white text-[12px] font-bold uppercase tracking-[2px] hover:bg-white hover:text-black transition-all duration-300"
-          >
-            VER TODOS OS PROJETOS
-          </a>
+          <span className="inline-block px-4 py-1.5 border border-[#FFCA16] text-[#FFCA16] text-[11px] font-bold uppercase tracking-[3px] rounded-none mb-6">
+            PORTFÓLIO
+          </span>
+          <h2 className="font-display text-[40px] md:text-[56px] font-[800] text-white leading-tight tracking-[-2px] mb-6">
+            Artes para Mídias Sociais
+          </h2>
+          <p className="text-white/60 text-lg md:text-xl max-w-3xl leading-relaxed">
+            Criamos artes que traduzem a essência da sua marca nas redes sociais — com design estratégico, identidade visual forte e conteúdos que geram resultados reais.
+          </p>
         </motion.div>
 
-        {/* Masonry-like grid using CSS columns for simplicity or flex/grid */}
-        <div className="columns-1 md:columns-2 gap-8 space-y-8">
-          {projects.map((project, i) => (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          {portfolioItems.map((item, i) => (
             <motion.div
-              key={project.id}
+              key={item.id}
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: i * 0.1 }}
-              className="relative group cursor-pointer overflow-hidden rounded-none break-inside-avoid"
-              onClick={() => setSelectedProject(project)}
+              className="group"
             >
-              {/* Card Container */}
-              <div 
-                className={`relative w-full overflow-hidden border border-[#FFCA16]/10 bg-[#FFCA16]/[0.05] transition-transform duration-500 ease-out group-hover:scale-[1.02] ${i % 3 === 0 ? 'aspect-square' : 'aspect-video'}`}
-              >
-                {/* Project Logo Placeholder (Centered) */}
-                <div className="absolute inset-0 flex items-center justify-center p-12">
-                  <img 
-                    src={project.logo} 
-                    alt="" 
-                    className="w-full h-full object-contain opacity-30 group-hover:opacity-50 transition-opacity duration-500"
-                  />
-                </div>
-
-                {/* Overlay on Hover */}
-                <div className="absolute inset-0 bg-[#070807]/[0.85] opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-10">
-                  <span className="font-display text-[12px] text-[#FFCA16] uppercase tracking-[3px] font-medium mb-3">
-                    {project.category}
-                  </span>
-                  <div className="flex items-center justify-between">
-                    <h3 className="font-display text-[22px] md:text-[28px] font-bold text-white tracking-tight">
-                      {project.title}
-                    </h3>
-                    <span className="text-[#FFCA16] text-3xl">→</span>
-                  </div>
-                </div>
+              <div className="relative aspect-[4/5] overflow-hidden border border-white/10 bg-[#FFCA16]/[0.02] mb-6">
+                <img
+                  src={item.image}
+                  alt={item.title}
+                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0"
+                />
+                <div className="absolute inset-0 bg-[#070807]/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               </div>
+
+              <h3 className="font-display text-xl font-bold text-white mb-2 group-hover:text-[#FFCA16] transition-colors duration-300">
+                {item.title}
+              </h3>
+              <p className="text-white/60 text-sm leading-relaxed">
+                {item.description}
+              </p>
             </motion.div>
           ))}
         </div>
       </div>
-
-      <AnimatePresence>
-        {selectedProject && (
-          <ProjectModal
-            project={selectedProject}
-            onClose={() => setSelectedProject(null)}
-          />
-        )}
-      </AnimatePresence>
     </section>
   );
 };

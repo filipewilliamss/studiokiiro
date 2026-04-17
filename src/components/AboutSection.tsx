@@ -21,7 +21,7 @@ const AboutSection = () => {
                 Seja muito <br />
                 <span className="text-[#FFCA16]">bem-vindo!</span>
               </h2>
-              <p className="text-white font-display text-[10.2px] md:text-[11.9px] font-medium tracking-tight">
+              <p className="text-white font-display text-[10.71px] md:text-[12.5px] font-medium tracking-tight">
                 Filipe Williams — Designer Gráfico & Fundador do Studio Kiiro
               </p>
             </motion.div>

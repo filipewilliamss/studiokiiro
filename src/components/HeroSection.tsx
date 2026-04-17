@@ -108,7 +108,7 @@ const HeroSection = () => {
 
         <div 
           ref={subtitleRef}
-          className="mt-10 text-white/70 text-lg md:text-[1.2rem] max-w-[480px] text-center font-[400] leading-relaxed"
+          className="mt-10 text-white/70 text-[18px] max-w-[600px] text-center font-[400] leading-relaxed line-clamp-2"
         >
           Transformamos visões em experiências digitais memoráveis que impulsionam resultados reais para o seu negócio.
         </div>

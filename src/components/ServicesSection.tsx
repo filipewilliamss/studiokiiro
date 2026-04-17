@@ -13,8 +13,8 @@ const services = [
   },
   {
     number: "03",
-    title: "Motion Design",
-    description: "Animações e edições dinâmicas para Reels, Shorts e TikTok que elevam o nível visual dos seus vídeos."
+    title: "Edição de Vídeos",
+    description: "Edições dinâmicas para Reels, Shorts e TikTok que elevam o nível visual dos seus vídeos."
   },
   {
     number: "04",

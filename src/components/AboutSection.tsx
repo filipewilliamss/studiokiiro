@@ -45,16 +45,16 @@ const AboutSection = () => {
               transition={{ duration: 0.8, delay: 0.2 }}
               className="sobre-paragrafos"
             >
-              <p className="text-white text-lg leading-relaxed">
+              <p className="text-white">
                 Olá! Eu sou o Filipe Williams, designer gráfico há 6 anos e a mente criativa por trás do Studio Kiiro. Minha história com o design começou muito antes de eu conhecer a área — sempre vivi cercado por arte, desenho, animação e música. Quando descobri o design gráfico, foi amor à primeira vista: encontrei o lugar onde criatividade e estratégia se encontram.
               </p>
-              <p className="text-white/60 text-base leading-relaxed">
+              <p className="text-white/60">
                 Construí minha carreira na prática e na raça. Sem atalhos. Aprendi com cada projeto entregue, com cada cliente atendido e com cada desafio superado. Hoje me especializo em Identidade Visual e Artes para Mídias Sociais — áreas onde posso unir técnica apurada, olhar artístico e pensamento estratégico para gerar resultados reais para marcas e negócios.
               </p>
-              <p className="text-white/60 text-base leading-relaxed">
+              <p className="text-white/60">
                 Já desenvolvi identidades visuais para empreendedores, pequenas empresas, ministérios de alcance internacional e negócios consolidados no mercado. Um dos projetos que mais me orgulha foi o rebranding de uma empresa de assistência técnica — depois do novo visual, o número de alunos cresceu e o negócio expandiu. Ver meu trabalho ganhar vida e gerar impacto real é o que me motiva todos os dias.
               </p>
-              <p className="text-white/60 text-base leading-relaxed">
+              <p className="text-white/60">
                 Mais do que entregar um logo bonito, meu compromisso é entender a essência de cada marca e traduzi-la visualmente de forma única e memorável. Trabalho com uma metodologia consistente, estou em constante evolução e busco sempre as tendências mais atuais do mercado — para que o seu projeto não apenas se destaque hoje, mas continue relevante no futuro.
               </p>
             </motion.div>

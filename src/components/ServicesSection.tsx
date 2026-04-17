@@ -2,81 +2,63 @@ import { motion } from "framer-motion";
 
 const services = [
   {
-    icon: (
-      <svg className="w-8 h-8" fill="none" stroke="#FFCA16" strokeWidth="1.5" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M9.53 16.122l9.47-9.47m0 0l-9.47-9.47m9.47 9.47H2.25" />
-      </svg>
-    ),
+    number: "01",
     title: "Identidade Visual",
-    description: "Criação de marcas memoráveis que transmitem a essência do seu negócio através de logos, cores e tipografia."
+    description: "Criação de marcas completas — logo, paleta, tipografia e guia de aplicação."
   },
   {
-    icon: (
-      <svg className="w-8 h-8" fill="none" stroke="#FFCA16" strokeWidth="1.5" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
-      </svg>
-    ),
-    title: "Social Media Design",
+    number: "02",
+    title: "Artes para Mídias Sociais",
     description: "Design estratégico para suas redes sociais, garantindo um feed harmônico e conteúdos que engajam seu público."
   },
   {
-    icon: (
-      <svg className="w-8 h-8" fill="none" stroke="#FFCA16" strokeWidth="1.5" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
-      </svg>
-    ),
-    title: "Edição de Vídeo",
-    description: "Edição dinâmica para Reels, Shorts e TikTok, elevando o nível visual dos seus vídeos com ritmo e profissionalismo."
+    number: "03",
+    title: "Motion Design",
+    description: "Animações e edições dinâmicas para Reels, Shorts e TikTok que elevam o nível visual dos seus vídeos."
   },
   {
-    icon: (
-      <svg className="w-8 h-8" fill="none" stroke="#FFCA16" strokeWidth="1.5" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-.778.099-1.533.284-2.253" />
-      </svg>
-    ),
-    title: "Landing Pages",
-    description: "Desenvolvimento de páginas de alta conversão, otimizadas para mobile e com design focado no seu produto ou serviço."
+    number: "04",
+    title: "Branding Estratégico",
+    description: "Posicionamento de mercado e definição de propósito para criar conexões reais com seu público."
   },
   {
-    icon: (
-      <svg className="w-8 h-8" fill="none" stroke="#FFCA16" strokeWidth="1.5" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h16.5M3.75 3l3.75 3.75M20.25 3v11.25A2.25 2.25 0 0118 16.5h-2.25M20.25 3l-3.75 3.75" />
-      </svg>
-    ),
-    title: "Apresentações",
-    description: "Design de apresentações profissionais e impactantes para propostas comerciais, reuniões e eventos corporativos."
+    number: "05",
+    title: "Rebranding",
+    description: "Evolução e modernização de marcas existentes para acompanhar o novo momento do seu negócio."
   },
   {
-    icon: (
-      <svg className="w-8 h-8" fill="none" stroke="#FFCA16" strokeWidth="1.5" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
-      </svg>
-    ),
-    title: "Manual de Marca",
-    description: "Documentação completa sobre o uso correto da sua identidade visual, garantindo consistência em todos os canais."
+    number: "06",
+    title: "Materiais Impressos",
+    description: "Design de papelaria, embalagens e materiais promocionais com foco em qualidade e impacto visual."
   }
 ];
 
 const ServicesSection = () => {
   return (
-    <section id="servicos" className="relative section-padding bg-[#070807] grid-pattern border-t border-white/[0.05]">
+    <section id="servicos" className="relative section-padding bg-[#070807] grid-pattern border-t border-white/[0.05] overflow-hidden">
       <div className="container-editorial">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="text-left mb-24"
+          className="text-left mb-16"
         >
-          <span className="inline-block px-4 py-1.5 border border-[#FFCA16] text-[#FFCA16] text-[11px] font-bold uppercase tracking-[3px] rounded-none mb-6">
+          <span className="inline-block px-4 py-1.5 border border-[#FFCA16] text-[#FFCA16] text-[11px] font-bold uppercase tracking-[3px] rounded-none mb-8">
             O QUE FAZEMOS
           </span>
-          <h2 className="font-display text-[40px] md:text-[56px] font-[800] text-white leading-none tracking-[-2px]">
-            NOSSOS SERVIÇOS
+          <h2 className="font-display text-[48px] md:text-[64px] font-[800] leading-[0.9] tracking-[-2px] mb-6">
+            <span className="text-white block">Nossos</span>
+            <span className="text-[#FFCA16] block">Serviços.</span>
           </h2>
+          <p className="font-display text-base text-white/50 max-w-[480px]">
+            Soluções criativas e estratégicas para destacar sua marca no mercado digital e físico.
+          </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="w-full h-px bg-white/10 mb-0" />
+
+        <div className="flex flex-col">
           {services.map((service, idx) => (
             <motion.div
               key={idx}
@@ -84,20 +66,20 @@ const ServicesSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: idx * 0.1 }}
-              className="group relative bg-white/[0.02] border border-white/[0.08] p-10 hover:border-[#FFCA16]/40 hover:bg-[#FFCA16]/[0.05] transition-all duration-500 overflow-hidden"
+              className="group relative flex flex-col md:flex-row items-start md:items-center gap-4 md:gap-12 py-8 cursor-pointer border-b border-white/10 transition-all duration-300 hover:bg-[#FFCA16]/[0.03] hover:px-10 hover:-mx-10"
             >
-              <div className="mb-8">
-                {service.icon}
-              </div>
-              <h3 className="font-display text-xl font-semibold text-white mb-4 group-hover:text-[#FFCA16] transition-colors">
+              <span className="font-display text-[13px] text-[#FFCA16]/50 w-10 flex-shrink-0">
+                {service.number}
+              </span>
+              <h3 className="font-display text-[24px] md:text-[28px] font-bold text-white w-full md:w-[280px] flex-shrink-0 transition-colors duration-300 group-hover:text-[#FFCA16]">
                 {service.title}
               </h3>
-              <p className="font-display text-sm text-white/50 leading-relaxed mb-6">
+              <p className="font-display text-sm text-white/40 flex-1 transition-colors duration-300 group-hover:text-white/70">
                 {service.description}
               </p>
-              
-              {/* Bottom line animation */}
-              <div className="absolute bottom-0 left-0 h-[2px] w-0 bg-[#FFCA16] group-hover:w-full transition-all duration-400 ease-in-out" />
+              <span className="hidden md:block font-display text-2xl text-[#FFCA16] opacity-0 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-2">
+                →
+              </span>
             </motion.div>
           ))}
         </div>

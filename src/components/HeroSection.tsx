@@ -22,15 +22,20 @@ const HeroSection = () => {
     const startTime = Date.now();
     const fadeDuration = 1200;
 
-    function pointOnStripe(x1: number, y1: number, x2: number, y2: number, halfW: number) {
-      const t = Math.random();
-      const px = x1 + (x2 - x1) * t;
-      const py = y1 + (y2 - y1) * t;
-      const len = Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2);
-      const nx = -(y2 - y1) / len;
-      const ny = (x2 - x1) / len;
-      const s = (Math.random() - 0.5) * halfW * 2;
-      return { x: px + nx * s, y: py + ny * s };
+    function stripe(x1: number, y1: number, x2: number, y2: number, halfW: number, n: number) {
+      const pts = [];
+      const dx = x2 - x1, dy = y2 - y1;
+      const len = Math.sqrt(dx * dx + dy * dy);
+      const nx = -dy / len, ny = dx / len;
+      for (let i = 0; i < n; i++) {
+        const t = Math.random();
+        const s = (Math.random() - 0.5) * halfW * 2;
+        pts.push({
+          homeX: x1 + dx * t + nx * s,
+          homeY: y1 + dy * t + ny * s
+        });
+      }
+      return pts;
     }
 
     class Particle {
@@ -76,7 +81,7 @@ const HeroSection = () => {
         if (!ctx) return;
         ctx.beginPath();
         ctx.arc(this.x, this.y, 2, 0, Math.PI * 2);
-        ctx.fillStyle = `#FFCA16`;
+        ctx.fillStyle = "#FFCA16";
         ctx.globalAlpha = 0.9 * globalOpacity;
         ctx.fill();
         ctx.globalAlpha = 1;
@@ -89,18 +94,15 @@ const HeroSection = () => {
       
       particles = [];
       
-      const stripes = [
-        { x1: 15, y1: 430, x2: 100, y2: 10, halfW: 22 },
-        { x1: 80, y1: 430, x2: 165, y2: 10, halfW: 22 },
-        { x1: 215, y1: 10, x2: 300, y2: 430, halfW: 22 },
-        { x1: 280, y1: 10, x2: 365, y2: 430, halfW: 22 }
+      const allPoints = [
+        ...stripe(10, 440, 110, 10, 28, 50),   // GRUPO ESQUERDO - faixa esquerda
+        ...stripe(90, 440, 175, 10, 28, 50),   // GRUPO ESQUERDO - faixa direita
+        ...stripe(205, 10, 290, 440, 28, 50),  // GRUPO DIREITO - faixa esquerda
+        ...stripe(270, 10, 370, 440, 28, 50)   // GRUPO DIREITO - faixa direita
       ];
 
-      stripes.forEach(s => {
-        for (let i = 0; i < 50; i++) {
-          const pos = pointOnStripe(s.x1, s.y1, s.x2, s.y2, s.halfW);
-          particles.push(new Particle(pos.x, pos.y));
-        }
+      allPoints.forEach(pt => {
+        particles.push(new Particle(pt.homeX, pt.homeY));
       });
     };
 

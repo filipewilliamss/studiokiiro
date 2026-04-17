@@ -32,9 +32,9 @@ const Navbar = ({ forceBlack = true }: NavbarProps) => {
 
   const bgClass = scrolled 
     ? "bg-[#070807]/80 backdrop-blur-[10px] border-b border-white/10 shadow-lg" 
-    : "bg-transparent border-b border-transparent";
-  const textClass = "text-white/80 hover:text-primary";
-  const areaClienteTextClass = "text-primary hover:text-primary/80";
+    : "bg-transparent";
+  const textClass = "text-white/70 hover:text-white font-medium text-[13px] uppercase tracking-[1.5px] font-display";
+  const areaClienteTextClass = "text-[#FFCA16] hover:bg-[#FFCA16]/10 border border-[#FFCA16] px-5 py-2 transition-all duration-300 text-[13px] uppercase tracking-[1.5px] font-display";
   const menuBtnClass = "text-white";
 
   return (
@@ -59,14 +59,14 @@ const Navbar = ({ forceBlack = true }: NavbarProps) => {
             <a
               key={link.href}
               href={getHref(link.href)}
-              className={`text-sm transition-colors duration-300 tracking-wide uppercase ${textClass}`}
+              className={`${textClass} transition-colors duration-300`}
             >
               {link.label}
             </a>
           ))}
           <a
             href="/area-do-cliente"
-            className={`text-sm transition-colors duration-300 tracking-wide uppercase font-medium ${areaClienteTextClass}`}
+            className={`${areaClienteTextClass} rounded-none`}
           >
             Área do Cliente
           </a>

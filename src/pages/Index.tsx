@@ -10,7 +10,7 @@ import SocialMediaSection from "@/components/SocialMediaSection";
 import TestimonialsSection from "@/components/TestimonialsSection";
 import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
-import WhatsAppButton from "@/components/WhatsAppButton";
+// import WhatsAppButton from "@/components/WhatsAppButton";
 import Preloader from "@/components/Preloader";
 
 const Index = () => {
@@ -34,7 +34,7 @@ const Index = () => {
             <TestimonialsSection />
             <ContactSection />
             <Footer />
-            <WhatsAppButton />
+            {/* <WhatsAppButton /> */}
           </>
         )}
       </div>

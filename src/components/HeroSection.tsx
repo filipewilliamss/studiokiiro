@@ -11,7 +11,6 @@ const HeroSection = () => {
   const mousePosition = useRef({ x: 0, y: 0 });
 
   useEffect(() => {
-    // Canvas animation
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
@@ -19,99 +18,144 @@ const HeroSection = () => {
 
     let animationFrameId: number;
     let particles: Particle[] = [];
-    const particleCount = 120;
-    const connectionDistance = 120;
-    const mouseRadius = 80;
+    const mouseRadius = 120;
+    const connectionDistance = 80;
+    const springFactor = 0.05;
+    const friction = 0.85;
 
     class Particle {
       x: number;
       y: number;
+      baseX: number;
+      baseY: number;
       vx: number;
       vy: number;
       size: number;
-      opacity: number;
+      pulsePhase: number;
+      pulseSpeed: number;
 
-      constructor(w: number, h: number) {
-        this.x = Math.random() * w;
-        this.y = Math.random() * h;
-        this.vx = (Math.random() - 0.5) * 0.5;
-        this.vy = (Math.random() - 0.5) * 0.5;
-        this.size = 2;
-        this.opacity = Math.random() * (0.6 - 0.1) + 0.1;
+      constructor(x: number, y: number) {
+        this.x = Math.random() * canvas!.width;
+        this.y = Math.random() * canvas!.height;
+        this.baseX = x;
+        this.baseY = y;
+        this.vx = 0;
+        this.vy = 0;
+        this.size = Math.random() * 1 + 2;
+        this.pulsePhase = Math.random() * Math.PI * 2;
+        this.pulseSpeed = 0.02 + Math.random() * 0.03;
       }
 
-      update(w: number, h: number) {
-        // Mouse interaction
+      update() {
         const dx = this.x - mousePosition.current.x;
         const dy = this.y - mousePosition.current.y;
         const dist = Math.sqrt(dx * dx + dy * dy);
 
         if (dist < mouseRadius) {
           const force = (mouseRadius - dist) / mouseRadius;
-          this.vx += dx / dist * force * 0.2;
-          this.vy += dy / dist * force * 0.2;
+          const angle = Math.atan2(dy, dx);
+          const pushForce = force * 12;
+          this.vx += Math.cos(angle) * pushForce;
+          this.vy += Math.sin(angle) * pushForce;
         }
+
+        const dxHome = this.baseX - this.x;
+        const dyHome = this.baseY - this.y;
+        this.vx += dxHome * springFactor;
+        this.vy += dyHome * springFactor;
+
+        this.vx *= friction;
+        this.vy *= friction;
 
         this.x += this.vx;
         this.y += this.vy;
-
-        // Friction
-        this.vx *= 0.99;
-        this.vy *= 0.99;
-
-        // Boundary check
-        if (this.x < 0) this.x = w;
-        if (this.x > w) this.x = 0;
-        if (this.y < 0) this.y = h;
-        if (this.y > h) this.y = 0;
+        this.pulsePhase += this.pulseSpeed;
       }
 
       draw() {
         if (!ctx) return;
+        const opacity = 0.6 + (Math.sin(this.pulsePhase) + 1) * 0.2;
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255, 202, 22, ${this.opacity})`;
+        ctx.fillStyle = `rgba(255, 202, 22, ${opacity})`;
         ctx.fill();
       }
     }
 
     const init = () => {
-      const { width, height } = canvas.getBoundingClientRect();
-      canvas.width = width;
-      canvas.height = height;
+      const rect = canvas.getBoundingClientRect();
+      canvas.width = rect.width;
+      canvas.height = rect.height;
+      
+      const centerX = canvas.width / 2;
+      const centerY = canvas.height / 2;
+      const scale = 2.0;
+
+      const paths = [
+        [
+          { x: -50, y: -20 },
+          { x: -10, y: -60 },
+          { x: -10, y: 30 },
+          { x: -50, y: 70 }
+        ],
+        [
+          { x: 10, y: -60 },
+          { x: 50, y: -100 },
+          { x: 90, y: -60 },
+          { x: 90, y: 100 },
+          { x: 50, y: 60 },
+          { x: 10, y: 100 }
+        ]
+      ];
+
       particles = [];
-      for (let i = 0; i < particleCount; i++) {
-        particles.push(new Particle(canvas.width, canvas.height));
-      }
+      const density = 6;
+
+      paths.forEach(path => {
+        for (let i = 0; i < path.length; i++) {
+          const p1 = path[i];
+          const p2 = path[(i + 1) % path.length];
+          const dx = p2.x - p1.x;
+          const dy = p2.y - p1.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          const steps = Math.floor((dist * scale) / density);
+
+          for (let j = 0; j < steps; j++) {
+            particles.push(new Particle(
+              centerX + (p1.x + (dx * j) / steps) * scale,
+              centerY + (p1.y + (dy * j) / steps) * scale
+            ));
+          }
+        }
+      });
     };
 
     const animate = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       
-      particles.forEach(p => {
-        p.update(canvas.width, canvas.height);
-        p.draw();
-      });
-
-      // Draw connections
-      let connections = 0;
-      for (let i = 0; i < particles.length && connections < 40; i++) {
-        for (let j = i + 1; j < particles.length && connections < 40; j++) {
+      ctx.lineWidth = 1;
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
           const dx = particles[i].x - particles[j].x;
           const dy = particles[i].y - particles[j].y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
+          const distSq = dx * dx + dy * dy;
 
-          if (dist < connectionDistance) {
+          if (distSq < connectionDistance * connectionDistance) {
+            const dist = Math.sqrt(distSq);
             const opacity = (1 - dist / connectionDistance) * 0.15;
             ctx.beginPath();
+            ctx.strokeStyle = `rgba(255, 202, 22, ${opacity})`;
             ctx.moveTo(particles[i].x, particles[i].y);
             ctx.lineTo(particles[j].x, particles[j].y);
-            ctx.strokeStyle = `rgba(255, 202, 22, ${opacity})`;
             ctx.stroke();
-            connections++;
           }
         }
       }
+
+      particles.forEach(p => {
+        p.update();
+        p.draw();
+      });
 
       animationFrameId = requestAnimationFrame(animate);
     };

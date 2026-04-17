@@ -166,7 +166,7 @@ const HeroSection = () => {
           </h1>
 
           <p className="mt-8 text-white/50 text-[16px] max-w-[420px] text-left font-[400] leading-relaxed font-display">
-            Criamos experiências em motion design e branding que transformam como marcas se comunicam.
+            Design de alto padrão para marcas que querem ser lembradas, do branding completo ao conteúdo digital.
           </p>
 
           <div className="mt-12 flex flex-row gap-4 items-center w-full sm:w-auto">

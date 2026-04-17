@@ -74,6 +74,13 @@ const Preloader: React.FC<{ onComplete: () => void }> = ({ onComplete }) => {
           />
         ))}
       </div>
+
+      {/* Pixelated overlay grid */}
+      <div className="absolute inset-0 grid grid-cols-10 grid-rows-10 pointer-events-none opacity-20">
+        {[...Array(100)].map((_, i) => (
+          <div key={i} className="border-[0.5px] border-white/10" />
+        ))}
+      </div>
       
       <div 
         ref={textRef} 

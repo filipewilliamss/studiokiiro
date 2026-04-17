@@ -89,7 +89,7 @@ const HeroSection = () => {
       
       const centerX = canvas.width / 2;
       const centerY = canvas.height / 2;
-      const scale = 2.0;
+      const scale = 1.5;
 
       const paths = [
         [

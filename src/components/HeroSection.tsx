@@ -1,128 +1,140 @@
-import { motion } from "framer-motion";
-import { useState, useEffect } from "react";
+import React, { useEffect, useRef } from 'react';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import ParticleBackground from './ParticleBackground';
+
+gsap.registerPlugin(ScrollTrigger);
 
 const HeroSection = () => {
-  const [screenSize, setScreenSize] = useState<'mobile' | 'tablet' | 'desktop' | null>(() => {
-    if (typeof window === 'undefined') return null;
-    const width = window.innerWidth;
-    if (width < 768) return 'mobile';
-    if (width < 1024) return 'tablet';
-    return 'desktop';
-  });
-  const [isIframeLoaded, setIsIframeLoaded] = useState(false);
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const titleRef = useRef<HTMLHeadingElement>(null);
+  const subtitleRef = useRef<HTMLDivElement>(null);
+  const buttonsRef = useRef<HTMLDivElement>(null);
+  const scrollIndicatorRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const handleResize = () => {
-      const width = window.innerWidth;
-      if (width < 768) {
-        setScreenSize('mobile');
-      } else if (width < 1024) {
-        setScreenSize('tablet');
-      } else {
-        setScreenSize('desktop');
-      }
-    };
+    const ctx = gsap.context(() => {
+      // Split title words for stagger
+      const titleWords = titleRef.current?.querySelectorAll('.word');
+      
+      const tl = gsap.timeline({
+        defaults: { ease: 'power4.out' }
+      });
 
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+      tl.from(titleWords || [], {
+        y: 100,
+        opacity: 0,
+        duration: 1.2,
+        stagger: 0.1,
+      })
+      .from(subtitleRef.current, {
+        y: 20,
+        opacity: 0,
+        duration: 0.8,
+      }, '-=0.8')
+      .from(buttonsRef.current, {
+        y: 20,
+        opacity: 0,
+        duration: 0.8,
+      }, '-=0.6')
+      .from(scrollIndicatorRef.current, {
+        opacity: 0,
+        duration: 1,
+      }, '-=0.4');
+
+      // Scroll progress effect for title (Sofi Health style)
+      gsap.to(titleRef.current, {
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top top',
+          end: 'bottom top',
+          scrub: true,
+        },
+        y: -100,
+        opacity: 0.5,
+      });
+
+    }, sectionRef);
+
+    return () => ctx.revert();
   }, []);
 
+  const titleText = "Design que Move. Estratégia que Converte.";
+  const words = titleText.split(' ');
+
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#070807]">
-      {/* Loading Placeholder with Spinner */}
-      <div className={`absolute inset-0 z-[1] transition-opacity duration-1000 bg-[#070807] flex flex-col items-center justify-center ${isIframeLoaded ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
-        {!isIframeLoaded && (
-          <div className="flex flex-col items-center gap-4">
-            <div className="w-12 h-12 border-4 border-primary/20 border-t-primary rounded-full animate-spin" />
-            <p className="text-white/40 font-display text-sm animate-pulse">Carregando experiência 3D...</p>
-          </div>
-        )}
-      </div>
+    <section 
+      ref={sectionRef}
+      className="relative min-h-screen w-full bg-[#070807] flex flex-col items-center justify-center overflow-hidden px-6 pt-20"
+    >
+      <ParticleBackground />
 
-      {/* Spline Background only for Hero */}
-      <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden flex items-center justify-center bg-[#070807]">
-        {/* Desktop Version */}
-        {screenSize === 'desktop' && (
-          <iframe 
-            src="https://my.spline.design/untitled-Okn4OvV3B9lyrWP0c2qMReAx-2Hi/?events=0" 
-            frameBorder="0" 
-            loading="eager"
-            onLoad={() => setIsIframeLoaded(true)}
-            className="w-full h-full lg:w-screen lg:h-screen lg:scale-[1.03]"
-            style={{ border: 'none' }}
-            title="Spline 3D Background Desktop"
-          />
-        )}
-        {/* Tablet Version */}
-        {screenSize === 'tablet' && (
-          <iframe 
-            src="https://my.spline.design/untitled-Okn4OvV3B9lyrWP0c2qMReAx-UYX/?events=0" 
-            frameBorder="0" 
-            loading="eager"
-            onLoad={() => setIsIframeLoaded(true)}
-            className="w-full h-full md:scale-[1.25] translate-y-[5%]"
-            style={{ border: 'none' }}
-            title="Spline 3D Background Tablet"
-          />
-        )}
-        {/* Mobile Version */}
-        {screenSize === 'mobile' && (
-          <iframe 
-            src="https://my.spline.design/untitled-Okn4OvV3B9lyrWP0c2qMReAx-Bbh/?events=0" 
-            frameBorder="0" 
-            loading="eager"
-            onLoad={() => setIsIframeLoaded(true)}
-            className="w-full h-full"
-            style={{ border: 'none' }}
-            title="Spline 3D Background Mobile"
-          />
-        )}
-      </div>
+      <div className="relative z-10 w-full max-w-[1400px] flex flex-col items-center">
+        <h1 
+          ref={titleRef}
+          className="w-full text-white font-[800] leading-[1.1] text-center tracking-tight"
+          style={{ fontSize: 'clamp(3.5rem, 8vw, 10rem)' }}
+        >
+          {words.map((word, i) => {
+            const isYellow = word.includes('Move') || word.includes('Converte');
+            return (
+              <span key={i} className="inline-block overflow-hidden mr-[0.2em] mb-[0.1em]">
+                <span className={`word inline-block ${isYellow ? 'text-[#FFCA16]' : 'text-white'}`}>
+                  {word}
+                </span>
+              </span>
+            );
+          })}
+        </h1>
 
-      {/* Content overlay */}
-      <div className="relative z-10 container-editorial text-center py-20 pointer-events-none">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.6 }}
-          className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center pointer-events-auto mt-[calc(40vh+150px)] sm:mt-[calc(45vh+180px)] md:mt-[calc(45vh+240px)] lg:mt-[calc(40vh+200px)]"
+        <div 
+          ref={subtitleRef}
+          className="mt-8 text-white/70 text-lg md:text-[1.2rem] max-w-[480px] text-center font-[400]"
+        >
+          Transformamos visões em experiências digitais memoráveis que impulsionam resultados reais para o seu negócio.
+        </div>
+
+        <div 
+          ref={buttonsRef}
+          className="mt-12 flex flex-col sm:flex-row gap-6 items-center"
         >
           <a
             href="#portfolio"
-            className="px-6 py-3 sm:px-10 sm:py-5 bg-primary/70 backdrop-blur-lg border-t border-l border-white/80 border-r border-b border-white/20 text-[#070807] font-display font-bold rounded-full hover:bg-primary/90 hover:scale-105 transition-all duration-300 text-base sm:text-lg shadow-[0_20px_50px_rgba(255,230,0,0.08),inset_0_2px_20px_rgba(255,255,255,0.8)] ring-1 ring-white/30 flex items-center justify-center"
+            className="group relative px-10 py-5 bg-[#FFCA16] text-[#070807] font-bold rounded-[50px] transition-transform duration-300 ease-[cubic-bezier(0.175,0.885,0.32,1.275)] hover:scale-[1.05] flex items-center justify-center text-lg overflow-hidden"
           >
             Ver Projetos
           </a>
           <a
             href="#contato"
-            className="px-6 py-3 sm:px-10 sm:py-5 bg-white/10 backdrop-blur-lg border-t border-l border-white/30 border-r border-b border-white/10 text-white font-display font-bold rounded-full hover:bg-white/20 hover:scale-105 transition-all duration-300 text-base sm:text-lg shadow-[0_20px_50px_rgba(128,128,128,0.08),inset_0_2px_10px_rgba(255,255,255,0.2)] ring-1 ring-white/10 flex items-center justify-center"
+            className="group relative px-10 py-5 bg-transparent border-2 border-white text-white font-bold rounded-[50px] transition-transform duration-300 ease-[cubic-bezier(0.175,0.885,0.32,1.275)] hover:scale-[1.05] flex items-center justify-center text-lg overflow-hidden"
           >
             Solicitar Orçamento
           </a>
-        </motion.div>
-
-        {/* Animated arrow */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.2 }}
-          className="mt-16 md:mt-[34px] lg:mt-16 flex justify-center"
-        >
-          <motion.svg
-            animate={{ y: [0, 10, 0] }}
-            transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-            className="w-10 h-10 text-primary drop-shadow-[0_0_15px_rgba(255,230,0,0.08)]"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-          </motion.svg>
-        </motion.div>
+        </div>
       </div>
 
-      {/* Watermark cover for Spline - only in Hero, below WhatsApp button */}
-      <div className="absolute bottom-0 right-0 w-[160px] h-[65px] bg-[#070807] z-10 pointer-events-none" />
+      {/* Scroll Indicator */}
+      <div 
+        ref={scrollIndicatorRef}
+        className="absolute bottom-10 right-10 flex flex-col items-center gap-4"
+      >
+        <span className="text-white/40 text-xs uppercase tracking-[0.3em] font-medium [writing-mode:vertical-rl]">
+          scroll
+        </span>
+        <div className="w-[1px] h-20 bg-white/20 relative overflow-hidden">
+          <div className="absolute top-0 left-0 w-full h-1/2 bg-[#FFCA16] animate-scroll-line" />
+        </div>
+      </div>
+
+      <style dangerouslySetInnerHTML={{ __html: `
+        @keyframes scroll-line {
+          0% { transform: translateY(-100%); }
+          100% { transform: translateY(200%); }
+        }
+        .animate-scroll-line {
+          animation: scroll-line 2s cubic-bezier(0.7, 0, 0.3, 1) infinite;
+        }
+      `}} />
     </section>
   );
 };

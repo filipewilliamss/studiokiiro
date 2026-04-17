@@ -79,7 +79,7 @@ const HeroSection = () => {
   }, []);
 
   const titleText = "Design que Move. Estratégia que Converte.";
-  const words = titleText.split(' ');
+  const words = titleText.split(/\s+/);
 
   return (
     <section 
@@ -97,7 +97,7 @@ const HeroSection = () => {
           {words.map((word, i) => {
             const isYellow = word.includes('Move') || word.includes('Converte');
             return (
-              <span key={i} className="inline-block overflow-hidden mr-[0.2em] mb-[0.1em]">
+              <span key={i} className="inline-block overflow-hidden mr-[0.2em] mb-[0.15em] py-[0.1em] -my-[0.1em]">
                 <span className={`word inline-block ${isYellow ? 'text-[#FFCA16]' : 'text-white'}`}>
                   {word}
                 </span>

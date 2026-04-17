@@ -140,10 +140,13 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  gap: 0px;
 }
 
 .sobre-paragrafos p {
   margin: 0;
+  font-size: 13px;
+  line-height: 1.7;
 }
 
 @media (max-width: 1024px) {

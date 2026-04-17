@@ -71,23 +71,27 @@ const HeroSection = () => {
     }
 
     const init = () => {
-      canvas.width = 320;
-      canvas.height = 320;
+      canvas.width = 380;
+      canvas.height = 420;
       
       const shapes = [
-        [[0.10, 0.10],[0.40, 0.10],[0.49, 0.45],[0.19, 0.45]],
-        [[0.00, 0.55],[0.19, 0.55],[0.40, 0.90],[0.10, 0.90]],
-        [[0.60, 0.10],[0.90, 0.10],[0.81, 0.45],[0.51, 0.45]],
-        [[0.60, 0.55],[0.90, 0.55],[0.90, 0.90],[0.60, 0.90]]
+        // FAIXA ESQUERDA SUPERIOR (diagonal ↗ fina)
+        [[0.05,0.52],[0.22,0.02],[0.36,0.02],[0.19,0.52]],
+        // FAIXA ESQUERDA INFERIOR (diagonal ↗ grossa)
+        [[0.05,0.98],[0.22,0.55],[0.38,0.55],[0.21,0.98]],
+        // FAIXA DIREITA SUPERIOR (diagonal ↖ fina, espelho)
+        [[0.64,0.52],[0.78,0.02],[0.92,0.02],[0.78,0.52]],
+        // FAIXA DIREITA INFERIOR (diagonal ↖ grossa, espelho)
+        [[0.62,0.98],[0.78,0.55],[0.95,0.55],[0.79,0.98]]
       ];
 
       particles = [];
       shapes.forEach(shape => {
-        const p0 = { x: shape[0][0] * 320, y: shape[0][1] * 320 };
-        const p1 = { x: shape[1][0] * 320, y: shape[1][1] * 320 };
-        const p3 = { x: shape[3][0] * 320, y: shape[3][1] * 320 };
+        const p0 = { x: shape[0][0] * 380, y: shape[0][1] * 420 };
+        const p1 = { x: shape[1][0] * 380, y: shape[1][1] * 420 };
+        const p3 = { x: shape[3][0] * 380, y: shape[3][1] * 420 };
 
-        for (let i = 0; i < 40; i++) {
+        for (let i = 0; i < 50; i++) {
           const u = Math.random();
           const v = Math.random();
           const x = p0.x + u * (p1.x - p0.x) + v * (p3.x - p0.x);

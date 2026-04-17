@@ -181,11 +181,11 @@ const HeroSection = () => {
           </div>
         </div>
 
-        <div className="hidden lg:block lg:w-[40%] h-[600px] relative">
+        <div className="hidden lg:flex lg:w-[40%] h-[600px] relative items-center justify-center">
           <canvas 
             ref={canvasRef}
             id="hero-canvas"
-            className="w-full h-full"
+            className="w-[320px] h-[320px]"
           />
         </div>
       </div>

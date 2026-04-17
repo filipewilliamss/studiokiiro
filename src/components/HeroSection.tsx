@@ -18,32 +18,25 @@ const HeroSection = () => {
 
     let animationFrameId: number;
     let particles: Particle[] = [];
-    const mouseRadius = 120;
-    const connectionDistance = 80;
-    const springFactor = 0.05;
-    const friction = 0.85;
+    let globalOpacity = 0;
+    const startTime = Date.now();
+    const fadeDuration = 1200;
 
     class Particle {
       x: number;
       y: number;
-      baseX: number;
-      baseY: number;
+      homeX: number;
+      homeY: number;
       vx: number;
       vy: number;
-      size: number;
-      pulsePhase: number;
-      pulseSpeed: number;
 
-      constructor(x: number, y: number) {
-        this.x = Math.random() * canvas!.width;
-        this.y = Math.random() * canvas!.height;
-        this.baseX = x;
-        this.baseY = y;
+      constructor(homeX: number, homeY: number) {
+        this.homeX = homeX;
+        this.homeY = homeY;
+        this.x = homeX;
+        this.y = homeY;
         this.vx = 0;
         this.vy = 0;
-        this.size = Math.random() * 1 + 2;
-        this.pulsePhase = Math.random() * Math.PI * 2;
-        this.pulseSpeed = 0.02 + Math.random() * 0.03;
       }
 
       update() {
@@ -51,107 +44,65 @@ const HeroSection = () => {
         const dy = this.y - mousePosition.current.y;
         const dist = Math.sqrt(dx * dx + dy * dy);
 
-        if (dist < mouseRadius) {
-          const force = (mouseRadius - dist) / mouseRadius;
+        if (dist < 90) {
+          const force = (90 - dist) / 90;
           const angle = Math.atan2(dy, dx);
-          const pushForce = force * 12;
-          this.vx += Math.cos(angle) * pushForce;
-          this.vy += Math.sin(angle) * pushForce;
+          this.vx += Math.cos(angle) * force * 6;
+          this.vy += Math.sin(angle) * force * 6;
         }
 
-        const dxHome = this.baseX - this.x;
-        const dyHome = this.baseY - this.y;
-        this.vx += dxHome * springFactor;
-        this.vy += dyHome * springFactor;
+        this.vx += (this.homeX - this.x) * 0.04;
+        this.vy += (this.homeY - this.y) * 0.04;
 
-        this.vx *= friction;
-        this.vy *= friction;
+        this.vx *= 0.86;
+        this.vy *= 0.86;
 
         this.x += this.vx;
         this.y += this.vy;
-        this.pulsePhase += this.pulseSpeed;
       }
 
       draw() {
         if (!ctx) return;
-        const opacity = 0.6 + (Math.sin(this.pulsePhase) + 1) * 0.2;
         ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255, 202, 22, ${opacity})`;
+        ctx.arc(this.x, this.y, 2.5, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255, 202, 22, ${0.9 * globalOpacity})`;
         ctx.fill();
       }
     }
 
     const init = () => {
-      const rect = canvas.getBoundingClientRect();
-      canvas.width = rect.width;
-      canvas.height = rect.height;
+      canvas.width = 320;
+      canvas.height = 320;
       
-      const centerX = canvas.width / 2;
-      const centerY = canvas.height / 2;
-      const scale = 1.5;
-
-      const paths = [
-        [
-          { x: -50, y: -20 },
-          { x: -10, y: -60 },
-          { x: -10, y: 30 },
-          { x: -50, y: 70 }
-        ],
-        [
-          { x: 10, y: -60 },
-          { x: 50, y: -100 },
-          { x: 90, y: -60 },
-          { x: 90, y: 100 },
-          { x: 50, y: 60 },
-          { x: 10, y: 100 }
-        ]
+      const shapes = [
+        [[0.10, 0.10],[0.40, 0.10],[0.49, 0.45],[0.19, 0.45]],
+        [[0.00, 0.55],[0.19, 0.55],[0.40, 0.90],[0.10, 0.90]],
+        [[0.60, 0.10],[0.90, 0.10],[0.81, 0.45],[0.51, 0.45]],
+        [[0.60, 0.55],[0.90, 0.55],[0.90, 0.90],[0.60, 0.90]]
       ];
 
       particles = [];
-      const density = 6;
+      shapes.forEach(shape => {
+        const p0 = { x: shape[0][0] * 320, y: shape[0][1] * 320 };
+        const p1 = { x: shape[1][0] * 320, y: shape[1][1] * 320 };
+        const p3 = { x: shape[3][0] * 320, y: shape[3][1] * 320 };
 
-      paths.forEach(path => {
-        for (let i = 0; i < path.length; i++) {
-          const p1 = path[i];
-          const p2 = path[(i + 1) % path.length];
-          const dx = p2.x - p1.x;
-          const dy = p2.y - p1.y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          const steps = Math.floor((dist * scale) / density);
-
-          for (let j = 0; j < steps; j++) {
-            particles.push(new Particle(
-              centerX + (p1.x + (dx * j) / steps) * scale,
-              centerY + (p1.y + (dy * j) / steps) * scale
-            ));
-          }
+        for (let i = 0; i < 40; i++) {
+          const u = Math.random();
+          const v = Math.random();
+          const x = p0.x + u * (p1.x - p0.x) + v * (p3.x - p0.x);
+          const y = p0.y + u * (p1.y - p0.y) + v * (p3.y - p0.y);
+          particles.push(new Particle(x, y));
         }
       });
     };
 
     const animate = () => {
+      const elapsed = Date.now() - startTime;
+      globalOpacity = Math.min(elapsed / fadeDuration, 1);
+
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       
-      ctx.lineWidth = 1;
-      for (let i = 0; i < particles.length; i++) {
-        for (let j = i + 1; j < particles.length; j++) {
-          const dx = particles[i].x - particles[j].x;
-          const dy = particles[i].y - particles[j].y;
-          const distSq = dx * dx + dy * dy;
-
-          if (distSq < connectionDistance * connectionDistance) {
-            const dist = Math.sqrt(distSq);
-            const opacity = (1 - dist / connectionDistance) * 0.15;
-            ctx.beginPath();
-            ctx.strokeStyle = `rgba(255, 202, 22, ${opacity})`;
-            ctx.moveTo(particles[i].x, particles[i].y);
-            ctx.lineTo(particles[j].x, particles[j].y);
-            ctx.stroke();
-          }
-        }
-      }
-
       particles.forEach(p => {
         p.update();
         p.draw();
@@ -168,14 +119,11 @@ const HeroSection = () => {
       };
     };
 
-    window.addEventListener('resize', init);
     canvas.addEventListener('mousemove', handleMouseMove);
-    
     init();
     animate();
 
     return () => {
-      window.removeEventListener('resize', init);
       canvas.removeEventListener('mousemove', handleMouseMove);
       cancelAnimationFrame(animationFrameId);
     };

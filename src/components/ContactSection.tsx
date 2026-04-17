@@ -61,12 +61,6 @@ const ContactSection = () => {
               
               <div className="flex flex-col gap-3 w-full">
                 <a 
-                  href="#iniciar-projeto" 
-                  className="w-full px-9 py-[18px] bg-[#FFCA16] text-[#070807] text-[13px] font-[700] uppercase tracking-[2px] hover:bg-white transition-all duration-300 rounded-none text-center"
-                >
-                  INICIAR PROJETO →
-                </a>
-                <a 
                   href="https://wa.me/5511991076096" 
                   target="_blank" 
                   rel="noopener noreferrer"

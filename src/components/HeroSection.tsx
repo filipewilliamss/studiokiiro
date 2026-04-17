@@ -189,7 +189,7 @@ const HeroSection = () => {
           <canvas 
             ref={canvasRef}
             id="hero-canvas"
-            className="w-[320px] h-[320px]"
+            className="w-[380px] h-[420px]"
           />
         </div>
       </div>

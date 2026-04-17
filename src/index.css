@@ -6,7 +6,7 @@
 
 @layer base {
   :root {
-    --background: 0 0% 7%;
+    --background: 120 4% 3%; /* #070807 approximate */
     --foreground: 45 10% 90%;
 
     --card: 0 0% 10%;
@@ -15,7 +15,7 @@
     --popover: 0 0% 10%;
     --popover-foreground: 45 10% 90%;
 
-    --primary: 46 95% 54%;
+    --primary: 47 100% 54%; /* #FFCA16 */
     --primary-foreground: 0 0% 7%;
 
     --secondary: 0 0% 14%;
@@ -24,7 +24,7 @@
     --muted: 0 0% 14%;
     --muted-foreground: 0 0% 50%;
 
-    --accent: 46 95% 54%;
+    --accent: 47 100% 54%;
     --accent-foreground: 0 0% 7%;
 
     --destructive: 0 84.2% 60.2%;
@@ -32,27 +32,27 @@
 
     --border: 0 0% 16%;
     --input: 0 0% 16%;
-    --ring: 46 95% 54%;
+    --ring: 47 100% 54%;
 
     --radius: 0.5rem;
 
-    --kiiro: 46 95% 54%;
-    --kiiro-dark: 46 90% 49%;
-    --kiiro-glow: 46 100% 60%;
+    --kiiro: 47 100% 54%;
+    --kiiro-dark: 47 100% 45%;
+    --kiiro-glow: 47 100% 60%;
     --surface: 0 0% 10%;
     --surface-hover: 0 0% 13%;
 
-    --font-display: 'Space Grotesk', sans-serif;
-    --font-body: 'Inter', sans-serif;
+    --font-display: 'Poppins', sans-serif;
+    --font-body: 'Poppins', sans-serif;
 
     --sidebar-background: 0 0% 7%;
     --sidebar-foreground: 45 10% 90%;
-    --sidebar-primary: 46 95% 54%;
+    --sidebar-primary: 47 100% 54%;
     --sidebar-primary-foreground: 0 0% 7%;
     --sidebar-accent: 0 0% 14%;
     --sidebar-accent-foreground: 45 10% 90%;
     --sidebar-border: 0 0% 16%;
-    --sidebar-ring: 46 95% 54%;
+    --sidebar-ring: 47 100% 54%;
   }
 }
 

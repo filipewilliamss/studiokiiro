@@ -4,14 +4,12 @@ import { gsap } from 'gsap';
 const Preloader: React.FC<{ onComplete: () => void }> = ({ onComplete }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const textRef = useRef<HTMLDivElement>(null);
-  const blocksContainerRef = useRef<HTMLDivElement>(null);
+  const progressBarRef = useRef<HTMLDivElement>(null);
   const [blocks, setBlocks] = useState<number[]>([]);
 
   useEffect(() => {
-    // Create a grid of blocks
     const cols = 10;
-    const rows = 1; // Keeping it simple with vertical columns as requested "colunas verticais que sobem"
-    setBlocks(Array.from({ length: cols * rows }, (_, i) => i));
+    setBlocks(Array.from({ length: cols }, (_, i) => i));
 
     const ctx = gsap.context(() => {
       const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -21,6 +19,22 @@ const Preloader: React.FC<{ onComplete: () => void }> = ({ onComplete }) => {
       if (!textElement) return;
 
       const tl = gsap.timeline();
+
+      // Pulse animation for logo
+      gsap.to(textElement, {
+        scale: 1.05,
+        duration: 0.8,
+        repeat: -1,
+        yoyo: true,
+        ease: "power1.inOut"
+      });
+
+      // Progress bar animation
+      tl.to(progressBarRef.current, {
+        width: "100%",
+        duration: 2.5,
+        ease: "power2.inOut"
+      });
 
       // Scramble text effect
       tl.to({}, {
@@ -37,17 +51,16 @@ const Preloader: React.FC<{ onComplete: () => void }> = ({ onComplete }) => {
           }
           textElement.innerText = currentText;
         }
-      });
+      }, 0);
 
       tl.to(textElement, {
         opacity: 0,
         scale: 0.8,
         duration: 0.5,
-        delay: 0.2,
         ease: "power2.in"
       });
 
-      // Columns animation - "colunas verticais que sobem e revelam o conteúdo"
+      // Columns animation
       tl.to(".preloader-block", {
         y: "-100%",
         duration: 1,
@@ -66,28 +79,34 @@ const Preloader: React.FC<{ onComplete: () => void }> = ({ onComplete }) => {
 
   return (
     <div ref={containerRef} className="fixed inset-0 z-[9999] flex items-center justify-center bg-[#070807] overflow-hidden">
-      <div ref={blocksContainerRef} className="absolute inset-0 flex">
+      <div className="absolute inset-0 flex">
         {blocks.map((i) => (
           <div 
             key={i} 
-            className="preloader-block flex-1 bg-[#070807] border-x border-white/5" 
+            className="preloader-block flex-1 bg-[#070807] border-x border-white/10" 
           />
         ))}
       </div>
 
-      {/* Pixelated overlay grid */}
       <div className="absolute inset-0 grid grid-cols-10 grid-rows-10 pointer-events-none opacity-20">
         {[...Array(100)].map((_, i) => (
-          <div key={i} className="border-[0.5px] border-white/10" />
+          <div key={i} className="border-[1px] border-white/15" />
         ))}
       </div>
       
       <div 
         ref={textRef} 
-        className="relative z-10 text-[#FFCA16] text-6xl md:text-8xl font-[800] tracking-tighter"
-        style={{ fontFamily: 'Poppins, sans-serif' }}
+        className="relative z-10 text-[#FFCA16] text-6xl md:text-8xl font-[800] tracking-tighter font-display"
       >
         KIIRO
+      </div>
+
+      {/* Progress Bar */}
+      <div className="absolute bottom-0 left-0 w-full h-[2px] bg-white/5 z-20">
+        <div 
+          ref={progressBarRef}
+          className="h-full bg-[#FFCA16] w-0"
+        />
       </div>
     </div>
   );

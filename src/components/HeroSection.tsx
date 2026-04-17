@@ -91,8 +91,8 @@ const HeroSection = () => {
       <div className="relative z-10 w-full max-w-[1600px] flex flex-col items-center">
         <h1 
           ref={titleRef}
-          className="w-full text-white font-[800] leading-[1.05] text-center tracking-tighter"
-          style={{ fontSize: 'clamp(4rem, 12vw, 10rem)' }}
+          className="w-full text-white font-[800] leading-[1.05] text-center tracking-tighter font-display"
+          style={{ fontSize: 'clamp(40px, 8vw, 120px)' }}
         >
           {words.map((word, i) => {
             const isYellow = word.includes('Move') || word.includes('Converte');
@@ -108,7 +108,7 @@ const HeroSection = () => {
 
         <div 
           ref={subtitleRef}
-          className="mt-10 text-white/70 text-lg md:text-[1.2rem] max-w-[480px] text-center font-[400] leading-relaxed"
+          className="mt-10 text-white/70 text-[18px] max-w-[600px] text-center font-[400] leading-relaxed line-clamp-2"
         >
           Transformamos visões em experiências digitais memoráveis que impulsionam resultados reais para o seu negócio.
         </div>
@@ -119,15 +119,15 @@ const HeroSection = () => {
         >
           <a
             href="#portfolio"
-            className="group relative px-10 py-5 bg-[#FFCA16] text-[#070807] font-bold rounded-[50px] transition-transform duration-300 ease-[cubic-bezier(0.175,0.885,0.32,1.275)] hover:scale-[1.05] flex items-center justify-center text-lg active:scale-95 shadow-[0_10px_30px_rgba(255,202,22,0.1)]"
+            className="group relative px-10 py-5 bg-[#FFCA16] text-[#070807] font-bold rounded-[50px] transition-all duration-300 hover:scale-[1.05] flex items-center justify-center text-lg active:scale-95 shadow-[0_10px_30px_rgba(255,202,22,0.15)]"
           >
             Ver Projetos
           </a>
           <a
             href="#contato"
-            className="group relative px-10 py-5 bg-transparent border-2 border-white text-white font-bold rounded-[50px] transition-transform duration-300 ease-[cubic-bezier(0.175,0.885,0.32,1.275)] hover:scale-[1.05] flex items-center justify-center text-lg active:scale-95"
+            className="group relative px-10 py-5 bg-transparent border border-[#FFCA16] text-[#FFCA16] font-bold rounded-[50px] transition-all duration-300 hover:scale-[1.05] flex items-center justify-center text-lg active:scale-95 hover:bg-[#FFCA16]/5"
           >
-            Solicitar Orçamento
+            Fale Conosco
           </a>
         </div>
       </div>

@@ -18,7 +18,7 @@ const AboutSection = () => {
               <img 
                 src={profilePicture} 
                 alt="Filipe Williams" 
-                className="w-full h-auto grayscale hover:grayscale-0 transition-all duration-700"
+                className="w-full h-auto transition-all duration-700"
               />
             </div>
             <div className="absolute -bottom-6 -right-6 w-full h-full border border-[#FFCA16]/20 -z-10" />

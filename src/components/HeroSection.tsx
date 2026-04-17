@@ -22,6 +22,17 @@ const HeroSection = () => {
     const startTime = Date.now();
     const fadeDuration = 1200;
 
+    function pointOnStripe(x1: number, y1: number, x2: number, y2: number, halfW: number) {
+      const t = Math.random();
+      const px = x1 + (x2 - x1) * t;
+      const py = y1 + (y2 - y1) * t;
+      const len = Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2);
+      const nx = -(y2 - y1) / len;
+      const ny = (x2 - x1) / len;
+      const s = (Math.random() - 0.5) * halfW * 2;
+      return { x: px + nx * s, y: py + ny * s };
+    }
+
     class Particle {
       x: number;
       y: number;
@@ -64,39 +75,31 @@ const HeroSection = () => {
       draw() {
         if (!ctx) return;
         ctx.beginPath();
-        ctx.arc(this.x, this.y, 2.5, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255, 202, 22, ${0.9 * globalOpacity})`;
+        ctx.arc(this.x, this.y, 2, 0, Math.PI * 2);
+        ctx.fillStyle = `#FFCA16`;
+        ctx.globalAlpha = 0.9 * globalOpacity;
         ctx.fill();
+        ctx.globalAlpha = 1;
       }
     }
 
     const init = () => {
       canvas.width = 380;
-      canvas.height = 420;
+      canvas.height = 440;
       
-      const shapes = [
-        // FAIXA ESQUERDA SUPERIOR (diagonal ↗ fina)
-        [[0.05,0.52],[0.22,0.02],[0.36,0.02],[0.19,0.52]],
-        // FAIXA ESQUERDA INFERIOR (diagonal ↗ grossa)
-        [[0.05,0.98],[0.22,0.55],[0.38,0.55],[0.21,0.98]],
-        // FAIXA DIREITA SUPERIOR (diagonal ↖ fina, espelho)
-        [[0.64,0.52],[0.78,0.02],[0.92,0.02],[0.78,0.52]],
-        // FAIXA DIREITA INFERIOR (diagonal ↖ grossa, espelho)
-        [[0.62,0.98],[0.78,0.55],[0.95,0.55],[0.79,0.98]]
+      particles = [];
+      
+      const stripes = [
+        { x1: 15, y1: 430, x2: 100, y2: 10, halfW: 22 },
+        { x1: 80, y1: 430, x2: 165, y2: 10, halfW: 22 },
+        { x1: 215, y1: 10, x2: 300, y2: 430, halfW: 22 },
+        { x1: 280, y1: 10, x2: 365, y2: 430, halfW: 22 }
       ];
 
-      particles = [];
-      shapes.forEach(shape => {
-        const p0 = { x: shape[0][0] * 380, y: shape[0][1] * 420 };
-        const p1 = { x: shape[1][0] * 380, y: shape[1][1] * 420 };
-        const p3 = { x: shape[3][0] * 380, y: shape[3][1] * 420 };
-
+      stripes.forEach(s => {
         for (let i = 0; i < 50; i++) {
-          const u = Math.random();
-          const v = Math.random();
-          const x = p0.x + u * (p1.x - p0.x) + v * (p3.x - p0.x);
-          const y = p0.y + u * (p1.y - p0.y) + v * (p3.y - p0.y);
-          particles.push(new Particle(x, y));
+          const pos = pointOnStripe(s.x1, s.y1, s.x2, s.y2, s.halfW);
+          particles.push(new Particle(pos.x, pos.y));
         }
       });
     };

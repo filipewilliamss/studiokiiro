@@ -46,14 +46,33 @@ const Footer = () => {
                 CONTATO
               </h4>
               <ul className="flex flex-col gap-3">
-                <li className="font-display font-normal text-[14px] text-white/60">
-                  contato@studiokiiro.com
+                <li>
+                  <a 
+                    href="mailto:contato@studiokiiro.com"
+                    className="font-display font-normal text-[14px] text-white/60 hover:text-[#FFCA16] transition-colors duration-200"
+                  >
+                    contato@studiokiiro.com
+                  </a>
                 </li>
-                <li className="font-display font-normal text-[14px] text-white/60">
-                  (11) 99107-6096
+                <li>
+                  <a 
+                    href="https://wa.me/5511991076096" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="font-display font-normal text-[14px] text-white/60 hover:text-[#FFCA16] transition-colors duration-200"
+                  >
+                    (11) 99107-6096
+                  </a>
                 </li>
-                <li className="font-display font-normal text-[14px] text-white/60">
-                  @studiokiiro
+                <li>
+                  <a 
+                    href="https://instagram.com/studiokiiro" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="font-display font-normal text-[14px] text-white/60 hover:text-[#FFCA16] transition-colors duration-200"
+                  >
+                    @studiokiiro
+                  </a>
                 </li>
               </ul>
             </div>

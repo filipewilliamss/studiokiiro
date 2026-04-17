@@ -1,4 +1,7 @@
-import { motion } from "framer-motion";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { projects } from "@/data/projects";
+import ProjectModal from "./ProjectModal";
 import socialMedia1 from "@/assets/social-media-1.webp";
 import carrosselMockup from "@/assets/carrossel-mockup.webp";
 import destaquesMockup from "@/assets/destaques-mockup.webp";
@@ -18,7 +21,7 @@ export interface Project {
   pages: string[];
 }
 
-const portfolioItems = [
+const socialMediaItems = [
   {
     id: 1,
     title: "Feed Estratégico",
@@ -46,6 +49,14 @@ const portfolioItems = [
 ];
 
 const PortfolioSection = () => {
+  const [activeTab, setActiveTab] = useState<"Identidade Visual" | "Redes Sociais">("Identidade Visual");
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+
+  const tabs = [
+    { id: "Identidade Visual", label: "Identidade Visual" },
+    { id: "Redes Sociais", label: "Redes Sociais" },
+  ];
+
   return (
     <section id="portfolio" className="relative section-padding bg-[#070807] grid-pattern border-t border-white/[0.05]">
       <div className="container-editorial">
@@ -54,48 +65,111 @@ const PortfolioSection = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="mb-16 md:mb-24"
+          className="mb-12 md:mb-16"
         >
           <span className="inline-block px-4 py-1.5 border border-[#FFCA16] text-[#FFCA16] text-[11px] font-bold uppercase tracking-[3px] rounded-none mb-6">
             PORTFÓLIO
           </span>
           <h2 className="font-display text-[40px] md:text-[56px] font-[800] text-white leading-tight tracking-[-2px] mb-6">
-            Artes para Mídias Sociais
+            {activeTab === "Identidade Visual" ? "Identidade Visual" : "Artes para Mídias Sociais"}
           </h2>
           <p className="text-white/60 text-lg md:text-xl max-w-3xl leading-relaxed">
-            Criamos artes que traduzem a essência da sua marca nas redes sociais — com design estratégico, identidade visual forte e conteúdos que geram resultados reais.
+            {activeTab === "Identidade Visual" 
+              ? "Transformamos a essência do seu negócio em uma identidade visual estratégica, memorável e de alto impacto."
+              : "Criamos artes que traduzem a essência da sua marca nas redes sociais — com design estratégico, identidade visual forte e conteúdos que geram resultados reais."}
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-          {portfolioItems.map((item, i) => (
-            <motion.div
-              key={item.id}
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: i * 0.1 }}
-              className="group"
+        {/* Tabs */}
+        <div className="flex flex-wrap gap-4 mb-12 md:mb-16">
+          {tabs.map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id as any)}
+              className={`px-8 py-3 text-xs font-bold uppercase tracking-[2px] transition-all duration-300 border ${
+                activeTab === tab.id
+                  ? "bg-[#FFCA16] text-black border-[#FFCA16]"
+                  : "bg-transparent text-white/40 border-white/10 hover:border-white/30"
+              }`}
             >
-              <div className="relative aspect-[4/5] overflow-hidden border border-white/10 bg-[#FFCA16]/[0.02] mb-6">
-                <img
-                  src={item.image}
-                  alt={item.title}
-                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0"
-                />
-                <div className="absolute inset-0 bg-[#070807]/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-              </div>
-
-              <h3 className="font-display text-xl font-bold text-white mb-2 group-hover:text-[#FFCA16] transition-colors duration-300">
-                {item.title}
-              </h3>
-              <p className="text-white/60 text-sm leading-relaxed">
-                {item.description}
-              </p>
-            </motion.div>
+              {tab.label}
+            </button>
           ))}
         </div>
+
+        <motion.div
+          layout
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8"
+        >
+          <AnimatePresence mode="popLayout">
+            {activeTab === "Identidade Visual" ? (
+              projects.map((project, i) => (
+                <motion.div
+                  key={`idv-${project.id}`}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.9 }}
+                  transition={{ duration: 0.4, delay: i * 0.1 }}
+                  className="group cursor-pointer"
+                  onClick={() => setSelectedProject(project)}
+                >
+                  <div className="relative aspect-[4/5] overflow-hidden border border-white/10 bg-[#FFCA16]/[0.02] mb-6">
+                    <img
+                      src={project.logo}
+                      alt={project.title}
+                      className="absolute inset-0 w-full h-full object-contain p-12 transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0"
+                    />
+                    <div className="absolute inset-0 bg-[#070807]/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                  </div>
+
+                  <h3 className="font-display text-xl font-bold text-white mb-2 group-hover:text-[#FFCA16] transition-colors duration-300">
+                    {project.title}
+                  </h3>
+                  <p className="text-white/60 text-sm leading-relaxed">
+                    {project.category}
+                  </p>
+                </motion.div>
+              ))
+            ) : (
+              socialMediaItems.map((item, i) => (
+                <motion.div
+                  key={`sm-${item.id}`}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.9 }}
+                  transition={{ duration: 0.4, delay: i * 0.1 }}
+                  className="group"
+                >
+                  <div className="relative aspect-[4/5] overflow-hidden border border-white/10 bg-[#FFCA16]/[0.02] mb-6">
+                    <img
+                      src={item.image}
+                      alt={item.title}
+                      className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0"
+                    />
+                    <div className="absolute inset-0 bg-[#070807]/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                  </div>
+
+                  <h3 className="font-display text-xl font-bold text-white mb-2 group-hover:text-[#FFCA16] transition-colors duration-300">
+                    {item.title}
+                  </h3>
+                  <p className="text-white/60 text-sm leading-relaxed">
+                    {item.description}
+                  </p>
+                </motion.div>
+              ))
+            )}
+          </AnimatePresence>
+        </motion.div>
       </div>
+
+      <AnimatePresence>
+        {selectedProject && (
+          <ProjectModal
+            project={selectedProject}
+            onClose={() => setSelectedProject(null)}
+          />
+        )}
+      </AnimatePresence>
     </section>
   );
 };

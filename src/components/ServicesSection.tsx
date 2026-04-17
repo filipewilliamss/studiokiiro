@@ -4,32 +4,32 @@ const services = [
   {
     number: "01",
     title: "Identidade Visual",
-    description: "Criação de marcas completas — logo, paleta, tipografia e guia de aplicação."
+    description: "Do logotipo essencial ao branding completo — criamos a identidade que representa sua marca com autenticidade e estratégia.",
+    detail: "Logotipo Essencial · Identidade Visual · Branding Completo · Personal Brand Kit"
   },
   {
     number: "02",
-    title: "Artes para Mídias Sociais",
-    description: "Design estratégico para suas redes sociais, garantindo um feed harmônico e conteúdos que engajam seu público."
+    title: "Design para Redes Sociais",
+    description: "Artes estratégicas que constroem presença digital — posts, carrosséis e stories com identidade visual consistente.",
+    detail: "Pacote Pontual · Retainer Mensal · Carrossel Avulso"
   },
   {
     number: "03",
-    title: "Edição de Vídeos",
-    description: "Edições dinâmicas para Reels, Shorts e TikTok que elevam o nível visual dos seus vídeos."
+    title: "Edição de Vídeo",
+    description: "Reels, Shorts e vídeos institucionais editados com ritmo, identidade e intenção para gerar resultado nas redes.",
+    detail: "Reels/Shorts · Pacote Mensal · Vídeo Institucional · Tutorial/Educativo"
   },
   {
     number: "04",
-    title: "Branding Estratégico",
-    description: "Posicionamento de mercado e definição de propósito para criar conexões reais com seu público."
+    title: "Sites e Landing Pages",
+    description: "Páginas que convertem — desde landing pages objetivas até sites institucionais completos, com design e estratégia integrados.",
+    detail: "Landing Page Simples · Landing Page Completa · Site Institucional · Site Completo"
   },
   {
     number: "05",
-    title: "Rebranding",
-    description: "Evolução e modernização de marcas existentes para acompanhar o novo momento do seu negócio."
-  },
-  {
-    number: "06",
-    title: "Materiais Impressos",
-    description: "Design de papelaria, embalagens e materiais promocionais com foco em qualidade e impacto visual."
+    title: "Apresentações",
+    description: "Apresentações comerciais e institucionais com design profissional que comunica valor e gera credibilidade.",
+    detail: "Apresentação Comercial · Apresentação Institucional"
   }
 ];
 
@@ -76,6 +76,9 @@ const ServicesSection = () => {
               </h3>
               <p className="font-display text-sm text-white/40 flex-1 transition-colors duration-300 group-hover:text-white/70">
                 {service.description}
+                <span className="block mt-[6px] text-[12px] text-[#FFCA16]/50 font-['Poppins'] font-normal tracking-[0.5px]">
+                  {service.detail}
+                </span>
               </p>
               <span className="hidden md:block font-display text-2xl text-[#FFCA16] opacity-0 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-2">
                 →

@@ -4,6 +4,20 @@ import carrosselMockup from "@/assets/carrossel-mockup.webp";
 import destaquesMockup from "@/assets/destaques-mockup.webp";
 import storyMockup from "@/assets/story-mockup.webp";
 
+export interface Project {
+  id: number;
+  title: string;
+  category: string;
+  bgColor: string;
+  intro: string;
+  challenge: string;
+  solution: string;
+  result: string;
+  tags: string[];
+  logo: string;
+  pages: string[];
+}
+
 const portfolioItems = [
   {
     id: 1,

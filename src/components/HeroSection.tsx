@@ -72,8 +72,8 @@ const HeroSection = () => {
       <div className="relative z-10 w-full max-w-[1400px] flex flex-col items-center">
         <h1 
           ref={titleRef}
-          className="w-full text-white font-[800] leading-[1.1] text-center tracking-tight"
-          style={{ fontSize: 'clamp(3.5rem, 8vw, 10rem)' }}
+          className="w-full text-white font-[800] leading-[1.05] text-center tracking-tighter"
+          style={{ fontSize: 'clamp(4rem, 12vw, 10rem)' }}
         >
           {words.map((word, i) => {
             const isYellow = word.includes('Move') || word.includes('Converte');

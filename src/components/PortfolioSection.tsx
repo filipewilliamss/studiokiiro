@@ -113,14 +113,11 @@ const PortfolioSection = () => {
                   className="group cursor-pointer bg-white/[0.03] border border-white/[0.08] rounded-[2px] overflow-hidden transition-all duration-300 hover:border-[#FFCA16]/30 hover:bg-[#FFCA16]/[0.04] hover:-translate-y-1"
                   onClick={() => setSelectedProject(project)}
                 >
-                  <div className="relative aspect-[4/3] flex items-center justify-center p-12 bg-white/[0.04] overflow-hidden">
-                    {/* Pseudo-elemento decorativo */}
-                    <div className="absolute top-0 right-0 w-[60px] h-[60px] bg-gradient-to-br from-[#FFCA16]/[0.08] to-transparent" />
-                    
+                  <div className="relative aspect-[4/3] flex items-center justify-center p-6 bg-[#111111] overflow-hidden">
                     <img
                       src={project.logo}
                       alt={project.title}
-                      className="max-w-[65%] max-h-[80px] object-contain transition-transform duration-300 group-hover:scale-[1.05]"
+                      className="w-[85%] h-full object-contain block"
                     />
                   </div>
 

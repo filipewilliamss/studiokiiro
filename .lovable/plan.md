@@ -1,26 +1,23 @@
 
-### Redirecionamento Autoral e Refinamento Editorial Premium
+### Escultura Digital 3D: Evolução do Símbolo Kiiro
 
-Vou elevar a sofisticação do site, removendo padrões genéricos e focando em uma estética editorial de estúdio de luxo, com foco em tipografia dominante, composições assimétricas e microinterações de alto nível.
+Vou substituir o elemento genérico de partículas por uma **escultura digital 3D autoral**, baseada no símbolo do Studio Kiiro, com profundidade real e interatividade refinada.
 
-**1. Estrutura e Ritmo Visual (`index.css` & `Index.tsx`)**
-*   **Aumento de Respiro:** Ampliação substancial do padding entre seções para permitir que cada bloco de conteúdo tenha foco total.
-*   **Intersticiais de Impacto:** Adição de seções de "respiro" com declarações tipográficas fortes entre os blocos de conteúdo principais, quebrando a linearidade do scroll.
+**1. Motor de Projeção 3D Customizado (`HeroSection.tsx`)**
+*   **Transição para 3D:** Substituirei o sistema 2D atual por um motor de projeção matemática (`perspective projection`) que transforma coordenadas `(x, y, z)` em pontos no canvas, criando profundidade genuína sem a necessidade de bibliotecas pesadas.
+*   **Volumetria do Símbolo:** As "faixas" do logo ganharão espessura no eixo Z, tornando-se prismas de luz compostos por uma matriz de pontos densa e precisa.
 
-**2. Tipografia Dominante e Layouts Assimétricos**
-*   **Hero Section:** Reajuste da hierarquia para que a tipografia seja a protagonista absoluta. Implementação de animação de revelação por "split-text" e paralaxe suave no fundo.
-*   **About Section:** Transição para um layout assimétrico e "editorial". Adição de elementos tipográficos de fundo em escala monumental com opacidade mínima (estética de revista).
+**2. Direção de Arte e Acabamento**
+*   **Dot Matrix Premium:** Os pontos serão menores e mais nítidos, com variações sutis de opacidade baseadas na distância (profundidade), simulando um objeto físico flutuante.
+*   **Paleta Coerente:** Foco total no amarelo dourado (`#FFCA16`) sobre o fundo preto profundo, com um efeito de "glow" sutil e elegante.
 
-**3. Microinterações e Acabamento Premium**
-*   **Services Section:** Implementação de "hover reveal" dinâmico. Ao passar o mouse sobre um serviço, elementos visuais sutis surgem para guiar o olhar.
-*   **Process Section:** Refinamento da linha do tempo para torná-la mais fluida e integrada ao scroll, com números "sticky" que acompanham o movimento.
-*   **Navbar:** Links de navegação com interações mais elegantes (underline magnético ou transições de cor mais sofisticadas).
+**3. Dinâmica e Interatividade**
+*   **Rotação Cinemática:** O símbolo terá uma rotação suave e contínua (idle animation) e responderá ao movimento do mouse com uma rotação em X e Y, criando um efeito de paralaxe sofisticado.
+*   **Física de Partículas:** Manterei a interação de "repulsão" ao mouse, mas adaptada para o espaço 3D, fazendo com que o objeto pareça reagir ao toque digital.
+*   **Sensação de "Objeto Vivo":** Adição de uma oscilação senoidal (floating) para que o símbolo nunca pareça estático.
 
-**4. Imagens Protagonistas**
-*   Tratamento visual uniforme em todas as imagens (grão sutil, filtros de cor coerentes).
-*   Efeitos de "smooth reveal" e "lazy scale" ao entrar no viewport.
+**4. Performance e Refinamento**
+*   Otimização do loop de animação para garantir 60fps constantes.
+*   Ajuste de escala responsiva para que o símbolo mantenha sua força visual em dispositivos móveis, adaptando a densidade de partículas.
 
-**5. Botões e CTAs**
-*   Evolução dos botões `btn-premium` para incluir microinterações de preenchimento líquido ou deslocamento de borda, fugindo do hover padrão de templates.
-
-O resultado será um site que respira design, com um ritmo de leitura planejado e uma percepção de valor significativamente maior.
+O resultado será um **key visual proprietário**, que comunica tecnologia, precisão e design de alto nível logo na primeira dobra do site.

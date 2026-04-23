@@ -98,40 +98,36 @@ const HeroSection = () => {
     };
 
     // Symbol geometry — local coords centered around (0,0)
-    // Two pairs of inclined bars forming the K-like Kiiro mark
-    const HALF_H = 170;          // half height of bars
-    const SLANT = 60;             // horizontal slant
-    const BAR_W = 22;             // width of each bar
-    const BAR_DEPTH = 22;         // 3D thickness
-    const STEP_LEN = 11;          // dot spacing along length
-    const STEP_W = 11;            // dot spacing across width
-    const STEP_Z = 11;            // dot spacing through depth
-    const GROUP_GAP = 18;         // gap between left and right groups
-    const PAIR_GAP = 38;          // gap between the two bars in a group
-
-    // LEFT GROUP — two bars leaning right (/ /)
-    buildBar(
-      -GROUP_GAP - PAIR_GAP - SLANT, HALF_H,
-      -GROUP_GAP - PAIR_GAP + SLANT, -HALF_H,
-      BAR_W, BAR_DEPTH, STEP_LEN, STEP_W, STEP_Z
-    );
-    buildBar(
-      -GROUP_GAP - SLANT, HALF_H,
-      -GROUP_GAP + SLANT, -HALF_H,
-      BAR_W, BAR_DEPTH, STEP_LEN, STEP_W, STEP_Z
-    );
-
-    // RIGHT GROUP — two bars leaning left (\ \)
-    buildBar(
-      GROUP_GAP - SLANT, -HALF_H,
-      GROUP_GAP + SLANT, HALF_H,
-      BAR_W, BAR_DEPTH, STEP_LEN, STEP_W, STEP_Z
-    );
-    buildBar(
-      GROUP_GAP + PAIR_GAP - SLANT, -HALF_H,
-      GROUP_GAP + PAIR_GAP + SLANT, HALF_H,
-      BAR_W, BAR_DEPTH, STEP_LEN, STEP_W, STEP_Z
-    );
+    // Structure: 4 vertical-ish bars with specific offsets to form the Kiiro mark.
+    // Each bar is built as a volumetric 3D grid.
+    const HALF_H = 160;          // height of bars
+    const BAR_W = 24;            // width of each bar
+    const BAR_DEPTH = 32;        // depth of the sculpture
+    const STEP_LEN = 10;         // dot spacing (density)
+    const STEP_W = 10;           // dot spacing (density)
+    const STEP_Z = 12;           // dot spacing (density)
+    
+    // The mark has 4 vertical bars.
+    // Offsets: -90, -30, 30, 90 (approximate relative centers)
+    const xOffsets = [-85, -35, 35, 85];
+    
+    xOffsets.forEach((xPos, idx) => {
+      // Alternate slant slightly or keep parallel for precise geometry
+      // Bar 1 & 2: / / (leaning right)
+      // Bar 3 & 4: \ \ (leaning left)
+      const isLeft = idx < 2;
+      const slant = isLeft ? 55 : -55;
+      
+      buildBar(
+        xPos - slant, HALF_H,
+        xPos + slant, -HALF_H,
+        BAR_W,
+        BAR_DEPTH,
+        STEP_LEN,
+        STEP_W,
+        STEP_Z
+      );
+    });
 
     // Camera / interaction state
     const target = { rx: 0, ry: 0 };
@@ -169,13 +165,13 @@ const HeroSection = () => {
       const t = (now - startTime) / 1000;
       globalOpacity = Math.min((now - startTime) / fadeDuration, 1);
 
-      // Easing toward target rotation
-      current.rx += (target.rx - current.rx) * 0.06;
-      current.ry += (target.ry - current.ry) * 0.06;
+      // Easing toward target rotation (slow, elegant easing)
+      current.rx += (target.rx - current.rx) * 0.045;
+      current.ry += (target.ry - current.ry) * 0.045;
 
-      // Idle floating rotation
-      const idleRy = Math.sin(t * 0.45) * 0.06;
-      const idleRx = Math.cos(t * 0.35) * 0.04;
+      // Idle floating rotation (micro-oscillation)
+      const idleRy = Math.sin(t * 0.4) * 0.05;
+      const idleRx = Math.cos(t * 0.3) * 0.03;
       const rx = current.rx + idleRx;
       const ry = current.ry + idleRy;
 
@@ -235,9 +231,9 @@ const HeroSection = () => {
         sy += d.dy;
 
         // Depth-based scale & alpha
-        const depthN = (z2 + 60) / 120; // ~0..1
-        const scale = 1.05 + persp * 0.6;
-        const alpha = (0.35 + 0.65 * persp) * globalOpacity;
+        // Use a deeper focal range for better volumetric perception
+        const scale = 0.95 + persp * 0.7;
+        const alpha = (0.2 + 0.8 * (persp * persp)) * globalOpacity;
 
         projected.push({ sx, sy, scale, alpha, z: z2 });
       }
@@ -246,9 +242,11 @@ const HeroSection = () => {
 
       for (let i = 0; i < projected.length; i++) {
         const p = projected[i];
-        const r = Math.max(0.6, p.scale * 1.35);
+        const r = Math.max(0.5, p.scale * 1.25);
         ctx.beginPath();
         ctx.arc(p.sx, p.sy, r, 0, Math.PI * 2);
+        
+        // Use a subtle gradient or solid depending on depth
         ctx.fillStyle = '#FFCA16';
         ctx.globalAlpha = p.alpha;
         ctx.fill();
@@ -348,19 +346,21 @@ const HeroSection = () => {
         </div>
 
         <div className="hidden lg:flex lg:w-[35%] h-[600px] relative items-center justify-center">
-          {/* Subtle ambient glow — restrained, not gamer */}
-          <div className="absolute w-[340px] h-[340px] bg-[#FFCA16]/[0.04] blur-[100px] rounded-full" />
-          {/* Editorial frame markers */}
-          <div className="absolute top-6 left-6 w-3 h-3 border-l border-t border-[#FFCA16]/40" />
-          <div className="absolute top-6 right-6 w-3 h-3 border-r border-t border-[#FFCA16]/40" />
-          <div className="absolute bottom-6 left-6 w-3 h-3 border-l border-b border-[#FFCA16]/40" />
-          <div className="absolute bottom-6 right-6 w-3 h-3 border-r border-b border-[#FFCA16]/40" />
-          {/* Tiny meta label */}
-          <div className="absolute top-4 left-1/2 -translate-x-1/2 text-[#FFCA16]/40 text-[9px] uppercase tracking-[0.4em] font-mono">
-            K — 001
+          {/* Subtle ambient glow — refined and integrated */}
+          <div className="absolute w-[380px] h-[380px] bg-[#FFCA16]/[0.03] blur-[120px] rounded-full" />
+          
+          {/* Technical frame markers */}
+          <div className="absolute top-10 left-10 w-2 h-2 border-l border-t border-[#FFCA16]/20" />
+          <div className="absolute top-10 right-10 w-2 h-2 border-r border-t border-[#FFCA16]/20" />
+          <div className="absolute bottom-10 left-10 w-2 h-2 border-l border-b border-[#FFCA16]/20" />
+          <div className="absolute bottom-10 right-10 w-2 h-2 border-r border-b border-[#FFCA16]/20" />
+          
+          {/* Branding metadata */}
+          <div className="absolute top-8 left-1/2 -translate-x-1/2 text-[#FFCA16]/30 text-[8px] uppercase tracking-[0.6em] font-mono whitespace-nowrap">
+            KIIRO — SCULPTURE · 001
           </div>
-          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-white/25 text-[9px] uppercase tracking-[0.4em] font-mono">
-            Symbol · 3D Matrix
+          <div className="absolute bottom-8 left-1/2 -translate-x-1/2 text-white/15 text-[8px] uppercase tracking-[0.6em] font-mono whitespace-nowrap">
+            IDENTITY · VOLUMETRIC MATRIX
           </div>
           <canvas 
             ref={canvasRef}

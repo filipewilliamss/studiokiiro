@@ -36,8 +36,21 @@ const services = [
 const ServicesSection = () => {
   return (
     <section id="servicos" className="relative section-padding bg-[#070807] border-t border-white/[0.05] overflow-hidden">
-      <div className="container-editorial">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 mb-24 lg:mb-32">
+      {/* Monumental backdrop word */}
+      <motion.span
+        aria-hidden
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 1.4 }}
+        className="absolute right-[-4%] top-[6%] font-display font-[800] text-white/[0.025] leading-none tracking-extratight pointer-events-none select-none"
+        style={{ fontSize: "clamp(120px, 20vw, 280px)" }}
+      >
+        services
+      </motion.span>
+
+      <div className="container-editorial relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 mb-28 lg:mb-40">
           <div className="lg:col-span-7">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
@@ -45,21 +58,24 @@ const ServicesSection = () => {
               viewport={{ once: true }}
               transition={{ duration: 1 }}
             >
-              <span className="inline-block text-[#FFCA16] text-[11px] font-bold uppercase tracking-[0.4em] mb-8">
-                Soluções Estratégicas
-              </span>
-              <h2 className="font-display text-[48px] md:text-[80px] font-[800] text-white leading-[0.85] tracking-extratight">
-                Elevando o <span className="text-[#FFCA16]">padrão</span> visual da sua marca.
+              <div className="flex items-center gap-4 mb-8">
+                <span className="w-12 h-[1px] bg-[#FFCA16]" />
+                <span className="text-[#FFCA16] text-[11px] font-bold uppercase tracking-[0.4em]">
+                  Soluções Estratégicas
+                </span>
+              </div>
+              <h2 className="font-display text-[52px] md:text-[88px] font-[800] text-white leading-[0.82] tracking-[-0.05em]">
+                Elevando o <span className="text-[#FFCA16] italic font-light">padrão</span> visual da sua marca.
               </h2>
             </motion.div>
           </div>
           <div className="lg:col-span-5 flex items-end">
-            <motion.p 
+            <motion.p
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 1, delay: 0.2 }}
-              className="text-white/50 text-[16px] md:text-[18px] leading-relaxed max-w-[400px]"
+              className="text-white/50 text-[16px] md:text-[18px] leading-[1.7] max-w-[400px] font-light"
             >
               Oferecemos um ecossistema completo de design para posicionar seu negócio com autoridade no mercado digital.
             </motion.p>

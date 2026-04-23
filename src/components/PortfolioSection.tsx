@@ -61,28 +61,44 @@ const PortfolioSection = () => {
   const activePreview = projects[hoveredIndex] ?? projects[0];
 
   return (
-    <section id="portfolio" className="relative section-padding bg-[#070807] border-t border-white/[0.05]">
+    <section id="portfolio" className="relative section-padding bg-[#070807] border-t border-white/[0.05] overflow-hidden">
       {/* Grainy radial highlight */}
       <div className="absolute left-[50%] top-[20%] -translate-x-1/2 w-[60%] aspect-square bg-[#FFCA16]/[0.02] rounded-full blur-[180px] pointer-events-none" />
 
+      {/* Monumental backdrop word */}
+      <motion.span
+        aria-hidden
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 1.4 }}
+        className="absolute -left-6 top-[2%] font-display font-[800] text-white/[0.025] leading-none tracking-extratight pointer-events-none select-none"
+        style={{ fontSize: "clamp(120px, 20vw, 280px)" }}
+      >
+        works
+      </motion.span>
+
       <div className="container-editorial relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 mb-20 md:mb-32">
-          <div className="lg:col-span-8">
+          <div className="lg:col-span-9">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 1 }}
             >
-              <span className="inline-block text-[#FFCA16] text-[11px] font-bold uppercase tracking-[0.4em] mb-8">
-                Portfolio Showcase
-              </span>
-              <h2 className="font-display text-[48px] md:text-[80px] font-[800] text-white leading-[0.85] tracking-extratight mb-10">
+              <div className="flex items-center gap-4 mb-8">
+                <span className="w-12 h-[1px] bg-[#FFCA16]" />
+                <span className="text-[#FFCA16] text-[11px] font-bold uppercase tracking-[0.4em]">
+                  Portfolio Showcase
+                </span>
+              </div>
+              <h2 className="font-display text-[52px] md:text-[88px] font-[800] text-white leading-[0.82] tracking-[-0.05em] mb-10">
                 {activeTab === "Identidade Visual"
-                  ? "Marcas que deixam um legado visual."
-                  : "Presença digital estratégica."}
+                  ? <>Marcas que deixam um <span className="text-[#FFCA16] italic font-light">legado</span> visual.</>
+                  : <>Presença digital <span className="text-[#FFCA16] italic font-light">estratégica</span>.</>}
               </h2>
-              <p className="text-white/50 text-lg md:text-xl max-w-3xl leading-relaxed font-light text-balance">
+              <p className="text-white/50 text-lg md:text-xl max-w-3xl leading-[1.7] font-light text-balance">
                 {activeTab === "Identidade Visual"
                   ? "Trabalhos selecionados de identidade visual desenvolvidos para gerar percepção, diferenciação e valor de marca."
                   : "Criamos artes que traduzem a essência da sua marca nas redes sociais com design estratégico e visual autoral."}

@@ -17,124 +17,252 @@ const HeroSection = () => {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    let animationFrameId: number;
-    let particles: Particle[] = [];
-    let globalOpacity = 0;
-    const startTime = Date.now();
-    const fadeDuration = 1200;
+    // ---------------------------------------------------------------
+    // KIIRO SYMBOL — DOT MATRIX 3D SCULPTURE
+    // Geometry: 4 angled bars (two leaning right, two leaning left)
+    // forming the Kiiro mark, organized as a regular dot grid in 3D
+    // and projected through perspective camera.
+    // ---------------------------------------------------------------
 
-    function stripe(x1: number, y1: number, x2: number, y2: number, halfW: number, n: number) {
-      const pts = [];
-      const dx = x2 - x1, dy = y2 - y1;
-      const len = Math.sqrt(dx * dx + dy * dy);
-      const nx = -dy / len, ny = dx / len;
-      for (let i = 0; i < n; i++) {
-        const t = Math.random();
-        const s = (Math.random() - 0.5) * halfW * 2;
-        pts.push({
-          homeX: x1 + dx * t + nx * s,
-          homeY: y1 + dy * t + ny * s
-        });
-      }
-      return pts;
-    }
+    const DPR = Math.min(window.devicePixelRatio || 1, 2);
+    const W = 420;
+    const H = 480;
+    canvas.width = W * DPR;
+    canvas.height = H * DPR;
+    canvas.style.width = `${W}px`;
+    canvas.style.height = `${H}px`;
+    ctx.scale(DPR, DPR);
 
-    class Particle {
-      x: number;
-      y: number;
-      homeX: number;
-      homeY: number;
-      vx: number;
-      vy: number;
+    const CX = W / 2;
+    const CY = H / 2;
+    const FOCAL = 620; // perspective focal length
 
-      constructor(homeX: number, homeY: number) {
-        this.homeX = homeX;
-        this.homeY = homeY;
-        this.x = homeX;
-        this.y = homeY;
-        this.vx = 0;
-        this.vy = 0;
-      }
-
-      update() {
-        const dx = this.x - mousePosition.current.x;
-        const dy = this.y - mousePosition.current.y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-
-        if (dist < 90) {
-          const force = (90 - dist) / 90;
-          const angle = Math.atan2(dy, dx);
-          this.vx += Math.cos(angle) * force * 6;
-          this.vy += Math.sin(angle) * force * 6;
-        }
-
-        this.vx += (this.homeX - this.x) * 0.04;
-        this.vy += (this.homeY - this.y) * 0.04;
-
-        this.vx *= 0.86;
-        this.vy *= 0.86;
-
-        this.x += this.vx;
-        this.y += this.vy;
-      }
-
-      draw() {
-        if (!ctx) return;
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, 2, 0, Math.PI * 2);
-        ctx.fillStyle = "#FFCA16";
-        ctx.globalAlpha = 0.9 * globalOpacity;
-        ctx.fill();
-        ctx.globalAlpha = 1;
-      }
-    }
-
-    const init = () => {
-      canvas.width = 380;
-      canvas.height = 440;
-      
-      particles = [];
-      
-      const allPoints = [
-        ...stripe(10, 440, 110, 10, 28, 50),   // GRUPO ESQUERDO - faixa esquerda
-        ...stripe(90, 440, 175, 10, 28, 50),   // GRUPO ESQUERDO - faixa direita
-        ...stripe(205, 10, 290, 440, 28, 50),  // GRUPO DIREITO - faixa esquerda
-        ...stripe(270, 10, 370, 440, 28, 50)   // GRUPO DIREITO - faixa direita
-      ];
-
-      allPoints.forEach(pt => {
-        particles.push(new Particle(pt.homeX, pt.homeY));
-      });
+    // Build dot matrix points in local 3D space (centered at origin)
+    type Dot = {
+      ox: number; oy: number; oz: number; // origin (home)
+      dx: number; dy: number;             // current 2D offset (interaction)
+      vx: number; vy: number;             // velocity
+      seed: number;                       // for idle phase
     };
 
-    const animate = () => {
-      const elapsed = Date.now() - startTime;
-      globalOpacity = Math.min(elapsed / fadeDuration, 1);
+    const dots: Dot[] = [];
 
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      
-      particles.forEach(p => {
-        p.update();
-        p.draw();
-      });
+    // Build a single inclined bar as a regular dot grid
+    // Bar goes from (x1,y1) to (x2,y2) in local 2D, with width W (perpendicular)
+    // depth: z thickness (volumetric); rows along length, cols across width, layers in z
+    const buildBar = (
+      x1: number, y1: number,
+      x2: number, y2: number,
+      width: number,
+      depth: number,
+      stepLen: number,
+      stepW: number,
+      stepZ: number,
+    ) => {
+      const dxL = x2 - x1;
+      const dyL = y2 - y1;
+      const len = Math.hypot(dxL, dyL);
+      const ux = dxL / len; // unit along length
+      const uy = dyL / len;
+      const nx = -uy;       // unit perpendicular (in 2D plane)
+      const ny = ux;
+
+      const rowsLen = Math.floor(len / stepLen) + 1;
+      const colsW = Math.floor(width / stepW) + 1;
+      const layersZ = Math.floor(depth / stepZ) + 1;
+
+      const halfW = (colsW - 1) * stepW / 2;
+      const halfZ = (layersZ - 1) * stepZ / 2;
+
+      for (let i = 0; i < rowsLen; i++) {
+        const t = i / (rowsLen - 1 || 1);
+        const baseX = x1 + dxL * t;
+        const baseY = y1 + dyL * t;
+        for (let j = 0; j < colsW; j++) {
+          const offW = -halfW + j * stepW;
+          const px = baseX + nx * offW;
+          const py = baseY + ny * offW;
+          for (let k = 0; k < layersZ; k++) {
+            const pz = -halfZ + k * stepZ;
+            dots.push({
+              ox: px,
+              oy: py,
+              oz: pz,
+              dx: 0, dy: 0,
+              vx: 0, vy: 0,
+              seed: Math.random() * Math.PI * 2,
+            });
+          }
+        }
+      }
+    };
+
+    // Symbol geometry — local coords centered around (0,0)
+    // Two pairs of inclined bars forming the K-like Kiiro mark
+    const HALF_H = 170;          // half height of bars
+    const SLANT = 60;             // horizontal slant
+    const BAR_W = 22;             // width of each bar
+    const BAR_DEPTH = 22;         // 3D thickness
+    const STEP_LEN = 11;          // dot spacing along length
+    const STEP_W = 11;            // dot spacing across width
+    const STEP_Z = 11;            // dot spacing through depth
+    const GROUP_GAP = 18;         // gap between left and right groups
+    const PAIR_GAP = 38;          // gap between the two bars in a group
+
+    // LEFT GROUP — two bars leaning right (/ /)
+    buildBar(
+      -GROUP_GAP - PAIR_GAP - SLANT, HALF_H,
+      -GROUP_GAP - PAIR_GAP + SLANT, -HALF_H,
+      BAR_W, BAR_DEPTH, STEP_LEN, STEP_W, STEP_Z
+    );
+    buildBar(
+      -GROUP_GAP - SLANT, HALF_H,
+      -GROUP_GAP + SLANT, -HALF_H,
+      BAR_W, BAR_DEPTH, STEP_LEN, STEP_W, STEP_Z
+    );
+
+    // RIGHT GROUP — two bars leaning left (\ \)
+    buildBar(
+      GROUP_GAP - SLANT, -HALF_H,
+      GROUP_GAP + SLANT, HALF_H,
+      BAR_W, BAR_DEPTH, STEP_LEN, STEP_W, STEP_Z
+    );
+    buildBar(
+      GROUP_GAP + PAIR_GAP - SLANT, -HALF_H,
+      GROUP_GAP + PAIR_GAP + SLANT, HALF_H,
+      BAR_W, BAR_DEPTH, STEP_LEN, STEP_W, STEP_Z
+    );
+
+    // Camera / interaction state
+    const target = { rx: 0, ry: 0 };
+    const current = { rx: 0, ry: 0 };
+    const mouse = { x: CX, y: CY, inside: false };
+
+    let animationFrameId: number;
+    let globalOpacity = 0;
+    const startTime = performance.now();
+    const fadeDuration = 1400;
+
+    const handleMouseMove = (e: MouseEvent) => {
+      const rect = canvas.getBoundingClientRect();
+      const mx = e.clientX - rect.left;
+      const my = e.clientY - rect.top;
+      mouse.x = mx;
+      mouse.y = my;
+      mouse.inside = true;
+      // Map to small rotation angles (max ~14deg)
+      const nx = (mx / W) * 2 - 1;
+      const ny = (my / H) * 2 - 1;
+      target.ry = nx * 0.24;
+      target.rx = -ny * 0.18;
+    };
+    const handleMouseLeave = () => {
+      mouse.inside = false;
+      target.rx = 0;
+      target.ry = 0;
+    };
+
+    canvas.addEventListener('mousemove', handleMouseMove);
+    canvas.addEventListener('mouseleave', handleMouseLeave);
+
+    const animate = (now: number) => {
+      const t = (now - startTime) / 1000;
+      globalOpacity = Math.min((now - startTime) / fadeDuration, 1);
+
+      // Easing toward target rotation
+      current.rx += (target.rx - current.rx) * 0.06;
+      current.ry += (target.ry - current.ry) * 0.06;
+
+      // Idle floating rotation
+      const idleRy = Math.sin(t * 0.45) * 0.06;
+      const idleRx = Math.cos(t * 0.35) * 0.04;
+      const rx = current.rx + idleRx;
+      const ry = current.ry + idleRy;
+
+      const cosX = Math.cos(rx), sinX = Math.sin(rx);
+      const cosY = Math.cos(ry), sinY = Math.sin(ry);
+
+      ctx.clearRect(0, 0, W, H);
+
+      // Sort by depth (painters algorithm) — back to front
+      const projected: Array<{
+        sx: number; sy: number; scale: number; alpha: number; z: number;
+      }> = [];
+
+      for (let i = 0; i < dots.length; i++) {
+        const d = dots[i];
+        // Idle breathing on Z
+        const breathe = Math.sin(t * 0.9 + d.seed) * 1.2;
+
+        // Rotate around Y then X
+        let x = d.ox;
+        let y = d.oy;
+        let z = d.oz + breathe;
+
+        // Y rotation
+        const x1 = x * cosY + z * sinY;
+        const z1 = -x * sinY + z * cosY;
+        // X rotation
+        const y2 = y * cosX - z1 * sinX;
+        const z2 = y * sinX + z1 * cosX;
+
+        // Perspective projection
+        const persp = FOCAL / (FOCAL + z2);
+        let sx = CX + x1 * persp;
+        let sy = CY + y2 * persp;
+
+        // Mouse interaction in screen space (subtle displacement)
+        if (mouse.inside) {
+          const mdx = sx - mouse.x;
+          const mdy = sy - mouse.y;
+          const mdist = Math.hypot(mdx, mdy);
+          const R = 75;
+          if (mdist < R && mdist > 0.001) {
+            const force = (1 - mdist / R) * 10;
+            d.vx += (mdx / mdist) * force * 0.18;
+            d.vy += (mdy / mdist) * force * 0.18;
+          }
+        }
+        // Spring back
+        d.vx += -d.dx * 0.08;
+        d.vy += -d.dy * 0.08;
+        d.vx *= 0.84;
+        d.vy *= 0.84;
+        d.dx += d.vx;
+        d.dy += d.vy;
+
+        sx += d.dx;
+        sy += d.dy;
+
+        // Depth-based scale & alpha
+        const depthN = (z2 + 60) / 120; // ~0..1
+        const scale = 1.05 + persp * 0.6;
+        const alpha = (0.35 + 0.65 * persp) * globalOpacity;
+
+        projected.push({ sx, sy, scale, alpha, z: z2 });
+      }
+
+      projected.sort((a, b) => b.z - a.z);
+
+      for (let i = 0; i < projected.length; i++) {
+        const p = projected[i];
+        const r = Math.max(0.6, p.scale * 1.35);
+        ctx.beginPath();
+        ctx.arc(p.sx, p.sy, r, 0, Math.PI * 2);
+        ctx.fillStyle = '#FFCA16';
+        ctx.globalAlpha = p.alpha;
+        ctx.fill();
+      }
+      ctx.globalAlpha = 1;
 
       animationFrameId = requestAnimationFrame(animate);
     };
 
-    const handleMouseMove = (e: MouseEvent) => {
-      const rect = canvas.getBoundingClientRect();
-      mousePosition.current = {
-        x: e.clientX - rect.left,
-        y: e.clientY - rect.top
-      };
-    };
-
-    canvas.addEventListener('mousemove', handleMouseMove);
-    init();
-    animate();
+    animationFrameId = requestAnimationFrame(animate);
 
     return () => {
       canvas.removeEventListener('mousemove', handleMouseMove);
+      canvas.removeEventListener('mouseleave', handleMouseLeave);
       cancelAnimationFrame(animationFrameId);
     };
   }, []);

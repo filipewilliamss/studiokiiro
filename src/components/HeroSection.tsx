@@ -9,7 +9,7 @@ const HeroSection = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const headlineRef = useRef<HTMLDivElement>(null);
-  const mousePosition = useRef({ x: 0, y: 0 });
+  
 
   useEffect(() => {
     const canvas = canvasRef.current;

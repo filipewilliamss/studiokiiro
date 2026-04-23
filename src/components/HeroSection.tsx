@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { motion } from 'framer-motion';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -154,58 +155,84 @@ const HeroSection = () => {
   return (
     <section 
       ref={sectionRef}
-      className="relative min-h-screen w-full bg-[#070807] overflow-hidden pt-[160px] pb-20"
+      className="relative min-h-screen w-full bg-[#070807] overflow-hidden flex items-center"
     >
-      {/* Grid Pattern */}
-      <div className="absolute inset-0 grid-pattern pointer-events-none opacity-100" />
+      {/* Dynamic Grid Overlay */}
+      <div className="absolute inset-0 grid-pattern opacity-40 pointer-events-none" />
+      
+      {/* Radial Gradient for depth */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,rgba(255,202,22,0.05)_0%,transparent_50%)] pointer-events-none" />
 
-      <div className="relative z-10 w-full max-w-[1200px] mx-auto flex flex-col lg:flex-row items-start px-6">
-        <div className="w-full lg:w-[60%] flex flex-col items-start" ref={headlineRef}>
-          <h1 
-            className="text-white font-[800] leading-[0.9] text-left tracking-[-3px] font-display"
-            style={{ fontSize: 'clamp(48px, 8vw, 96px)' }}
+      <div className="relative z-10 container-editorial w-full flex flex-col lg:flex-row items-center gap-12">
+        <div className="w-full lg:w-[65%] flex flex-col items-start" ref={headlineRef}>
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            className="mb-8"
           >
-            Identidade.<br />
-            Estratégia.<br />
-            <span className="text-[#FFCA16]">Resultado.</span>
+            <span className="text-[#FFCA16] text-[12px] font-bold uppercase tracking-[0.4em]">
+              Creative Design Studio
+            </span>
+          </motion.div>
+
+          <h1 
+            className="text-white font-[800] leading-[0.85] text-left tracking-extratight font-display"
+            style={{ fontSize: 'clamp(56px, 10vw, 110px)' }}
+          >
+            Design que <br />
+            gera <span className="text-[#FFCA16] italic">valor.</span>
           </h1>
 
-          <p className="mt-8 text-white/50 text-[16px] max-w-[420px] text-left font-[400] leading-relaxed font-display">
-            Design de alto padrão para marcas que querem ser lembradas, do branding completo ao conteúdo digital.
+          <p className="mt-10 text-white/50 text-[18px] md:text-[20px] max-w-[540px] text-left font-light leading-relaxed font-display text-balance">
+            Transformamos marcas através de design estratégico e visual autoral de alto impacto. Do branding completo ao digital.
           </p>
 
-          <div className="mt-12 flex flex-row gap-4 items-center w-full sm:w-auto">
+          <div className="mt-14 flex flex-col sm:flex-row gap-6 items-center w-full sm:w-auto">
             <a
               href="#portfolio"
-              className="px-[40px] py-[16px] bg-[#FFCA16] text-[#070807] font-semibold transition-all duration-300 flex items-center justify-center text-[14px] uppercase tracking-[2px] font-display border-0 rounded-none hover:opacity-90 active:scale-95"
+              className="btn-premium w-full sm:w-auto"
             >
-              Ver Projetos
+              Conheça o Portfólio
             </a>
             <a
               href="#contato"
-              className="px-[40px] py-[16px] bg-transparent border border-white/30 text-white font-semibold transition-all duration-300 flex items-center justify-center text-[14px] uppercase tracking-[2px] font-display rounded-none hover:bg-white/5 active:scale-95"
+              className="btn-premium-outline w-full sm:w-auto"
             >
-              Fale Conosco
+              Vamos conversar
             </a>
           </div>
         </div>
 
-        <div className="hidden lg:flex lg:w-[40%] h-[600px] relative items-center justify-center">
+        <div className="hidden lg:flex lg:w-[35%] h-[600px] relative items-center justify-center">
+          <div className="absolute inset-0 bg-[#FFCA16]/5 blur-[120px] rounded-full animate-pulse" />
           <canvas 
             ref={canvasRef}
             id="hero-canvas"
-            className="w-[380px] h-[440px]"
+            className="relative z-10 w-[400px] h-[460px] filter brightness-110 drop-shadow-[0_0_30px_rgba(255,202,22,0.2)]"
           />
         </div>
       </div>
 
+      {/* Side Label */}
+      <div className="absolute left-6 bottom-12 hidden lg:flex items-center gap-4 rotate-[-90deg] origin-left">
+        <span className="text-white/20 text-[10px] uppercase tracking-[0.5em] font-bold">
+          EST. 2018
+        </span>
+        <div className="w-12 h-[1px] bg-white/20" />
+      </div>
+
       {/* Scroll Indicator */}
-      <div className="absolute right-0 top-1/2 -translate-y-1/2 flex flex-col items-center gap-6 pr-6 lg:pr-10">
-        <div className="w-[1px] h-[60px] bg-[#FFCA16]/40" />
-        <span className="text-white/30 text-[10px] uppercase tracking-[3px] font-medium rotate-90 translate-y-8 font-display">
+      <motion.div 
+        animate={{ y: [0, 10, 0] }}
+        transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute bottom-12 right-10 hidden lg:flex flex-col items-center gap-4"
+      >
+        <span className="text-white/30 text-[10px] uppercase tracking-[0.3em] font-medium rotate-90 mb-8 font-display">
           SCROLL
         </span>
-      </div>
+        <div className="w-[1px] h-[80px] bg-gradient-to-b from-[#FFCA16] to-transparent" />
+      </motion.div>
     </section>
   );
 };

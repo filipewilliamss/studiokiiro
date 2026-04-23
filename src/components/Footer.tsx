@@ -2,91 +2,85 @@ import kiiroLogo from "@/assets/logo.webp";
 
 const Footer = () => {
   return (
-    <footer className="bg-[#050605] py-[60px] px-6">
-      <div className="max-w-[1200px] mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-[35%_30%_35%] gap-12 md:gap-0">
-          {/* Coluna 1 */}
-          <div className="flex flex-col items-start">
-            <a href="#" className="inline-block transition-transform hover:scale-105 duration-300">
-              <img src={kiiroLogo} alt="Studio Kiiro" className="h-10" />
+    <footer className="bg-[#050605] py-20 px-6 border-t border-white/5">
+      <div className="container-editorial">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-16 md:gap-8">
+          
+          {/* Brand Col */}
+          <div className="md:col-span-2">
+            <a href="#" className="inline-block transition-transform hover:scale-105 duration-500">
+              <img src={kiiroLogo} alt="Studio Kiiro" className="h-10 w-auto" />
             </a>
-            <p className="mt-4 font-display font-normal text-[12px] text-white/50">
-              Arte em cada pixel.
-            </p>
-            <p className="font-display font-normal text-[12px] text-white/50 max-w-[280px]">
-              Design estratégico que transforma marcas em referências visuais.
+            <p className="mt-8 text-[14px] text-white/40 max-w-sm leading-relaxed">
+              Design estratégico que transforma marcas em referências visuais. Criamos identidades memoráveis para quem não aceita o comum.
             </p>
           </div>
 
-          {/* Coluna 2 */}
-          <div className="flex flex-col items-start md:items-center">
-            <div className="flex flex-col items-start">
-              <h4 className="font-display font-semibold text-[12px] text-white uppercase tracking-[2px] mb-5">
-                LINKS
-              </h4>
-              <ul className="flex flex-col gap-3">
-                {["Sobre", "Serviços", "Portfólio", "Contato"].map((link) => (
-                  <li key={link}>
-                    <a
-                      href={`#${link.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")}`}
-                      className="font-display font-normal text-[14px] text-white/60 hover:text-white transition-colors duration-300"
-                    >
-                      {link}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
+          {/* Links Col */}
+          <div className="flex flex-col gap-6">
+            <h4 className="text-[11px] font-bold text-white uppercase tracking-[0.3em]">
+              Navegação
+            </h4>
+            <ul className="flex flex-col gap-4">
+              {["Sobre", "Serviços", "Portfólio", "Contato"].map((link) => (
+                <li key={link}>
+                  <a
+                    href={`#${link.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")}`}
+                    className="text-[13px] text-white/50 hover:text-[#FFCA16] transition-colors duration-300"
+                  >
+                    {link}
+                  </a>
+                </li>
+              ))}
+            </ul>
           </div>
 
-          {/* Coluna 3 */}
-          <div className="flex flex-col items-start md:items-end">
-            <div className="flex flex-col items-start">
-              <h4 className="font-display font-semibold text-[12px] text-white uppercase tracking-[2px] mb-5">
-                CONTATO
-              </h4>
-              <ul className="flex flex-col gap-3">
-                <li>
-                  <a 
-                    href="mailto:contato@studiokiiro.com"
-                    className="font-display font-normal text-[14px] text-white/60 hover:text-[#FFCA16] transition-colors duration-200"
-                  >
-                    contato@studiokiiro.com
-                  </a>
-                </li>
-                <li>
-                  <a 
-                    href="https://wa.me/5511991076096" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="font-display font-normal text-[14px] text-white/60 hover:text-[#FFCA16] transition-colors duration-200"
-                  >
-                    (11) 99107-6096
-                  </a>
-                </li>
-                <li>
-                  <a 
-                    href="https://instagram.com/studiokiiro" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="font-display font-normal text-[14px] text-white/60 hover:text-[#FFCA16] transition-colors duration-200"
-                  >
-                    @studiokiiro
-                  </a>
-                </li>
-              </ul>
-            </div>
+          {/* Social Col */}
+          <div className="flex flex-col gap-6">
+            <h4 className="text-[11px] font-bold text-white uppercase tracking-[0.3em]">
+              Conectar
+            </h4>
+            <ul className="flex flex-col gap-4">
+              <li>
+                <a 
+                  href="https://instagram.com/studiokiiro" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-[13px] text-white/50 hover:text-[#FFCA16] transition-colors duration-300 flex items-center gap-2"
+                >
+                  Instagram
+                </a>
+              </li>
+              <li>
+                <a 
+                  href="https://wa.me/5511991076096" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-[13px] text-white/50 hover:text-[#FFCA16] transition-colors duration-300 flex items-center gap-2"
+                >
+                  WhatsApp
+                </a>
+              </li>
+              <li>
+                <a 
+                  href="mailto:contato@studiokiiro.com"
+                  className="text-[13px] text-white/50 hover:text-[#FFCA16] transition-colors duration-300 flex items-center gap-2"
+                >
+                  E-mail
+                </a>
+              </li>
+            </ul>
           </div>
         </div>
 
-        {/* Linha divisória */}
-        <div className="mt-10 border-t border-white/[0.08]" />
-
-        {/* Copyright */}
-        <div className="mt-8 text-center">
-          <p className="font-display font-normal text-[12px] text-white/30">
+        {/* Bottom Bar */}
+        <div className="mt-24 pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
+          <p className="text-[11px] text-white/20 uppercase tracking-[0.2em]">
             © 2026 Studio Kiiro. Todos os direitos reservados.
           </p>
+          <div className="flex gap-8">
+            <span className="text-[10px] text-white/10 uppercase tracking-[0.3em]">São Paulo, Brasil</span>
+          </div>
         </div>
       </div>
     </footer>

@@ -77,22 +77,20 @@ const ProjectModal = ({ project, onClose }: ProjectModalProps) => {
       {/* Close button */}
       <button
         onClick={onClose}
-        className="fixed top-5 right-5 z-[60] w-11 h-11 rounded-full bg-card/80 backdrop-blur-md border border-border/50 flex items-center justify-center text-foreground hover:border-primary hover:text-primary transition-all duration-300 group"
+        className="fixed top-5 right-5 z-[60] w-12 h-12 bg-black/80 backdrop-blur-md border border-white/10 flex items-center justify-center text-white hover:border-[#FFCA16] hover:text-[#FFCA16] transition-all duration-500 group"
       >
-        <svg className="w-4 h-4 transition-transform duration-300 group-hover:rotate-90" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+        <svg className="w-5 h-5 transition-transform duration-500 group-hover:rotate-90" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M6 18L18 6M6 6l12 12" />
         </svg>
       </button>
 
       {/* Back */}
-      <div className="fixed top-5 left-5 z-[60]">
+      <div className="fixed top-6 left-6 z-[60]">
         <button
           onClick={onClose}
-          className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors text-xs font-display uppercase tracking-[0.2em]"
+          className="flex items-center gap-3 text-white/40 hover:text-[#FFCA16] transition-all duration-500 text-[10px] font-bold uppercase tracking-[0.3em]"
         >
-          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-          </svg>
+          <span className="text-xl">←</span>
           Voltar
         </button>
       </div>
@@ -130,7 +128,7 @@ const ProjectModal = ({ project, onClose }: ProjectModalProps) => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3, duration: 0.7 }}
-              className="text-xs uppercase tracking-[0.5em] text-primary font-display mb-6"
+              className="text-[11px] uppercase tracking-[0.5em] text-[#FFCA16] font-bold mb-8"
             >
               {project.category}
             </motion.p>
@@ -139,7 +137,7 @@ const ProjectModal = ({ project, onClose }: ProjectModalProps) => {
               initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-              className="font-display text-3xl sm:text-5xl md:text-8xl font-bold text-foreground leading-[0.9] tracking-tight mb-8"
+              className="font-display text-4xl sm:text-6xl md:text-9xl font-[800] text-white leading-[0.85] tracking-extratight mb-12"
             >
               {project.title}
             </motion.h1>
@@ -159,12 +157,12 @@ const ProjectModal = ({ project, onClose }: ProjectModalProps) => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 1.1, duration: 0.6 }}
-              className="flex flex-wrap justify-center gap-2 mt-10"
+              className="flex flex-wrap justify-center gap-3 mt-12"
             >
               {project.tags.map((tag) => (
                 <span
                   key={tag}
-                  className="px-4 py-1.5 rounded-full border border-border/50 text-[10px] uppercase tracking-[0.15em] text-muted-foreground font-display"
+                  className="px-5 py-2 border border-white/10 text-[10px] uppercase tracking-[0.2em] text-white/40 font-bold"
                 >
                   {tag}
                 </span>
@@ -290,7 +288,7 @@ const ProjectModal = ({ project, onClose }: ProjectModalProps) => {
               href={`https://wa.me/5511991076096?text=Olá! Vi o projeto ${project.title} e gostaria de criar uma identidade visual assim!`}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-3 px-10 py-4 bg-primary text-primary-foreground font-display font-semibold rounded-full hover:bg-primary/90 transition-all duration-500 text-sm uppercase tracking-[0.1em] group"
+              className="btn-premium px-12"
             >
               Solicitar Orçamento
               <svg
@@ -429,7 +427,7 @@ const GalleryImage = ({
       onMouseLeave={() => setHovered(false)}
     >
       <motion.div
-        className="rounded-xl overflow-hidden bg-card/30"
+        className="overflow-hidden bg-[#0a0a0a] border border-white/5"
         animate={{
           rotateX: hovered ? (mouse.y - 0.5) * -5 : 0,
           rotateY: hovered ? (mouse.x - 0.5) * 5 : 0,

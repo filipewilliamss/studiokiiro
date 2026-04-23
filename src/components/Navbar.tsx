@@ -31,18 +31,18 @@ const Navbar = ({ forceBlack = true }: NavbarProps) => {
   }, []);
 
   const bgClass = scrolled 
-    ? "bg-[#070807]/80 backdrop-blur-[10px] border-b border-white/10 shadow-lg" 
-    : "bg-transparent";
-  const textClass = "text-white/70 hover:text-white font-medium text-[13px] uppercase tracking-[1.5px] font-display";
-  const areaClienteTextClass = "text-[#FFCA16] hover:bg-[#FFCA16]/10 border border-[#FFCA16] px-5 py-2 transition-all duration-300 text-[13px] uppercase tracking-[1.5px] font-display";
-  const menuBtnClass = "text-white";
+    ? "bg-black/90 backdrop-blur-[20px] border-b border-white/[0.05] py-4" 
+    : "bg-transparent py-6 md:py-8";
+    
+  const textClass = "text-white/50 hover:text-[#FFCA16] font-bold text-[11px] uppercase tracking-[0.25em] font-display transition-all duration-300";
+  const areaClienteTextClass = "text-[#FFCA16] border border-[#FFCA16]/30 hover:border-[#FFCA16] px-6 py-2.5 transition-all duration-500 text-[11px] font-bold uppercase tracking-[0.2em] font-display";
 
   return (
     <motion.nav
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.6 }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${bgClass}`}
+      initial={{ y: -100, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${bgClass}`}
     >
       <div className="container-editorial flex items-center justify-between h-16 md:h-20">
         <a href={logoHref} className="flex items-center gap-2 group">
@@ -75,7 +75,7 @@ const Navbar = ({ forceBlack = true }: NavbarProps) => {
         {/* Mobile toggle */}
         <button
           onClick={() => setMenuOpen(!menuOpen)}
-          className={`lg:hidden ${menuBtnClass}`}
+          className="lg:hidden text-white hover:text-[#FFCA16] transition-colors"
           aria-label="Menu"
         >
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">

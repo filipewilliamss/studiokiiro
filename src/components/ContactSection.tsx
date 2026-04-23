@@ -4,69 +4,53 @@ const ContactSection = () => {
   return (
     <section 
       id="contato" 
-      className="relative bg-[#070807] border-t border-white/[0.08] overflow-hidden"
-      style={{
-        padding: '140px 0',
-        backgroundImage: `
-          radial-gradient(ellipse at top left, rgba(255,202,22,0.06) 0%, transparent 60%),
-          linear-gradient(to right, rgba(255, 202, 22, 0.04) 1px, transparent 1px),
-          linear-gradient(to bottom, rgba(255, 202, 22, 0.04) 1px, transparent 1px)
-        `,
-        backgroundSize: '100% 100%, 60px 60px, 60px 60px'
-      }}
+      className="relative bg-[#070807] overflow-hidden"
+      style={{ padding: '160px 0 100px' }}
     >
-      <div className="container-editorial">
-        <div className="flex flex-col lg:flex-row items-center lg:items-center justify-between gap-12 lg:gap-0">
+      {/* High-Impact Visual Elements */}
+      <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-[#FFCA16]/30 to-transparent" />
+      <div className="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+      
+      <div className="absolute top-[20%] left-[-10%] w-[50%] aspect-square bg-[#FFCA16]/[0.03] rounded-full blur-[180px] pointer-events-none" />
+      <div className="absolute bottom-[20%] right-[-10%] w-[40%] aspect-square bg-[#FFCA16]/[0.02] rounded-full blur-[150px] pointer-events-none" />
+
+      <div className="container-editorial relative z-10">
+        <div className="flex flex-col items-center text-center">
           
-          {/* COLUNA ESQUERDA (55%) */}
           <motion.div 
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
-            transition={{ duration: 1 }}
-            className="w-full lg:w-[55%]"
+            transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+            className="w-full max-w-5xl"
           >
-            {/* Tag Pill */}
-            <div className="inline-block px-3 py-1 bg-[#FFCA16]/10 border border-[#FFCA16]/20 mb-8">
-              <span className="text-[#FFCA16] text-[10px] font-display font-bold uppercase tracking-[2px]">
-                PRÓXIMO PASSO
-              </span>
-            </div>
+            <span className="inline-block text-[#FFCA16] text-[12px] font-bold uppercase tracking-[0.4em] mb-10">
+              Pronto para o próximo nível?
+            </span>
             
-            {/* Linha Decorativa */}
-            <div className="w-[60px] h-[1px] bg-[#FFCA16] mb-6" />
-
-            {/* Título */}
-            <h2 className="font-display text-[52px] md:text-[72px] font-[800] leading-[0.9] tracking-[-3px] text-left">
-              <span className="text-white block">Sua marca</span>
-              <span className="text-white block">merece ser</span>
-              <span className="text-[#FFCA16] block">lembrada.</span>
+            <h2 className="font-display text-[60px] md:text-[110px] lg:text-[140px] font-[800] leading-[0.8] tracking-extratight text-white mb-16">
+              Sua marca <br /> merece ser <br /> <span className="text-[#FFCA16]">lembrada.</span>
             </h2>
-          </motion.div>
 
-          {/* COLUNA DIREITA (45%) */}
-          <motion.div 
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1, delay: 0.2 }}
-            className="w-full lg:w-[45%] flex flex-col justify-center items-end"
-          >
-            <div className="max-w-[360px] w-full text-left">
-              <p className="font-display text-[16px] font-[400] text-white/50 mb-10 leading-relaxed">
-                Não é sobre um logo bonito.<br />
-                É sobre criar uma marca que as pessoas <br />
-                reconhecem, confiam e escolhem — sempre.
+            <div className="flex flex-col items-center gap-10">
+              <p className="font-display text-[18px] md:text-[24px] font-light text-white/50 max-w-2xl leading-relaxed text-balance">
+                Não é sobre um logo bonito. É sobre criar uma marca que as pessoas reconhecem, confiam e escolhem — sempre.
               </p>
               
-              <div className="flex flex-col gap-3 w-full">
+              <div className="flex flex-col sm:flex-row gap-6">
                 <a 
                   href="https://wa.me/5511991076096" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="w-full px-9 py-[18px] border border-white/30 text-white/70 text-[13px] font-[700] uppercase tracking-[2px] hover:border-white hover:text-white transition-all duration-300 rounded-none text-center"
+                  className="btn-premium px-16"
                 >
                   FALE NO WHATSAPP
+                </a>
+                <a 
+                  href="mailto:contato@studiokiiro.com"
+                  className="btn-premium-outline px-16"
+                >
+                  ENVIAR E-MAIL
                 </a>
               </div>
             </div>

@@ -348,11 +348,24 @@ const HeroSection = () => {
         </div>
 
         <div className="hidden lg:flex lg:w-[35%] h-[600px] relative items-center justify-center">
-          <div className="absolute inset-0 bg-[#FFCA16]/5 blur-[120px] rounded-full animate-pulse" />
+          {/* Subtle ambient glow — restrained, not gamer */}
+          <div className="absolute w-[340px] h-[340px] bg-[#FFCA16]/[0.04] blur-[100px] rounded-full" />
+          {/* Editorial frame markers */}
+          <div className="absolute top-6 left-6 w-3 h-3 border-l border-t border-[#FFCA16]/40" />
+          <div className="absolute top-6 right-6 w-3 h-3 border-r border-t border-[#FFCA16]/40" />
+          <div className="absolute bottom-6 left-6 w-3 h-3 border-l border-b border-[#FFCA16]/40" />
+          <div className="absolute bottom-6 right-6 w-3 h-3 border-r border-b border-[#FFCA16]/40" />
+          {/* Tiny meta label */}
+          <div className="absolute top-4 left-1/2 -translate-x-1/2 text-[#FFCA16]/40 text-[9px] uppercase tracking-[0.4em] font-mono">
+            K — 001
+          </div>
+          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-white/25 text-[9px] uppercase tracking-[0.4em] font-mono">
+            Symbol · 3D Matrix
+          </div>
           <canvas 
             ref={canvasRef}
             id="hero-canvas"
-            className="relative z-10 w-[400px] h-[460px] filter brightness-110 drop-shadow-[0_0_30px_rgba(255,202,22,0.2)]"
+            className="relative z-10 cursor-crosshair"
           />
         </div>
       </div>

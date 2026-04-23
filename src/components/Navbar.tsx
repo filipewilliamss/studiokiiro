@@ -34,8 +34,8 @@ const Navbar = ({ forceBlack = true }: NavbarProps) => {
     ? "bg-black/90 backdrop-blur-[20px] border-b border-white/[0.05] py-4" 
     : "bg-transparent py-6 md:py-8";
     
-  const textClass = "text-white/50 hover:text-[#FFCA16] font-bold text-[11px] uppercase tracking-[0.25em] font-display transition-all duration-300";
-  const areaClienteTextClass = "text-[#FFCA16] border border-[#FFCA16]/30 hover:border-[#FFCA16] px-6 py-2.5 transition-all duration-500 text-[11px] font-bold uppercase tracking-[0.2em] font-display";
+  const textClass = "link-magnetic text-white/55 hover:text-[#FFCA16] font-bold text-[11px] uppercase tracking-[0.28em] font-display transition-colors duration-500";
+  const areaClienteTextClass = "relative overflow-hidden text-[#FFCA16] border border-[#FFCA16]/30 hover:border-[#FFCA16] hover:bg-[#FFCA16] hover:text-black px-6 py-2.5 transition-all duration-500 text-[11px] font-bold uppercase tracking-[0.25em] font-display";
 
   return (
     <motion.nav
@@ -54,13 +54,16 @@ const Navbar = ({ forceBlack = true }: NavbarProps) => {
         </a>
 
         {/* Desktop */}
-        <div className="hidden lg:flex items-center gap-8">
-          {navLinks.map((link) => (
+        <div className="hidden lg:flex items-center gap-10">
+          {navLinks.map((link, idx) => (
             <a
               key={link.href}
               href={getHref(link.href)}
-              className={`${textClass} transition-colors duration-300`}
+              className={textClass}
             >
+              <span className="text-white/30 mr-2 font-mono text-[9px] tracking-normal">
+                0{idx + 1}
+              </span>
               {link.label}
             </a>
           ))}

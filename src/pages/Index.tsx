@@ -20,22 +20,60 @@ const Index = () => {
 
       <div className={`relative z-10 transition-opacity duration-1000 ${loading ? 'opacity-0' : 'opacity-100'}`}>
         {!loading && (
-          <>
+          <div className="flex flex-col">
             <Navbar />
-            <HeroSection />
-            <EditorialMarquee variant="compact" />
-            <AboutSection />
-            <EditorialQuote
-              eyebrow="Direção Criativa"
-              quote="Design não é decoração — é a forma como uma marca pensa, fala e existe no mundo."
-              attribution="Filipe Williams · Studio Kiiro"
-            />
-            <ServicesSection />
-            <ProcessSection />
-            <PortfolioSection />
-            <ContactSection />
+            <div className="relative">
+              <HeroSection />
+            </div>
+            
+            <div className="section-divider" />
+            
+            <div className="relative">
+              <EditorialMarquee variant="compact" />
+            </div>
+            
+            <div className="section-divider" />
+            
+            <div className="relative">
+              <AboutSection />
+            </div>
+            
+            <div className="section-divider" />
+            
+            <div className="relative">
+              <EditorialQuote
+                eyebrow="Direção Criativa"
+                quote="Design não é decoração — é a forma como uma marca pensa, fala e existe no mundo."
+                attribution="Filipe Williams · Studio Kiiro"
+              />
+            </div>
+            
+            <div className="section-divider" />
+            
+            <div className="relative">
+              <ServicesSection />
+            </div>
+            
+            <div className="section-divider" />
+            
+            <div className="relative">
+              <ProcessSection />
+            </div>
+            
+            <div className="section-divider" />
+            
+            <div className="relative">
+              <PortfolioSection />
+            </div>
+            
+            <div className="section-divider" />
+            
+            <div className="relative">
+              <ContactSection />
+            </div>
+            
             <Footer />
-          </>
+          </div>
         )}
       </div>
     </div>

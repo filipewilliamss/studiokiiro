@@ -346,19 +346,21 @@ const HeroSection = () => {
         </div>
 
         <div className="hidden lg:flex lg:w-[35%] h-[600px] relative items-center justify-center">
-          {/* Subtle ambient glow — restrained, not gamer */}
-          <div className="absolute w-[340px] h-[340px] bg-[#FFCA16]/[0.04] blur-[100px] rounded-full" />
-          {/* Editorial frame markers */}
-          <div className="absolute top-6 left-6 w-3 h-3 border-l border-t border-[#FFCA16]/40" />
-          <div className="absolute top-6 right-6 w-3 h-3 border-r border-t border-[#FFCA16]/40" />
-          <div className="absolute bottom-6 left-6 w-3 h-3 border-l border-b border-[#FFCA16]/40" />
-          <div className="absolute bottom-6 right-6 w-3 h-3 border-r border-b border-[#FFCA16]/40" />
-          {/* Tiny meta label */}
-          <div className="absolute top-4 left-1/2 -translate-x-1/2 text-[#FFCA16]/40 text-[9px] uppercase tracking-[0.4em] font-mono">
-            K — 001
+          {/* Subtle ambient glow — refined and integrated */}
+          <div className="absolute w-[380px] h-[380px] bg-[#FFCA16]/[0.03] blur-[120px] rounded-full" />
+          
+          {/* Technical frame markers */}
+          <div className="absolute top-10 left-10 w-2 h-2 border-l border-t border-[#FFCA16]/20" />
+          <div className="absolute top-10 right-10 w-2 h-2 border-r border-t border-[#FFCA16]/20" />
+          <div className="absolute bottom-10 left-10 w-2 h-2 border-l border-b border-[#FFCA16]/20" />
+          <div className="absolute bottom-10 right-10 w-2 h-2 border-r border-b border-[#FFCA16]/20" />
+          
+          {/* Branding metadata */}
+          <div className="absolute top-8 left-1/2 -translate-x-1/2 text-[#FFCA16]/30 text-[8px] uppercase tracking-[0.6em] font-mono whitespace-nowrap">
+            KIIRO — SCULPTURE · 001
           </div>
-          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-white/25 text-[9px] uppercase tracking-[0.4em] font-mono">
-            Symbol · 3D Matrix
+          <div className="absolute bottom-8 left-1/2 -translate-x-1/2 text-white/15 text-[8px] uppercase tracking-[0.6em] font-mono whitespace-nowrap">
+            IDENTITY · VOLUMETRIC MATRIX
           </div>
           <canvas 
             ref={canvasRef}

@@ -89,14 +89,20 @@ html.lenis {
   pointer-events: none;
 }
 
-/* Section Padding */
+/* Section Padding — generous editorial breathing room */
 .section-padding {
-  @apply py-32 md:py-48 lg:py-56;
+  @apply py-36 md:py-56 lg:py-64;
+}
+
+/* Section divider — subtle gradient line */
+.section-divider {
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(255,255,255,0.08), transparent);
 }
 
 /* Transitions */
 .transition-premium {
-  transition: all 500ms cubic-bezier(0.22, 1, 0.36, 1);
+  transition: all 700ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 /* Typography refinements */
@@ -108,20 +114,143 @@ p {
   @apply leading-relaxed text-white/60;
 }
 
-/* Button Refinement */
+/* Monumental editorial display text — for intersticial moments */
+.editorial-display {
+  font-family: var(--font-display);
+  font-weight: 800;
+  letter-spacing: -0.05em;
+  line-height: 0.85;
+  font-size: clamp(64px, 12vw, 180px);
+}
+
+/* Refined Button — magnetic fill */
 .btn-premium {
-  @apply relative inline-flex items-center justify-center px-10 py-5 bg-[#FFCA16] text-black text-[12px] font-bold uppercase tracking-[0.2em] overflow-hidden transition-all duration-300;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 22px 44px;
+  background: #FFCA16;
+  color: #0a0a0a;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  overflow: hidden;
+  isolation: isolate;
+  transition: color 500ms cubic-bezier(0.22, 1, 0.36, 1), transform 500ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.btn-premium::after {
+.btn-premium::before {
   content: "";
-  @apply absolute inset-0 bg-black/10 translate-y-full transition-transform duration-300;
+  position: absolute;
+  inset: 0;
+  background: #0a0a0a;
+  transform: translateY(101%);
+  transition: transform 600ms cubic-bezier(0.65, 0, 0.35, 1);
+  z-index: -1;
 }
 
-.btn-premium:hover::after {
-  @apply translate-y-0;
+.btn-premium:hover {
+  color: #FFCA16;
+}
+
+.btn-premium:hover::before {
+  transform: translateY(0);
 }
 
 .btn-premium-outline {
-  @apply inline-flex items-center justify-center px-10 py-5 border border-white/20 text-white text-[12px] font-bold uppercase tracking-[0.2em] transition-all duration-300 hover:bg-white hover:text-black hover:border-white;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 22px 44px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  overflow: hidden;
+  isolation: isolate;
+  transition: color 500ms cubic-bezier(0.22, 1, 0.36, 1), border-color 500ms;
+}
+
+.btn-premium-outline::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: #FFCA16;
+  transform: translateY(101%);
+  transition: transform 600ms cubic-bezier(0.65, 0, 0.35, 1);
+  z-index: -1;
+}
+
+.btn-premium-outline:hover {
+  color: #0a0a0a;
+  border-color: #FFCA16;
+}
+
+.btn-premium-outline:hover::before {
+  transform: translateY(0);
+}
+
+/* Magnetic underline link — for nav and inline links */
+.link-magnetic {
+  position: relative;
+  display: inline-block;
+  padding-bottom: 2px;
+}
+
+.link-magnetic::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 1px;
+  width: 100%;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right center;
+  transition: transform 500ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.link-magnetic:hover::after {
+  transform: scaleX(1);
+  transform-origin: left center;
+}
+
+/* Editorial image treatment */
+.img-editorial {
+  filter: contrast(1.02) saturate(0.95);
+  transition: transform 1.2s cubic-bezier(0.22, 1, 0.36, 1), filter 1.2s ease;
+}
+
+.img-editorial:hover {
+  transform: scale(1.03);
+  filter: contrast(1.05) saturate(1);
+}
+
+/* Marquee for intersticial sections */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 40s linear infinite;
+}
+
+/* Vertical caret divider */
+.caret-yellow {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  background: #FFCA16;
+  margin: 0 12px;
+  vertical-align: middle;
 }

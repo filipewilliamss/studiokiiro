@@ -51,11 +51,14 @@ const socialMediaItems = [
 const PortfolioSection = () => {
   const [activeTab, setActiveTab] = useState<"Identidade Visual" | "Redes Sociais">("Identidade Visual");
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [hoveredIndex, setHoveredIndex] = useState<number>(0);
 
   const tabs = [
     { id: "Identidade Visual", label: "Identidade Visual" },
     { id: "Redes Sociais", label: "Redes Sociais" },
   ];
+
+  const activePreview = projects[hoveredIndex] ?? projects[0];
 
   return (
     <section id="portfolio" className="relative section-padding bg-[#070807] grid-pattern border-t border-white/[0.05]">
@@ -70,18 +73,20 @@ const PortfolioSection = () => {
           <span className="inline-block px-4 py-1.5 border border-[#FFCA16] text-[#FFCA16] text-[11px] font-bold uppercase tracking-[3px] rounded-none mb-6">
             PORTFÓLIO
           </span>
-          <h2 className="font-display text-[40px] md:text-[56px] font-[800] text-white leading-tight tracking-[-2px] mb-6">
-            {activeTab === "Identidade Visual" ? "Identidade Visual" : "Artes para Mídias Sociais"}
+          <h2 className="font-display text-[40px] md:text-[64px] font-[800] text-white leading-[0.95] tracking-[-0.04em] mb-6 max-w-[14ch]">
+            {activeTab === "Identidade Visual"
+              ? "Projetos que transformam marcas em presença."
+              : "Artes para Mídias Sociais"}
           </h2>
-          <p className="text-white/60 text-lg md:text-xl max-w-3xl leading-relaxed">
-            {activeTab === "Identidade Visual" 
-              ? "Transformamos a essência do seu negócio em uma identidade visual estratégica, memorável e de alto impacto."
+          <p className="text-white/60 text-base md:text-lg max-w-[58ch] leading-relaxed">
+            {activeTab === "Identidade Visual"
+              ? "Trabalhos selecionados de identidade visual desenvolvidos para gerar percepção, diferenciação e valor de marca."
               : "Criamos artes que traduzem a essência da sua marca nas redes sociais — com design estratégico, identidade visual forte e conteúdos que geram resultados reais."}
           </p>
         </motion.div>
 
         {/* Tabs */}
-        <div className="flex flex-wrap gap-4 mb-12 md:mb-16">
+        <div className="flex flex-wrap gap-4 mb-12 md:mb-20">
           {tabs.map((tab) => (
             <button
               key={tab.id}
@@ -97,42 +102,147 @@ const PortfolioSection = () => {
           ))}
         </div>
 
-        <motion.div
-          layout
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8"
-        >
-          <AnimatePresence mode="popLayout">
-            {activeTab === "Identidade Visual" ? (
-              projects.map((project, i) => (
+        <AnimatePresence mode="wait">
+          {activeTab === "Identidade Visual" ? (
+            <motion.div
+              key="idv-showcase"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.4 }}
+              className="grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-10 lg:gap-16 items-start"
+            >
+              {/* ─── LISTA EDITORIAL ─── */}
+              <div className="border-t border-white/[0.08] order-2 lg:order-1">
+                {projects.map((project, i) => {
+                  const isActive = hoveredIndex === i;
+                  return (
+                    <motion.article
+                      key={project.id}
+                      initial={{ opacity: 0, y: 24 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true, amount: 0.3 }}
+                      transition={{ duration: 0.6, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] }}
+                      onMouseEnter={() => setHoveredIndex(i)}
+                      onClick={() => setSelectedProject(project)}
+                      className="group relative grid grid-cols-1 md:grid-cols-[100px_1fr_auto] gap-4 md:gap-8 items-start py-8 md:py-10 border-b border-white/[0.08] cursor-pointer transition-transform duration-500 ease-out hover:translate-x-2"
+                    >
+                      {/* Active indicator line on left */}
+                      <span
+                        className={`absolute left-0 top-1/2 -translate-y-1/2 h-[1px] bg-[#FFCA16] transition-all duration-500 ease-out ${
+                          isActive ? "w-8 opacity-100" : "w-0 opacity-0"
+                        }`}
+                        aria-hidden
+                      />
+
+                      {/* Meta */}
+                      <div className="flex md:flex-col gap-3 md:gap-2 items-baseline md:items-start">
+                        <span className="font-display text-[13px] font-bold tracking-[0.12em] text-white/35">
+                          {String(i + 1).padStart(2, "0")}
+                        </span>
+                        <span className="text-[11px] uppercase tracking-[0.2em] text-white/45">
+                          {project.category}
+                        </span>
+                      </div>
+
+                      {/* Content */}
+                      <div className="max-w-[520px]">
+                        <h3
+                          className={`font-display text-[28px] md:text-[36px] leading-[1] tracking-[-0.03em] font-semibold mb-3 transition-colors duration-500 ${
+                            isActive ? "text-[#FFCA16]" : "text-white"
+                          }`}
+                        >
+                          {project.title}
+                        </h3>
+                        <p className="text-white/55 text-[15px] leading-[1.7] font-light">
+                          {project.intro}
+                        </p>
+                      </div>
+
+                      {/* CTA */}
+                      <div className="md:self-center flex items-center gap-3 text-white/80 group-hover:text-[#FFCA16] transition-colors duration-500">
+                        <span className="text-[12px] uppercase tracking-[0.2em] font-medium whitespace-nowrap">
+                          Ver projeto
+                        </span>
+                        <span
+                          className="inline-block transition-transform duration-500 ease-out group-hover:translate-x-2"
+                          aria-hidden
+                        >
+                          →
+                        </span>
+                      </div>
+                    </motion.article>
+                  );
+                })}
+              </div>
+
+              {/* ─── PREVIEW STICKY ─── */}
+              <div className="order-1 lg:order-2 lg:sticky lg:top-32">
                 <motion.div
-                  key={`idv-${project.id}`}
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.9 }}
-                  transition={{ duration: 0.4, delay: i * 0.1 }}
-                  className="group cursor-pointer bg-white/[0.03] border border-white/[0.08] rounded-[2px] overflow-hidden transition-all duration-300 hover:border-[#FFCA16]/30 hover:bg-[#FFCA16]/[0.04] hover:-translate-y-1"
-                  onClick={() => setSelectedProject(project)}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+                  className="relative"
                 >
-                  <div className="relative aspect-[4/3] flex items-center justify-center p-6 bg-[#111111] overflow-hidden">
-                    <img
-                      src={project.logo}
-                      alt={project.title}
-                      className="w-[85%] h-full object-contain block"
-                    />
+                  {/* Caption acima */}
+                  <div className="hidden lg:flex items-center justify-between mb-5 text-[10px] uppercase tracking-[0.3em] text-white/35">
+                    <span>Preview</span>
+                    <span className="font-mono">
+                      {String(hoveredIndex + 1).padStart(2, "0")} / {String(projects.length).padStart(2, "0")}
+                    </span>
                   </div>
 
-                  <div className="p-[20px_24px] border-t border-white/[0.06]">
-                    <h3 className="font-display text-base font-semibold text-white mb-1">
-                      {project.title}
-                    </h3>
-                    <p className="text-[#FFCA16]/60 text-[12px] font-normal uppercase tracking-[1.5px]">
-                      {project.category}
-                    </p>
+                  <div className="relative aspect-[4/5] lg:aspect-[4/5] overflow-hidden border border-white/[0.08] bg-[#0b0b0b]">
+                    <AnimatePresence mode="wait">
+                      <motion.div
+                        key={activePreview.id}
+                        initial={{ opacity: 0, scale: 1.04 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.98 }}
+                        transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+                        className="absolute inset-0 flex items-center justify-center p-12"
+                        style={{ backgroundColor: activePreview.bgColor }}
+                      >
+                        <img
+                          src={activePreview.logo}
+                          alt={activePreview.title}
+                          className="w-[75%] h-[75%] object-contain"
+                        />
+                      </motion.div>
+                    </AnimatePresence>
+
+                    {/* Sutil overlay para textura editorial */}
+                    <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/20" />
                   </div>
+
+                  {/* Caption abaixo */}
+                  <AnimatePresence mode="wait">
+                    <motion.div
+                      key={`cap-${activePreview.id}`}
+                      initial={{ opacity: 0, y: 8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -8 }}
+                      transition={{ duration: 0.4 }}
+                      className="hidden lg:flex items-center justify-between mt-5 text-[11px] uppercase tracking-[0.2em]"
+                    >
+                      <span className="text-white/70 font-medium">{activePreview.title}</span>
+                      <span className="text-white/35">{activePreview.category}</span>
+                    </motion.div>
+                  </AnimatePresence>
                 </motion.div>
-              ))
-            ) : (
-              socialMediaItems.map((item, i) => (
+              </div>
+            </motion.div>
+          ) : (
+            <motion.div
+              key="sm-grid"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.4 }}
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8"
+            >
+              {socialMediaItems.map((item, i) => (
                 <motion.div
                   key={`sm-${item.id}`}
                   initial={{ opacity: 0, scale: 0.9 }}
@@ -157,10 +267,10 @@ const PortfolioSection = () => {
                     {item.description}
                   </p>
                 </motion.div>
-              ))
-            )}
-          </AnimatePresence>
-        </motion.div>
+              ))}
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
 
       <AnimatePresence>

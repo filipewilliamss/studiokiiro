@@ -1,31 +1,26 @@
 
-### Portfólio Editorial Premium — Estratégia de Implementação
+### Redirecionamento Autoral e Refinamento Editorial Premium
 
-Vou transformar a atual grade de portfólio em um **showcase editorial de alto impacto**, utilizando uma estrutura de lista vertical com preview visual dinâmico, inspirada em estúdios de design de luxo.
+Vou elevar a sofisticação do site, removendo padrões genéricos e focando em uma estética editorial de estúdio de luxo, com foco em tipografia dominante, composições assimétricas e microinterações de alto nível.
 
-**1. Reestruturação do Componente `PortfolioSection.tsx`**
-*   **Novo Layout:** Substituirei o grid atual por uma estrutura de duas colunas (Desktop):
-    *   **Esquerda (Lista):** Uma lista vertical elegante com os projetos. Cada item terá número (01, 02...), título forte, categoria e uma breve descrição.
-    *   **Direita (Preview):** Uma área `sticky` que exibe a imagem/mockup do projeto selecionado ou em hover, criando um efeito de "galeria dinâmica".
-*   **Interações de Hover:**
-    *   Ao passar o mouse sobre um projeto na lista, a imagem correspondente aparecerá na área de preview com uma transição suave.
-    *   O título do projeto ganhará destaque (cor `#FFCA16`), e um indicador visual (seta) surgirá.
-    *   A imagem no preview terá uma micro-animação de escala (`zoom-in` leve).
+**1. Estrutura e Ritmo Visual (`index.css` & `Index.tsx`)**
+*   **Aumento de Respiro:** Ampliação substancial do padding entre seções para permitir que cada bloco de conteúdo tenha foco total.
+*   **Intersticiais de Impacto:** Adição de seções de "respiro" com declarações tipográficas fortes entre os blocos de conteúdo principais, quebrando a linearidade do scroll.
 
-**2. Design & Estética Premium**
-*   **Tipografia:** Uso de `Poppins` com pesos variados (Extra-Bold para títulos, Regular/Light para descrições) e `letter-spacing` negativo nos títulos para o visual editorial.
-*   **Espaçamento:** Aumento do `padding` e respiro entre elementos para evitar a sensação de "template" e focar na direção de arte.
-*   **Linhas Sutis:** Divisórias em `rgba(255, 255, 255, 0.08)` para organizar a lista sem pesar visualmente.
-*   **Paleta:** Fundo preto profundo (`#070807`) com o amarelo (`#FFCA16`) usado apenas como acento de sofisticação.
+**2. Tipografia Dominante e Layouts Assimétricos**
+*   **Hero Section:** Reajuste da hierarquia para que a tipografia seja a protagonista absoluta. Implementação de animação de revelação por "split-text" e paralaxe suave no fundo.
+*   **About Section:** Transição para um layout assimétrico e "editorial". Adição de elementos tipográficos de fundo em escala monumental com opacidade mínima (estética de revista).
 
-**3. Conteúdo & Dados**
-*   Atualizarei os dados em `src/data/projects.ts` para refletir os exemplos solicitados (Abdoni Podstore, Construmir, Terapia do DNA, Terra Linda Cross), garantindo que cada um tenha sua descrição refinada.
+**3. Microinterações e Acabamento Premium**
+*   **Services Section:** Implementação de "hover reveal" dinâmico. Ao passar o mouse sobre um serviço, elementos visuais sutis surgem para guiar o olhar.
+*   **Process Section:** Refinamento da linha do tempo para torná-la mais fluida e integrada ao scroll, com números "sticky" que acompanham o movimento.
+*   **Navbar:** Links de navegação com interações mais elegantes (underline magnético ou transições de cor mais sofisticadas).
 
-**4. Responsividade Adaptativa**
-*   **Mobile/Tablet:** A lista deixará de ter preview lateral e cada projeto se tornará um bloco autônomo e bem organizado, mantendo a elegância mas adaptado ao toque e scroll vertical.
+**4. Imagens Protagonistas**
+*   Tratamento visual uniforme em todas as imagens (grão sutil, filtros de cor coerentes).
+*   Efeitos de "smooth reveal" e "lazy scale" ao entrar no viewport.
 
-**5. Animações com Framer Motion**
-*   Entradas suaves com `fade-up` e `stagger children` ao rolar a página.
-*   Transições de estado (hover) rápidas porém fluidas (duration ~0.3s).
+**5. Botões e CTAs**
+*   Evolução dos botões `btn-premium` para incluir microinterações de preenchimento líquido ou deslocamento de borda, fugindo do hover padrão de templates.
 
-Vou iniciar a implementação agora para entregar esse visual autoral e sofisticado.
+O resultado será um site que respira design, com um ritmo de leitura planejado e uma percepção de valor significativamente maior.

@@ -41,7 +41,7 @@ import type { Project } from "@/components/PortfolioSection";
 export const projects: Project[] = [
   {
     id: 1,
-    title: "Akedah Podcast",
+    title: "Abdoni Podstore",
     category: "Identidade Visual",
     bgColor: "#2D1A11",
     intro: "Uma identidade visual que traduz profundidade teológica em linguagem visual contemporânea — posicionando o podcast como referência no segmento.",
@@ -57,7 +57,7 @@ export const projects: Project[] = [
   },
   {
     id: 2,
-    title: "Construmar Marmoraria",
+    title: "Construmir",
     category: "Identidade Visual",
     bgColor: "#f5f4ef",
     intro: "Rebranding que elevou uma marmoraria tradicional ao patamar premium — comunicando sofisticação em cada ponto de contato.",
@@ -74,7 +74,7 @@ export const projects: Project[] = [
   },
   {
     id: 3,
-    title: "Templo de Deus",
+    title: "Terapia do DNA",
     category: "Identidade Visual",
     bgColor: "#191919",
     intro: "Uma marca que equilibra reverência e modernidade — conectando gerações através de uma identidade visual atemporal.",
@@ -90,7 +90,7 @@ export const projects: Project[] = [
   },
   {
     id: 4,
-    title: "Team Luisa Cross Training",
+    title: "Terra Linda Cross",
     category: "Identidade Visual",
     bgColor: "#1d1e1b",
     intro: "Energia, força e comunidade — traduzidos em uma marca dinâmica que inspira dentro e fora do box.",

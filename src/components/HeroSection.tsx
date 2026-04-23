@@ -98,40 +98,36 @@ const HeroSection = () => {
     };
 
     // Symbol geometry — local coords centered around (0,0)
-    // Two pairs of inclined bars forming the K-like Kiiro mark
-    const HALF_H = 170;          // half height of bars
-    const SLANT = 60;             // horizontal slant
-    const BAR_W = 22;             // width of each bar
-    const BAR_DEPTH = 22;         // 3D thickness
-    const STEP_LEN = 11;          // dot spacing along length
-    const STEP_W = 11;            // dot spacing across width
-    const STEP_Z = 11;            // dot spacing through depth
-    const GROUP_GAP = 18;         // gap between left and right groups
-    const PAIR_GAP = 38;          // gap between the two bars in a group
-
-    // LEFT GROUP — two bars leaning right (/ /)
-    buildBar(
-      -GROUP_GAP - PAIR_GAP - SLANT, HALF_H,
-      -GROUP_GAP - PAIR_GAP + SLANT, -HALF_H,
-      BAR_W, BAR_DEPTH, STEP_LEN, STEP_W, STEP_Z
-    );
-    buildBar(
-      -GROUP_GAP - SLANT, HALF_H,
-      -GROUP_GAP + SLANT, -HALF_H,
-      BAR_W, BAR_DEPTH, STEP_LEN, STEP_W, STEP_Z
-    );
-
-    // RIGHT GROUP — two bars leaning left (\ \)
-    buildBar(
-      GROUP_GAP - SLANT, -HALF_H,
-      GROUP_GAP + SLANT, HALF_H,
-      BAR_W, BAR_DEPTH, STEP_LEN, STEP_W, STEP_Z
-    );
-    buildBar(
-      GROUP_GAP + PAIR_GAP - SLANT, -HALF_H,
-      GROUP_GAP + PAIR_GAP + SLANT, HALF_H,
-      BAR_W, BAR_DEPTH, STEP_LEN, STEP_W, STEP_Z
-    );
+    // Structure: 4 vertical-ish bars with specific offsets to form the Kiiro mark.
+    // Each bar is built as a volumetric 3D grid.
+    const HALF_H = 160;          // height of bars
+    const BAR_W = 24;            // width of each bar
+    const BAR_DEPTH = 32;        // depth of the sculpture
+    const STEP_LEN = 10;         // dot spacing (density)
+    const STEP_W = 10;           // dot spacing (density)
+    const STEP_Z = 12;           // dot spacing (density)
+    
+    // The mark has 4 vertical bars.
+    // Offsets: -90, -30, 30, 90 (approximate relative centers)
+    const xOffsets = [-85, -35, 35, 85];
+    
+    xOffsets.forEach((xPos, idx) => {
+      // Alternate slant slightly or keep parallel for precise geometry
+      // Bar 1 & 2: / / (leaning right)
+      // Bar 3 & 4: \ \ (leaning left)
+      const isLeft = idx < 2;
+      const slant = isLeft ? 55 : -55;
+      
+      buildBar(
+        xPos - slant, HALF_H,
+        xPos + slant, -HALF_H,
+        BAR_W,
+        BAR_DEPTH,
+        STEP_LEN,
+        STEP_W,
+        STEP_Z
+      );
+    });
 
     // Camera / interaction state
     const target = { rx: 0, ry: 0 };

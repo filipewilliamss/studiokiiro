@@ -1,23 +1,23 @@
 
-### Escultura Digital 3D: Evolução do Símbolo Kiiro
+### Escultura Digital 3D: Redirecionamento Autoral do Símbolo Kiiro
 
-Vou substituir o elemento genérico de partículas por uma **escultura digital 3D autoral**, baseada no símbolo do Studio Kiiro, com profundidade real e interatividade refinada.
+Vou reconstruir o elemento visual do Hero, transformando o símbolo da marca em uma escultura digital 3D interativa, baseada em uma matriz de pontos (dot matrix) com profundidade real e comportamento orgânico.
 
-**1. Motor de Projeção 3D Customizado (`HeroSection.tsx`)**
-*   **Transição para 3D:** Substituirei o sistema 2D atual por um motor de projeção matemática (`perspective projection`) que transforma coordenadas `(x, y, z)` em pontos no canvas, criando profundidade genuína sem a necessidade de bibliotecas pesadas.
-*   **Volumetria do Símbolo:** As "faixas" do logo ganharão espessura no eixo Z, tornando-se prismas de luz compostos por uma matriz de pontos densa e precisa.
+**1. Motor de Projeção 3D em Canvas (`HeroSection.tsx`)**
+*   **Geometria Proprietária:** Mapeamento exato das 4 hastes do logotipo Kiiro em coordenadas 3D (X, Y, Z), criando uma estrutura volumétrica em vez de faixas 2D planas.
+*   **Projeção de Perspectiva:** Implementação de cálculo de câmera (focal length) para que as partículas ganhem profundidade real, diminuindo de tamanho e opacidade conforme se afastam no eixo Z.
 
-**2. Direção de Arte e Acabamento**
-*   **Dot Matrix Premium:** Os pontos serão menores e mais nítidos, com variações sutis de opacidade baseadas na distância (profundidade), simulando um objeto físico flutuante.
-*   **Paleta Coerente:** Foco total no amarelo dourado (`#FFCA16`) sobre o fundo preto profundo, com um efeito de "glow" sutil e elegante.
+**2. Sistema de Partículas "Dot Matrix"**
+*   **Distribuição Estruturada:** As partículas serão organizadas em uma grade ordenada que segue a geometria do símbolo, reforçando a estética de "escultura digital" e precisão técnica.
+*   **Dinâmica de Profundidade:** Cada ponto terá sua escala e transparência vinculadas à sua posição no espaço 3D, criando um efeito de "foco" e volume premium.
 
-**3. Dinâmica e Interatividade**
-*   **Rotação Cinemática:** O símbolo terá uma rotação suave e contínua (idle animation) e responderá ao movimento do mouse com uma rotação em X e Y, criando um efeito de paralaxe sofisticado.
-*   **Física de Partículas:** Manterei a interação de "repulsão" ao mouse, mas adaptada para o espaço 3D, fazendo com que o objeto pareça reagir ao toque digital.
-*   **Sensação de "Objeto Vivo":** Adição de uma oscilação senoidal (floating) para que o símbolo nunca pareça estático.
+**3. Interatividade e Coreografia Visual**
+*   **Parallax 3D Sensível:** O símbolo reagirá aos movimentos do mouse com rotações suaves nos eixos X e Y, permitindo ao usuário "ver" a profundidade da marca.
+*   **Animação de Respiração (Idle):** Movimento senoidal sutil e flutuação contínua para manter o elemento "vivo" sem ser distrativo.
+*   **Física de Atração/Repulsão:** Refinamento da interação onde as partículas se deslocam levemente com a proximidade do mouse, retornando à sua posição na matriz original com suavidade.
 
-**4. Performance e Refinamento**
-*   Otimização do loop de animação para garantir 60fps constantes.
-*   Ajuste de escala responsiva para que o símbolo mantenha sua força visual em dispositivos móveis, adaptando a densidade de partículas.
+**4. Estética de Luxo**
+*   **Paleta:** Uso exclusivo do Amarelo Dourado Kiiro (#FFCA16) com gradientes de brilho baseados na profundidade.
+*   **Minimalismo:** Remoção de excessos visuais (glows genéricos) em favor de um acabamento nítido e tipográfico.
 
-O resultado será um **key visual proprietário**, que comunica tecnologia, precisão e design de alto nível logo na primeira dobra do site.
+O resultado será um elemento de marca memorável que posiciona o Studio Kiiro como um estúdio de design tecnológico, autoral e sofisticado.

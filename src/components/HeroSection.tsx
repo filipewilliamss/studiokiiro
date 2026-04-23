@@ -165,13 +165,13 @@ const HeroSection = () => {
       const t = (now - startTime) / 1000;
       globalOpacity = Math.min((now - startTime) / fadeDuration, 1);
 
-      // Easing toward target rotation
-      current.rx += (target.rx - current.rx) * 0.06;
-      current.ry += (target.ry - current.ry) * 0.06;
+      // Easing toward target rotation (slow, elegant easing)
+      current.rx += (target.rx - current.rx) * 0.045;
+      current.ry += (target.ry - current.ry) * 0.045;
 
-      // Idle floating rotation
-      const idleRy = Math.sin(t * 0.45) * 0.06;
-      const idleRx = Math.cos(t * 0.35) * 0.04;
+      // Idle floating rotation (micro-oscillation)
+      const idleRy = Math.sin(t * 0.4) * 0.05;
+      const idleRx = Math.cos(t * 0.3) * 0.03;
       const rx = current.rx + idleRx;
       const ry = current.ry + idleRy;
 

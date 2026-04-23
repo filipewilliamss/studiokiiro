@@ -61,43 +61,50 @@ const PortfolioSection = () => {
   const activePreview = projects[hoveredIndex] ?? projects[0];
 
   return (
-    <section id="portfolio" className="relative section-padding bg-[#070807] grid-pattern border-t border-white/[0.05]">
-      <div className="container-editorial">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="mb-12 md:mb-16"
-        >
-          <span className="inline-block px-4 py-1.5 border border-[#FFCA16] text-[#FFCA16] text-[11px] font-bold uppercase tracking-[3px] rounded-none mb-6">
-            PORTFÓLIO
-          </span>
-          <h2 className="font-display text-[40px] md:text-[64px] font-[800] text-white leading-[0.95] tracking-[-0.04em] mb-6 max-w-[14ch]">
-            {activeTab === "Identidade Visual"
-              ? "Projetos que transformam marcas em presença."
-              : "Artes para Mídias Sociais"}
-          </h2>
-          <p className="text-white/60 text-base md:text-lg max-w-[58ch] leading-relaxed">
-            {activeTab === "Identidade Visual"
-              ? "Trabalhos selecionados de identidade visual desenvolvidos para gerar percepção, diferenciação e valor de marca."
-              : "Criamos artes que traduzem a essência da sua marca nas redes sociais — com design estratégico, identidade visual forte e conteúdos que geram resultados reais."}
-          </p>
-        </motion.div>
+    <section id="portfolio" className="relative section-padding bg-[#070807] border-t border-white/[0.05]">
+      {/* Grainy radial highlight */}
+      <div className="absolute left-[50%] top-[20%] -translate-x-1/2 w-[60%] aspect-square bg-[#FFCA16]/[0.02] rounded-full blur-[180px] pointer-events-none" />
 
-        {/* Tabs */}
-        <div className="flex flex-wrap gap-4 mb-12 md:mb-20">
+      <div className="container-editorial relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 mb-20 md:mb-32">
+          <div className="lg:col-span-8">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 1 }}
+            >
+              <span className="inline-block text-[#FFCA16] text-[11px] font-bold uppercase tracking-[0.4em] mb-8">
+                Portfolio Showcase
+              </span>
+              <h2 className="font-display text-[48px] md:text-[80px] font-[800] text-white leading-[0.85] tracking-extratight mb-10">
+                {activeTab === "Identidade Visual"
+                  ? "Marcas que deixam um legado visual."
+                  : "Presença digital estratégica."}
+              </h2>
+              <p className="text-white/50 text-lg md:text-xl max-w-3xl leading-relaxed font-light text-balance">
+                {activeTab === "Identidade Visual"
+                  ? "Trabalhos selecionados de identidade visual desenvolvidos para gerar percepção, diferenciação e valor de marca."
+                  : "Criamos artes que traduzem a essência da sua marca nas redes sociais com design estratégico e visual autoral."}
+              </p>
+            </motion.div>
+          </div>
+        </div>
+
+        {/* Tabs - Refined */}
+        <div className="flex flex-wrap gap-8 mb-20 md:mb-32 border-b border-white/5 pb-8">
           {tabs.map((tab) => (
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id as any)}
-              className={`px-8 py-3 text-xs font-bold uppercase tracking-[2px] transition-all duration-300 border ${
-                activeTab === tab.id
-                  ? "bg-[#FFCA16] text-black border-[#FFCA16]"
-                  : "bg-transparent text-white/40 border-white/10 hover:border-white/30"
+              className={`group relative text-[11px] font-bold uppercase tracking-[0.3em] py-2 transition-all duration-300 ${
+                activeTab === tab.id ? "text-[#FFCA16]" : "text-white/30 hover:text-white/60"
               }`}
             >
               {tab.label}
+              <span className={`absolute bottom-0 left-0 h-[1px] bg-[#FFCA16] transition-all duration-500 ${
+                activeTab === tab.id ? "w-full" : "w-0 group-hover:w-8"
+              }`} />
             </button>
           ))}
         </div>

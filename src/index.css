@@ -96,7 +96,7 @@ html.lenis {
 
 /* Transitions */
 .transition-premium {
-  @apply transition-all duration-500 ease-[0.22,1,0.36,1];
+  transition: all 500ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 /* Typography refinements */

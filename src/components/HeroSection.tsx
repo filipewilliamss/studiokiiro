@@ -231,9 +231,9 @@ const HeroSection = () => {
         sy += d.dy;
 
         // Depth-based scale & alpha
-        const depthN = (z2 + 60) / 120; // ~0..1
-        const scale = 1.05 + persp * 0.6;
-        const alpha = (0.35 + 0.65 * persp) * globalOpacity;
+        // Use a deeper focal range for better volumetric perception
+        const scale = 0.95 + persp * 0.7;
+        const alpha = (0.2 + 0.8 * (persp * persp)) * globalOpacity;
 
         projected.push({ sx, sy, scale, alpha, z: z2 });
       }
@@ -242,9 +242,11 @@ const HeroSection = () => {
 
       for (let i = 0; i < projected.length; i++) {
         const p = projected[i];
-        const r = Math.max(0.6, p.scale * 1.35);
+        const r = Math.max(0.5, p.scale * 1.25);
         ctx.beginPath();
         ctx.arc(p.sx, p.sy, r, 0, Math.PI * 2);
+        
+        // Use a subtle gradient or solid depending on depth
         ctx.fillStyle = '#FFCA16';
         ctx.globalAlpha = p.alpha;
         ctx.fill();

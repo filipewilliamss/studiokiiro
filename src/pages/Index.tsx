@@ -22,55 +22,96 @@ const Index = () => {
         {!loading && (
           <div className="flex flex-col">
             <Navbar />
-            <div className="relative">
+            
+            <motion.div
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 1.5, ease: [0.22, 1, 0.36, 1] }}
+            >
               <HeroSection />
-            </div>
+            </motion.div>
             
-            <div className="section-divider" />
+            <SectionDivider />
             
-            <div className="relative">
+            <motion.div
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+            >
               <EditorialMarquee variant="compact" />
-            </div>
+            </motion.div>
             
-            <div className="section-divider" />
+            <SectionDivider />
             
-            <div className="relative">
+            <motion.div
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+            >
               <AboutSection />
-            </div>
+            </motion.div>
             
-            <div className="section-divider" />
+            <SectionDivider />
             
-            <div className="relative">
+            <motion.div
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+            >
               <EditorialQuote
                 eyebrow="Direção Criativa"
                 quote="Design não é decoração — é a forma como uma marca pensa, fala e existe no mundo."
                 attribution="Filipe Williams · Studio Kiiro"
               />
-            </div>
+            </motion.div>
             
-            <div className="section-divider" />
+            <SectionDivider />
             
-            <div className="relative">
+            <motion.div
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+            >
               <ServicesSection />
-            </div>
+            </motion.div>
             
-            <div className="section-divider" />
+            <SectionDivider />
             
-            <div className="relative">
+            <motion.div
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+            >
               <ProcessSection />
-            </div>
+            </motion.div>
             
-            <div className="section-divider" />
+            <SectionDivider />
             
-            <div className="relative">
+            <motion.div
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+            >
               <PortfolioSection />
-            </div>
+            </motion.div>
             
-            <div className="section-divider" />
+            <SectionDivider />
             
-            <div className="relative">
+            <motion.div
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+            >
               <ContactSection />
-            </div>
+            </motion.div>
             
             <Footer />
           </div>
@@ -79,5 +120,15 @@ const Index = () => {
     </div>
   );
 };
+
+const SectionDivider = () => (
+  <motion.div 
+    initial={{ scaleX: 0, opacity: 0 }}
+    whileInView={{ scaleX: 1, opacity: 1 }}
+    viewport={{ once: true }}
+    transition={{ duration: 1.5, ease: [0.22, 1, 0.36, 1] }}
+    className="section-divider origin-center" 
+  />
+);
 
 export default Index;

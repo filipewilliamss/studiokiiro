@@ -3,26 +3,43 @@ import profilePicture from "@/assets/profile-picture.webp";
 
 const AboutSection = () => {
   return (
-    <section id="sobre" className="relative section-padding overflow-hidden bg-[#070807]">
+    <section id="sobre" className="relative section-padding overflow-hidden bg-[#070807] border-t border-white/[0.05]">
       {/* Subtle background element */}
       <div className="absolute right-[-10%] top-[20%] w-[40%] aspect-square bg-[#FFCA16]/[0.02] rounded-full blur-[150px] pointer-events-none" />
 
+      {/* Monumental background word */}
+      <motion.span
+        aria-hidden
+        initial={{ opacity: 0, x: -40 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 1.4, ease: [0.22, 1, 0.36, 1] }}
+        className="absolute -left-6 md:-left-10 top-[8%] font-display font-[800] text-white/[0.025] leading-none tracking-extratight pointer-events-none select-none"
+        style={{ fontSize: "clamp(140px, 22vw, 320px)" }}
+      >
+        sobre
+      </motion.span>
+
       <div className="container-editorial relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 items-start">
-          
+
           {/* Header Mobile & Desktop Title */}
-          <div className="lg:col-span-12 mb-8 lg:mb-20">
+          <div className="lg:col-span-12 mb-8 lg:mb-24">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 1 }}
+              className="flex flex-col"
             >
-              <span className="inline-block text-[#FFCA16] text-[11px] font-bold uppercase tracking-[0.4em] mb-6">
-                A Mente Criativa
-              </span>
-              <h2 className="font-display text-[48px] md:text-[80px] font-[800] text-white leading-[0.85] tracking-extratight max-w-4xl">
-                Design com <span className="text-[#FFCA16]">propósito</span> e visão estratégica.
+              <div className="flex items-center gap-4 mb-8">
+                <span className="w-12 h-[1px] bg-[#FFCA16]" />
+                <span className="text-[#FFCA16] text-[11px] font-bold uppercase tracking-[0.4em]">
+                  A Mente Criativa
+                </span>
+              </div>
+              <h2 className="font-display text-[52px] md:text-[88px] font-[800] text-white leading-[0.82] tracking-[-0.05em] max-w-5xl">
+                Design com <span className="text-[#FFCA16] italic font-light">propósito</span> e visão estratégica.
               </h2>
             </motion.div>
           </div>

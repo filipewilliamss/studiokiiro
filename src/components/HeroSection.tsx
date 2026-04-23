@@ -163,32 +163,47 @@ const HeroSection = () => {
       {/* Radial Gradient for depth */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,rgba(255,202,22,0.05)_0%,transparent_50%)] pointer-events-none" />
 
-      <div className="relative z-10 container-editorial w-full flex flex-col lg:flex-row items-center gap-12">
+      {/* Top meta bar — editorial detail */}
+      <motion.div
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1, delay: 0.4 }}
+        className="absolute top-28 md:top-32 left-0 right-0 z-10 hidden md:block"
+      >
+        <div className="container-editorial flex items-center justify-between text-[10px] uppercase tracking-[0.4em] text-white/30 font-bold">
+          <span>(01) — São Paulo · BR</span>
+          <span className="hidden lg:inline">Branding · Editorial · Digital</span>
+          <span className="font-mono">N°2026</span>
+        </div>
+      </motion.div>
+
+      <div className="relative z-10 container-editorial w-full flex flex-col lg:flex-row items-center gap-12 pt-24 lg:pt-16">
         <div className="w-full lg:w-[65%] flex flex-col items-start" ref={headlineRef}>
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
-            className="mb-8"
+            className="mb-10 flex items-center gap-4"
           >
-            <span className="text-[#FFCA16] text-[12px] font-bold uppercase tracking-[0.4em]">
+            <span className="w-12 h-[1px] bg-[#FFCA16]" />
+            <span className="text-[#FFCA16] text-[11px] font-bold uppercase tracking-[0.4em]">
               Creative Design Studio
             </span>
           </motion.div>
 
-          <h1 
-            className="text-white font-[800] leading-[0.85] text-left tracking-extratight font-display"
-            style={{ fontSize: 'clamp(56px, 10vw, 110px)' }}
+          <h1
+            className="text-white font-[800] leading-[0.82] text-left tracking-[-0.05em] font-display"
+            style={{ fontSize: 'clamp(64px, 11vw, 132px)' }}
           >
             Design que <br />
-            gera <span className="text-[#FFCA16] italic">valor.</span>
+            gera <span className="text-[#FFCA16] italic font-light">valor.</span>
           </h1>
 
-          <p className="mt-10 text-white/50 text-[18px] md:text-[20px] max-w-[540px] text-left font-light leading-relaxed font-display text-balance">
+          <p className="mt-12 text-white/55 text-[18px] md:text-[20px] max-w-[520px] text-left font-light leading-[1.7] font-display text-balance">
             Transformamos marcas através de design estratégico e visual autoral de alto impacto. Do branding completo ao digital.
           </p>
 
-          <div className="mt-14 flex flex-col sm:flex-row gap-6 items-center w-full sm:w-auto">
+          <div className="mt-16 flex flex-col sm:flex-row gap-5 items-stretch sm:items-center w-full sm:w-auto">
             <a
               href="#portfolio"
               className="btn-premium w-full sm:w-auto"

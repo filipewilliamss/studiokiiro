@@ -91,99 +91,95 @@ const PortfolioSection = () => {
         </div>
 
         {/* ─────────────── SHOWCASE GRID ─────────────── */}
-        <div className="grid grid-cols-1 lg:grid-cols-[1.05fr_0.95fr] gap-10 lg:gap-20 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-10 lg:gap-24 items-start">
           {/* ─── LISTA EDITORIAL ─── */}
-          <div className="border-t border-white/[0.08] order-2 lg:order-1">
+          <div className="order-2 lg:order-1">
             {projects.map((project, i) => {
               const isActive = activeIndex === i;
               return (
                 <motion.article
                   key={project.id}
-                  initial={{ opacity: 0, y: 24 }}
+                  initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, amount: 0.25 }}
+                  viewport={{ once: true, amount: 0.2 }}
                   transition={{
-                    duration: 0.7,
-                    delay: i * 0.1,
+                    duration: 0.9,
+                    delay: i * 0.12,
                     ease: [0.22, 1, 0.36, 1],
                   }}
                   onMouseEnter={() => setActiveIndex(i)}
                   onFocus={() => setActiveIndex(i)}
                   onClick={() => setSelectedProject(project)}
                   tabIndex={0}
-                  className="group relative block py-10 md:py-12 border-b border-white/[0.08] cursor-pointer outline-none focus-visible:bg-white/[0.015] transition-[transform,background-color] duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] hover:translate-x-[6px]"
+                  className="group relative block py-14 md:py-20 border-b border-white/[0.06] cursor-pointer outline-none transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] hover:translate-x-3"
                 >
-                  {/* Active marker */}
-                  <span
-                    aria-hidden
-                    className={`absolute left-0 top-1/2 -translate-y-1/2 h-[1px] bg-[#FFCA16] transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] ${
-                      isActive ? "w-10 opacity-100" : "w-0 opacity-0"
-                    }`}
-                  />
-
-                  <div className="grid grid-cols-1 md:grid-cols-[80px_1fr_auto] gap-5 md:gap-10 items-start md:items-center">
-                    {/* Index */}
-                    <span
-                      className={`font-mono text-[12px] tracking-[0.2em] transition-colors duration-500 ${
-                        isActive ? "text-[#FFCA16]" : "text-white/35"
-                      }`}
-                    >
-                      {String(i + 1).padStart(2, "0")}
-                    </span>
-
-                    {/* Content */}
-                    <div className="max-w-[520px]">
-                      <div className="flex items-center gap-3 mb-3">
-                        <span className="text-[10px] uppercase tracking-[0.3em] text-white/40">
+                  <div className="flex flex-col md:flex-row md:items-center justify-between gap-8 md:gap-12">
+                    <div className="flex-1">
+                      {/* Meta info */}
+                      <div className="flex items-center gap-4 mb-6">
+                        <span className={`font-mono text-[11px] tracking-[0.2em] transition-colors duration-500 ${
+                          isActive ? "text-[#FFCA16]" : "text-white/20"
+                        }`}>
+                          {String(i + 1).padStart(2, "0")}
+                        </span>
+                        <div className={`h-[1px] bg-white/10 transition-all duration-700 ${isActive ? "w-12 bg-[#FFCA16]/40" : "w-8"}`} />
+                        <span className="text-[10px] uppercase tracking-[0.3em] text-white/30">
                           {project.category}
                         </span>
                       </div>
 
+                      {/* Title with monumental presence */}
                       <h3
-                        className={`font-display text-[30px] md:text-[42px] leading-[1] tracking-[-0.035em] font-[700] mb-4 transition-colors duration-500 ${
+                        className={`font-display text-[38px] md:text-[56px] lg:text-[64px] leading-[0.95] tracking-[-0.04em] font-[700] mb-8 transition-colors duration-700 ${
                           isActive ? "text-[#FFCA16]" : "text-white"
                         }`}
                       >
                         {project.title}
                       </h3>
 
-                      <p className="text-white/55 text-[14.5px] leading-[1.7] font-light mb-5 max-w-[480px]">
-                        {project.intro}
-                      </p>
+                      {/* Decription & Tags — only visible when active/hovered on large screens for cleaner editorial look, or always on mobile */}
+                      <div className={`overflow-hidden transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+                        isActive ? "max-h-[300px] opacity-100 mt-0" : "max-h-0 opacity-0 lg:max-h-0 lg:opacity-0"
+                      }`}>
+                        <p className="text-white/50 text-[16px] leading-[1.6] font-light mb-8 max-w-[480px]">
+                          {project.intro}
+                        </p>
 
-                      {/* Tags */}
-                      <div className="flex flex-wrap gap-2">
-                        {project.tags.slice(0, 3).map((tag) => (
-                          <span
-                            key={tag}
-                            className="text-[10px] uppercase tracking-[0.18em] text-white/45 border border-white/10 px-2.5 py-1"
-                          >
-                            {tag}
-                          </span>
-                        ))}
+                        <div className="flex flex-wrap gap-2">
+                          {project.tags.slice(0, 3).map((tag) => (
+                            <span
+                              key={tag}
+                              className="text-[9px] uppercase tracking-[0.15em] text-white/40 border border-white/10 px-3 py-1.5"
+                            >
+                              {tag}
+                            </span>
+                          ))}
+                        </div>
                       </div>
                     </div>
 
-                    {/* CTA */}
-                    <div className="md:self-center flex items-center gap-3 transition-colors duration-500 group-hover:text-[#FFCA16] text-white/70">
-                      <span className="text-[11px] uppercase tracking-[0.28em] font-medium whitespace-nowrap">
-                        Ver case
-                      </span>
-                      {/* Arrow swap animation */}
-                      <span className="relative inline-block w-5 h-3 overflow-hidden">
-                        <span
-                          className="absolute inset-0 flex items-center transition-transform duration-500 ease-[cubic-bezier(0.65,0,0.35,1)] group-hover:translate-x-6"
-                          aria-hidden
-                        >
-                          →
+                    {/* CTA with refined interaction */}
+                    <div className="flex items-center gap-4 group/cta">
+                      <div className={`w-12 h-12 rounded-full border border-white/10 flex items-center justify-center transition-all duration-500 ${
+                        isActive ? "border-[#FFCA16] bg-[#FFCA16]/5 scale-110" : "group-hover:border-white/30"
+                      }`}>
+                        <span className="relative w-6 h-6 overflow-hidden">
+                          <span className={`absolute inset-0 flex items-center justify-center transition-transform duration-500 ease-[cubic-bezier(0.65,0,0.35,1)] ${
+                            isActive ? "translate-x-8" : "group-hover:translate-x-8"
+                          }`}>
+                            <svg width="18" height="14" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M1 7H17M17 7L11 1M17 7L11 13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                            </svg>
+                          </span>
+                          <span className={`absolute inset-0 flex items-center justify-center -translate-x-8 transition-transform duration-500 ease-[cubic-bezier(0.65,0,0.35,1)] ${
+                            isActive ? "translate-x-0" : "group-hover:translate-x-0"
+                          }`}>
+                            <svg width="18" height="14" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-[#FFCA16]">
+                              <path d="M1 7H17M17 7L11 1M17 7L11 13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                            </svg>
+                          </span>
                         </span>
-                        <span
-                          className="absolute inset-0 flex items-center -translate-x-6 transition-transform duration-500 ease-[cubic-bezier(0.65,0,0.35,1)] group-hover:translate-x-0"
-                          aria-hidden
-                        >
-                          →
-                        </span>
-                      </span>
+                      </div>
                     </div>
                   </div>
                 </motion.article>
@@ -191,116 +187,117 @@ const PortfolioSection = () => {
             })}
           </div>
 
-          {/* ─── PREVIEW STICKY ─── */}
-          <div className="order-1 lg:order-2 lg:sticky lg:top-28 hidden lg:block">
+          {/* ─── PREVIEW STICKY (O palco principal) ─── */}
+          <div className="order-1 lg:order-2 lg:sticky lg:top-32 hidden lg:block">
             <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
               className="relative"
             >
-              {/* Caption above */}
-              <div className="flex items-center justify-between mb-4 text-[10px] uppercase tracking-[0.35em] text-white/35">
-                <span>Preview · Live</span>
-                <span className="font-mono">
-                  {String(activeIndex + 1).padStart(2, "0")} /{" "}
-                  {String(projects.length).padStart(2, "0")}
-                </span>
+              {/* Technical meta overlay */}
+              <div className="absolute -top-12 left-0 w-full flex items-end justify-between px-2">
+                <div className="flex flex-col gap-1">
+                  <span className="text-[9px] uppercase tracking-[0.4em] text-white/20">Case File</span>
+                  <span className="text-[11px] font-mono text-white/40">REF: {activePreview.id.toString().padStart(4, '0')}</span>
+                </div>
+                <div className="flex flex-col items-end gap-1">
+                  <span className="text-[9px] uppercase tracking-[0.4em] text-white/20">Selection</span>
+                  <span className="text-[11px] font-mono text-white/40">{(activeIndex + 1).toString().padStart(2, '0')} / {projects.length.toString().padStart(2, '0')}</span>
+                </div>
               </div>
 
-              {/* Frame */}
-              <div className="relative aspect-[4/5] overflow-hidden border border-white/[0.08] bg-[#0b0b0b]">
-                {/* Corner brackets */}
-                <span className="absolute top-3 left-3 w-3 h-3 border-l border-t border-[#FFCA16]/60 z-20" />
-                <span className="absolute top-3 right-3 w-3 h-3 border-r border-t border-[#FFCA16]/60 z-20" />
-                <span className="absolute bottom-3 left-3 w-3 h-3 border-l border-b border-[#FFCA16]/60 z-20" />
-                <span className="absolute bottom-3 right-3 w-3 h-3 border-r border-b border-[#FFCA16]/60 z-20" />
-
-                {/* Project number badge */}
-                <div className="absolute top-5 right-5 z-20 text-[10px] uppercase tracking-[0.3em] font-mono text-[#FFCA16]/80">
-                  N° {String(activePreview.id).padStart(3, "0")}
-                </div>
-
+              {/* The "Stage" — Large and impactul */}
+              <div className="relative aspect-[4/5] overflow-hidden border border-white/[0.05] bg-[#080808] shadow-[0_0_80px_rgba(0,0,0,0.5)]">
+                {/* Abstract graphic accents */}
+                <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-white/5 to-transparent" />
+                <div className="absolute top-0 left-0 w-[1px] h-full bg-gradient-to-b from-transparent via-white/5 to-transparent" />
+                
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={activePreview.id}
-                    initial={{ opacity: 0, scale: 1.04, y: 12 }}
-                    animate={{ opacity: 1, scale: 1, y: 0 }}
-                    exit={{ opacity: 0, scale: 0.98, y: -12 }}
+                    initial={{ opacity: 0, scale: 1.1 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.95 }}
                     transition={{
-                      duration: 0.85,
+                      duration: 0.9,
                       ease: [0.22, 1, 0.36, 1],
                     }}
-                    className="absolute inset-0 flex items-center justify-center p-14"
-                    style={{ backgroundColor: activePreview.bgColor }}
+                    className="absolute inset-0 flex items-center justify-center p-20"
+                    style={{ 
+                      background: `radial-gradient(circle at center, ${activePreview.bgColor}22 0%, #080808 100%)`
+                    }}
                   >
-                    <img
-                      src={activePreview.logo}
-                      alt={activePreview.title}
-                      className="w-[72%] h-[72%] object-contain"
-                    />
+                    {/* Floating Logo - Shadow creates depth */}
+                    <div className="relative w-[75%] h-[75%] flex items-center justify-center">
+                      <motion.div
+                        animate={{ 
+                          y: [0, -10, 0],
+                        }}
+                        transition={{
+                          duration: 4,
+                          repeat: Infinity,
+                          ease: "easeInOut"
+                        }}
+                        className="relative z-10 w-full h-full flex items-center justify-center"
+                      >
+                        <img
+                          src={activePreview.logo}
+                          alt={activePreview.title}
+                          className="max-w-full max-h-full object-contain filter drop-shadow-[0_20px_40px_rgba(0,0,0,0.4)]"
+                        />
+                      </motion.div>
+                      
+                      {/* Abstract depth ring */}
+                      <div className="absolute inset-0 rounded-full border border-white/5 scale-150 opacity-20" />
+                    </div>
                   </motion.div>
                 </AnimatePresence>
 
-                {/* Subtle vignette */}
-                <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/30" />
+                {/* Film grain texture specific to preview for premium feel */}
+                <div className="absolute inset-0 pointer-events-none opacity-[0.03] mix-blend-overlay bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
+                
+                {/* Interactive cursor follow hint or small corner info */}
+                <div className="absolute bottom-8 left-8 right-8 flex items-center justify-between">
+                  <div className="h-[1px] flex-1 bg-white/10" />
+                  <span className="px-6 text-[9px] uppercase tracking-[0.5em] text-[#FFCA16]/60 font-medium">Verified Case</span>
+                  <div className="h-[1px] flex-1 bg-white/10" />
+                </div>
               </div>
 
-              {/* Caption below */}
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={`cap-${activePreview.id}`}
-                  initial={{ opacity: 0, y: 8 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -8 }}
-                  transition={{ duration: 0.45 }}
-                  className="flex items-center justify-between mt-5 text-[11px] uppercase tracking-[0.25em]"
+              {/* Bottom detail for context */}
+              <div className="mt-8 flex items-start justify-between">
+                <div>
+                  <h4 className="text-white text-[13px] font-bold tracking-[0.1em] uppercase mb-1">{activePreview.title}</h4>
+                  <p className="text-white/30 text-[10px] uppercase tracking-[0.2em]">{activePreview.category}</p>
+                </div>
+                <button
+                  onClick={() => setSelectedProject(activePreview)}
+                  className="px-6 py-2.5 bg-white/5 border border-white/10 text-[10px] uppercase tracking-[0.3em] font-bold text-white hover:bg-[#FFCA16] hover:text-black hover:border-[#FFCA16] transition-all duration-500"
                 >
-                  <span className="text-white/75 font-medium">
-                    {activePreview.title}
-                  </span>
-                  <span className="text-white/35 font-mono">
-                    {activePreview.category}
-                  </span>
-                </motion.div>
-              </AnimatePresence>
-
-              {/* CTA case */}
-              <button
-                onClick={() => setSelectedProject(activePreview)}
-                className="mt-8 group flex items-center gap-3 text-[11px] uppercase tracking-[0.28em] font-medium text-white/70 hover:text-[#FFCA16] transition-colors duration-500"
-              >
-                <span className="relative pb-1">
-                  Abrir case completo
-                  <span className="absolute left-0 bottom-0 h-[1px] w-full bg-current scale-x-0 group-hover:scale-x-100 origin-right group-hover:origin-left transition-transform duration-500" />
-                </span>
-                <span className="inline-block transition-transform duration-500 group-hover:translate-x-2">
-                  →
-                </span>
-              </button>
+                  Explore Details
+                </button>
+              </div>
             </motion.div>
           </div>
 
-          {/* ─── MOBILE PREVIEW (per project) ─── */}
-          <div className="lg:hidden order-1 mb-4">
-            <div className="relative aspect-[4/5] overflow-hidden border border-white/[0.08] bg-[#0b0b0b]">
-              <span className="absolute top-3 left-3 w-3 h-3 border-l border-t border-[#FFCA16]/60 z-20" />
-              <span className="absolute top-3 right-3 w-3 h-3 border-r border-t border-[#FFCA16]/60 z-20" />
-              <span className="absolute bottom-3 left-3 w-3 h-3 border-l border-b border-[#FFCA16]/60 z-20" />
-              <span className="absolute bottom-3 right-3 w-3 h-3 border-r border-b border-[#FFCA16]/60 z-20" />
+          {/* ─── MOBILE PREVIEW ─── */}
+          <div className="lg:hidden order-1 mb-8">
+            <div className="relative aspect-[16/10] overflow-hidden border border-white/5 bg-[#0b0b0b]">
               <div
-                className="absolute inset-0 flex items-center justify-center p-10"
+                className="absolute inset-0 flex items-center justify-center p-12"
                 style={{ backgroundColor: projects[0].bgColor }}
               >
                 <img
                   src={projects[0].logo}
                   alt={projects[0].title}
-                  className="w-[70%] h-[70%] object-contain"
+                  className="w-[60%] h-[60%] object-contain"
                 />
               </div>
             </div>
           </div>
+
         </div>
 
         {/* ─────────────── CTA FINAL ─────────────── */}

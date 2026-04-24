@@ -77,7 +77,7 @@ export const projects: Project[] = [
       akedahPag1, akedahPag2, akedahPag3, akedahPag4, akedahPag5,
       akedahPag6, akedahPag7, akedahPag8, akedahPag9, akedahPag10, akedahPag11,
     ],
-    client: "Abdoni Podstore",
+    client: "Akedah Podcast",
     year: "2024",
     service: "Identidade Visual Completa",
     deliverables: ["Logotipo principal", "Manual de marca (11 páginas)", "Sistema tipográfico", "Paleta cromática", "Aplicações"],

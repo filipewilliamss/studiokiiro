@@ -14,12 +14,12 @@ const CustomCursor = () => {
 
   // Configuration for the trail circles - following the leader to prevent overtaking
   const trailConfigs = [
-    { damping: 30, stiffness: 500, mass: 0.4 },
-    { damping: 35, stiffness: 400, mass: 0.45 },
-    { damping: 40, stiffness: 300, mass: 0.5 },
-    { damping: 45, stiffness: 200, mass: 0.55 },
-    { damping: 50, stiffness: 150, mass: 0.6 },
-    { damping: 55, stiffness: 100, mass: 0.65 },
+    { damping: 25, stiffness: 900, mass: 0.3 },
+    { damping: 30, stiffness: 800, mass: 0.35 },
+    { damping: 35, stiffness: 700, mass: 0.4 },
+    { damping: 40, stiffness: 600, mass: 0.45 },
+    { damping: 45, stiffness: 500, mass: 0.5 },
+    { damping: 50, stiffness: 400, mass: 0.55 },
   ];
 
   const trail1X = useSpring(mainX, trailConfigs[0]);

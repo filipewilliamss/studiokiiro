@@ -91,27 +91,27 @@ const CustomCursor = () => {
       {/* Trails 6 to 1 (back to front order) */}
       <motion.div
         style={{ x: trail6X, y: trail6Y }}
-        className={`absolute w-1 h-1 -ml-0.5 -mt-0.5 rounded-full transition-colors duration-300 ${cursorColor}`}
+        className={`absolute z-10 w-1 h-1 -ml-0.5 -mt-0.5 rounded-full transition-colors duration-300 ${cursorColor}`}
       />
       <motion.div
         style={{ x: trail5X, y: trail5Y }}
-        className={`absolute w-2 h-2 -ml-1 -mt-1 rounded-full transition-colors duration-300 ${cursorColor}`}
+        className={`absolute z-20 w-2 h-2 -ml-1 -mt-1 rounded-full transition-colors duration-300 ${cursorColor}`}
       />
       <motion.div
         style={{ x: trail4X, y: trail4Y }}
-        className={`absolute w-3 h-3 -ml-1.5 -mt-1.5 rounded-full transition-colors duration-300 ${cursorColor}`}
+        className={`absolute z-30 w-3 h-3 -ml-1.5 -mt-1.5 rounded-full transition-colors duration-300 ${cursorColor}`}
       />
       <motion.div
         style={{ x: trail3X, y: trail3Y }}
-        className={`absolute w-4 h-4 -ml-2 -mt-2 rounded-full transition-colors duration-300 ${cursorColor}`}
+        className={`absolute z-40 w-4 h-4 -ml-2 -mt-2 rounded-full transition-colors duration-300 ${cursorColor}`}
       />
       <motion.div
         style={{ x: trail2X, y: trail2Y }}
-        className={`absolute w-5 h-5 -ml-2.5 -mt-2.5 rounded-full transition-colors duration-300 ${cursorColor}`}
+        className={`absolute z-50 w-5 h-5 -ml-2.5 -mt-2.5 rounded-full transition-colors duration-300 ${cursorColor}`}
       />
       <motion.div
         style={{ x: trail1X, y: trail1Y }}
-        className={`absolute w-6 h-6 -ml-3 -mt-3 rounded-full transition-colors duration-300 ${cursorColor}`}
+        className={`absolute z-[60] w-6 h-6 -ml-3 -mt-3 rounded-full transition-colors duration-300 ${cursorColor}`}
       />
 
       {/* Main Cursor (on top) */}

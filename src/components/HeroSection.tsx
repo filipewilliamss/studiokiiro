@@ -365,7 +365,7 @@ const HeroSection = () => {
           <canvas 
             ref={canvasRef}
             id="hero-canvas"
-            className="relative z-10 cursor-crosshair"
+            className="relative z-10 cursor-none"
           />
         </div>
       </div>

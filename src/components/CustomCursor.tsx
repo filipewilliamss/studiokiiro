@@ -8,23 +8,37 @@ const CustomCursor = () => {
   const mouseX = useMotionValue(-100);
   const mouseY = useMotionValue(-100);
 
-  // Smooth springs for the main cursor and trails
-  const springConfig = { damping: 20, stiffness: 250, mass: 0.5 };
+  // Smooth springs for the main cursor - adjusted for more responsiveness
+  const springConfig = { damping: 25, stiffness: 450, mass: 0.5 };
   const mainX = useSpring(mouseX, springConfig);
   const mainY = useSpring(mouseY, springConfig);
 
-  // Springs for trailers with increasing delay/damping
-  const trail1X = useSpring(mouseX, { damping: 25, stiffness: 180, mass: 0.6 });
-  const trail1Y = useSpring(mouseY, { damping: 25, stiffness: 180, mass: 0.6 });
-  
-  const trail2X = useSpring(mouseX, { damping: 30, stiffness: 120, mass: 0.7 });
-  const trail2Y = useSpring(mouseY, { damping: 30, stiffness: 120, mass: 0.7 });
+  // Configuration for the 6 trail circles with increasing delay
+  const trailConfigs = [
+    { damping: 25, stiffness: 350, mass: 0.5 },
+    { damping: 28, stiffness: 280, mass: 0.55 },
+    { damping: 31, stiffness: 220, mass: 0.6 },
+    { damping: 34, stiffness: 170, mass: 0.65 },
+    { damping: 37, stiffness: 130, mass: 0.7 },
+    { damping: 40, stiffness: 100, mass: 0.75 },
+  ];
 
-  const trail3X = useSpring(mouseX, { damping: 35, stiffness: 80, mass: 0.8 });
-  const trail3Y = useSpring(mouseY, { damping: 35, stiffness: 80, mass: 0.8 });
+  const trail1X = useSpring(mouseX, trailConfigs[0]);
+  const trail1Y = useSpring(mouseY, trailConfigs[0]);
+  const trail2X = useSpring(mouseX, trailConfigs[1]);
+  const trail2Y = useSpring(mouseY, trailConfigs[1]);
+  const trail3X = useSpring(mouseX, trailConfigs[2]);
+  const trail3Y = useSpring(mouseY, trailConfigs[2]);
+  const trail4X = useSpring(mouseX, trailConfigs[3]);
+  const trail4Y = useSpring(mouseY, trailConfigs[3]);
+  const trail5X = useSpring(mouseX, trailConfigs[4]);
+  const trail5Y = useSpring(mouseY, trailConfigs[4]);
+  const trail6X = useSpring(mouseX, trailConfigs[5]);
+  const trail6Y = useSpring(mouseY, trailConfigs[5]);
 
   const [velocity, setVelocity] = useState(0);
   const lastPos = useRef({ x: 0, y: 0, time: Date.now() });
+  const timeoutRef = useRef<number | null>(null);
 
   useEffect(() => {
     const checkMobile = () => {
@@ -45,19 +59,24 @@ const CustomCursor = () => {
         const dx = clientX - lastPos.current.x;
         const dy = clientY - lastPos.current.y;
         const dist = Math.sqrt(dx * dx + dy * dy);
+        // Higher sensitivity for velocity
         const v = Math.min(dist / dt, 5); 
-        setVelocity(prev => prev * 0.9 + v * 0.1); 
+        setVelocity(v); 
       }
       lastPos.current = { x: clientX, y: clientY, time: now };
+
+      // Set velocity to 0 if mouse hasn't moved for a bit
+      if (timeoutRef.current) window.clearTimeout(timeoutRef.current);
+      timeoutRef.current = window.setTimeout(() => {
+        setVelocity(0);
+      }, 50);
 
       // Check for elements under cursor
       const element = document.elementFromPoint(clientX, clientY);
       if (element) {
-        // Check if hovering interactive elements
         const interactive = element.closest('a, button, [role="button"], input, select, textarea');
         setIsHovering(!!interactive);
 
-        // Check for white background/text
         const style = window.getComputedStyle(element);
         const color = style.color;
         const bgColor = style.backgroundColor;
@@ -85,25 +104,37 @@ const CustomCursor = () => {
 
   if (isMobile) return null;
 
-  const trailOpacity = Math.max(0.05, Math.min((velocity - 0.1) * 0.6, 0.8));
+  // Trail opacity logic: 1 when moving (velocity > 0.05), 0 when stopped
+  const trailOpacity = velocity > 0.1 ? 1 : 0;
 
   return (
     <div className="fixed inset-0 pointer-events-none z-[9999] overflow-hidden">
-      {/* Trail 3 (Smallest - White) */}
+      {/* Trails 6 to 1 (back to front order) */}
+      <motion.div
+        style={{ x: trail6X, y: trail6Y, opacity: trailOpacity }}
+        className="absolute w-1.5 h-1.5 -ml-0.75 -mt-0.75 rounded-full bg-[#FFCA16] blur-[0.5px] transition-opacity duration-200"
+      />
+      <motion.div
+        style={{ x: trail5X, y: trail5Y, opacity: trailOpacity }}
+        className="absolute w-1.5 h-1.5 -ml-0.75 -mt-0.75 rounded-full bg-white blur-[0.5px] transition-opacity duration-200"
+      />
+      <motion.div
+        style={{ x: trail4X, y: trail4Y, opacity: trailOpacity }}
+        className="absolute w-2 h-2 -ml-1 -mt-1 rounded-full bg-[#FFCA16] blur-[0.5px] transition-opacity duration-200"
+      />
       <motion.div
         style={{ x: trail3X, y: trail3Y, opacity: trailOpacity }}
-        className="absolute w-1.5 h-1.5 -ml-0.75 -mt-0.75 rounded-full bg-white blur-[1px]"
+        className="absolute w-2 h-2 -ml-1 -mt-1 rounded-full bg-white blur-[0.5px] transition-opacity duration-200"
       />
-      {/* Trail 2 (Middle - Yellow) */}
       <motion.div
         style={{ x: trail2X, y: trail2Y, opacity: trailOpacity }}
-        className="absolute w-2.5 h-2.5 -ml-1.25 -mt-1.25 rounded-full bg-[#FFCA16] blur-[0.5px]"
+        className="absolute w-2.5 h-2.5 -ml-1.25 -mt-1.25 rounded-full bg-[#FFCA16] blur-[0.5px] transition-opacity duration-200"
       />
-      {/* Trail 1 (Largest - White) */}
       <motion.div
         style={{ x: trail1X, y: trail1Y, opacity: trailOpacity }}
-        className="absolute w-3.5 h-3.5 -ml-1.75 -mt-1.75 rounded-full bg-white blur-[0.5px]"
+        className="absolute w-3 h-3 -ml-1.5 -mt-1.5 rounded-full bg-white blur-[0.5px] transition-opacity duration-200"
       />
+
       {/* Main Cursor */}
       <motion.div
         style={{ x: mainX, y: mainY }}
@@ -118,5 +149,3 @@ const CustomCursor = () => {
 };
 
 export default CustomCursor;
-
-

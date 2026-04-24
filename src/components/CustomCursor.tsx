@@ -38,6 +38,7 @@ const CustomCursor = () => {
 
   const [velocity, setVelocity] = useState(0);
   const lastPos = useRef({ x: 0, y: 0, time: Date.now() });
+  const timeoutRef = useRef<number | null>(null);
 
   useEffect(() => {
     const checkMobile = () => {

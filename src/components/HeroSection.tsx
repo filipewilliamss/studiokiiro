@@ -98,36 +98,25 @@ const HeroSection = () => {
     };
 
     // Symbol geometry — local coords centered around (0,0)
-    // Structure: 4 vertical-ish bars with specific offsets to form the Kiiro mark.
-    // Each bar is built as a volumetric 3D grid.
-    const HALF_H = 160;          // height of bars
-    const BAR_W = 24;            // width of each bar
-    const BAR_DEPTH = 32;        // depth of the sculpture
-    const STEP_LEN = 10;         // dot spacing (density)
-    const STEP_W = 10;           // dot spacing (density)
-    const STEP_Z = 12;           // dot spacing (density)
+    // The Kiiro symbol is horizontal and modular: 
+    // Left slanted stem + Central diagonal + Right arrow/advance vector.
+    const BAR_W = 34;            // width of each bar
+    const BAR_DEPTH = 45;        // depth of the sculpture
+    const STEP_LEN = 9;          // dot spacing (density)
+    const STEP_W = 9;            // dot spacing (density)
+    const STEP_Z = 12;           // dot spacing (depth density)
     
-    // The mark has 4 vertical bars.
-    // Offsets: -90, -30, 30, 90 (approximate relative centers)
-    const xOffsets = [-85, -35, 35, 85];
-    
-    xOffsets.forEach((xPos, idx) => {
-      // Alternate slant slightly or keep parallel for precise geometry
-      // Bar 1 & 2: / / (leaning right)
-      // Bar 3 & 4: \ \ (leaning left)
-      const isLeft = idx < 2;
-      const slant = isLeft ? 55 : -55;
-      
-      buildBar(
-        xPos - slant, HALF_H,
-        xPos + slant, -HALF_H,
-        BAR_W,
-        BAR_DEPTH,
-        STEP_LEN,
-        STEP_W,
-        STEP_Z
-      );
-    });
+    // Module 1: Slanted Stem (Left)
+    // A vertical bar with a slight left lean (\)
+    buildBar(-110, 80, -145, -80, BAR_W, BAR_DEPTH, STEP_LEN, STEP_W, STEP_Z);
+
+    // Module 2: Central Diagonal (Ascending)
+    // The core upward movement of the logo (/)
+    buildBar(-75, 80, 35, -80, BAR_W, BAR_DEPTH, STEP_LEN, STEP_W, STEP_Z);
+
+    // Module 3: Advance Vector (Right / Seta)
+    // The right-side element that completes the forward-moving "arrow" feel
+    buildBar(70, 80, 140, 10, BAR_W, BAR_DEPTH, STEP_LEN, STEP_W, STEP_Z);
 
     // Camera / interaction state
     const target = { rx: 0, ry: 0 };
@@ -357,10 +346,10 @@ const HeroSection = () => {
           
           {/* Branding metadata */}
           <div className="absolute top-8 left-1/2 -translate-x-1/2 text-[#FFCA16]/30 text-[8px] uppercase tracking-[0.6em] font-mono whitespace-nowrap">
-            KIIRO — SCULPTURE · 001
+            KIIRO · MARK · 001
           </div>
           <div className="absolute bottom-8 left-1/2 -translate-x-1/2 text-white/15 text-[8px] uppercase tracking-[0.6em] font-mono whitespace-nowrap">
-            IDENTITY · VOLUMETRIC MATRIX
+            MODULAR GEOMETRY · VOL.01
           </div>
           <canvas 
             ref={canvasRef}

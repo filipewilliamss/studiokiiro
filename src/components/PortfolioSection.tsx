@@ -46,7 +46,7 @@ const PortfolioSection = () => {
       filter: "blur(10px)",
       transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] } 
     }
-  };
+  } as any;
 
   const visualVariants = {
     initial: { opacity: 0, scale: 1.1, rotateY: 10, filter: "blur(20px)" },
@@ -63,7 +63,7 @@ const PortfolioSection = () => {
       filter: "blur(20px)",
       transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } 
     }
-  };
+  } as any;
 
   return (
     <section

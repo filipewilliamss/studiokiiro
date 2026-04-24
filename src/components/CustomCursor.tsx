@@ -66,8 +66,8 @@ const CustomCursor = () => {
       lastPos.current = { x: clientX, y: clientY, time: now };
 
       // Set velocity to 0 if mouse hasn't moved for a bit
-      clearTimeout((window as any).mouseMoveTimeout);
-      (window as any).mouseMoveTimeout = setTimeout(() => {
+      if (timeoutRef.current) window.clearTimeout(timeoutRef.current);
+      timeoutRef.current = window.setTimeout(() => {
         setVelocity(0);
       }, 50);
 

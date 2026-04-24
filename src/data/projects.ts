@@ -124,7 +124,7 @@ export const projects: Project[] = [
       temploPag1, temploPag2, temploPag3, temploPag4,
       temploPag5, temploPag6, temploPag7, temploPag8,
     ],
-    client: "Terapia do DNA",
+    client: "Templo de Deus",
     year: "2024",
     service: "Identidade Visual",
     deliverables: ["Logotipo principal", "Manual de marca (8 páginas)", "Paleta cromática", "Guia de aplicação"],

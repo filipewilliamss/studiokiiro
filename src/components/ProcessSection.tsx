@@ -46,7 +46,7 @@ const ProcessSection = () => {
               Nossa Metodologia
             </span>
             <h2 className="font-display text-[48px] md:text-[80px] font-[800] text-white leading-[0.85] tracking-extratight mb-12">
-              Como damos vida <br /> à sua <span className="text-[#FFCA16]">visão.</span>
+              Como damos vida <br /> à sua <span className="text-[#FFCA16] italic font-light">visão.</span>
             </h2>
           </motion.div>
         </div>

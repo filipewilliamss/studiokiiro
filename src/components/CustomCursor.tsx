@@ -122,8 +122,21 @@ const CustomCursor = () => {
         style={{ x: mainX, y: mainY }}
         className={`absolute z-[70] w-8 h-8 -ml-4 -mt-4 rounded-full ${cursorColor} transition-all duration-300 ease-out border-2 ${borderColor} ${
           isHovering ? 'scale-125' : 'scale-100'
-        }`}
-      />
+        } flex items-center justify-center`}
+      >
+        <AnimatePresence>
+          {velocity > 20 && (
+            <motion.span
+              initial={{ opacity: 0, scale: 0.5 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.5 }}
+              className={`absolute -top-8 left-1/2 -translate-x-1/2 font-mono text-[9px] font-bold ${isOverYellow ? 'text-white' : 'text-[#FFCA16]'} whitespace-nowrap tracking-wider`}
+            >
+              {velocity} PX
+            </motion.span>
+          )}
+        </AnimatePresence>
+      </motion.div>
     </div>
   );
 };

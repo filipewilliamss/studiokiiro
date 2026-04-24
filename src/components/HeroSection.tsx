@@ -19,9 +19,10 @@ const HeroSection = () => {
 
     // ---------------------------------------------------------------
     // KIIRO SYMBOL — DOT MATRIX 3D SCULPTURE
-    // Geometry: 4 angled bars (two leaning right, two leaning left)
-    // forming the Kiiro mark, organized as a regular dot grid in 3D
-    // and projected through perspective camera.
+    // Geometry is sampled DIRECTLY from the official brand SVG file.
+    // The SVG silhouette is rasterized to an offscreen canvas, then
+    // every filled pixel becomes a column of dots extruded along Z,
+    // creating a volumetric "digital sculpture" of the actual logo.
     // ---------------------------------------------------------------
 
     const DPR = Math.min(window.devicePixelRatio || 1, 2);
@@ -37,7 +38,6 @@ const HeroSection = () => {
     const CY = H / 2;
     const FOCAL = 620; // perspective focal length
 
-    // Build dot matrix points in local 3D space (centered at origin)
     type Dot = {
       ox: number; oy: number; oz: number; // origin (home)
       dx: number; dy: number;             // current 2D offset (interaction)
@@ -46,77 +46,6 @@ const HeroSection = () => {
     };
 
     const dots: Dot[] = [];
-
-    // Build a single inclined bar as a regular dot grid
-    // Bar goes from (x1,y1) to (x2,y2) in local 2D, with width W (perpendicular)
-    // depth: z thickness (volumetric); rows along length, cols across width, layers in z
-    const buildBar = (
-      x1: number, y1: number,
-      x2: number, y2: number,
-      width: number,
-      depth: number,
-      stepLen: number,
-      stepW: number,
-      stepZ: number,
-    ) => {
-      const dxL = x2 - x1;
-      const dyL = y2 - y1;
-      const len = Math.hypot(dxL, dyL);
-      const ux = dxL / len; // unit along length
-      const uy = dyL / len;
-      const nx = -uy;       // unit perpendicular (in 2D plane)
-      const ny = ux;
-
-      const rowsLen = Math.floor(len / stepLen) + 1;
-      const colsW = Math.floor(width / stepW) + 1;
-      const layersZ = Math.floor(depth / stepZ) + 1;
-
-      const halfW = (colsW - 1) * stepW / 2;
-      const halfZ = (layersZ - 1) * stepZ / 2;
-
-      for (let i = 0; i < rowsLen; i++) {
-        const t = i / (rowsLen - 1 || 1);
-        const baseX = x1 + dxL * t;
-        const baseY = y1 + dyL * t;
-        for (let j = 0; j < colsW; j++) {
-          const offW = -halfW + j * stepW;
-          const px = baseX + nx * offW;
-          const py = baseY + ny * offW;
-          for (let k = 0; k < layersZ; k++) {
-            const pz = -halfZ + k * stepZ;
-            dots.push({
-              ox: px,
-              oy: py,
-              oz: pz,
-              dx: 0, dy: 0,
-              vx: 0, vy: 0,
-              seed: Math.random() * Math.PI * 2,
-            });
-          }
-        }
-      }
-    };
-
-    // Symbol geometry — local coords centered around (0,0)
-    // The Kiiro symbol is horizontal and modular: 
-    // Left slanted stem + Central diagonal + Right arrow/advance vector.
-    const BAR_W = 34;            // width of each bar
-    const BAR_DEPTH = 45;        // depth of the sculpture
-    const STEP_LEN = 9;          // dot spacing (density)
-    const STEP_W = 9;            // dot spacing (density)
-    const STEP_Z = 12;           // dot spacing (depth density)
-    
-    // Module 1: Slanted Stem (Left)
-    // A vertical bar with a slight left lean (\)
-    buildBar(-110, 80, -145, -80, BAR_W, BAR_DEPTH, STEP_LEN, STEP_W, STEP_Z);
-
-    // Module 2: Central Diagonal (Ascending)
-    // The core upward movement of the logo (/)
-    buildBar(-75, 80, 35, -80, BAR_W, BAR_DEPTH, STEP_LEN, STEP_W, STEP_Z);
-
-    // Module 3: Advance Vector (Right / Seta)
-    // The right-side element that completes the forward-moving "arrow" feel
-    buildBar(70, 80, 140, 10, BAR_W, BAR_DEPTH, STEP_LEN, STEP_W, STEP_Z);
 
     // Camera / interaction state
     const target = { rx: 0, ry: 0 };
@@ -127,6 +56,88 @@ const HeroSection = () => {
     let globalOpacity = 0;
     const startTime = performance.now();
     const fadeDuration = 1400;
+
+    // ---- Sample the official Kiiro SVG into a volumetric dot matrix
+    // The SVG path lives inside viewBox 0 0 1080 1080. We rasterize
+    // it to a small offscreen canvas, then scan pixels at a fixed
+    // step. Each filled pixel produces a stack of dots along Z.
+    const SVG_MARKUP = `<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1080">
+  <path fill="#ffca16" d="M693.69,386.46h-114.79l114.78,111.28v-111.28ZM501.1,386.46h-114.79v111.28s114.79-111.28,114.79-111.28ZM576.63,580.07l117.06,113.47v-102.25l-117.06-113.47v102.25ZM386.31,693.54l117.06-113.47v-102.25l-117.06,113.47v102.25Z"/>
+</svg>`;
+
+    const SAMPLE_SIZE = 140;          // offscreen rasterization resolution
+    const STEP_PX = 3;                // pixel scan step (density of dots)
+    const TARGET_HEIGHT = 320;        // displayed height of the symbol
+    const DEPTH = 60;                 // total Z extrusion
+    const Z_LAYERS = 5;               // number of Z layers
+    const STEP_Z = DEPTH / (Z_LAYERS - 1);
+
+    const buildFromSVG = () => {
+      const off = document.createElement('canvas');
+      off.width = SAMPLE_SIZE;
+      off.height = SAMPLE_SIZE;
+      const octx = off.getContext('2d');
+      if (!octx) return;
+
+      const blob = new Blob([SVG_MARKUP], { type: 'image/svg+xml' });
+      const url = URL.createObjectURL(blob);
+      const img = new Image();
+      img.onload = () => {
+        octx.clearRect(0, 0, SAMPLE_SIZE, SAMPLE_SIZE);
+        octx.drawImage(img, 0, 0, SAMPLE_SIZE, SAMPLE_SIZE);
+        const data = octx.getImageData(0, 0, SAMPLE_SIZE, SAMPLE_SIZE).data;
+
+        // Find the symbol's bounding box in pixel space (alpha > 0)
+        let minX = SAMPLE_SIZE, minY = SAMPLE_SIZE, maxX = 0, maxY = 0;
+        for (let y = 0; y < SAMPLE_SIZE; y++) {
+          for (let x = 0; x < SAMPLE_SIZE; x++) {
+            if (data[(y * SAMPLE_SIZE + x) * 4 + 3] > 40) {
+              if (x < minX) minX = x;
+              if (x > maxX) maxX = x;
+              if (y < minY) minY = y;
+              if (y > maxY) maxY = y;
+            }
+          }
+        }
+
+        const bbW = maxX - minX;
+        const bbH = maxY - minY;
+        if (bbW <= 0 || bbH <= 0) return;
+
+        // Scale so the symbol's height matches TARGET_HEIGHT, preserving aspect
+        const scale = TARGET_HEIGHT / bbH;
+        const cx = (minX + maxX) / 2;
+        const cy = (minY + maxY) / 2;
+
+        const halfZ = DEPTH / 2;
+
+        for (let y = minY; y <= maxY; y += STEP_PX) {
+          for (let x = minX; x <= maxX; x += STEP_PX) {
+            const alpha = data[(y * SAMPLE_SIZE + x) * 4 + 3];
+            if (alpha > 80) {
+              const lx = (x - cx) * scale;
+              const ly = (y - cy) * scale;
+              for (let k = 0; k < Z_LAYERS; k++) {
+                const lz = -halfZ + k * STEP_Z;
+                dots.push({
+                  ox: lx,
+                  oy: ly,
+                  oz: lz,
+                  dx: 0, dy: 0,
+                  vx: 0, vy: 0,
+                  seed: Math.random() * Math.PI * 2,
+                });
+              }
+            }
+          }
+        }
+        URL.revokeObjectURL(url);
+      };
+      img.src = url;
+    };
+
+    buildFromSVG();
 
     const handleMouseMove = (e: MouseEvent) => {
       const rect = canvas.getBoundingClientRect();

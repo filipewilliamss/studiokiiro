@@ -118,8 +118,8 @@ const PortfolioSection = () => {
                   style={{ background: `radial-gradient(circle at center, ${project.bgColor}33 0%, #0b0b0b 100%)` }}
                 >
                   <div className="absolute inset-0 grid-pattern opacity-[0.1]" />
-                  <div className="absolute inset-0 flex items-center justify-center p-16">
-                    <img src={project.logo} alt={project.title} className="max-w-full max-h-full object-contain filter drop-shadow-2xl" />
+                  <div className="absolute inset-0 flex items-center justify-center p-8 sm:p-12 md:p-16">
+                    <img src={project.logo} alt={project.title} className="max-w-[85%] max-h-[85%] object-contain filter drop-shadow-2xl" />
                   </div>
                 </div>
                 <p className="text-white/55 font-light leading-relaxed mb-8 text-base">{project.intro}</p>

@@ -122,7 +122,6 @@ const CustomCursor = () => {
       />
     </div>
   );
-  );
 };
 
 export default CustomCursor;

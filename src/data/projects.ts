@@ -132,8 +132,8 @@ export const projects: Project[] = [
   },
   {
     id: 4,
-    slug: "terra-linda-cross",
-    title: "Terra Linda Cross",
+    slug: "team-luisa-crosstraining",
+    title: "Team Luísa Crosstraining",
     category: "Identidade Visual",
     bgColor: "#1d1e1b",
     intro: "Projeto visual com linguagem forte e memorável, criado para destacar a marca e reforçar sua presença no mercado.",

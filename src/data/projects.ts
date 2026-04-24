@@ -109,8 +109,8 @@ export const projects: Project[] = [
   },
   {
     id: 3,
-    slug: "terapia-do-dna",
-    title: "Terapia do DNA",
+    slug: "templo-de-deus",
+    title: "Templo de Deus",
     category: "Identidade Visual",
     bgColor: "#191919",
     intro: "Direção visual pensada para comunicar sofisticação, equilíbrio e valor percebido em um segmento sensível e estratégico.",

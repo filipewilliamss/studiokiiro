@@ -13,28 +13,28 @@ const CustomCursor = () => {
   const mainX = useSpring(mouseX, springConfig);
   const mainY = useSpring(mouseY, springConfig);
 
-  // Configuration for the 6 trail circles with increasing delay
+  // Configuration for the trail circles - following the leader to prevent overtaking
   const trailConfigs = [
-    { damping: 25, stiffness: 350, mass: 0.5 },
-    { damping: 28, stiffness: 280, mass: 0.55 },
-    { damping: 31, stiffness: 220, mass: 0.6 },
-    { damping: 34, stiffness: 170, mass: 0.65 },
-    { damping: 37, stiffness: 130, mass: 0.7 },
-    { damping: 40, stiffness: 100, mass: 0.75 },
+    { damping: 30, stiffness: 500, mass: 0.4 },
+    { damping: 35, stiffness: 400, mass: 0.45 },
+    { damping: 40, stiffness: 300, mass: 0.5 },
+    { damping: 45, stiffness: 200, mass: 0.55 },
+    { damping: 50, stiffness: 150, mass: 0.6 },
+    { damping: 55, stiffness: 100, mass: 0.65 },
   ];
 
-  const trail1X = useSpring(mouseX, trailConfigs[0]);
-  const trail1Y = useSpring(mouseY, trailConfigs[0]);
-  const trail2X = useSpring(mouseX, trailConfigs[1]);
-  const trail2Y = useSpring(mouseY, trailConfigs[1]);
-  const trail3X = useSpring(mouseX, trailConfigs[2]);
-  const trail3Y = useSpring(mouseY, trailConfigs[2]);
-  const trail4X = useSpring(mouseX, trailConfigs[3]);
-  const trail4Y = useSpring(mouseY, trailConfigs[3]);
-  const trail5X = useSpring(mouseX, trailConfigs[4]);
-  const trail5Y = useSpring(mouseY, trailConfigs[4]);
-  const trail6X = useSpring(mouseX, trailConfigs[5]);
-  const trail6Y = useSpring(mouseY, trailConfigs[5]);
+  const trail1X = useSpring(mainX, trailConfigs[0]);
+  const trail1Y = useSpring(mainY, trailConfigs[0]);
+  const trail2X = useSpring(trail1X, trailConfigs[1]);
+  const trail2Y = useSpring(trail1Y, trailConfigs[1]);
+  const trail3X = useSpring(trail2X, trailConfigs[2]);
+  const trail3Y = useSpring(trail2Y, trailConfigs[2]);
+  const trail4X = useSpring(trail3X, trailConfigs[3]);
+  const trail4Y = useSpring(trail3Y, trailConfigs[3]);
+  const trail5X = useSpring(trail4X, trailConfigs[4]);
+  const trail5Y = useSpring(trail4Y, trailConfigs[4]);
+  const trail6X = useSpring(trail5X, trailConfigs[5]);
+  const trail6Y = useSpring(trail5Y, trailConfigs[5]);
 
   const [velocity, setVelocity] = useState(0);
   const lastPos = useRef({ x: 0, y: 0, time: Date.now() });

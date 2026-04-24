@@ -85,8 +85,8 @@ export const projects: Project[] = [
   },
   {
     id: 2,
-    slug: "construmir",
-    title: "Construmir",
+    slug: "construmar",
+    title: "Construmar",
     category: "Identidade Visual",
     bgColor: "#f5f4ef",
     intro: "Sistema visual desenvolvido para transmitir credibilidade, clareza e força em um mercado altamente competitivo.",

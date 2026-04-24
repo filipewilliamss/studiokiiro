@@ -50,17 +50,19 @@ const CustomCursor = () => {
       mouseX.set(clientX);
       mouseY.set(clientY);
 
-      // Check for elements under cursor for hover effect and color detection
+      // Calculate simple velocity for the "metric"
+      const dist = Math.sqrt(Math.pow(clientX - lastPos.x, 2) + Math.pow(clientY - lastPos.y, 2));
+      setVelocity(Math.round(dist * 2));
+      setLastPos({ x: clientX, y: clientY });
+
       const element = document.elementFromPoint(clientX, clientY);
       if (element) {
         const interactive = element.closest('a, button, [role="button"], input, select, textarea');
         setIsHovering(!!interactive);
 
-        // Detect yellow color (#FFCA16 = rgb(255, 202, 22))
         const style = window.getComputedStyle(element);
         const isYellow = (c: string) => c && (c.includes('255, 202, 22') || c.toLowerCase().includes('#ffca16'));
         
-        // Also check parent elements as text color might be inherited
         let currentEl: Element | null = element;
         let overYellow = false;
         while (currentEl && currentEl !== document.body) {
@@ -80,7 +82,7 @@ const CustomCursor = () => {
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('resize', checkMobile);
     };
-  }, [mouseX, mouseY]);
+  }, [mouseX, mouseY, lastPos]);
 
   if (isMobile) return null;
 

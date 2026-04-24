@@ -101,7 +101,7 @@ export const projects: Project[] = [
       construmarPag4, construmarPag5, construmarPag6,
       construmarPag7, construmarPag8, construmarPag9,
     ],
-    client: "Construmir Marmoraria",
+    client: "Construmar",
     year: "2024",
     service: "Rebranding",
     deliverables: ["Logotipo redesenhado", "Manual de marca (9 páginas)", "Versões monocromáticas", "Aplicações comerciais"],

@@ -147,7 +147,7 @@ export const projects: Project[] = [
       teamluisaPag1, teamluisaPag2, teamluisaPag3,
       teamluisaPag4, teamluisaPag5, teamluisaPag6,
     ],
-    client: "Terra Linda Cross",
+    client: "Team Luísa Crosstraining",
     year: "2024",
     service: "Rebranding e Social Media",
     deliverables: ["Rebranding completo", "Manual de marca (6 páginas)", "Templates para Instagram", "Sistema visual"],

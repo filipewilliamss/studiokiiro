@@ -117,7 +117,7 @@ const CustomCursor = () => {
       {/* Main Cursor (on top) */}
       <motion.div
         style={{ x: mainX, y: mainY }}
-        className={`absolute w-8 h-8 -ml-4 -mt-4 rounded-full ${cursorColor} transition-all duration-300 ease-out border-2 ${borderColor} ${
+        className={`absolute z-[70] w-8 h-8 -ml-4 -mt-4 rounded-full ${cursorColor} transition-all duration-300 ease-out border-2 ${borderColor} ${
           isHovering ? 'scale-125' : 'scale-100'
         }`}
       />

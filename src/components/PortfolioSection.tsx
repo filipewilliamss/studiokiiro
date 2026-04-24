@@ -137,7 +137,7 @@ const PortfolioSection = () => {
           </div>
         ) : (
           /* DESKTOP: dynamic showcase */
-          <div className="relative grid grid-cols-12 gap-10 items-center min-h-[680px]">
+          <div className="relative grid grid-cols-12 gap-8 xl:gap-10 items-center min-h-[680px]">
             {/* LEFT NAV */}
             <div className="col-span-2 flex flex-col gap-2 border-r border-white/[0.06] pr-6 py-4">
               <span className="text-[9px] uppercase tracking-[0.35em] text-white/30 mb-6">Cases</span>

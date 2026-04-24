@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { motion, useSpring, useMotionValue } from 'framer-motion';
+import { motion, useSpring, useMotionValue, AnimatePresence } from 'framer-motion';
 
 const CustomCursor = () => {
   const [isHovering, setIsHovering] = useState(false);
@@ -7,6 +7,8 @@ const CustomCursor = () => {
   const [isMobile, setIsMobile] = useState(false);
   const mouseX = useMotionValue(-100);
   const mouseY = useMotionValue(-100);
+  const [velocity, setVelocity] = useState(0);
+  const [lastPos, setLastPos] = useState({ x: 0, y: 0 });
 
   // Smooth springs for the main cursor - making it extremely responsive and fast
   const mainSpringConfig = { damping: 40, stiffness: 1200, mass: 0.1 };
@@ -14,7 +16,6 @@ const CustomCursor = () => {
   const mainY = useSpring(mouseY, mainSpringConfig);
 
   // Configuration for the trail circles
-  // We reduce stiffness and increase damping for trails to ensure they stay behind
   const trailConfigs = [
     { damping: 45, stiffness: 800, mass: 0.5 },
     { damping: 40, stiffness: 600, mass: 0.5 },
@@ -24,8 +25,6 @@ const CustomCursor = () => {
     { damping: 60, stiffness: 150, mass: 0.9 },
   ];
 
-  // Make the first trail link follow the main cursor's position (mainX/Y)
-  // instead of the mouseX/Y directly. This ensures the main cursor is always the leader.
   const trail1X = useSpring(mainX, trailConfigs[0]);
   const trail1Y = useSpring(mainY, trailConfigs[0]);
   const trail2X = useSpring(trail1X, trailConfigs[1]);
@@ -51,17 +50,19 @@ const CustomCursor = () => {
       mouseX.set(clientX);
       mouseY.set(clientY);
 
-      // Check for elements under cursor for hover effect and color detection
+      // Calculate simple velocity for the "metric"
+      const dist = Math.sqrt(Math.pow(clientX - lastPos.x, 2) + Math.pow(clientY - lastPos.y, 2));
+      setVelocity(Math.round(dist * 2));
+      setLastPos({ x: clientX, y: clientY });
+
       const element = document.elementFromPoint(clientX, clientY);
       if (element) {
         const interactive = element.closest('a, button, [role="button"], input, select, textarea');
         setIsHovering(!!interactive);
 
-        // Detect yellow color (#FFCA16 = rgb(255, 202, 22))
         const style = window.getComputedStyle(element);
         const isYellow = (c: string) => c && (c.includes('255, 202, 22') || c.toLowerCase().includes('#ffca16'));
         
-        // Also check parent elements as text color might be inherited
         let currentEl: Element | null = element;
         let overYellow = false;
         while (currentEl && currentEl !== document.body) {
@@ -81,7 +82,7 @@ const CustomCursor = () => {
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('resize', checkMobile);
     };
-  }, [mouseX, mouseY]);
+  }, [mouseX, mouseY, lastPos]);
 
   if (isMobile) return null;
 
@@ -121,8 +122,21 @@ const CustomCursor = () => {
         style={{ x: mainX, y: mainY }}
         className={`absolute z-[70] w-8 h-8 -ml-4 -mt-4 rounded-full ${cursorColor} transition-all duration-300 ease-out border-2 ${borderColor} ${
           isHovering ? 'scale-125' : 'scale-100'
-        }`}
-      />
+        } flex items-center justify-center`}
+      >
+        <AnimatePresence>
+          {velocity > 20 && (
+            <motion.span
+              initial={{ opacity: 0, scale: 0.5 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.5 }}
+              className={`absolute -top-8 left-1/2 -translate-x-1/2 font-mono text-[9px] font-bold ${isOverYellow ? 'text-white' : 'text-[#FFCA16]'} whitespace-nowrap tracking-wider`}
+            >
+              {velocity} PX
+            </motion.span>
+          )}
+        </AnimatePresence>
+      </motion.div>
     </div>
   );
 };

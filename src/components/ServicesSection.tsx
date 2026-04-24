@@ -43,8 +43,8 @@ const ServicesSection = () => {
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
         transition={{ duration: 1.4 }}
-        className="absolute right-[-4%] top-[6%] font-display font-[800] text-white/[0.025] leading-none tracking-extratight pointer-events-none select-none"
-        style={{ fontSize: "clamp(120px, 20vw, 280px)" }}
+        className="absolute right-[-4%] top-[2%] md:top-[6%] font-display font-[800] text-white/[0.015] md:text-white/[0.025] leading-none tracking-extratight pointer-events-none select-none"
+        style={{ fontSize: "clamp(80px, 15vw, 280px)" }}
       >
         services
       </motion.span>
@@ -90,7 +90,7 @@ const ServicesSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: idx * 0.1, ease: [0.22, 1, 0.36, 1] }}
-              className="group relative flex flex-col md:grid md:grid-cols-12 items-start md:items-center py-12 md:py-16 border-b border-white/10 cursor-pointer overflow-hidden"
+              className="group relative flex flex-col md:grid md:grid-cols-12 items-start md:items-center py-10 md:py-16 border-b border-white/10 cursor-pointer overflow-hidden"
             >
               {/* Hover background slide */}
               <div className="absolute inset-0 bg-[#FFCA16] translate-y-full group-hover:translate-y-0 transition-transform duration-700 ease-[0.22,1,0.36,1] pointer-events-none" />

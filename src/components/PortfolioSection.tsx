@@ -8,7 +8,7 @@ const PortfolioSection = () => {
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 1024);
+    const checkMobile = () => setIsMobile(window.innerWidth < 1100);
     checkMobile();
     window.addEventListener("resize", checkMobile);
     return () => window.removeEventListener("resize", checkMobile);
@@ -118,8 +118,8 @@ const PortfolioSection = () => {
                   style={{ background: `radial-gradient(circle at center, ${project.bgColor}33 0%, #0b0b0b 100%)` }}
                 >
                   <div className="absolute inset-0 grid-pattern opacity-[0.1]" />
-                  <div className="absolute inset-0 flex items-center justify-center p-16">
-                    <img src={project.logo} alt={project.title} className="max-w-full max-h-full object-contain filter drop-shadow-2xl" />
+                  <div className="absolute inset-0 flex items-center justify-center p-8 sm:p-12 md:p-16">
+                    <img src={project.logo} alt={project.title} className="max-w-[85%] max-h-[85%] object-contain filter drop-shadow-2xl" />
                   </div>
                 </div>
                 <p className="text-white/55 font-light leading-relaxed mb-8 text-base">{project.intro}</p>
@@ -137,7 +137,7 @@ const PortfolioSection = () => {
           </div>
         ) : (
           /* DESKTOP: dynamic showcase */
-          <div className="relative grid grid-cols-12 gap-10 items-center min-h-[680px]">
+          <div className="relative grid grid-cols-12 gap-8 xl:gap-10 items-center min-h-[680px]">
             {/* LEFT NAV */}
             <div className="col-span-2 flex flex-col gap-2 border-r border-white/[0.06] pr-6 py-4">
               <span className="text-[9px] uppercase tracking-[0.35em] text-white/30 mb-6">Cases</span>

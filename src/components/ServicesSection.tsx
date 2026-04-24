@@ -43,8 +43,8 @@ const ServicesSection = () => {
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
         transition={{ duration: 1.4 }}
-        className="absolute right-[-4%] top-[6%] font-display font-[800] text-white/[0.025] leading-none tracking-extratight pointer-events-none select-none"
-        style={{ fontSize: "clamp(120px, 20vw, 280px)" }}
+        className="absolute right-[-4%] top-[2%] md:top-[6%] font-display font-[800] text-white/[0.015] md:text-white/[0.025] leading-none tracking-extratight pointer-events-none select-none"
+        style={{ fontSize: "clamp(80px, 15vw, 280px)" }}
       >
         services
       </motion.span>

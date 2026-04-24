@@ -69,7 +69,7 @@ const ProcessSection = () => {
                 <div className="absolute left-[16px] md:left-1/2 md:-translate-x-1/2 top-10 w-2 h-2 bg-[#FFCA16] rounded-full z-10 shadow-[0_0_20px_rgba(255,202,22,0.8)]" />
                 
                 {/* Number (Large Background) */}
-                <span className={`absolute top-[-60px] md:top-[-100px] font-display text-[120px] md:text-[220px] font-[800] text-[#FFCA16]/[0.05] leading-none pointer-events-none select-none ${idx % 2 === 0 ? 'left-10 md:left-auto md:right-1/2 md:translate-x-[60%]' : 'left-10 md:left-1/2 md:translate-x-[-60%]'}`}>
+                <span className={`absolute top-[-40px] md:top-[-100px] font-display text-[80px] sm:text-[120px] md:text-[220px] font-[800] text-[#FFCA16]/[0.03] md:text-[#FFCA16]/[0.05] leading-none pointer-events-none select-none ${idx % 2 === 0 ? 'left-6 md:left-auto md:right-1/2 md:translate-x-[60%]' : 'left-6 md:left-1/2 md:translate-x-[-60%]'}`}>
                   {step.number}
                 </span>
 

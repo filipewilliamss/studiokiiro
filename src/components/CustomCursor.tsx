@@ -8,26 +8,26 @@ const CustomCursor = () => {
   const mouseX = useMotionValue(-100);
   const mouseY = useMotionValue(-100);
 
-  // Smooth springs for the main cursor - making it very reactive
-  const mainSpringConfig = { damping: 35, stiffness: 1000, mass: 0.1 };
+  // Smooth springs for the main cursor - making it extremely responsive and fast
+  const mainSpringConfig = { damping: 40, stiffness: 1200, mass: 0.1 };
   const mainX = useSpring(mouseX, mainSpringConfig);
   const mainY = useSpring(mouseY, mainSpringConfig);
 
-  // Configuration for the trail circles - following the leader progressively slower
-  // to ensure they stay behind and follow the path
+  // Configuration for the trail circles
+  // We reduce stiffness and increase damping for trails to ensure they stay behind
   const trailConfigs = [
-    { damping: 40, stiffness: 700, mass: 0.3 }, // Slower first link to avoid "atropelamento"
-    { damping: 35, stiffness: 600, mass: 0.3 },
-    { damping: 40, stiffness: 400, mass: 0.4 },
-    { damping: 45, stiffness: 300, mass: 0.5 },
-    { damping: 50, stiffness: 200, mass: 0.6 },
-    { damping: 55, stiffness: 150, mass: 0.7 },
+    { damping: 45, stiffness: 800, mass: 0.5 },
+    { damping: 40, stiffness: 600, mass: 0.5 },
+    { damping: 45, stiffness: 400, mass: 0.6 },
+    { damping: 50, stiffness: 300, mass: 0.7 },
+    { damping: 55, stiffness: 200, mass: 0.8 },
+    { damping: 60, stiffness: 150, mass: 0.9 },
   ];
 
-  // We make the first trail link follow the mouseX directly but with a different config 
-  // than the main cursor to create separation and prevent "atropelamento"
-  const trail1X = useSpring(mouseX, trailConfigs[0]);
-  const trail1Y = useSpring(mouseY, trailConfigs[0]);
+  // Make the first trail link follow the main cursor's position (mainX/Y)
+  // instead of the mouseX/Y directly. This ensures the main cursor is always the leader.
+  const trail1X = useSpring(mainX, trailConfigs[0]);
+  const trail1Y = useSpring(mainY, trailConfigs[0]);
   const trail2X = useSpring(trail1X, trailConfigs[1]);
   const trail2Y = useSpring(trail1Y, trailConfigs[1]);
   const trail3X = useSpring(trail2X, trailConfigs[2]);

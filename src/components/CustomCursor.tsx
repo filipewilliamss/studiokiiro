@@ -48,11 +48,28 @@ const CustomCursor = () => {
       mouseX.set(clientX);
       mouseY.set(clientY);
 
-      // Check for elements under cursor for hover effect
+      // Check for elements under cursor for hover effect and color detection
       const element = document.elementFromPoint(clientX, clientY);
       if (element) {
         const interactive = element.closest('a, button, [role="button"], input, select, textarea');
         setIsHovering(!!interactive);
+
+        // Detect yellow color (#FFCA16 = rgb(255, 202, 22))
+        const style = window.getComputedStyle(element);
+        const isYellow = (c: string) => c.includes('255, 202, 22');
+        
+        // Also check parent elements as text color might be inherited
+        let currentEl: Element | null = element;
+        let overYellow = false;
+        while (currentEl && currentEl !== document.body) {
+          const s = window.getComputedStyle(currentEl);
+          if (isYellow(s.color) || isYellow(s.backgroundColor) || isYellow(s.fill)) {
+            overYellow = true;
+            break;
+          }
+          currentEl = currentEl.parentElement;
+        }
+        setIsOverYellow(overYellow);
       }
     };
 

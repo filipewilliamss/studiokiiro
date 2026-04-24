@@ -303,7 +303,7 @@ const HeroSection = () => {
         </div>
       </motion.div>
 
-      <div className="relative z-10 container-editorial w-full flex flex-col lg:flex-row items-center gap-12 pt-24 lg:pt-16">
+      <div className="relative z-10 container-editorial w-full flex flex-col lg:flex-row items-center gap-12 pt-24 lg:pt-16 pb-20 md:pb-32 lg:pb-0">
         <div className="w-full lg:w-[65%] flex flex-col items-start" ref={headlineRef}>
           <motion.div
             initial={{ opacity: 0, x: -20 }}

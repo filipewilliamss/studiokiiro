@@ -1,22 +1,30 @@
 
-### Escultura Digital: Transposição Literal do Símbolo via Amostragem SVG
+### Redesign Editorial do Portfólio (Premium Showcase)
 
-Vou substituir a lógica de construção manual de barras por um sistema de amostragem direta do arquivo SVG fornecido. Isso garante que a geometria seja 100% fiel à identidade visual da marca, eliminando qualquer interpretação errônea.
+Vou reconstruir a seção de portfólio para transformá-la em um showcase editorial de alto nível, abandonando o sistema de abas e cards em favor de uma experiência imersiva com preview dinâmico e tipografia monumental.
 
-**1. Extração de Geometria via Offscreen Canvas**
-*   **Carregamento do Asset:** Carregamento dinâmico do SVG oficial (`74vgf242gij-1776992209834.svg`).
-*   **Rasterização Técnica:** Desenho do símbolo em um canvas oculto de alta precisão para mapear exatamente onde o "preenchimento" do logo existe.
-*   **Amostragem de Partículas (Dot Matrix):** Varredura dos pixels do símbolo. Para cada ponto detectado na silhueta, criarei uma coluna de pontos na matriz 3D.
+**1. Arquitetura Editorial & Layout**
+*   **Fundo & Atmosfera:** Implementação de um fundo "Pure Deep Black" com grid sutil de 60px (coerente com o Hero) e generoso respiro visual (padding de 64px vertical).
+*   **Cabeçalho de Impacto:** Criação de um topo com label numerado "04 PORTFÓLIO", título monumental em `clamp` para escala perfeita e subtítulo estratégico.
+*   **Estrutura Dual Column (Desktop):**
+    *   **Coluna Esquerda:** Lista vertical de projetos estilizada como uma publicação de design.
+    *   **Coluna Direita (Sticky):** Área de preview fixa que atua como o "palco" principal, exibindo o projeto ativo em grande escala.
 
-**2. Volumetria e Profundidade (Extrusão Digital)**
-*   **Camadas de Profundidade:** Cada ponto da silhueta 2D será replicado em múltiplas camadas ao longo do eixo Z (profundidade), transformando o logo plano em uma "escultura de vidro" volumétrica composta por luz.
-*   **Densidade Controlada:** Ajuste da densidade da matriz para que o símbolo seja nítido e reconhecível de frente, revelando sua profundidade apenas conforme o usuário interage com o mouse.
+**2. Lista de Projetos & Microinterações**
+*   **Design de Linha:** Cada projeto será apresentado em um bloco horizontal com tipografia refinada, números de índice (01, 02...), categorias em uppercase e tags discretas.
+*   **Interação Magnética:** 
+    *   Hover no título aciona transição para o Amarelo Dourado (#FFCA16).
+    *   Seta animada com efeito de "entrada/saída" (GSAP/Framer Motion).
+    *   Deslocamento sutil de 6px no hover para reforçar o estado ativo.
+*   **Preview Dinâmico:** O preview à direita reagirá instantaneamente ao hover da lista com um efeito de fade + scale elegante e moldura técnica.
 
-**3. Refinamento da Interação 3D**
-*   **Centralização Automática:** Cálculo do "bounding box" do SVG para garantir que o objeto esteja perfeitamente centralizado no canvas do Hero, independentemente da escala original do arquivo.
-*   **Interação Preservada:** Manutenção do efeito de parallax suave, retorno elástico e micro-oscilação "breathing" que já conferem a estética premium.
+**3. Adaptação Mobile (Showcase Vertical)**
+*   Remoção do comportamento sticky para uma rolagem vertical fluida.
+*   Cada projeto vira um case individual com imagem integrada, garantindo que o impacto visual não seja perdido em telas menores.
 
-**4. Fidelidade Cromática**
-*   Uso rigoroso do Amarelo Dourado Kiiro (#FFCA16) com o algoritmo de profundidade (Painter's Algorithm) para criar gradientes naturais de brilho baseados na distância da câmera.
+**4. Fechamento Estratégico (CTA Final)**
+*   Adição de uma seção de conclusão dentro do portfólio com convite direto: "Seu projeto pode ser o próximo case memorável", mantendo a estética premium e botões com transição de preenchimento magnético.
 
-O resultado será a assinatura visual definitiva: o símbolo real do Studio Kiiro, transposto para um ambiente 3D interativo com precisão matemática.
+**5. Refinamento de Movimento**
+*   Uso de `stagger` nas animações de entrada (ScrollTrigger) para revelar a lista de forma cadenciada e suave.
+*   Easing customizado `[0.22, 1, 0.36, 1]` para todas as transições, garantindo a sensação de sofisticação solicitada.

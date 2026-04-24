@@ -27,7 +27,7 @@
     font-family: var(--font-display);
   }
 
-  a, button, [role="button"] {
+  * {
     cursor: none !important;
   }
 

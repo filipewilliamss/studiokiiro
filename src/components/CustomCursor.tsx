@@ -8,19 +8,20 @@ const CustomCursor = () => {
   const mouseX = useMotionValue(-100);
   const mouseY = useMotionValue(-100);
 
-  // Smooth springs for the main cursor
-  const springConfig = { damping: 25, stiffness: 450, mass: 0.5 };
-  const mainX = useSpring(mouseX, springConfig);
-  const mainY = useSpring(mouseY, springConfig);
+  // Smooth springs for the main cursor - making it very reactive
+  const mainSpringConfig = { damping: 35, stiffness: 1000, mass: 0.1 };
+  const mainX = useSpring(mouseX, mainSpringConfig);
+  const mainY = useSpring(mouseY, mainSpringConfig);
 
-  // Configuration for the trail circles - following the leader to prevent overtaking
+  // Configuration for the trail circles - following the leader progressively slower
+  // to ensure they stay behind and follow the path
   const trailConfigs = [
-    { damping: 25, stiffness: 900, mass: 0.3 },
-    { damping: 30, stiffness: 800, mass: 0.35 },
-    { damping: 35, stiffness: 700, mass: 0.4 },
-    { damping: 40, stiffness: 600, mass: 0.45 },
-    { damping: 45, stiffness: 500, mass: 0.5 },
-    { damping: 50, stiffness: 400, mass: 0.55 },
+    { damping: 30, stiffness: 800, mass: 0.2 },
+    { damping: 35, stiffness: 600, mass: 0.3 },
+    { damping: 40, stiffness: 400, mass: 0.4 },
+    { damping: 45, stiffness: 300, mass: 0.5 },
+    { damping: 50, stiffness: 200, mass: 0.6 },
+    { damping: 55, stiffness: 150, mass: 0.7 },
   ];
 
   const trail1X = useSpring(mainX, trailConfigs[0]);

@@ -3,6 +3,7 @@ import { motion, useSpring, useMotionValue } from 'framer-motion';
 
 const CustomCursor = () => {
   const [isOverWhite, setIsOverWhite] = useState(false);
+  const [isHovering, setIsHovering] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const mouseX = useMotionValue(-100);
   const mouseY = useMotionValue(-100);
@@ -44,32 +45,33 @@ const CustomCursor = () => {
         const dx = clientX - lastPos.current.x;
         const dy = clientY - lastPos.current.y;
         const dist = Math.sqrt(dx * dx + dy * dy);
-        // Normalize velocity
         const v = Math.min(dist / dt, 5); 
-        setVelocity(prev => prev * 0.9 + v * 0.1); // Smooth velocity
+        setVelocity(prev => prev * 0.9 + v * 0.1); 
       }
       lastPos.current = { x: clientX, y: clientY, time: now };
 
-      // Check for white background/text under cursor
+      // Check for elements under cursor
       const element = document.elementFromPoint(clientX, clientY);
       if (element) {
+        // Check if hovering interactive elements
+        const interactive = element.closest('a, button, [role="button"], input, select, textarea');
+        setIsHovering(!!interactive);
+
+        // Check for white background/text
         const style = window.getComputedStyle(element);
         const color = style.color;
         const bgColor = style.backgroundColor;
         
         const isWhite = (colorStr: string) => {
           if (!colorStr || colorStr === 'rgba(0, 0, 0, 0)' || colorStr === 'transparent') return false;
-          
           const rgb = colorStr.match(/\d+/g);
           if (rgb && rgb.length >= 3) {
             const [r, g, b] = rgb.map(Number);
-            // High brightness check
             return r > 200 && g > 200 && b > 200;
           }
           return colorStr.includes('white') || colorStr.includes('#fff');
         };
 
-        // Also check if the element is an image or something else that might be white
         setIsOverWhite(isWhite(color) || isWhite(bgColor));
       }
     };
@@ -83,9 +85,7 @@ const CustomCursor = () => {
 
   if (isMobile) return null;
 
-  // Trail opacity increases with movement
-  // Subtle trails even at low speed as requested ("de forma sutil")
-  const trailOpacity = Math.max(0.1, Math.min((velocity - 0.2) * 0.8, 1));
+  const trailOpacity = Math.max(0.05, Math.min((velocity - 0.1) * 0.6, 0.8));
 
   return (
     <div className="fixed inset-0 pointer-events-none z-[9999] overflow-hidden">
@@ -109,13 +109,14 @@ const CustomCursor = () => {
         style={{ x: mainX, y: mainY }}
         className={`absolute w-6 h-6 -ml-3 -mt-3 rounded-full border-2 transition-all duration-300 ease-out ${
           isOverWhite 
-            ? 'bg-[#FFCA16] border-[#FFCA16] scale-125' 
-            : 'bg-white border-white scale-100'
-        }`}
+            ? 'bg-[#FFCA16] border-[#FFCA16]' 
+            : 'bg-white border-white'
+        } ${isHovering ? 'scale-150 opacity-80' : 'scale-100 opacity-100'}`}
       />
     </div>
   );
 };
 
 export default CustomCursor;
+
 

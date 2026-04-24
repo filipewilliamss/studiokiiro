@@ -3,6 +3,7 @@ import { motion, useSpring, useMotionValue } from 'framer-motion';
 
 const CustomCursor = () => {
   const [isHovering, setIsHovering] = useState(false);
+  const [isOverYellow, setIsOverYellow] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const mouseX = useMotionValue(-100);
   const mouseY = useMotionValue(-100);
@@ -47,11 +48,28 @@ const CustomCursor = () => {
       mouseX.set(clientX);
       mouseY.set(clientY);
 
-      // Check for elements under cursor for hover effect
+      // Check for elements under cursor for hover effect and color detection
       const element = document.elementFromPoint(clientX, clientY);
       if (element) {
         const interactive = element.closest('a, button, [role="button"], input, select, textarea');
         setIsHovering(!!interactive);
+
+        // Detect yellow color (#FFCA16 = rgb(255, 202, 22))
+        const style = window.getComputedStyle(element);
+        const isYellow = (c: string) => c && (c.includes('255, 202, 22') || c.toLowerCase().includes('#ffca16'));
+        
+        // Also check parent elements as text color might be inherited
+        let currentEl: Element | null = element;
+        let overYellow = false;
+        while (currentEl && currentEl !== document.body) {
+          const s = window.getComputedStyle(currentEl);
+          if (isYellow(s.color) || isYellow(s.backgroundColor) || isYellow(s.fill)) {
+            overYellow = true;
+            break;
+          }
+          currentEl = currentEl.parentElement;
+        }
+        setIsOverYellow(overYellow);
       }
     };
 
@@ -64,38 +82,41 @@ const CustomCursor = () => {
 
   if (isMobile) return null;
 
+  const cursorColor = isOverYellow ? 'bg-white' : 'bg-[#FFCA16]';
+  const borderColor = isOverYellow ? 'border-white/20' : 'border-[#FFCA16]/20';
+
   return (
     <div className="fixed inset-0 pointer-events-none z-[9999] overflow-hidden">
       {/* Trails 6 to 1 (back to front order) */}
       <motion.div
         style={{ x: trail6X, y: trail6Y }}
-        className="absolute w-2 h-2 -ml-1 -mt-1 rounded-full bg-[#FFCA16]"
+        className={`absolute w-1 h-1 -ml-0.5 -mt-0.5 rounded-full transition-colors duration-300 ${cursorColor}`}
       />
       <motion.div
         style={{ x: trail5X, y: trail5Y }}
-        className="absolute w-3 h-3 -ml-1.5 -mt-1.5 rounded-full bg-[#FFCA16]"
+        className={`absolute w-2 h-2 -ml-1 -mt-1 rounded-full transition-colors duration-300 ${cursorColor}`}
       />
       <motion.div
         style={{ x: trail4X, y: trail4Y }}
-        className="absolute w-4 h-4 -ml-2 -mt-2 rounded-full bg-[#FFCA16]"
+        className={`absolute w-3 h-3 -ml-1.5 -mt-1.5 rounded-full transition-colors duration-300 ${cursorColor}`}
       />
       <motion.div
         style={{ x: trail3X, y: trail3Y }}
-        className="absolute w-5 h-5 -ml-2.5 -mt-2.5 rounded-full bg-[#FFCA16]"
+        className={`absolute w-4 h-4 -ml-2 -mt-2 rounded-full transition-colors duration-300 ${cursorColor}`}
       />
       <motion.div
         style={{ x: trail2X, y: trail2Y }}
-        className="absolute w-6 h-6 -ml-3 -mt-3 rounded-full bg-[#FFCA16]"
+        className={`absolute w-5 h-5 -ml-2.5 -mt-2.5 rounded-full transition-colors duration-300 ${cursorColor}`}
       />
       <motion.div
         style={{ x: trail1X, y: trail1Y }}
-        className="absolute w-8 h-8 -ml-4 -mt-4 rounded-full bg-[#FFCA16]"
+        className={`absolute w-6 h-6 -ml-3 -mt-3 rounded-full transition-colors duration-300 ${cursorColor}`}
       />
 
       {/* Main Cursor (on top) */}
       <motion.div
         style={{ x: mainX, y: mainY }}
-        className={`absolute w-8 h-8 -ml-4 -mt-4 rounded-full bg-[#FFCA16] transition-all duration-300 ease-out border-2 border-[#FFCA16]/20 ${
+        className={`absolute w-8 h-8 -ml-4 -mt-4 rounded-full ${cursorColor} transition-all duration-300 ease-out border-2 ${borderColor} ${
           isHovering ? 'scale-125' : 'scale-100'
         }`}
       />

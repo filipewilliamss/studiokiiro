@@ -109,40 +109,38 @@ const CustomCursor = () => {
 
   return (
     <div className="fixed inset-0 pointer-events-none z-[9999] overflow-hidden">
-      {/* Trails 6 to 1 (back to front order) */}
+      {/* Trails 6 to 1 (rendered back to front, but main will be last) */}
       <motion.div
-        style={{ x: trail6X, y: trail6Y, opacity: trailOpacity }}
-        className="absolute w-1.5 h-1.5 -ml-0.75 -mt-0.75 rounded-full bg-[#FFCA16] blur-[0.5px] transition-opacity duration-200"
+        style={{ x: trail6X, y: trail6Y, opacity: 1 }}
+        className="absolute w-2 h-2 -ml-1 -mt-1 rounded-full bg-[#FFCA16] transition-opacity duration-200"
       />
       <motion.div
-        style={{ x: trail5X, y: trail5Y, opacity: trailOpacity }}
-        className="absolute w-1.5 h-1.5 -ml-0.75 -mt-0.75 rounded-full bg-white blur-[0.5px] transition-opacity duration-200"
+        style={{ x: trail5X, y: trail5Y, opacity: 1 }}
+        className="absolute w-3 h-3 -ml-1.5 -mt-1.5 rounded-full bg-[#FFCA16] transition-opacity duration-200"
       />
       <motion.div
-        style={{ x: trail4X, y: trail4Y, opacity: trailOpacity }}
-        className="absolute w-2 h-2 -ml-1 -mt-1 rounded-full bg-[#FFCA16] blur-[0.5px] transition-opacity duration-200"
+        style={{ x: trail4X, y: trail4Y, opacity: 1 }}
+        className="absolute w-4 h-4 -ml-2 -mt-2 rounded-full bg-[#FFCA16] transition-opacity duration-200"
       />
       <motion.div
-        style={{ x: trail3X, y: trail3Y, opacity: trailOpacity }}
-        className="absolute w-2 h-2 -ml-1 -mt-1 rounded-full bg-white blur-[0.5px] transition-opacity duration-200"
+        style={{ x: trail3X, y: trail3Y, opacity: 1 }}
+        className="absolute w-5 h-5 -ml-2.5 -mt-2.5 rounded-full bg-[#FFCA16] transition-opacity duration-200"
       />
       <motion.div
-        style={{ x: trail2X, y: trail2Y, opacity: trailOpacity }}
-        className="absolute w-2.5 h-2.5 -ml-1.25 -mt-1.25 rounded-full bg-[#FFCA16] blur-[0.5px] transition-opacity duration-200"
+        style={{ x: trail2X, y: trail2Y, opacity: 1 }}
+        className="absolute w-6 h-6 -ml-3 -mt-3 rounded-full bg-[#FFCA16] transition-opacity duration-200"
       />
       <motion.div
-        style={{ x: trail1X, y: trail1Y, opacity: trailOpacity }}
-        className="absolute w-3 h-3 -ml-1.5 -mt-1.5 rounded-full bg-white blur-[0.5px] transition-opacity duration-200"
+        style={{ x: trail1X, y: trail1Y, opacity: 1 }}
+        className="absolute w-8 h-8 -ml-4 -mt-4 rounded-full bg-[#FFCA16] transition-opacity duration-200"
       />
 
       {/* Main Cursor */}
       <motion.div
         style={{ x: mainX, y: mainY }}
-        className={`absolute w-6 h-6 -ml-3 -mt-3 rounded-full border-2 transition-all duration-300 ease-out ${
-          isOverWhite 
-            ? 'bg-[#FFCA16] border-[#FFCA16]' 
-            : 'bg-white border-white'
-        } ${isHovering ? 'scale-150 opacity-80' : 'scale-100 opacity-100'}`}
+        className={`absolute w-8 h-8 -ml-4 -mt-4 rounded-full bg-[#FFCA16] transition-all duration-300 ease-out border-2 border-[#FFCA16]/20 ${
+          isHovering ? 'scale-125' : 'scale-100'
+        }`}
       />
     </div>
   );

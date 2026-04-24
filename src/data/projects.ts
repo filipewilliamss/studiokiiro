@@ -62,8 +62,8 @@ export interface Project {
 export const projects: Project[] = [
   {
     id: 1,
-    slug: "abdoni-podstore",
-    title: "Abdoni Podstore",
+    slug: "akedah-podcast",
+    title: "Akedah Podcast",
     category: "Identidade Visual",
     bgColor: "#2D1A11",
     intro: "Construção de uma identidade visual com presença, contraste e personalidade para fortalecer o posicionamento da marca.",

@@ -1,27 +1,22 @@
 
-### Reconstrução Geométrica do Símbolo Kiiro
+### Escultura Digital: Transposição Literal do Símbolo via Amostragem SVG
 
-A geometria atual ainda forma uma silhueta triangular (4 barras inclinadas que se cruzam no topo, lembrando uma letra "A"). Vou abandonar essa estrutura e reconstruir o objeto seguindo a anatomia real do símbolo modular descrita: **haste vertical inclinada à esquerda + diagonal central ascendente + vetor lateral direito (seta)**.
+Vou substituir a lógica de construção manual de barras por um sistema de amostragem direta do arquivo SVG fornecido. Isso garante que a geometria seja 100% fiel à identidade visual da marca, eliminando qualquer interpretação errônea.
 
-**1. Nova Anatomia do Símbolo (3 módulos, não 4 barras)**
-*   **Módulo A — Haste Esquerda:** Barra vertical com leve inclinação (`\`), ocupando o terço esquerdo do canvas. Altura cheia, largura compacta.
-*   **Módulo B — Diagonal Central Ascendente:** Vetor angular partindo da base da haste e subindo em direção ao topo direito, criando o eixo de movimento do símbolo.
-*   **Módulo C — Vetor de Avanço (Seta):** Bloco diagonal curto no canto inferior direito, formando a sensação de seta/progresso modular característica da identidade.
-*   **Espaços vazios preservados:** Gaps internos entre os módulos mantêm a leitura arquitetônica do logo.
+**1. Extração de Geometria via Offscreen Canvas**
+*   **Carregamento do Asset:** Carregamento dinâmico do SVG oficial (`74vgf242gij-1776992209834.svg`).
+*   **Rasterização Técnica:** Desenho do símbolo em um canvas oculto de alta precisão para mapear exatamente onde o "preenchimento" do logo existe.
+*   **Amostragem de Partículas (Dot Matrix):** Varredura dos pixels do símbolo. Para cada ponto detectado na silhueta, criarei uma coluna de pontos na matriz 3D.
 
-**2. Proporção Horizontal**
-*   Reescala do bounding box para formato compacto e horizontal (largura > altura), eliminando definitivamente a silhueta de pirâmide/letra A.
-*   Ajuste do FOCAL e dos parâmetros de matriz para compor um emblema, não uma forma alta.
+**2. Volumetria e Profundidade (Extrusão Digital)**
+*   **Camadas de Profundidade:** Cada ponto da silhueta 2D será replicado em múltiplas camadas ao longo do eixo Z (profundidade), transformando o logo plano em uma "escultura de vidro" volumétrica composta por luz.
+*   **Densidade Controlada:** Ajuste da densidade da matriz para que o símbolo seja nítido e reconhecível de frente, revelando sua profundidade apenas conforme o usuário interage com o mouse.
 
-**3. Volumetria em Camadas**
-*   Mantém o sistema atual de `buildBar` com matriz volumétrica em Z (camadas paralelas), garantindo profundidade real.
-*   Densidade ajustada para preservar legibilidade do símbolo mesmo em rotação.
+**3. Refinamento da Interação 3D**
+*   **Centralização Automática:** Cálculo do "bounding box" do SVG para garantir que o objeto esteja perfeitamente centralizado no canvas do Hero, independentemente da escala original do arquivo.
+*   **Interação Preservada:** Manutenção do efeito de parallax suave, retorno elástico e micro-oscilação "breathing" que já conferem a estética premium.
 
-**4. Interatividade Refinada (mantida)**
-*   Rotação parallax suave em X/Y conforme o mouse, idle breathing senoidal, retorno elástico ao centro — sem distorção da forma.
-*   Redução leve da amplitude de rotação para preservar reconhecibilidade do símbolo em todos os estados.
+**4. Fidelidade Cromática**
+*   Uso rigoroso do Amarelo Dourado Kiiro (#FFCA16) com o algoritmo de profundidade (Painter's Algorithm) para criar gradientes naturais de brilho baseados na distância da câmera.
 
-**5. Metadados Editoriais**
-*   Atualização das labels para `KIIRO · MARK · 001` e `MODULAR GEOMETRY · VOL.01`, reforçando o caráter de assinatura de identidade.
-
-O resultado será um emblema digital reconhecível como o símbolo modular do Studio Kiiro — não uma forma genérica, não um triângulo, não uma letra A.
+O resultado será a assinatura visual definitiva: o símbolo real do Studio Kiiro, transposto para um ambiente 3D interativo com precisão matemática.

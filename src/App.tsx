@@ -12,6 +12,8 @@ import AreaDoCliente from "./pages/AreaDoCliente.tsx";
 import ProjectDetail from "./pages/ProjectDetail.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import CookieConsent from "./components/CookieConsent.tsx";
+import CustomCursor from "./components/CustomCursor.tsx";
+
 
 const queryClient = new QueryClient();
 
@@ -43,7 +45,9 @@ const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
+        <CustomCursor />
         <Toaster />
+
         <Sonner />
         <BrowserRouter>
           <AuthProvider>

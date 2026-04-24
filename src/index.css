@@ -23,9 +23,14 @@
   }
 
   body {
-    @apply bg-background text-foreground antialiased;
+    @apply bg-background text-foreground antialiased cursor-none;
     font-family: var(--font-display);
   }
+
+  a, button, [role="button"] {
+    cursor: none !important;
+  }
+
 
   /* Grain Texture Overlay */
   body::before {

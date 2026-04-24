@@ -56,7 +56,7 @@ const CustomCursor = () => {
 
         // Detect yellow color (#FFCA16 = rgb(255, 202, 22))
         const style = window.getComputedStyle(element);
-        const isYellow = (c: string) => c.includes('255, 202, 22');
+        const isYellow = (c: string) => c && (c.includes('255, 202, 22') || c.toLowerCase().includes('#ffca16'));
         
         // Also check parent elements as text color might be inherited
         let currentEl: Element | null = element;

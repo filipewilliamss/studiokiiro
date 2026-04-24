@@ -16,7 +16,7 @@ const CustomCursor = () => {
   // Configuration for the trail circles - following the leader progressively slower
   // to ensure they stay behind and follow the path
   const trailConfigs = [
-    { damping: 30, stiffness: 800, mass: 0.2 },
+    { damping: 40, stiffness: 700, mass: 0.3 }, // Slower first link to avoid "atropelamento"
     { damping: 35, stiffness: 600, mass: 0.3 },
     { damping: 40, stiffness: 400, mass: 0.4 },
     { damping: 45, stiffness: 300, mass: 0.5 },
@@ -24,8 +24,10 @@ const CustomCursor = () => {
     { damping: 55, stiffness: 150, mass: 0.7 },
   ];
 
-  const trail1X = useSpring(mainX, trailConfigs[0]);
-  const trail1Y = useSpring(mainY, trailConfigs[0]);
+  // We make the first trail link follow the mouseX directly but with a different config 
+  // than the main cursor to create separation and prevent "atropelamento"
+  const trail1X = useSpring(mouseX, trailConfigs[0]);
+  const trail1Y = useSpring(mouseY, trailConfigs[0]);
   const trail2X = useSpring(trail1X, trailConfigs[1]);
   const trail2Y = useSpring(trail1Y, trailConfigs[1]);
   const trail3X = useSpring(trail2X, trailConfigs[2]);

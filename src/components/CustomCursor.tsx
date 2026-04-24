@@ -7,6 +7,8 @@ const CustomCursor = () => {
   const [isMobile, setIsMobile] = useState(false);
   const mouseX = useMotionValue(-100);
   const mouseY = useMotionValue(-100);
+  const [velocity, setVelocity] = useState(0);
+  const [lastPos, setLastPos] = useState({ x: 0, y: 0 });
 
   // Smooth springs for the main cursor - making it extremely responsive and fast
   const mainSpringConfig = { damping: 40, stiffness: 1200, mass: 0.1 };
@@ -14,7 +16,6 @@ const CustomCursor = () => {
   const mainY = useSpring(mouseY, mainSpringConfig);
 
   // Configuration for the trail circles
-  // We reduce stiffness and increase damping for trails to ensure they stay behind
   const trailConfigs = [
     { damping: 45, stiffness: 800, mass: 0.5 },
     { damping: 40, stiffness: 600, mass: 0.5 },
@@ -24,8 +25,6 @@ const CustomCursor = () => {
     { damping: 60, stiffness: 150, mass: 0.9 },
   ];
 
-  // Make the first trail link follow the main cursor's position (mainX/Y)
-  // instead of the mouseX/Y directly. This ensures the main cursor is always the leader.
   const trail1X = useSpring(mainX, trailConfigs[0]);
   const trail1Y = useSpring(mainY, trailConfigs[0]);
   const trail2X = useSpring(trail1X, trailConfigs[1]);

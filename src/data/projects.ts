@@ -36,16 +36,39 @@ import temploPag5 from "@/assets/templo-pagina-5.webp";
 import temploPag6 from "@/assets/templo-pagina-6.webp";
 import temploPag7 from "@/assets/templo-pagina-7.webp";
 import temploPag8 from "@/assets/templo-pagina-8.webp";
-import type { Project } from "@/components/PortfolioSection";
+
+export interface Project {
+  id: number;
+  slug: string;
+  title: string;
+  category: string;
+  bgColor: string;
+  intro: string;
+  challenge: string;
+  strategy: string;
+  solution: string;
+  result: string;
+  tags: string[];
+  logo: string;
+  pages: string[];
+  // Ficha técnica
+  client: string;
+  year: string;
+  service: string;
+  deliverables: string[];
+  role: string;
+}
 
 export const projects: Project[] = [
   {
     id: 1,
+    slug: "abdoni-podstore",
     title: "Abdoni Podstore",
     category: "Identidade Visual",
     bgColor: "#2D1A11",
     intro: "Construção de uma identidade visual com presença, contraste e personalidade para fortalecer o posicionamento da marca.",
-    challenge: "O podcast precisava de uma identidade visual profissional que transmitisse seriedade e credibilidade, se diferenciando no mercado de podcasts.",
+    challenge: "O podcast precisava de uma identidade visual profissional que transmitisse seriedade e credibilidade, se diferenciando no mercado de podcasts saturado por marcas genéricas.",
+    strategy: "Mapeamos o território simbólico do podcast e construímos um sistema visual baseado em contraste, profundidade e ritmo tipográfico, capaz de funcionar tanto no digital quanto em ativações físicas.",
     solution: "Criamos um manual completo com 11 páginas incluindo logo, variações, malha construtiva, paleta de cores, tipografia e aplicações.",
     result: "Identidade visual coesa e memorável que posicionou o podcast como referência no segmento, com reconhecimento imediato em todas as plataformas.",
     tags: ["Logo Design", "Manual de Marca", "Podcast", "Branding Estratégico"],
@@ -54,14 +77,21 @@ export const projects: Project[] = [
       akedahPag1, akedahPag2, akedahPag3, akedahPag4, akedahPag5,
       akedahPag6, akedahPag7, akedahPag8, akedahPag9, akedahPag10, akedahPag11,
     ],
+    client: "Abdoni Podstore",
+    year: "2024",
+    service: "Identidade Visual Completa",
+    deliverables: ["Logotipo principal", "Manual de marca (11 páginas)", "Sistema tipográfico", "Paleta cromática", "Aplicações"],
+    role: "Direção criativa, estratégia de marca e design",
   },
   {
     id: 2,
+    slug: "construmir",
     title: "Construmir",
     category: "Identidade Visual",
     bgColor: "#f5f4ef",
     intro: "Sistema visual desenvolvido para transmitir credibilidade, clareza e força em um mercado altamente competitivo.",
     challenge: "A marmoraria precisava de um rebranding que comunicasse sofisticação e qualidade, alinhado ao mercado premium de pedras naturais.",
+    strategy: "Trabalhamos uma linguagem visual minimalista, ancorada em tipografia editorial e composições generosas — afastando a marca do clichê industrial.",
     solution: "Desenvolvemos uma identidade visual elegante com manual de 9 páginas, incluindo versões monocromáticas e aplicações específicas para o segmento.",
     result: "Nova marca que transmite confiança e profissionalismo, com aplicações consistentes em todos os pontos de contato da empresa.",
     tags: ["Logo Design", "Manual de Marca", "Marmoraria", "Rebranding"],
@@ -71,30 +101,44 @@ export const projects: Project[] = [
       construmarPag4, construmarPag5, construmarPag6,
       construmarPag7, construmarPag8, construmarPag9,
     ],
+    client: "Construmir Marmoraria",
+    year: "2024",
+    service: "Rebranding",
+    deliverables: ["Logotipo redesenhado", "Manual de marca (9 páginas)", "Versões monocromáticas", "Aplicações comerciais"],
+    role: "Direção criativa e design de identidade",
   },
   {
     id: 3,
+    slug: "terapia-do-dna",
     title: "Terapia do DNA",
     category: "Identidade Visual",
     bgColor: "#191919",
     intro: "Direção visual pensada para comunicar sofisticação, equilíbrio e valor percebido em um segmento sensível e estratégico.",
-    challenge: "A igreja buscava uma identidade visual moderna que mantivesse a reverência e espiritualidade, atraindo tanto o público tradicional quanto o jovem.",
+    challenge: "A marca buscava uma identidade visual moderna que transmitisse autoridade científica sem perder a sensibilidade humana do cuidado terapêutico.",
+    strategy: "Construímos uma assinatura visual com tipografia refinada e símbolo geométrico minimalista, equilibrando ciência e acolhimento em todas as aplicações.",
     solution: "Manual de marca com 8 páginas, incluindo variações do logotipo, paleta de cores harmoniosa e guia completo de uso da marca.",
-    result: "Marca que equilibra tradição e modernidade, com forte presença visual nas redes sociais e materiais impressos da igreja.",
-    tags: ["Logo Design", "Manual de Marca", "Igreja"],
+    result: "Marca que equilibra autoridade técnica e proximidade humana, com forte presença visual nas redes sociais e materiais impressos.",
+    tags: ["Logo Design", "Manual de Marca", "Saúde"],
     logo: temploLogo,
     pages: [
       temploPag1, temploPag2, temploPag3, temploPag4,
       temploPag5, temploPag6, temploPag7, temploPag8,
     ],
+    client: "Terapia do DNA",
+    year: "2024",
+    service: "Identidade Visual",
+    deliverables: ["Logotipo principal", "Manual de marca (8 páginas)", "Paleta cromática", "Guia de aplicação"],
+    role: "Direção criativa e design",
   },
   {
     id: 4,
+    slug: "terra-linda-cross",
     title: "Terra Linda Cross",
     category: "Identidade Visual",
     bgColor: "#1d1e1b",
     intro: "Projeto visual com linguagem forte e memorável, criado para destacar a marca e reforçar sua presença no mercado.",
-    challenge: "O box de cross training precisava de uma identidade forte e dinâmica que refletisse energia, força e comunidade.",
+    challenge: "O box de cross training precisava de uma identidade forte e dinâmica que refletisse energia, força e comunidade — sem cair nos clichês esportivos.",
+    strategy: "Aplicamos um sistema gráfico com peso tipográfico marcante, paleta densa e ativações sociais que reforçam o senso de pertencimento da comunidade.",
     solution: "Rebranding completo com manual de 6 páginas, incluindo variações do logo, paleta energética, tipografia bold e layout de posts para Instagram.",
     result: "Marca com personalidade marcante que se destaca nas redes sociais e fortalece o senso de comunidade entre os alunos.",
     tags: ["Rebranding", "Social Media", "Cross Training"],
@@ -103,5 +147,10 @@ export const projects: Project[] = [
       teamluisaPag1, teamluisaPag2, teamluisaPag3,
       teamluisaPag4, teamluisaPag5, teamluisaPag6,
     ],
+    client: "Terra Linda Cross",
+    year: "2024",
+    service: "Rebranding e Social Media",
+    deliverables: ["Rebranding completo", "Manual de marca (6 páginas)", "Templates para Instagram", "Sistema visual"],
+    role: "Direção criativa, branding e social design",
   },
 ];

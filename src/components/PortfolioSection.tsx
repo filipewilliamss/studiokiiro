@@ -52,9 +52,12 @@ const ProjectCard = ({ project, index, total }: { project: any; index: number; t
       {/* Background Image with Gradient Overlay */}
       <div className="absolute inset-0 z-0">
         <motion.div 
-          style={{ scale: bgScale, opacity: bgOpacity }}
+          style={{ 
+            scale: bgScale, 
+            opacity: bgOpacity,
+            backgroundImage: `url(${project.pages[0]})`
+          }}
           className="w-full h-full bg-cover bg-center grayscale contrast-125 transition-opacity duration-700"
-          style={{ backgroundImage: `url(${project.pages[0]})`, opacity: 0.4 }}
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/40 to-black/90" />
       </div>

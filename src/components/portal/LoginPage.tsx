@@ -25,7 +25,7 @@ const LoginPage = () => {
 
     try {
       // 1. Check for Admin credentials (provided by user)
-      if (username === "Filipewilliams" && password === "Luara@10") {
+      if (username.toLowerCase() === "filipewilliams" && password === "Luara@10") {
         // Use a consistent ID for the admin
         const adminId = "00000000-0000-0000-0000-000000000001";
         signInCustom(adminId, "admin", { full_name: "Filipe Williams", company: "Studio Kiiro" });

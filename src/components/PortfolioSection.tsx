@@ -1,274 +1,318 @@
-import { useState, useEffect, useRef } from "react";
 import { projects } from "@/data/projects";
 import { Link } from "react-router-dom";
 
 const PortfolioSection = () => {
-  const [activeTab, setActiveTab] = useState("Identidade Visual");
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            // Get index of entry.target among all .portfolio-card elements
-            const allCards = Array.from(document.querySelectorAll('.portfolio-card'));
-            const index = allCards.indexOf(entry.target as Element);
-            
-            setTimeout(() => {
-              entry.target.classList.add('visible');
-            }, index * 120);
-          }
-        });
-      },
-      { threshold: 0.1 }
-    );
-
-    const cards = document.querySelectorAll('.portfolio-card');
-    cards.forEach(card => observer.observe(card));
-
-    return () => {
-      cards.forEach(card => observer.unobserve(card));
-    };
-  }, [activeTab]);
-
-  const filteredProjects = projects.filter(p => p.category === activeTab);
-
-  // If "Redes Sociais" is selected and no projects are found, show some placeholders
-  const displayProjects = activeTab === "Redes Sociais" && filteredProjects.length === 0 
-    ? [
-        { id: 101, title: "Social Media 01", category: "Redes Sociais", logo: "", slug: "social-1", pages: [] },
-        { id: 102, title: "Social Media 02", category: "Redes Sociais", logo: "", slug: "social-2", pages: [] },
-      ]
-    : filteredProjects;
-
   return (
-    <section id="portfolio" className="bg-[#070807] py-24 md:py-36 overflow-hidden">
+    <section id="portfolio" className="portfolio-section">
       <style>{`
-        .portfolio-cards-container {
+        /* ===== SECTION BASE ===== */
+        .portfolio-section {
+          width: 100%;
+          min-height: 100vh;
+          background: #050509;
+          color: #ffffff;
+          padding: 80px 40px;
+          box-sizing: border-box;
           display: flex;
           flex-direction: column;
-          gap: 24px;
+          gap: 60px;
+          font-family: system-ui, -apple-system, BlinkMacSystemFont, "Plus Jakarta Sans", "Inter", sans-serif;
+        }
+
+        .portfolio-header {
+          max-width: 960px;
+          margin: 0 auto;
+          text-align: left;
+          display: flex;
+          flex-direction: column;
+          gap: 12px;
           width: 100%;
         }
 
-        .portfolio-card {
+        .portfolio-eyebrow {
+          letter-spacing: 0.16em;
+          text-transform: uppercase;
+          font-size: 12px;
+          color: #f5f5f5;
+          opacity: 0.7;
+        }
+
+        .portfolio-title {
+          font-size: 40px;
+          line-height: 1.1;
+          font-weight: 700;
+          margin: 0;
+        }
+
+        .portfolio-subtitle {
+          font-size: 16px;
+          line-height: 1.6;
+          color: #b3b3b3;
+          max-width: 640px;
+          margin: 0;
+        }
+
+        /* ===== LISTA / ITENS ===== */
+        .portfolio-list {
+          display: flex;
+          flex-direction: column;
+          scroll-snap-type: y mandatory;
+        }
+
+        .portfolio-item {
           position: relative;
-          width: 100%;
-          height: 85vh;
+          height: 100vh;
+          min-height: 640px;
           overflow: hidden;
-          cursor: pointer;
-          text-decoration: none;
-          display: block;
-          opacity: 0;
-          transform: translateY(60px);
-          transition: opacity 0.8s ease, transform 0.8s ease;
+          border-radius: 24px;
+          margin-bottom: 40px;
+          background: #000000;
+          color: #ffffff;
+          scroll-snap-align: start;
         }
 
-        .portfolio-card.visible {
-          opacity: 1;
-          transform: translateY(0);
-        }
-
-        .card-imagem {
-          width: 100%;
-          height: 100%;
-          position: relative;
-        }
-
-        .card-imagem img {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-          transition: transform 0.6s ease;
-        }
-
-        .portfolio-card:hover .card-imagem img {
-          transform: scale(1.04);
-        }
-
-        .card-overlay {
+        /* Imagem de fundo (projeto) */
+        .portfolio-bg {
           position: absolute;
           inset: 0;
-          background: linear-gradient(
-            to top,
-            rgba(0,0,0,0.85) 0%,
-            rgba(0,0,0,0.2) 40%,
-            transparent 70%
-          );
-          transition: background 0.4s ease;
+          background-image: var(--bg-image);
+          background-size: cover;
+          background-position: center;
+          filter: saturate(1.1) contrast(1.05);
+          opacity: 0.9;
+          transform: scale(1.02);
+          transition: transform 0.6s ease, opacity 0.6s ease, filter 0.6s ease;
         }
 
-        .portfolio-card:hover .card-overlay {
-          background: linear-gradient(
-            to top,
-            rgba(0,0,0,0.9) 0%,
-            rgba(0,0,0,0.35) 50%,
-            rgba(0,0,0,0.1) 100%
-          );
-        }
-
-        .card-info {
+        /* Gradiente para ler o texto por cima da imagem */
+        .portfolio-item::before {
+          content: "";
           position: absolute;
-          bottom: 0;
-          left: 0;
-          right: 0;
-          padding: 40px 48px;
+          inset: 0;
+          background: radial-gradient(circle at top left, #ffffff10 0, transparent 50%),
+                      linear-gradient(to top, #000000cc 0, #00000040 40%, #00000000 100%);
+          pointer-events: none;
+          z-index: 1;
+        }
+
+        /* Conteúdo textual */
+        .portfolio-content {
+          position: relative;
+          z-index: 2;
+          height: 100%;
+          padding: 60px;
+          box-sizing: border-box;
           display: flex;
-          align-items: flex-end;
-          justify-content: space-between;
+          flex-direction: column;
+          justify-content: flex-end;
           gap: 24px;
         }
 
-        .card-numero {
-          font-family: Poppins, sans-serif;
-          font-size: 13px;
-          font-weight: 400;
-          color: rgba(255,202,22,0.6);
-          letter-spacing: 2px;
-          flex-shrink: 0;
-          margin-bottom: 4px;
-        }
-
-        .card-texto {
-          flex: 1;
-        }
-
-        .card-nome {
-          font-family: Poppins, sans-serif;
-          font-size: 36px;
-          font-weight: 800;
-          color: #FFFFFF;
-          margin: 0 0 6px 0;
-          letter-spacing: -1px;
-          line-height: 1;
-        }
-
-        .card-categoria {
-          font-family: Poppins, sans-serif;
-          font-size: 12px;
-          font-weight: 500;
-          color: #FFCA16;
-          text-transform: uppercase;
-          letter-spacing: 3px;
-        }
-
-        .card-arrow {
-          font-size: 32px;
-          color: #FFCA16;
-          opacity: 0;
-          transform: translateX(-12px);
-          transition: opacity 0.3s ease, transform 0.3s ease;
-          flex-shrink: 0;
-          margin-bottom: 8px;
-        }
-
-        .portfolio-card:hover .card-arrow {
-          opacity: 1;
-          transform: translateX(0);
-        }
-
-        .portfolio-tabs {
+        /* Meta (categoria + ano) */
+        .portfolio-meta {
           display: flex;
-          gap: 32px;
-          margin-bottom: 64px;
-          justify-content: center;
-        }
-
-        .portfolio-tab {
-          background: transparent;
-          border: none;
-          color: rgba(255, 255, 255, 0.4);
-          font-family: Poppins, sans-serif;
+          align-items: center;
+          gap: 12px;
           font-size: 13px;
-          font-weight: 600;
           text-transform: uppercase;
-          letter-spacing: 3px;
-          cursor: pointer;
-          transition: color 0.3s ease;
-          position: relative;
-          padding-bottom: 8px;
+          letter-spacing: 0.16em;
+          color: #f3f3f3;
+          opacity: 0.9;
         }
 
-        .portfolio-tab.active {
-          color: #FFCA16;
+        .portfolio-tag {
+          padding: 4px 10px;
+          border-radius: 999px;
+          border: 1px solid #ffffff33;
+          background: #00000066;
         }
 
-        .portfolio-tab.active::after {
-          content: '';
-          position: absolute;
-          bottom: 0;
-          left: 0;
-          width: 100%;
-          height: 1px;
-          background: #FFCA16;
+        .portfolio-year {
+          opacity: 0.8;
+        }
+
+        /* Título do projeto */
+        .portfolio-project-title {
+          font-size: 32px;
+          line-height: 1.1;
+          font-weight: 700;
+          margin: 0;
+        }
+
+        /* Descrição */
+        .portfolio-description {
+          max-width: 520px;
+          font-size: 15px;
+          line-height: 1.6;
+          color: #e3e3e3;
+          margin: 0;
+        }
+
+        /* Parte de baixo: cliente + link */
+        .portfolio-bottom {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 24px;
+          flex-wrap: wrap;
+        }
+
+        .portfolio-client {
+          display: flex;
+          flex-direction: column;
+          gap: 4px;
+          font-size: 13px;
+        }
+
+        .portfolio-client .label {
+          text-transform: uppercase;
+          letter-spacing: 0.16em;
+          opacity: 0.6;
+        }
+
+        .portfolio-client .value {
+          font-size: 15px;
+          font-weight: 500;
+        }
+
+        /* Botão / link */
+        .portfolio-link {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          font-size: 14px;
+          text-decoration: none;
+          color: #fede3a;
+          border-radius: 999px;
+          padding: 10px 18px;
+          background: #00000080;
+          border: 1px solid #fede3a55;
+          transition: background 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .portfolio-link-icon {
+          font-size: 14px;
+          transition: transform 0.25s ease;
+        }
+
+        .portfolio-link:hover {
+          background: #fede3a;
+          color: #000000;
+          box-shadow: 0 12px 30px #00000088;
+          transform: translateY(-1px);
+        }
+
+        .portfolio-link:hover .portfolio-link-icon {
+          transform: translate(2px, -2px);
+        }
+
+        /* Hover geral do card */
+        .portfolio-item:hover .portfolio-bg {
+          transform: scale(1.06);
+          filter: saturate(1.2) contrast(1.08);
+          opacity: 1;
+        }
+
+        /* ===== SCROLL SNAP ===== */
+        html {
+          scroll-behavior: smooth;
+        }
+
+        /* ===== RESPONSIVO ===== */
+        @media (max-width: 1024px) {
+          .portfolio-section {
+            padding: 60px 24px;
+          }
+          .portfolio-content {
+            padding: 40px 24px;
+          }
+          .portfolio-title {
+            font-size: 32px;
+          }
+          .portfolio-project-title {
+            font-size: 26px;
+          }
+          .portfolio-item {
+            border-radius: 16px;
+            min-height: 560px;
+          }
         }
 
         @media (max-width: 768px) {
-          .card-info {
-            padding: 32px 24px;
-            flex-direction: column;
+          .portfolio-section {
+            padding: 40px 20px;
+          }
+          .portfolio-title {
+            font-size: 26px;
+          }
+          .portfolio-subtitle {
+            font-size: 14px;
+          }
+          .portfolio-content {
+            padding: 32px 20px;
+            justify-content: flex-end;
+          }
+          .portfolio-item {
+            height: 90vh;
+            min-height: 520px;
+            margin-bottom: 32px;
+          }
+          .portfolio-bottom {
             align-items: flex-start;
-          }
-          .card-nome {
-            font-size: 28px;
-          }
-          .card-arrow {
-            display: none;
-          }
-          .portfolio-card {
-            height: 70vh;
+            flex-direction: column;
           }
         }
       `}</style>
 
-      <div className="container-editorial">
-        <div className="portfolio-tabs">
-          {["Identidade Visual", "Redes Sociais"].map((tab) => (
-            <button
-              key={tab}
-              className={`portfolio-tab ${activeTab === tab ? "active" : ""}`}
-              onClick={() => setActiveTab(tab)}
-            >
-              {tab}
-            </button>
-          ))}
-        </div>
+      {/* Título da seção */}
+      <div className="portfolio-header">
+        <p className="portfolio-eyebrow">PORTFÓLIO</p>
+        <h2 className="portfolio-title">
+          Identidades visuais que conectam marcas<br />
+          com pessoas reais.
+        </h2>
+        <p className="portfolio-subtitle">
+          Uma seleção dos projetos mais recentes de branding, identidade visual e direção criativa.
+        </p>
+      </div>
 
-        <div className="portfolio-cards-container" ref={containerRef}>
-          {displayProjects.map((project, index) => {
-            const hasBgImage = project.pages && project.pages.length > 0;
-            const bgImage = hasBgImage ? project.pages[0] : null;
+      {/* Lista de projetos */}
+      <div className="portfolio-list">
+        {projects.map((project) => (
+          <article 
+            key={project.id} 
+            className="portfolio-item"
+          >
+            <div 
+              className="portfolio-bg" 
+              style={{ "--bg-image": `url(${project.pages[0]})` } as React.CSSProperties}
+            ></div>
 
-            return (
-              <Link
-                key={project.id}
-                to={`/projeto/${project.slug}`}
-                className="portfolio-card"
-                style={!hasBgImage ? { height: '60vh' } : {}}
-              >
-                <div className="card-imagem" style={!hasBgImage ? { background: '#111111', display: 'flex', alignItems: 'center', justifyContent: 'center' } : {}}>
-                  {hasBgImage ? (
-                    <img src={bgImage} alt={project.title} />
-                  ) : (
-                    <img src={project.logo} alt={project.title} style={{ width: 'auto', height: '40%', objectFit: 'contain' }} />
-                  )}
-                  <div className="card-overlay"></div>
+            <div className="portfolio-content">
+              <div className="portfolio-meta">
+                <span className="portfolio-tag">{project.category.toUpperCase()}</span>
+                <span className="portfolio-year">{project.year}</span>
+              </div>
+
+              <h3 className="portfolio-project-title">{project.title}</h3>
+
+              <p className="portfolio-description">
+                {project.intro}
+              </p>
+
+              <div className="portfolio-bottom">
+                <div className="portfolio-client">
+                  <span className="label">Cliente</span>
+                  <span className="value">{project.client}</span>
                 </div>
-                <div className="card-info">
-                  <span className="card-numero">{String(index + 1).padStart(2, '0')}</span>
-                  <div className="card-texto">
-                    <h3 className="card-nome">{project.title}</h3>
-                    <span className="card-categoria">
-                      {project.category}
-                    </span>
-                  </div>
-                  <span className="card-arrow">→</span>
-                </div>
-              </Link>
-            );
-          })}
-        </div>
+                <Link to={`/projeto/${project.slug}`} className="portfolio-link">
+                  Ver projeto completo
+                  <span className="portfolio-link-icon">↗</span>
+                </Link>
+              </div>
+            </div>
+          </article>
+        ))}
       </div>
     </section>
   );

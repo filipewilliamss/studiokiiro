@@ -30,7 +30,7 @@ const Index = () => {
         style={{ scaleX: scrollProgress / 100 }}
       />
 
-      <CustomCursor />
+      {/* CustomCursor is in App.tsx */}
       <Navbar />
       
       <main>

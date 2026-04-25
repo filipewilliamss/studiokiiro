@@ -43,6 +43,33 @@ export type Database = {
           },
         ]
       }
+      client_credentials: {
+        Row: {
+          client_name: string
+          created_at: string | null
+          id: string
+          password: string
+          updated_at: string | null
+          username: string
+        }
+        Insert: {
+          client_name: string
+          created_at?: string | null
+          id?: string
+          password: string
+          updated_at?: string | null
+          username: string
+        }
+        Update: {
+          client_name?: string
+          created_at?: string | null
+          id?: string
+          password?: string
+          updated_at?: string | null
+          username?: string
+        }
+        Relationships: []
+      }
       fixed_costs: {
         Row: {
           created_at: string
@@ -731,6 +758,13 @@ export type Database = {
         Returns: boolean
       }
       update_updated_at_column: { Args: never; Returns: boolean }
+      verify_client_credentials: {
+        Args: { p_password: string; p_username: string }
+        Returns: {
+          client_name: string
+          id: string
+        }[]
+      }
     }
     Enums: {
       app_role: "admin" | "client" | "partner"

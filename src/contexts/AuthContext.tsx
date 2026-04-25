@@ -135,19 +135,28 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }, [role, loading]);
 
   const signOut = useCallback(async () => {
+    setLoading(true);
     try {
       await supabase.auth.signOut();
     } catch (err) {
       console.error("Error signing out:", err);
+    } finally {
+      // Clear custom session
+      localStorage.removeItem("kiiro_custom_session");
+      
+      // Clear all state
+      setUser(null);
+      setSession(null);
+      setRole(null);
+      setProfile(null);
+      
+      // Small delay to ensure state propagates before stopping loading
+      setTimeout(() => {
+        setLoading(false);
+        // Force redirect to the login page area
+        window.location.href = "/area-do-cliente";
+      }, 100);
     }
-    // Clear custom session too
-    localStorage.removeItem("kiiro_custom_session");
-    
-    // Always clear state, even if signOut fails
-    setUser(null);
-    setSession(null);
-    setRole(null);
-    setProfile(null);
   }, []);
 
   const signInCustom = useCallback((userId: string, role: UserRole, profileData?: any) => {

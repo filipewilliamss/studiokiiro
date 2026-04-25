@@ -42,10 +42,16 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       return;
     }
 
+    // Skip DB fetch for custom mock users (e.g., admin)
+    if (user.email?.endsWith("@custom.local")) {
+      return;
+    }
+
     let cancelled = false;
 
     const fetchUserData = async () => {
       try {
+        setLoading(true);
         // Small delay to ensure the auth token is fully propagated
         await new Promise((r) => setTimeout(r, 100));
 
@@ -72,6 +78,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         if (!cancelled) {
           setRole("client");
           setProfile(null);
+        }
+      } finally {
+        if (!cancelled) {
+          setLoading(false);
         }
       }
     };

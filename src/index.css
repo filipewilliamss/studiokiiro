@@ -49,6 +49,14 @@
   }
 }
 
+.invert {
+  filter: invert(1) hue-rotate(180deg);
+}
+
+.invert img, .invert video {
+  filter: invert(1) hue-rotate(180deg);
+}
+
 .custom-cursor-bubble {
   @apply fixed pointer-events-none z-[9999] rounded-full flex items-center justify-center font-bold text-[10px] uppercase transition-transform duration-300 ease-out;
   background: black;

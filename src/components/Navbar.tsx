@@ -41,13 +41,26 @@ const Navbar = ({ forceBlack }: NavbarProps) => {
           <span className="text-xs font-bold uppercase tracking-[0.3em] hidden md:block">Bangalore, IN</span>
         </div>
 
-        <button 
-          onClick={() => setIsOpen(true)}
-          className="flex items-center gap-4 group"
-        >
-          <span className="text-xs font-bold uppercase tracking-[0.3em] group-hover:bg-white group-hover:text-black px-4 py-2 transition-all border-2 border-white">LET'S TALK</span>
-          <Menu size={24} />
-        </button>
+        <div className="flex items-center gap-6">
+          <button 
+            onClick={() => {
+              document.documentElement.classList.toggle('invert');
+            }}
+            className="p-2 border-2 border-white hover:bg-white hover:text-black transition-colors"
+            title="Toggle Contrast"
+          >
+            <Sun size={20} className="hidden dark:block" />
+            <Moon size={20} className="block dark:hidden" />
+          </button>
+
+          <button 
+            onClick={() => setIsOpen(true)}
+            className="flex items-center gap-4 group"
+          >
+            <span className="text-xs font-bold uppercase tracking-[0.3em] group-hover:bg-white group-hover:text-black px-4 py-2 transition-all border-2 border-white">LET'S TALK</span>
+            <Menu size={24} />
+          </button>
+        </div>
       </nav>
 
       <AnimatePresence>

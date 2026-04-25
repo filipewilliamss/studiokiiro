@@ -11,7 +11,13 @@ const PortfolioSection = () => {
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
+            // Get index of entry.target among all .portfolio-card elements
+            const allCards = Array.from(document.querySelectorAll('.portfolio-card'));
+            const index = allCards.indexOf(entry.target as Element);
+            
+            setTimeout(() => {
+              entry.target.classList.add('visible');
+            }, index * 120);
           }
         });
       },

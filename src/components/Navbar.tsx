@@ -1,125 +1,103 @@
 import { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
-import { motion } from "framer-motion";
-import kiiroLogo from "@/assets/logo.webp";
+import { motion, AnimatePresence } from "framer-motion";
+import { Menu, X } from "lucide-react";
 
-const navLinks = [
-  { label: "Sobre", href: "#sobre" },
-  { label: "Serviços", href: "#servicos" },
-  { label: "Processo", href: "#processo" },
-  { label: "Portfólio", href: "#portfolio" },
-  { label: "Contato", href: "#contato" },
-];
-
-interface NavbarProps {
-  forceBlack?: boolean;
-}
-
-const Navbar = ({ forceBlack = true }: NavbarProps) => {
-  const [scrolled, setScrolled] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
-  const location = useLocation();
-  const isHome = location.pathname === "/";
-
-  const getHref = (anchor: string) => (isHome ? anchor : `/${anchor}`);
-  const logoHref = "/";
+const Navbar = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [time, setTime] = useState("");
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 50);
-    window.addEventListener("scroll", onScroll);
-    return () => window.removeEventListener("scroll", onScroll);
+    const updateTime = () => {
+      const now = new Date();
+      setTime(now.toLocaleTimeString('en-US', { 
+        hour12: false, 
+        hour: '2-digit', 
+        minute: '2-digit',
+        second: '2-digit'
+      }));
+    };
+    updateTime();
+    const interval = setInterval(updateTime, 1000);
+    return () => clearInterval(interval);
   }, []);
 
-  const bgClass = scrolled 
-    ? "bg-black/90 backdrop-blur-[20px] border-b border-white/[0.05] py-4" 
-    : "bg-transparent py-6 md:py-8";
-    
-  const textClass = "link-magnetic text-white/55 hover:text-[#FFCA16] font-bold text-[11px] uppercase tracking-[0.28em] font-display transition-colors duration-500";
-  const areaClienteTextClass = "relative overflow-hidden text-[#FFCA16] border border-[#FFCA16]/30 hover:border-[#FFCA16] hover:bg-[#FFCA16] hover:text-black px-6 py-2.5 transition-all duration-500 text-[11px] font-bold uppercase tracking-[0.25em] font-display";
+  const menuLinks = [
+    { label: "HOME", href: "#" },
+    { label: "WORK", href: "#work" },
+    { label: "ABOUT ME", href: "#about" },
+    { label: "CONTACT", href: "#contact" },
+  ];
 
   return (
-    <motion.nav
-      initial={{ y: -100, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${bgClass}`}
-    >
-      <div className="container-editorial flex items-center justify-between h-16 md:h-20">
-        <a href={logoHref} className="flex items-center gap-2 group">
-          <img 
-            src={kiiroLogo} 
-            alt="Studio Kiiro" 
-            className="h-8 md:h-10 w-auto transition-transform duration-300 group-hover:scale-105" 
-          />
-        </a>
-
-        {/* Desktop */}
-        <div className="hidden lg:flex items-center gap-10">
-          {navLinks.map((link, idx) => (
-            <a
-              key={link.href}
-              href={getHref(link.href)}
-              className={textClass}
-            >
-              <span className="text-white/30 mr-2 font-mono text-[9px] tracking-normal">
-                0{idx + 1}
-              </span>
-              {link.label}
-            </a>
-          ))}
-          <a
-            href="/area-do-cliente"
-            className={`${areaClienteTextClass} rounded-none`}
-          >
-            Área do Cliente
-          </a>
+    <>
+      <nav className="fixed top-0 left-0 w-full z-[100] px-6 py-8 flex justify-between items-center mix-blend-difference text-white">
+        <div className="flex items-center gap-4">
+          <span className="font-mono text-sm tracking-widest">{time}</span>
+          <span className="w-8 h-[1px] bg-white hidden md:block" />
+          <span className="text-xs font-bold uppercase tracking-[0.3em] hidden md:block">Bangalore, IN</span>
         </div>
 
-        {/* Mobile toggle */}
-        <button
-          onClick={() => setMenuOpen(!menuOpen)}
-          className="lg:hidden text-white hover:text-[#FFCA16] transition-colors"
-          aria-label="Menu"
+        <button 
+          onClick={() => setIsOpen(true)}
+          className="flex items-center gap-4 group"
         >
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            {menuOpen ? (
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-            ) : (
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-            )}
-          </svg>
+          <span className="text-xs font-bold uppercase tracking-[0.3em] group-hover:bg-white group-hover:text-black px-4 py-2 transition-all border-2 border-white">LET'S TALK</span>
+          <Menu size={24} />
         </button>
-      </div>
+      </nav>
 
-      {/* Mobile menu */}
-      {menuOpen && (
-        <motion.div
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          className={`lg:hidden border-b ${forceBlack ? "bg-black/95 backdrop-blur-md border-white/10" : "bg-background/95 backdrop-blur-md border-border"}`}
-        >
-          <div className="container-editorial py-6 flex flex-col gap-4">
-            {navLinks.map((link) => (
-              <a
-                key={link.href}
-                href={getHref(link.href)}
-                onClick={() => setMenuOpen(false)}
-                className={`text-sm transition-colors uppercase tracking-wide ${textClass}`}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ y: "-100%" }}
+            animate={{ y: 0 }}
+            exit={{ y: "-100%" }}
+            transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
+            className="fixed inset-0 z-[200] bg-black text-white flex flex-col p-6 md:p-24"
+          >
+            <div className="flex justify-between items-center w-full mb-24">
+              <span className="text-xl font-display uppercase">NEO-BRUTALIST STUDIO</span>
+              <button 
+                onClick={() => setIsOpen(false)}
+                className="hover:rotate-90 transition-transform p-4"
               >
-                {link.label}
-              </a>
-            ))}
-            <a
-              href="/area-do-cliente"
-              onClick={() => setMenuOpen(false)}
-              className={`text-sm transition-colors uppercase tracking-wide font-medium ${areaClienteTextClass}`}
-            >
-              Área do Cliente
-            </a>
-          </div>
-        </motion.div>
-      )}
-    </motion.nav>
+                <X size={48} />
+              </button>
+            </div>
+
+            <div className="flex flex-col gap-8 flex-grow">
+              {menuLinks.map((link, i) => (
+                <motion.a
+                  key={link.label}
+                  initial={{ x: -100, opacity: 0 }}
+                  animate={{ x: 0, opacity: 1 }}
+                  transition={{ delay: 0.4 + i * 0.1 }}
+                  href={link.href}
+                  onClick={() => setIsOpen(false)}
+                  className="text-8xl md:text-[12rem] font-display leading-[0.8] hover:italic hover:text-mint transition-all"
+                >
+                  {link.label}
+                </motion.a>
+              ))}
+            </div>
+
+            <div className="mt-12 flex flex-col md:flex-row justify-between items-end border-t-2 border-white/20 pt-12">
+              <div className="space-y-2">
+                <span className="block text-xs uppercase font-bold text-white/40">Socials</span>
+                <div className="flex gap-8">
+                  {["Instagram", "Twitter", "LinkedIn"].map(s => (
+                    <a key={s} href="#" className="font-bold uppercase border-b-2 border-white hover:text-mint transition-colors">{s}</a>
+                  ))}
+                </div>
+              </div>
+              <div className="mt-8 md:mt-0 text-right">
+                <p className="text-xl font-bold uppercase italic">Ready to break the form?</p>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
   );
 };
 

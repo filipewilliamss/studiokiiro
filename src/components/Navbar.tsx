@@ -2,7 +2,11 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 
-const Navbar = () => {
+interface NavbarProps {
+  forceBlack?: boolean;
+}
+
+const Navbar = ({ forceBlack }: NavbarProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [time, setTime] = useState("");
 

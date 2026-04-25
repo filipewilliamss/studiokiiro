@@ -6,7 +6,7 @@ import PortfolioSection from "@/components/PortfolioSection";
 import BentoGrid from "@/components/BentoGrid";
 import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
-import { CustomCursor } from "@/components/CustomCursor";
+// CustomCursor is already in App.tsx
 
 const Index = () => {
   const [scrollProgress, setScrollProgress] = useState(0);

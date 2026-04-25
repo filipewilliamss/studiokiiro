@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import AboutSection from "@/components/AboutSection";
@@ -16,106 +16,65 @@ const Index = () => {
   const [loading, setLoading] = useState(true);
 
   return (
-    <div className="min-h-screen bg-[#070807]">
-      {loading && <Preloader onComplete={() => setLoading(false)} />}
+    <div className="min-h-screen bg-black">
+      <AnimatePresence>
+        {loading && <Preloader onComplete={() => setLoading(false)} />}
+      </AnimatePresence>
 
       <div className={`relative z-10 transition-opacity duration-1000 ${loading ? 'opacity-0' : 'opacity-100'}`}>
         {!loading && (
-          <div className="flex flex-col">
+          <main className="flex flex-col snap-y snap-proximity">
             <Navbar />
             
-            <motion.div
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 1.5, ease: [0.22, 1, 0.36, 1] }}
-            >
+            <section className="snap-start">
               <HeroSection />
-            </motion.div>
+            </section>
             
             <SectionDivider />
             
-            <motion.div
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-            >
+            <section className="snap-start">
               <EditorialMarquee variant="compact" />
-            </motion.div>
+            </section>
             
             <SectionDivider />
             
-            <motion.div
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-            >
+            <section className="snap-start">
               <AboutSection />
-            </motion.div>
+            </section>
             
             <SectionDivider />
             
-            <motion.div
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-            >
+            <section className="snap-start">
               <EditorialQuote
                 eyebrow="Direção Criativa"
                 quote="Design não é decoração — é a forma como uma marca pensa, fala e existe no mundo."
                 attribution="Filipe Williams · Studio Kiiro"
               />
-            </motion.div>
+            </section>
             
             <SectionDivider />
             
-            <motion.div
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-            >
+            <section className="snap-start">
               <ServicesSection />
-            </motion.div>
+            </section>
             
             <SectionDivider />
             
-            <motion.div
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-            >
+            <section className="snap-start">
               <ProcessSection />
-            </motion.div>
+            </section>
+            
+            {/* Portfolio Section handles its own snapping per project */}
+            <PortfolioSection />
             
             <SectionDivider />
             
-            <motion.div
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-            >
-              <PortfolioSection />
-            </motion.div>
-            
-            <SectionDivider />
-            
-            <motion.div
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-            >
+            <section className="snap-start">
               <ContactSection />
-            </motion.div>
+            </section>
             
             <Footer />
-          </div>
+          </main>
         )}
       </div>
     </div>
@@ -128,7 +87,7 @@ const SectionDivider = () => (
     whileInView={{ scaleX: 1, opacity: 1 }}
     viewport={{ once: true }}
     transition={{ duration: 1.5, ease: [0.22, 1, 0.36, 1] }}
-    className="section-divider origin-center" 
+    className="section-divider origin-center h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent" 
   />
 );
 

@@ -58,15 +58,31 @@ const AccessTab = () => {
     const username = newClientName.toLowerCase().replace(/\s+/g, ".") + "." + Math.floor(Math.random() * 1000);
     const password = generateRandomString(10);
 
-    const { error } = await supabase.from("client_credentials").insert({
-      client_name: newClientName,
-      username,
-      password,
-    });
+    // 1. Insert into client_credentials
+    const { data: credData, error: credError } = await supabase
+      .from("client_credentials")
+      .insert({
+        client_name: newClientName,
+        username,
+        password,
+      })
+      .select()
+      .single();
 
-    if (error) {
-      toast.error("Erro ao gerar acesso: " + error.message);
+    if (credError) {
+      toast.error("Erro ao gerar acesso: " + credError.message);
     } else {
+      // 2. Also create a profile for this user so they can be linked to projects
+      const { error: profileError } = await supabase.from("profiles").insert({
+        user_id: credData.id, // We use the credential ID as the user_id
+        full_name: newClientName,
+      });
+
+      if (profileError) {
+        console.error("Erro ao criar perfil:", profileError);
+        // We don't block the UI here, but it's important for the dashboard
+      }
+
       toast.success("Acesso gerado com sucesso!");
       setNewClientName("");
       fetchCredentials();

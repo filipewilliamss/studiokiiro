@@ -89,7 +89,7 @@ const Index = () => {
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
             >
-              <ProcessSection />
+              <PortfolioSection />
             </motion.div>
             
             <SectionDivider />
@@ -100,7 +100,7 @@ const Index = () => {
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
             >
-              <PortfolioSection />
+              <ProcessSection />
             </motion.div>
             
             <SectionDivider />

@@ -11,7 +11,7 @@ interface AuthContextType {
   profile: { full_name: string; company: string | null } | null;
   loading: boolean;
   signOut: () => Promise<void>;
-  signInCustom: (username: string, role: UserRole, profileData?: any) => void;
+  signInCustom: (userId: string, role: UserRole, profileData?: any) => void;
 }
 
 const AuthContext = createContext<AuthContextType>({
@@ -140,16 +140,16 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setProfile(null);
   }, []);
 
-  const signInCustom = useCallback((username: string, role: UserRole, profileData?: any) => {
-    const customSession = { username, role, profile: profileData };
+  const signInCustom = useCallback((userId: string, role: UserRole, profileData?: any) => {
+    const customSession = { userId, role, profile: profileData };
     localStorage.setItem("kiiro_custom_session", JSON.stringify(customSession));
     
     // Create a mock user object to satisfy the context
-    const mockUser = { id: username, email: `${username}@custom.local` } as any;
+    const mockUser = { id: userId, email: `${userId}@custom.local` } as any;
     
     setUser(mockUser);
     setRole(role);
-    setProfile(profileData || { full_name: username, company: null });
+    setProfile(profileData || { full_name: userId, company: null });
     setLoading(false);
   }, []);
 
@@ -158,8 +158,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const stored = localStorage.getItem("kiiro_custom_session");
     if (stored) {
       try {
-        const { username, role, profile } = JSON.parse(stored);
-        const mockUser = { id: username, email: `${username}@custom.local` } as any;
+        const { userId, role, profile } = JSON.parse(stored);
+        const mockUser = { id: userId, email: `${userId}@custom.local` } as any;
         setUser(mockUser);
         setRole(role);
         setProfile(profile);

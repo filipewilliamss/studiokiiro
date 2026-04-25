@@ -25,60 +25,74 @@ const projects = [
   }
 ];
 
+const ProjectCard = ({ project, index }: { project: any, index: number }) => {
+  const containerRef = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"]
+  });
+
+  const y = useTransform(scrollYProgress, [0, 1], [100, -100]);
+
+  return (
+    <div 
+      ref={containerRef}
+      className="min-h-screen flex flex-col md:flex-row items-center justify-center px-6 md:px-24 sticky top-0"
+      style={{ backgroundColor: project.color }}
+    >
+      <div className="w-full md:w-1/2 mb-12 md:mb-0">
+        <motion.div
+          initial={{ opacity: 0, x: -50 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6 }}
+          className="max-w-xl"
+        >
+          <span className="text-xs font-bold uppercase tracking-widest bg-black text-white px-2 py-1 mb-6 inline-block">
+            Project {index + 1}
+          </span>
+          <h2 className="text-7xl font-display uppercase mb-6 leading-none">
+            {project.title}
+          </h2>
+          <p className="text-xl font-bold uppercase mb-8 opacity-80">
+            {project.description}
+          </p>
+          <div className="flex gap-4">
+            {project.tags.map((tag: string) => (
+              <span key={tag} className="border-2 border-black px-4 py-2 text-sm font-bold uppercase">
+                {tag}
+              </span>
+            ))}
+          </div>
+        </motion.div>
+      </div>
+      
+      <div className="w-full md:w-1/2 flex justify-center items-center">
+        <motion.div
+          style={{ y }}
+          initial={{ opacity: 0, scale: 0.8 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8 }}
+          whileHover={{ scale: 1.05 }}
+          data-cursor="VIEW PROJECT"
+          className="relative w-[300px] h-[600px] bg-black rounded-[3rem] p-4 shadow-brutalist-lg overflow-hidden cursor-none"
+        >
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-6 bg-black rounded-b-2xl z-20" />
+          <img 
+            src={project.image} 
+            alt={project.title}
+            className="w-full h-full object-cover rounded-[2.5rem]"
+          />
+        </motion.div>
+      </div>
+    </div>
+  );
+};
+
 const PortfolioSection = () => {
   return (
-    <section id="work" className="bg-white py-12">
+    <section id="work" className="bg-white">
       {projects.map((project, index) => (
-        <div 
-          key={index} 
-          className="min-h-screen flex flex-col md:flex-row items-center justify-center px-6 md:px-24 sticky top-0"
-          style={{ backgroundColor: project.color }}
-        >
-          <div className="w-full md:w-1/2 mb-12 md:mb-0">
-            <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6 }}
-              className="max-w-xl"
-            >
-              <span className="text-xs font-bold uppercase tracking-widest bg-black text-white px-2 py-1 mb-6 inline-block">
-                Project {index + 1}
-              </span>
-              <h2 className="text-7xl font-display uppercase mb-6 leading-none">
-                {project.title}
-              </h2>
-              <p className="text-xl font-bold uppercase mb-8 opacity-80">
-                {project.description}
-              </p>
-              <div className="flex gap-4">
-                {project.tags.map(tag => (
-                  <span key={tag} className="border-2 border-black px-4 py-2 text-sm font-bold uppercase">
-                    {tag}
-                  </span>
-                ))}
-              </div>
-            </motion.div>
-          </div>
-          
-          <div className="w-full md:w-1/2 flex justify-center items-center">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8, rotate: -5 }}
-              whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
-              transition={{ duration: 0.8, type: "spring" }}
-              whileHover={{ scale: 1.05 }}
-              data-cursor="VIEW PROJECT"
-              className="relative w-[300px] h-[600px] bg-black rounded-[3rem] p-4 shadow-brutalist-lg overflow-hidden cursor-none"
-            >
-              {/* iPhone Mockup Frame */}
-              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-6 bg-black rounded-b-2xl z-20" />
-              <img 
-                src={project.image} 
-                alt={project.title}
-                className="w-full h-full object-cover rounded-[2.5rem]"
-              />
-            </motion.div>
-          </div>
-        </div>
+        <ProjectCard key={index} project={project} index={index} />
       ))}
     </section>
   );

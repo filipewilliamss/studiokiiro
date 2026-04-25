@@ -19,6 +19,12 @@ export default {
       },
       colors: {
         border: "hsl(var(--border))",
+        mint: "#98FF98",
+        purple: "#4B0082",
+        brutalist: {
+          white: "#FFFFFF",
+          black: "#000000",
+        },
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",

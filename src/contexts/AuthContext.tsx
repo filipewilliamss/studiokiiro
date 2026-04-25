@@ -11,6 +11,7 @@ interface AuthContextType {
   profile: { full_name: string; company: string | null } | null;
   loading: boolean;
   signOut: () => Promise<void>;
+  signInCustom: (username: string, role: UserRole, profileData?: any) => void;
 }
 
 const AuthContext = createContext<AuthContextType>({
@@ -20,6 +21,7 @@ const AuthContext = createContext<AuthContextType>({
   profile: null,
   loading: true,
   signOut: async () => {},
+  signInCustom: () => {},
 });
 
 export const useAuth = () => useContext(AuthContext);
@@ -128,6 +130,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     } catch (err) {
       console.error("Error signing out:", err);
     }
+    // Clear custom session too
+    localStorage.removeItem("kiiro_custom_session");
+    
     // Always clear state, even if signOut fails
     setUser(null);
     setSession(null);
@@ -135,8 +140,38 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setProfile(null);
   }, []);
 
+  const signInCustom = useCallback((username: string, role: UserRole, profileData?: any) => {
+    const customSession = { username, role, profile: profileData };
+    localStorage.setItem("kiiro_custom_session", JSON.stringify(customSession));
+    
+    // Create a mock user object to satisfy the context
+    const mockUser = { id: username, email: `${username}@custom.local` } as any;
+    
+    setUser(mockUser);
+    setRole(role);
+    setProfile(profileData || { full_name: username, company: null });
+    setLoading(false);
+  }, []);
+
+  // Check for custom session on mount
+  useEffect(() => {
+    const stored = localStorage.getItem("kiiro_custom_session");
+    if (stored) {
+      try {
+        const { username, role, profile } = JSON.parse(stored);
+        const mockUser = { id: username, email: `${username}@custom.local` } as any;
+        setUser(mockUser);
+        setRole(role);
+        setProfile(profile);
+        setLoading(false);
+      } catch (e) {
+        localStorage.removeItem("kiiro_custom_session");
+      }
+    }
+  }, []);
+
   return (
-    <AuthContext.Provider value={{ user, session, role, profile, loading, signOut }}>
+    <AuthContext.Provider value={{ user, session, role, profile, loading, signOut, signInCustom }}>
       {children}
     </AuthContext.Provider>
   );

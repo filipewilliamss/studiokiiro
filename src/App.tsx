@@ -1,10 +1,11 @@
 import { useEffect } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { AuthProvider } from "@/contexts/AuthContext";
+import { AnimatePresence } from "framer-motion";
 import Lenis from "lenis";
 import Index from "./pages/Index.tsx";
 import Obrigado from "./pages/Obrigado.tsx";
@@ -14,8 +15,23 @@ import NotFound from "./pages/NotFound.tsx";
 import CookieConsent from "./components/CookieConsent.tsx";
 import CustomCursor from "./components/CustomCursor.tsx";
 
-
 const queryClient = new QueryClient();
+
+const AnimatedRoutes = () => {
+  const location = useLocation();
+  
+  return (
+    <AnimatePresence mode="wait">
+      <Routes location={location} key={location.pathname}>
+        <Route path="/" element={<Index />} />
+        <Route path="/obrigado" element={<Obrigado />} />
+        <Route path="/area-do-cliente" element={<AreaDoCliente />} />
+        <Route path="/projeto/:slug" element={<ProjectDetail />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </AnimatePresence>
+  );
+};
 
 const App = () => {
   useEffect(() => {
@@ -47,17 +63,10 @@ const App = () => {
       <TooltipProvider>
         <CustomCursor />
         <Toaster />
-
         <Sonner />
         <BrowserRouter>
           <AuthProvider>
-            <Routes>
-              <Route path="/" element={<Index />} />
-              <Route path="/obrigado" element={<Obrigado />} />
-              <Route path="/area-do-cliente" element={<AreaDoCliente />} />
-              <Route path="/projeto/:slug" element={<ProjectDetail />} />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
+            <AnimatedRoutes />
             <CookieConsent />
           </AuthProvider>
         </BrowserRouter>

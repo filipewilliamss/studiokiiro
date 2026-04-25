@@ -1,48 +1,135 @@
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useState } from "react";
+import { motion } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
+import AboutSection from "@/components/AboutSection";
+import ServicesSection from "@/components/ServicesSection";
+import ProcessSection from "@/components/ProcessSection";
 import PortfolioSection from "@/components/PortfolioSection";
-import BentoGrid from "@/components/BentoGrid";
 import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
-// CustomCursor is already in App.tsx
+import Preloader from "@/components/Preloader";
+import EditorialMarquee from "@/components/EditorialMarquee";
+import EditorialQuote from "@/components/EditorialQuote";
 
 const Index = () => {
-  const [scrollProgress, setScrollProgress] = useState(0);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const totalScroll = document.documentElement.scrollHeight - window.innerHeight;
-      const progress = (window.scrollY / totalScroll) * 100;
-      setScrollProgress(progress);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  const [loading, setLoading] = useState(true);
 
   return (
-    <div className="relative min-h-screen bg-white text-black selection:bg-mint selection:text-black">
-      {/* Scroll Progress Bar */}
-      <motion.div 
-        className="fixed top-0 left-0 h-1 bg-black z-[100] origin-left"
-        style={{ scaleX: scrollProgress / 100 }}
-      />
+    <div className="min-h-screen bg-[#070807]">
+      {loading && <Preloader onComplete={() => setLoading(false)} />}
 
-      {/* CustomCursor is in App.tsx */}
-      <Navbar />
-      
-      <main>
-        <HeroSection />
-        <PortfolioSection />
-        <BentoGrid />
-        <ContactSection />
-      </main>
-
-      <Footer />
+      <div className={`relative z-10 transition-opacity duration-1000 ${loading ? 'opacity-0' : 'opacity-100'}`}>
+        {!loading && (
+          <div className="flex flex-col">
+            <Navbar />
+            
+            <motion.div
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 1.5, ease: [0.22, 1, 0.36, 1] }}
+            >
+              <HeroSection />
+            </motion.div>
+            
+            <SectionDivider />
+            
+            <motion.div
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+            >
+              <EditorialMarquee variant="compact" />
+            </motion.div>
+            
+            <SectionDivider />
+            
+            <motion.div
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+            >
+              <AboutSection />
+            </motion.div>
+            
+            <SectionDivider />
+            
+            <motion.div
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+            >
+              <EditorialQuote
+                eyebrow="Direção Criativa"
+                quote="Design não é decoração — é a forma como uma marca pensa, fala e existe no mundo."
+                attribution="Filipe Williams · Studio Kiiro"
+              />
+            </motion.div>
+            
+            <SectionDivider />
+            
+            <motion.div
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+            >
+              <ServicesSection />
+            </motion.div>
+            
+            <SectionDivider />
+            
+            <motion.div
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+            >
+              <ProcessSection />
+            </motion.div>
+            
+            <SectionDivider />
+            
+            <motion.div
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+            >
+              <PortfolioSection />
+            </motion.div>
+            
+            <SectionDivider />
+            
+            <motion.div
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+            >
+              <ContactSection />
+            </motion.div>
+            
+            <Footer />
+          </div>
+        )}
+      </div>
     </div>
   );
 };
+
+const SectionDivider = () => (
+  <motion.div 
+    initial={{ scaleX: 0, opacity: 0 }}
+    whileInView={{ scaleX: 1, opacity: 1 }}
+    viewport={{ once: true }}
+    transition={{ duration: 1.5, ease: [0.22, 1, 0.36, 1] }}
+    className="section-divider origin-center" 
+  />
+);
 
 export default Index;

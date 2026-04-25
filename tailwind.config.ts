@@ -14,17 +14,11 @@ export default {
     },
     extend: {
       fontFamily: {
-        display: ['"Archivo Black"', 'sans-serif'],
-        body: ['Inter', 'sans-serif'],
+        display: ['Poppins', 'sans-serif'],
+        body: ['Poppins', 'sans-serif'],
       },
       colors: {
         border: "hsl(var(--border))",
-        mint: "#98FF98",
-        purple: "#4B0082",
-        brutalist: {
-          white: "#FFFFFF",
-          black: "#000000",
-        },
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",

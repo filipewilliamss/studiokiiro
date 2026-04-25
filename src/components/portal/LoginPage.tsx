@@ -26,14 +26,15 @@ const LoginPage = () => {
     try {
       // 1. Check for Admin credentials (provided by user)
       if (username === "Filipewilliams" && password === "Luara@10") {
-        signInCustom("Filipewilliams", "admin", { full_name: "Filipe Williams", company: "Studio Kiiro" });
+        // Use a consistent ID for the admin
+        const adminId = "00000000-0000-0000-0000-000000000001";
+        signInCustom(adminId, "admin", { full_name: "Filipe Williams", company: "Studio Kiiro" });
         toast.success("Bem-vindo, Filipe!");
         setLoading(false);
         return;
       }
 
       // 2. Check for Client credentials in the database
-      // Using the RPC function for security
       const { data, error } = await supabase.rpc("verify_client_credentials", {
         p_username: username,
         p_password: password
@@ -43,7 +44,7 @@ const LoginPage = () => {
 
       if (data && data.length > 0) {
         const client = data[0];
-        signInCustom(username, "client", { full_name: client.client_name, company: null });
+        signInCustom(client.id, "client", { full_name: client.client_name, company: null });
         toast.success(`Bem-vindo, ${client.client_name}!`);
       } else {
         toast.error("Usuário ou senha incorretos.");

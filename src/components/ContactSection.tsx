@@ -1,65 +1,116 @@
-import { motion } from "framer-motion";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Send, CheckCircle2 } from "lucide-react";
 
 const ContactSection = () => {
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSending, setIsSending] = useState(false);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSending(true);
+    // Simulate API call
+    setTimeout(() => {
+      setIsSending(false);
+      setIsSubmitted(true);
+    }, 2000);
+  };
+
   return (
-    <section 
-      id="contato" 
-      className="relative bg-[#070807] overflow-hidden"
-      style={{ padding: '160px 0 100px' }}
-    >
-      {/* High-Impact Visual Elements */}
-      <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-[#FFCA16]/30 to-transparent" />
-      <div className="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent" />
-      
-      <div className="absolute top-[20%] left-[-10%] w-[50%] aspect-square bg-[#FFCA16]/[0.03] rounded-full blur-[180px] pointer-events-none" />
-      <div className="absolute bottom-[20%] right-[-10%] w-[40%] aspect-square bg-[#FFCA16]/[0.02] rounded-full blur-[150px] pointer-events-none" />
-
-      <div className="container-editorial relative z-10">
-        <div className="flex flex-col items-center text-center">
-
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-            className="w-full max-w-6xl"
+    <section id="contact" className="bg-white py-32 px-6">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-24">
+        <div>
+          <motion.h2 
+            initial={{ opacity: 0, x: -50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            className="text-8xl font-display uppercase leading-none mb-12"
           >
-            <div className="flex items-center justify-center gap-4 mb-12">
-              <span className="w-12 h-[1px] bg-[#FFCA16]" />
-              <span className="text-[#FFCA16] text-[11px] font-bold uppercase tracking-[0.4em]">
-                Pronto para o próximo nível?
-              </span>
-              <span className="w-12 h-[1px] bg-[#FFCA16]" />
-            </div>
-
-            <h2 className="font-display text-[64px] md:text-[120px] lg:text-[160px] font-[800] leading-[0.78] tracking-[-0.055em] text-white mb-20">
-              Sua marca <br /> merece ser <br /> <span className="text-[#FFCA16] italic font-light">lembrada.</span>
-            </h2>
-
-            <div className="flex flex-col items-center gap-12">
-              <p className="font-display text-[20px] md:text-[26px] font-light text-white/55 max-w-2xl leading-[1.5] text-balance">
-                Não é sobre um logo bonito. É sobre criar uma marca que as pessoas reconhecem, confiam e escolhem — sempre.
-              </p>
-
-              <div className="flex flex-col sm:flex-row gap-5">
-                <a
-                  href="https://wa.me/5511991076096"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn-premium px-16"
-                >
-                  Fale no WhatsApp
+            LET'S <br /> WORK <br /> TOGETHER
+          </motion.h2>
+          <div className="space-y-6">
+            <p className="text-xl font-bold uppercase">hello@neobrutalist.com</p>
+            <p className="text-xl font-bold uppercase">+91 98765 43210</p>
+            <div className="flex gap-8 mt-12">
+              {["Twitter", "Dribbble", "Instagram", "Behance"].map(social => (
+                <a key={social} href="#" className="font-bold uppercase border-b-2 border-black hover:bg-black hover:text-white transition-colors">
+                  {social}
                 </a>
-                <a
-                  href="mailto:contato@studiokiiro.com"
-                  className="btn-premium-outline px-16"
-                >
-                  Enviar e-mail
-                </a>
-              </div>
+              ))}
             </div>
-          </motion.div>
+          </div>
+        </div>
 
+        <div className="bg-white p-12 border-4 border-black shadow-brutalist-lg">
+          <AnimatePresence mode="wait">
+            {!isSubmitted ? (
+              <motion.form 
+                key="form"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                onSubmit={handleSubmit}
+                className="space-y-12"
+              >
+                <div className="relative">
+                  <input 
+                    type="text" 
+                    required 
+                    placeholder="YOUR NAME" 
+                    className="w-full bg-transparent border-b-4 border-black p-4 text-xl font-bold uppercase focus:outline-none placeholder:text-gray-300"
+                  />
+                </div>
+                <div className="relative">
+                  <input 
+                    type="email" 
+                    required 
+                    placeholder="YOUR EMAIL" 
+                    className="w-full bg-transparent border-b-4 border-black p-4 text-xl font-bold uppercase focus:outline-none placeholder:text-gray-300"
+                  />
+                </div>
+                <div className="relative">
+                  <textarea 
+                    rows={4} 
+                    required 
+                    placeholder="TELL US ABOUT THE PROJECT" 
+                    className="w-full bg-transparent border-b-4 border-black p-4 text-xl font-bold uppercase focus:outline-none placeholder:text-gray-300 resize-none"
+                  />
+                </div>
+                
+                <button 
+                  type="submit" 
+                  disabled={isSending}
+                  className="w-full bg-black text-white p-8 text-2xl font-display uppercase flex items-center justify-center gap-4 hover:bg-mint hover:text-black transition-colors group overflow-hidden relative"
+                >
+                  <span className="relative z-10">{isSending ? "SENDING..." : "SHOOT"}</span>
+                  {!isSending && (
+                    <motion.div
+                      animate={isSending ? { x: 100, y: -100 } : { x: 0, y: 0 }}
+                      className="relative z-10"
+                    >
+                      <Send size={32} />
+                    </motion.div>
+                  )}
+                </button>
+              </motion.form>
+            ) : (
+              <motion.div 
+                key="success"
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="flex flex-col items-center justify-center py-24 text-center"
+              >
+                <CheckCircle2 size={120} className="mb-8 text-mint" />
+                <h3 className="text-4xl font-display uppercase mb-4">Message Sent!</h3>
+                <p className="text-xl font-bold uppercase">We'll get back to you in 24 hours.</p>
+                <button 
+                  onClick={() => setIsSubmitted(false)}
+                  className="mt-12 font-bold uppercase border-b-4 border-black"
+                >
+                  Send another message
+                </button>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </div>
     </section>

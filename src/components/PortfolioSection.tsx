@@ -1,124 +1,99 @@
-import { Link } from "react-router-dom";
-import akedahPag1 from "@/assets/akedah-pagina-1.webp";
-import construmarPag1 from "@/assets/construmar-pagina-1.webp";
-import teamluisaPag1 from "@/assets/teamluisa-pagina-1.webp";
+import { useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
+
+const projects = [
+  {
+    title: "Obvious Wallet",
+    description: "A crypto wallet that makes sense.",
+    color: "#98FF98", // Mint Green
+    image: "https://images.unsplash.com/photo-1616469829581-73993eb86b02?q=80&w=800&auto=format&fit=crop",
+    tags: ["Crypto", "App Design"]
+  },
+  {
+    title: "Deep Vision",
+    description: "AI-powered medical diagnostics.",
+    color: "#4B0082", // Deep Purple
+    image: "https://images.unsplash.com/photo-1551288049-bb1c004517ae?q=80&w=800&auto=format&fit=crop",
+    tags: ["AI", "Health Tech"]
+  },
+  {
+    title: "Neon City",
+    description: "The future of urban navigation.",
+    color: "#FFCA16", // Yellow accent
+    image: "https://images.unsplash.com/photo-1519608487953-e999c86e7455?q=80&w=800&auto=format&fit=crop",
+    tags: ["Navigation", "Future"]
+  }
+];
+
+const ProjectCard = ({ project, index }: { project: any, index: number }) => {
+  const containerRef = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"]
+  });
+
+  const y = useTransform(scrollYProgress, [0, 1], [100, -100]);
+
+  return (
+    <div 
+      ref={containerRef}
+      className="min-h-screen flex flex-col md:flex-row items-center justify-center px-6 md:px-24 sticky top-0"
+      style={{ backgroundColor: project.color }}
+    >
+      <div className="w-full md:w-1/2 mb-12 md:mb-0">
+        <motion.div
+          initial={{ opacity: 0, x: -50 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6 }}
+          className="max-w-xl"
+        >
+          <span className="text-xs font-bold uppercase tracking-widest bg-black text-white px-2 py-1 mb-6 inline-block">
+            Project {index + 1}
+          </span>
+          <h2 className="text-7xl font-display uppercase mb-6 leading-none">
+            {project.title}
+          </h2>
+          <p className="text-xl font-bold uppercase mb-8 opacity-80">
+            {project.description}
+          </p>
+          <div className="flex gap-4">
+            {project.tags.map((tag: string) => (
+              <span key={tag} className="border-2 border-black px-4 py-2 text-sm font-bold uppercase">
+                {tag}
+              </span>
+            ))}
+          </div>
+        </motion.div>
+      </div>
+      
+      <div className="w-full md:w-1/2 flex justify-center items-center">
+        <motion.div
+          style={{ y }}
+          initial={{ opacity: 0, scale: 0.8 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8 }}
+          whileHover={{ scale: 1.05 }}
+          data-cursor="VIEW PROJECT"
+          className="relative w-[300px] h-[600px] bg-black rounded-[3rem] p-4 shadow-brutalist-lg overflow-hidden cursor-none"
+        >
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-6 bg-black rounded-b-2xl z-20" />
+          <img 
+            src={project.image} 
+            alt={project.title}
+            className="w-full h-full object-cover rounded-[2.5rem]"
+          />
+        </motion.div>
+      </div>
+    </div>
+  );
+};
 
 const PortfolioSection = () => {
   return (
-    <section id="portfolio" className="bdsn-portfolio-section">
-
-      <header className="bdsn-portfolio-header">
-        <p className="bdsn-portfolio-label">Portfólio</p>
-        <h2 className="bdsn-portfolio-heading">Identidade visual & branding</h2>
-        <p className="bdsn-portfolio-intro">
-          Uma seleção de projetos em que trabalhei identidade visual, estratégia e direção criativa
-          para construir marcas com presença, contraste e personalidade.
-        </p>
-      </header>
-
-      <div className="bdsn-portfolio-list">
-        {/* PROJETO 1 – Akedah Podcast */}
-        <article className="bdsn-portfolio-item">
-          <div 
-            className="bdsn-portfolio-bg"
-            style={{ backgroundImage: `url(${akedahPag1})` }}
-          ></div>
-
-          <div className="bdsn-portfolio-overlay">
-            <div className="bdsn-portfolio-meta">
-              <span className="bdsn-chip">Identidade Visual</span>
-              <span className="bdsn-year">2025</span>
-            </div>
-
-            <h3 className="bdsn-project-title">Akedah Podcast</h3>
-            <p className="bdsn-project-subtitle">
-              Identidade com presença, contraste e personalidade para um podcast que vive de voz e opinião.
-            </p>
-
-            <p className="bdsn-project-description">
-              Construção de um sistema visual que traduz a essência do Akedah em formas, cores e tipografia
-              marcantes. A nova identidade fortalece o posicionamento da marca, cria reconhecimento imediato
-              e dá consistência para a comunicação em capas, redes sociais e materiais digitais.
-            </p>
-
-            <div className="bdsn-project-footer">
-              <div className="bdsn-client">
-                <span className="bdsn-client-label">Cliente</span>
-                <span className="bdsn-client-name">Akedah Podcast</span>
-              </div>
-              <Link to="/projeto/akedah-podcast" className="bdsn-project-link">Ver projeto completo ↗</Link>
-            </div>
-          </div>
-        </article>
-
-        {/* PROJETO 2 – Construmar */}
-        <article className="bdsn-portfolio-item">
-          <div 
-            className="bdsn-portfolio-bg"
-            style={{ backgroundImage: `url(${construmarPag1})` }}
-          ></div>
-
-          <div className="bdsn-portfolio-overlay">
-            <div className="bdsn-portfolio-meta">
-              <span className="bdsn-chip">Branding</span>
-              <span className="bdsn-year">2025</span>
-            </div>
-
-            <h3 className="bdsn-project-title">Construmar</h3>
-            <p className="bdsn-project-subtitle">
-              Sistema visual sólido para um mercado de alta competitividade.
-            </p>
-
-            <p className="bdsn-project-description">
-              Desenvolvimento de um sistema visual que transmite credibilidade, clareza e força para a Construmar.
-              A identidade foi pensada para funcionar em diversos pontos de contato — do digital ao físico —,
-              reforçando a confiança na marca e posicionando a empresa com mais presença em um mercado disputado.
-            </p>
-
-            <div className="bdsn-project-footer">
-              <div className="bdsn-client">
-                <span className="bdsn-client-label">Cliente</span>
-                <span className="bdsn-client-name">Construmar</span>
-              </div>
-              <Link to="/projeto/construmar" className="bdsn-project-link">Ver projeto completo ↗</Link>
-            </div>
-          </div>
-        </article>
-
-        {/* PROJETO 3 – Team Luísa Crosstraining */}
-        <article className="bdsn-portfolio-item">
-          <div 
-            className="bdsn-portfolio-bg"
-            style={{ backgroundImage: `url(${teamluisaPag1})` }}
-          ></div>
-
-          <div className="bdsn-portfolio-overlay">
-            <div className="bdsn-portfolio-meta">
-              <span className="bdsn-chip">Identidade Visual</span>
-              <span className="bdsn-year">2024</span>
-            </div>
-
-            <h3 className="bdsn-project-title">Team Luísa Crosstraining</h3>
-            <p className="bdsn-project-subtitle">
-              Linguagem visual forte e memorável para uma marca de alta performance.
-            </p>
-
-            <p className="bdsn-project-description">
-              Criação de um projeto visual com impacto, contraste e legibilidade em movimento. A identidade
-              do Team Luísa Crosstraining foi construída para destacar a marca em ambientes físicos e digitais,
-              reforçando sua presença no mercado e conectando a energia do treino com uma estética contemporânea.
-            </p>
-
-            <div className="bdsn-project-footer">
-              <div className="bdsn-client">
-                <span className="bdsn-client-label">Cliente</span>
-                <span className="bdsn-client-name">Team Luísa Crosstraining</span>
-              </div>
-              <Link to="/projeto/team-luisa-crosstraining" className="bdsn-project-link">Ver projeto completo ↗</Link>
-            </div>
-          </div>
-        </article>
-      </div>
+    <section id="work" className="bg-white">
+      {projects.map((project, index) => (
+        <ProjectCard key={index} project={project} index={index} />
+      ))}
     </section>
   );
 };

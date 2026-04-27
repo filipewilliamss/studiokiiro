@@ -96,10 +96,10 @@ const AboutSection = () => {
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                 <p className="text-white/50 text-[15px] leading-relaxed">
-                  Trabalhamos através de método e pesquisa, mergulhando no contexto de cada negócio para criar sistemas visuais que sustentam narrativas fortes. Fugimos de soluções genéricas e templates prontos para entregar diferenciação real em cada ponto de contato.
+                  Trabalhamos com método e pesquisa, mergulhando no contexto de cada negócio para criar sistemas visuais consistentes, fáceis de aplicar e difíceis de confundir com o que já existe no mercado. Fugimos de soluções genéricas e de templates prontos para entregar identidade própria em cada ponto de contato.
                 </p>
                 <p className="text-white/50 text-[15px] leading-relaxed">
-                  Seja na criação de uma identidade visual do zero ou na estruturação de uma presença digital consistente, nosso foco é garantir que cada elemento visual cumpra um papel estratégico no posicionamento e na percepção de valor da sua empresa perante o mercado.
+                  Seja na criação de uma identidade visual do zero ou na estruturação de uma presença digital completa, nosso foco é garantir que cada elemento visual cumpra um papel estratégico: reforçar o posicionamento, facilitar o reconhecimento e elevar a percepção de profissionalismo da sua marca.
                 </p>
               </div>
             </motion.div>

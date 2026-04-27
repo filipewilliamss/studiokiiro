@@ -75,8 +75,10 @@ const ProcessSection = () => {
 
                 <div className={`w-full md:w-[42%] pl-12 md:pl-0 ${idx % 2 === 0 ? 'md:text-left' : 'md:text-right'}`}>
                   <motion.div
-                    whileInView={{ x: idx % 2 === 0 ? [0, 10, 0] : [0, -10, 0] }}
-                    transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+                    initial={{ opacity: 0, y: 10 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.8, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
                     className="inline-block mb-6"
                   >
                     <span className="text-[#FFCA16] text-[12px] font-bold tracking-[0.2em] uppercase px-4 py-1.5 border border-[#FFCA16]/20 bg-[#FFCA16]/5">
@@ -86,7 +88,7 @@ const ProcessSection = () => {
                   <h3 className="font-display text-[32px] md:text-[42px] font-bold text-white mb-6 tracking-tight leading-tight group-hover:text-[#FFCA16] transition-colors">
                     {step.title}
                   </h3>
-                  <p className="text-white/50 text-[16px] md:text-[18px] leading-relaxed max-w-md ${idx % 2 === 0 ? '' : 'md:ml-auto'} font-light">
+                  <p className={`text-white/50 text-[16px] md:text-[18px] leading-relaxed max-w-md ${idx % 2 === 0 ? '' : 'md:ml-auto'} font-light`}>
                     {step.description}
                   </p>
                 </div>

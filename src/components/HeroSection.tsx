@@ -325,7 +325,7 @@ const HeroSection = () => {
             <span className="text-[#FFCA16] italic font-light">lembrada.</span>
           </h1>
 
-          <p className="mt-12 text-white/55 text-[18px] md:text-[20px] max-w-[580px] text-left font-light leading-[1.7] font-display text-balance">
+          <p className="mt-12 text-white/55 text-[17px] md:text-[19px] max-w-[720px] text-left font-light leading-[1.6] font-display text-pretty tracking-tight">
             Design estratégico para marcas que buscam reconhecimento e diferenciação real, por meio de identidades visuais autorais, sites e presença digital consistentes.
           </p>
 

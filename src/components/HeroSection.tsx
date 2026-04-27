@@ -319,28 +319,28 @@ const HeroSection = () => {
 
           <h1
             className="text-white font-[800] leading-[0.82] text-left tracking-[-0.05em] font-display"
-            style={{ fontSize: 'clamp(64px, 11vw, 132px)' }}
+            style={{ fontSize: 'clamp(54px, 10vw, 122px)' }}
           >
-            Design que <br />
-            gera <span className="text-[#FFCA16] italic font-light">valor.</span>
+            Sua marca precisa <br />
+            ser <span className="text-[#FFCA16] italic font-light">lembrada.</span>
           </h1>
 
-          <p className="mt-12 text-white/55 text-[18px] md:text-[20px] max-w-[520px] text-left font-light leading-[1.7] font-display text-balance">
-            Transformamos marcas através de design estratégico e visual autoral de alto impacto. Do branding completo ao digital.
+          <p className="mt-12 text-white/55 text-[18px] md:text-[20px] max-w-[580px] text-left font-light leading-[1.7] font-display text-balance">
+            Design estratégico para marcas que buscam reconhecimento e posicionamento premium através de identidades visuais, sites e presença digital de alto nível.
           </p>
 
           <div className="mt-16 flex flex-col sm:flex-row gap-5 items-stretch sm:items-center w-full sm:w-auto">
             <a
               href="#portfolio"
-              className="btn-premium w-full sm:w-auto"
+              className="btn-premium w-full sm:w-auto text-center"
             >
-              Conheça o Portfólio
+              Ver portfólio na prática
             </a>
             <a
               href="#contato"
-              className="btn-premium-outline w-full sm:w-auto"
+              className="btn-premium-outline w-full sm:w-auto text-center"
             >
-              Vamos conversar
+              Falar sobre um projeto
             </a>
           </div>
         </div>

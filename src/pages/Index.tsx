@@ -47,7 +47,7 @@ const Index = () => {
             <section className="snap-start">
               <EditorialQuote
                 eyebrow="Direção Criativa"
-                quote="Design não é decoração — é a forma como uma marca pensa, fala e existe no mundo."
+                quote="Design com método e estratégia para marcas que não aceitam o genérico."
                 attribution="Filipe Williams · Studio Kiiro"
               />
             </section>

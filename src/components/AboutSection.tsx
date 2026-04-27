@@ -112,9 +112,9 @@ const AboutSection = () => {
               className="flex flex-wrap gap-8 pt-8 border-t border-white/5"
             >
               {[
-                { label: "Projetos concluídos: marcas e digital.", value: "300+" },
-                { label: "Anos dedicados ao design estratégico.", value: "06" },
-                { label: "Clientes que retornam com novas demandas.", value: "95%" }
+                { label: "projetos concluídos entre identidades visuais, materiais digitais e peças de marca.", value: "150+" },
+                { label: "anos dedicados ao design de marcas e presença digital.", value: "6" },
+                { label: "dos clientes retornam com novas demandas de design.", value: "92%" }
               ].map((stat, i) => (
                 <div key={i} className="flex flex-col">
                   <span className="text-white font-bold text-2xl tracking-tighter">{stat.value}</span>

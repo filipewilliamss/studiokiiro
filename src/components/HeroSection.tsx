@@ -321,8 +321,8 @@ const HeroSection = () => {
             className="text-white font-[800] leading-[0.82] text-left tracking-[-0.05em] font-display"
             style={{ fontSize: 'clamp(54px, 10vw, 122px)' }}
           >
-            Sua marca precisa <br />
-            ser <span className="text-[#FFCA16] italic font-light">lembrada.</span>
+            Sua marca precisa ser <br />
+            <span className="text-[#FFCA16] italic font-light">lembrada.</span>
           </h1>
 
           <p className="mt-12 text-white/55 text-[18px] md:text-[20px] max-w-[580px] text-left font-light leading-[1.7] font-display text-balance">

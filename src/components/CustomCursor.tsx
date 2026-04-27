@@ -7,7 +7,6 @@ const CustomCursor = () => {
   const [isMobile, setIsMobile] = useState(false);
   const mouseX = useMotionValue(-100);
   const mouseY = useMotionValue(-100);
-  const [velocity, setVelocity] = useState(0);
   const [lastPos, setLastPos] = useState({ x: 0, y: 0 });
 
   // Smooth springs for the main cursor - making it extremely responsive and fast

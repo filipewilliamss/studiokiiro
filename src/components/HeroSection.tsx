@@ -326,7 +326,7 @@ const HeroSection = () => {
           </h1>
 
           <p className="mt-12 text-white/55 text-[17px] md:text-[19px] max-w-[720px] text-left font-light leading-[1.6] font-display text-pretty tracking-tight">
-            Design estratégico para marcas que buscam reconhecimento e diferenciação real, por meio de identidades visuais autorais, sites e presença digital consistentes.
+            Design estratégico para marcas que buscam reconhecimento e diferenciação real, por meio de identidades visuais autorais, sites e <br className="hidden md:block" />presença digital consistentes.
           </p>
 
           <div className="mt-16 flex flex-col sm:flex-row gap-5 items-stretch sm:items-center w-full sm:w-auto">

@@ -49,9 +49,6 @@ const CustomCursor = () => {
       mouseX.set(clientX);
       mouseY.set(clientY);
 
-      // Calculate simple velocity for the "metric"
-      const dist = Math.sqrt(Math.pow(clientX - lastPos.x, 2) + Math.pow(clientY - lastPos.y, 2));
-      setVelocity(Math.round(dist * 2));
       setLastPos({ x: clientX, y: clientY });
 
       const element = document.elementFromPoint(clientX, clientY);

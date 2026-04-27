@@ -109,14 +109,14 @@ const AboutSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: 0.4 }}
-              className="flex flex-wrap gap-x-12 gap-y-6 pt-8 border-t border-white/5"
+              className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-6 pt-8 border-t border-white/5"
             >
               {[
                 { label: "projetos concluídos entre identidades visuais, materiais digitais e peças de marca.", value: "150+" },
                 { label: "anos dedicados ao design de marcas e presença digital.", value: "6" },
                 { label: "dos clientes retornam com novas demandas de design.", value: "92%" }
               ].map((stat, i) => (
-                <div key={i} className="flex flex-col max-w-[200px]">
+                <div key={i} className={`flex flex-col ${i === 2 ? 'md:col-span-1' : ''}`}>
                   <span className="text-white font-bold text-2xl tracking-tighter leading-none">{stat.value}</span>
                   <span className="text-[#FFCA16]/60 text-[10px] uppercase tracking-[0.15em] mt-1.5 leading-tight">{stat.label}</span>
                 </div>

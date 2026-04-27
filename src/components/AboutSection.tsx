@@ -39,7 +39,7 @@ const AboutSection = () => {
                 </span>
               </div>
               <h2 className="font-display text-[52px] md:text-[88px] font-[800] text-white leading-[0.82] tracking-[-0.05em] max-w-5xl">
-                Design com <span className="text-[#FFCA16] italic font-light">propósito</span> e visão estratégica.
+                Design pensado para o <span className="text-[#FFCA16] italic font-light">negócio</span>, não só para a estética.
               </h2>
             </motion.div>
           </div>
@@ -89,17 +89,17 @@ const AboutSection = () => {
               className="space-y-8"
             >
               <p className="text-white text-[18px] md:text-[22px] font-light leading-relaxed text-balance">
-                Olá! Eu sou o Filipe Williams, designer gráfico há 6 anos e a mente criativa por trás do Studio Kiiro. Encontrei no design o lugar onde criatividade e estratégia se encontram.
+                O Studio Kiiro, fundado por Filipe Williams, nasceu para atender empresas que levam sua marca a sério e enxergam o design como um ativo de crescimento, não como um detalhe decorativo.
               </p>
               
               <div className="w-20 h-[1px] bg-[#FFCA16]/40" />
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                 <p className="text-white/50 text-[15px] leading-relaxed">
-                  Construí minha carreira na prática. Sem atalhos. Aprendi com cada projeto entregue, com cada cliente atendido e com cada desafio superado. Hoje me especializo em Identidade Visual e Artes para Mídias Sociais — áreas onde posso unir técnica apurada e pensamento estratégico.
+                  Trabalhamos através de método e pesquisa, mergulhando no contexto de cada negócio para criar sistemas visuais que sustentam narrativas fortes. Fugimos de soluções genéricas e templates prontos para entregar diferenciação real em cada ponto de contato.
                 </p>
                 <p className="text-white/50 text-[15px] leading-relaxed">
-                  Mais do que entregar um logo bonito, meu compromisso é entender a essência de cada marca e traduzi-la visualmente de forma única e memorável. Busco sempre as tendências mais atuais para que o seu projeto não apenas se destaque hoje, mas continue relevante no futuro.
+                  Seja na criação de uma identidade visual do zero ou na estruturação de uma presença digital consistente, nosso foco é garantir que cada elemento visual cumpra um papel estratégico no posicionamento e na percepção de valor da sua empresa perante o mercado.
                 </p>
               </div>
             </motion.div>
@@ -112,9 +112,9 @@ const AboutSection = () => {
               className="flex flex-wrap gap-8 pt-8 border-t border-white/5"
             >
               {[
-                { label: "Projetos", value: "300+" },
-                { label: "Anos de XP", value: "06" },
-                { label: "Retenção", value: "95%" }
+                { label: "Projetos concluídos: marcas e digital.", value: "300+" },
+                { label: "Anos dedicados ao design estratégico.", value: "06" },
+                { label: "Clientes que retornam com novas demandas.", value: "95%" }
               ].map((stat, i) => (
                 <div key={i} className="flex flex-col">
                   <span className="text-white font-bold text-2xl tracking-tighter">{stat.value}</span>

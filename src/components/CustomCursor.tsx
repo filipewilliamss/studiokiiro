@@ -7,7 +7,6 @@ const CustomCursor = () => {
   const [isMobile, setIsMobile] = useState(false);
   const mouseX = useMotionValue(-100);
   const mouseY = useMotionValue(-100);
-  const [velocity, setVelocity] = useState(0);
   const [lastPos, setLastPos] = useState({ x: 0, y: 0 });
 
   // Smooth springs for the main cursor - making it extremely responsive and fast
@@ -50,9 +49,6 @@ const CustomCursor = () => {
       mouseX.set(clientX);
       mouseY.set(clientY);
 
-      // Calculate simple velocity for the "metric"
-      const dist = Math.sqrt(Math.pow(clientX - lastPos.x, 2) + Math.pow(clientY - lastPos.y, 2));
-      setVelocity(Math.round(dist * 2));
       setLastPos({ x: clientX, y: clientY });
 
       const element = document.elementFromPoint(clientX, clientY);
@@ -124,18 +120,7 @@ const CustomCursor = () => {
           isHovering ? 'scale-125' : 'scale-100'
         } flex items-center justify-center`}
       >
-        <AnimatePresence>
-          {velocity > 20 && (
-            <motion.span
-              initial={{ opacity: 0, scale: 0.5 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.5 }}
-              className={`absolute -top-8 left-1/2 -translate-x-1/2 font-mono text-[9px] font-bold ${isOverYellow ? 'text-white' : 'text-[#FFCA16]'} whitespace-nowrap tracking-wider`}
-            >
-              {velocity} PX
-            </motion.span>
-          )}
-        </AnimatePresence>
+        {/* Velocity text removed as per request */}
       </motion.div>
     </div>
   );

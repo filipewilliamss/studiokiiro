@@ -110,6 +110,29 @@ const ProjectDetail = () => {
         </div>
       </section>
 
+      {/* SEÇÃO SOBRE O PROJETO */}
+      {project.about && (
+        <section className="py-24 md:py-48 bg-black relative z-10 border-t border-white/5">
+          <div className="container-editorial">
+            <div className="max-w-4xl">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+              >
+                <h2 className="text-[10px] uppercase tracking-[0.6em] text-[#FFCA16] font-bold mb-12 flex items-center gap-4">
+                  <span className="w-8 h-[1px] bg-[#FFCA16]" />
+                  Sobre o projeto
+                </h2>
+                <p className="text-xl md:text-3xl font-light leading-relaxed text-white/80">
+                  {project.about}
+                </p>
+              </motion.div>
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* DESAFIO E SOLUÇÃO GRID */}
       <section className="py-24 md:py-48 bg-black relative z-10">
         <div className="container-editorial">
@@ -137,10 +160,10 @@ const ProjectDetail = () => {
             >
               <h2 className="text-[10px] uppercase tracking-[0.6em] text-[#FFCA16] font-bold mb-12 flex items-center gap-4">
                 <span className="w-8 h-[1px] bg-[#FFCA16]" />
-                A Solução
+                {project.objective ? "O Objetivo" : "A Solução"}
               </h2>
               <p className="text-xl md:text-3xl font-light leading-relaxed text-white/80">
-                {project.solution}
+                {project.objective || project.solution}
               </p>
             </motion.div>
           </div>

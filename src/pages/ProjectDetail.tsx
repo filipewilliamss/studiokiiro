@@ -170,66 +170,268 @@ const ProjectDetail = () => {
         </div>
       </section>
 
-      {/* EDITORIAL GALLERY */}
-      <section className="pb-32 md:pb-64 bg-black relative z-10">
-        <div className="flex flex-col gap-12 md:gap-32">
-          {project.pages.map((img: string, i: number) => {
-            const isFullWidth = i % 3 === 0;
-            const isPair = i % 3 === 1 && project.pages[i+1];
-            
-            if (isFullWidth) {
-              return (
-                <motion.div 
-                  key={i} 
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true, margin: "-100px" }}
-                  transition={{ duration: 1.2 }}
-                  className="w-full px-4 md:px-0"
-                >
-                  <div className="relative aspect-video md:aspect-[21/9] overflow-hidden group">
-                    <img 
-                      src={img} 
-                      alt="" 
-                      className="w-full h-full object-cover transition-transform duration-[2s] group-hover:scale-105"
-                    />
-                  </div>
-                </motion.div>
-              );
-            }
-
-            if (isPair) {
-              return (
-                <div key={i} className="container-editorial">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-24">
-                    <motion.div 
-                      initial={{ opacity: 0, x: -50 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 1 }}
-                      className="aspect-square md:aspect-[4/5] overflow-hidden"
-                    >
-                      <img src={img} alt="" className="w-full h-full object-cover hover:scale-110 transition-transform duration-[2s]" />
-                    </motion.div>
-                    <motion.div 
-                      initial={{ opacity: 0, x: 50 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 1, delay: 0.2 }}
-                      className="aspect-square md:aspect-[4/5] overflow-hidden md:mt-32"
-                    >
-                      <img src={project.pages[i+1]} alt="" className="w-full h-full object-cover hover:scale-110 transition-transform duration-[2s]" />
-                    </motion.div>
-                  </div>
+      {/* DETAILED PROJECT CONTENT */}
+      {project.concept && (
+        <section className="pb-32 bg-black relative z-10">
+          <div className="container-editorial">
+            {/* Concept section */}
+            <motion.div
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="mb-32"
+            >
+              <h2 className="text-[10px] uppercase tracking-[0.6em] text-[#FFCA16] font-bold mb-12 flex items-center gap-4">
+                <span className="w-8 h-[1px] bg-[#FFCA16]" />
+                Conceito e solução de design
+              </h2>
+              <div className="max-w-4xl">
+                <p className="text-xl font-light leading-relaxed text-white/80 whitespace-pre-line mb-16">
+                  {project.concept}
+                </p>
+              </div>
+              <div className="flex flex-col gap-12">
+                <div className="w-full aspect-video md:aspect-[21/9] overflow-hidden">
+                  <img src={project.pages[0]} className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-[2s]" />
                 </div>
-              );
-            }
+                <div className="w-full aspect-video md:aspect-[21/9] overflow-hidden">
+                  <img src={project.pages[1]} className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-[2s]" />
+                </div>
+              </div>
+            </motion.div>
 
-            if (i % 3 === 2) return null;
-            return null;
-          })}
-        </div>
-      </section>
+            {/* Variations */}
+            {project.variations && (
+              <motion.div
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="mb-48"
+              >
+                <h2 className="text-[10px] uppercase tracking-[0.6em] text-[#FFCA16] font-bold mb-12 flex items-center gap-4">
+                  <span className="w-8 h-[1px] bg-[#FFCA16]" />
+                  Logotipo e variações
+                </h2>
+                <p className="text-xl font-light leading-relaxed text-white/80 max-w-4xl mb-16 whitespace-pre-line">
+                  {project.variations}
+                </p>
+                <div className="w-full overflow-hidden">
+                  <img src={project.pages[2]} className="w-full h-auto" />
+                </div>
+              </motion.div>
+            )}
+
+            {/* Construction */}
+            {project.construction && (
+              <motion.div
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="mb-48"
+              >
+                <h2 className="text-[10px] uppercase tracking-[0.6em] text-[#FFCA16] font-bold mb-12 flex items-center gap-4">
+                  <span className="w-8 h-[1px] bg-[#FFCA16]" />
+                  Construção, área de proteção e legibilidade
+                </h2>
+                <p className="text-xl font-light leading-relaxed text-white/80 max-w-4xl mb-16 whitespace-pre-line">
+                  {project.construction}
+                </p>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  <img src={project.pages[3]} className="w-full h-auto" />
+                  <img src={project.pages[4]} className="w-full h-auto" />
+                </div>
+              </motion.div>
+            )}
+
+            {/* Colors */}
+            {project.colors && (
+              <motion.div
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="mb-48"
+              >
+                <h2 className="text-[10px] uppercase tracking-[0.6em] text-[#FFCA16] font-bold mb-12 flex items-center gap-4">
+                  <span className="w-8 h-[1px] bg-[#FFCA16]" />
+                  Paleta de cores
+                </h2>
+                <p className="text-xl font-light leading-relaxed text-white/80 max-w-4xl mb-16 whitespace-pre-line">
+                  {project.colors}
+                </p>
+                <div className="w-full overflow-hidden">
+                  <img src={project.pages[5]} className="w-full h-auto" />
+                </div>
+              </motion.div>
+            )}
+
+            {/* Typography */}
+            {project.typography && (
+              <motion.div
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="mb-48"
+              >
+                <h2 className="text-[10px] uppercase tracking-[0.6em] text-[#FFCA16] font-bold mb-12 flex items-center gap-4">
+                  <span className="w-8 h-[1px] bg-[#FFCA16]" />
+                  Tipografia
+                </h2>
+                <p className="text-xl font-light leading-relaxed text-white/80 max-w-4xl mb-16 whitespace-pre-line">
+                  {project.typography}
+                </p>
+                <div className="w-full overflow-hidden">
+                  <img src={project.pages[6]} className="w-full h-auto" />
+                </div>
+              </motion.div>
+            )}
+
+            {/* Symbols */}
+            {project.symbols && (
+              <motion.div
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="mb-48"
+              >
+                <h2 className="text-[10px] uppercase tracking-[0.6em] text-[#FFCA16] font-bold mb-12 flex items-center gap-4">
+                  <span className="w-8 h-[1px] bg-[#FFCA16]" />
+                  Símbolos e elementos de apoio
+                </h2>
+                <p className="text-xl font-light leading-relaxed text-white/80 max-w-4xl mb-16 whitespace-pre-line">
+                  {project.symbols}
+                </p>
+                <div className="w-full overflow-hidden">
+                  <img src={project.pages[7]} className="w-full h-auto" />
+                </div>
+              </motion.div>
+            )}
+
+            {/* Non Recommended */}
+            {project.nonRecommended && (
+              <motion.div
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="mb-48"
+              >
+                <h2 className="text-[10px] uppercase tracking-[0.6em] text-[#FFCA16] font-bold mb-12 flex items-center gap-4">
+                  <span className="w-8 h-[1px] bg-[#FFCA16]" />
+                  Usos não recomendados
+                </h2>
+                <p className="text-xl font-light leading-relaxed text-white/80 max-w-4xl mb-16 whitespace-pre-line">
+                  {project.nonRecommended}
+                </p>
+                <div className="w-full overflow-hidden">
+                  <img src={project.pages[8]} className="w-full h-auto" />
+                </div>
+              </motion.div>
+            )}
+
+            {/* Applications */}
+            {project.applications && (
+              <motion.div
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="mb-48"
+              >
+                <h2 className="text-[10px] uppercase tracking-[0.6em] text-[#FFCA16] font-bold mb-12 flex items-center gap-4">
+                  <span className="w-8 h-[1px] bg-[#FFCA16]" />
+                  Aplicações
+                </h2>
+                <p className="text-xl font-light leading-relaxed text-white/80 max-w-4xl mb-16 whitespace-pre-line">
+                  {project.applications}
+                </p>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  <img src={project.pages[9]} className="w-full h-auto" />
+                  <img src={project.pages[10]} className="w-full h-auto" />
+                </div>
+              </motion.div>
+            )}
+
+            {/* Result */}
+            {project.finalResult && (
+              <motion.div
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="py-24 border-t border-white/5"
+              >
+                <h2 className="text-[10px] uppercase tracking-[0.6em] text-[#FFCA16] font-bold mb-12 flex items-center gap-4">
+                  <span className="w-8 h-[1px] bg-[#FFCA16]" />
+                  Resultado
+                </h2>
+                <p className="text-xl md:text-3xl font-light leading-relaxed text-white/80 max-w-4xl">
+                  {project.finalResult}
+                </p>
+              </motion.div>
+            )}
+          </div>
+        </section>
+      )}
+
+      {/* EDITORIAL GALLERY (Fallback for other projects) */}
+      {!project.concept && (
+        <section className="pb-32 md:pb-64 bg-black relative z-10">
+          <div className="flex flex-col gap-12 md:gap-32">
+            {project.pages.map((img: string, i: number) => {
+              const isFullWidth = i % 3 === 0;
+              const isPair = i % 3 === 1 && project.pages[i+1];
+              
+              if (isFullWidth) {
+                return (
+                  <motion.div 
+                    key={i} 
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true, margin: "-100px" }}
+                    transition={{ duration: 1.2 }}
+                    className="w-full px-4 md:px-0"
+                  >
+                    <div className="relative aspect-video md:aspect-[21/9] overflow-hidden group">
+                      <img 
+                        src={img} 
+                        alt="" 
+                        className="w-full h-full object-cover transition-transform duration-[2s] group-hover:scale-105"
+                      />
+                    </div>
+                  </motion.div>
+                );
+              }
+
+              if (isPair) {
+                return (
+                  <div key={i} className="container-editorial">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-24">
+                      <motion.div 
+                        initial={{ opacity: 0, x: -50 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 1 }}
+                        className="aspect-square md:aspect-[4/5] overflow-hidden"
+                      >
+                        <img src={img} alt="" className="w-full h-full object-cover hover:scale-110 transition-transform duration-[2s]" />
+                      </motion.div>
+                      <motion.div 
+                        initial={{ opacity: 0, x: 50 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 1, delay: 0.2 }}
+                        className="aspect-square md:aspect-[4/5] overflow-hidden md:mt-32"
+                      >
+                        <img src={project.pages[i+1]} alt="" className="w-full h-full object-cover hover:scale-110 transition-transform duration-[2s]" />
+                      </motion.div>
+                    </div>
+                  </div>
+                );
+              }
+
+              if (i % 3 === 2) return null;
+              return null;
+            })}
+          </div>
+        </section>
+      )}
 
       {/* PRÓXIMO PROJETO */}
       <section className="py-40 md:py-80 border-t border-white/5 relative overflow-hidden group">

@@ -44,7 +44,19 @@ export interface Project {
   category: string;
   bgColor: string;
   intro: string;
+  subtitle?: string; // New field
+  about?: string; // New field
   challenge: string;
+  objective?: string; // New field
+  concept?: string; // New field
+  variations?: string; // New field
+  construction?: string; // New field
+  colors?: string; // New field
+  typography?: string; // New field
+  symbols?: string; // New field
+  nonRecommended?: string; // New field
+  applications?: string; // New field
+  finalResult?: string; // New field
   strategy: string;
   solution: string;
   result: string;

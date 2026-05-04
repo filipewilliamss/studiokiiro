@@ -96,6 +96,16 @@ const ProjectDetail = () => {
             >
               {project.title}
             </motion.h1>
+            {project.subtitle && (
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 1.2 }}
+                className="text-lg md:text-2xl font-light text-white/60 max-w-2xl leading-relaxed"
+              >
+                {project.subtitle}
+              </motion.p>
+            )}
           </div>
         </div>
       </section>

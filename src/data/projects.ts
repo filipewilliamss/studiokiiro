@@ -100,7 +100,7 @@ export const projects: Project[] = [
     pages: [
       "https://dohkkmvsrcuxssxmimxn.supabase.co/storage/v1/object/public/images/57r59rwo33m-1778087724805.png", 
       akedahPag2, 
-      "https://dohkkmvsrcuxssxmimxn.supabase.co/storage/v1/object/public/images/57r59rwo33m-1778087724805.png", 
+      "https://dohkkmvsrcuxssxmimxn.supabase.co/storage/v1/object/public/images/metqo7ntff-1778088970745.png", 
       akedahPag4, akedahPag5,
       akedahPag6, akedahPag7, akedahPag8, akedahPag9, akedahPag10, akedahPag11,
     ],

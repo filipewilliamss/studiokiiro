@@ -9,19 +9,18 @@ const CustomCursor = () => {
   const mouseY = useMotionValue(-100);
   const [lastPos, setLastPos] = useState({ x: 0, y: 0 });
 
-  // Smooth springs for the main cursor - making it extremely responsive and fast
-  const mainSpringConfig = { damping: 40, stiffness: 1200, mass: 0.1 };
-  const mainX = useSpring(mouseX, mainSpringConfig);
-  const mainY = useSpring(mouseY, mainSpringConfig);
+  // Main cursor follows mouse instantly to ensure it's always the leader
+  const mainX = mouseX;
+  const mainY = mouseY;
 
-  // Configuration for the trail circles
+  // Configuration for the trail circles - balanced for smoothness and responsiveness
   const trailConfigs = [
-    { damping: 45, stiffness: 800, mass: 0.5 },
-    { damping: 40, stiffness: 600, mass: 0.5 },
-    { damping: 45, stiffness: 400, mass: 0.6 },
-    { damping: 50, stiffness: 300, mass: 0.7 },
-    { damping: 55, stiffness: 200, mass: 0.8 },
-    { damping: 60, stiffness: 150, mass: 0.9 },
+    { damping: 35, stiffness: 1000, mass: 0.1 }, // Closer trail is faster
+    { damping: 40, stiffness: 800, mass: 0.2 },
+    { damping: 45, stiffness: 600, mass: 0.3 },
+    { damping: 50, stiffness: 400, mass: 0.4 },
+    { damping: 55, stiffness: 300, mass: 0.5 },
+    { damping: 60, stiffness: 200, mass: 0.6 },
   ];
 
   const trail1X = useSpring(mainX, trailConfigs[0]);
@@ -113,15 +112,13 @@ const CustomCursor = () => {
         className={`absolute z-[60] w-6 h-6 -ml-3 -mt-3 rounded-full transition-colors duration-300 ${cursorColor}`}
       />
 
-      {/* Main Cursor (on top) */}
+      {/* Main Cursor (the leader) */}
       <motion.div
         style={{ x: mainX, y: mainY }}
-        className={`absolute z-[70] w-8 h-8 -ml-4 -mt-4 rounded-full ${cursorColor} transition-all duration-300 ease-out border-2 ${borderColor} ${
+        className={`absolute z-[70] w-8 h-8 -ml-4 -mt-4 rounded-full ${cursorColor} border-2 ${borderColor} ${
           isHovering ? 'scale-125' : 'scale-100'
-        } flex items-center justify-center`}
-      >
-        {/* Velocity text removed as per request */}
-      </motion.div>
+        } flex items-center justify-center transition-transform duration-200 ease-out`}
+      />
     </div>
   );
 };

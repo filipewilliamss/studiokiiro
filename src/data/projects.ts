@@ -98,7 +98,10 @@ export const projects: Project[] = [
     tags: ["Logo Design", "Manual de Marca", "Podcast", "Branding Estratégico"],
     logo: akedahLogo,
     pages: [
-      akedahPag1, akedahPag2, akedahPag3, akedahPag4, akedahPag5,
+      "https://dohkkmvsrcuxssxmimxn.supabase.co/storage/v1/object/public/images/57r59rwo33m-1778087724805.png", 
+      akedahPag2, 
+      "https://dohkkmvsrcuxssxmimxn.supabase.co/storage/v1/object/public/images/57r59rwo33m-1778087724805.png", 
+      akedahPag4, akedahPag5,
       akedahPag6, akedahPag7, akedahPag8, akedahPag9, akedahPag10, akedahPag11,
     ],
     client: "Akedah Podcast",

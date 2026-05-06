@@ -191,12 +191,27 @@ const ProjectDetail = () => {
                 </p>
               </div>
               <div className="flex flex-col gap-12">
-                <div className="w-full aspect-video md:aspect-[21/9] overflow-hidden">
-                  <img src={project.pages[0]} className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-[2s]" />
-                </div>
-                <div className="w-full aspect-video md:aspect-[21/9] overflow-hidden">
-                  <img src={project.pages[1]} className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-[2s]" />
-                </div>
+                {project.slug === 'akedah-podcast' ? (
+                  <div className="w-full flex justify-center py-24 md:py-32 bg-white/[0.02] border border-white/5 rounded-2xl overflow-hidden group">
+                    <motion.img 
+                      initial={{ opacity: 0, scale: 0.9 }}
+                      whileInView={{ opacity: 1, scale: 1 }}
+                      transition={{ duration: 1.5, ease: [0.22, 1, 0.36, 1] }}
+                      src={project.pages[0]} 
+                      className="max-w-[300px] md:max-w-[500px] w-full h-auto object-contain transition-transform duration-700 group-hover:scale-105" 
+                      alt="Akedah Logo"
+                    />
+                  </div>
+                ) : (
+                  <>
+                    <div className="w-full aspect-video md:aspect-[21/9] overflow-hidden">
+                      <img src={project.pages[0]} className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-[2s]" />
+                    </div>
+                    <div className="w-full aspect-video md:aspect-[21/9] overflow-hidden">
+                      <img src={project.pages[1]} className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-[2s]" />
+                    </div>
+                  </>
+                )}
               </div>
             </motion.div>
 
@@ -215,8 +230,11 @@ const ProjectDetail = () => {
                 <p className="text-xl font-light leading-relaxed text-white/80 max-w-4xl mb-16 whitespace-pre-line">
                   {project.variations}
                 </p>
-                <div className="w-full overflow-hidden">
-                  <img src={project.pages[2]} className="w-full h-auto" />
+                <div className={`w-full overflow-hidden ${project.slug === 'akedah-podcast' ? 'flex justify-center py-20 bg-white/[0.02] rounded-2xl border border-white/5' : ''}`}>
+                  <img 
+                    src={project.pages[2]} 
+                    className={`${project.slug === 'akedah-podcast' ? 'max-w-4xl' : 'w-full'} h-auto`} 
+                  />
                 </div>
               </motion.div>
             )}

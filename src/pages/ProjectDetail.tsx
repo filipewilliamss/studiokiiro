@@ -230,8 +230,11 @@ const ProjectDetail = () => {
                 <p className="text-xl font-light leading-relaxed text-white/80 max-w-4xl mb-16 whitespace-pre-line">
                   {project.variations}
                 </p>
-                <div className="w-full overflow-hidden">
-                  <img src={project.pages[2]} className="w-full h-auto" />
+                <div className={`w-full overflow-hidden ${project.slug === 'akedah-podcast' ? 'flex justify-center py-20 bg-white/[0.02] rounded-2xl border border-white/5' : ''}`}>
+                  <img 
+                    src={project.pages[2]} 
+                    className={`${project.slug === 'akedah-podcast' ? 'max-w-4xl' : 'w-full'} h-auto`} 
+                  />
                 </div>
               </motion.div>
             )}

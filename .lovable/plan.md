@@ -1,16 +1,15 @@
-I will remove the containers (frames) from the "Akedah Podcast" project images in the "Conceito e solução de design" and "Logotipo e variações" sections. I will also increase the size of the logo variations image by 40% and apply a scroll-triggered parallax/zoom animation to both.
+I will adjust the image sizes for the Akedah Podcast project to match your specific requirements while ensuring a professional presentation without any information loss.
 
-### Technical Details
+### Changes:
 
-- **File to modify:** `src/pages/ProjectDetail.tsx`
-- **Component adjustments:**
-  - Remove the `bg-white/[0.02] border border-white/5 rounded-2xl` classes from the container divs for both images in the Akedah Podcast specific logic.
-  - For the "Logotipo e variações" section, increase the `max-w-4xl` constraint or use `max-w-[140%]` style to achieve the 40% size increase while ensuring it remains centered.
-  - Add `useScroll` and `useTransform` logic localized to these image elements to create the scroll-based animation (fade + scale/zoom).
-  - Adjust spacing between text and images by reducing `mb-16` or padding where appropriate to create a tighter "respiro" as requested.
+- **Conceito e Solução de Design**: Increase the primary logo size by 20% (from 300px to 360px on mobile, and 500px to 600px on desktop).
+- **Logotipo e Variações**: 
+    - Decrease the variations image size by 20% from its current state.
+    - Remove the negative margin/large overflow that was causing side-clipping.
+    - Ensure the image fits perfectly within the viewport to prevent any text or graphics from being cut off at the edges.
 
-### User Interface Changes
+### Technical Details:
 
-- The Akedah Podcast logo and its variations will now appear directly against the dark background of the site.
-- Images will be larger and more prominent.
-- A smooth zoom/movement effect will occur as the user scrolls past these sections.
+- Update `ProjectDetail.tsx` responsive classes for the first logo (`max-w-[360px]` and `md:max-w-[600px]`).
+- Adjust the variations image container to use `max-w-full` or a slightly smaller percentage to ensure no clipping, while maintaining the requested size reduction.
+- Keep the existing scroll-based zoom animations as they were well-received.

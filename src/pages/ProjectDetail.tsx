@@ -253,7 +253,7 @@ const ProjectDetail = () => {
                       opacity: project.slug === 'akedah-podcast' ? variationsOpacity : 1 
                     }}
                     src={project.pages[2]} 
-                    className={`${project.slug === 'akedah-podcast' ? 'max-w-full' : 'w-full'} h-auto`} 
+                    className={`${project.slug === 'akedah-podcast' ? 'max-w-full -ml-4 md:-ml-8' : 'w-full'} h-auto`} 
                   />
                 </div>
               </motion.div>

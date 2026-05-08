@@ -1,27 +1,16 @@
+I will remove the containers (frames) from the "Akedah Podcast" project images in the "Conceito e solução de design" and "Logotipo e variações" sections. I will also increase the size of the logo variations image by 40% and apply a scroll-triggered parallax/zoom animation to both.
 
-### Redesign Editorial: Portfolio Showcase & Case Study Pages
+### Technical Details
 
-Vou transformar o portfólio em uma experiência imersiva de "Showcase Interativo" na Home e criar páginas de "Case Study" editoriais completas, elevando a percepção de valor de cada projeto.
+- **File to modify:** `src/pages/ProjectDetail.tsx`
+- **Component adjustments:**
+  - Remove the `bg-white/[0.02] border border-white/5 rounded-2xl` classes from the container divs for both images in the Akedah Podcast specific logic.
+  - For the "Logotipo e variações" section, increase the `max-w-4xl` constraint or use `max-w-[140%]` style to achieve the 40% size increase while ensuring it remains centered.
+  - Add `useScroll` and `useTransform` logic localized to these image elements to create the scroll-based animation (fade + scale/zoom).
+  - Adjust spacing between text and images by reducing `mb-16` or padding where appropriate to create a tighter "respiro" as requested.
 
-**1. Expansão do Modelo de Dados (`src/data/projects.ts`)**
-*   Atualizar a interface `Project` para incluir campos de narrativa e ficha técnica: `slug`, `client`, `year`, `deliverables`, `role`, `narrative` (desafio, estratégia, solução, resultado).
-*   Estruturar as galerias para suportar composições editoriais (imagens de largura total e spreads).
+### User Interface Changes
 
-**2. Navegação & Roteamento (`src/App.tsx`)**
-*   Implementar a rota `/projeto/:slug` para as páginas internas de detalhes.
-*   Garantir que o `Navbar` e `Footer` funcionem corretamente em subpáginas, direcionando links de âncora de volta para a Home quando necessário.
-
-**3. Home: Portfolio Showcase Interativo (`src/components/PortfolioSection.tsx`)**
-*   **Layout Dominante:** Um único projeto em destaque por vez ocupando a maior parte da tela.
-*   **Troca de Conteúdo Dinâmica:** Ao interagir com a navegação (números ou nomes), todo o painel (título monumental, categoria, descrição e visual) transiciona suavemente com efeitos de fade, scale e deslocamento.
-*   **Visual Premium:** Fundo preto profundo com grid sutil, tipografia gigante e uso cirúrgico do Amarelo Kiiro apenas em pontos de foco e hover da seta.
-
-**4. Páginas de Case Study Editorial (`src/pages/ProjectDetail.tsx`)**
-*   **Hero de Impacto:** Abertura com título monumental, informações rápidas (ano/categoria) e a imagem principal em grande escala.
-*   **Ficha Técnica & Narrativa:** Seções dedicadas ao contexto do projeto, apresentando o "Desafio", "Estratégia" e "Resultado" com tipografia refinada e muito respiro.
-*   **Galeria Editorial:** Apresentação visual de alto nível usando mockups e imagens grandes que ocupam a tela, alternando ritmos de layout para evitar monotonia.
-*   **Fechamento Estratégico:** Sugestão do próximo projeto para manter o fluxo e CTA magnético para conversão.
-
-**5. Movimento & Refinamento Visual**
-*   Implementar animações de entrada baseadas em scroll (reveal effects) usando `framer-motion`.
-*   Assegurar que no mobile a experiência se transforme em um stack vertical de alta qualidade, mantendo o impacto visual sem depender de interações de hover.
+- The Akedah Podcast logo and its variations will now appear directly against the dark background of the site.
+- Images will be larger and more prominent.
+- A smooth zoom/movement effect will occur as the user scrolls past these sections.

@@ -1,6 +1,6 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { Link, useParams, Navigate } from "react-router-dom";
-import { motion, useScroll, useTransform, useSpring } from "framer-motion";
+import { motion, useScroll, useTransform, useSpring, useInView } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { projects } from "@/data/projects";
@@ -12,6 +12,22 @@ const ProjectDetail = () => {
   const { scrollYProgress } = useScroll();
   const dotsY = useTransform(scrollYProgress, [0, 1], [0, -300]);
   const springDotsY = useSpring(dotsY, { stiffness: 50, damping: 20 });
+
+  const conceptRef = useRef(null);
+  const { scrollYProgress: conceptScroll } = useScroll({
+    target: conceptRef,
+    offset: ["start end", "end start"]
+  });
+  const conceptScale = useTransform(conceptScroll, [0, 0.5, 1], [0.95, 1, 1.05]);
+  const conceptOpacity = useTransform(conceptScroll, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
+
+  const variationsRef = useRef(null);
+  const { scrollYProgress: variationsScroll } = useScroll({
+    target: variationsRef,
+    offset: ["start end", "end start"]
+  });
+  const variationsScale = useTransform(variationsScroll, [0, 0.5, 1], [0.95, 1, 1.05]);
+  const variationsOpacity = useTransform(variationsScroll, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "instant" as ScrollBehavior });
@@ -192,13 +208,12 @@ const ProjectDetail = () => {
               </div>
               <div className="flex flex-col gap-12">
                 {project.slug === 'akedah-podcast' ? (
-                  <div className="w-full flex justify-center py-24 md:py-32 bg-white/[0.02] border border-white/5 rounded-2xl overflow-hidden group">
+                  <div className="w-full flex justify-center py-12 md:py-16 overflow-hidden">
                     <motion.img 
-                      initial={{ opacity: 0, scale: 0.9 }}
-                      whileInView={{ opacity: 1, scale: 1 }}
-                      transition={{ duration: 1.5, ease: [0.22, 1, 0.36, 1] }}
+                      ref={conceptRef}
+                      style={{ scale: conceptScale, opacity: conceptOpacity }}
                       src={project.pages[0]} 
-                      className="max-w-[300px] md:max-w-[500px] w-full h-auto object-contain transition-transform duration-700 group-hover:scale-105" 
+                      className="max-w-[300px] md:max-w-[500px] w-full h-auto object-contain" 
                       alt="Akedah Logo"
                     />
                   </div>
@@ -230,10 +245,15 @@ const ProjectDetail = () => {
                 <p className="text-xl font-light leading-relaxed text-white/80 max-w-4xl mb-16 whitespace-pre-line">
                   {project.variations}
                 </p>
-                <div className={`w-full overflow-hidden ${project.slug === 'akedah-podcast' ? 'flex justify-center py-20 bg-white/[0.02] rounded-2xl border border-white/5' : ''}`}>
-                  <img 
+                <div className={`w-full overflow-hidden flex justify-center ${project.slug === 'akedah-podcast' ? 'py-8 md:py-12' : ''}`}>
+                  <motion.img 
+                    ref={variationsRef}
+                    style={{ 
+                      scale: project.slug === 'akedah-podcast' ? variationsScale : 1, 
+                      opacity: project.slug === 'akedah-podcast' ? variationsOpacity : 1 
+                    }}
                     src={project.pages[2]} 
-                    className={`${project.slug === 'akedah-podcast' ? 'max-w-4xl' : 'w-full'} h-auto`} 
+                    className={`${project.slug === 'akedah-podcast' ? 'max-w-6xl md:max-w-[130%]' : 'w-full'} h-auto`} 
                   />
                 </div>
               </motion.div>

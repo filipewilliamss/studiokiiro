@@ -208,13 +208,12 @@ const ProjectDetail = () => {
               </div>
               <div className="flex flex-col gap-12">
                 {project.slug === 'akedah-podcast' ? (
-                  <div className="w-full flex justify-center py-24 md:py-32 bg-white/[0.02] border border-white/5 rounded-2xl overflow-hidden group">
+                  <div className="w-full flex justify-center py-12 md:py-16 overflow-hidden">
                     <motion.img 
-                      initial={{ opacity: 0, scale: 0.9 }}
-                      whileInView={{ opacity: 1, scale: 1 }}
-                      transition={{ duration: 1.5, ease: [0.22, 1, 0.36, 1] }}
+                      ref={conceptRef}
+                      style={{ scale: conceptScale, opacity: conceptOpacity }}
                       src={project.pages[0]} 
-                      className="max-w-[300px] md:max-w-[500px] w-full h-auto object-contain transition-transform duration-700 group-hover:scale-105" 
+                      className="max-w-[300px] md:max-w-[500px] w-full h-auto object-contain" 
                       alt="Akedah Logo"
                     />
                   </div>

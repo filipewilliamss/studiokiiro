@@ -255,6 +255,10 @@ const ProjectDetail = () => {
                     }}
                     src={project.pages[2]} 
                     className={`${project.slug === 'akedah-podcast' ? 'max-w-none' : 'w-full'} h-auto`} 
+                  />
+                </div>
+              </motion.div>
+            )}
 
             {/* Construction */}
             {project.construction && (

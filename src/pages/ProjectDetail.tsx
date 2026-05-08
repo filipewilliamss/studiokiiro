@@ -13,6 +13,22 @@ const ProjectDetail = () => {
   const dotsY = useTransform(scrollYProgress, [0, 1], [0, -300]);
   const springDotsY = useSpring(dotsY, { stiffness: 50, damping: 20 });
 
+  const conceptRef = useRef(null);
+  const { scrollYProgress: conceptScroll } = useScroll({
+    target: conceptRef,
+    offset: ["start end", "end start"]
+  });
+  const conceptScale = useTransform(conceptScroll, [0, 0.5, 1], [0.95, 1, 1.05]);
+  const conceptOpacity = useTransform(conceptScroll, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
+
+  const variationsRef = useRef(null);
+  const { scrollYProgress: variationsScroll } = useScroll({
+    target: variationsRef,
+    offset: ["start end", "end start"]
+  });
+  const variationsScale = useTransform(variationsScroll, [0, 0.5, 1], [0.95, 1, 1.05]);
+  const variationsOpacity = useTransform(variationsScroll, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
+
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "instant" as ScrollBehavior });
   }, [slug]);

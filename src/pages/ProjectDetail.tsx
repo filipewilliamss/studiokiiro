@@ -245,7 +245,7 @@ const ProjectDetail = () => {
                 <p className="text-xl font-light leading-relaxed text-white/80 max-w-4xl mb-16 whitespace-pre-line">
                   {project.variations}
                 </p>
-                <div className={`w-full overflow-hidden flex justify-center ${project.slug === 'akedah-podcast' ? 'py-8 md:py-12' : ''}`}>
+                <div className={`w-full overflow-hidden flex ${project.slug === 'akedah-podcast' ? 'justify-start py-8 md:py-12' : 'justify-center'}`}>
                   <motion.img 
                     ref={variationsRef}
                     style={{ 

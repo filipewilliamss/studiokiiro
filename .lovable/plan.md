@@ -1,6 +1,8 @@
-I will adjust the horizontal position of the "Logotipo e variações" image specifically for the Akedah Podcast project.
+I will align the variations image to the left, matching the alignment of the text blocks for the Akedah Podcast project.
 
 ### Technical Details
 - **File**: `src/pages/ProjectDetail.tsx`
-- **Change**: Add a horizontal translation of 20px to the left (`-translate-x-5` in Tailwind) to the variations image when the project is 'akedah-podcast'.
-- **Verification**: Ensure the translation is only applied to this specific project and doesn't introduce unintended layout issues.
+- **Changes**:
+    - Change the container of the variations image from `justify-center` to `justify-start` for the 'akedah-podcast' project.
+    - Remove the `-translate-x-5` class from the image since it will now be correctly aligned to the start of its container.
+- **Verification**: Check that the image now starts at the same horizontal position as the text and headings.

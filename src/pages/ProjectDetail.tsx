@@ -213,7 +213,7 @@ const ProjectDetail = () => {
                       ref={conceptRef}
                       style={{ scale: conceptScale, opacity: conceptOpacity }}
                       src={project.pages[0]} 
-                      className="max-w-[300px] md:max-w-[500px] w-full h-auto object-contain" 
+                      className="max-w-[360px] md:max-w-[600px] w-full h-auto object-contain" 
                       alt="Akedah Logo"
                     />
                   </div>
@@ -253,7 +253,7 @@ const ProjectDetail = () => {
                       opacity: project.slug === 'akedah-podcast' ? variationsOpacity : 1 
                     }}
                     src={project.pages[2]} 
-                    className={`${project.slug === 'akedah-podcast' ? 'max-w-6xl md:max-w-[130%]' : 'w-full'} h-auto`} 
+                    className={`${project.slug === 'akedah-podcast' ? 'max-w-full' : 'w-full'} h-auto`} 
                   />
                 </div>
               </motion.div>

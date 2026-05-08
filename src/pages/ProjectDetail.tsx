@@ -250,10 +250,11 @@ const ProjectDetail = () => {
                     ref={variationsRef}
                     style={{ 
                       scale: project.slug === 'akedah-podcast' ? variationsScale : 1, 
-                      opacity: project.slug === 'akedah-podcast' ? variationsOpacity : 1 
+                      opacity: project.slug === 'akedah-podcast' ? variationsOpacity : 1,
+                      x: project.slug === 'akedah-podcast' ? -200 : 0
                     }}
                     src={project.pages[2]} 
-                    className={`${project.slug === 'akedah-podcast' ? 'max-w-full -translate-x-[200px]' : 'w-full'} h-auto`} 
+                    className={`${project.slug === 'akedah-podcast' ? 'max-w-none' : 'w-full'} h-auto`} 
                   />
                 </div>
               </motion.div>

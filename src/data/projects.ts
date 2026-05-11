@@ -107,7 +107,7 @@ export const projects: Project[] = [
       "https://dohkkmvsrcuxssxmimxn.supabase.co/storage/v1/object/public/images/1erxj049prw-1778461621817.png",
       "https://dohkkmvsrcuxssxmimxn.supabase.co/storage/v1/object/public/images/ot2f8gdzega-1778461772009.png",
       "https://dohkkmvsrcuxssxmimxn.supabase.co/storage/v1/object/public/images/gxgomdmador-1778461875600.png",
-      akedahPag10, akedahPag11,
+      "https://dohkkmvsrcuxssxmimxn.supabase.co/storage/v1/object/public/images/inp2apbic18-1778462036867.png",
     ],
     client: "Akedah Podcast",
     year: "2024",

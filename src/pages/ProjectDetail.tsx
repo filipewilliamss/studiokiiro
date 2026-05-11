@@ -381,10 +381,16 @@ const ProjectDetail = () => {
                 <p className="text-xl font-light leading-relaxed text-white/80 max-w-4xl mb-16 whitespace-pre-line">
                   {project.applications}
                 </p>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                  <img src={project.pages[9]} className="w-full h-auto" />
-                  <img src={project.pages[10]} className="w-full h-auto" />
-                </div>
+                {project.slug === 'akedah-podcast' ? (
+                  <div className="w-full overflow-hidden">
+                    <img src={project.pages[9]} className="w-full h-auto" />
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <img src={project.pages[9]} className="w-full h-auto" />
+                    <img src={project.pages[10]} className="w-full h-auto" />
+                  </div>
+                )}
               </motion.div>
             )}
 

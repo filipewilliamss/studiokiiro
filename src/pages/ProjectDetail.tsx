@@ -438,7 +438,7 @@ const ProjectDetail = () => {
                         transition={{ duration: 1 }}
                         className="aspect-square md:aspect-[4/5] overflow-hidden"
                       >
-                        <img src={img} alt="" className="w-full h-full object-cover hover:scale-110 transition-transform duration-[2s]" />
+                        <ScrollAnimatedImage src={img} alt="" className="w-full h-full object-cover" />
                       </motion.div>
                       <motion.div 
                         initial={{ opacity: 0, x: 50 }}

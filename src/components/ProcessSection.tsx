@@ -30,7 +30,7 @@ const steps = [
 
 const ProcessSection = () => {
   return (
-    <section id="processo" className="relative section-padding bg-[#070807] border-t border-white/[0.05] overflow-x-hidden">
+    <section id="processo" className="relative section-padding bg-[#070807] overflow-x-hidden">
       {/* Dynamic Grid Overlay */}
       <div className="absolute inset-0 grid-pattern opacity-20 pointer-events-none" />
 

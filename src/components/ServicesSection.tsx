@@ -35,7 +35,7 @@ const services = [
 
 const ServicesSection = () => {
   return (
-    <section id="servicos" className="relative section-padding bg-[#070807] border-t border-white/[0.05] overflow-hidden">
+    <section id="servicos" className="relative section-padding bg-[#070807] overflow-hidden">
       {/* Monumental backdrop word */}
       <motion.span
         aria-hidden
@@ -59,7 +59,6 @@ const ServicesSection = () => {
               transition={{ duration: 1 }}
             >
               <div className="flex items-center gap-4 mb-8">
-                <span className="w-12 h-[1px] bg-[#FFCA16]" />
                 <span className="text-[#FFCA16] text-[11px] font-bold uppercase tracking-[0.4em]">
                   Soluções Estratégicas
                 </span>
@@ -82,7 +81,7 @@ const ServicesSection = () => {
           </div>
         </div>
 
-        <div className="flex flex-col border-t border-white/10">
+        <div className="flex flex-col">
           {services.map((service, idx) => (
             <motion.div
               key={idx}
@@ -90,7 +89,7 @@ const ServicesSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: idx * 0.1, ease: [0.22, 1, 0.36, 1] }}
-              className="group relative flex flex-col md:grid md:grid-cols-12 items-start md:items-center py-10 md:py-16 border-b border-white/10 cursor-pointer overflow-hidden"
+              className="group relative flex flex-col md:grid md:grid-cols-12 items-start md:items-center py-10 md:py-16 cursor-pointer overflow-hidden"
             >
               {/* Hover background slide */}
               <div className="absolute inset-0 bg-[#FFCA16] translate-y-full group-hover:translate-y-0 transition-transform duration-700 ease-[0.22,1,0.36,1] pointer-events-none" />

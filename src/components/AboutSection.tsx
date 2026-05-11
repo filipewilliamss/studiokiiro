@@ -33,7 +33,6 @@ const AboutSection = () => {
               className="flex flex-col"
             >
               <div className="flex items-center gap-4 mb-8">
-                <span className="w-12 h-[1px] bg-[#FFCA16]" />
                 <span className="text-[#FFCA16] text-[11px] font-bold uppercase tracking-[0.4em]">
                   A Mente Criativa
                 </span>
@@ -92,7 +91,7 @@ const AboutSection = () => {
                 O Studio Kiiro, fundado por Filipe Williams, nasceu para atender empresas que levam sua marca a sério e enxergam o design como um ativo de crescimento, não como um detalhe decorativo.
               </p>
               
-              <div className="w-20 h-[1px] bg-[#FFCA16]/40" />
+              
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                 <p className="text-white/50 text-[15px] leading-relaxed">
@@ -109,7 +108,7 @@ const AboutSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: 0.4 }}
-              className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-6 pt-8 border-t border-white/5"
+              className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-6 pt-8"
             >
               {[
                 { label: "projetos concluídos entre identidades visuais, materiais digitais e peças de marca.", value: "150+" },

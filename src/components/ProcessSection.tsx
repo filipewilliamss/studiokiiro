@@ -30,7 +30,7 @@ const steps = [
 
 const ProcessSection = () => {
   return (
-    <section id="processo" className="relative section-padding bg-[#070807] border-t border-white/[0.05] overflow-x-hidden">
+    <section id="processo" className="relative section-padding bg-[#070807] overflow-x-hidden">
       {/* Dynamic Grid Overlay */}
       <div className="absolute inset-0 grid-pattern opacity-20 pointer-events-none" />
 
@@ -53,7 +53,7 @@ const ProcessSection = () => {
 
         <div className="relative max-w-5xl mx-auto">
           {/* Vertical line connecting steps */}
-          <div className="absolute left-[20px] md:left-1/2 md:-translate-x-1/2 top-0 bottom-0 w-[1px] bg-gradient-to-b from-[#FFCA16]/40 via-[#FFCA16]/10 to-transparent" />
+          
 
           <div className="space-y-40 md:space-y-64">
             {steps.map((step, idx) => (

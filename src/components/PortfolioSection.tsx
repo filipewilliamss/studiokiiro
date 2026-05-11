@@ -140,7 +140,7 @@ const ProjectCard = ({ project, index, total }: { project: any; index: number; t
           {Array.from({ length: total }).map((_, i) => (
             <div 
               key={i} 
-              className={`h-[2px] transition-all duration-700 ${i === index ? 'w-12 bg-[#FFCA16]' : 'w-4 bg-white/10'}`}
+              className={`h-[2px] transition-all duration-700 ${i === index ? 'w-12 bg-transparent' : 'w-4 bg-transparent'}`}
             />
           ))}
         </div>
@@ -152,7 +152,7 @@ const ProjectCard = ({ project, index, total }: { project: any; index: number; t
         transition={{ duration: 2, repeat: Infinity }}
         className="absolute bottom-12 right-12 z-30 hidden md:block"
       >
-        <div className="w-[1px] h-16 bg-gradient-to-b from-[#FFCA16] to-transparent" />
+        
       </motion.div>
     </article>
   );

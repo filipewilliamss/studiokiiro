@@ -249,7 +249,7 @@ const ProjectDetail = () => {
                   <motion.img 
                     ref={variationsRef}
                     style={{ 
-                      scale: project.slug === 'akedah-podcast' ? variationsScale : 1, 
+                      scale: project.slug === 'akedah-podcast' ? 1 : variationsScale, 
                       opacity: project.slug === 'akedah-podcast' ? variationsOpacity : 1,
                       x: project.slug === 'akedah-podcast' ? -200 : 0
                     }}

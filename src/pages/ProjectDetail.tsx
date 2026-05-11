@@ -332,7 +332,6 @@ const ProjectDetail = () => {
                 className="mb-48"
               >
                 <h2 className="text-[10px] uppercase tracking-[0.6em] text-[#FFCA16] font-bold mb-12 flex items-center gap-4">
-                  <span className="w-8 h-[1px] bg-[#FFCA16]" />
                   Usos não recomendados
                 </h2>
                 <p className="text-xl font-light leading-relaxed text-white/80 max-w-4xl mb-16 whitespace-pre-line">

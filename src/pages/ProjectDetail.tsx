@@ -372,10 +372,9 @@ const ProjectDetail = () => {
                 initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                className="py-24 border-t border-white/5"
+                className="py-24"
               >
                 <h2 className="text-[10px] uppercase tracking-[0.6em] text-[#FFCA16] font-bold mb-12 flex items-center gap-4">
-                  <span className="w-8 h-[1px] bg-[#FFCA16]" />
                   Resultado
                 </h2>
                 <p className="text-xl md:text-3xl font-light leading-relaxed text-white/80 max-w-4xl">

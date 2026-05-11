@@ -417,10 +417,10 @@ const ProjectDetail = () => {
                     className="w-full px-4 md:px-0"
                   >
                     <div className="relative aspect-video md:aspect-[21/9] overflow-hidden group">
-                      <img 
+                      <ScrollAnimatedImage 
                         src={img} 
                         alt="" 
-                        className="w-full h-full object-cover transition-transform duration-[2s] group-hover:scale-105"
+                        className="w-full h-full object-cover"
                       />
                     </div>
                   </motion.div>

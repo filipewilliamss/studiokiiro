@@ -59,7 +59,6 @@ const ServicesSection = () => {
               transition={{ duration: 1 }}
             >
               <div className="flex items-center gap-4 mb-8">
-                <span className="w-12 h-[1px] bg-[#FFCA16]" />
                 <span className="text-[#FFCA16] text-[11px] font-bold uppercase tracking-[0.4em]">
                   Soluções Estratégicas
                 </span>

@@ -152,7 +152,7 @@ const ProjectCard = ({ project, index, total }: { project: any; index: number; t
         transition={{ duration: 2, repeat: Infinity }}
         className="absolute bottom-12 right-12 z-30 hidden md:block"
       >
-        <div className="w-[1px] h-16 bg-gradient-to-b from-[#FFCA16] to-transparent" />
+        
       </motion.div>
     </article>
   );

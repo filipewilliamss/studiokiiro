@@ -297,7 +297,7 @@ const HeroSection = () => {
         className="absolute top-28 md:top-32 left-0 right-0 z-10 hidden md:block"
       >
         <div className="container-editorial flex items-center justify-between text-[10px] uppercase tracking-[0.4em] text-white/30 font-bold">
-          <span>(01) — São Paulo · BR</span>
+          <span>(01) São Paulo · BR</span>
           <span className="hidden lg:inline">Branding · Editorial · Digital</span>
           <span className="font-mono">N°2026</span>
         </div>
@@ -311,7 +311,6 @@ const HeroSection = () => {
             transition={{ duration: 0.8, ease: "easeOut" }}
             className="mb-10 flex items-center gap-4"
           >
-            <span className="w-12 h-[1px] bg-[#FFCA16]" />
             <span className="text-[#FFCA16] text-[11px] font-bold uppercase tracking-[0.4em]">
               Creative Design Studio
             </span>
@@ -375,7 +374,6 @@ const HeroSection = () => {
         <span className="text-white/20 text-[10px] uppercase tracking-[0.5em] font-bold">
           EST. 2018
         </span>
-        <div className="w-12 h-[1px] bg-white/20" />
       </div>
 
       {/* Scroll Indicator */}

@@ -1,32 +1,31 @@
 ## Objective
-Add a smooth scroll-triggered zoom-in/zoom-out animation and an entrance reveal effect to all project images.
+Remove specific text-related line decorations (dashes/horizontal lines) that appear before or within titles and paragraphs across the entire website, while preserving structural section separators.
 
 ## Technical Details
-- Create a reusable `ScrollAnimatedImage` component that handles:
-    - `useInView` and `motion` for the initial entrance effect (e.g., fade and scale up).
-    - `useScroll` and `useTransform` for the scroll-synced zoom effect.
-- The entrance effect will happen once when the image enters the viewport.
-- The scroll zoom will continuously react to the scroll position relative to the image.
 
-## Implementation Steps
-1. **Create `ScrollAnimatedImage` component**:
-    - Place it in a new file `src/components/ScrollAnimatedImage.tsx`.
-    - Use `useRef` to track the image element.
-    - Use `useScroll` with the `target` ref.
-    - Transform scroll progress to scale (e.g., 0.95 to 1.1).
-    - Use `initial`, `whileInView`, and `viewport={{ once: true }}` for the entrance animation.
+### 1. Component Cleanup (Removing Decorative Lines)
+I will remove the `span` or `div` elements that render small horizontal lines (usually `h-[1px]`) next to titles and eyebrows in the following components:
+- **HeroSection.tsx**: Remove lines next to \\"Creative Design Studio\\" and \\"EST. 2018\\".
+- **AboutSection.tsx**: Remove line before \\"A Mente Criativa\\". Also remove the 20px line between paragraphs in the content side.
+- **ServicesSection.tsx**: Remove line before \\"Soluções Estratégicas\\".
+- **ContactSection.tsx**: Remove lines surrounding \\"Pronto para o próximo nível?\\".
+- **EditorialQuote.tsx**: Remove lines next to the eyebrow and attribution.
+- **ProjectDetail.tsx**: Remove lines from all section headers (\\"Sobre o projeto\\", \\"O Desafio\\", \\"O Objetivo\\", \\"Conceito\\", etc.).
 
-2. **Refactor `ProjectDetail.tsx`**:
-    - Replace all `<img>` and existing `motion.img` tags with the new `ScrollAnimatedImage` component.
-    - This includes:
-        - Concept images
-        - Variations images
-        - Construction images
-        - Color palette images
-        - Typography images
-        - Symbols images
-        - Applications images
+### 2. Text Cleanup (Removing Dashes/Separators)
+I will replace em dashes (`—`) or double dashes (`--`) used as text separators with commas or spaces to ensure natural reading flow without the visual dash:
+- **ServicesSection.tsx**: Update service descriptions.
+- **HeroSection.tsx**: Update the location/meta bar.
+- **ContactSection.tsx**: Update the manifesto/quote text.
+- **data/projects.ts**: Update project descriptions, challenges, and strategy texts.
+- **data/methodologyStages.ts**: Update phase names.
+- **TestimonialsSection.tsx**: Update testimonial text.
 
-3. **Fine-tune animations**:
-    - Entrance: Scale from 0.8 to 1, opacity from 0 to 1, duration ~1s.
-    - Scroll Zoom: Scale from 1 to 1.1 as the image moves from the bottom to the top of the viewport.
+### 3. Preserved Elements
+- Vertical lines connecting steps in `ProcessSection`.
+- Full-width section divider borders (`border-t`, `border-b`).
+- Background grid patterns and gradients.
+- Progress bars and indicators in sliders/portfolio.
+
+## User-Facing Description
+Vou remover os traços decorativos que aparecem ao lado de títulos e no meio de alguns textos em todo o site, garantindo um visual mais limpo conforme solicitado. As linhas que separam as seções principais e os elementos estruturais do design serão mantidas para preservar a organização da página.

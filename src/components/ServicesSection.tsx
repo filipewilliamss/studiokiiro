@@ -4,13 +4,13 @@ const services = [
   {
     number: "01",
     title: "Identidade Visual",
-    description: "Do logotipo essencial ao branding completo — criamos a identidade que representa sua marca com autenticidade e estratégia.",
+    description: "Do logotipo essencial ao branding completo, criamos a identidade que representa sua marca com autenticidade e estratégia.",
     detail: "Logotipo Essencial · Identidade Visual · Branding Completo · Personal Brand Kit"
   },
   {
     number: "02",
     title: "Design para Redes Sociais",
-    description: "Artes estratégicas que constroem presença digital — posts, carrosséis e stories com identidade visual consistente.",
+    description: "Artes estratégicas que constroem presença digital, posts, carrosséis e stories com identidade visual consistente.",
     detail: "Pacote Pontual · Retainer Mensal · Carrossel Avulso"
   },
   {
@@ -22,7 +22,7 @@ const services = [
   {
     number: "04",
     title: "Sites e Landing Pages",
-    description: "Páginas que convertem — desde landing pages objetivas até sites institucionais completos, com design e estratégia integrados.",
+    description: "Páginas que convertem, desde landing pages objetivas até sites institucionais completos, com design e estratégia integrados.",
     detail: "Landing Page Simples · Landing Page Completa · Site Institucional · Site Completo"
   },
   {
@@ -59,7 +59,6 @@ const ServicesSection = () => {
               transition={{ duration: 1 }}
             >
               <div className="flex items-center gap-4 mb-8">
-                <span className="w-12 h-[1px] bg-[#FFCA16]" />
                 <span className="text-[#FFCA16] text-[11px] font-bold uppercase tracking-[0.4em]">
                   Soluções Estratégicas
                 </span>

@@ -30,14 +30,19 @@ const Index = () => {
               <HeroSection />
             </section>
             
+            <SectionDivider />
             
             <section className="snap-start">
               <EditorialMarquee variant="compact" />
             </section>
             
+            <SectionDivider />
+            
             <section className="snap-start">
               <AboutSection />
             </section>
+            
+            <SectionDivider />
             
             <section className="snap-start">
               <EditorialQuote
@@ -47,9 +52,13 @@ const Index = () => {
               />
             </section>
             
+            <SectionDivider />
+            
             <section className="snap-start">
               <ServicesSection />
             </section>
+            
+            <SectionDivider />
             
             <section className="snap-start">
               <ProcessSection />
@@ -57,6 +66,8 @@ const Index = () => {
             
             {/* Portfolio Section handles its own snapping per project */}
             <PortfolioSection />
+            
+            <SectionDivider />
             
             <section className="snap-start">
               <ContactSection />
@@ -70,5 +81,14 @@ const Index = () => {
   );
 };
 
+const SectionDivider = () => (
+  <motion.div 
+    initial={{ scaleX: 0, opacity: 0 }}
+    whileInView={{ scaleX: 1, opacity: 1 }}
+    viewport={{ once: true }}
+    transition={{ duration: 1.5, ease: [0.22, 1, 0.36, 1] }}
+    className="section-divider origin-center h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent" 
+  />
+);
 
 export default Index;

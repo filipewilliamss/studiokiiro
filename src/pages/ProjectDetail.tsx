@@ -97,7 +97,7 @@ const ProjectDetail = () => {
                 <span className="text-[9px] uppercase tracking-[0.5em] text-[#FFCA16] font-bold mb-1">Categoria</span>
                 <span className="text-[11px] uppercase tracking-[0.3em] text-white/60">{project.category}</span>
               </div>
-              <div className="w-[1px] h-10 bg-white/10 hidden" />
+              <div className="w-[1px] h-10 bg-white/10" />
               <div className="flex flex-col">
                 <span className="text-[9px] uppercase tracking-[0.5em] text-[#FFCA16] font-bold mb-1">Ano</span>
                 <span className="text-[11px] uppercase tracking-[0.3em] text-white/60">{project.year}</span>
@@ -129,7 +129,7 @@ const ProjectDetail = () => {
 
       {/* SEÇÃO SOBRE O PROJETO */}
       {project.about && (
-        <section className="py-24 md:py-48 bg-black relative z-10">
+        <section className="py-24 md:py-48 bg-black relative z-10 border-t border-white/5">
           <div className="container-editorial">
             <div className="max-w-4xl">
               <motion.div
@@ -138,6 +138,7 @@ const ProjectDetail = () => {
                 viewport={{ once: true }}
               >
                 <h2 className="text-[10px] uppercase tracking-[0.6em] text-[#FFCA16] font-bold mb-12 flex items-center gap-4">
+                  <span className="w-8 h-[1px] bg-[#FFCA16]" />
                   Sobre o projeto
                 </h2>
                 <p className="text-xl md:text-3xl font-light leading-relaxed text-white/80">
@@ -160,6 +161,7 @@ const ProjectDetail = () => {
               transition={{ duration: 1 }}
             >
               <h2 className="text-[10px] uppercase tracking-[0.6em] text-[#FFCA16] font-bold mb-12 flex items-center gap-4">
+                <span className="w-8 h-[1px] bg-[#FFCA16]" />
                 O Desafio
               </h2>
               <p className="text-xl md:text-3xl font-light leading-relaxed text-white/80">
@@ -174,6 +176,7 @@ const ProjectDetail = () => {
               transition={{ duration: 1, delay: 0.2 }}
             >
               <h2 className="text-[10px] uppercase tracking-[0.6em] text-[#FFCA16] font-bold mb-12 flex items-center gap-4">
+                <span className="w-8 h-[1px] bg-[#FFCA16]" />
                 {project.objective ? "O Objetivo" : "A Solução"}
               </h2>
               <p className="text-xl md:text-3xl font-light leading-relaxed text-white/80">
@@ -196,6 +199,7 @@ const ProjectDetail = () => {
               className="mb-32"
             >
               <h2 className="text-[10px] uppercase tracking-[0.6em] text-[#FFCA16] font-bold mb-12 flex items-center gap-4">
+                <span className="w-8 h-[1px] bg-[#FFCA16]" />
                 Conceito e solução de design
               </h2>
               <div className="max-w-4xl">
@@ -234,6 +238,7 @@ const ProjectDetail = () => {
                 className="mb-48"
               >
                 <h2 className="text-[10px] uppercase tracking-[0.6em] text-[#FFCA16] font-bold mb-12 flex items-center gap-4">
+                  <span className="w-8 h-[1px] bg-[#FFCA16]" />
                   Logotipo e variações
                 </h2>
                 <p className="text-xl font-light leading-relaxed text-white/80 max-w-4xl mb-16 whitespace-pre-line">
@@ -257,6 +262,7 @@ const ProjectDetail = () => {
                 className="mb-48"
               >
                 <h2 className="text-[10px] uppercase tracking-[0.6em] text-[#FFCA16] font-bold mb-12 flex items-center gap-4">
+                  <span className="w-8 h-[1px] bg-[#FFCA16]" />
                   Construção, área de proteção e legibilidade
                 </h2>
                 <p className="text-xl font-light leading-relaxed text-white/80 max-w-4xl mb-16 whitespace-pre-line">
@@ -278,6 +284,7 @@ const ProjectDetail = () => {
                 className="mb-48"
               >
                 <h2 className="text-[10px] uppercase tracking-[0.6em] text-[#FFCA16] font-bold mb-12 flex items-center gap-4">
+                  <span className="w-8 h-[1px] bg-[#FFCA16]" />
                   Paleta de cores
                 </h2>
                 <p className="text-xl font-light leading-relaxed text-white/80 max-w-4xl mb-16 whitespace-pre-line">
@@ -296,6 +303,7 @@ const ProjectDetail = () => {
                 className="mb-48"
               >
                 <h2 className="text-[10px] uppercase tracking-[0.6em] text-[#FFCA16] font-bold mb-12 flex items-center gap-4">
+                  <span className="w-8 h-[1px] bg-[#FFCA16]" />
                   Tipografia
                 </h2>
                 <p className="text-xl font-light leading-relaxed text-white/80 max-w-4xl mb-16 whitespace-pre-line">
@@ -314,6 +322,7 @@ const ProjectDetail = () => {
                 className="mb-48"
               >
                 <h2 className="text-[10px] uppercase tracking-[0.6em] text-[#FFCA16] font-bold mb-12 flex items-center gap-4">
+                  <span className="w-8 h-[1px] bg-[#FFCA16]" />
                   Símbolos e elementos de apoio
                 </h2>
                 <p className="text-xl font-light leading-relaxed text-white/80 max-w-4xl mb-16 whitespace-pre-line">
@@ -332,6 +341,7 @@ const ProjectDetail = () => {
                 className="mb-48"
               >
                 <h2 className="text-[10px] uppercase tracking-[0.6em] text-[#FFCA16] font-bold mb-12 flex items-center gap-4">
+                  <span className="w-8 h-[1px] bg-[#FFCA16]" />
                   Usos não recomendados
                 </h2>
                 <p className="text-xl font-light leading-relaxed text-white/80 max-w-4xl mb-16 whitespace-pre-line">
@@ -350,6 +360,7 @@ const ProjectDetail = () => {
                 className="mb-48"
               >
                 <h2 className="text-[10px] uppercase tracking-[0.6em] text-[#FFCA16] font-bold mb-12 flex items-center gap-4">
+                  <span className="w-8 h-[1px] bg-[#FFCA16]" />
                   Aplicações
                 </h2>
                 <p className="text-xl font-light leading-relaxed text-white/80 max-w-4xl mb-16 whitespace-pre-line">
@@ -372,9 +383,10 @@ const ProjectDetail = () => {
                 initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                className="py-24"
+                className="py-24 border-t border-white/5"
               >
                 <h2 className="text-[10px] uppercase tracking-[0.6em] text-[#FFCA16] font-bold mb-12 flex items-center gap-4">
+                  <span className="w-8 h-[1px] bg-[#FFCA16]" />
                   Resultado
                 </h2>
                 <p className="text-xl md:text-3xl font-light leading-relaxed text-white/80 max-w-4xl">

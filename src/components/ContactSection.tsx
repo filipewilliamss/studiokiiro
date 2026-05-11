@@ -8,6 +8,8 @@ const ContactSection = () => {
       style={{ padding: '160px 0 100px' }}
     >
       {/* High-Impact Visual Elements */}
+      <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-[#FFCA16]/30 to-transparent" />
+      <div className="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent" />
       
       <div className="absolute top-[20%] left-[-10%] w-[50%] aspect-square bg-[#FFCA16]/[0.03] rounded-full blur-[180px] pointer-events-none" />
       <div className="absolute bottom-[20%] right-[-10%] w-[40%] aspect-square bg-[#FFCA16]/[0.02] rounded-full blur-[150px] pointer-events-none" />
@@ -23,9 +25,11 @@ const ContactSection = () => {
             className="w-full max-w-6xl"
           >
             <div className="flex items-center justify-center gap-4 mb-12">
+              <span className="w-12 h-[1px] bg-[#FFCA16]" />
               <span className="text-[#FFCA16] text-[11px] font-bold uppercase tracking-[0.4em]">
                 Pronto para o próximo nível?
               </span>
+              <span className="w-12 h-[1px] bg-[#FFCA16]" />
             </div>
 
             <h2 className="font-display text-[64px] md:text-[120px] lg:text-[160px] font-[800] leading-[0.78] tracking-[-0.055em] text-white mb-20">

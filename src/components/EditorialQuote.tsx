@@ -21,7 +21,7 @@ const EditorialQuote = ({ eyebrow = "Manifesto", quote, attribution }: Editorial
             transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
             className="flex items-center gap-4 mb-12"
           >
-            
+            <span className="w-10 h-[1px] bg-[#FFCA16]" />
             <span className="text-[#FFCA16] text-[10px] font-bold uppercase tracking-[0.4em]">
               {eyebrow}
             </span>
@@ -48,7 +48,7 @@ const EditorialQuote = ({ eyebrow = "Manifesto", quote, attribution }: Editorial
               transition={{ duration: 0.8, delay: 0.5 }}
               className="mt-16 flex items-center gap-4"
             >
-              
+              <span className="w-12 h-[1px] bg-white/20" />
               <span className="text-white/40 text-[11px] font-bold uppercase tracking-[0.3em]">
                 {attribution}
               </span>

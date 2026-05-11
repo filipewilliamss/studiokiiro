@@ -20,7 +20,7 @@ const EditorialMarquee = ({ words = defaultWords, variant = "default" }: Editori
   return (
     <section
       aria-hidden
-      className={`relative bg-[#070807] overflow-hidden ${
+      className={`relative bg-[#070807] overflow-hidden border-y border-white/[0.05] ${
         variant === "compact" ? "py-10 md:py-14" : "py-16 md:py-24"
       }`}
     >

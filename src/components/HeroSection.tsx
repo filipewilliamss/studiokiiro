@@ -311,6 +311,7 @@ const HeroSection = () => {
             transition={{ duration: 0.8, ease: "easeOut" }}
             className="mb-10 flex items-center gap-4"
           >
+            <span className="w-12 h-[1px] bg-[#FFCA16]" />
             <span className="text-[#FFCA16] text-[11px] font-bold uppercase tracking-[0.4em]">
               Creative Design Studio
             </span>
@@ -374,7 +375,7 @@ const HeroSection = () => {
         <span className="text-white/20 text-[10px] uppercase tracking-[0.5em] font-bold">
           EST. 2018
         </span>
-        
+        <div className="w-12 h-[1px] bg-white/20" />
       </div>
 
       {/* Scroll Indicator */}
@@ -386,7 +387,7 @@ const HeroSection = () => {
         <span className="text-white/30 text-[10px] uppercase tracking-[0.3em] font-medium rotate-90 mb-8 font-display">
           SCROLL
         </span>
-        
+        <div className="w-[1px] h-[80px] bg-gradient-to-b from-[#FFCA16] to-transparent" />
       </motion.div>
     </section>
   );

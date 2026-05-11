@@ -1,38 +1,32 @@
 ## Objective
-Remove all decorative horizontal lines (often used as section dividers or text accents) across the entire application, as requested by the user.
+Add a smooth scroll-triggered zoom-in/zoom-out animation and an entrance reveal effect to all project images.
 
 ## Technical Details
-The "lines" are implemented as `<span>` or `<div>` elements with specific classes or inline styles like:
-- `bg-[#FFCA16]` or `bg-white/10`
-- Fixed `h-[1px]` or `w-1px`
-- Classes like `section-divider`
-
-I will identify and remove these from all key components.
+- Create a reusable `ScrollAnimatedImage` component that handles:
+    - `useInView` and `motion` for the initial entrance effect (e.g., fade and scale up).
+    - `useScroll` and `useTransform` for the scroll-synced zoom effect.
+- The entrance effect will happen once when the image enters the viewport.
+- The scroll zoom will continuously react to the scroll position relative to the image.
 
 ## Implementation Steps
-1.  **Modify `src/pages/Index.tsx`**:
-    - Remove the `SectionDivider` component and all its usages in the `Index` page.
-2.  **Modify `src/pages/ProjectDetail.tsx`**:
-    - Remove horizontal lines in the Hero metadata section.
-    - Remove lines inside `h2` elements (subheaders).
-    - Remove lines used as spacers/accents (e.g., line 141, 163, 178, 201, 242, 272, etc.).
-3.  **Modify `src/components/AboutSection.tsx`**:
-    - Remove the line in the "A Mente Criativa" intro (line 36).
-    - Remove the line between paragraphs (line 95).
-4.  **Modify `src/components/ServicesSection.tsx`**:
-    - Remove the line in the intro section (line 62).
-5.  **Modify `src/components/ProcessSection.tsx`**:
-    - Remove the vertical connecting line (line 56) and the horizontal line in the "Fase" tag (line 84 if it exists as a line).
-6.  **Modify `src/components/EditorialQuote.tsx`**:
-    - Remove the line before the eyebrow text (line 24).
-    - Remove the line before the attribution text (line 51).
-7.  **Modify `src/components/ContactSection.tsx`**:
-    - Remove the decorative lines at the top and bottom of the section (lines 11-12).
-    - Remove the lines on both sides of the "Pronto para o próximo nível?" text (lines 28, 32).
-8.  **Modify `src/components/HeroSection.tsx`**:
-    - Remove the line in the meta intro (line 314).
-    - Remove the scroll indicator line (line 390).
-    - Remove the side label line (line 378).
-9.  **Modify `src/components/PortfolioSection.tsx`**:
-    - Remove the scroll indicator line (line 155).
-    - Remove the indicator bars for cases (lines 142-144).
+1. **Create `ScrollAnimatedImage` component**:
+    - Place it in a new file `src/components/ScrollAnimatedImage.tsx`.
+    - Use `useRef` to track the image element.
+    - Use `useScroll` with the `target` ref.
+    - Transform scroll progress to scale (e.g., 0.95 to 1.1).
+    - Use `initial`, `whileInView`, and `viewport={{ once: true }}` for the entrance animation.
+
+2. **Refactor `ProjectDetail.tsx`**:
+    - Replace all `<img>` and existing `motion.img` tags with the new `ScrollAnimatedImage` component.
+    - This includes:
+        - Concept images
+        - Variations images
+        - Construction images
+        - Color palette images
+        - Typography images
+        - Symbols images
+        - Applications images
+
+3. **Fine-tune animations**:
+    - Entrance: Scale from 0.8 to 1, opacity from 0 to 1, duration ~1s.
+    - Scroll Zoom: Scale from 1 to 1.1 as the image moves from the bottom to the top of the viewport.

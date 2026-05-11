@@ -374,7 +374,7 @@ const HeroSection = () => {
         <span className="text-white/20 text-[10px] uppercase tracking-[0.5em] font-bold">
           EST. 2018
         </span>
-        <div className="w-12 h-[1px] bg-white/20" />
+        
       </div>
 
       {/* Scroll Indicator */}

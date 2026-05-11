@@ -1,9 +1,25 @@
-I will fix the horizontal positioning of the "Logotipo e variações" image by moving the translation from a Tailwind class to the Framer Motion `style` prop. This ensures it isn't overwritten by Framer Motion's internal transform management.
+The user wants to keep the 200px left shift but noted that the image now appears zoomed and cropped, cutting off information.
+
+The zoom/crop is likely caused by the `useTransform` scale animation:
+```typescript
+const variationsScale = useTransform(variationsScroll, [0, 0.5, 1], [0.95, 1, 1.05]);
+```
+When this project is viewed, the image is scaled up (up to 1.05) as the user scrolls, and since it has `max-w-none` and is inside an `overflow-hidden` container, it easily clips.
+
+To fix this:
+1. I will remove the `scale` transformation for the `akedah-podcast` project to ensure it stays at its natural size (scale: 1).
+2. I will keep the `x: -200` translation as requested previously.
+3. I will ensure the container handles the overflow without unnecessary cropping if possible, but the primary issue is the scaling.
+
+### User Review Required
+
+> [!IMPORTANT]
+> I will be removing the "scroll-to-zoom" effect on this specific image to prevent it from cropping the information, while maintaining the 200px shift to the left that you requested.
 
 ### Technical Details
+
 - **File**: `src/pages/ProjectDetail.tsx`
-- **Change**: 
-    1. Remove `-translate-x-[200px]` from the `className`.
-    2. Add `x: project.slug === 'akedah-podcast' ? -200 : 0` to the `style` prop of the `motion.img`.
-    3. Keep `max-w-full` but ensure it doesn't constrain the movement in a way that looks like "nothing changed" (I'll try removing `max-w-full` if it still seems too small, but for now I'll just move the translation to `style`).
-- **Verification**: The image should now correctly shift 200px to the left.
+- **Change**: Modify the `style` prop of the `motion.img` in the "Variations" section.
+- **Logic**: 
+  - Change `scale: project.slug === 'akedah-podcast' ? variationsScale : 1` to `scale: 1` (or simply remove it from the condition for this project).
+  - Keep `x: project.slug === 'akedah-podcast' ? -200 : 0`.

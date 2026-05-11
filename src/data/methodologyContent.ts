@@ -113,7 +113,7 @@ export const methodologyContent: Record<string, MethodologyContent> = {
     ],
     schedule: [
       {
-        title: "Fase 1 — Imersão Estratégica",
+        title: "Fase 1: Imersão Estratégica",
         realDeadline: "3-4 dias úteis",
         clientDeadline: "4-5 dias úteis",
         days: [
@@ -124,7 +124,7 @@ export const methodologyContent: Record<string, MethodologyContent> = {
         ],
       },
       {
-        title: "Fase 2 — Conceituação e Direção Criativa",
+        title: "Fase 2: Conceituação e Direção Criativa",
         realDeadline: "4-5 dias úteis",
         clientDeadline: "5-6 dias úteis",
         days: [
@@ -132,11 +132,11 @@ export const methodologyContent: Record<string, MethodologyContent> = {
           { day: "Dia 6 (2h dedicadas)", tasks: ["Criação dos moodboards (use IA para acelerar)", "Midjourney para geração de atmosferas visuais + curadoria humana estratégica"] },
           { day: "Dia 7 (1h dedicada)", tasks: ["Refinamento e estratégia dos moodboards", "Cada moodboard deve ter 1 parágrafo de rationale"] },
           { day: "Dia 8 (1h dedicada)", tasks: ["Preparação da apresentação", "Agendamento da reunião de apresentação"] },
-          { day: "Dia 9", tasks: ["Reunião de apresentação dos moodboards (45min-1h)"], note: "Prazo pausado aguardando direção aprovada — 48h", aiTips: ["Midjourney para atmosferas e referências visuais", "ChatGPT para ajudar a escrever os rationales dos moodboards"] },
+          { day: "Dia 9", tasks: ["Reunião de apresentação dos moodboards (45min-1h)"], note: "Prazo pausado aguardando direção aprovada: 48h", aiTips: ["Midjourney para atmosferas e referências visuais", "ChatGPT para ajudar a escrever os rationales dos moodboards"] },
         ],
       },
       {
-        title: "Fase 3 — Design e Desenvolvimento de Conceitos",
+        title: "Fase 3: Design e Desenvolvimento de Conceitos",
         realDeadline: "6-8 dias úteis",
         clientDeadline: "8-10 dias úteis",
         days: [
@@ -145,11 +145,11 @@ export const methodologyContent: Record<string, MethodologyContent> = {
           { day: "Dia 13 (2-3h dedicadas)", tasks: ["Desenvolvimento digital do Conceito B", "Direção visual distinta do Conceito A"] },
           { day: "Dia 14 (1-2h dedicadas)", tasks: ["Criação dos mockups de contexto", "Cartão de visita, perfil digital, papelaria básica"] },
           { day: "Dia 15 (2h dedicadas)", tasks: ["Preparação da apresentação com storytelling", "Cada conceito = problema + solução + emoção + aplicação"] },
-          { day: "Dia 16", tasks: ["Apresentação para o cliente (1-1h30)"], note: "Prazo pausado aguardando escolha — 48-72h", aiTips: ["Midjourney para explorar formas e símbolos", "Adobe Firefly para variações rápidas de conceito", "ChatGPT para construir o storytelling da apresentação"] },
+          { day: "Dia 16", tasks: ["Apresentação para o cliente (1-1h30)"], note: "Prazo pausado aguardando escolha: 48-72h", aiTips: ["Midjourney para explorar formas e símbolos", "Adobe Firefly para variações rápidas de conceito", "ChatGPT para construir o storytelling da apresentação"] },
         ],
       },
       {
-        title: "Fase 4 — Refinamento e Expansão do Sistema Visual",
+        title: "Fase 4: Refinamento e Expansão do Sistema Visual",
         realDeadline: "5-7 dias úteis",
         clientDeadline: "6-8 dias úteis",
         days: [
@@ -157,12 +157,12 @@ export const methodologyContent: Record<string, MethodologyContent> = {
           { day: "Dia 18 (2h dedicadas)", tasks: ["Desenvolvimento do sistema de cores completo", "CMYK + RGB + HEX + Pantone (se aplicável)", "Teste de acessibilidade (contraste WCAG)"] },
           { day: "Dia 19 (1-2h dedicadas)", tasks: ["Sistema tipográfico completo", "Primária + Secundária + hierarquia + espaçamento"] },
           { day: "Dia 20 (2h dedicadas)", tasks: ["Elementos gráficos de apoio", "Padrões, ícones, texturas, formas complementares"] },
-          { day: "Dia 21 (1h dedicada)", tasks: ["Diretrizes de uso (certos e errados)", "1ª Rodada de revisão enviada ao cliente"], note: "Aguardando feedback — 48h" },
+          { day: "Dia 21 (1h dedicada)", tasks: ["Diretrizes de uso (certos e errados)", "1ª Rodada de revisão enviada ao cliente"], note: "Aguardando feedback: 48h" },
           { day: "Dia 22 (1-2h dedicadas)", tasks: ["Aplicação da 2ª rodada de revisão (se necessário)", "Aprovação final do sistema visual"], note: "LIMITE: 2 rodadas de revisão inclusas. Rodadas adicionais = custo extra." },
         ],
       },
       {
-        title: "Fase 5 — Finalização e Entrega",
+        title: "Fase 5: Finalização e Entrega",
         realDeadline: "3-4 dias úteis",
         clientDeadline: "4-5 dias úteis",
         days: [
@@ -241,37 +241,37 @@ export const methodologyContent: Record<string, MethodologyContent> = {
     ],
     schedule: [
       {
-        title: "Fase 1 — Briefing e Direção Criativa",
+        title: "Fase 1: Briefing e Direção Criativa",
         realDeadline: "2-3 dias úteis",
         clientDeadline: "3-4 dias úteis",
         days: [
           { day: "Dia 1 (2h dedicadas)", tasks: ["Reunião de briefing (45min-1h) + envio do questionário"] },
           { day: "Dia 2 (1-2h dedicadas)", tasks: ["Pesquisa de concorrência visual", "Criação dos moodboards de direção"] },
-          { day: "Dia 3 (1h dedicada)", tasks: ["Apresentação dos moodboards ao cliente"], note: "Prazo pausado aguardando aprovação — 24-48h", aiTips: ["Midjourney para referências visuais", "Perplexity para pesquisa de concorrentes"] },
+          { day: "Dia 3 (1h dedicada)", tasks: ["Apresentação dos moodboards ao cliente"], note: "Prazo pausado aguardando aprovação: 24-48h", aiTips: ["Midjourney para referências visuais", "Perplexity para pesquisa de concorrentes"] },
         ],
       },
       {
-        title: "Fase 2 — Criação e Desenvolvimento",
+        title: "Fase 2: Criação e Desenvolvimento",
         realDeadline: "3-4 dias úteis",
         clientDeadline: "4-5 dias úteis",
         days: [
           { day: "Dia 4 (2h dedicadas)", tasks: ["Esboços e exploração inicial", "Mínimo 15 thumbnails de conceito"] },
           { day: "Dia 5-6 (2h dedicadas/dia)", tasks: ["Desenvolvimento digital das 2 propostas de logotipo"] },
-          { day: "Dia 7 (1-2h dedicadas)", tasks: ["Criação dos mockups + preparação da apresentação", "Apresentação ao cliente"], note: "Prazo pausado aguardando escolha — 48h", aiTips: ["Midjourney para explorar formas", "ChatGPT para storytelling da apresentação"] },
+          { day: "Dia 7 (1-2h dedicadas)", tasks: ["Criação dos mockups + preparação da apresentação", "Apresentação ao cliente"], note: "Prazo pausado aguardando escolha: 48h", aiTips: ["Midjourney para explorar formas", "ChatGPT para storytelling da apresentação"] },
         ],
       },
       {
-        title: "Fase 3 — Refinamento e Ajustes",
+        title: "Fase 3: Refinamento e Ajustes",
         realDeadline: "2-3 dias úteis",
         clientDeadline: "3-4 dias úteis",
         days: [
           { day: "Dia 8 (2h dedicadas)", tasks: ["Aplicação do feedback + refinamento do logotipo escolhido"] },
           { day: "Dia 9 (1h dedicada)", tasks: ["Criação das versões monocromáticas e variações", "Testes de funcionalidade em diferentes tamanhos e fundos"] },
-          { day: "Dia 10 (1h dedicada)", tasks: ["Envio para aprovação final do cliente"], note: "Aguardando aprovação — 24h" },
+          { day: "Dia 10 (1h dedicada)", tasks: ["Envio para aprovação final do cliente"], note: "Aguardando aprovação: 24h" },
         ],
       },
       {
-        title: "Fase 4 — Finalização e Entrega",
+        title: "Fase 4: Finalização e Entrega",
         realDeadline: "1-2 dias úteis",
         clientDeadline: "2-3 dias úteis",
         days: [
@@ -318,7 +318,7 @@ export const methodologyContent: Record<string, MethodologyContent> = {
         steps: [
           { title: "Pesquisa Visual Aprofundada", description: "Curadoria extensiva de referências visuais, tipográficas, cromáticas e texturais alinhadas à estratégia." },
           { title: "Criação de 3 Moodboards", description: "Painéis visuais distintos, cada um representando um universo estético completo para a marca." },
-          { title: "Definição de Tom de Voz", description: "Direcionamento verbal que complementa a identidade visual — como a marca fala, escreve e se comunica." },
+          { title: "Definição de Tom de Voz", description: "Direcionamento verbal que complementa a identidade visual: como a marca fala, escreve e se comunica." },
           { title: "Apresentação e Aprovação", description: "Sessão de apresentação com justificativa estratégica de cada direção para aprovação." },
         ],
       },
@@ -373,57 +373,57 @@ export const methodologyContent: Record<string, MethodologyContent> = {
     ],
     schedule: [
       {
-        title: "Fase 1 — Imersão Estratégica",
+        title: "Fase 1: Imersão Estratégica",
         realDeadline: "4-5 dias úteis",
         clientDeadline: "5-7 dias úteis",
         days: [
           { day: "Dia 1-2 (3h dedicadas)", tasks: ["Workshop de imersão com o cliente (2-3h)", "Envio de questionários complementares"] },
           { day: "Dia 3-4 (2h dedicadas/dia)", tasks: ["Pesquisa de mercado e concorrência completa", "Definição de arquétipos e persona"] },
-          { day: "Dia 5 (2h dedicadas)", tasks: ["Compilação do documento de posicionamento", "Envio para validação"], note: "Prazo pausado aguardando validação — 48h" },
+          { day: "Dia 5 (2h dedicadas)", tasks: ["Compilação do documento de posicionamento", "Envio para validação"], note: "Prazo pausado aguardando validação: 48h" },
         ],
       },
       {
-        title: "Fase 2 — Conceituação e Direção Criativa",
+        title: "Fase 2: Conceituação e Direção Criativa",
         realDeadline: "4-5 dias úteis",
         clientDeadline: "5-7 dias úteis",
         days: [
           { day: "Dia 6-7 (3h dedicadas/dia)", tasks: ["Pesquisa visual aprofundada", "Criação dos 3 moodboards estratégicos"] },
           { day: "Dia 8 (2h dedicadas)", tasks: ["Definição de tom de voz preliminar", "Refinamento dos moodboards"] },
-          { day: "Dia 9 (1h dedicada)", tasks: ["Apresentação ao cliente"], note: "Prazo pausado aguardando aprovação — 48h" },
+          { day: "Dia 9 (1h dedicada)", tasks: ["Apresentação ao cliente"], note: "Prazo pausado aguardando aprovação: 48h" },
         ],
       },
       {
-        title: "Fase 3 — Criação do Logotipo e Sistema Visual",
+        title: "Fase 3: Criação do Logotipo e Sistema Visual",
         realDeadline: "7-9 dias úteis",
         clientDeadline: "9-12 dias úteis",
         days: [
           { day: "Dia 10-11 (2h dedicadas/dia)", tasks: ["Exploração extensiva de conceitos", "Mínimo 25 thumbnails"] },
           { day: "Dia 12-14 (2-3h dedicadas/dia)", tasks: ["Desenvolvimento digital das 3 propostas", "Sistema de cores e tipografia para cada conceito"] },
           { day: "Dia 15-16 (2h dedicadas/dia)", tasks: ["Elementos gráficos de apoio", "Mockups extensivos"] },
-          { day: "Dia 17 (2h dedicadas)", tasks: ["Apresentação ao cliente"], note: "Prazo pausado aguardando escolha — 48-72h" },
+          { day: "Dia 17 (2h dedicadas)", tasks: ["Apresentação ao cliente"], note: "Prazo pausado aguardando escolha: 48-72h" },
         ],
       },
       {
-        title: "Fase 4 — Refinamento e Expansão",
+        title: "Fase 4: Refinamento e Expansão",
         realDeadline: "5-7 dias úteis",
         clientDeadline: "7-9 dias úteis",
         days: [
           { day: "Dia 18-19 (2h dedicadas/dia)", tasks: ["Refinamento do logotipo escolhido", "Expansão do sistema de cores e tipografia"] },
           { day: "Dia 20-21 (2-3h dedicadas/dia)", tasks: ["Papelaria completa", "Aplicações digitais"] },
-          { day: "Dia 22 (2h dedicadas)", tasks: ["Mockups profissionais + envio para revisão"], note: "Aguardando feedback — 48h" },
+          { day: "Dia 22 (2h dedicadas)", tasks: ["Mockups profissionais + envio para revisão"], note: "Aguardando feedback: 48h" },
         ],
       },
       {
-        title: "Fase 5 — Manual de Marca Completo",
+        title: "Fase 5: Manual de Marca Completo",
         realDeadline: "5-6 dias úteis",
         clientDeadline: "6-8 dias úteis",
         days: [
           { day: "Dia 23-26 (3h dedicadas/dia)", tasks: ["Diagramação do manual de marca completo (40-60 páginas)"] },
-          { day: "Dia 27 (2h dedicadas)", tasks: ["Revisão interna e envio para aprovação do cliente"], note: "Aguardando aprovação — 48h" },
+          { day: "Dia 27 (2h dedicadas)", tasks: ["Revisão interna e envio para aprovação do cliente"], note: "Aguardando aprovação: 48h" },
         ],
       },
       {
-        title: "Fase 6 — Entrega e Alinhamento Final",
+        title: "Fase 6: Entrega e Alinhamento Final",
         realDeadline: "2-3 dias úteis",
         clientDeadline: "3-4 dias úteis",
         days: [
@@ -502,16 +502,16 @@ export const methodologyContent: Record<string, MethodologyContent> = {
     ],
     schedule: [
       {
-        title: "Fase 1 — Recebimento e Diagnóstico",
+        title: "Fase 1: Recebimento e Diagnóstico",
         realDeadline: "1-2 dias úteis",
         clientDeadline: "2-3 dias úteis",
         days: [
           { day: "Dia 1 (1-2h dedicadas)", tasks: ["Reunião de briefing + recebimento de materiais", "Diagnóstico técnico dos arquivos"] },
-          { day: "Dia 2 (1h dedicada)", tasks: ["Definição das páginas do manual", "Envio do plano para aprovação"], note: "Aguardando aprovação — 24h" },
+          { day: "Dia 2 (1h dedicada)", tasks: ["Definição das páginas do manual", "Envio do plano para aprovação"], note: "Aguardando aprovação: 24h" },
         ],
       },
       {
-        title: "Fase 2 — Reconstrução e Organização",
+        title: "Fase 2: Reconstrução e Organização",
         realDeadline: "2-3 dias úteis",
         clientDeadline: "2-3 dias úteis",
         days: [
@@ -520,16 +520,16 @@ export const methodologyContent: Record<string, MethodologyContent> = {
         ],
       },
       {
-        title: "Fase 3 — Desenvolvimento do Manual",
+        title: "Fase 3: Desenvolvimento do Manual",
         realDeadline: "3-4 dias úteis",
         clientDeadline: "3-4 dias úteis",
         days: [
           { day: "Dia 5-6 (2-3h dedicadas/dia)", tasks: ["Diagramação completa do manual (12-20 páginas)"] },
-          { day: "Dia 7 (1-2h dedicadas)", tasks: ["Revisão interna + envio para aprovação do cliente"], note: "Aguardando feedback — 48h" },
+          { day: "Dia 7 (1-2h dedicadas)", tasks: ["Revisão interna + envio para aprovação do cliente"], note: "Aguardando feedback: 48h" },
         ],
       },
       {
-        title: "Fase 4 — Revisão e Entrega",
+        title: "Fase 4: Revisão e Entrega",
         realDeadline: "1-2 dias úteis",
         clientDeadline: "2-3 dias úteis",
         days: [
@@ -586,7 +586,7 @@ export const methodologyContent: Record<string, MethodologyContent> = {
         deliverables: ["Peças Visuais Finalizadas (Posts, Carrosséis, Stories)", "Revisão Interna de Qualidade"],
         steps: [
           { title: "Produção em Blocos", description: "Criação das peças organizadas por tipo (posts estáticos, carrosséis, stories) para eficiência." },
-          { title: "Adaptação Criativa", description: "Variação dos templates mantendo a identidade visual — cada peça única mas reconhecível." },
+          { title: "Adaptação Criativa", description: "Variação dos templates mantendo a identidade visual: cada peça única mas reconhecível." },
           { title: "Revisão Interna", description: "Checklist de qualidade em cada peça antes de enviar ao cliente." },
           { title: "Organização para Revisão", description: "Peças organizadas por tipo e numeradas para facilitar o feedback do cliente." },
         ],
@@ -606,36 +606,36 @@ export const methodologyContent: Record<string, MethodologyContent> = {
     ],
     schedule: [
       {
-        title: "Fase 1 — Briefing e Estratégia Visual",
+        title: "Fase 1: Briefing e Estratégia Visual",
         realDeadline: "2-3 dias úteis",
         clientDeadline: "3-4 dias úteis",
         days: [
           { day: "Dia 1 (2h dedicadas)", tasks: ["Reunião de briefing visual (1h)", "Levantamento e análise da identidade visual"] },
           { day: "Dia 2 (1-2h dedicadas)", tasks: ["Definição do guia de estilo para redes sociais"] },
-          { day: "Dia 3 (1h dedicada)", tasks: ["Envio da lista de peças para aprovação"], note: "Aguardando aprovação — 24-48h" },
+          { day: "Dia 3 (1h dedicada)", tasks: ["Envio da lista de peças para aprovação"], note: "Aguardando aprovação: 24-48h" },
         ],
       },
       {
-        title: "Fase 2 — Templates e Layout de Feed",
+        title: "Fase 2: Templates e Layout de Feed",
         realDeadline: "3-4 dias úteis",
         clientDeadline: "4-5 dias úteis",
         days: [
           { day: "Dia 4-5 (2-3h dedicadas/dia)", tasks: ["Criação dos templates base por tipo de peça"] },
           { day: "Dia 6 (2h dedicadas)", tasks: ["Mockup de layout de feed (9-12 posts)"] },
-          { day: "Dia 7 (1h dedicada)", tasks: ["Apresentação dos templates ao cliente"], note: "Prazo pausado aguardando aprovação — 48h" },
+          { day: "Dia 7 (1h dedicada)", tasks: ["Apresentação dos templates ao cliente"], note: "Prazo pausado aguardando aprovação: 48h" },
         ],
       },
       {
-        title: "Fase 3 — Produção das Peças",
+        title: "Fase 3: Produção das Peças",
         realDeadline: "3-5 dias úteis",
         clientDeadline: "3-5 dias úteis",
         days: [
           { day: "Dia 8-10 (2-3h dedicadas/dia)", tasks: ["Produção em blocos por tipo de peça", "Posts estáticos → Carrosséis → Stories"] },
-          { day: "Dia 11 (1h dedicada)", tasks: ["Revisão interna + organização para feedback do cliente"], note: "Aguardando feedback — 48h" },
+          { day: "Dia 11 (1h dedicada)", tasks: ["Revisão interna + organização para feedback do cliente"], note: "Aguardando feedback: 48h" },
         ],
       },
       {
-        title: "Fase 4 — Revisão e Entrega",
+        title: "Fase 4: Revisão e Entrega",
         realDeadline: "2-3 dias úteis",
         clientDeadline: "3-4 dias úteis",
         days: [
@@ -648,15 +648,15 @@ export const methodologyContent: Record<string, MethodologyContent> = {
     totalDeadline: { real: "10-15 dias úteis", client: "13-18 dias úteis" },
   },
 
-  "Edição de Vídeo — Reels/Shorts": {
-    serviceKey: "Edição de Vídeo — Reels/Shorts",
-    title: "Edição de Vídeo — Reels/Shorts",
+  "Edição de Vídeo: Reels/Shorts": {
+    serviceKey: "Edição de Vídeo: Reels/Shorts",
+    title: "Edição de Vídeo: Reels/Shorts",
     subtitle: "Vídeos Curtos que Capturam Atenção e Geram Resultados",
     date: "Março, 2026",
     introduction:
       "O serviço de edição de Reels e Shorts do Studio Kiiro transforma material bruto em vídeos curtos profissionais, dinâmicos e otimizados para as plataformas. Cada vídeo é editado com atenção ao pacing, ritmo, trilha e identidade visual do cliente.",
     principles: [
-      { title: "Ritmo e Pacing", description: "Cada segundo conta — edição rápida e envolvente." },
+      { title: "Ritmo e Pacing", description: "Cada segundo conta: edição rápida e envolvente." },
       { title: "Identidade Visual", description: "Elementos da marca integrados naturalmente ao vídeo." },
       { title: "Otimização por Plataforma", description: "Formato, duração e estilo adaptados para cada rede." },
       { title: "Qualidade Profissional", description: "Color grading, mixagem de áudio e transições polidas." },
@@ -713,7 +713,7 @@ export const methodologyContent: Record<string, MethodologyContent> = {
     ],
     schedule: [
       {
-        title: "Fase 1 — Briefing e Roteiro",
+        title: "Fase 1: Briefing e Roteiro",
         realDeadline: "1-2 dias úteis",
         clientDeadline: "2-3 dias úteis",
         days: [
@@ -721,16 +721,16 @@ export const methodologyContent: Record<string, MethodologyContent> = {
         ],
       },
       {
-        title: "Fase 2 — Rough Cut",
+        title: "Fase 2: Rough Cut",
         realDeadline: "1-2 dias úteis",
         clientDeadline: "2-3 dias úteis",
         days: [
           { day: "Dia 2 (2-3h dedicadas)", tasks: ["Organização do projeto + seleção de takes", "Montagem do rough cut + trilha provisória"] },
-          { day: "Dia 3 (30min)", tasks: ["Envio do rough cut para feedback"], note: "Aguardando feedback — 24-48h" },
+          { day: "Dia 3 (30min)", tasks: ["Envio do rough cut para feedback"], note: "Aguardando feedback: 24-48h" },
         ],
       },
       {
-        title: "Fase 3 — Fine Cut",
+        title: "Fase 3: Fine Cut",
         realDeadline: "1-2 dias úteis",
         clientDeadline: "1-2 dias úteis",
         days: [
@@ -738,7 +738,7 @@ export const methodologyContent: Record<string, MethodologyContent> = {
         ],
       },
       {
-        title: "Fase 4 — Revisão e Exportação",
+        title: "Fase 4: Revisão e Exportação",
         realDeadline: "1 dia útil",
         clientDeadline: "1-2 dias úteis",
         days: [
@@ -749,9 +749,9 @@ export const methodologyContent: Record<string, MethodologyContent> = {
     totalDeadline: { real: "4-7 dias úteis", client: "6-10 dias úteis" },
   },
 
-  "Edição de Vídeo — Institucional": {
-    serviceKey: "Edição de Vídeo — Institucional",
-    title: "Edição de Vídeo — Institucional",
+  "Edição de Vídeo: Institucional": {
+    serviceKey: "Edição de Vídeo: Institucional",
+    title: "Edição de Vídeo: Institucional",
     subtitle: "Vídeos Que Comunicam a Essência e a Credibilidade da Sua Marca",
     date: "Março, 2026",
     introduction:
@@ -814,7 +814,7 @@ export const methodologyContent: Record<string, MethodologyContent> = {
     ],
     schedule: [
       {
-        title: "Fase 1 — Briefing e Roteiro",
+        title: "Fase 1: Briefing e Roteiro",
         realDeadline: "2-3 dias úteis",
         clientDeadline: "3-4 dias úteis",
         days: [
@@ -823,16 +823,16 @@ export const methodologyContent: Record<string, MethodologyContent> = {
         ],
       },
       {
-        title: "Fase 2 — Rough Cut",
+        title: "Fase 2: Rough Cut",
         realDeadline: "2-3 dias úteis",
         clientDeadline: "3-4 dias úteis",
         days: [
           { day: "Dia 3-4 (2-3h dedicadas/dia)", tasks: ["Organização + montagem narrativa + trilha provisória"] },
-          { day: "Dia 5 (30min)", tasks: ["Envio do rough cut para feedback"], note: "Aguardando feedback — 48h" },
+          { day: "Dia 5 (30min)", tasks: ["Envio do rough cut para feedback"], note: "Aguardando feedback: 48h" },
         ],
       },
       {
-        title: "Fase 3 — Fine Cut",
+        title: "Fase 3: Fine Cut",
         realDeadline: "2-3 dias úteis",
         clientDeadline: "2-3 dias úteis",
         days: [
@@ -840,7 +840,7 @@ export const methodologyContent: Record<string, MethodologyContent> = {
         ],
       },
       {
-        title: "Fase 4 — Revisão e Exportação",
+        title: "Fase 4: Revisão e Exportação",
         realDeadline: "1-2 dias úteis",
         clientDeadline: "2-3 dias úteis",
         days: [
@@ -851,9 +851,9 @@ export const methodologyContent: Record<string, MethodologyContent> = {
     totalDeadline: { real: "7-11 dias úteis", client: "10-14 dias úteis" },
   },
 
-  "Edição de Vídeo — Tutorial/Educativo": {
-    serviceKey: "Edição de Vídeo — Tutorial/Educativo",
-    title: "Edição de Vídeo — Tutorial/Educativo",
+  "Edição de Vídeo: Tutorial/Educativo": {
+    serviceKey: "Edição de Vídeo: Tutorial/Educativo",
+    title: "Edição de Vídeo: Tutorial/Educativo",
     subtitle: "Conteúdo Didático que Ensina com Clareza e Profissionalismo",
     date: "Março, 2026",
     introduction:
@@ -916,7 +916,7 @@ export const methodologyContent: Record<string, MethodologyContent> = {
     ],
     schedule: [
       {
-        title: "Fase 1 — Briefing e Roteiro",
+        title: "Fase 1: Briefing e Roteiro",
         realDeadline: "1-2 dias úteis",
         clientDeadline: "2-3 dias úteis",
         days: [
@@ -924,16 +924,16 @@ export const methodologyContent: Record<string, MethodologyContent> = {
         ],
       },
       {
-        title: "Fase 2 — Rough Cut",
+        title: "Fase 2: Rough Cut",
         realDeadline: "2-3 dias úteis",
         clientDeadline: "3-4 dias úteis",
         days: [
           { day: "Dia 2-3 (2-3h dedicadas/dia)", tasks: ["Organização + montagem didática + pacing educativo", "Marcação de pontos para gráficos"] },
-          { day: "Dia 4 (30min)", tasks: ["Envio do rough cut para feedback"], note: "Aguardando feedback — 24-48h" },
+          { day: "Dia 4 (30min)", tasks: ["Envio do rough cut para feedback"], note: "Aguardando feedback: 24-48h" },
         ],
       },
       {
-        title: "Fase 3 — Fine Cut",
+        title: "Fase 3: Fine Cut",
         realDeadline: "2-3 dias úteis",
         clientDeadline: "2-3 dias úteis",
         days: [
@@ -941,7 +941,7 @@ export const methodologyContent: Record<string, MethodologyContent> = {
         ],
       },
       {
-        title: "Fase 4 — Revisão e Exportação",
+        title: "Fase 4: Revisão e Exportação",
         realDeadline: "1-2 dias úteis",
         clientDeadline: "2-3 dias úteis",
         days: [
@@ -1029,7 +1029,7 @@ export const methodologyContent: Record<string, MethodologyContent> = {
     ],
     schedule: [
       {
-        title: "Fase 1 — Briefing e Estratégia",
+        title: "Fase 1: Briefing e Estratégia",
         realDeadline: "1-2 dias úteis",
         clientDeadline: "2-3 dias úteis",
         days: [
@@ -1037,17 +1037,17 @@ export const methodologyContent: Record<string, MethodologyContent> = {
         ],
       },
       {
-        title: "Fase 2 — Design e Prototipagem",
+        title: "Fase 2: Design e Prototipagem",
         realDeadline: "3-4 dias úteis",
         clientDeadline: "4-5 dias úteis",
         days: [
           { day: "Dia 2-3 (2-3h dedicadas/dia)", tasks: ["Design de todas as seções (desktop)"] },
           { day: "Dia 4 (1-2h dedicadas)", tasks: ["Adaptação mobile + estratégia de CTA"] },
-          { day: "Dia 5 (1h dedicada)", tasks: ["Apresentação ao cliente"], note: "Aguardando aprovação — 48h" },
+          { day: "Dia 5 (1h dedicada)", tasks: ["Apresentação ao cliente"], note: "Aguardando aprovação: 48h" },
         ],
       },
       {
-        title: "Fase 3 — Desenvolvimento",
+        title: "Fase 3: Desenvolvimento",
         realDeadline: "3-5 dias úteis",
         clientDeadline: "3-5 dias úteis",
         days: [
@@ -1056,16 +1056,16 @@ export const methodologyContent: Record<string, MethodologyContent> = {
         ],
       },
       {
-        title: "Fase 4 — Revisão e Ajustes",
+        title: "Fase 4: Revisão e Ajustes",
         realDeadline: "2-3 dias úteis",
         clientDeadline: "3-4 dias úteis",
         days: [
           { day: "Dia 10 (2h dedicadas)", tasks: ["Aplicação de feedback + testes cross-browser"] },
-          { day: "Dia 11 (1h dedicada)", tasks: ["Revisão de conteúdo + aprovação final"], note: "Aguardando aprovação — 24-48h" },
+          { day: "Dia 11 (1h dedicada)", tasks: ["Revisão de conteúdo + aprovação final"], note: "Aguardando aprovação: 24-48h" },
         ],
       },
       {
-        title: "Fase 5 — Publicação e Entrega",
+        title: "Fase 5: Publicação e Entrega",
         realDeadline: "1 dia útil",
         clientDeadline: "1-2 dias úteis",
         days: [
@@ -1152,11 +1152,11 @@ export const methodologyContent: Record<string, MethodologyContent> = {
       },
     ],
     schedule: [
-      { title: "Fase 1 — Briefing e Estratégia", realDeadline: "2-3 dias úteis", clientDeadline: "3-4 dias úteis", days: [{ day: "Dia 1-2 (2h dedicadas/dia)", tasks: ["Briefing + análise de concorrência + arquitetura de informação"] }] },
-      { title: "Fase 2 — Design e Prototipagem", realDeadline: "5-7 dias úteis", clientDeadline: "7-9 dias úteis", days: [{ day: "Dia 3-7 (2-3h dedicadas/dia)", tasks: ["Design completo de todas as seções + mobile + microinterações"] }, { day: "Dia 8 (1h dedicada)", tasks: ["Apresentação ao cliente"], note: "Aguardando aprovação — 48h" }] },
-      { title: "Fase 3 — Desenvolvimento", realDeadline: "5-7 dias úteis", clientDeadline: "5-7 dias úteis", days: [{ day: "Dia 9-14 (2-3h dedicadas/dia)", tasks: ["Construção + animações + funcionalidades + performance"] }] },
-      { title: "Fase 4 — Revisão e Ajustes", realDeadline: "2-3 dias úteis", clientDeadline: "3-4 dias úteis", days: [{ day: "Dia 15-16 (2h dedicadas/dia)", tasks: ["Feedback + testes de QA + aprovação"] }] },
-      { title: "Fase 5 — Publicação e Entrega", realDeadline: "1-2 dias úteis", clientDeadline: "1-2 dias úteis", days: [{ day: "Dia 17 (1-2h dedicadas)", tasks: ["Publicação + testes + documentação + entrega"] }] },
+      { title: "Fase 1: Briefing e Estratégia", realDeadline: "2-3 dias úteis", clientDeadline: "3-4 dias úteis", days: [{ day: "Dia 1-2 (2h dedicadas/dia)", tasks: ["Briefing + análise de concorrência + arquitetura de informação"] }] },
+      { title: "Fase 2: Design e Prototipagem", realDeadline: "5-7 dias úteis", clientDeadline: "7-9 dias úteis", days: [{ day: "Dia 3-7 (2-3h dedicadas/dia)", tasks: ["Design completo de todas as seções + mobile + microinterações"] }, { day: "Dia 8 (1h dedicada)", tasks: ["Apresentação ao cliente"], note: "Aguardando aprovação: 48h" }] },
+      { title: "Fase 3: Desenvolvimento", realDeadline: "5-7 dias úteis", clientDeadline: "5-7 dias úteis", days: [{ day: "Dia 9-14 (2-3h dedicadas/dia)", tasks: ["Construção + animações + funcionalidades + performance"] }] },
+      { title: "Fase 4: Revisão e Ajustes", realDeadline: "2-3 dias úteis", clientDeadline: "3-4 dias úteis", days: [{ day: "Dia 15-16 (2h dedicadas/dia)", tasks: ["Feedback + testes de QA + aprovação"] }] },
+      { title: "Fase 5: Publicação e Entrega", realDeadline: "1-2 dias úteis", clientDeadline: "1-2 dias úteis", days: [{ day: "Dia 17 (1-2h dedicadas)", tasks: ["Publicação + testes + documentação + entrega"] }] },
     ],
     totalDeadline: { real: "15-22 dias úteis", client: "19-26 dias úteis" },
   },
@@ -1182,11 +1182,11 @@ export const methodologyContent: Record<string, MethodologyContent> = {
       { title: "Fase 5: Publicação e Entrega", subtitle: "Colocando o Site no Ar", objective: "Publicar e entregar o site com documentação completa.", deliverables: ["Site Publicado", "Documentação de Acesso"], steps: [{ title: "Publicação", description: "Deploy no domínio com configuração de DNS e SSL." }, { title: "Testes Finais", description: "Verificação pós-deploy." }, { title: "Documentação", description: "Credenciais e orientações de gestão." }, { title: "Entrega", description: "Email de encerramento profissional." }] },
     ],
     schedule: [
-      { title: "Fase 1 — Briefing", realDeadline: "2-3 dias úteis", clientDeadline: "3-4 dias úteis", days: [{ day: "Dia 1-2 (2h dedicadas/dia)", tasks: ["Briefing + sitemap + arquitetura de conteúdo"] }] },
-      { title: "Fase 2 — Design", realDeadline: "5-7 dias úteis", clientDeadline: "7-9 dias úteis", days: [{ day: "Dia 3-8 (2-3h dedicadas/dia)", tasks: ["Design de todas as páginas + mobile"] }, { day: "Dia 9 (1h)", tasks: ["Apresentação"], note: "Aguardando aprovação — 48h" }] },
-      { title: "Fase 3 — Desenvolvimento", realDeadline: "5-8 dias úteis", clientDeadline: "5-8 dias úteis", days: [{ day: "Dia 10-16 (2-3h dedicadas/dia)", tasks: ["Construção de todas as páginas + funcionalidades + SEO"] }] },
-      { title: "Fase 4 — Revisão", realDeadline: "2-3 dias úteis", clientDeadline: "3-4 dias úteis", days: [{ day: "Dia 17-18 (2h dedicadas/dia)", tasks: ["Feedback + testes + aprovação"] }] },
-      { title: "Fase 5 — Publicação", realDeadline: "1-2 dias úteis", clientDeadline: "1-2 dias úteis", days: [{ day: "Dia 19 (1-2h)", tasks: ["Publicação + documentação + entrega"] }] },
+      { title: "Fase 1: Briefing", realDeadline: "2-3 dias úteis", clientDeadline: "3-4 dias úteis", days: [{ day: "Dia 1-2 (2h dedicadas/dia)", tasks: ["Briefing + sitemap + arquitetura de conteúdo"] }] },
+      { title: "Fase 2: Design", realDeadline: "5-7 dias úteis", clientDeadline: "7-9 dias úteis", days: [{ day: "Dia 3-8 (2-3h dedicadas/dia)", tasks: ["Design de todas as páginas + mobile"] }, { day: "Dia 9 (1h)", tasks: ["Apresentação"], note: "Aguardando aprovação: 48h" }] },
+      { title: "Fase 3: Desenvolvimento", realDeadline: "5-8 dias úteis", clientDeadline: "5-8 dias úteis", days: [{ day: "Dia 10-16 (2-3h dedicadas/dia)", tasks: ["Construção de todas as páginas + funcionalidades + SEO"] }] },
+      { title: "Fase 4: Revisão", realDeadline: "2-3 dias úteis", clientDeadline: "3-4 dias úteis", days: [{ day: "Dia 17-18 (2h dedicadas/dia)", tasks: ["Feedback + testes + aprovação"] }] },
+      { title: "Fase 5: Publicação", realDeadline: "1-2 dias úteis", clientDeadline: "1-2 dias úteis", days: [{ day: "Dia 19 (1-2h)", tasks: ["Publicação + documentação + entrega"] }] },
     ],
     totalDeadline: { real: "15-23 dias úteis", client: "19-27 dias úteis" },
   },
@@ -1212,11 +1212,11 @@ export const methodologyContent: Record<string, MethodologyContent> = {
       { title: "Fase 5: Publicação e Entrega", subtitle: "Ativação do Ecossistema Digital", objective: "Publicar e entregar com documentação completa e orientações de gestão.", deliverables: ["Site Publicado", "Documentação Completa", "Orientações de Gestão"], steps: [{ title: "Publicação", description: "Deploy completo com configuração técnica." }, { title: "Testes Finais", description: "Verificação pós-deploy extensiva." }, { title: "Documentação", description: "Manual de acesso e gestão do site." }, { title: "Encerramento", description: "Entrega formal e capacitação do cliente." }] },
     ],
     schedule: [
-      { title: "Fase 1 — Briefing", realDeadline: "3-4 dias úteis", clientDeadline: "4-5 dias úteis", days: [{ day: "Dia 1-3 (2h dedicadas/dia)", tasks: ["Workshop de briefing + sitemap + arquitetura completa"] }] },
-      { title: "Fase 2 — Design", realDeadline: "7-10 dias úteis", clientDeadline: "9-12 dias úteis", days: [{ day: "Dia 4-12 (2-3h dedicadas/dia)", tasks: ["Design de todas as páginas + navegação + mobile"] }, { day: "Dia 13 (1h)", tasks: ["Apresentação"], note: "Aguardando aprovação — 48-72h" }] },
-      { title: "Fase 3 — Desenvolvimento", realDeadline: "8-12 dias úteis", clientDeadline: "8-12 dias úteis", days: [{ day: "Dia 14-24 (2-3h dedicadas/dia)", tasks: ["Construção de todas as páginas + funcionalidades avançadas + SEO"] }] },
-      { title: "Fase 4 — Revisão", realDeadline: "3-4 dias úteis", clientDeadline: "4-5 dias úteis", days: [{ day: "Dia 25-27 (2h dedicadas/dia)", tasks: ["QA extensivo + feedback + aprovação"] }] },
-      { title: "Fase 5 — Publicação", realDeadline: "1-2 dias úteis", clientDeadline: "1-2 dias úteis", days: [{ day: "Dia 28 (2h)", tasks: ["Publicação + documentação + entrega formal"] }] },
+      { title: "Fase 1: Briefing", realDeadline: "3-4 dias úteis", clientDeadline: "4-5 dias úteis", days: [{ day: "Dia 1-3 (2h dedicadas/dia)", tasks: ["Workshop de briefing + sitemap + arquitetura completa"] }] },
+      { title: "Fase 2: Design", realDeadline: "7-10 dias úteis", clientDeadline: "9-12 dias úteis", days: [{ day: "Dia 4-12 (2-3h dedicadas/dia)", tasks: ["Design de todas as páginas + navegação + mobile"] }, { day: "Dia 13 (1h)", tasks: ["Apresentação"], note: "Aguardando aprovação: 48-72h" }] },
+      { title: "Fase 3: Desenvolvimento", realDeadline: "8-12 dias úteis", clientDeadline: "8-12 dias úteis", days: [{ day: "Dia 14-24 (2-3h dedicadas/dia)", tasks: ["Construção de todas as páginas + funcionalidades avançadas + SEO"] }] },
+      { title: "Fase 4: Revisão", realDeadline: "3-4 dias úteis", clientDeadline: "4-5 dias úteis", days: [{ day: "Dia 25-27 (2h dedicadas/dia)", tasks: ["QA extensivo + feedback + aprovação"] }] },
+      { title: "Fase 5: Publicação", realDeadline: "1-2 dias úteis", clientDeadline: "1-2 dias úteis", days: [{ day: "Dia 28 (2h)", tasks: ["Publicação + documentação + entrega formal"] }] },
     ],
     totalDeadline: { real: "22-32 dias úteis", client: "26-36 dias úteis" },
   },
@@ -1242,7 +1242,7 @@ export const methodologyContent: Record<string, MethodologyContent> = {
         objective: "Mergulhar na essência da pessoa, compreendendo sua personalidade, seus valores, seu público, sua estética natural e como ela quer ser percebida no ambiente digital.",
         deliverables: ["Briefing Personal Brand Preenchido e Validado", "Mapa de Personalidade Visual", "Análise de Referências Aprovadas"],
         steps: [
-          { title: "Reunião de Descoberta Pessoal", description: "Sessão de alinhamento aprofundada focada na pessoa — quem ela é, o que a torna única, seus valores inegociáveis, nicho, público-alvo e sentimento que sua presença visual deve provocar." },
+          { title: "Reunião de Descoberta Pessoal", description: "Sessão de alinhamento aprofundada focada na pessoa: quem ela é, o que a torna única, seus valores inegociáveis, nicho, público-alvo e sentimento que sua presença visual deve provocar." },
           { title: "Análise do Perfil Digital Atual", description: "Investigação da presença digital existente, analisando perfis, tipo de conteúdo, estética atual e feedbacks do público." },
           { title: "Mapeamento do Público e Concorrência", description: "Análise dos criadores do mesmo nicho, identificando padrões estéticos e oportunidades de diferenciação visual." },
           { title: "Construção do Mapa de Personalidade Visual", description: "Definição do território visual em três eixos: quem o cliente é, para quem cria e como quer aparecer." },
@@ -1299,46 +1299,46 @@ export const methodologyContent: Record<string, MethodologyContent> = {
     ],
     schedule: [
       {
-        title: "Fase 1 — Imersão e Descoberta Pessoal",
+        title: "Fase 1: Imersão e Descoberta Pessoal",
         realDeadline: "2-3 dias úteis",
         clientDeadline: "3-4 dias úteis",
         days: [
-          { day: "Dia 1 (2h dedicadas)", tasks: ["Reunião de descoberta pessoal (1h-1h30)"], note: "Prazo pausado aguardando briefing completo — 24h" },
+          { day: "Dia 1 (2h dedicadas)", tasks: ["Reunião de descoberta pessoal (1h-1h30)"], note: "Prazo pausado aguardando briefing completo: 24h" },
           { day: "Dia 2 (2h dedicadas)", tasks: ["Análise do perfil digital atual do cliente", "Análise de 5-8 criadores do mesmo nicho"] },
-          { day: "Dia 3 (1h dedicada)", tasks: ["Construção do Mapa de Personalidade Visual", "Envio do mapa para validação"], note: "Prazo pausado aguardando validação — 24h", aiTips: ["ChatGPT/Claude para construção do mapa de personalidade", "Perplexity para pesquisa de tendências do nicho", "Midjourney para primeiros testes de referências visuais"] },
+          { day: "Dia 3 (1h dedicada)", tasks: ["Construção do Mapa de Personalidade Visual", "Envio do mapa para validação"], note: "Prazo pausado aguardando validação: 24h", aiTips: ["ChatGPT/Claude para construção do mapa de personalidade", "Perplexity para pesquisa de tendências do nicho", "Midjourney para primeiros testes de referências visuais"] },
         ],
       },
       {
-        title: "Fase 2 — Direção Visual e Moodboard",
+        title: "Fase 2: Direção Visual e Moodboard",
         realDeadline: "2-3 dias úteis",
         clientDeadline: "3-4 dias úteis",
         days: [
           { day: "Dia 1-2 (2-3h dedicadas/dia)", tasks: ["Criação dos 2 moodboards editoriais", "Cada um com nome da direção, imagens, paleta, tipografia, atmosfera e rationale"] },
-          { day: "Dia 3 (1h dedicada)", tasks: ["Apresentação ao cliente (45min)"], note: "Prazo pausado aguardando aprovação — 48h", aiTips: ["Midjourney para imagens editoriais", "Adobe Color para teste de paletas", "ChatGPT para descrições dos moodboards"] },
+          { day: "Dia 3 (1h dedicada)", tasks: ["Apresentação ao cliente (45min)"], note: "Prazo pausado aguardando aprovação: 48h", aiTips: ["Midjourney para imagens editoriais", "Adobe Color para teste de paletas", "ChatGPT para descrições dos moodboards"] },
         ],
       },
       {
-        title: "Fase 3 — Criação do Logo e Sistema Visual",
+        title: "Fase 3: Criação do Logo e Sistema Visual",
         realDeadline: "4-5 dias úteis",
         clientDeadline: "6-7 dias úteis",
         days: [
           { day: "Dia 1 (2h dedicadas)", tasks: ["Esboços e exploração do logo pessoal", "Mínimo 15 thumbnails de abordagens"] },
           { day: "Dia 2-3 (2-3h dedicadas/dia)", tasks: ["Desenvolvimento digital da Proposta A", "Logo principal + versão circular + monocromática"] },
           { day: "Dia 4 (2h dedicadas)", tasks: ["Desenvolvimento digital da Proposta B", "Criação do elemento gráfico de apoio"] },
-          { day: "Dia 5 (2h dedicadas)", tasks: ["Criação dos mockups de apresentação", "Apresentação ao cliente (1h)"], note: "Prazo pausado aguardando escolha — 48-72h", aiTips: ["Midjourney para tratamentos tipográficos", "Adobe Firefly para variações", "ChatGPT para storytelling da apresentação"] },
+          { day: "Dia 5 (2h dedicadas)", tasks: ["Criação dos mockups de apresentação", "Apresentação ao cliente (1h)"], note: "Prazo pausado aguardando escolha: 48-72h", aiTips: ["Midjourney para tratamentos tipográficos", "Adobe Firefly para variações", "ChatGPT para storytelling da apresentação"] },
         ],
       },
       {
-        title: "Fase 4 — Templates de Canva e Mockups",
+        title: "Fase 4: Templates de Canva e Mockups",
         realDeadline: "2-3 dias úteis",
         clientDeadline: "3-4 dias úteis",
         days: [
           { day: "Dia 1-2 (3h dedicadas/dia)", tasks: ["Criação dos 5 templates no Canva", "Post Layout A + Post Layout B + Carrossel + Story + Highlight Cover"] },
-          { day: "Dia 3 (2h dedicadas)", tasks: ["Mockup de feed final (9 posts simulados)", "Mockup de perfil completo do Instagram"], note: "Aguardando feedback — 48h", aiTips: ["ChatGPT para textos fictícios coerentes com o nicho", "Midjourney para imagens de referência dos mockups"] },
+          { day: "Dia 3 (2h dedicadas)", tasks: ["Mockup de feed final (9 posts simulados)", "Mockup de perfil completo do Instagram"], note: "Aguardando feedback: 48h", aiTips: ["ChatGPT para textos fictícios coerentes com o nicho", "Midjourney para imagens de referência dos mockups"] },
         ],
       },
       {
-        title: "Fase 5 — Mini-guia e Entrega Final",
+        title: "Fase 5: Mini-guia e Entrega Final",
         realDeadline: "2-3 dias úteis",
         clientDeadline: "3-4 dias úteis",
         days: [
@@ -1357,7 +1357,7 @@ export const methodologyContent: Record<string, MethodologyContent> = {
     subtitle: "Comunicação com Autoridade, Fluidez e Identidade",
     date: "Março, 2026",
     introduction:
-      "Nossa metodologia para criação de apresentações vai além dos slides estáticos. Desenvolvemos materiais imersivos, com animações estratégicas, hierarquia visual apurada e design de alto impacto, para que cada apresentação comunique com autoridade, fluidez e identidade. Seja para uma empresa, profissional, projeto social ou organização religiosa, o resultado é uma apresentação que não apenas informa — ela impressiona.",
+      "Nossa metodologia para criação de apresentações vai além dos slides estáticos. Desenvolvemos materiais imersivos, com animações estratégicas, hierarquia visual apurada e design de alto impacto, para que cada apresentação comunique com autoridade, fluidez e identidade. Seja para uma empresa, profissional, projeto social ou organização religiosa, o resultado é uma apresentação que não apenas informa: ela impressiona.",
     principles: [
       { title: "Narrativa Visual", description: "A história conduz o design, não o contrário." },
       { title: "Movimento com Propósito", description: "Animações existem para guiar o olhar, não para decorar." },
@@ -1439,42 +1439,42 @@ export const methodologyContent: Record<string, MethodologyContent> = {
     ],
     schedule: [
       {
-        title: "Fase 1 — Briefing, Conteúdo e Estrutura Narrativa",
+        title: "Fase 1: Briefing, Conteúdo e Estrutura Narrativa",
         realDeadline: "1-2 dias úteis",
         clientDeadline: "2-3 dias úteis",
         days: [
           { day: "Dia 1 (1h30 dedicada)", tasks: ["Reunião ou questionário de briefing", "Recebimento dos materiais do cliente", "Definição do nível de animação desejado"], aiTips: ["ChatGPT/Claude para reorganizar textos densos em bullets objetivos e impactantes", "ChatGPT para sugerir estrutura narrativa com base no objetivo e público"] },
-          { day: "Dia 2 (1h dedicada)", tasks: ["Organização do conteúdo em mapa narrativo", "Envio do mapa ao cliente para validação"], note: "Prazo pausado aguardando aprovação do mapa — 24h" },
+          { day: "Dia 2 (1h dedicada)", tasks: ["Organização do conteúdo em mapa narrativo", "Envio do mapa ao cliente para validação"], note: "Prazo pausado aguardando aprovação do mapa: 24h" },
         ],
       },
       {
-        title: "Fase 2 — Conceito Visual e Estilo",
+        title: "Fase 2: Conceito Visual e Estilo",
         realDeadline: "1-2 dias úteis",
         clientDeadline: "2-3 dias úteis",
         days: [
-          { day: "Dia 3 (1-2h dedicadas)", tasks: ["Extração ou criação de identidade visual", "Criação de 1 styleframe (capa + slide de conteúdo)", "Definição do estilo de animação", "Envio para aprovação do cliente"], note: "Prazo pausado aguardando aprovação do styleframe — 24h", aiTips: ["Midjourney/Firefly para testar backgrounds, composições e atmosferas visuais", "ChatGPT para sugerir paletas coerentes com o setor e posicionamento"] },
+          { day: "Dia 3 (1-2h dedicadas)", tasks: ["Extração ou criação de identidade visual", "Criação de 1 styleframe (capa + slide de conteúdo)", "Definição do estilo de animação", "Envio para aprovação do cliente"], note: "Prazo pausado aguardando aprovação do styleframe: 24h", aiTips: ["Midjourney/Firefly para testar backgrounds, composições e atmosferas visuais", "ChatGPT para sugerir paletas coerentes com o setor e posicionamento"] },
         ],
       },
       {
-        title: "Fase 3 — Produção dos Slides com Animações",
+        title: "Fase 3: Produção dos Slides com Animações",
         realDeadline: "3-4 dias úteis",
         clientDeadline: "4-5 dias úteis",
         days: [
           { day: "Dia 4-6 (2-3h dedicadas/dia)", tasks: ["Produção dos slides em sequência seguindo o mapa narrativo", "Aplicação da identidade visual em todos os slides", "Criação de animações por camada", "Desenvolvimento de infográficos animados", "Tratamento de imagens e criação de elementos visuais", "Criação de slides de impacto", "Revisão interna de fluidez e timing"], aiTips: ["ChatGPT para condensar textos longos em frases curtas e de impacto", "Midjourney para imagens de apoio e backgrounds", "Adobe Firefly para elementos gráficos e texturas de fundo"] },
-          { day: "Dia 7", tasks: ["Exportação da versão de revisão", "Envio ao cliente com link de visualização"], note: "Prazo pausado aguardando feedback — 48h" },
+          { day: "Dia 7", tasks: ["Exportação da versão de revisão", "Envio ao cliente com link de visualização"], note: "Prazo pausado aguardando feedback: 48h" },
         ],
       },
       {
-        title: "Fase 4 — Revisão e Ajustes",
+        title: "Fase 4: Revisão e Ajustes",
         realDeadline: "1-2 dias úteis",
         clientDeadline: "2-3 dias úteis",
         days: [
-          { day: "Dia 8 (1-2h dedicadas)", tasks: ["Aplicação da 1ª rodada de revisão", "Reenvio para aprovação final"], note: "Aguardando aprovação — 24h" },
+          { day: "Dia 8 (1-2h dedicadas)", tasks: ["Aplicação da 1ª rodada de revisão", "Reenvio para aprovação final"], note: "Aguardando aprovação: 24h" },
           { day: "Dia 9 (se necessário)", tasks: ["Aplicação da 2ª rodada de revisão"], note: "LIMITE: 2 rodadas de revisão inclusas. Rodadas adicionais = custo extra." },
         ],
       },
       {
-        title: "Fase 5 — Finalização e Entrega",
+        title: "Fase 5: Finalização e Entrega",
         realDeadline: "1 dia útil",
         clientDeadline: "1-2 dias úteis",
         days: [

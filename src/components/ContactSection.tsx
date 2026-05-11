@@ -25,11 +25,9 @@ const ContactSection = () => {
             className="w-full max-w-6xl"
           >
             <div className="flex items-center justify-center gap-4 mb-12">
-              <span className="w-12 h-[1px] bg-[#FFCA16]" />
               <span className="text-[#FFCA16] text-[11px] font-bold uppercase tracking-[0.4em]">
                 Pronto para o próximo nível?
               </span>
-              <span className="w-12 h-[1px] bg-[#FFCA16]" />
             </div>
 
             <h2 className="font-display text-[64px] md:text-[120px] lg:text-[160px] font-[800] leading-[0.78] tracking-[-0.055em] text-white mb-20">
@@ -38,7 +36,7 @@ const ContactSection = () => {
 
             <div className="flex flex-col items-center gap-12">
               <p className="font-display text-[20px] md:text-[26px] font-light text-white/55 max-w-2xl leading-[1.5] text-balance">
-                Não é sobre um logo bonito. É sobre criar uma marca que as pessoas reconhecem, confiam e escolhem — sempre.
+                Não é sobre um logo bonito. É sobre criar uma marca que as pessoas reconhecem, confiam e escolhem sempre.
               </p>
 
               <div className="flex flex-col sm:flex-row gap-5">

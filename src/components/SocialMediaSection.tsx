@@ -8,7 +8,7 @@ const placeholderItems = [
   {
     id: 1,
     title: "Feed Estratégico",
-    description: "Posts que comunicam, engajam e convertem — com identidade visual consistente.",
+    description: "Posts que comunicam, engajam e convertem, com identidade visual consistente.",
     image: socialMedia1,
   },
   {
@@ -47,7 +47,7 @@ const SocialMediaSection = () => {
             Artes para Mídias Sociais
           </h2>
           <p className="text-muted-foreground mt-6 max-w-2xl text-lg">
-            Criamos artes que traduzem a essência da sua marca nas redes sociais — com design estratégico, identidade visual forte e conteúdos que geram resultados reais.
+            Criamos artes que traduzem a essência da sua marca nas redes sociais, com design estratégico, identidade visual forte e conteúdos que geram resultados reais.
           </p>
         </motion.div>
 

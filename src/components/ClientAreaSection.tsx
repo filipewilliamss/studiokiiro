@@ -72,7 +72,7 @@ const ClientAreaSection = () => {
           <p className="text-muted-foreground text-lg md:text-xl max-w-2xl leading-relaxed">
             No Studio Kiiro, cada cliente tem acesso a um painel exclusivo onde
             acompanha as fases do projeto, acessa arquivos entregues e visualiza
-            o financeiro — tudo com transparência e organização.
+            o financeiro, tudo com transparência e organização.
           </p>
         </motion.div>
 

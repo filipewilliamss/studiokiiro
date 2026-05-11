@@ -346,7 +346,7 @@ const ClientDashboard = () => {
         </header>
 
         <main className="max-w-5xl mx-auto px-4 sm:px-6 py-10 space-y-8">
-          {/* Project header — yellow bg with immersive animation */}
+          {/* Project header, yellow bg with immersive animation */}
           <motion.div
             initial={{ opacity: 0, y: 30, scale: 0.96 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -417,7 +417,7 @@ const ClientDashboard = () => {
             <DialogContent className="sm:max-w-2xl max-h-[85vh] overflow-y-auto bg-[#0D0D0D] border-[#222] text-[#F5F5F5]">
               <DialogHeader>
                 <DialogTitle style={{ fontFamily: "var(--font-display)" }} className="text-[#F5F5F5] text-xl">
-                  Briefing — {selectedProject.type}
+                  Briefing, {selectedProject.type}
                 </DialogTitle>
                 <p className="text-sm text-[#B3B3B3] mt-1">
                   Preencha com o máximo de detalhes possível para um resultado incrível.
@@ -896,7 +896,7 @@ const ClientDashboard = () => {
               const project = activeProjects.find((pr) => pr.id === pendingPayment.project_id);
               const nextDate = pendingPayment.next_payment_date ? new Date(pendingPayment.next_payment_date + "T00:00:00").toLocaleDateString("pt-BR") : null;
               return {
-                text: `Parcela pendente${project ? ` em "${project.name}"` : ""}${nextDate ? ` — Vencimento: ${nextDate}` : ""}`,
+                text: `Parcela pendente${project ? ` em "${project.name}"` : ""}${nextDate ? `, Vencimento: ${nextDate}` : ""}`,
                 icon: CreditCard, action: "payment", projectId: pendingPayment.project_id,
               };
             }

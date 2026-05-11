@@ -89,7 +89,7 @@ const ServicesSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: idx * 0.1, ease: [0.22, 1, 0.36, 1] }}
-              className="group relative flex flex-col md:grid md:grid-cols-12 items-start md:items-center py-10 md:py-16 border-b border-white/10 cursor-pointer overflow-hidden"
+              className="group relative flex flex-col md:grid md:grid-cols-12 items-start md:items-center py-10 md:py-16 cursor-pointer overflow-hidden"
             >
               {/* Hover background slide */}
               <div className="absolute inset-0 bg-[#FFCA16] translate-y-full group-hover:translate-y-0 transition-transform duration-700 ease-[0.22,1,0.36,1] pointer-events-none" />

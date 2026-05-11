@@ -311,7 +311,6 @@ const HeroSection = () => {
             transition={{ duration: 0.8, ease: "easeOut" }}
             className="mb-10 flex items-center gap-4"
           >
-            <span className="w-12 h-[1px] bg-[#FFCA16]" />
             <span className="text-[#FFCA16] text-[11px] font-bold uppercase tracking-[0.4em]">
               Creative Design Studio
             </span>

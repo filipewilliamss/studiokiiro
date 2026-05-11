@@ -91,7 +91,7 @@ const AboutSection = () => {
                 O Studio Kiiro, fundado por Filipe Williams, nasceu para atender empresas que levam sua marca a sério e enxergam o design como um ativo de crescimento, não como um detalhe decorativo.
               </p>
               
-              <div className="w-20 h-[1px] bg-[#FFCA16]/40" />
+              
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                 <p className="text-white/50 text-[15px] leading-relaxed">

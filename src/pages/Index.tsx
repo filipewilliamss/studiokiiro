@@ -35,13 +35,9 @@ const Index = () => {
               <EditorialMarquee variant="compact" />
             </section>
             
-            <SectionDivider />
-            
             <section className="snap-start">
               <AboutSection />
             </section>
-            
-            <SectionDivider />
             
             <section className="snap-start">
               <EditorialQuote
@@ -51,13 +47,9 @@ const Index = () => {
               />
             </section>
             
-            <SectionDivider />
-            
             <section className="snap-start">
               <ServicesSection />
             </section>
-            
-            <SectionDivider />
             
             <section className="snap-start">
               <ProcessSection />
@@ -65,8 +57,6 @@ const Index = () => {
             
             {/* Portfolio Section handles its own snapping per project */}
             <PortfolioSection />
-            
-            <SectionDivider />
             
             <section className="snap-start">
               <ContactSection />

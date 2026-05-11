@@ -23,11 +23,9 @@ const ContactSection = () => {
             className="w-full max-w-6xl"
           >
             <div className="flex items-center justify-center gap-4 mb-12">
-              <span className="w-12 h-[1px] bg-[#FFCA16]" />
               <span className="text-[#FFCA16] text-[11px] font-bold uppercase tracking-[0.4em]">
                 Pronto para o próximo nível?
               </span>
-              <span className="w-12 h-[1px] bg-[#FFCA16]" />
             </div>
 
             <h2 className="font-display text-[64px] md:text-[120px] lg:text-[160px] font-[800] leading-[0.78] tracking-[-0.055em] text-white mb-20">

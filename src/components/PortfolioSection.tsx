@@ -140,7 +140,7 @@ const ProjectCard = ({ project, index, total }: { project: any; index: number; t
           {Array.from({ length: total }).map((_, i) => (
             <div 
               key={i} 
-              className={`h-[2px] transition-all duration-700 ${i === index ? 'w-12 bg-[#FFCA16]' : 'w-4 bg-white/10'}`}
+              className={`h-[2px] transition-all duration-700 ${i === index ? 'w-12 bg-transparent' : 'w-4 bg-transparent'}`}
             />
           ))}
         </div>

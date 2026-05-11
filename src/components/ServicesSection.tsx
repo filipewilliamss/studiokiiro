@@ -81,7 +81,7 @@ const ServicesSection = () => {
           </div>
         </div>
 
-        <div className="flex flex-col border-t border-white/10">
+        <div className="flex flex-col">
           {services.map((service, idx) => (
             <motion.div
               key={idx}

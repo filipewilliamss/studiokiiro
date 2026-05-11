@@ -35,7 +35,7 @@ const services = [
 
 const ServicesSection = () => {
   return (
-    <section id="servicos" className="relative section-padding bg-[#070807] border-t border-white/[0.05] overflow-hidden">
+    <section id="servicos" className="relative section-padding bg-[#070807] overflow-hidden">
       {/* Monumental backdrop word */}
       <motion.span
         aria-hidden

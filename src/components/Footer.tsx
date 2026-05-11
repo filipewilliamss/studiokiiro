@@ -74,7 +74,7 @@ const Footer = () => {
         </div>
 
         {/* Bottom Bar */}
-        <div className="mt-24 pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
+        <div className="mt-24 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-[11px] text-white/20 uppercase tracking-[0.2em]">
             © 2026 Studio Kiiro. Todos os direitos reservados.
           </p>

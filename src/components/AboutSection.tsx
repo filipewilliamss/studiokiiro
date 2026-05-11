@@ -108,7 +108,7 @@ const AboutSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: 0.4 }}
-              className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-6 pt-8 border-t border-white/5"
+              className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-6 pt-8"
             >
               {[
                 { label: "projetos concluídos entre identidades visuais, materiais digitais e peças de marca.", value: "150+" },

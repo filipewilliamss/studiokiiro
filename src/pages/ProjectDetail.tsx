@@ -1,8 +1,9 @@
 import { useEffect, useRef } from "react";
 import { Link, useParams, Navigate } from "react-router-dom";
-import { motion, useScroll, useTransform, useSpring, useInView } from "framer-motion";
+import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import ScrollAnimatedImage from "@/components/ScrollAnimatedImage";
 import { projects } from "@/data/projects";
 
 const ProjectDetail = () => {
@@ -208,22 +209,20 @@ const ProjectDetail = () => {
               </div>
               <div className="flex flex-col gap-12">
                 {project.slug === 'akedah-podcast' ? (
-                  <div className="w-full flex justify-center py-12 md:py-16 overflow-hidden">
-                    <motion.img 
-                      ref={conceptRef}
-                      style={{ scale: conceptScale, opacity: conceptOpacity }}
+                  <div className="w-full flex justify-center py-12 md:py-16">
+                    <ScrollAnimatedImage 
                       src={project.pages[0]} 
-                      className="max-w-[360px] md:max-w-[600px] w-full h-auto object-contain" 
+                      className="max-w-[360px] md:max-w-[600px] object-contain" 
                       alt="Akedah Logo"
                     />
                   </div>
                 ) : (
                   <>
-                    <div className="w-full aspect-video md:aspect-[21/9] overflow-hidden">
-                      <img src={project.pages[0]} className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-[2s]" />
+                    <div className="w-full aspect-video md:aspect-[21/9]">
+                      <ScrollAnimatedImage src={project.pages[0]} className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-[2s]" />
                     </div>
-                    <div className="w-full aspect-video md:aspect-[21/9] overflow-hidden">
-                      <img src={project.pages[1]} className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-[2s]" />
+                    <div className="w-full aspect-video md:aspect-[21/9]">
+                      <ScrollAnimatedImage src={project.pages[1]} className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-[2s]" />
                     </div>
                   </>
                 )}
@@ -245,14 +244,8 @@ const ProjectDetail = () => {
                 <p className="text-xl font-light leading-relaxed text-white/80 max-w-4xl mb-16 whitespace-pre-line">
                   {project.variations}
                 </p>
-                <div className={`w-full flex justify-center ${project.slug === 'akedah-podcast' ? 'py-8 md:py-12' : 'overflow-hidden'}`}>
-                  <motion.img 
-                    ref={variationsRef}
-                    style={{ 
-                      scale: project.slug === 'akedah-podcast' ? 1 : variationsScale, 
-                      opacity: project.slug === 'akedah-podcast' ? variationsOpacity : 1,
-                      x: 0
-                    }}
+                <div className={`w-full flex justify-center ${project.slug === 'akedah-podcast' ? 'py-8 md:py-12' : ''}`}>
+                  <ScrollAnimatedImage 
                     src={project.pages[2]} 
                     className="w-full h-auto" 
                   />
@@ -276,8 +269,8 @@ const ProjectDetail = () => {
                   {project.construction}
                 </p>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                  <img src={project.pages[3]} className="w-full h-auto" />
-                  <img src={project.pages[4]} className="w-full h-auto" />
+                  <ScrollAnimatedImage src={project.pages[3]} className="w-full h-auto" />
+                  <ScrollAnimatedImage src={project.pages[4]} className="w-full h-auto" />
                 </div>
               </motion.div>
             )}
@@ -297,9 +290,7 @@ const ProjectDetail = () => {
                 <p className="text-xl font-light leading-relaxed text-white/80 max-w-4xl mb-16 whitespace-pre-line">
                   {project.colors}
                 </p>
-                <div className="w-full overflow-hidden">
-                  <img src={project.pages[5]} className="w-full h-auto" />
-                </div>
+                <ScrollAnimatedImage src={project.pages[5]} className="w-full h-auto" />
               </motion.div>
             )}
 
@@ -318,9 +309,7 @@ const ProjectDetail = () => {
                 <p className="text-xl font-light leading-relaxed text-white/80 max-w-4xl mb-16 whitespace-pre-line">
                   {project.typography}
                 </p>
-                <div className="w-full overflow-hidden">
-                  <img src={project.pages[6]} className="w-full h-auto" />
-                </div>
+                <ScrollAnimatedImage src={project.pages[6]} className="w-full h-auto" />
               </motion.div>
             )}
 
@@ -339,9 +328,7 @@ const ProjectDetail = () => {
                 <p className="text-xl font-light leading-relaxed text-white/80 max-w-4xl mb-16 whitespace-pre-line">
                   {project.symbols}
                 </p>
-                <div className="w-full overflow-hidden">
-                  <img src={project.pages[7]} className="w-full h-auto" />
-                </div>
+                <ScrollAnimatedImage src={project.pages[7]} className="w-full h-auto" />
               </motion.div>
             )}
 
@@ -360,9 +347,7 @@ const ProjectDetail = () => {
                 <p className="text-xl font-light leading-relaxed text-white/80 max-w-4xl mb-16 whitespace-pre-line">
                   {project.nonRecommended}
                 </p>
-                <div className="w-full overflow-hidden">
-                  <img src={project.pages[8]} className="w-full h-auto" />
-                </div>
+                <ScrollAnimatedImage src={project.pages[8]} className="w-full h-auto" />
               </motion.div>
             )}
 
@@ -382,13 +367,11 @@ const ProjectDetail = () => {
                   {project.applications}
                 </p>
                 {project.slug === 'akedah-podcast' ? (
-                  <div className="w-full overflow-hidden">
-                    <img src={project.pages[9]} className="w-full h-auto" />
-                  </div>
+                  <ScrollAnimatedImage src={project.pages[9]} className="w-full h-auto" />
                 ) : (
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <img src={project.pages[9]} className="w-full h-auto" />
-                    <img src={project.pages[10]} className="w-full h-auto" />
+                    <ScrollAnimatedImage src={project.pages[9]} className="w-full h-auto" />
+                    <ScrollAnimatedImage src={project.pages[10]} className="w-full h-auto" />
                   </div>
                 )}
               </motion.div>
@@ -434,10 +417,10 @@ const ProjectDetail = () => {
                     className="w-full px-4 md:px-0"
                   >
                     <div className="relative aspect-video md:aspect-[21/9] overflow-hidden group">
-                      <img 
+                      <ScrollAnimatedImage 
                         src={img} 
                         alt="" 
-                        className="w-full h-full object-cover transition-transform duration-[2s] group-hover:scale-105"
+                        className="w-full h-full object-cover"
                       />
                     </div>
                   </motion.div>
@@ -455,7 +438,7 @@ const ProjectDetail = () => {
                         transition={{ duration: 1 }}
                         className="aspect-square md:aspect-[4/5] overflow-hidden"
                       >
-                        <img src={img} alt="" className="w-full h-full object-cover hover:scale-110 transition-transform duration-[2s]" />
+                        <ScrollAnimatedImage src={img} alt="" className="w-full h-full object-cover" />
                       </motion.div>
                       <motion.div 
                         initial={{ opacity: 0, x: 50 }}
@@ -464,7 +447,7 @@ const ProjectDetail = () => {
                         transition={{ duration: 1, delay: 0.2 }}
                         className="aspect-square md:aspect-[4/5] overflow-hidden md:mt-32"
                       >
-                        <img src={project.pages[i+1]} alt="" className="w-full h-full object-cover hover:scale-110 transition-transform duration-[2s]" />
+                        <ScrollAnimatedImage src={project.pages[i+1]} alt="" className="w-full h-full object-cover" />
                       </motion.div>
                     </div>
                   </div>

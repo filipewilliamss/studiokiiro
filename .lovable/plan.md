@@ -1,21 +1,32 @@
 ## Objective
-Replace the two images in the "Aplicações" section of the "Akedah Podcast" project with a single new image provided by the user.
+Add a smooth scroll-triggered zoom-in/zoom-out animation and an entrance reveal effect to all project images.
 
 ## Technical Details
-- **Files to modify**: 
-    - `src/data/projects.ts`: Update the `pages` array for Akedah Podcast.
-    - `src/pages/ProjectDetail.tsx`: Adjust the rendering logic for the "Aplicações" section to handle a single image specifically for Akedah Podcast.
-- **Project**: Akedah Podcast (slug: `akedah-podcast`)
-- **New URL**: `https://dohkkmvsrcuxssxmimxn.supabase.co/storage/v1/object/public/images/inp2apbic18-1778462036867.png`
-- **Target index**: `pages[9]`.
+- Create a reusable `ScrollAnimatedImage` component that handles:
+    - `useInView` and `motion` for the initial entrance effect (e.g., fade and scale up).
+    - `useScroll` and `useTransform` for the scroll-synced zoom effect.
+- The entrance effect will happen once when the image enters the viewport.
+- The scroll zoom will continuously react to the scroll position relative to the image.
 
 ## Implementation Steps
-1. **Modify `src/data/projects.ts`**:
-    - Locate the `pages` array for the Akedah Podcast project.
-    - Replace the values at indices 9 and 10 with the new URL at index 9 and remove index 10 (or keep it but we'll only use index 9 in the component). To keep things clean, I'll update index 9 and remove index 10.
-2. **Modify `src/pages/ProjectDetail.tsx`**:
-    - In the "Applications" section (around line 384), check if the project is "Akedah Podcast".
-    - If so, render only one image instead of the two-column grid.
-    - Ensure the single image spans the full width of the container.
-3. **Verification**:
-    - Navigate to the Akedah Podcast project page and scroll to the "Aplicações" section to ensure only one image is displayed and it matches the provided link.
+1. **Create `ScrollAnimatedImage` component**:
+    - Place it in a new file `src/components/ScrollAnimatedImage.tsx`.
+    - Use `useRef` to track the image element.
+    - Use `useScroll` with the `target` ref.
+    - Transform scroll progress to scale (e.g., 0.95 to 1.1).
+    - Use `initial`, `whileInView`, and `viewport={{ once: true }}` for the entrance animation.
+
+2. **Refactor `ProjectDetail.tsx`**:
+    - Replace all `<img>` and existing `motion.img` tags with the new `ScrollAnimatedImage` component.
+    - This includes:
+        - Concept images
+        - Variations images
+        - Construction images
+        - Color palette images
+        - Typography images
+        - Symbols images
+        - Applications images
+
+3. **Fine-tune animations**:
+    - Entrance: Scale from 0.8 to 1, opacity from 0 to 1, duration ~1s.
+    - Scroll Zoom: Scale from 1 to 1.1 as the image moves from the bottom to the top of the viewport.

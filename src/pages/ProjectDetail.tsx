@@ -209,22 +209,20 @@ const ProjectDetail = () => {
               </div>
               <div className="flex flex-col gap-12">
                 {project.slug === 'akedah-podcast' ? (
-                  <div className="w-full flex justify-center py-12 md:py-16 overflow-hidden">
-                    <motion.img 
-                      ref={conceptRef}
-                      style={{ scale: conceptScale, opacity: conceptOpacity }}
+                  <div className="w-full flex justify-center py-12 md:py-16">
+                    <ScrollAnimatedImage 
                       src={project.pages[0]} 
-                      className="max-w-[360px] md:max-w-[600px] w-full h-auto object-contain" 
+                      className="max-w-[360px] md:max-w-[600px] object-contain" 
                       alt="Akedah Logo"
                     />
                   </div>
                 ) : (
                   <>
-                    <div className="w-full aspect-video md:aspect-[21/9] overflow-hidden">
-                      <img src={project.pages[0]} className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-[2s]" />
+                    <div className="w-full aspect-video md:aspect-[21/9]">
+                      <ScrollAnimatedImage src={project.pages[0]} className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-[2s]" />
                     </div>
-                    <div className="w-full aspect-video md:aspect-[21/9] overflow-hidden">
-                      <img src={project.pages[1]} className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-[2s]" />
+                    <div className="w-full aspect-video md:aspect-[21/9]">
+                      <ScrollAnimatedImage src={project.pages[1]} className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-[2s]" />
                     </div>
                   </>
                 )}

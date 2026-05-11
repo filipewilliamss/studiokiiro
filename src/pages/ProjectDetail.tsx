@@ -269,8 +269,8 @@ const ProjectDetail = () => {
                   {project.construction}
                 </p>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                  <img src={project.pages[3]} className="w-full h-auto" />
-                  <img src={project.pages[4]} className="w-full h-auto" />
+                  <ScrollAnimatedImage src={project.pages[3]} className="w-full h-auto" />
+                  <ScrollAnimatedImage src={project.pages[4]} className="w-full h-auto" />
                 </div>
               </motion.div>
             )}
@@ -290,9 +290,7 @@ const ProjectDetail = () => {
                 <p className="text-xl font-light leading-relaxed text-white/80 max-w-4xl mb-16 whitespace-pre-line">
                   {project.colors}
                 </p>
-                <div className="w-full overflow-hidden">
-                  <img src={project.pages[5]} className="w-full h-auto" />
-                </div>
+                <ScrollAnimatedImage src={project.pages[5]} className="w-full h-auto" />
               </motion.div>
             )}
 
@@ -311,9 +309,7 @@ const ProjectDetail = () => {
                 <p className="text-xl font-light leading-relaxed text-white/80 max-w-4xl mb-16 whitespace-pre-line">
                   {project.typography}
                 </p>
-                <div className="w-full overflow-hidden">
-                  <img src={project.pages[6]} className="w-full h-auto" />
-                </div>
+                <ScrollAnimatedImage src={project.pages[6]} className="w-full h-auto" />
               </motion.div>
             )}
 
@@ -332,9 +328,7 @@ const ProjectDetail = () => {
                 <p className="text-xl font-light leading-relaxed text-white/80 max-w-4xl mb-16 whitespace-pre-line">
                   {project.symbols}
                 </p>
-                <div className="w-full overflow-hidden">
-                  <img src={project.pages[7]} className="w-full h-auto" />
-                </div>
+                <ScrollAnimatedImage src={project.pages[7]} className="w-full h-auto" />
               </motion.div>
             )}
 
@@ -353,9 +347,7 @@ const ProjectDetail = () => {
                 <p className="text-xl font-light leading-relaxed text-white/80 max-w-4xl mb-16 whitespace-pre-line">
                   {project.nonRecommended}
                 </p>
-                <div className="w-full overflow-hidden">
-                  <img src={project.pages[8]} className="w-full h-auto" />
-                </div>
+                <ScrollAnimatedImage src={project.pages[8]} className="w-full h-auto" />
               </motion.div>
             )}
 
@@ -375,13 +367,11 @@ const ProjectDetail = () => {
                   {project.applications}
                 </p>
                 {project.slug === 'akedah-podcast' ? (
-                  <div className="w-full overflow-hidden">
-                    <img src={project.pages[9]} className="w-full h-auto" />
-                  </div>
+                  <ScrollAnimatedImage src={project.pages[9]} className="w-full h-auto" />
                 ) : (
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <img src={project.pages[9]} className="w-full h-auto" />
-                    <img src={project.pages[10]} className="w-full h-auto" />
+                    <ScrollAnimatedImage src={project.pages[9]} className="w-full h-auto" />
+                    <ScrollAnimatedImage src={project.pages[10]} className="w-full h-auto" />
                   </div>
                 )}
               </motion.div>

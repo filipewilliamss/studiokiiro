@@ -1,25 +1,14 @@
-The user wants to keep the 200px left shift but noted that the image now appears zoomed and cropped, cutting off information.
+## Objective
+Replace the image in the "logotipo e variações" section of the "Akedah Podcast" project with a new URL provided by the user.
 
-The zoom/crop is likely caused by the `useTransform` scale animation:
-```typescript
-const variationsScale = useTransform(variationsScroll, [0, 0.5, 1], [0.95, 1, 1.05]);
-```
-When this project is viewed, the image is scaled up (up to 1.05) as the user scrolls, and since it has `max-w-none` and is inside an `overflow-hidden` container, it easily clips.
+## Technical Details
+- **File to modify**: `src/data/projects.ts`
+- **Location**: Inside the `projects` array, specifically the `pages` array of the object with `slug: "akedah-podcast"`.
+- **Target index**: `pages[2]` (the third element in the `pages` array).
+- **New URL**: `https://dohkkmvsrcuxssxmimxn.supabase.co/storage/v1/object/public/images/g1agffozk0j-1778460596593.png`
 
-To fix this:
-1. I will remove the `scale` transformation for the `akedah-podcast` project to ensure it stays at its natural size (scale: 1).
-2. I will keep the `x: -200` translation as requested previously.
-3. I will ensure the container handles the overflow without unnecessary cropping if possible, but the primary issue is the scaling.
-
-### User Review Required
-
-> [!IMPORTANT]
-> I will be removing the "scroll-to-zoom" effect on this specific image to prevent it from cropping the information, while maintaining the 200px shift to the left that you requested.
-
-### Technical Details
-
-- **File**: `src/pages/ProjectDetail.tsx`
-- **Change**: Modify the `style` prop of the `motion.img` in the "Variations" section.
-- **Logic**: 
-  - Change `scale: project.slug === 'akedah-podcast' ? variationsScale : 1` to `scale: 1` (or simply remove it from the condition for this project).
-  - Keep `x: project.slug === 'akedah-podcast' ? -200 : 0`.
+## Implementation Steps
+1. Modify `src/data/projects.ts`.
+2. Locate the `pages` array for the "akedah-podcast" project.
+3. Replace the string at index 2 with the new URL.
+4. Verify the change in the project preview.

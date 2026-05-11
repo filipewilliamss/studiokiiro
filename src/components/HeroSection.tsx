@@ -386,7 +386,7 @@ const HeroSection = () => {
         <span className="text-white/30 text-[10px] uppercase tracking-[0.3em] font-medium rotate-90 mb-8 font-display">
           SCROLL
         </span>
-        <div className="w-[1px] h-[80px] bg-gradient-to-b from-[#FFCA16] to-transparent" />
+        
       </motion.div>
     </section>
   );

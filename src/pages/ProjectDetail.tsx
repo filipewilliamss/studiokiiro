@@ -210,7 +210,7 @@ const ProjectDetail = () => {
             </motion.div>
 
             {/* Variations */}
-            {project.variations && (
+            {project.variations && project.pages[2] && (
               <motion.div
                 initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -233,7 +233,7 @@ const ProjectDetail = () => {
             )}
 
             {/* Construction */}
-            {project.construction && (
+            {project.construction && (project.pages[3] || project.pages[4]) && (
               <motion.div
                 initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -256,7 +256,7 @@ const ProjectDetail = () => {
             )}
 
             {/* Colors */}
-            {project.colors && (
+            {project.colors && project.pages[5] && (
               <motion.div
                 initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -274,7 +274,7 @@ const ProjectDetail = () => {
             )}
 
             {/* Typography */}
-            {project.typography && (
+            {project.typography && project.pages[6] && (
               <motion.div
                 initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -292,7 +292,7 @@ const ProjectDetail = () => {
             )}
 
             {/* Symbols */}
-            {project.symbols && (
+            {project.symbols && project.pages[7] && (
               <motion.div
                 initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -310,7 +310,7 @@ const ProjectDetail = () => {
             )}
 
             {/* Non Recommended */}
-            {project.nonRecommended && (
+            {project.nonRecommended && project.pages[8] && (
               <motion.div
                 initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -328,7 +328,7 @@ const ProjectDetail = () => {
             )}
 
             {/* Applications */}
-            {project.applications && (
+            {project.applications && (project.pages[9] || project.pages[10]) && (
               <motion.div
                 initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}

@@ -397,41 +397,39 @@ const ProjectDetail = () => {
       {/* BACK TO TOP & PORTFOLIO NAVIGATION */}
       <AnimatePresence>
         {showScrollTop && (
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: 20 }}
-            className="fixed bottom-10 right-10 z-[100] flex flex-col gap-4"
-          >
-            <button
-              onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-              className="w-12 h-12 bg-[#FFCA16] text-black rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform"
-              aria-label="Voltar ao topo"
+          <>
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 20 }}
+              className="fixed bottom-10 right-10 z-[100] flex flex-col gap-4"
             >
-              <ArrowUp size={24} />
-            </button>
-          </motion.div>
-        )}
-      </AnimatePresence>
+              <button
+                onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+                className="w-12 h-12 bg-[#FFCA16] text-black rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform"
+                aria-label="Voltar ao topo"
+              >
+                <ArrowUp size={24} />
+              </button>
+            </motion.div>
 
-      <AnimatePresence>
-        {showScrollTop && (
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -20 }}
-            className="fixed top-1/2 left-10 -translate-y-1/2 z-[100] hidden lg:block"
-          >
-            <button
-              onClick={() => navigate('/')}
-              className="group flex items-center gap-3 text-[10px] uppercase tracking-[0.4em] text-white/40 hover:text-[#FFCA16] transition-colors"
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -20 }}
+              className="fixed top-1/2 left-10 -translate-y-1/2 z-[100] hidden lg:block"
             >
-              <div className="w-10 h-10 border border-white/10 rounded-full flex items-center justify-center group-hover:border-[#FFCA16]/30 transition-colors">
-                <ArrowLeft size={16} />
-              </div>
-              <span className="opacity-0 group-hover:opacity-100 transition-opacity">Voltar ao Portfólio</span>
-            </button>
-          </motion.div>
+              <button
+                onClick={() => navigate('/')}
+                className="group flex items-center gap-3 text-[10px] uppercase tracking-[0.4em] text-white/40 hover:text-[#FFCA16] transition-colors"
+              >
+                <div className="w-10 h-10 border border-white/10 rounded-full flex items-center justify-center group-hover:border-[#FFCA16]/30 transition-colors">
+                  <ArrowLeft size={16} />
+                </div>
+                <span className="opacity-0 group-hover:opacity-100 transition-opacity">Voltar ao Portfólio</span>
+              </button>
+            </motion.div>
+          </>
         )}
       </AnimatePresence>
 

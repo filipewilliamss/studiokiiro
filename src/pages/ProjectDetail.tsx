@@ -368,6 +368,31 @@ const ProjectDetail = () => {
             )}
           </div>
         </section>
+        </section>
+      ) : (
+        /* Fallback Gallery */
+        <section className="pb-32 md:pb-64 bg-black relative z-10">
+          <div className="flex flex-col gap-12 md:gap-32">
+            {project.pages.map((img: string, i: number) => (
+              <motion.div 
+                key={i} 
+                initial={{ opacity: 0, scale: 0.95 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ duration: 1.2 }}
+                className="w-full px-4 md:px-0"
+              >
+                <div className="relative aspect-video md:aspect-[21/9] overflow-hidden group">
+                  <ScrollAnimatedImage 
+                    src={img} 
+                    alt="" 
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </section>
       )}
 
       {/* BACK TO TOP & PORTFOLIO NAVIGATION */}

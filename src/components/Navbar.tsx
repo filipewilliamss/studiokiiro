@@ -109,8 +109,8 @@ const Navbar = ({ forceBlack = true }: NavbarProps) => {
                 {link.label}
               </a>
             ))}
-            <a
-              href="/area-do-cliente"
+            <Link
+              to="/area-do-cliente"
               onClick={() => setMenuOpen(false)}
               className={`text-sm transition-colors uppercase tracking-wide font-medium ${areaClienteTextClass}`}
             >

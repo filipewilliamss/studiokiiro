@@ -381,68 +381,37 @@ const ProjectDetail = () => {
         </section>
       )}
 
-      {/* EDITORIAL GALLERY (Fallback for other projects) */}
-      {!project.concept && (
-        <section className="pb-32 md:pb-64 bg-black relative z-10">
-          <div className="flex flex-col gap-12 md:gap-32">
-            {project.pages.map((img: string, i: number) => {
-              const isFullWidth = i % 3 === 0;
-              const isPair = i % 3 === 1 && project.pages[i+1];
-              
-              if (isFullWidth) {
-                return (
-                  <motion.div 
-                    key={i} 
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    viewport={{ once: true, margin: "-100px" }}
-                    transition={{ duration: 1.2 }}
-                    className="w-full px-4 md:px-0"
-                  >
-                    <div className="relative aspect-video md:aspect-[21/9] overflow-hidden group">
-                      <ScrollAnimatedImage 
-                        src={img} 
-                        alt="" 
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-                  </motion.div>
-                );
-              }
+      {/* BACK TO TOP & PORTFOLIO NAVIGATION */}
+      <AnimatePresence>
+        {showScrollTop && (
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: 20 }}
+            className="fixed bottom-10 right-10 z-[100] flex flex-col gap-4"
+          >
+            <button
+              onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+              className="w-12 h-12 bg-[#FFCA16] text-black rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform"
+              aria-label="Voltar ao topo"
+            >
+              <ArrowUp size={24} />
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
-              if (isPair) {
-                return (
-                  <div key={i} className="container-editorial">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-24">
-                      <motion.div 
-                        initial={{ opacity: 0, x: -50 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 1 }}
-                        className="aspect-square md:aspect-[4/5] overflow-hidden"
-                      >
-                        <ScrollAnimatedImage src={img} alt="" className="w-full h-full object-cover" />
-                      </motion.div>
-                      <motion.div 
-                        initial={{ opacity: 0, x: 50 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 1, delay: 0.2 }}
-                        className="aspect-square md:aspect-[4/5] overflow-hidden md:mt-32"
-                      >
-                        <ScrollAnimatedImage src={project.pages[i+1]} alt="" className="w-full h-full object-cover" />
-                      </motion.div>
-                    </div>
-                  </div>
-                );
-              }
-
-              if (i % 3 === 2) return null;
-              return null;
-            })}
+      <div className="fixed top-1/2 left-10 -translate-y-1/2 z-[100] hidden lg:block">
+        <button
+          onClick={() => navigate('/')}
+          className="group flex items-center gap-3 text-[10px] uppercase tracking-[0.4em] text-white/40 hover:text-[#FFCA16] transition-colors"
+        >
+          <div className="w-10 h-10 border border-white/10 rounded-full flex items-center justify-center group-hover:border-[#FFCA16]/30 transition-colors">
+            <ArrowLeft size={16} />
           </div>
-        </section>
-      )}
+          <span className="opacity-0 group-hover:opacity-100 transition-opacity">Voltar ao Portfólio</span>
+        </button>
+      </div>
 
       {/* PRÓXIMO PROJETO */}
       <section className="py-40 md:py-80 border-t border-white/5 relative overflow-hidden group">

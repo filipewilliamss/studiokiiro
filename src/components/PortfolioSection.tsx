@@ -112,7 +112,7 @@ const ProjectCard = ({ project, index, total }: { project: any; index: number; t
           transition={{ duration: 0.6, delay: 0.4 }}
         >
           <Link 
-            to={`/projeto/${project.slug}`}
+            to={`/project/${project.slug}`}
             className="group relative inline-flex items-center justify-center px-12 py-6 overflow-hidden border border-white/20 transition-all duration-700 hover:border-[#FFCA16]"
           >
             {/* Filling Animation */}

@@ -1,31 +1,27 @@
-## Objective
-Remove specific text-related line decorations (dashes/horizontal lines) that appear before or within titles and paragraphs across the entire website, while preserving structural section separators.
+I will implement a "back to top" button and a "back to portfolio" link on the project details page, and update all other projects to follow the detailed layout used for the Akedah Podcast project.
 
-## Technical Details
+### Phase 1: Navigation & Utility
+- **Back to Top Button**: Add a floating button (arrow) on the side that appears when scrolling down.
+- **Back to Portfolio**: Add a clear way to return to the previous page (portfolio/index) from the project detail view.
 
-### 1. Component Cleanup (Removing Decorative Lines)
-I will remove the `span` or `div` elements that render small horizontal lines (usually `h-[1px]`) next to titles and eyebrows in the following components:
-- **HeroSection.tsx**: Remove lines next to \\"Creative Design Studio\\" and \\"EST. 2018\\".
-- **AboutSection.tsx**: Remove line before \\"A Mente Criativa\\". Also remove the 20px line between paragraphs in the content side.
-- **ServicesSection.tsx**: Remove line before \\"Soluções Estratégicas\\".
-- **ContactSection.tsx**: Remove lines surrounding \\"Pronto para o próximo nível?\\".
-- **EditorialQuote.tsx**: Remove lines next to the eyebrow and attribution.
-- **ProjectDetail.tsx**: Remove lines from all section headers (\\"Sobre o projeto\\", \\"O Desafio\\", \\"O Objetivo\\", \\"Conceito\\", etc.).
+### Phase 2: Project Data Standardization
+- Update `src/data/projects.ts` to include detailed fields for all projects:
+    - **Construmar**: Add `subtitle`, `about`, `objective`, `concept`, `variations`, `construction`, `colors`, `typography`, `symbols`, `nonRecommended`, `applications`, and `finalResult`.
+    - **Templo de Deus**: Add similar detailed fields.
+    - **Team Luísa Crosstraining**: Add similar detailed fields.
+- *Note: I will use the information already present in their "intro", "challenge", "strategy", "solution", and "result" fields to expand these into the new structure, ensuring the content remains factual to each project.*
 
-### 2. Text Cleanup (Removing Dashes/Separators)
-I will replace em dashes (`—`) or double dashes (`--`) used as text separators with commas or spaces to ensure natural reading flow without the visual dash:
-- **ServicesSection.tsx**: Update service descriptions.
-- **HeroSection.tsx**: Update the location/meta bar.
-- **ContactSection.tsx**: Update the manifesto/quote text.
-- **data/projects.ts**: Update project descriptions, challenges, and strategy texts.
-- **data/methodologyStages.ts**: Update phase names.
-- **TestimonialsSection.tsx**: Update testimonial text.
+### Phase 3: Project Detail Page Refinement
+- Update `src/pages/ProjectDetail.tsx` to handle the display of these new fields for all projects, removing the "fallback" gallery and ensuring a consistent editorial experience.
 
-### 3. Preserved Elements
-- Vertical lines connecting steps in `ProcessSection`.
-- Full-width section divider borders (`border-t`, `border-b`).
-- Background grid patterns and gradients.
-- Progress bars and indicators in sliders/portfolio.
+### Technical Details
+- Use `framer-motion` for the floating button's entrance/exit and smooth scroll.
+- Use `react-router-dom`'s `Link` for the "Back to Portfolio" navigation.
+- Ensure the `ProjectDetail.tsx` components are flexible enough to handle projects with different amounts of data (using conditional rendering).
 
-## User-Facing Description
-Vou remover os traços decorativos que aparecem ao lado de títulos e no meio de alguns textos em todo o site, garantindo um visual mais limpo conforme solicitado. As linhas que separam as seções principais e os elementos estruturais do design serão mantidas para preservar a organização da página.
+````text
+[ Floating Arrow ]  -> Bottom Right (or left as requested)
+[ Back to Portfolio ] -> Top left or near navigation
+````
+
+I'll start by enhancing the project data and then move to the UI components.

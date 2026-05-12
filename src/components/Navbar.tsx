@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import kiiroLogo from "@/assets/logo.webp";
 
@@ -45,13 +45,13 @@ const Navbar = ({ forceBlack = true }: NavbarProps) => {
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${bgClass}`}
     >
       <div className="container-editorial flex items-center justify-between h-16 md:h-20">
-        <a href={logoHref} className="flex items-center gap-2 group">
+        <Link to={logoHref} className="flex items-center gap-2 group">
           <img 
             src={kiiroLogo} 
             alt="Studio Kiiro" 
             className="h-8 md:h-10 w-auto transition-transform duration-300 group-hover:scale-105" 
           />
-        </a>
+        </Link>
 
         {/* Desktop */}
         <div className="hidden lg:flex items-center gap-10">
@@ -67,12 +67,12 @@ const Navbar = ({ forceBlack = true }: NavbarProps) => {
               {link.label}
             </a>
           ))}
-          <a
-            href="/area-do-cliente"
+          <Link
+            to="/area-do-cliente"
             className={`${areaClienteTextClass} rounded-none`}
           >
             Área do Cliente
-          </a>
+          </Link>
         </div>
 
         {/* Mobile toggle */}
@@ -109,13 +109,13 @@ const Navbar = ({ forceBlack = true }: NavbarProps) => {
                 {link.label}
               </a>
             ))}
-            <a
-              href="/area-do-cliente"
+            <Link
+              to="/area-do-cliente"
               onClick={() => setMenuOpen(false)}
               className={`text-sm transition-colors uppercase tracking-wide font-medium ${areaClienteTextClass}`}
             >
               Área do Cliente
-            </a>
+            </Link>
           </div>
         </motion.div>
       )}

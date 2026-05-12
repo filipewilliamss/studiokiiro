@@ -1,6 +1,7 @@
-import { useEffect, useRef } from "react";
-import { Link, useParams, Navigate } from "react-router-dom";
-import { motion, useScroll, useTransform, useSpring } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import { Link, useParams, Navigate, useNavigate } from "react-router-dom";
+import { motion, useScroll, useTransform, useSpring, AnimatePresence } from "framer-motion";
+import { ArrowUp, ArrowLeft } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ScrollAnimatedImage from "@/components/ScrollAnimatedImage";
@@ -8,27 +9,21 @@ import { projects } from "@/data/projects";
 
 const ProjectDetail = () => {
   const { slug } = useParams<{ slug: string }>();
+  const navigate = useNavigate();
   const project = projects.find((p) => p.slug === slug);
+  const [showScrollTop, setShowScrollTop] = useState(false);
 
   const { scrollYProgress } = useScroll();
   const dotsY = useTransform(scrollYProgress, [0, 1], [0, -300]);
   const springDotsY = useSpring(dotsY, { stiffness: 50, damping: 20 });
 
-  const conceptRef = useRef(null);
-  const { scrollYProgress: conceptScroll } = useScroll({
-    target: conceptRef,
-    offset: ["start end", "end start"]
-  });
-  const conceptScale = useTransform(conceptScroll, [0, 0.5, 1], [0.95, 1, 1.05]);
-  const conceptOpacity = useTransform(conceptScroll, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
-
-  const variationsRef = useRef(null);
-  const { scrollYProgress: variationsScroll } = useScroll({
-    target: variationsRef,
-    offset: ["start end", "end start"]
-  });
-  const variationsScale = useTransform(variationsScroll, [0, 0.5, 1], [0.95, 1, 1.05]);
-  const variationsOpacity = useTransform(variationsScroll, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowScrollTop(window.scrollY > 400);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "instant" as ScrollBehavior });
@@ -185,7 +180,7 @@ const ProjectDetail = () => {
       </section>
 
       {/* DETAILED PROJECT CONTENT */}
-      {project.concept && (
+      {project.concept ? (
         <section className="pb-32 bg-black relative z-10">
           <div className="container-editorial">
             {/* Concept section */}
@@ -204,24 +199,13 @@ const ProjectDetail = () => {
                 </p>
               </div>
               <div className="flex flex-col gap-12">
-                {project.slug === 'akedah-podcast' ? (
-                  <div className="w-full flex justify-center py-12 md:py-16">
-                    <ScrollAnimatedImage 
-                      src={project.pages[0]} 
-                      className="max-w-[360px] md:max-w-[600px] object-contain" 
-                      alt="Akedah Logo"
-                    />
-                  </div>
-                ) : (
-                  <>
-                    <div className="w-full aspect-video md:aspect-[21/9]">
-                      <ScrollAnimatedImage src={project.pages[0]} className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-[2s]" />
-                    </div>
-                    <div className="w-full aspect-video md:aspect-[21/9]">
-                      <ScrollAnimatedImage src={project.pages[1]} className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-[2s]" />
-                    </div>
-                  </>
-                )}
+                <div className="w-full flex justify-center py-12 md:py-16">
+                  <ScrollAnimatedImage 
+                    src={project.pages[0]} 
+                    className={`${project.slug === 'akedah-podcast' ? 'max-w-[360px] md:max-w-[600px]' : 'w-full'} object-contain`} 
+                    alt={`${project.title} Logo`}
+                  />
+                </div>
               </div>
             </motion.div>
 
@@ -239,7 +223,7 @@ const ProjectDetail = () => {
                 <p className="text-xl font-light leading-relaxed text-white/80 max-w-4xl mb-16 whitespace-pre-line">
                   {project.variations}
                 </p>
-                <div className={`w-full flex justify-center ${project.slug === 'akedah-podcast' ? 'py-8 md:py-12' : ''}`}>
+                <div className="w-full flex justify-center py-8 md:py-12">
                   <ScrollAnimatedImage 
                     src={project.pages[2]} 
                     className="w-full h-auto" 
@@ -264,7 +248,9 @@ const ProjectDetail = () => {
                 </p>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   <ScrollAnimatedImage src={project.pages[3]} className="w-full h-auto" />
-                  <ScrollAnimatedImage src={project.pages[4]} className="w-full h-auto" />
+                  {project.pages[4] && (
+                    <ScrollAnimatedImage src={project.pages[4]} className="w-full h-auto" />
+                  )}
                 </div>
               </motion.div>
             )}
@@ -355,14 +341,12 @@ const ProjectDetail = () => {
                 <p className="text-xl font-light leading-relaxed text-white/80 max-w-4xl mb-16 whitespace-pre-line">
                   {project.applications}
                 </p>
-                {project.slug === 'akedah-podcast' ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   <ScrollAnimatedImage src={project.pages[9]} className="w-full h-auto" />
-                ) : (
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <ScrollAnimatedImage src={project.pages[9]} className="w-full h-auto" />
+                  {project.pages[10] && (
                     <ScrollAnimatedImage src={project.pages[10]} className="w-full h-auto" />
-                  </div>
-                )}
+                  )}
+                </div>
               </motion.div>
             )}
 
@@ -384,74 +368,74 @@ const ProjectDetail = () => {
             )}
           </div>
         </section>
-      )}
-
-      {/* EDITORIAL GALLERY (Fallback for other projects) */}
-      {!project.concept && (
+      ) : (
+        /* Fallback Gallery */
         <section className="pb-32 md:pb-64 bg-black relative z-10">
           <div className="flex flex-col gap-12 md:gap-32">
-            {project.pages.map((img: string, i: number) => {
-              const isFullWidth = i % 3 === 0;
-              const isPair = i % 3 === 1 && project.pages[i+1];
-              
-              if (isFullWidth) {
-                return (
-                  <motion.div 
-                    key={i} 
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    viewport={{ once: true, margin: "-100px" }}
-                    transition={{ duration: 1.2 }}
-                    className="w-full px-4 md:px-0"
-                  >
-                    <div className="relative aspect-video md:aspect-[21/9] overflow-hidden group">
-                      <ScrollAnimatedImage 
-                        src={img} 
-                        alt="" 
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-                  </motion.div>
-                );
-              }
-
-              if (isPair) {
-                return (
-                  <div key={i} className="container-editorial">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-24">
-                      <motion.div 
-                        initial={{ opacity: 0, x: -50 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 1 }}
-                        className="aspect-square md:aspect-[4/5] overflow-hidden"
-                      >
-                        <ScrollAnimatedImage src={img} alt="" className="w-full h-full object-cover" />
-                      </motion.div>
-                      <motion.div 
-                        initial={{ opacity: 0, x: 50 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 1, delay: 0.2 }}
-                        className="aspect-square md:aspect-[4/5] overflow-hidden md:mt-32"
-                      >
-                        <ScrollAnimatedImage src={project.pages[i+1]} alt="" className="w-full h-full object-cover" />
-                      </motion.div>
-                    </div>
-                  </div>
-                );
-              }
-
-              if (i % 3 === 2) return null;
-              return null;
-            })}
+            {project.pages.map((img: string, i: number) => (
+              <motion.div 
+                key={i} 
+                initial={{ opacity: 0, scale: 0.95 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ duration: 1.2 }}
+                className="w-full px-4 md:px-0"
+              >
+                <div className="relative aspect-video md:aspect-[21/9] overflow-hidden group">
+                  <ScrollAnimatedImage 
+                    src={img} 
+                    alt="" 
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              </motion.div>
+            ))}
           </div>
         </section>
       )}
 
+      {/* BACK TO TOP & PORTFOLIO NAVIGATION */}
+      <AnimatePresence>
+        {showScrollTop && (
+          <>
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 20 }}
+              className="fixed bottom-10 right-10 z-[100] flex flex-col gap-4"
+            >
+              <button
+                onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+                className="w-12 h-12 bg-[#FFCA16] text-black rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform"
+                aria-label="Voltar ao topo"
+              >
+                <ArrowUp size={24} />
+              </button>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -20 }}
+              className="fixed top-1/2 left-10 -translate-y-1/2 z-[100] hidden lg:block"
+            >
+              <button
+                onClick={() => navigate('/')}
+                className="group flex items-center gap-3 text-[10px] uppercase tracking-[0.4em] text-white/40 hover:text-[#FFCA16] transition-colors"
+              >
+                <div className="w-10 h-10 border border-white/10 rounded-full flex items-center justify-center group-hover:border-[#FFCA16]/30 transition-colors">
+                  <ArrowLeft size={16} />
+                </div>
+                <span className="opacity-0 group-hover:opacity-100 transition-opacity">Voltar ao Portfólio</span>
+              </button>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+
       {/* PRÓXIMO PROJETO */}
       <section className="py-40 md:py-80 border-t border-white/5 relative overflow-hidden group">
-        <Link to={`/projeto/${nextProject.slug}`} className="absolute inset-0 z-0">
+        <Link to={`/project/${nextProject.slug}`} className="absolute inset-0 z-0">
           <div 
             className="w-full h-full bg-cover bg-center grayscale opacity-10 group-hover:opacity-40 group-hover:scale-110 transition-all duration-[2s]"
             style={{ backgroundImage: `url(${nextProject.pages[0]})` }}
@@ -465,7 +449,7 @@ const ProjectDetail = () => {
               Próximo Projeto
             </span>
             <Link 
-              to={`/projeto/${nextProject.slug}`} 
+              to={`/project/${nextProject.slug}`} 
               className="pointer-events-auto"
             >
               <h2 className="text-[12vw] md:text-[8vw] font-black uppercase leading-none mb-16 transition-all duration-700 group-hover:tracking-tighter group-hover:text-[#FFCA16]">
@@ -474,7 +458,7 @@ const ProjectDetail = () => {
             </Link>
             
             <Link 
-              to={`/projeto/${nextProject.slug}`}
+              to={`/project/${nextProject.slug}`}
               className="pointer-events-auto group/btn relative inline-flex items-center justify-center px-16 py-8 overflow-hidden border border-white/10 transition-all duration-700 hover:border-[#FFCA16]"
             >
               <div className="absolute inset-0 bg-[#FFCA16] translate-y-full group-hover/btn:translate-y-0 transition-transform duration-600 ease-[0.22,1,0.36,1]" />

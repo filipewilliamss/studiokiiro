@@ -414,17 +414,26 @@ const ProjectDetail = () => {
         )}
       </AnimatePresence>
 
-      <div className="fixed top-1/2 left-10 -translate-y-1/2 z-[100] hidden lg:block">
-        <button
-          onClick={() => navigate('/')}
-          className="group flex items-center gap-3 text-[10px] uppercase tracking-[0.4em] text-white/40 hover:text-[#FFCA16] transition-colors"
-        >
-          <div className="w-10 h-10 border border-white/10 rounded-full flex items-center justify-center group-hover:border-[#FFCA16]/30 transition-colors">
-            <ArrowLeft size={16} />
-          </div>
-          <span className="opacity-0 group-hover:opacity-100 transition-opacity">Voltar ao Portfólio</span>
-        </button>
-      </div>
+      <AnimatePresence>
+        {showScrollTop && (
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -20 }}
+            className="fixed top-1/2 left-10 -translate-y-1/2 z-[100] hidden lg:block"
+          >
+            <button
+              onClick={() => navigate('/')}
+              className="group flex items-center gap-3 text-[10px] uppercase tracking-[0.4em] text-white/40 hover:text-[#FFCA16] transition-colors"
+            >
+              <div className="w-10 h-10 border border-white/10 rounded-full flex items-center justify-center group-hover:border-[#FFCA16]/30 transition-colors">
+                <ArrowLeft size={16} />
+              </div>
+              <span className="opacity-0 group-hover:opacity-100 transition-opacity">Voltar ao Portfólio</span>
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* PRÓXIMO PROJETO */}
       <section className="py-40 md:py-80 border-t border-white/5 relative overflow-hidden group">

@@ -115,7 +115,7 @@ const Navbar = ({ forceBlack = true }: NavbarProps) => {
               className={`text-sm transition-colors uppercase tracking-wide font-medium ${areaClienteTextClass}`}
             >
               Área do Cliente
-            </a>
+            </Link>
           </div>
         </motion.div>
       )}

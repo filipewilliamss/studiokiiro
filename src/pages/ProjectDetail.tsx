@@ -1,6 +1,7 @@
-import { useEffect, useRef } from "react";
-import { Link, useParams, Navigate } from "react-router-dom";
-import { motion, useScroll, useTransform, useSpring } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import { Link, useParams, Navigate, useNavigate } from "react-router-dom";
+import { motion, useScroll, useTransform, useSpring, AnimatePresence } from "framer-motion";
+import { ArrowUp, ArrowLeft } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ScrollAnimatedImage from "@/components/ScrollAnimatedImage";
@@ -8,27 +9,21 @@ import { projects } from "@/data/projects";
 
 const ProjectDetail = () => {
   const { slug } = useParams<{ slug: string }>();
+  const navigate = useNavigate();
   const project = projects.find((p) => p.slug === slug);
+  const [showScrollTop, setShowScrollTop] = useState(false);
 
   const { scrollYProgress } = useScroll();
   const dotsY = useTransform(scrollYProgress, [0, 1], [0, -300]);
   const springDotsY = useSpring(dotsY, { stiffness: 50, damping: 20 });
 
-  const conceptRef = useRef(null);
-  const { scrollYProgress: conceptScroll } = useScroll({
-    target: conceptRef,
-    offset: ["start end", "end start"]
-  });
-  const conceptScale = useTransform(conceptScroll, [0, 0.5, 1], [0.95, 1, 1.05]);
-  const conceptOpacity = useTransform(conceptScroll, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
-
-  const variationsRef = useRef(null);
-  const { scrollYProgress: variationsScroll } = useScroll({
-    target: variationsRef,
-    offset: ["start end", "end start"]
-  });
-  const variationsScale = useTransform(variationsScroll, [0, 0.5, 1], [0.95, 1, 1.05]);
-  const variationsOpacity = useTransform(variationsScroll, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowScrollTop(window.scrollY > 400);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "instant" as ScrollBehavior });

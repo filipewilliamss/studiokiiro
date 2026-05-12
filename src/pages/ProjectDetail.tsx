@@ -180,7 +180,7 @@ const ProjectDetail = () => {
       </section>
 
       {/* DETAILED PROJECT CONTENT */}
-      {project.concept && (
+      {project.concept ? (
         <section className="pb-32 bg-black relative z-10">
           <div className="container-editorial">
             {/* Concept section */}

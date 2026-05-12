@@ -404,7 +404,7 @@ const ProjectDetail = () => {
 
       {/* PRÓXIMO PROJETO */}
       <section className="py-40 md:py-80 border-t border-white/5 relative overflow-hidden group">
-        <Link to={`/projeto/${nextProject.slug}`} className="absolute inset-0 z-0">
+        <Link to={`/project/${nextProject.slug}`} className="absolute inset-0 z-0">
           <div 
             className="w-full h-full bg-cover bg-center grayscale opacity-10 group-hover:opacity-40 group-hover:scale-110 transition-all duration-[2s]"
             style={{ backgroundImage: `url(${nextProject.pages[0]})` }}
@@ -418,7 +418,7 @@ const ProjectDetail = () => {
               Próximo Projeto
             </span>
             <Link 
-              to={`/projeto/${nextProject.slug}`} 
+              to={`/project/${nextProject.slug}`} 
               className="pointer-events-auto"
             >
               <h2 className="text-[12vw] md:text-[8vw] font-black uppercase leading-none mb-16 transition-all duration-700 group-hover:tracking-tighter group-hover:text-[#FFCA16]">
@@ -427,7 +427,7 @@ const ProjectDetail = () => {
             </Link>
             
             <Link 
-              to={`/projeto/${nextProject.slug}`}
+              to={`/project/${nextProject.slug}`}
               className="pointer-events-auto group/btn relative inline-flex items-center justify-center px-16 py-8 overflow-hidden border border-white/10 transition-all duration-700 hover:border-[#FFCA16]"
             >
               <div className="absolute inset-0 bg-[#FFCA16] translate-y-full group-hover/btn:translate-y-0 transition-transform duration-600 ease-[0.22,1,0.36,1]" />

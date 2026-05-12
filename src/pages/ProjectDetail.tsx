@@ -368,7 +368,6 @@ const ProjectDetail = () => {
             )}
           </div>
         </section>
-        </section>
       ) : (
         /* Fallback Gallery */
         <section className="pb-32 md:pb-64 bg-black relative z-10">

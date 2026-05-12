@@ -8,9 +8,9 @@ const Footer = () => {
           
           {/* Brand Col */}
           <div className="md:col-span-2">
-            <a href="#" className="inline-block transition-transform hover:scale-105 duration-500">
+            <Link to="/" className="inline-block transition-transform hover:scale-105 duration-500">
               <img src={kiiroLogo} alt="Studio Kiiro" className="h-10 w-auto" />
-            </a>
+            </Link>
             <p className="mt-8 text-[14px] text-white/40 max-w-sm leading-relaxed">
               Design estratégico que transforma marcas em referências visuais. Criamos identidades memoráveis para quem não aceita o comum.
             </p>

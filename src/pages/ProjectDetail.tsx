@@ -413,25 +413,28 @@ const ProjectDetail = () => {
               </button>
             </motion.div>
 
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -20 }}
-              className="fixed top-1/2 left-10 -translate-y-1/2 z-[100] hidden lg:block"
-            >
-              <button
-                onClick={() => navigate('/')}
-                className="group flex items-center gap-3 text-[10px] uppercase tracking-[0.4em] text-white/40 hover:text-[#FFCA16] transition-colors"
-              >
-                <div className="w-10 h-10 border border-white/10 rounded-full flex items-center justify-center group-hover:border-[#FFCA16]/30 transition-colors">
-                  <ArrowLeft size={16} />
-                </div>
-                <span className="opacity-0 group-hover:opacity-100 transition-opacity">Voltar ao Portfólio</span>
-              </button>
-            </motion.div>
-          </>
-        )}
+        }
       </AnimatePresence>
+
+      {/* BACK TO PORTFOLIO BUTTON - AT THE END OF CONTENT */}
+      <section className="py-20 bg-black border-t border-white/5 relative z-10">
+        <div className="container-editorial flex justify-center">
+          <a 
+            href="/#portfolio"
+            className="group flex flex-col items-center gap-6"
+          >
+            <div className="w-20 h-20 border border-white/10 rounded-full flex items-center justify-center group-hover:border-[#FFCA16] group-hover:bg-[#FFCA16]/5 transition-all duration-700">
+              <ArrowLeft size={24} className="text-white group-hover:text-[#FFCA16] group-hover:-translate-x-2 transition-all duration-500" />
+            </div>
+            <div className="flex flex-col items-center gap-2">
+              <span className="text-[11px] uppercase tracking-[0.5em] text-white/40 group-hover:text-[#FFCA16] transition-colors duration-500 font-bold">
+                Voltar para o Portfólio
+              </span>
+              <div className="w-0 h-[1px] bg-[#FFCA16] group-hover:w-full transition-all duration-700 ease-out" />
+            </div>
+          </a>
+        </div>
+      </section>
 
       {/* PRÓXIMO PROJETO */}
       <section className="py-40 md:py-80 border-t border-white/5 relative overflow-hidden group">

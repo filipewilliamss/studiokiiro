@@ -1,19 +1,9 @@
-I will modify the project details pages to follow the user's specific navigation requests.
+I will remove the \\"Back to Portfolio\\" button as requested and fix the image sizing in the \\"Applications\\" (Aplicações) section of the Akedah Podcast project.
 
-### Modifications
-
-#### 1. Project Detail Page (`src/pages/ProjectDetail.tsx`)
-- **Remove Fixed Side Button**: Delete the current fixed "Back to Portfolio" button that appears on the left side during scrolling.
-- **Maintain Back to Top**: Keep the fixed "Back to Top" arrow on the bottom right.
-- **Add End-of-Project Button**: Insert a new section at the end of the project content (just before the "Next Project" teaser). This section will feature a prominent "Voltar para o Portfólio" button.
-- **Anchor Linking**: Configure the button to link specifically to the `#portfolio` section of the home page. I will use a standard anchor link to ensure the browser navigates to the home page and scrolls to the correct section.
-
-#### 2. Technical Implementation Details
-- The new button will match the site's editorial and minimal aesthetic, using a circular arrow icon and uppercase tracking for the label.
-- I will ensure the transition between the project content and the footer/next-project section remains seamless.
-- I'll verify that the link correctly scrolls to the portfolio section on the home page.
-
-### User Experience Improvements
-- **Cleaner Interface**: Removing the persistent side button reduces visual clutter while the user is focused on the project content.
-- **Contextual Navigation**: Placing the "Back to Portfolio" button at the end of the project aligns with the natural reading flow—after finishing one project, the user can easily return to see others.
-- **Precise Redirection**: Linking directly to the portfolio section (instead of the top of the home page) saves the user from having to scroll down again to find the project list.
+### Technical details:
+- **Remove button**: Delete the section containing the \\"Voltar para o Portfólio\\" link in `src/pages/ProjectDetail.tsx`.
+- **Fix image sizing**: 
+    - In `src/pages/ProjectDetail.tsx`, update the \\"Aplicações\\" section to check if multiple images exist before applying a 2-column grid. If only one image exists (like in Akedah Podcast), it will take the full width of the container.
+    - Also ensure the `Construction` and `Applications` sections handle missing images gracefully for projects with fewer images in their `pages` array.
+- **Verify other projects**: Ensure the layout remains consistent and doesn't break for projects with fewer images (Construmar, Templo de Deus, Team Luísa).
+- **Akedah Podcast Logo**: I will also check if the `max-w-[600px]` on the first image (Concept) is causing it to look too small and adjust if necessary, although the user specifically mentioned the \\"Aplicações\\" section.

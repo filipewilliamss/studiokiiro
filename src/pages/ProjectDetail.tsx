@@ -397,23 +397,21 @@ const ProjectDetail = () => {
       {/* BACK TO TOP & PORTFOLIO NAVIGATION */}
       <AnimatePresence>
         {showScrollTop && (
-          <>
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: 20 }}
-              className="fixed bottom-10 right-10 z-[100] flex flex-col gap-4"
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: 20 }}
+            className="fixed bottom-10 right-10 z-[100] flex flex-col gap-4"
+          >
+            <button
+              onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+              className="w-12 h-12 bg-[#FFCA16] text-black rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform"
+              aria-label="Voltar ao topo"
             >
-              <button
-                onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-                className="w-12 h-12 bg-[#FFCA16] text-black rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform"
-                aria-label="Voltar ao topo"
-              >
-                <ArrowUp size={24} />
-              </button>
-            </motion.div>
-
-        }
+              <ArrowUp size={24} />
+            </button>
+          </motion.div>
+        )}
       </AnimatePresence>
 
       {/* BACK TO PORTFOLIO BUTTON - AT THE END OF CONTENT */}

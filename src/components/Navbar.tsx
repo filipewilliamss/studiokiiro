@@ -51,7 +51,7 @@ const Navbar = ({ forceBlack = true }: NavbarProps) => {
             alt="Studio Kiiro" 
             className="h-8 md:h-10 w-auto transition-transform duration-300 group-hover:scale-105" 
           />
-        </a>
+        </Link>
 
         {/* Desktop */}
         <div className="hidden lg:flex items-center gap-10">

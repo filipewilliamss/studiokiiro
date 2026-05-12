@@ -202,7 +202,7 @@ const ProjectDetail = () => {
                 <div className="w-full flex justify-center py-12 md:py-16">
                   <ScrollAnimatedImage 
                     src={project.pages[0]} 
-                    className={`${project.slug === 'akedah-podcast' ? 'max-w-[360px] md:max-w-[600px]' : 'w-full'} object-contain`} 
+                    className="w-full h-auto object-contain" 
                     alt={`${project.title} Logo`}
                   />
                 </div>
@@ -210,7 +210,7 @@ const ProjectDetail = () => {
             </motion.div>
 
             {/* Variations */}
-            {project.variations && (
+            {project.variations && project.pages[2] && (
               <motion.div
                 initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -233,7 +233,7 @@ const ProjectDetail = () => {
             )}
 
             {/* Construction */}
-            {project.construction && (
+            {project.construction && (project.pages[3] || project.pages[4]) && (
               <motion.div
                 initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -256,7 +256,7 @@ const ProjectDetail = () => {
             )}
 
             {/* Colors */}
-            {project.colors && (
+            {project.colors && project.pages[5] && (
               <motion.div
                 initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -274,7 +274,7 @@ const ProjectDetail = () => {
             )}
 
             {/* Typography */}
-            {project.typography && (
+            {project.typography && project.pages[6] && (
               <motion.div
                 initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -292,7 +292,7 @@ const ProjectDetail = () => {
             )}
 
             {/* Symbols */}
-            {project.symbols && (
+            {project.symbols && project.pages[7] && (
               <motion.div
                 initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -310,7 +310,7 @@ const ProjectDetail = () => {
             )}
 
             {/* Non Recommended */}
-            {project.nonRecommended && (
+            {project.nonRecommended && project.pages[8] && (
               <motion.div
                 initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -328,7 +328,7 @@ const ProjectDetail = () => {
             )}
 
             {/* Applications */}
-            {project.applications && (
+            {project.applications && (project.pages[9] || project.pages[10]) && (
               <motion.div
                 initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -341,8 +341,10 @@ const ProjectDetail = () => {
                 <p className="text-xl font-light leading-relaxed text-white/80 max-w-4xl mb-16 whitespace-pre-line">
                   {project.applications}
                 </p>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                  <ScrollAnimatedImage src={project.pages[9]} className="w-full h-auto" />
+                <div className={`grid grid-cols-1 ${project.pages[10] ? 'md:grid-cols-2' : ''} gap-8`}>
+                  {project.pages[9] && (
+                    <ScrollAnimatedImage src={project.pages[9]} className="w-full h-auto" />
+                  )}
                   {project.pages[10] && (
                     <ScrollAnimatedImage src={project.pages[10]} className="w-full h-auto" />
                   )}
@@ -413,26 +415,6 @@ const ProjectDetail = () => {
           </motion.div>
         )}
       </AnimatePresence>
-
-      {/* BACK TO PORTFOLIO BUTTON - AT THE END OF CONTENT */}
-      <section className="py-20 bg-black border-t border-white/5 relative z-10">
-        <div className="container-editorial flex justify-center">
-          <a 
-            href="/#portfolio"
-            className="group flex flex-col items-center gap-6"
-          >
-            <div className="w-20 h-20 border border-white/10 rounded-full flex items-center justify-center group-hover:border-[#FFCA16] group-hover:bg-[#FFCA16]/5 transition-all duration-700">
-              <ArrowLeft size={24} className="text-white group-hover:text-[#FFCA16] group-hover:-translate-x-2 transition-all duration-500" />
-            </div>
-            <div className="flex flex-col items-center gap-2">
-              <span className="text-[11px] uppercase tracking-[0.5em] text-white/40 group-hover:text-[#FFCA16] transition-colors duration-500 font-bold">
-                Voltar para o Portfólio
-              </span>
-              <div className="w-0 h-[1px] bg-[#FFCA16] group-hover:w-full transition-all duration-700 ease-out" />
-            </div>
-          </a>
-        </div>
-      </section>
 
       {/* PRÓXIMO PROJETO */}
       <section className="py-40 md:py-80 border-t border-white/5 relative overflow-hidden group">

@@ -1,27 +1,19 @@
-I will implement a "back to top" button and a "back to portfolio" link on the project details page, and update all other projects to follow the detailed layout used for the Akedah Podcast project.
+I will modify the project details pages to follow the user's specific navigation requests.
 
-### Phase 1: Navigation & Utility
-- **Back to Top Button**: Add a floating button (arrow) on the side that appears when scrolling down.
-- **Back to Portfolio**: Add a clear way to return to the previous page (portfolio/index) from the project detail view.
+### Modifications
 
-### Phase 2: Project Data Standardization
-- Update `src/data/projects.ts` to include detailed fields for all projects:
-    - **Construmar**: Add `subtitle`, `about`, `objective`, `concept`, `variations`, `construction`, `colors`, `typography`, `symbols`, `nonRecommended`, `applications`, and `finalResult`.
-    - **Templo de Deus**: Add similar detailed fields.
-    - **Team Luísa Crosstraining**: Add similar detailed fields.
-- *Note: I will use the information already present in their "intro", "challenge", "strategy", "solution", and "result" fields to expand these into the new structure, ensuring the content remains factual to each project.*
+#### 1. Project Detail Page (`src/pages/ProjectDetail.tsx`)
+- **Remove Fixed Side Button**: Delete the current fixed "Back to Portfolio" button that appears on the left side during scrolling.
+- **Maintain Back to Top**: Keep the fixed "Back to Top" arrow on the bottom right.
+- **Add End-of-Project Button**: Insert a new section at the end of the project content (just before the "Next Project" teaser). This section will feature a prominent "Voltar para o Portfólio" button.
+- **Anchor Linking**: Configure the button to link specifically to the `#portfolio` section of the home page. I will use a standard anchor link to ensure the browser navigates to the home page and scrolls to the correct section.
 
-### Phase 3: Project Detail Page Refinement
-- Update `src/pages/ProjectDetail.tsx` to handle the display of these new fields for all projects, removing the "fallback" gallery and ensuring a consistent editorial experience.
+#### 2. Technical Implementation Details
+- The new button will match the site's editorial and minimal aesthetic, using a circular arrow icon and uppercase tracking for the label.
+- I will ensure the transition between the project content and the footer/next-project section remains seamless.
+- I'll verify that the link correctly scrolls to the portfolio section on the home page.
 
-### Technical Details
-- Use `framer-motion` for the floating button's entrance/exit and smooth scroll.
-- Use `react-router-dom`'s `Link` for the "Back to Portfolio" navigation.
-- Ensure the `ProjectDetail.tsx` components are flexible enough to handle projects with different amounts of data (using conditional rendering).
-
-````text
-[ Floating Arrow ]  -> Bottom Right (or left as requested)
-[ Back to Portfolio ] -> Top left or near navigation
-````
-
-I'll start by enhancing the project data and then move to the UI components.
+### User Experience Improvements
+- **Cleaner Interface**: Removing the persistent side button reduces visual clutter while the user is focused on the project content.
+- **Contextual Navigation**: Placing the "Back to Portfolio" button at the end of the project aligns with the natural reading flow—after finishing one project, the user can easily return to see others.
+- **Precise Redirection**: Linking directly to the portfolio section (instead of the top of the home page) saves the user from having to scroll down again to find the project list.

@@ -67,8 +67,8 @@ const Navbar = ({ forceBlack = true }: NavbarProps) => {
               {link.label}
             </a>
           ))}
-          <a
-            href="/area-do-cliente"
+          <Link
+            to="/area-do-cliente"
             className={`${areaClienteTextClass} rounded-none`}
           >
             Área do Cliente

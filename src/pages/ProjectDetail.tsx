@@ -202,7 +202,7 @@ const ProjectDetail = () => {
                 <div className="w-full flex justify-center py-12 md:py-16">
                   <ScrollAnimatedImage 
                     src={project.pages[0]} 
-                    className={`${project.slug === 'akedah-podcast' ? 'max-w-[360px] md:max-w-[600px]' : 'w-full'} object-contain`} 
+                    className="w-full h-auto object-contain" 
                     alt={`${project.title} Logo`}
                   />
                 </div>
@@ -341,8 +341,10 @@ const ProjectDetail = () => {
                 <p className="text-xl font-light leading-relaxed text-white/80 max-w-4xl mb-16 whitespace-pre-line">
                   {project.applications}
                 </p>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                  <ScrollAnimatedImage src={project.pages[9]} className="w-full h-auto" />
+                <div className={`grid grid-cols-1 ${project.pages[10] ? 'md:grid-cols-2' : ''} gap-8`}>
+                  {project.pages[9] && (
+                    <ScrollAnimatedImage src={project.pages[9]} className="w-full h-auto" />
+                  )}
                   {project.pages[10] && (
                     <ScrollAnimatedImage src={project.pages[10]} className="w-full h-auto" />
                   )}

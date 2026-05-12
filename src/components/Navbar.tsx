@@ -72,7 +72,7 @@ const Navbar = ({ forceBlack = true }: NavbarProps) => {
             className={`${areaClienteTextClass} rounded-none`}
           >
             Área do Cliente
-          </a>
+          </Link>
         </div>
 
         {/* Mobile toggle */}

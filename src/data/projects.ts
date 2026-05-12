@@ -1,6 +1,6 @@
 import akedahLogo from "@/assets/akedah-logo.webp";
 import construmarLogo from "@/assets/construmar-logo.webp";
-import temploLogo from "@/assets/templo-logo.webp";
+import tabernaculoLogo from "@/assets/tabernaculo-logo.webp";
 import teamluisaLogo from "@/assets/teamluisa-logo.webp";
 import construmarPag1 from "@/assets/construmar-pagina-1.webp";
 import construmarPag2 from "@/assets/construmar-pagina-2.webp";
@@ -28,14 +28,18 @@ import teamluisaPag3 from "@/assets/teamluisa-pagina-3.webp";
 import teamluisaPag4 from "@/assets/teamluisa-pagina-4.webp";
 import teamluisaPag5 from "@/assets/teamluisa-pagina-5.webp";
 import teamluisaPag6 from "@/assets/teamluisa-pagina-6.webp";
-import temploPag1 from "@/assets/templo-pagina-1.webp";
-import temploPag2 from "@/assets/templo-pagina-2.webp";
-import temploPag3 from "@/assets/templo-pagina-3.webp";
-import temploPag4 from "@/assets/templo-pagina-4.webp";
-import temploPag5 from "@/assets/templo-pagina-5.webp";
-import temploPag6 from "@/assets/templo-pagina-6.webp";
-import temploPag7 from "@/assets/templo-pagina-7.webp";
-import temploPag8 from "@/assets/templo-pagina-8.webp";
+import tabernaculoPag1 from "@/assets/tabernaculo-pagina-1.webp";
+import tabernaculoPag2 from "@/assets/tabernaculo-pagina-2.webp";
+import tabernaculoPag3 from "@/assets/tabernaculo-pagina-3.webp";
+import tabernaculoPag4 from "@/assets/tabernaculo-pagina-4.webp";
+import tabernaculoPag5 from "@/assets/tabernaculo-pagina-5.webp";
+import tabernaculoPag6 from "@/assets/tabernaculo-pagina-6.webp";
+import tabernaculoPag7 from "@/assets/tabernaculo-pagina-7.webp";
+import tabernaculoPag8 from "@/assets/tabernaculo-pagina-8.webp";
+import tabernaculoPag9 from "@/assets/tabernaculo-pagina-9.webp";
+import tabernaculoPag10 from "@/assets/tabernaculo-pagina-10.webp";
+import tabernaculoPag11 from "@/assets/tabernaculo-pagina-11.webp";
+import tabernaculoPag12 from "@/assets/tabernaculo-pagina-12.webp";
 
 export interface Project {
   id: number;
@@ -154,37 +158,39 @@ export const projects: Project[] = [
   {
     id: 3,
     slug: "tabernaculo-da-trindade",
-    title: "Tabernáculo da trindade",
+    title: "Tabernáculo da Trindade",
     category: "Identidade visual",
-    bgColor: "#191919",
-    intro: "Direção visual pensada para comunicar sofisticação, equilíbrio e valor percebido em um segmento sensível e estratégico.",
-    subtitle: "Identidade visual para um projeto com propósito, unindo autoridade e acolhimento em uma marca memorável.",
-    about: "O projeto Templo de Deus foi concebido para ser uma referência em seu segmento, unindo valores espirituais a uma abordagem profissional e moderna. A marca precisava refletir a importância do cuidado pessoal e a sacralidade do bem-estar, mantendo uma estética limpa e impactante.",
-    challenge: "O principal desafio era equilibrar a autoridade de uma instituição séria com a sensibilidade necessária para o seu propósito. A identidade visual precisava fugir de abordagens excessivamente tradicionais ou frias, buscando um caminho de sofisticação moderna.",
-    objective: "Criar um sistema de marca completo que transmitisse confiança, paz e clareza. A identidade deveria ser facilmente aplicável em canais digitais e materiais de apoio, garantindo que a mensagem do projeto fosse entregue com o máximo de valor percebido.",
-    concept: "O conceito baseia-se na ideia de equilíbrio e conexão. O logotipo utiliza formas geométricas limpas e uma tipografia refinada para criar uma assinatura visual que é, ao mesmo tempo, sólida e acolhedora, simbolizando a harmonia entre o corpo, a mente e o espírito.",
-    variations: "A marca possui variações pensadas para diferentes níveis de contraste e espaço. Além da versão principal, foram definidas versões verticais e horizontais, além de reduções para uso em pequenos formatos, sempre preservando a clareza do símbolo.",
-    construction: "A malha construtiva foi desenvolvida para garantir que cada elemento estivesse em perfeita proporção. A área de proteção foi rigorosamente definida para evitar que outros elementos visuais comprometam a força da assinatura da marca em diferentes contextos.",
-    colors: "A paleta de cores utiliza tons profundos e contrastantes, que remetem à sobriedade, foco e introspecção. O uso estratégico de cores de destaque ajuda a guiar o olhar e a criar uma hierarquia visual clara em todos os materiais de comunicação.",
-    typography: "A tipografia selecionada combina a força de fontes clássicas com a leveza de traços contemporâneos. Essa mistura reforça o tom de voz da marca: sábio, experiente e acessível, facilitando a leitura e a compreensão da mensagem.",
-    symbols: "Foram criados ícones e elementos gráficos de apoio que desdobram o conceito central da marca. Esses símbolos funcionam como extensões da identidade, permitindo uma comunicação visual rica e variada sem perder a unidade.",
-    nonRecommended: "O manual detalha restrições como o uso de cores não oficiais, distorções de forma e o acúmulo excessivo de informações ao redor do logotipo. Seguir essas diretrizes é vital para manter a percepção de valor e seriedade do projeto.",
-    applications: "A identidade foi simulada em redes sociais, apresentações, papelaria institucional e uniformes. Cada aplicação demonstra a versatilidade do sistema visual e sua capacidade de se adaptar a diferentes mídias com elegância.",
-    finalResult: "O resultado é uma marca com forte presença e significado, que comunica autoridade e propósito de forma imediata. O sistema visual oferece todas as ferramentas necessárias para uma comunicação consistente e profissional.",
-    strategy: "Construímos uma assinatura visual com tipografia refinada e símbolo geométrico minimalista, equilibrando ciência e acolhimento em todas as aplicações.",
-    solution: "Manual de marca with 8 páginas, incluindo variações do logotipo, paleta de cores harmoniosa e guia completo de uso da marca.",
-    result: "Marca que equilibra autoridade técnica e proximidade humana, com forte presença visual nas redes sociais e materiais impressos.",
-    tags: ["Logo Design", "Manual de Marca", "Saúde"],
-    logo: temploLogo,
+    bgColor: "#06121C",
+    intro: "Atualização da identidade visual de uma igreja com história desde 1998, equilibrando tradição, simbologia bíblica e linguagem contemporânea.",
+    subtitle: "Identidade visual para a Igreja Tabernáculo da Trindade, unindo tradição, simbologia bíblica e estética contemporânea.",
+    about: "Fundada em 1998 como fruto de um ministério familiar profundamente enraizado na fé, a Tabernáculo da Trindade cresceu de um pequeno grupo para uma comunidade com alcance digital global, mantendo firme seu compromisso com a Palavra. Sua missão é clara: ser a Palavra em ação (Tiago 1:22–27), alcançando vidas por meio da pregação do Evangelho puro e do serviço prático.",
+    challenge: "A igreja já possuía um símbolo histórico — o Leão de Judá flamejante — carregado de significado teológico e afetivo para a comunidade. O desafio era preservar essa essência ao mesmo tempo em que se atualizava todo o sistema visual para refletir seriedade, contemporaneidade e compromisso com a verdade bíblica em um contexto cada vez mais digital.",
+    objective: "Desenvolver um sistema de identidade que equilibrasse tradição e modernidade, preservando o símbolo histórico do Leão de Judá e expandindo a marca em variações, monograma, versão internacional e assinatura missionária, garantindo coerência visual em todos os pontos de contato — físicos e digitais.",
+    concept: "O conceito visual nasce da combinação entre solenidade e movimento. A tipografia clássica reforça a autoridade espiritual e a herança bíblica, enquanto a composição luminosa do símbolo remete à glória divina, à presença do Espírito Santo e à vida transformada pelo Evangelho. O resultado é uma marca que comunica força, proteção e esperança.",
+    variations: "O logotipo possui versões principal, alternativas para diferentes fundos (bege, branco e preto) e composições vertical e horizontal. A versão vertical reforça a hierarquia do símbolo como estandarte da identidade; a horizontal foi desenvolvida para fachadas, cabeçalhos, banners e materiais digitais. Há ainda o monograma, construído a partir das iniciais do nome, indicado para perfis em redes sociais, selos, marca d'água e pequenos formatos.",
+    construction: "O logotipo principal e o monograma foram desenvolvidos a partir de uma malha construtiva (grid), garantindo equilíbrio, alinhamento e proporções harmoniosas entre símbolo e tipografia. O grid assegura consistência estrutural, organização visual e precisão geométrica na composição da marca, reforçando a estabilidade e a solidez que a identidade representa.",
+    colors: "A paleta foi definida para refletir os valores espirituais e institucionais da igreja.\n\n– O dourado (#C2A782) representa a glória de Deus, realeza, santidade e autoridade espiritual.\n– O azul marinho profundo (#06121C) simboliza eternidade, reverência e dimensão celestial.\n– O preto (#000000) comunica sobriedade, respeito e solidez.\n– O branco (#FFFFFF) reforça pureza, luz e clareza.\n\nA combinação dessas cores equilibra tradição e contemporaneidade, fortalecendo a presença visual da marca em ambientes físicos e digitais.",
+    typography: "A marca utiliza a Cinzel como tipografia primária, aplicada ao nome institucional e títulos, trazendo solenidade, herança clássica e autoridade espiritual.\n\nA Source Sans 3 atua como tipografia secundária, indicada para textos informativos e conteúdos digitais, garantindo legibilidade e versatilidade. Essa combinação mantém a identidade visual coerente em todas as aplicações, do impresso ao digital.",
+    symbols: "Cada detalhe do símbolo histórico carrega profundo significado espiritual:\n\n– O Leão representa Jesus, o Leão da tribo de Judá (Apocalipse 5:5).\n– A Coroa simboliza a vitória de Cristo sobre o pecado e a morte (Hebreus 2:9; 1 Pedro 5:4).\n– A Águia remete aos seres viventes diante do trono de Deus (Apocalipse 4:6-11).\n– A Cruz representa a obra redentora no Calvário (Colossenses 2:13-15).\n– As Chamas de Fogo simbolizam o batismo e o poder do Espírito Santo (Mateus 3:11).\n– A Silhueta de Anjos remete aos serafins que cercam o trono do Senhor (Isaías 6:2-3).\n\nForam ainda criadas as assinaturas International Trinity Tabernacle, para alcance global, e TT Missions, dedicada aos projetos missionários internacionais.",
+    nonRecommended: "Para preservar a integridade e o reconhecimento da marca, o logotipo não deve sofrer alterações ou usos inadequados. Não é permitido:\n– alterar as cores oficiais;\n– aplicar contornos ou efeitos adicionais;\n– utilizar o logotipo sobre fundos sem contraste adequado;\n– distorcer suas proporções por esticamento ou compressão.\n\nO respeito a essas orientações garante legibilidade, consistência visual e a correta representação da identidade em qualquer meio.",
+    applications: "A identidade foi aplicada em camisetas e uniformes da equipe missionária (TT Missions), papelaria institucional, canal oficial no YouTube, perfil no Instagram e materiais de divulgação. Cada aplicação demonstra a versatilidade do sistema visual e sua capacidade de manter coerência entre o ambiente local da igreja e as frentes de atuação internacional.",
+    finalResult: "O resultado é uma identidade visual que honra a história da Tabernáculo da Trindade desde 1998 e a posiciona com força para os próximos capítulos do ministério. O sistema preserva o símbolo do Leão de Judá em sua essência teológica, ao mesmo tempo em que oferece flexibilidade contemporânea para todas as plataformas em que a igreja atua.",
+    strategy: "Atualizamos o sistema visual preservando o símbolo histórico do Leão de Judá e expandindo a marca em variações, monograma e assinaturas internacionais para diferentes frentes do ministério.",
+    solution: "Manual de identidade com 12 páginas, incluindo logotipo principal, monograma, grid de construção, simbologia bíblica, versão internacional, TT Missions, paleta de cores e tipografia.",
+    result: "Identidade visual sólida, reverente e contemporânea, pronta para sustentar a comunicação da igreja em escala local e global, do púlpito às redes sociais.",
+    tags: ["Identidade Visual", "Manual de Marca", "Igreja", "Branding"],
+    logo: tabernaculoLogo,
     pages: [
-      temploPag1, temploPag2, temploPag3, temploPag4,
-      temploPag5, temploPag6, temploPag7, temploPag8,
+      tabernaculoPag1, tabernaculoPag2, tabernaculoPag3,
+      tabernaculoPag4, tabernaculoPag5, tabernaculoPag6,
+      tabernaculoPag7, tabernaculoPag8, tabernaculoPag9,
+      tabernaculoPag10, tabernaculoPag11, tabernaculoPag12,
     ],
-    client: "Tabernáculo da trindade",
+    client: "Igreja Tabernáculo da Trindade",
     year: "2026",
     service: "Identidade Visual",
-    deliverables: ["Logotipo principal", "Manual de marca (8 páginas)", "Paleta cromática", "Guia de aplicação"],
-    role: "Direção criativa e design",
+    deliverables: ["Logotipo principal", "Monograma", "Versão internacional (ITT)", "Assinatura TT Missions", "Manual de marca (12 páginas)", "Paleta cromática e tipografia"],
+    role: "Direção criativa e design de identidade",
   },
   {
     id: 4,

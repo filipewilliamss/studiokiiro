@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import kiiroLogo from "@/assets/logo.webp";
 
 const Footer = () => {

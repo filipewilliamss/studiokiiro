@@ -248,7 +248,9 @@ const ProjectDetail = () => {
                 </p>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   <ScrollAnimatedImage src={project.pages[3]} className="w-full h-auto" />
-                  <ScrollAnimatedImage src={project.pages[4]} className="w-full h-auto" />
+                  {project.pages[4] && (
+                    <ScrollAnimatedImage src={project.pages[4]} className="w-full h-auto" />
+                  )}
                 </div>
               </motion.div>
             )}

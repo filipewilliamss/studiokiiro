@@ -109,10 +109,15 @@ const ProjectsTab = () => {
   const [savingFinance, setSavingFinance] = useState(false);
 
   const fetchProjects = async () => {
-    const { data } = await supabase
+    const { data, error } = await supabase
       .from("projects")
       .select("*, profiles!projects_client_id_fkey(id, full_name, company)")
       .order("created_at", { ascending: false });
+    if (error) {
+      console.error("Erro ao buscar projetos:", error);
+      toast.error("Não foi possível carregar os projetos");
+      return;
+    }
     if (data) setProjects(data as any);
   };
 

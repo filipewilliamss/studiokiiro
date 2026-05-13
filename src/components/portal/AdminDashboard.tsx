@@ -39,7 +39,7 @@ const AdminDashboard = () => {
 
       const [clientsRes, projectsRes, quotesRes] = await Promise.all([
         supabase.from("profiles").select("*", { count: "exact", head: true }),
-        supabase.from("projects").select("*", { count: "exact", head: true }).in("status", ["em_andamento", "em andamento", "ativo"]),
+        supabase.from("projects").select("*", { count: "exact", head: true }).in("status", ["briefing", "planejamento", "producao", "revisao", "finalizacao", "em_andamento", "em andamento", "ativo"]),
         supabase.from("quotes").select("*", { count: "exact", head: true }).eq("status", "pendente"),
       ]);
 

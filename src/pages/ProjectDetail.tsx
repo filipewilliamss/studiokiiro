@@ -234,6 +234,7 @@ const ProjectDetail = () => {
                 <div className="w-full flex justify-center py-8 md:py-12">
                   <ScrollAnimatedImage 
                     src={project.pages[2]} 
+                    alt={`Variações do logotipo ${project.title}`}
                     className="w-full h-auto" 
                   />
                 </div>

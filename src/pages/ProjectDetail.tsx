@@ -39,7 +39,8 @@ const ProjectDetail = () => {
     <motion.div 
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="min-h-screen bg-black text-white selection:bg-[#FFCA16] selection:text-black overflow-x-hidden"
+      className="min-h-screen text-white selection:bg-[#FFCA16] selection:text-black overflow-x-hidden"
+      style={{ backgroundColor: project.bgColor || "#000000" }}
     >
       <SEO 
         title={project.title}
@@ -64,17 +65,6 @@ const ProjectDetail = () => {
         className="fixed inset-0 bg-[#0A0A0A] z-[99] pointer-events-none origin-top"
       />
 
-      {/* Dynamic Dots (Inverse Parallax) */}
-      <motion.div 
-        style={{ y: springDotsY }}
-        className="fixed inset-0 z-0 pointer-events-none opacity-20"
-      >
-        <div className="absolute top-[10%] left-[5%] w-2 h-2 bg-[#FFCA16] rounded-full" />
-        <div className="absolute top-[40%] right-[10%] w-1 h-1 bg-[#FFCA16] rounded-full" />
-        <div className="absolute top-[70%] left-[15%] w-3 h-3 bg-[#FFCA16] rounded-full" />
-        <div className="absolute top-[90%] right-[20%] w-1.5 h-1.5 bg-[#FFCA16] rounded-full" />
-      </motion.div>
-
       {/* HERO SECTION */}
       <section className="relative h-[90vh] flex items-end pb-20 overflow-hidden">
         <div className="absolute inset-0 z-0">
@@ -82,10 +72,19 @@ const ProjectDetail = () => {
             initial={{ scale: 1.1 }}
             animate={{ scale: 1 }}
             transition={{ duration: 2, ease: [0.22, 1, 0.36, 1] }}
-            className="w-full h-full bg-cover bg-center grayscale opacity-40"
-            style={{ backgroundImage: `url(${project.pages[0]})` }}
+            className="w-full h-full opacity-40"
+            style={{ 
+              backgroundImage: `url(${project.pages[0]})`,
+              backgroundSize: project.slug === 'tabernaculo-da-trindade' ? 'contain' : 'cover',
+              backgroundRepeat: 'no-repeat',
+              backgroundPosition: 'center'
+            }}
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#06121C] via-[#06121C]/40 to-transparent" 
+               style={{ 
+                 backgroundImage: `linear-gradient(to top, ${project.bgColor || '#000000'}, ${project.bgColor || '#000000'}66, transparent)` 
+               }} 
+          />
         </div>
 
         <div className="container-editorial relative z-10 w-full">
@@ -132,7 +131,7 @@ const ProjectDetail = () => {
 
       {/* SEÇÃO SOBRE O PROJETO */}
       {project.about && (
-        <section className="py-24 md:py-48 bg-black relative z-10 border-t border-white/5">
+        <section className="py-24 md:py-48 relative z-10 border-t border-white/5">
           <div className="container-editorial">
             <div className="max-w-4xl">
               <motion.div
@@ -153,7 +152,7 @@ const ProjectDetail = () => {
       )}
 
       {/* DESAFIO E SOLUÇÃO GRID */}
-      <section className="py-24 md:py-48 bg-black relative z-10">
+      <section className="py-24 md:py-48 relative z-10">
         <div className="container-editorial">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-24 md:gap-40">
             <motion.div
@@ -189,7 +188,7 @@ const ProjectDetail = () => {
 
       {/* DETAILED PROJECT CONTENT */}
       {project.concept ? (
-        <section className="pb-32 bg-black relative z-10">
+        <section className="pb-32 relative z-10">
           <div className="container-editorial">
             {/* Concept section */}
             <motion.div
@@ -381,7 +380,7 @@ const ProjectDetail = () => {
         </section>
       ) : (
         /* Fallback Gallery */
-        <section className="pb-32 md:pb-64 bg-black relative z-10">
+        <section className="pb-32 md:pb-64 relative z-10">
           <div className="flex flex-col gap-12 md:gap-32">
             {project.pages.map((img: string, i: number) => (
               <motion.div 
@@ -432,7 +431,11 @@ const ProjectDetail = () => {
             className="w-full h-full bg-cover bg-center grayscale opacity-10 group-hover:opacity-40 group-hover:scale-110 transition-all duration-[2s]"
             style={{ backgroundImage: `url(${nextProject.pages[0]})` }}
           />
-          <div className="absolute inset-0 bg-black/60 group-hover:bg-black/20 transition-colors duration-1000" />
+          <div className="absolute inset-0 bg-[#06121C]/60 group-hover:bg-[#06121C]/20 transition-colors duration-1000" 
+               style={{ 
+                 backgroundColor: `${project.bgColor || '#000000'}99`,
+               }}
+          />
         </Link>
         
         <div className="container-editorial relative z-10 pointer-events-none">

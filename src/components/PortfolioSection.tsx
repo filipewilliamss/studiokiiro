@@ -41,13 +41,14 @@ const ProjectCard = ({ project, index, total }: { project: any; index: number; t
 
   const dotsY = useTransform(scrollYProgress, [0, 1], [150, -150]);
   const bgScale = useTransform(scrollYProgress, [0, 0.5, 1], [1.2, 1, 1.2]);
-  const bgOpacity = useTransform(scrollYProgress, [0, 0.5, 1], [0.1, 0.4, 0.1]);
+  const bgOpacity = useTransform(scrollYProgress, [0, 0.5, 1], [0.4, 0.7, 0.4]);
 
   return (
     <article 
       ref={cardRef}
       onMouseMove={handleMouseMove}
       className="relative h-screen w-full flex items-center justify-center overflow-hidden snap-start"
+      style={{ backgroundColor: project.bgColor || "#000000" }}
     >
       {/* Background Image with Gradient Overlay */}
       <div className="absolute inset-0 z-0">
@@ -55,23 +56,17 @@ const ProjectCard = ({ project, index, total }: { project: any; index: number; t
           style={{ 
             scale: bgScale, 
             opacity: bgOpacity,
-            backgroundImage: `url(${project.pages[0]})`
+            backgroundImage: `url(${project.pages[0]})`,
+            backgroundSize: project.slug === 'tabernaculo-da-trindade' ? 'contain' : 'cover',
+            backgroundRepeat: 'no-repeat',
+            backgroundPosition: 'center'
           }}
-          className="w-full h-full bg-cover bg-center grayscale contrast-125 transition-opacity duration-700"
+          className="w-full h-full transition-opacity duration-700"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/40 to-black/90" />
       </div>
 
-      {/* Dynamic Dots (Inverse Parallax) */}
-      <motion.div 
-        style={{ y: dotsY }}
-        className="absolute inset-0 z-10 pointer-events-none opacity-20"
-      >
-        <div className="absolute top-1/4 left-1/4 w-2 h-2 bg-[#FFCA16] rounded-full" />
-        <div className="absolute top-3/4 left-1/3 w-1 h-1 bg-[#FFCA16] rounded-full" />
-        <div className="absolute top-1/2 right-1/4 w-3 h-3 bg-[#FFCA16] rounded-full" />
-        <div className="absolute bottom-1/4 right-1/3 w-1.5 h-1.5 bg-[#FFCA16] rounded-full" />
-      </motion.div>
+      {/* Dynamic Dots removed as per request */}
 
       {/* Floating "K" Logo (Reacts to Mouse) */}
       <motion.div 

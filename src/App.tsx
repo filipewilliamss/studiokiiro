@@ -6,7 +6,13 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { AuthProvider } from "@/contexts/AuthContext";
-// ... keep existing code
+import { AnimatePresence } from "framer-motion";
+import Lenis from "lenis";
+import Index from "./pages/Index.tsx";
+import Obrigado from "./pages/Obrigado.tsx";
+import AreaDoCliente from "./pages/AreaDoCliente.tsx";
+import ProjectDetail from "./pages/ProjectDetail.tsx";
+import NotFound from "./pages/NotFound.tsx";
 import CookieConsent from "./components/CookieConsent.tsx";
 import CustomCursor from "./components/CustomCursor.tsx";
 
@@ -55,19 +61,21 @@ const App = () => {
   }, []);
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <CustomCursor />
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <AuthProvider>
-            <AnimatedRoutes />
-            <CookieConsent />
-          </AuthProvider>
-        </BrowserRouter>
-      </TooltipProvider>
-    </QueryClientProvider>
+    <HelmetProvider>
+      <QueryClientProvider client={queryClient}>
+        <TooltipProvider>
+          <CustomCursor />
+          <Toaster />
+          <Sonner />
+          <BrowserRouter>
+            <AuthProvider>
+              <AnimatedRoutes />
+              <CookieConsent />
+            </AuthProvider>
+          </BrowserRouter>
+        </TooltipProvider>
+      </QueryClientProvider>
+    </HelmetProvider>
   );
 };
 

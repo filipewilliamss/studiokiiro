@@ -426,7 +426,11 @@ const ProjectDetail = () => {
             className="w-full h-full bg-cover bg-center grayscale opacity-10 group-hover:opacity-40 group-hover:scale-110 transition-all duration-[2s]"
             style={{ backgroundImage: `url(${nextProject.pages[0]})` }}
           />
-          <div className="absolute inset-0 bg-black/60 group-hover:bg-black/20 transition-colors duration-1000" />
+          <div className="absolute inset-0 bg-[#06121C]/60 group-hover:bg-[#06121C]/20 transition-colors duration-1000" 
+               style={{ 
+                 backgroundColor: `${project.bgColor || '#000000'}99`,
+               }}
+          />
         </Link>
         
         <div className="container-editorial relative z-10 pointer-events-none">

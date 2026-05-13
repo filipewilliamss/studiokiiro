@@ -256,9 +256,9 @@ const ProjectDetail = () => {
                   {project.construction}
                 </p>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                  <ScrollAnimatedImage src={project.pages[3]} className="w-full h-auto" />
+                  <ScrollAnimatedImage src={project.pages[3]} alt={`Malha construtiva ${project.title}`} className="w-full h-auto" />
                   {project.pages[4] && (
-                    <ScrollAnimatedImage src={project.pages[4]} className="w-full h-auto" />
+                    <ScrollAnimatedImage src={project.pages[4]} alt={`Área de proteção ${project.title}`} className="w-full h-auto" />
                   )}
                 </div>
               </motion.div>
@@ -278,7 +278,7 @@ const ProjectDetail = () => {
                 <p className="text-xl font-light leading-relaxed text-white/80 max-w-4xl mb-16 whitespace-pre-line">
                   {project.colors}
                 </p>
-                <ScrollAnimatedImage src={project.pages[5]} className="w-full h-auto" />
+                <ScrollAnimatedImage src={project.pages[5]} alt={`Paleta de cores ${project.title}`} className="w-full h-auto" />
               </motion.div>
             )}
 

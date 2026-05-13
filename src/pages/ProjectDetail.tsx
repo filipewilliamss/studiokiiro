@@ -65,17 +65,6 @@ const ProjectDetail = () => {
         className="fixed inset-0 bg-[#0A0A0A] z-[99] pointer-events-none origin-top"
       />
 
-      {/* Dynamic Dots (Inverse Parallax) */}
-      <motion.div 
-        style={{ y: springDotsY }}
-        className="fixed inset-0 z-0 pointer-events-none opacity-20"
-      >
-        <div className="absolute top-[10%] left-[5%] w-2 h-2 bg-[#FFCA16] rounded-full" />
-        <div className="absolute top-[40%] right-[10%] w-1 h-1 bg-[#FFCA16] rounded-full" />
-        <div className="absolute top-[70%] left-[15%] w-3 h-3 bg-[#FFCA16] rounded-full" />
-        <div className="absolute top-[90%] right-[20%] w-1.5 h-1.5 bg-[#FFCA16] rounded-full" />
-      </motion.div>
-
       {/* HERO SECTION */}
       <section className="relative h-[90vh] flex items-end pb-20 overflow-hidden">
         <div className="absolute inset-0 z-0">
@@ -83,10 +72,14 @@ const ProjectDetail = () => {
             initial={{ scale: 1.1 }}
             animate={{ scale: 1 }}
             transition={{ duration: 2, ease: [0.22, 1, 0.36, 1] }}
-            className="w-full h-full bg-cover bg-center grayscale opacity-40"
+            className="w-full h-full bg-cover bg-center opacity-40"
             style={{ backgroundImage: `url(${project.pages[0]})` }}
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#06121C] via-[#06121C]/40 to-transparent" 
+               style={{ 
+                 backgroundImage: `linear-gradient(to top, ${project.bgColor || '#000000'}, ${project.bgColor || '#000000'}66, transparent)` 
+               }} 
+          />
         </div>
 
         <div className="container-editorial relative z-10 w-full">

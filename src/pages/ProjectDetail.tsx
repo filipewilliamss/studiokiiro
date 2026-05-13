@@ -41,6 +41,13 @@ const ProjectDetail = () => {
       animate={{ opacity: 1 }}
       className="min-h-screen bg-black text-white selection:bg-[#FFCA16] selection:text-black overflow-x-hidden"
     >
+      <SEO 
+        title={project.title}
+        description={project.subtitle || `Projeto de ${project.category} desenvolvido pelo Studio Kiiro em ${project.year}.`}
+        image={project.pages[0]}
+        url={`https://studiokiiro.com.br/projeto/${project.slug}`}
+        type="article"
+      />
       <Navbar />
 
       {/* Gold to Black Bleed Transition */}

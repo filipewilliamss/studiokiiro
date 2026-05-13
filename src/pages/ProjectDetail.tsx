@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Link, useParams, Navigate, useNavigate } from "react-router-dom";
 import { motion, useScroll, useTransform, useSpring, AnimatePresence } from "framer-motion";
 import { ArrowUp, ArrowLeft } from "lucide-react";
+import SEO from "@/components/SEO";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ScrollAnimatedImage from "@/components/ScrollAnimatedImage";

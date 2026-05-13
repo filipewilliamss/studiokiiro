@@ -183,7 +183,7 @@ const ProjectDetail = () => {
 
       {/* DETAILED PROJECT CONTENT */}
       {project.concept ? (
-        <section className="pb-32 bg-black relative z-10">
+        <section className="pb-32 relative z-10">
           <div className="container-editorial">
             {/* Concept section */}
             <motion.div

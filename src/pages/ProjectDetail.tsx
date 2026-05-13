@@ -375,7 +375,7 @@ const ProjectDetail = () => {
         </section>
       ) : (
         /* Fallback Gallery */
-        <section className="pb-32 md:pb-64 bg-black relative z-10">
+        <section className="pb-32 md:pb-64 relative z-10">
           <div className="flex flex-col gap-12 md:gap-32">
             {project.pages.map((img: string, i: number) => (
               <motion.div 

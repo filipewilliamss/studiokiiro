@@ -6,12 +6,18 @@ interface EditorialMarqueeProps {
 }
 
 const defaultWords = [
-  "Brand Identity",
-  "Editorial Design",
-  "Strategic Visual",
-  "Authorial Direction",
-  "Premium Studio",
-  "Visual Systems",
+  "Identidade Visual",
+  "Logotipo Essencial",
+  "Branding Completo",
+  "Personal Brand Kit",
+  "Design para Redes Sociais",
+  "Edição de vídeo (reels/ shorts)",
+  "Vídeo institucional",
+  "Video tutorial/ educativo",
+  "Sites",
+  "Landing Pages",
+  "Apresentação comercial",
+  "Apresentação Institucional",
 ];
 
 const EditorialMarquee = ({ words = defaultWords, variant = "default" }: EditorialMarqueeProps) => {

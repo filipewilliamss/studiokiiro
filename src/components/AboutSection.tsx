@@ -8,13 +8,17 @@ const AboutSection = () => {
       <div className="absolute right-[-10%] top-[20%] w-[40%] aspect-square bg-[#FFCA16]/[0.02] rounded-full blur-[150px] pointer-events-none" />
 
       {/* Monumental background word */}
-      <span
+      <motion.span
         aria-hidden="true"
+        initial={{ opacity: 0, x: -40 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 1.4, ease: [0.22, 1, 0.36, 1] }}
         className="absolute -left-6 md:-left-10 top-[8%] font-display font-[800] text-white/[0.025] leading-none tracking-extratight pointer-events-none select-none"
         style={{ fontSize: "clamp(140px, 22vw, 320px)" }}
       >
         sobre
-      </span>
+      </motion.span>
 
       <div className="container-editorial relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 items-start">

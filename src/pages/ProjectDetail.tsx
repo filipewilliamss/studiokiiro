@@ -39,7 +39,8 @@ const ProjectDetail = () => {
     <motion.div 
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="min-h-screen bg-black text-white selection:bg-[#FFCA16] selection:text-black overflow-x-hidden"
+      className="min-h-screen text-white selection:bg-[#FFCA16] selection:text-black overflow-x-hidden"
+      style={{ backgroundColor: project.bgColor || "#000000" }}
     >
       <SEO 
         title={project.title}

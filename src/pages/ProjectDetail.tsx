@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Link, useParams, Navigate, useNavigate } from "react-router-dom";
 import { motion, useScroll, useTransform, useSpring, AnimatePresence } from "framer-motion";
 import { ArrowUp, ArrowLeft } from "lucide-react";
+import SEO from "@/components/SEO";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ScrollAnimatedImage from "@/components/ScrollAnimatedImage";
@@ -40,6 +41,13 @@ const ProjectDetail = () => {
       animate={{ opacity: 1 }}
       className="min-h-screen bg-black text-white selection:bg-[#FFCA16] selection:text-black overflow-x-hidden"
     >
+      <SEO 
+        title={project.title}
+        description={project.subtitle || `Projeto de ${project.category} desenvolvido pelo Studio Kiiro em ${project.year}.`}
+        image={project.pages[0]}
+        url={`https://studiokiiro.com.br/projeto/${project.slug}`}
+        type="article"
+      />
       <Navbar />
 
       {/* Gold to Black Bleed Transition */}
@@ -226,6 +234,7 @@ const ProjectDetail = () => {
                 <div className="w-full flex justify-center py-8 md:py-12">
                   <ScrollAnimatedImage 
                     src={project.pages[2]} 
+                    alt={`Variações do logotipo ${project.title}`}
                     className="w-full h-auto" 
                   />
                 </div>
@@ -247,9 +256,9 @@ const ProjectDetail = () => {
                   {project.construction}
                 </p>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                  <ScrollAnimatedImage src={project.pages[3]} className="w-full h-auto" />
+                  <ScrollAnimatedImage src={project.pages[3]} alt={`Malha construtiva ${project.title}`} className="w-full h-auto" />
                   {project.pages[4] && (
-                    <ScrollAnimatedImage src={project.pages[4]} className="w-full h-auto" />
+                    <ScrollAnimatedImage src={project.pages[4]} alt={`Área de proteção ${project.title}`} className="w-full h-auto" />
                   )}
                 </div>
               </motion.div>
@@ -269,7 +278,7 @@ const ProjectDetail = () => {
                 <p className="text-xl font-light leading-relaxed text-white/80 max-w-4xl mb-16 whitespace-pre-line">
                   {project.colors}
                 </p>
-                <ScrollAnimatedImage src={project.pages[5]} className="w-full h-auto" />
+                <ScrollAnimatedImage src={project.pages[5]} alt={`Paleta de cores ${project.title}`} className="w-full h-auto" />
               </motion.div>
             )}
 
@@ -287,7 +296,7 @@ const ProjectDetail = () => {
                 <p className="text-xl font-light leading-relaxed text-white/80 max-w-4xl mb-16 whitespace-pre-line">
                   {project.typography}
                 </p>
-                <ScrollAnimatedImage src={project.pages[6]} className="w-full h-auto" />
+                <ScrollAnimatedImage src={project.pages[6]} alt={`Tipografia do projeto ${project.title}`} className="w-full h-auto" />
               </motion.div>
             )}
 
@@ -305,7 +314,7 @@ const ProjectDetail = () => {
                 <p className="text-xl font-light leading-relaxed text-white/80 max-w-4xl mb-16 whitespace-pre-line">
                   {project.symbols}
                 </p>
-                <ScrollAnimatedImage src={project.pages[7]} className="w-full h-auto" />
+                <ScrollAnimatedImage src={project.pages[7]} alt={`Símbolos e elementos de apoio ${project.title}`} className="w-full h-auto" />
               </motion.div>
             )}
 
@@ -323,7 +332,7 @@ const ProjectDetail = () => {
                 <p className="text-xl font-light leading-relaxed text-white/80 max-w-4xl mb-16 whitespace-pre-line">
                   {project.nonRecommended}
                 </p>
-                <ScrollAnimatedImage src={project.pages[8]} className="w-full h-auto" />
+                <ScrollAnimatedImage src={project.pages[8]} alt={`Usos não recomendados do logotipo ${project.title}`} className="w-full h-auto" />
               </motion.div>
             )}
 
@@ -343,10 +352,10 @@ const ProjectDetail = () => {
                 </p>
                 <div className={`grid grid-cols-1 ${project.pages[10] ? 'md:grid-cols-2' : ''} gap-8`}>
                   {project.pages[9] && (
-                    <ScrollAnimatedImage src={project.pages[9]} className="w-full h-auto" />
+                    <ScrollAnimatedImage src={project.pages[9]} alt={`Aplicação do projeto ${project.title}`} className="w-full h-auto" />
                   )}
                   {project.pages[10] && (
-                    <ScrollAnimatedImage src={project.pages[10]} className="w-full h-auto" />
+                    <ScrollAnimatedImage src={project.pages[10]} alt={`Aplicação do projeto ${project.title}`} className="w-full h-auto" />
                   )}
                 </div>
               </motion.div>
@@ -386,7 +395,7 @@ const ProjectDetail = () => {
                 <div className="relative aspect-video md:aspect-[21/9] overflow-hidden group">
                   <ScrollAnimatedImage 
                     src={img} 
-                    alt="" 
+                    alt={`Galeria ${project.title} - Imagem ${i + 1}`} 
                     className="w-full h-full object-cover"
                   />
                 </div>

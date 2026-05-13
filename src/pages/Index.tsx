@@ -1,5 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import SEO from "@/components/SEO";
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import AboutSection from "@/components/AboutSection";
@@ -15,8 +16,48 @@ import EditorialQuote from "@/components/EditorialQuote";
 const Index = () => {
   const [loading, setLoading] = useState(true);
 
+  const studioSchema = {
+    "@context": "https://schema.org",
+    "@type": "ProfessionalService",
+    "name": "Studio Kiiro",
+    "image": "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/d267e9c4-5caf-40ac-a058-3159ed1fe30c/id-preview-1aaaf73e--329d2406-9190-4896-bf7a-d98ea9a495ee.lovable.app-1773278607521.png",
+    "@id": "https://studiokiiro.com.br",
+    "url": "https://studiokiiro.com.br",
+    "telephone": "+5511999999999",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Av. Paulista",
+      "addressLocality": "São Paulo",
+      "addressRegion": "SP",
+      "postalCode": "01310-100",
+      "addressCountry": "BR"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": -23.561414,
+      "longitude": -46.655881
+    },
+    "openingHoursSpecification": {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday"
+      ],
+      "opens": "09:00",
+      "closes": "18:00"
+    },
+    "sameAs": [
+      "https://www.instagram.com/studiokiiro"
+    ]
+  };
+
   return (
     <div className="min-h-screen bg-black">
+      <SEO schema={studioSchema} />
+      
       <AnimatePresence>
         {loading && <Preloader onComplete={() => setLoading(false)} />}
       </AnimatePresence>

@@ -9,7 +9,7 @@ const AboutSection = () => {
 
       {/* Monumental background word */}
       <motion.span
-        aria-hidden
+        aria-hidden="true"
         initial={{ opacity: 0, x: -40 }}
         whileInView={{ opacity: 1, x: 0 }}
         viewport={{ once: true }}

@@ -1,36 +1,27 @@
-The goal is to review and improve the SEO of the Studio Kiiro portfolio. Currently, the site has basic SEO in `index.html`, but lacks dynamic meta tags for project pages and consistent semantic structure for better indexing.
+I have identified several issues causing data to not appear in the Admin Dashboard:
 
-### Proposed SEO Enhancements:
+1.  **Status Mismatch**: The dashboard summary was filtering for project statuses that do not exist in your database (e.g., "em_andamento" instead of "producao").
+2.  **Query Syntax Error**: A syntax error in the client list query was preventing the list from loading.
+3.  **Finance Filtering**: The finance tab defaults to the current month, but most of your data is from previous months.
+4.  **Database Security (RLS)**: Row Level Security is currently preventing your "mock admin" login from seeing data because it's not a real Supabase Auth account.
 
-1.  **Dynamic Project SEO**: Implement a SEO component using `react-helmet-async` (or a custom hook if we want to avoid extra deps, but Helmet is standard) to update the page title and meta description dynamically based on the project being viewed.
-2.  **Semantic HTML Improvements**:
-    *   Ensure each page has exactly one `h1`.
-    *   Add `alt` text to all project images using the project title and context.
-    *   Use semantic tags like `<article>` for projects and `<section>` for page segments.
-3.  **Meta Data Refinement**:
-    *   Update `index.html` with a more descriptive meta description.
-    *   Add missing Open Graph (OG) tags for better social sharing.
-4.  **JSON-LD Schema**: Add a `LocalBusiness` or `ProfessionalService` schema to the homepage to help search engines understand the studio's nature and location.
-5.  **Canonical Tags**: Add canonical tags to prevent duplicate content issues.
+### Implementation Plan
 
-### Technical Details:
+**Frontend Fixes:**
+- Update `AdminDashboard.tsx` to count projects with all active statuses (`producao`, `planejamento`, `briefing`, etc.).
+- Fix the syntax error in `ClientsTab.tsx` when excluding admin/partner users.
+- Improve `FinanceTab.tsx` to better handle month filtering.
 
-*   **Dependencies**: Install `react-helmet-async`.
-*   **New Component**: Create `src/components/SEO.tsx` to handle meta tag injection.
-*   **Project Details**: Update `src/pages/ProjectDetail.tsx` to include the `SEO` component, using the project title and subtitle for meta tags.
-*   **Homepage**: Update `src/pages/Index.tsx` with studio-specific schema.
-*   **Images**: Audit `ScrollAnimatedImage.tsx` and ensure it accepts and uses `alt` tags.
+**Database Fixes:**
+- I will prepare a migration to ensure the Admin role (even when using the mock login) has proper permissions to view all data.
+- I will adjust the project statuses to be consistent between the code and the database.
 
-### Implementation Plan:
+**Refinement:**
+- Verify that the summary cards show correct numbers.
+- Ensure all tabs (Clients, Projects, Finance) display their respective data correctly.
 
-1.  **Install react-helmet-async**: `bun add react-helmet-async`.
-2.  **Setup SEO Component**: Create a reusable `SEO` component.
-3.  **Integrate SEO Component**:
-    *   Add it to `src/App.tsx` (Provider).
-    *   Add it to `src/pages/Index.tsx`.
-    *   Add it to `src/pages/ProjectDetail.tsx`.
-4.  **Semantic Audit**:
-    *   Review `HeroSection.tsx` (ensure it has the only `h1` on the home page).
-    *   Review `ProjectDetail.tsx` (ensure project title is `h1`).
-    *   Add missing `alt` attributes in `PortfolioSection.tsx` and `ProjectDetail.tsx`.
-5.  **Schema.org**: Add JSON-LD to `src/pages/Index.tsx`.
+### Technical Details
+
+- **AdminDashboard.tsx**: Update the `.in("status", [...])` filter to include `briefing`, `planejamento`, `producao`, `revisao`, and `finalizacao`.
+- **ClientsTab.tsx**: Change `.not("user_id", "in", \`(\${excludeIds.join(",")})\`)` to `.not("user_id", "in", excludeIds)`.
+- **Database**: Add RLS policies that allow the mock admin ID (`00000000-0000-0000-0000-000000000001`) to bypass standard checks, or temporarily disable RLS for administrative tables while you use the custom login system.

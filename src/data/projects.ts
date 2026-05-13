@@ -28,7 +28,7 @@ import teamluisaPag3 from "@/assets/teamluisa-pagina-3.webp";
 import teamluisaPag4 from "@/assets/teamluisa-pagina-4.webp";
 import teamluisaPag5 from "@/assets/teamluisa-pagina-5.webp";
 import teamluisaPag6 from "@/assets/teamluisa-pagina-6.webp";
-import tabernaculoPag1 from "@/assets/tabernaculo-pagina-1.webp";
+
 import tabernaculoPag2 from "@/assets/tabernaculo-pagina-2.webp";
 import tabernaculoPag3 from "@/assets/tabernaculo-pagina-3.webp";
 import tabernaculoPag4 from "@/assets/tabernaculo-pagina-4.webp";

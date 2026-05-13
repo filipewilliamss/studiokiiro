@@ -41,7 +41,7 @@ const ProjectCard = ({ project, index, total }: { project: any; index: number; t
 
   const dotsY = useTransform(scrollYProgress, [0, 1], [150, -150]);
   const bgScale = useTransform(scrollYProgress, [0, 0.5, 1], [1.2, 1, 1.2]);
-  const bgOpacity = useTransform(scrollYProgress, [0, 0.5, 1], [0.1, 0.4, 0.1]);
+  const bgOpacity = useTransform(scrollYProgress, [0, 0.5, 1], [0.4, 0.7, 0.4]);
 
   return (
     <article 

@@ -147,7 +147,7 @@ const ProjectDetail = () => {
       )}
 
       {/* DESAFIO E SOLUÇÃO GRID */}
-      <section className="py-24 md:py-48 bg-black relative z-10">
+      <section className="py-24 md:py-48 relative z-10">
         <div className="container-editorial">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-24 md:gap-40">
             <motion.div

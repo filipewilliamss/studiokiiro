@@ -1,6 +1,8 @@
 import akedahLogo from "@/assets/akedah-logo.webp";
 import construmarLogo from "@/assets/construmar-logo.webp";
-import tabernaculoLogo from "@/assets/tabernaculo-logo.webp";
+// ... keep existing code
+const tabernaculoLogo = "https://dohkkmvsrcuxssxmimxn.supabase.co/storage/v1/object/public/images/5gi4580jru-1778705510343.png";
+// ... keep existing code
 import teamluisaLogo from "@/assets/teamluisa-logo.webp";
 import construmarPag1 from "@/assets/construmar-pagina-1.webp";
 import construmarPag2 from "@/assets/construmar-pagina-2.webp";

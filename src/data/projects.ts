@@ -183,7 +183,7 @@ export const projects: Project[] = [
     tags: ["Identidade Visual", "Manual de Marca", "Igreja", "Branding"],
     logo: tabernaculoLogo,
     pages: [
-      tabernaculoPag1, tabernaculoPag2, tabernaculoPag3,
+      tabernaculoLogo, tabernaculoPag2, tabernaculoPag3,
       tabernaculoPag4, tabernaculoPag5, tabernaculoPag6,
       tabernaculoPag7, tabernaculoPag8, tabernaculoPag9,
       tabernaculoPag10, tabernaculoPag11, tabernaculoPag12,

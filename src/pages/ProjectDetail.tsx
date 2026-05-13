@@ -352,10 +352,10 @@ const ProjectDetail = () => {
                 </p>
                 <div className={`grid grid-cols-1 ${project.pages[10] ? 'md:grid-cols-2' : ''} gap-8`}>
                   {project.pages[9] && (
-                    <ScrollAnimatedImage src={project.pages[9]} className="w-full h-auto" />
+                    <ScrollAnimatedImage src={project.pages[9]} alt={`Aplicação do projeto ${project.title}`} className="w-full h-auto" />
                   )}
                   {project.pages[10] && (
-                    <ScrollAnimatedImage src={project.pages[10]} className="w-full h-auto" />
+                    <ScrollAnimatedImage src={project.pages[10]} alt={`Aplicação do projeto ${project.title}`} className="w-full h-auto" />
                   )}
                 </div>
               </motion.div>

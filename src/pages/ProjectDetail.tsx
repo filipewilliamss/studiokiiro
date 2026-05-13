@@ -296,7 +296,7 @@ const ProjectDetail = () => {
                 <p className="text-xl font-light leading-relaxed text-white/80 max-w-4xl mb-16 whitespace-pre-line">
                   {project.typography}
                 </p>
-                <ScrollAnimatedImage src={project.pages[6]} className="w-full h-auto" />
+                <ScrollAnimatedImage src={project.pages[6]} alt={`Tipografia do projeto ${project.title}`} className="w-full h-auto" />
               </motion.div>
             )}
 
@@ -314,7 +314,7 @@ const ProjectDetail = () => {
                 <p className="text-xl font-light leading-relaxed text-white/80 max-w-4xl mb-16 whitespace-pre-line">
                   {project.symbols}
                 </p>
-                <ScrollAnimatedImage src={project.pages[7]} className="w-full h-auto" />
+                <ScrollAnimatedImage src={project.pages[7]} alt={`Símbolos e elementos de apoio ${project.title}`} className="w-full h-auto" />
               </motion.div>
             )}
 
@@ -332,7 +332,7 @@ const ProjectDetail = () => {
                 <p className="text-xl font-light leading-relaxed text-white/80 max-w-4xl mb-16 whitespace-pre-line">
                   {project.nonRecommended}
                 </p>
-                <ScrollAnimatedImage src={project.pages[8]} className="w-full h-auto" />
+                <ScrollAnimatedImage src={project.pages[8]} alt={`Usos não recomendados do logotipo ${project.title}`} className="w-full h-auto" />
               </motion.div>
             )}
 

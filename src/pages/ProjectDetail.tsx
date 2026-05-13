@@ -126,7 +126,7 @@ const ProjectDetail = () => {
 
       {/* SEÇÃO SOBRE O PROJETO */}
       {project.about && (
-        <section className="py-24 md:py-48 bg-black relative z-10 border-t border-white/5">
+        <section className="py-24 md:py-48 relative z-10 border-t border-white/5">
           <div className="container-editorial">
             <div className="max-w-4xl">
               <motion.div

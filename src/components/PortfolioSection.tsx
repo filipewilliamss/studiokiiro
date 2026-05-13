@@ -56,9 +56,12 @@ const ProjectCard = ({ project, index, total }: { project: any; index: number; t
           style={{ 
             scale: bgScale, 
             opacity: bgOpacity,
-            backgroundImage: `url(${project.pages[0]})`
+            backgroundImage: `url(${project.pages[0]})`,
+            backgroundSize: project.slug === 'tabernaculo-da-trindade' ? 'contain' : 'cover',
+            backgroundRepeat: 'no-repeat',
+            backgroundPosition: 'center'
           }}
-          className="w-full h-full bg-cover bg-center transition-opacity duration-700"
+          className="w-full h-full transition-opacity duration-700"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/40 to-black/90" />
       </div>

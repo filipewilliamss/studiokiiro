@@ -1,14 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import SEO from "@/components/SEO";
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
-import AboutSection from "@/components/AboutSection";
-import ServicesSection from "@/components/ServicesSection";
-import ProcessSection from "@/components/ProcessSection";
-import PortfolioSection from "@/components/PortfolioSection";
-import ContactSection from "@/components/ContactSection";
-import Footer from "@/components/Footer";
-import Preloader from "@/components/Preloader";
+// ... keep existing code
 import EditorialMarquee from "@/components/EditorialMarquee";
 import EditorialQuote from "@/components/EditorialQuote";
 

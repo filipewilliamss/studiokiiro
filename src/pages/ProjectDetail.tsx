@@ -395,7 +395,7 @@ const ProjectDetail = () => {
                 <div className="relative aspect-video md:aspect-[21/9] overflow-hidden group">
                   <ScrollAnimatedImage 
                     src={img} 
-                    alt="" 
+                    alt={`Galeria ${project.title} - Imagem ${i + 1}`} 
                     className="w-full h-full object-cover"
                   />
                 </div>

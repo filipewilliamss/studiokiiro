@@ -96,23 +96,17 @@ const ServicesSection = () => {
                   relative px-4 md:px-8 py-3 md:py-4 rounded-t-xl font-display text-[12px] md:text-[14px] font-bold tracking-tight transition-all duration-300
                   ${activeTab === idx 
                     ? "bg-[#FFCA16] text-black z-20" 
-                    : "bg-[#FFCA16]/10 text-white/40 hover:bg-[#FFCA16]/20 hover:text-white/60 z-10"
+                    : "bg-[#FFCA16]/5 text-[#FFCA16]/60 hover:bg-[#FFCA16]/20 hover:text-[#FFCA16] z-10"
                   }
                 `}
               >
                 {service.title}
-                {activeTab === idx && (
-                  <motion.div 
-                    layoutId="activeTabUnderline"
-                    className="absolute bottom-0 left-0 right-0 h-1 bg-[#FFCA16]"
-                  />
-                )}
               </button>
             ))}
           </div>
 
           {/* Card Content */}
-          <div className="bg-[#FFCA16] rounded-b-3xl rounded-tr-3xl overflow-hidden shadow-2xl">
+          <div className="bg-[#FFCA16] rounded-b-3xl rounded-tr-3xl md:rounded-tl-none overflow-hidden shadow-2xl">
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeTab}

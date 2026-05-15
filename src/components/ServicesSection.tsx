@@ -1,39 +1,42 @@
-import { motion } from "framer-motion";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 const services = [
   {
     number: "01",
     title: "Identidade Visual",
-    description: "Do logotipo essencial ao branding completo, criamos a identidade que representa sua marca com autenticidade e estratégia.",
-    detail: "Logotipo Essencial · Identidade Visual · Branding Completo · Personal Brand Kit"
+    description: "Desenvolvimento completo da identidade visual da sua marca: conceito, logotipo, paleta de cores, tipografia, aplicações e guia de uso.",
+    recommended: "empresas e projetos que precisam sair do genérico e construir uma presença profissional e consistente em todos os pontos de contato."
   },
   {
     number: "02",
     title: "Design para Redes Sociais",
-    description: "Artes estratégicas que constroem presença digital, posts, carrosséis e stories com identidade visual consistente.",
-    detail: "Pacote Pontual · Retainer Mensal · Carrossel Avulso"
+    description: "Artes estratégicas para construir presença digital consistente: posts, carrosséis, stories e materiais de campanha alinhados à identidade da sua marca.",
+    recommended: "negócios que desejam fortalecer posicionamento e reconhecimento nas redes sociais com comunicação visual profissional."
   },
   {
     number: "03",
     title: "Edição de Vídeo",
-    description: "Reels, Shorts e vídeos institucionais editados com ritmo, identidade e intenção para gerar resultado nas redes.",
-    detail: "Reels/Shorts · Pacote Mensal · Vídeo Institucional · Tutorial/Educativo"
+    description: "Edição de vídeos para redes sociais, anúncios, lançamentos e conteúdos institucionais, com foco em ritmo, narrativa e identidade visual.",
+    recommended: "marcas e criadores que já produzem conteúdo em vídeo e precisam de um padrão de edição coerente com o restante da comunicação."
   },
   {
     number: "04",
     title: "Sites e Landing Pages",
-    description: "Páginas que convertem, desde landing pages objetivas até sites institucionais completos, com design e estratégia integrados.",
-    detail: "Landing Page Simples · Landing Page Completa · Site Institucional · Site Completo"
+    description: "Criação de interfaces para sites institucionais e landing pages focadas em clareza, navegação simples e conversão, alinhadas à identidade visual da marca.",
+    recommended: "empresas e projetos que precisam de presença digital estruturada e coerente com seu posicionamento."
   },
   {
     number: "05",
     title: "Apresentações",
-    description: "Apresentações comerciais e institucionais com design profissional que comunica valor e gera credibilidade.",
-    detail: "Apresentação Comercial · Apresentação Institucional"
+    description: "Desenvolvimento de apresentações profissionais para reuniões, propostas comerciais, pitches e eventos, com foco em clareza e impacto visual.",
+    recommended: "empresas e profissionais que desejam comunicar valor, dados e histórias com credibilidade e alinhamento à identidade da marca."
   }
 ];
 
 const ServicesSection = () => {
+  const [activeTab, setActiveTab] = useState(0);
+
   return (
     <section id="servicos" className="relative section-padding bg-[#070807] border-t border-white/[0.05] overflow-hidden">
       {/* Monumental backdrop word */}
@@ -50,7 +53,7 @@ const ServicesSection = () => {
       </motion.span>
 
       <div className="container-editorial relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 mb-28 lg:mb-40">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 mb-20 lg:mb-32">
           <div className="lg:col-span-7">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
@@ -81,50 +84,106 @@ const ServicesSection = () => {
           </div>
         </div>
 
-        <div className="flex flex-col border-t border-white/10">
-          {services.map((service, idx) => (
-            <motion.div
-              key={idx}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: idx * 0.1, ease: [0.22, 1, 0.36, 1] }}
-              className="group relative flex flex-col md:grid md:grid-cols-12 items-start md:items-center py-10 md:py-16 border-b border-white/10 cursor-pointer overflow-hidden"
-            >
-              {/* Hover background slide */}
-              <div className="absolute inset-0 bg-[#FFCA16] translate-y-full group-hover:translate-y-0 transition-transform duration-700 ease-[0.22,1,0.36,1] pointer-events-none" />
+        {/* Tab System */}
+        <div className="w-full">
+          {/* Tabs header */}
+          <div className="flex flex-wrap items-end gap-1 px-2 md:px-0">
+            {services.map((service, idx) => (
+              <button
+                key={idx}
+                onClick={() => setActiveTab(idx)}
+                className={`
+                  relative px-4 md:px-8 py-3 md:py-4 rounded-t-xl font-display text-[12px] md:text-[14px] font-bold tracking-tight transition-all duration-300
+                  ${activeTab === idx 
+                    ? "bg-[#FFCA16] text-black z-20" 
+                    : "bg-[#FFCA16]/10 text-white/40 hover:bg-[#FFCA16]/20 hover:text-white/60 z-10"
+                  }
+                `}
+              >
+                {service.title}
+                {activeTab === idx && (
+                  <motion.div 
+                    layoutId="activeTabUnderline"
+                    className="absolute bottom-0 left-0 right-0 h-1 bg-[#FFCA16]"
+                  />
+                )}
+              </button>
+            ))}
+          </div>
 
+          {/* Card Content */}
+          <div className="bg-[#FFCA16] rounded-b-3xl rounded-tr-3xl overflow-hidden shadow-2xl">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeTab}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                className="grid grid-cols-1 md:grid-cols-12 items-center p-10 md:p-20 gap-10"
+              >
+                <div className="md:col-span-5 flex flex-col gap-4">
+                  <span className="font-display text-[18px] md:text-[24px] font-bold text-black/30">
+                    {services[activeTab].number}
+                  </span>
+                  <h3 className="font-display text-[42px] md:text-[68px] font-[800] text-black leading-[0.9] tracking-tighter">
+                    {services[activeTab].title}
+                  </h3>
+                </div>
+
+                <div className="md:col-span-7 flex flex-col gap-8">
+                  <p className="text-black/80 text-[18px] md:text-[22px] leading-relaxed font-medium">
+                    {services[activeTab].description}
+                  </p>
+                  <div className="pt-8 border-t border-black/10">
+                    <p className="text-black/40 text-[12px] md:text-[14px] uppercase font-bold tracking-widest mb-2">
+                      Indicado para:
+                    </p>
+                    <p className="text-black/70 text-[16px] md:text-[18px] leading-relaxed italic">
+                      {services[activeTab].recommended}
+                    </p>
+                  </div>
+                </div>
+              </motion.div>
+            </AnimatePresence>
+          </div>
+        </div>
+
+        {/* Anchor list below (Optional synchronization) */}
+        <div className="mt-20 flex flex-col border-t border-white/10">
+          {services.map((service, idx) => (
+            <div
+              key={idx}
+              onClick={() => setActiveTab(idx)}
+              className={`
+                group relative flex flex-col md:grid md:grid-cols-12 items-start md:items-center py-10 md:py-14 border-b border-white/10 cursor-pointer overflow-hidden transition-all duration-500
+                ${activeTab === idx ? "bg-white/[0.03]" : ""}
+              `}
+            >
               <div className="relative z-10 md:col-span-1">
-                <span className="font-display text-[14px] font-bold text-[#FFCA16]/40 group-hover:text-black/40 transition-colors duration-500">
+                <span className={`font-display text-[14px] font-bold transition-colors duration-500 ${activeTab === idx ? "text-[#FFCA16]" : "text-[#FFCA16]/40"}`}>
                   {service.number}
                 </span>
               </div>
               
               <div className="relative z-10 md:col-span-4 mt-2 md:mt-0">
-                <h3 className="font-display text-[28px] md:text-[36px] font-bold text-white group-hover:text-black transition-colors duration-500 tracking-tight">
+                <h3 className={`font-display text-[24px] md:text-[28px] font-bold transition-colors duration-500 tracking-tight ${activeTab === idx ? "text-white" : "text-white/40"}`}>
                   {service.title}
                 </h3>
               </div>
 
               <div className="relative z-10 md:col-span-5 mt-4 md:mt-0">
-                <p className="text-white/40 group-hover:text-black/70 text-[15px] md:text-[16px] leading-relaxed transition-colors duration-500">
-                  {service.description}
+                <p className={`text-[15px] md:text-[16px] leading-relaxed transition-colors duration-500 ${activeTab === idx ? "text-white/70" : "text-white/20"}`}>
+                  {service.description.substring(0, 100)}...
                 </p>
-                <div className="flex flex-wrap gap-2 mt-4">
-                  {service.detail.split(' · ').map((tag, i) => (
-                    <span key={i} className="text-[10px] uppercase tracking-[0.1em] px-2 py-1 border border-white/10 text-white/30 group-hover:border-black/10 group-hover:text-black/50 transition-all duration-500">
-                      {tag}
-                    </span>
-                  ))}
-                </div>
               </div>
 
               <div className="relative z-10 md:col-span-2 hidden md:flex justify-end">
-                <div className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center group-hover:border-black/20 transition-all duration-500 group-hover:rotate-45">
-                  <span className="text-2xl text-[#FFCA16] group-hover:text-black transition-colors duration-500">→</span>
+                <div className={`w-10 h-10 rounded-full border flex items-center justify-center transition-all duration-500 ${activeTab === idx ? "border-[#FFCA16] rotate-45" : "border-white/10"}`}>
+                  <span className={`text-xl transition-colors duration-500 ${activeTab === idx ? "text-[#FFCA16]" : "text-white/20"}`}>→</span>
                 </div>
               </div>
-            </motion.div>
+            </div>
           ))}
         </div>
       </div>

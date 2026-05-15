@@ -3,33 +3,93 @@ import { motion } from "framer-motion";
 const services = [
   {
     number: "01",
-    title: "Identidade Visual",
-    description: "Do logotipo essencial ao branding completo, criamos a identidade que representa sua marca com autenticidade e estratégia.",
-    detail: "Logotipo Essencial · Identidade Visual · Branding Completo · Personal Brand Kit"
+    title: "IDV",
+    fullTitle: "Identidade Visual",
+    items: [
+      { 
+        name: "Logotipo Essencial", 
+        description: "Criação de logotipo principal, secundário, símbolo e paleta de cores estratégica para seu negócio.",
+        indicatedFor: "Novos negócios e empreendedores que precisam de uma base visual sólida e profissional."
+      },
+      { 
+        name: "Branding Completo", 
+        description: "Desenvolvimento de todo o universo visual da marca, incluindo estratégia, tipografia, texturas e manual.",
+        indicatedFor: "Marcas que buscam um posicionamento premium e diferenciação clara no mercado."
+      },
+      { 
+        name: "Personal Brand Kit", 
+        description: "Identidade visual personalizada para profissionais liberais, focada em autoridade e conexão pessoal.",
+        indicatedFor: "Palestrantes, consultores, médicos e profissionais que são a cara do próprio negócio."
+      }
+    ]
   },
   {
     number: "02",
-    title: "Design para Redes Sociais",
-    description: "Artes estratégicas que constroem presença digital, posts, carrosséis e stories com identidade visual consistente.",
-    detail: "Pacote Pontual · Retainer Mensal · Carrossel Avulso"
+    title: "Social Media",
+    fullTitle: "Design para Redes Sociais",
+    items: [
+      { 
+        name: "Pacote Mensal", 
+        description: "Gestão visual completa das redes sociais com artes estratégicas e alinhadas ao branding.",
+        indicatedFor: "Empresas que precisam de constância e qualidade visual diária em seus canais digitais."
+      },
+      { 
+        name: "Carrosséis", 
+        description: "Criação de posts em formato carrossel focados em retenção, educação e conversão de público.",
+        indicatedFor: "Criadores de conteúdo e marcas que desejam aumentar o engajamento e autoridade."
+      }
+    ]
   },
   {
     number: "03",
-    title: "Edição de Vídeo",
-    description: "Reels, Shorts e vídeos institucionais editados com ritmo, identidade e intenção para gerar resultado nas redes.",
-    detail: "Reels/Shorts · Pacote Mensal · Vídeo Institucional · Tutorial/Educativo"
+    title: "Vídeo",
+    fullTitle: "Edição de Vídeo",
+    items: [
+      { 
+        name: "Reels / Shorts", 
+        description: "Edição dinâmica de vídeos curtos com legendas, trilhas e cortes que retêm a atenção.",
+        indicatedFor: "Marcas que desejam crescer organicamente através de conteúdos em vídeo de alto impacto."
+      },
+      { 
+        name: "Vídeo Institucional", 
+        description: "Produção e edição de vídeos que contam a história e os valores da sua empresa com elegância.",
+        indicatedFor: "Empresas que precisam de um material de apresentação profissional para sites e eventos."
+      }
+    ]
   },
   {
     number: "04",
-    title: "Sites e Landing Pages",
-    description: "Páginas que convertem, desde landing pages objetivas até sites institucionais completos, com design e estratégia integrados.",
-    detail: "Landing Page Simples · Landing Page Completa · Site Institucional · Site Completo"
+    title: "Digital",
+    fullTitle: "Sites e Landing Pages",
+    items: [
+      { 
+        name: "Landing Pages", 
+        description: "Criação de páginas de alta conversão focadas em um único produto, serviço ou captura de leads.",
+        indicatedFor: "Lançamentos, venda de infoprodutos e campanhas de tráfego pago."
+      },
+      { 
+        name: "Site Institucional", 
+        description: "Desenvolvimento de sites completos e responsivos que servem como vitrine oficial do seu negócio.",
+        indicatedFor: "Empresas que buscam credibilidade e uma presença online robusta e organizada."
+      }
+    ]
   },
   {
     number: "05",
-    title: "Apresentações",
-    description: "Apresentações comerciais e institucionais com design profissional que comunica valor e gera credibilidade.",
-    detail: "Apresentação Comercial · Apresentação Institucional"
+    title: "Pitch Decks",
+    fullTitle: "Apresentações",
+    items: [
+      { 
+        name: "Comercial", 
+        description: "Design de apresentações de vendas que facilitam o fechamento de negócios e encantam clientes.",
+        indicatedFor: "Equipes comerciais e prestadores de serviços que buscam elevar o nível de suas propostas."
+      },
+      { 
+        name: "Institucional", 
+        description: "Apresentações corporativas para reuniões, eventos ou parcerias estratégicas.",
+        indicatedFor: "Empresas que precisam comunicar sua visão e resultados de forma clara e profissional."
+      }
+    ]
   }
 ];
 

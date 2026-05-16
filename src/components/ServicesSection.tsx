@@ -196,11 +196,9 @@ const ServicesSection = () => {
             </motion.div>
           ))}
         </div>
-
-// Removed the extra list as requested.
-        </div>
-      </section>
-    );
-  };
+      </div>
+    </section>
+  );
+};
 
 export default ServicesSection;

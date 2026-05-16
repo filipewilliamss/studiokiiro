@@ -123,17 +123,9 @@ const ServiceCard = ({ service }: { service: typeof services[0] }) => {
             </div>
 
             <div className="md:col-span-7 flex flex-col gap-6">
-              <p className="text-black/80 text-[16px] md:text-[19px] lg:text-[21px] leading-relaxed font-medium">
+              <p className="text-black/80 text-[16px] md:text-[19px] lg:text-[21px] leading-relaxed font-medium whitespace-pre-line">
                 {activeItem.description}
               </p>
-              <div className="pt-6 border-t border-black/10">
-                <p className="text-black/40 text-[11px] md:text-[12px] uppercase font-bold tracking-widest mb-2">
-                  Indicado para:
-                </p>
-                <p className="text-black/70 text-[14px] md:text-[16px] lg:text-[17px] leading-relaxed italic">
-                  {activeItem.recommended}
-                </p>
-              </div>
             </div>
           </motion.div>
         </AnimatePresence>

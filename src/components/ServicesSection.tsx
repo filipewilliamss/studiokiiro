@@ -143,46 +143,10 @@ const ServicesSection = () => {
           </div>
         </div>
 
-        {/* Anchor list below (Optional synchronization) */}
-        <div className="mt-20 flex flex-col border-t border-white/10">
-          {services.map((service, idx) => (
-            <div
-              key={idx}
-              onClick={() => setActiveTab(idx)}
-              className={`
-                group relative flex flex-col md:grid md:grid-cols-12 items-start md:items-center py-10 md:py-14 border-b border-white/10 cursor-pointer overflow-hidden transition-all duration-500
-                ${activeTab === idx ? "bg-white/[0.03]" : ""}
-              `}
-            >
-              <div className="relative z-10 md:col-span-1">
-                <span className={`font-display text-[14px] font-bold transition-colors duration-500 ${activeTab === idx ? "text-[#FFCA16]" : "text-[#FFCA16]/40"}`}>
-                  {service.number}
-                </span>
-              </div>
-              
-              <div className="relative z-10 md:col-span-4 mt-2 md:mt-0">
-                <h3 className={`font-display text-[24px] md:text-[28px] font-bold transition-colors duration-500 tracking-tight ${activeTab === idx ? "text-white" : "text-white/40"}`}>
-                  {service.title}
-                </h3>
-              </div>
-
-              <div className="relative z-10 md:col-span-5 mt-4 md:mt-0">
-                <p className={`text-[15px] md:text-[16px] leading-relaxed transition-colors duration-500 ${activeTab === idx ? "text-white/70" : "text-white/20"}`}>
-                  {service.description.substring(0, 100)}...
-                </p>
-              </div>
-
-              <div className="relative z-10 md:col-span-2 hidden md:flex justify-end">
-                <div className={`w-10 h-10 rounded-full border flex items-center justify-center transition-all duration-500 ${activeTab === idx ? "border-[#FFCA16] rotate-45" : "border-white/10"}`}>
-                  <span className={`text-xl transition-colors duration-500 ${activeTab === idx ? "text-[#FFCA16]" : "text-white/20"}`}>→</span>
-                </div>
-              </div>
-            </div>
-          ))}
+// Removed the extra list as requested.
         </div>
-      </div>
-    </section>
-  );
-};
+      </section>
+    );
+  };
 
 export default ServicesSection;

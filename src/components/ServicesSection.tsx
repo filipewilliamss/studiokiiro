@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 
 const services = [
   {
@@ -34,9 +33,50 @@ const services = [
   }
 ];
 
-const ServicesSection = () => {
-  const [activeTab, setActiveTab] = useState(0);
+const ServiceCard = ({ service, isActive, onClick }: { service: typeof services[0], isActive: boolean, onClick: () => void }) => {
+  return (
+    <div className="w-full">
+      {/* Tabs header - Simple browser-style indicator */}
+      <div className="flex flex-wrap items-end gap-1 px-2 md:px-0">
+        <div 
+          className="relative px-4 md:px-8 py-3 md:py-4 rounded-t-xl font-display text-[12px] md:text-[14px] font-bold tracking-tight transition-all duration-300 bg-[#FFCA16] text-black z-20"
+        >
+          {service.title}
+        </div>
+      </div>
 
+      {/* Card Content */}
+      <div className="bg-[#FFCA16] rounded-b-3xl rounded-tr-3xl overflow-hidden shadow-2xl transition-transform duration-500 hover:scale-[1.01]">
+        <div className="grid grid-cols-1 md:grid-cols-12 items-center p-8 md:p-14 lg:p-16 gap-8 md:gap-10">
+          <div className="md:col-span-5 flex flex-col gap-4">
+            <span className="font-display text-[18px] md:text-[24px] font-bold text-black/30">
+              {service.number}
+            </span>
+            <h3 className="font-display text-[32px] md:text-[52px] lg:text-[62px] font-[800] text-black leading-[0.9] tracking-tighter">
+              {service.title}
+            </h3>
+          </div>
+
+          <div className="md:col-span-7 flex flex-col gap-6">
+            <p className="text-black/80 text-[16px] md:text-[19px] lg:text-[21px] leading-relaxed font-medium">
+              {service.description}
+            </p>
+            <div className="pt-6 border-t border-black/10">
+              <p className="text-black/40 text-[11px] md:text-[12px] uppercase font-bold tracking-widest mb-2">
+                Indicado para:
+              </p>
+              <p className="text-black/70 text-[14px] md:text-[16px] lg:text-[17px] leading-relaxed italic">
+                {service.recommended}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const ServicesSection = () => {
   return (
     <section id="servicos" className="relative section-padding bg-[#070807] border-t border-white/[0.05] overflow-hidden">
       {/* Monumental backdrop word */}
@@ -84,105 +124,29 @@ const ServicesSection = () => {
           </div>
         </div>
 
-        {/* Tab System */}
-        <div className="w-full">
-          {/* Tabs header */}
-          <div className="flex flex-wrap items-end gap-1 px-2 md:px-0">
-            {services.map((service, idx) => (
-              <button
-                key={idx}
-                onClick={() => setActiveTab(idx)}
-                className={`
-                  relative px-4 md:px-8 py-3 md:py-4 rounded-t-xl font-display text-[12px] md:text-[14px] font-bold tracking-tight transition-all duration-300
-                  ${activeTab === idx 
-                    ? "bg-[#FFCA16] text-black z-20" 
-                    : "bg-[#FFCA16]/5 text-[#FFCA16]/60 hover:bg-[#FFCA16]/20 hover:text-[#FFCA16] z-10"
-                  }
-                `}
-              >
-                {service.title}
-              </button>
-            ))}
-          </div>
-
-          {/* Card Content */}
-          <div className="bg-[#FFCA16] rounded-b-3xl rounded-tr-3xl md:rounded-tl-none overflow-hidden shadow-2xl">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={activeTab}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-                className="grid grid-cols-1 md:grid-cols-12 items-center p-10 md:p-20 gap-10"
-              >
-                <div className="md:col-span-5 flex flex-col gap-4">
-                  <span className="font-display text-[18px] md:text-[24px] font-bold text-black/30">
-                    {services[activeTab].number}
-                  </span>
-                  <h3 className="font-display text-[42px] md:text-[68px] font-[800] text-black leading-[0.9] tracking-tighter">
-                    {services[activeTab].title}
-                  </h3>
-                </div>
-
-                <div className="md:col-span-7 flex flex-col gap-8">
-                  <p className="text-black/80 text-[18px] md:text-[22px] leading-relaxed font-medium">
-                    {services[activeTab].description}
-                  </p>
-                  <div className="pt-8 border-t border-black/10">
-                    <p className="text-black/40 text-[12px] md:text-[14px] uppercase font-bold tracking-widest mb-2">
-                      Indicado para:
-                    </p>
-                    <p className="text-black/70 text-[16px] md:text-[18px] leading-relaxed italic">
-                      {services[activeTab].recommended}
-                    </p>
-                  </div>
-                </div>
-              </motion.div>
-            </AnimatePresence>
-          </div>
-        </div>
-
-        {/* Anchor list below (Optional synchronization) */}
-        <div className="mt-20 flex flex-col border-t border-white/10">
+        {/* Individual Cards for each service */}
+        <div className="flex flex-col gap-12 md:gap-24">
           {services.map((service, idx) => (
-            <div
+            <motion.div
               key={idx}
-              onClick={() => setActiveTab(idx)}
-              className={`
-                group relative flex flex-col md:grid md:grid-cols-12 items-start md:items-center py-10 md:py-14 border-b border-white/10 cursor-pointer overflow-hidden transition-all duration-500
-                ${activeTab === idx ? "bg-white/[0.03]" : ""}
-              `}
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.8, delay: idx * 0.1 }}
             >
-              <div className="relative z-10 md:col-span-1">
-                <span className={`font-display text-[14px] font-bold transition-colors duration-500 ${activeTab === idx ? "text-[#FFCA16]" : "text-[#FFCA16]/40"}`}>
-                  {service.number}
-                </span>
-              </div>
-              
-              <div className="relative z-10 md:col-span-4 mt-2 md:mt-0">
-                <h3 className={`font-display text-[24px] md:text-[28px] font-bold transition-colors duration-500 tracking-tight ${activeTab === idx ? "text-white" : "text-white/40"}`}>
-                  {service.title}
-                </h3>
-              </div>
-
-              <div className="relative z-10 md:col-span-5 mt-4 md:mt-0">
-                <p className={`text-[15px] md:text-[16px] leading-relaxed transition-colors duration-500 ${activeTab === idx ? "text-white/70" : "text-white/20"}`}>
-                  {service.description.substring(0, 100)}...
-                </p>
-              </div>
-
-              <div className="relative z-10 md:col-span-2 hidden md:flex justify-end">
-                <div className={`w-10 h-10 rounded-full border flex items-center justify-center transition-all duration-500 ${activeTab === idx ? "border-[#FFCA16] rotate-45" : "border-white/10"}`}>
-                  <span className={`text-xl transition-colors duration-500 ${activeTab === idx ? "text-[#FFCA16]" : "text-white/20"}`}>→</span>
-                </div>
-              </div>
-            </div>
+              <ServiceCard 
+                service={service} 
+                isActive={true} 
+                onClick={() => {}} 
+              />
+            </motion.div>
           ))}
         </div>
-      </div>
-    </section>
-  );
-};
+
+// Removed the extra list as requested.
+        </div>
+      </section>
+    );
+  };
 
 export default ServicesSection;

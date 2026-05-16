@@ -210,11 +210,7 @@ const ServicesSection = () => {
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.8, delay: idx * 0.1 }}
             >
-              <ServiceCard 
-                service={service} 
-                isActive={true} 
-                onClick={() => {}} 
-              />
+              <ServiceCard service={service} />
             </motion.div>
           ))}
         </div>

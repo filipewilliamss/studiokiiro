@@ -55,7 +55,7 @@ const ProjectCard = ({ project, index, total }: { project: any; index: number; t
       <div className="absolute inset-0 z-0">
         <motion.div 
           style={{ 
-            scale: bgScale, 
+            scale: project.slug === 'akedah-podcast' ? akedahScale : bgScale, 
             opacity: bgOpacity,
             backgroundImage: `url(${project.pages[0]})`,
             backgroundSize: project.slug === 'tabernaculo-da-trindade' ? 'contain' : 'cover',

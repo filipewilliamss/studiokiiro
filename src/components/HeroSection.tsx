@@ -357,8 +357,6 @@ const HeroSection = () => {
         </div>
       </div>
 
-      {/* Side Label */}
-
       {/* Scroll Indicator */}
       <motion.div 
         animate={{ y: [0, 10, 0] }}

@@ -84,22 +84,11 @@ const ProjectCard = ({ project, index, total }: { project: any; index: number; t
           </span>
         </motion.div>
 
-        <motion.h2 
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-          className="text-[14vw] md:text-[11vw] font-black leading-[0.8] tracking-tighter uppercase mb-16 drop-shadow-2xl flex flex-col items-center"
-          style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
-        >
-          {project.title.split(" ").map((word: string, i: number) => (
-            <span key={i} className="block last:text-[#FFCA16]">{word}</span>
-          ))}
-        </motion.h2>
-
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           whileInView={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.6, delay: 0.4 }}
+          className="mt-20"
         >
           <Link 
             to={`/project/${project.slug}`}

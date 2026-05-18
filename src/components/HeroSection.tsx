@@ -290,18 +290,6 @@ const HeroSection = () => {
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,rgba(255,202,22,0.05)_0%,transparent_50%)] pointer-events-none" />
 
       {/* Top meta bar — editorial detail */}
-      <motion.div
-        initial={{ opacity: 0, y: -10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1, delay: 0.4 }}
-        className="absolute top-28 md:top-32 left-0 right-0 z-10 hidden md:block"
-      >
-        <div className="container-editorial flex items-center justify-between text-[10px] uppercase tracking-[0.4em] text-white/30 font-bold">
-          <span>(01) São Paulo · BR</span>
-          <span className="hidden lg:inline">Branding · Editorial · Digital</span>
-          <span className="font-mono">N°2026</span>
-        </div>
-      </motion.div>
 
       <div className="relative z-10 container-editorial w-full flex flex-col lg:flex-row items-center gap-12 pt-24 lg:pt-16 pb-20 md:pb-32 lg:pb-0">
         <div className="w-full lg:w-[65%] flex flex-col items-start" ref={headlineRef}>
@@ -367,13 +355,6 @@ const HeroSection = () => {
             className="relative z-10 cursor-none"
           />
         </div>
-      </div>
-
-      {/* Side Label */}
-      <div className="absolute left-6 bottom-12 hidden lg:flex items-center gap-4 rotate-[-90deg] origin-left">
-        <span className="text-white/20 text-[10px] uppercase tracking-[0.5em] font-bold">
-          EST. 2018
-        </span>
       </div>
 
       {/* Scroll Indicator */}

@@ -145,7 +145,7 @@ export const projects: Project[] = [
     tags: ["Logo Design", "Manual de Marca", "Marmoraria", "Rebranding"],
     logo: construmarLogo,
     pages: [
-      construmarPag1, construmarPag2, construmarPag3,
+      "https://dohkkmvsrcuxssxmimxn.supabase.co/storage/v1/object/public/images/6shz12ozbyq-1779131916659.png", construmarPag2, construmarPag3,
       construmarPag4, construmarPag5, construmarPag6,
       construmarPag7, construmarPag8, construmarPag9,
     ],

@@ -72,14 +72,18 @@ const ProjectCard = ({ project, index, total }: { project: any; index: number; t
 
 
       {/* Content Container */}
-      <div className="container-editorial relative z-20 w-full flex flex-col items-center text-center">
+      <div className="container-editorial absolute inset-0 z-20 w-full flex flex-col items-center justify-between py-[20px]">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.1 }}
-          className="mb-8"
+          className="mt-0"
         >
-          <span className="text-[10px] md:text-[12px] uppercase tracking-[0.6em] text-[#FFCA16] font-bold">
+          <span className={`text-[10px] md:text-[12px] uppercase tracking-[0.6em] font-bold ${
+            project.slug === 'akedah-podcast' ? 'text-white' : 
+            project.slug === 'construmar' ? 'text-black' : 
+            'text-[#FFCA16]'
+          }`}>
             {project.category} · {project.year}
           </span>
         </motion.div>
@@ -88,7 +92,7 @@ const ProjectCard = ({ project, index, total }: { project: any; index: number; t
           initial={{ opacity: 0, scale: 0.9 }}
           whileInView={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.6, delay: 0.4 }}
-          className="mt-20"
+          className="mb-0"
         >
           <Link 
             to={`/project/${project.slug}`}

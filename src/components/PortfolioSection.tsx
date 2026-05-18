@@ -68,13 +68,8 @@ const ProjectCard = ({ project, index, total }: { project: any; index: number; t
 
       {/* Dynamic Dots removed as per request */}
 
-      {/* Floating "K" Logo (Reacts to Mouse) */}
-      <motion.div 
-        style={{ x: kX, y: kY }}
-        className="absolute right-[5%] top-[15%] z-10 pointer-events-none opacity-[0.05] mix-blend-overlay"
-      >
-        <KiiroLogo className="w-[45vw] h-[45vw] text-white" />
-      </motion.div>
+      {/* Floating "K" Logo removed as per request */}
+
 
       {/* Content Container */}
       <div className="container-editorial relative z-20 w-full flex flex-col items-center text-center">

@@ -41,6 +41,7 @@ const ProjectCard = ({ project, index, total }: { project: any; index: number; t
 
   const dotsY = useTransform(scrollYProgress, [0, 1], [150, -150]);
   const bgScale = useTransform(scrollYProgress, [0, 0.5, 1], [1.2, 1, 1.2]);
+  const akedahScale = useTransform(scrollYProgress, [0, 0.5, 1], [1.08, 0.9, 1.08]);
   const bgOpacity = 1;
 
   return (
@@ -54,7 +55,7 @@ const ProjectCard = ({ project, index, total }: { project: any; index: number; t
       <div className="absolute inset-0 z-0">
         <motion.div 
           style={{ 
-            scale: bgScale, 
+            scale: project.slug === 'akedah-podcast' ? akedahScale : bgScale, 
             opacity: bgOpacity,
             backgroundImage: `url(${project.pages[0]})`,
             backgroundSize: project.slug === 'tabernaculo-da-trindade' ? 'contain' : 'cover',

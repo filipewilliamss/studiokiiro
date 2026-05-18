@@ -72,7 +72,7 @@ const ProjectCard = ({ project, index, total }: { project: any; index: number; t
 
 
       {/* Content Container */}
-      <div className="container-editorial absolute inset-0 z-20 w-full flex flex-col items-center justify-between py-[20px]">
+      <div className="container-editorial absolute inset-0 z-20 w-full flex flex-col items-center justify-between py-[100px]">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}

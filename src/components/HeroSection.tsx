@@ -358,11 +358,6 @@ const HeroSection = () => {
       </div>
 
       {/* Side Label */}
-      <div className="absolute left-6 bottom-12 hidden lg:flex items-center gap-4 rotate-[-90deg] origin-left">
-        <span className="text-white/20 text-[10px] uppercase tracking-[0.5em] font-bold">
-          EST. 2018
-        </span>
-      </div>
 
       {/* Scroll Indicator */}
       <motion.div 

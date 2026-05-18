@@ -31,6 +31,19 @@ const steps = [
 const ProcessSection = () => {
   return (
     <section id="processo" className="relative section-padding bg-[#070807] border-t border-white/[0.05] overflow-x-hidden">
+      {/* Monumental backdrop word */}
+      <motion.span
+        aria-hidden="true"
+        initial={{ opacity: 0, x: -40 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 1.4, ease: [0.22, 1, 0.36, 1] }}
+        className="absolute -left-6 md:-left-10 top-[2%] md:top-[4%] font-display font-[800] text-white/[0.025] leading-none tracking-extratight pointer-events-none select-none"
+        style={{ fontSize: "clamp(100px, 18vw, 300px)" }}
+      >
+        processo
+      </motion.span>
+
       {/* Dynamic Grid Overlay */}
       <div className="absolute inset-0 grid-pattern opacity-20 pointer-events-none" />
 

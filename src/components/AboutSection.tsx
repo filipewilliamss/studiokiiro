@@ -15,7 +15,7 @@ const AboutSection = () => {
         viewport={{ once: true }}
         transition={{ duration: 1.4, ease: [0.22, 1, 0.36, 1] }}
         className="absolute -left-6 md:-left-10 top-[8%] font-display font-[800] text-white/[0.025] leading-none tracking-extratight pointer-events-none select-none"
-        style={{ fontSize: "clamp(140px, 22vw, 320px)" }}
+        style={{ fontSize: "clamp(100px, 18vw, 280px)" }}
       >
         sobre
       </motion.span>

@@ -145,7 +145,7 @@ const ServicesSection = () => {
         viewport={{ once: true }}
         transition={{ duration: 1.4 }}
         className="absolute right-[-4%] top-[2%] md:top-[6%] font-display font-[800] text-white/[0.015] md:text-white/[0.025] leading-none tracking-extratight pointer-events-none select-none"
-        style={{ fontSize: "clamp(80px, 15vw, 280px)" }}
+        style={{ fontSize: "clamp(100px, 18vw, 280px)" }}
       >
         services
       </motion.span>

@@ -41,7 +41,7 @@ const ProjectCard = ({ project, index, total }: { project: any; index: number; t
 
   const dotsY = useTransform(scrollYProgress, [0, 1], [150, -150]);
   const bgScale = useTransform(scrollYProgress, [0, 0.5, 1], [1.2, 1, 1.2]);
-  const bgOpacity = useTransform(scrollYProgress, [0, 0.5, 1], [0.4, 0.7, 0.4]);
+  const bgOpacity = 1;
 
   return (
     <article 
@@ -63,18 +63,13 @@ const ProjectCard = ({ project, index, total }: { project: any; index: number; t
           }}
           className="w-full h-full transition-opacity duration-700"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/40 to-black/90" />
+        <div className="absolute inset-0 bg-black/20" />
       </div>
 
       {/* Dynamic Dots removed as per request */}
 
-      {/* Floating "K" Logo (Reacts to Mouse) */}
-      <motion.div 
-        style={{ x: kX, y: kY }}
-        className="absolute right-[5%] top-[15%] z-10 pointer-events-none opacity-[0.05] mix-blend-overlay"
-      >
-        <KiiroLogo className="w-[45vw] h-[45vw] text-white" />
-      </motion.div>
+      {/* Floating "K" Logo removed as per request */}
+
 
       {/* Content Container */}
       <div className="container-editorial relative z-20 w-full flex flex-col items-center text-center">
@@ -89,22 +84,11 @@ const ProjectCard = ({ project, index, total }: { project: any; index: number; t
           </span>
         </motion.div>
 
-        <motion.h2 
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-          className="text-[14vw] md:text-[11vw] font-black leading-[0.8] tracking-tighter uppercase mb-16 drop-shadow-2xl flex flex-col items-center"
-          style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
-        >
-          {project.title.split(" ").map((word: string, i: number) => (
-            <span key={i} className="block last:text-[#FFCA16]">{word}</span>
-          ))}
-        </motion.h2>
-
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           whileInView={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.6, delay: 0.4 }}
+          className="mt-20"
         >
           <Link 
             to={`/project/${project.slug}`}

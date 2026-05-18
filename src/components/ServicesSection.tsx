@@ -151,8 +151,8 @@ const ServicesSection = () => {
       </motion.span>
 
       <div className="container-editorial relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 mb-20 lg:mb-32">
-          <div className="lg:col-span-7">
+        <div className="mb-20 lg:mb-32">
+          <div className="max-w-5xl">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -168,17 +168,6 @@ const ServicesSection = () => {
                 Elevando o <span className="text-[#FFCA16] italic font-light">padrão</span> visual da sua marca.
               </h2>
             </motion.div>
-          </div>
-          <div className="lg:col-span-5 flex items-end">
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 1, delay: 0.2 }}
-              className="text-white/50 text-[16px] md:text-[18px] leading-[1.7] max-w-[400px] font-light"
-            >
-              Oferecemos um ecossistema completo de design para posicionar seu negócio com autoridade no mercado digital.
-            </motion.p>
           </div>
         </div>
 

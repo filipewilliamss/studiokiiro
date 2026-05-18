@@ -73,7 +73,7 @@ const AboutSection = () => {
                 Filipe Williams
               </p>
               <p className="text-[#FFCA16]/60 text-[10px] uppercase tracking-[0.1em] mt-1">
-                Founder & Creative Director
+                Fundador do Studio Kiiro
               </p>
             </motion.div>
           </div>

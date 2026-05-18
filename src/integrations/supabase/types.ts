@@ -763,6 +763,7 @@ export type Database = {
         Returns: {
           client_name: string
           id: string
+          role: Database["public"]["Enums"]["app_role"]
         }[]
       }
     }

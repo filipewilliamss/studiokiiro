@@ -24,17 +24,10 @@ const LoginPage = () => {
     setLoading(true);
 
     try {
-      // 1. Check for Admin credentials (provided by user)
-      if (username.toLowerCase() === "filipewilliams" && password === "Luara@10") {
-        // Use a consistent ID for the admin
-        const adminId = "00000000-0000-0000-0000-000000000001";
-        signInCustom(adminId, "admin", { full_name: "Filipe Williams", company: "Studio Kiiro" });
-        toast.success("Bem-vindo, Filipe!");
-        setLoading(false);
-        return;
-      }
+      // 1. Verify credentials in the database (Admin, Client, or Partner)
 
-      // 2. Check for Client credentials in the database
+
+      // 2. Check for credentials in the database
       const { data, error } = await supabase.rpc("verify_client_credentials", {
         p_username: username,
         p_password: password
@@ -43,12 +36,14 @@ const LoginPage = () => {
       if (error) throw error;
 
       if (data && data.length > 0) {
-        const client = data[0];
-        signInCustom(client.id, "client", { full_name: client.client_name, company: null });
-        toast.success(`Bem-vindo, ${client.client_name}!`);
+        const userFound = data[0];
+        // Use the role from the database
+        signInCustom(userFound.id, userFound.role as LoginMode, { full_name: userFound.client_name, company: null });
+        toast.success(`Bem-vindo, ${userFound.client_name}!`);
       } else {
         toast.error("Usuário ou senha incorretos.");
       }
+
     } catch (err: any) {
       console.error("Erro no login:", err);
       toast.error("Ocorreu um erro ao tentar entrar. Tente novamente.");

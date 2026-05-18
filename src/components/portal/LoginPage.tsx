@@ -24,15 +24,8 @@ const LoginPage = () => {
     setLoading(true);
 
     try {
-      // 1. Check for Admin credentials (provided by user)
-      if (username.toLowerCase() === "filipewilliams" && password === "Luara@10") {
-        // Use a consistent ID for the admin
-        const adminId = "00000000-0000-0000-0000-000000000001";
-        signInCustom(adminId, "admin", { full_name: "Filipe Williams", company: "Studio Kiiro" });
-        toast.success("Bem-vindo, Filipe!");
-        setLoading(false);
-        return;
-      }
+      // 1. Verify credentials in the database (Admin, Client, or Partner)
+
 
       // 2. Check for Client credentials in the database
       const { data, error } = await supabase.rpc("verify_client_credentials", {

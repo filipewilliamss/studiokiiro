@@ -113,7 +113,7 @@ const ServiceCard = ({ service }: { service: typeof services[0] }) => {
             transition={{ duration: 0.3 }}
             className="grid grid-cols-1 md:grid-cols-12 items-center p-8 md:p-14 lg:p-16 gap-8 md:gap-10"
           >
-            <div className="md:col-span-5 flex flex-col gap-4">
+            <div className="md:col-span-6 flex flex-col gap-4">
               <span className="font-display text-[18px] md:text-[24px] font-bold text-black/30">
                 {service.number}
               </span>
@@ -122,8 +122,8 @@ const ServiceCard = ({ service }: { service: typeof services[0] }) => {
               </h3>
             </div>
 
-            <div className="md:col-span-7 flex flex-col gap-6">
-              <p className="text-black/80 text-[16px] md:text-[19px] lg:text-[21px] leading-relaxed font-medium whitespace-pre-line">
+            <div className="md:col-span-6 flex flex-col gap-6">
+              <p className="text-black/80 text-[14.4px] md:text-[17.1px] lg:text-[18.9px] leading-relaxed font-medium whitespace-pre-line">
                 {activeItem.description}
               </p>
             </div>

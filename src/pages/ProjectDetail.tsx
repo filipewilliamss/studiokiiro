@@ -66,7 +66,10 @@ const ProjectDetail = () => {
       />
 
       {/* HERO SECTION */}
-      <section className="relative h-[90vh] flex items-end pb-20 overflow-hidden">
+      <section 
+        className="relative h-[90vh] flex items-end pb-20 overflow-hidden"
+        style={{ backgroundColor: project.bgColor || "#000000" }}
+      >
         <div className="absolute inset-0 z-0">
           <motion.div 
             initial={{ scale: 1.1 }}

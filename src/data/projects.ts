@@ -218,7 +218,7 @@ export const projects: Project[] = [
     tags: ["Rebranding", "Social Media", "Cross Training"],
     logo: teamluisaLogo,
     pages: [
-      teamluisaPag1, teamluisaPag2, teamluisaPag3,
+      "https://dohkkmvsrcuxssxmimxn.supabase.co/storage/v1/object/public/images/vsayfqhm5v-1779132214550.png", teamluisaPag2, teamluisaPag3,
       teamluisaPag4, teamluisaPag5, teamluisaPag6,
     ],
     client: "Team Luísa Crosstraining",

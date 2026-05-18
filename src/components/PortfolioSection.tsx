@@ -63,7 +63,7 @@ const ProjectCard = ({ project, index, total }: { project: any; index: number; t
           }}
           className="w-full h-full transition-opacity duration-700"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/40 to-black/90" />
+        <div className="absolute inset-0 bg-black/20" />
       </div>
 
       {/* Dynamic Dots removed as per request */}

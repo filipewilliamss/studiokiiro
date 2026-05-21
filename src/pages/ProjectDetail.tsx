@@ -431,33 +431,20 @@ const ProjectDetail = () => {
       <section className="py-40 md:py-80 border-t border-white/5 relative overflow-hidden group">
         <Link to={`/project/${nextProject.slug}`} className="absolute inset-0 z-0">
           <div 
-            className="w-full h-full bg-cover bg-center grayscale opacity-10 group-hover:opacity-40 group-hover:scale-110 transition-all duration-[2s]"
+            className="w-full h-full bg-cover bg-center opacity-100 group-hover:scale-110 transition-all duration-[2s]"
             style={{ backgroundImage: `url(${nextProject.pages[0]})` }}
-          />
-          <div className="absolute inset-0 bg-[#06121C]/60 group-hover:bg-[#06121C]/20 transition-colors duration-1000" 
-               style={{ 
-                 backgroundColor: `${project.bgColor || '#000000'}99`,
-               }}
           />
         </Link>
         
         <div className="container-editorial relative z-10 pointer-events-none">
           <div className="flex flex-col items-center text-center">
-            <span className="text-[10px] uppercase tracking-[0.6em] text-[#FFCA16] font-bold mb-12">
+            <span className="text-[11.5px] uppercase tracking-[0.6em] text-[#FFCA16] font-bold -translate-y-[200px]">
               Próximo Projeto
             </span>
-            <Link 
-              to={`/project/${nextProject.slug}`} 
-              className="pointer-events-auto"
-            >
-              <h2 className="text-[12vw] md:text-[8vw] font-black uppercase leading-none mb-16 transition-all duration-700 group-hover:tracking-tighter group-hover:text-[#FFCA16]">
-                {nextProject.title}
-              </h2>
-            </Link>
             
             <Link 
               to={`/project/${nextProject.slug}`}
-              className="pointer-events-auto group/btn relative inline-flex items-center justify-center px-16 py-8 overflow-hidden border border-white/10 transition-all duration-700 hover:border-[#FFCA16]"
+              className="pointer-events-auto group/btn relative inline-flex items-center justify-center px-16 py-8 overflow-hidden border border-white/10 transition-all duration-700 hover:border-[#FFCA16] translate-y-[200px]"
             >
               <div className="absolute inset-0 bg-[#FFCA16] translate-y-full group-hover/btn:translate-y-0 transition-transform duration-600 ease-[0.22,1,0.36,1]" />
               <span className="relative z-10 text-[12px] uppercase tracking-[0.4em] font-bold text-white group-hover/btn:text-black transition-colors duration-500">

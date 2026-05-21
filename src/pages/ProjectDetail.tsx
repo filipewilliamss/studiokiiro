@@ -444,7 +444,7 @@ const ProjectDetail = () => {
             
             <Link 
               to={`/project/${nextProject.slug}`}
-              className="pointer-events-auto group/btn relative inline-flex items-center justify-center px-16 py-8 overflow-hidden border border-white/10 transition-all duration-700 hover:border-[#FFCA16] translate-y-[300px]"
+              className="pointer-events-auto group/btn relative inline-flex items-center justify-center px-16 py-8 overflow-hidden border border-white/10 transition-all duration-700 hover:border-[#FFCA16] translate-y-[500px]"
             >
               <div className="absolute inset-0 bg-[#FFCA16] translate-y-full group-hover/btn:translate-y-0 transition-transform duration-600 ease-[0.22,1,0.36,1]" />
               <span className="relative z-10 text-[12px] uppercase tracking-[0.4em] font-bold text-white group-hover/btn:text-black transition-colors duration-500">

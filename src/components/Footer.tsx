@@ -13,7 +13,7 @@ const Footer = () => {
               <img src={kiiroLogo} alt="Studio Kiiro" className="h-10 w-auto" />
             </Link>
             <p className="mt-8 text-[14px] text-white/40 max-w-sm leading-relaxed">
-              Design estratégico que transforma marcas em referências visuais. Criamos identidades memoráveis para quem não aceita o comum.
+              Design que transforma marcas e projetos em referências visuais. Criamos projetos memoráveis para quem não aceita o comum.
             </p>
           </div>
 

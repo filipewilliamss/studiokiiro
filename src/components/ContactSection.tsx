@@ -36,7 +36,7 @@ const ContactSection = () => {
 
             <div className="flex flex-col items-center gap-12">
               <p className="font-display text-[20px] md:text-[26px] font-light text-white/55 max-w-2xl leading-[1.5] text-balance">
-                Não é sobre um logo bonito. É sobre criar uma marca que as pessoas reconhecem, confiam e escolhem sempre.
+                Não é sobre um logo, imagem ou vídeo bonito. É sobre criar uma marca ou projeto que as pessoas reconhecem, confiam e escolhem sempre.
               </p>
 
               <div className="flex flex-col sm:flex-row gap-5">

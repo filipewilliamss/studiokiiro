@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 
 interface EditorialQuoteProps {
   eyebrow?: string;
-  quote: string;
+  quote: React.ReactNode;
   attribution?: string;
 }
 

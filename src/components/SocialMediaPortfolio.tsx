@@ -4,45 +4,50 @@ import { Link } from "react-router-dom";
 
 const SocialMediaPortfolio = () => {
   const containerRef = useRef<HTMLDivElement>(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
   
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start end", "end start"]
   });
 
-  // Smooth scroll progress
   const smoothProgress = useSpring(scrollYProgress, {
     stiffness: 100,
     damping: 30,
     restDelta: 0.001
   });
 
-  // Fan animation transformations
-  // Progress is roughly 0 to 1 as it scrolls past
-  // We want the expansion to happen when the section is in the middle of the viewport
   const fanProgress = useTransform(smoothProgress, [0.3, 0.6], [0, 1]);
 
-  // Phone 1 (Left far)
-  const x1 = useTransform(fanProgress, [0, 1], ["0%", "-120%"]);
-  const r1 = useTransform(fanProgress, [0, 1], [0, -15]);
-  const y1 = useTransform(fanProgress, [0, 1], [0, 20]);
-  const opacity1 = useTransform(fanProgress, [0, 0.5], [0, 1]);
+  // Phone 1 (Left far) - Hidden or very subtle on mobile
+  const x1 = useTransform(fanProgress, [0, 1], ["0%", isMobile ? "-40%" : "-120%"]);
+  const r1 = useTransform(fanProgress, [0, 1], [0, isMobile ? -5 : -15]);
+  const y1 = useTransform(fanProgress, [0, 1], [0, isMobile ? 10 : 20]);
+  const opacity1 = useTransform(fanProgress, [0, 0.5], [0, isMobile ? 0.3 : 1]);
 
   // Phone 2 (Left close)
-  const x2 = useTransform(fanProgress, [0, 1], ["0%", "-60%"]);
-  const r2 = useTransform(fanProgress, [0, 1], [0, -8]);
-  const y2 = useTransform(fanProgress, [0, 1], [0, 10]);
+  const x2 = useTransform(fanProgress, [0, 1], ["0%", isMobile ? "-25%" : "-60%"]);
+  const r2 = useTransform(fanProgress, [0, 1], [0, isMobile ? -3 : -8]);
+  const y2 = useTransform(fanProgress, [0, 1], [0, isMobile ? 5 : 10]);
   const opacity2 = useTransform(fanProgress, [0, 0.3], [0, 1]);
 
-  // Phone 3 (Central) - Stays centered, maybe scales a bit
-  const scale3 = useTransform(fanProgress, [0, 1], [1, 1.05]);
+  // Phone 3 (Central)
+  const scale3 = useTransform(fanProgress, [0, 1], [1, isMobile ? 1.02 : 1.05]);
   const y3 = useTransform(fanProgress, [0, 1], [0, -10]);
 
   // Phone 4 (Right close)
-  const x4 = useTransform(fanProgress, [0, 1], ["0%", "60%"]);
-  const r4 = useTransform(fanProgress, [0, 1], [0, 8]);
-  const y4 = useTransform(fanProgress, [0, 1], [0, 10]);
+  const x4 = useTransform(fanProgress, [0, 1], ["0%", isMobile ? "25%" : "60%"]);
+  const r4 = useTransform(fanProgress, [0, 1], [0, isMobile ? 3 : 8]);
+  const y4 = useTransform(fanProgress, [0, 1], [0, isMobile ? 5 : 10]);
   const opacity4 = useTransform(fanProgress, [0, 0.3], [0, 1]);
+
 
   return (
     <section 

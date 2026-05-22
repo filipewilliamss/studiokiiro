@@ -12,6 +12,8 @@ import Footer from "@/components/Footer";
 import Preloader from "@/components/Preloader";
 import EditorialMarquee from "@/components/EditorialMarquee";
 import EditorialQuote from "@/components/EditorialQuote";
+import SocialMediaPortfolio from "@/components/SocialMediaPortfolio";
+
 
 const Index = () => {
   const [loading, setLoading] = useState(true);
@@ -109,6 +111,13 @@ const Index = () => {
             <PortfolioSection />
             
             <SectionDivider />
+            
+            <section className="snap-start">
+              <SocialMediaPortfolio />
+            </section>
+            
+            <SectionDivider />
+
             
             <section className="snap-start">
               <ContactSection />

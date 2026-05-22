@@ -23,7 +23,7 @@ const SocialMediaPortfolio = () => {
     restDelta: 0.001
   });
 
-  const fanProgress = useTransform(smoothProgress, [0.3, 0.6], [0, 1]);
+  const fanProgress = useTransform(smoothProgress, [0.1, 0.3], [0, 1]);
 
   // Phone 1 (Left far)
   const x1 = useTransform(fanProgress, [0, 1], ["0%", isMobile ? "-40%" : "-120%"]);

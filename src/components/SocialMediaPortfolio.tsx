@@ -138,8 +138,9 @@ const SocialMediaPortfolio = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.2 }}
         >
-          <Link 
-            to="/portfolio"
+          <a 
+            href="#portfolio"
+
             className="group relative inline-flex items-center justify-center px-10 py-5 overflow-hidden border border-white/20 transition-all duration-700 hover:border-[#FFCA16]"
           >
             <div className="absolute inset-0 bg-[#FFCA16] translate-y-full group-hover:translate-y-0 transition-transform duration-600 ease-[0.22,1,0.36,1]" />

@@ -23,7 +23,7 @@ const SocialMediaPortfolio = () => {
     restDelta: 0.001
   });
 
-  const fanProgress = useTransform(smoothProgress, [0.1, 0.3], [0, 1]);
+  // Staggered fan progress points
 
   // Phone 1 (Left far) - Starts latest
   const fanProgress1 = useTransform(smoothProgress, [0.18, 0.35], [0, 1]);

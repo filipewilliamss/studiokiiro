@@ -23,29 +23,32 @@ const SocialMediaPortfolio = () => {
     restDelta: 0.001
   });
 
-  const fanProgress = useTransform(smoothProgress, [0.3, 0.6], [0, 1]);
+  // Staggered fan progress points
 
-  // Phone 1 (Left far)
-  const x1 = useTransform(fanProgress, [0, 1], ["0%", isMobile ? "-40%" : "-120%"]);
-  const r1 = useTransform(fanProgress, [0, 1], [0, isMobile ? -5 : -15]);
-  const y1 = useTransform(fanProgress, [0, 1], [0, isMobile ? 10 : 20]);
-  const opacity1 = useTransform(fanProgress, [0, 0.5], [0, isMobile ? 0.3 : 1]);
+  // Phone 1 (Left far) - Starts latest
+  const fanProgress1 = useTransform(smoothProgress, [0.18, 0.35], [0, 1]);
+  const x1 = useTransform(fanProgress1, [0, 1], ["0%", isMobile ? "-45%" : "-120%"]);
+  const r1 = useTransform(fanProgress1, [0, 1], [0, isMobile ? -6 : -18]);
+  const y1 = useTransform(fanProgress1, [0, 1], [0, isMobile ? 12 : 25]);
+  const opacity1 = useTransform(fanProgress1, [0, 0.4], [0, 1]);
 
-  // Phone 2 (Left close)
-  const x2 = useTransform(fanProgress, [0, 1], ["0%", isMobile ? "-25%" : "-60%"]);
-  const r2 = useTransform(fanProgress, [0, 1], [0, isMobile ? -3 : -8]);
-  const y2 = useTransform(fanProgress, [0, 1], [0, isMobile ? 5 : 10]);
-  const opacity2 = useTransform(fanProgress, [0, 0.3], [0, 1]);
+  // Phone 2 (Left close) - Starts slightly after central
+  const fanProgress2 = useTransform(smoothProgress, [0.12, 0.28], [0, 1]);
+  const x2 = useTransform(fanProgress2, [0, 1], ["0%", isMobile ? "-28%" : "-65%"]);
+  const r2 = useTransform(fanProgress2, [0, 1], [0, isMobile ? -3 : -10]);
+  const y2 = useTransform(fanProgress2, [0, 1], [0, isMobile ? 6 : 12]);
+  const opacity2 = useTransform(fanProgress2, [0, 0.3], [0, 1]);
+
+  // Phone 4 (Right close) - Mirror of Phone 2
+  const x4 = useTransform(fanProgress2, [0, 1], ["0%", isMobile ? "28%" : "65%"]);
+  const r4 = useTransform(fanProgress2, [0, 1], [0, isMobile ? 3 : 10]);
+  const y4 = useTransform(fanProgress2, [0, 1], [0, isMobile ? 6 : 12]);
+  const opacity4 = useTransform(fanProgress2, [0, 0.3], [0, 1]);
 
   // Phone 3 (Central)
-  const scale3 = useTransform(fanProgress, [0, 1], [1, isMobile ? 1.02 : 1.05]);
-  const y3 = useTransform(fanProgress, [0, 1], [0, -10]);
-
-  // Phone 4 (Right close)
-  const x4 = useTransform(fanProgress, [0, 1], ["0%", isMobile ? "25%" : "60%"]);
-  const r4 = useTransform(fanProgress, [0, 1], [0, isMobile ? 3 : 8]);
-  const y4 = useTransform(fanProgress, [0, 1], [0, isMobile ? 5 : 10]);
-  const opacity4 = useTransform(fanProgress, [0, 0.3], [0, 1]);
+  const fanProgress3 = useTransform(smoothProgress, [0.1, 0.25], [0, 1]);
+  const scale3 = useTransform(fanProgress3, [0, 1], [1, isMobile ? 1.02 : 1.08]);
+  const y3 = useTransform(fanProgress3, [0, 1], [0, -15]);
 
   return (
     <section 
@@ -158,28 +161,52 @@ const SocialMediaPortfolio = () => {
 
 const SmartphonePlaceholder = ({ image }: { image: string }) => {
   return (
-    <div className="w-[200px] h-[430px] md:w-[280px] md:h-[600px] bg-[#1a1a1a] rounded-[45px] p-3 shadow-2xl border-[6px] border-[#333] relative overflow-hidden group">
-      {/* Speaker/Dynamic Island Area */}
-      <div className="absolute top-6 left-1/2 -translate-x-1/2 w-24 h-7 bg-black rounded-3xl z-20 flex items-center justify-center">
-        <div className="w-1.5 h-1.5 bg-blue-500/20 rounded-full ml-auto mr-4" />
-      </div>
+    <div className="w-[190px] h-[410px] md:w-[280px] md:h-[600px] relative group" style={{ perspective: "1000px" }}>
+      {/* Outer Glow/Reflection */}
+      <div className="absolute -inset-1 bg-gradient-to-tr from-white/10 to-transparent blur-sm rounded-[50px] opacity-50" />
       
-      {/* Screen Content */}
-      <div className="w-full h-full rounded-[35px] overflow-hidden bg-black relative">
-        <img 
-          src={image} 
-          alt="Social Media Art" 
-          className="w-full h-full object-cover opacity-90 transition-opacity duration-500 group-hover:opacity-100"
-        />
-        {/* Screen Shine */}
-        <div className="absolute inset-0 bg-gradient-to-tr from-white/5 via-transparent to-transparent pointer-events-none" />
+      {/* Main Frame (Metallic Look) */}
+      <div className="w-full h-full bg-gradient-to-b from-[#2a2a2a] via-[#404040] to-[#1a1a1a] rounded-[48px] p-[2px] shadow-[0_20px_50px_rgba(0,0,0,0.8)] relative overflow-hidden ring-1 ring-white/10">
+        
+        {/* Inner Frame Edge */}
+        <div className="w-full h-full bg-black rounded-[46px] p-[10px] relative">
+          
+          {/* Screen Container */}
+          <div className="w-full h-full rounded-[38px] overflow-hidden bg-[#050505] relative shadow-inner">
+            
+            {/* Real Image Placeholder */}
+            <img 
+              src={image} 
+              alt="Social Media Art" 
+              className="w-full h-full object-cover opacity-90 transition-opacity duration-700 group-hover:opacity-100"
+            />
+            
+            {/* Screen Depth/Shadow */}
+            <div className="absolute inset-0 shadow-[inset_0_0_20px_rgba(0,0,0,0.6)] pointer-events-none" />
+            
+            {/* Screen Shine/Reflection */}
+            <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-white/10 opacity-60 pointer-events-none" />
+            <div className="absolute -top-[100%] -left-[100%] w-[300%] h-[300%] bg-gradient-to-br from-white/5 via-transparent to-transparent rotate-45 pointer-events-none group-hover:translate-x-1/4 group-hover:translate-y-1/4 transition-transform duration-1000" />
+          </div>
+
+          {/* Dynamic Island */}
+          <div className="absolute top-4 left-1/2 -translate-x-1/2 w-20 h-6 bg-black rounded-3xl z-20 flex items-center justify-end px-4 border border-white/5 shadow-lg">
+            <div className="w-1.5 h-1.5 bg-[#1a1a1a] rounded-full border border-blue-500/10 shadow-[0_0_2px_#3b82f6]" />
+          </div>
+
+          {/* Bottom Bar Indicator */}
+          <div className="absolute bottom-2 left-1/2 -translate-x-1/2 w-1/3 h-1 bg-white/20 rounded-full z-20" />
+        </div>
       </div>
 
-      {/* Side Buttons */}
-      <div className="absolute -left-[6px] top-32 w-[3px] h-12 bg-[#333] rounded-r-md" />
-      <div className="absolute -left-[6px] top-48 w-[3px] h-20 bg-[#333] rounded-r-md" />
-      <div className="absolute -left-[6px] top-72 w-[3px] h-20 bg-[#333] rounded-r-md" />
-      <div className="absolute -right-[6px] top-48 w-[3px] h-24 bg-[#333] rounded-l-md" />
+      {/* Realistic Side Buttons */}
+      <div className="absolute -left-[1px] top-28 w-[3px] h-8 bg-gradient-to-b from-[#444] to-[#222] rounded-l-sm border-l border-white/10" />
+      <div className="absolute -left-[1px] top-44 w-[3px] h-14 bg-gradient-to-b from-[#444] to-[#222] rounded-l-sm border-l border-white/10 shadow-sm" />
+      <div className="absolute -left-[1px] top-64 w-[3px] h-14 bg-gradient-to-b from-[#444] to-[#222] rounded-l-sm border-l border-white/10 shadow-sm" />
+      <div className="absolute -right-[1px] top-44 w-[3px] h-20 bg-gradient-to-b from-[#444] to-[#222] rounded-r-sm border-r border-white/10 shadow-sm" />
+
+      {/* Ambient Shadow on floor */}
+      <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 w-4/5 h-10 bg-black/40 blur-2xl rounded-[100%] -z-10" />
     </div>
   );
 };

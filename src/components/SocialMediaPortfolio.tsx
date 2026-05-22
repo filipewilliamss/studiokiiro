@@ -1,7 +1,5 @@
 import { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
-import { Link } from "react-router-dom";
-
 
 const SocialMediaPortfolio = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -27,7 +25,7 @@ const SocialMediaPortfolio = () => {
 
   const fanProgress = useTransform(smoothProgress, [0.3, 0.6], [0, 1]);
 
-  // Phone 1 (Left far) - Hidden or very subtle on mobile
+  // Phone 1 (Left far)
   const x1 = useTransform(fanProgress, [0, 1], ["0%", isMobile ? "-40%" : "-120%"]);
   const r1 = useTransform(fanProgress, [0, 1], [0, isMobile ? -5 : -15]);
   const y1 = useTransform(fanProgress, [0, 1], [0, isMobile ? 10 : 20]);
@@ -48,7 +46,6 @@ const SocialMediaPortfolio = () => {
   const r4 = useTransform(fanProgress, [0, 1], [0, isMobile ? 3 : 8]);
   const y4 = useTransform(fanProgress, [0, 1], [0, isMobile ? 5 : 10]);
   const opacity4 = useTransform(fanProgress, [0, 0.3], [0, 1]);
-
 
   return (
     <section 
@@ -140,7 +137,6 @@ const SocialMediaPortfolio = () => {
         >
           <a 
             href="#portfolio"
-
             className="group relative inline-flex items-center justify-center px-10 py-5 overflow-hidden border border-white/20 transition-all duration-700 hover:border-[#FFCA16]"
           >
             <div className="absolute inset-0 bg-[#FFCA16] translate-y-full group-hover:translate-y-0 transition-transform duration-600 ease-[0.22,1,0.36,1]" />
@@ -153,7 +149,7 @@ const SocialMediaPortfolio = () => {
             >
               <path d="M4.16663 10H15.8333M15.8333 10L10.8333 5M15.8333 10L10.8333 15" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
-          </Link>
+          </a>
         </motion.div>
       </div>
     </section>

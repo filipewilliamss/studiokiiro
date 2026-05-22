@@ -161,7 +161,7 @@ const SocialMediaPortfolio = () => {
 
 const SmartphonePlaceholder = ({ image }: { image: string }) => {
   return (
-    <div className="w-[190px] h-[410px] md:w-[280px] md:h-[600px] relative group perspective-1000">
+    <div className="w-[190px] h-[410px] md:w-[280px] md:h-[600px] relative group" style={{ perspective: "1000px" }}>
       {/* Outer Glow/Reflection */}
       <div className="absolute -inset-1 bg-gradient-to-tr from-white/10 to-transparent blur-sm rounded-[50px] opacity-50" />
       

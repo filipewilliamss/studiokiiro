@@ -113,6 +113,13 @@ const Index = () => {
             <SectionDivider />
             
             <section className="snap-start">
+              <SocialMediaPortfolio />
+            </section>
+            
+            <SectionDivider />
+
+            
+            <section className="snap-start">
               <ContactSection />
             </section>
             

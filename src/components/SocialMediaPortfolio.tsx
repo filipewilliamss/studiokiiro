@@ -62,9 +62,10 @@ const SocialMediaPortfolio = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="text-3xl md:text-5xl lg:text-6xl font-bold text-white mb-6 uppercase tracking-tight"
+          className="text-3xl md:text-5xl lg:text-6xl font-bold text-white mb-8 tracking-tight leading-[1.1]"
         >
-          Portfólio de <span className="text-[#FFCA16]">Artes para Redes Sociais</span>
+          Portfólio de artes<br />
+          para <span className="text-[#FFCA16] italic">Redes Sociais</span>
         </motion.h2>
         <motion.p 
           initial={{ opacity: 0, y: 20 }}

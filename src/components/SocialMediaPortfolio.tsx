@@ -1,6 +1,7 @@
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import { Link } from "react-router-dom";
+
 
 const SocialMediaPortfolio = () => {
   const containerRef = useRef<HTMLDivElement>(null);

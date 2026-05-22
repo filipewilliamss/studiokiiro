@@ -62,7 +62,7 @@ const SocialMediaPortfolio = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="text-3xl md:text-5xl lg:text-6xl text-white mb-8 tracking-tight leading-[1.1]"
+          className="text-[34.5px] md:text-[55.2px] lg:text-[69px] text-white mb-8 tracking-tight leading-[1.1]"
         >
           <span className="font-black">Portifólio de artes</span><br />
           <span className="font-black">para </span><span className="text-[#FFCA16] font-normal italic">Redes Sociais</span>

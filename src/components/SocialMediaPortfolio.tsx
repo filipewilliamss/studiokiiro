@@ -93,7 +93,7 @@ const SocialMediaPortfolio = () => {
             style={{ x: x1, rotate: r1, y: y1, opacity: opacity1, zIndex: 10 }}
             className="absolute"
           >
-            <SmartphonePlaceholder image="https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&q=80&w=800" />
+            <SmartphonePlaceholder image="https://dohkkmvsrcuxssxmimxn.supabase.co/storage/v1/object/public/images/hts4foeb1l8-1779490857580.png" />
           </motion.div>
 
           {/* Smartphone 2 (Left Close) */}
@@ -101,7 +101,7 @@ const SocialMediaPortfolio = () => {
             style={{ x: x2, rotate: r2, y: y2, opacity: opacity2, zIndex: 20 }}
             className="absolute"
           >
-            <SmartphonePlaceholder image="https://images.unsplash.com/photo-1611162616305-c69b3fa7fbe0?auto=format&fit=crop&q=80&w=800" />
+            <SmartphonePlaceholder image="https://dohkkmvsrcuxssxmimxn.supabase.co/storage/v1/object/public/images/x0kq6od5on-1779491623931.jpg" />
           </motion.div>
 
           {/* Smartphone 4 (Right Close) */}
@@ -109,7 +109,7 @@ const SocialMediaPortfolio = () => {
             style={{ x: x4, rotate: r4, y: y4, opacity: opacity4, zIndex: 20 }}
             className="absolute"
           >
-            <SmartphonePlaceholder image="https://images.unsplash.com/photo-1611926653458-09294b319dd7?auto=format&fit=crop&q=80&w=800" />
+            <SmartphonePlaceholder image="https://dohkkmvsrcuxssxmimxn.supabase.co/storage/v1/object/public/images/z6xi886iv5f-1779491139170.png" />
           </motion.div>
 
           {/* Smartphone 5 (Right Far) */}
@@ -117,7 +117,7 @@ const SocialMediaPortfolio = () => {
             style={{ x: x5, rotate: r5, y: y5, opacity: opacity5, zIndex: 10 }}
             className="absolute"
           >
-            <SmartphonePlaceholder image="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&q=80&w=800" />
+            <SmartphonePlaceholder image="https://dohkkmvsrcuxssxmimxn.supabase.co/storage/v1/object/public/images/47su804n6ni-1779491090160.png" />
           </motion.div>
 
           {/* Smartphone 3 (Central - Front) */}
@@ -129,7 +129,7 @@ const SocialMediaPortfolio = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
-            <SmartphonePlaceholder image="https://images.unsplash.com/photo-1491897554428-130a60dd4757?auto=format&fit=crop&q=80&w=800" />
+            <SmartphonePlaceholder image="https://dohkkmvsrcuxssxmimxn.supabase.co/storage/v1/object/public/images/myw3140lx7s-1779492913529.jpg" />
           </motion.div>
 
         </div>

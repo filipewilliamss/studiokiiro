@@ -25,27 +25,30 @@ const SocialMediaPortfolio = () => {
 
   const fanProgress = useTransform(smoothProgress, [0.1, 0.3], [0, 1]);
 
-  // Phone 1 (Left far)
-  const x1 = useTransform(fanProgress, [0, 1], ["0%", isMobile ? "-40%" : "-120%"]);
-  const r1 = useTransform(fanProgress, [0, 1], [0, isMobile ? -5 : -15]);
-  const y1 = useTransform(fanProgress, [0, 1], [0, isMobile ? 10 : 20]);
-  const opacity1 = useTransform(fanProgress, [0, 0.5], [0, isMobile ? 0.3 : 1]);
+  // Phone 1 (Left far) - Starts latest
+  const fanProgress1 = useTransform(smoothProgress, [0.18, 0.35], [0, 1]);
+  const x1 = useTransform(fanProgress1, [0, 1], ["0%", isMobile ? "-45%" : "-120%"]);
+  const r1 = useTransform(fanProgress1, [0, 1], [0, isMobile ? -6 : -18]);
+  const y1 = useTransform(fanProgress1, [0, 1], [0, isMobile ? 12 : 25]);
+  const opacity1 = useTransform(fanProgress1, [0, 0.4], [0, 1]);
 
-  // Phone 2 (Left close)
-  const x2 = useTransform(fanProgress, [0, 1], ["0%", isMobile ? "-25%" : "-60%"]);
-  const r2 = useTransform(fanProgress, [0, 1], [0, isMobile ? -3 : -8]);
-  const y2 = useTransform(fanProgress, [0, 1], [0, isMobile ? 5 : 10]);
-  const opacity2 = useTransform(fanProgress, [0, 0.3], [0, 1]);
+  // Phone 2 (Left close) - Starts slightly after central
+  const fanProgress2 = useTransform(smoothProgress, [0.12, 0.28], [0, 1]);
+  const x2 = useTransform(fanProgress2, [0, 1], ["0%", isMobile ? "-28%" : "-65%"]);
+  const r2 = useTransform(fanProgress2, [0, 1], [0, isMobile ? -3 : -10]);
+  const y2 = useTransform(fanProgress2, [0, 1], [0, isMobile ? 6 : 12]);
+  const opacity2 = useTransform(fanProgress2, [0, 0.3], [0, 1]);
+
+  // Phone 4 (Right close) - Mirror of Phone 2
+  const x4 = useTransform(fanProgress2, [0, 1], ["0%", isMobile ? "28%" : "65%"]);
+  const r4 = useTransform(fanProgress2, [0, 1], [0, isMobile ? 3 : 10]);
+  const y4 = useTransform(fanProgress2, [0, 1], [0, isMobile ? 6 : 12]);
+  const opacity4 = useTransform(fanProgress2, [0, 0.3], [0, 1]);
 
   // Phone 3 (Central)
-  const scale3 = useTransform(fanProgress, [0, 1], [1, isMobile ? 1.02 : 1.05]);
-  const y3 = useTransform(fanProgress, [0, 1], [0, -10]);
-
-  // Phone 4 (Right close)
-  const x4 = useTransform(fanProgress, [0, 1], ["0%", isMobile ? "25%" : "60%"]);
-  const r4 = useTransform(fanProgress, [0, 1], [0, isMobile ? 3 : 8]);
-  const y4 = useTransform(fanProgress, [0, 1], [0, isMobile ? 5 : 10]);
-  const opacity4 = useTransform(fanProgress, [0, 0.3], [0, 1]);
+  const fanProgress3 = useTransform(smoothProgress, [0.1, 0.25], [0, 1]);
+  const scale3 = useTransform(fanProgress3, [0, 1], [1, isMobile ? 1.02 : 1.08]);
+  const y3 = useTransform(fanProgress3, [0, 1], [0, -15]);
 
   return (
     <section 

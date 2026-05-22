@@ -112,6 +112,14 @@ const SocialMediaPortfolio = () => {
             <SmartphonePlaceholder image="https://images.unsplash.com/photo-1611926653458-09294b319dd7?auto=format&fit=crop&q=80&w=800" />
           </motion.div>
 
+          {/* Smartphone 5 (Right Far) */}
+          <motion.div 
+            style={{ x: x5, rotate: r5, y: y5, opacity: opacity5, zIndex: 10 }}
+            className="absolute"
+          >
+            <SmartphonePlaceholder image="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&q=80&w=800" />
+          </motion.div>
+
           {/* Smartphone 3 (Central - Front) */}
           <motion.div 
             style={{ scale: scale3, y: y3, zIndex: 30 }}

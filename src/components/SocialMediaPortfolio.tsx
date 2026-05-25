@@ -62,7 +62,7 @@ const SocialMediaPortfolio = () => {
       className="relative min-h-[150vh] bg-black py-24 flex flex-col items-center overflow-hidden"
     >
       {/* Background Grid */}
-      <div className="absolute inset-0 grid-pattern-yellow opacity-70 pointer-events-none" />
+      <div className="absolute inset-0 grid-pattern opacity-70 pointer-events-none" />
       
       {/* Subtle Glow */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(255,202,22,0.03)_0%,transparent_70%)] pointer-events-none" />

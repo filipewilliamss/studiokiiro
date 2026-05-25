@@ -196,7 +196,7 @@ const SmartphonePlaceholder = ({ image, objectFit = "cover" }: { image: string, 
             <img 
               src={image} 
               alt="Social Media Art" 
-              className="w-full h-full object-cover opacity-90 transition-opacity duration-700 group-hover:opacity-100"
+              className={`w-full h-full ${objectFit === "contain" ? "object-contain" : "object-cover"} opacity-90 transition-opacity duration-700 group-hover:opacity-100`}
             />
             
             {/* Screen Depth/Shadow */}

@@ -129,7 +129,7 @@ const SocialMediaPortfolio = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
-            <SmartphonePlaceholder image="https://dohkkmvsrcuxssxmimxn.supabase.co/storage/v1/object/public/images/myw3140lx7s-1779492913529.jpg" />
+            <SmartphonePlaceholder image="https://dohkkmvsrcuxssxmimxn.supabase.co/storage/v1/object/public/images/dca7154cq2f-1779729714559.jpg" />
           </motion.div>
 
         </div>

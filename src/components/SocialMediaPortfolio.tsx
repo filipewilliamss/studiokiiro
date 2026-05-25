@@ -109,7 +109,10 @@ const SocialMediaPortfolio = () => {
             style={{ x: x4, rotate: r4, y: y4, opacity: opacity4, zIndex: 20 }}
             className="absolute"
           >
-            <SmartphonePlaceholder image="https://dohkkmvsrcuxssxmimxn.supabase.co/storage/v1/object/public/images/z6xi886iv5f-1779491139170.png" />
+            <SmartphonePlaceholder 
+              image="https://dohkkmvsrcuxssxmimxn.supabase.co/storage/v1/object/public/images/z6xi886iv5f-1779491139170.png" 
+              objectFit="contain"
+            />
           </motion.div>
 
           {/* Smartphone 5 (Right Far) */}
@@ -174,7 +177,7 @@ const SocialMediaPortfolio = () => {
   );
 };
 
-const SmartphonePlaceholder = ({ image }: { image: string }) => {
+const SmartphonePlaceholder = ({ image, objectFit = "cover" }: { image: string, objectFit?: "cover" | "contain" }) => {
   return (
     <div className="w-[190px] h-[410px] md:w-[280px] md:h-[600px] relative group" style={{ perspective: "1000px" }}>
       {/* Outer Glow/Reflection */}
@@ -193,7 +196,7 @@ const SmartphonePlaceholder = ({ image }: { image: string }) => {
             <img 
               src={image} 
               alt="Social Media Art" 
-              className="w-full h-full object-cover opacity-90 transition-opacity duration-700 group-hover:opacity-100"
+              className={`w-full h-full ${objectFit === "contain" ? "object-contain" : "object-cover"} opacity-90 transition-opacity duration-700 group-hover:opacity-100`}
             />
             
             {/* Screen Depth/Shadow */}

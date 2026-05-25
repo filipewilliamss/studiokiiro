@@ -111,7 +111,6 @@ const SocialMediaPortfolio = () => {
           >
           <SmartphonePlaceholder 
             image="https://dohkkmvsrcuxssxmimxn.supabase.co/storage/v1/object/public/images/rz7x4vhuyr-1779732013467.png" 
-            objectFit="contain"
           />
           </motion.div>
 

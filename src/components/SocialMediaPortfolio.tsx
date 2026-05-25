@@ -110,7 +110,7 @@ const SocialMediaPortfolio = () => {
             className="absolute"
           >
           <SmartphonePlaceholder 
-            image="https://dohkkmvsrcuxssxmimxn.supabase.co/storage/v1/object/public/images/rz7x4vhuyr-1779732013467.png" 
+            image="https://dohkkmvsrcuxssxmimxn.supabase.co/storage/v1/object/public/images/8gaktp9ln3-1779733239455.png" 
           />
           </motion.div>
 

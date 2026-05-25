@@ -119,7 +119,7 @@ const SocialMediaPortfolio = () => {
             style={{ x: x5, rotate: r5, y: y5, opacity: opacity5, zIndex: 10 }}
             className="absolute"
           >
-            <SmartphonePlaceholder image="https://dohkkmvsrcuxssxmimxn.supabase.co/storage/v1/object/public/images/47su804n6ni-1779491090160.png" />
+            <SmartphonePlaceholder image="https://dohkkmvsrcuxssxmimxn.supabase.co/storage/v1/object/public/images/97grnqq0tnv-1779733664436.png" />
           </motion.div>
 
           {/* Smartphone 3 (Central - Front) */}

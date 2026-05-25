@@ -61,6 +61,9 @@ const SocialMediaPortfolio = () => {
       ref={containerRef}
       className="relative min-h-[150vh] bg-black py-24 flex flex-col items-center overflow-hidden"
     >
+      {/* Background Grid */}
+      <div className="absolute inset-0 grid-pattern-yellow opacity-40 pointer-events-none" />
+      
       {/* Header */}
       <div className="container-editorial relative z-10 text-center mb-24 px-6">
         <motion.h2 

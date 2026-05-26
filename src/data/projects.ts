@@ -105,6 +105,11 @@ export const projects: Project[] = [
     solution: "Criamos um manual completo com 11 páginas incluindo logo, variações, malha construtiva, paleta de cores, tipografia e aplicações.",
     result: "Identidade visual coesa e memorável que posicionou o podcast como referência no segmento, com reconhecimento imediato em todas as plataformas.",
     tags: ["Logo Design", "Manual de Marca", "Podcast", "Branding Estratégico"],
+    videoBlock: {
+      title: "Vinheta de abertura",
+      url: "https://dohkkmvsrcuxssxmimxn.supabase.co/storage/v1/object/public/images/c5gd52ps3vc-1779796422280.gif",
+      description: "Esta vinheta foi criada para reforçar a identidade visual do podcast em cada episódio, conectando tipografia, cores e ritmo sonoro à essência do projeto: conversas profundas, autênticas e guiadas por propósito. Ela funciona como a assinatura visual e sonora da marca, abrindo e encerrando os conteúdos com consistência."
+    },
     logo: akedahLogo,
     pages: [
       "https://dohkkmvsrcuxssxmimxn.supabase.co/storage/v1/object/public/images/57r59rwo33m-1778087724805.png", 

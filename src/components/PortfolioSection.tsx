@@ -42,6 +42,7 @@ const ProjectCard = ({ project, index, total }: { project: any; index: number; t
   const dotsY = useTransform(scrollYProgress, [0, 1], [150, -150]);
   const bgScale = useTransform(scrollYProgress, [0, 0.5, 1], [1.2, 1, 1.2]);
   const akedahScale = useTransform(scrollYProgress, [0, 0.5, 1], [1.08, 0.9, 1.08]);
+  const teamLuisaScale = useTransform(scrollYProgress, [0, 0.5, 1], [0.96, 0.8, 0.96]);
   const bgOpacity = 1;
 
   return (
@@ -55,10 +56,11 @@ const ProjectCard = ({ project, index, total }: { project: any; index: number; t
       <div className="absolute inset-0 z-0">
         <motion.div 
           style={{ 
-            scale: project.slug === 'akedah-podcast' ? akedahScale : bgScale, 
+            scale: project.slug === 'akedah-podcast' ? akedahScale : 
+                   project.slug === 'team-luisa-crosstraining' ? teamLuisaScale : bgScale, 
             opacity: bgOpacity,
             backgroundImage: `url(${project.pages[0]})`,
-            backgroundSize: project.slug === 'tabernaculo-da-trindade' ? 'contain' : 'cover',
+            backgroundSize: (project.slug === 'tabernaculo-da-trindade' || project.slug === 'team-luisa-crosstraining') ? 'contain' : 'cover',
             backgroundRepeat: 'no-repeat',
             backgroundPosition: 'center'
           }}

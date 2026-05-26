@@ -277,7 +277,7 @@ const ProjectDetail = () => {
                 className="mb-48"
               >
                 <h2 className="text-[10px] uppercase tracking-[0.6em] text-[#FFCA16] font-bold mb-12 flex items-center gap-4">
-                  Construção, área de proteção e legibilidade
+                  {project.slug === 'team-luisa-crosstraining' ? 'Grid de construção do logo' : 'Construção, área de proteção e legibilidade'}
                 </h2>
                 <p className="text-xl font-light leading-relaxed text-white/80 max-w-4xl mb-16 whitespace-pre-line">
                   {project.construction}

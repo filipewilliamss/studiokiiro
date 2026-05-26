@@ -56,10 +56,11 @@ const ProjectCard = ({ project, index, total }: { project: any; index: number; t
       <div className="absolute inset-0 z-0">
         <motion.div 
           style={{ 
-            scale: project.slug === 'akedah-podcast' ? akedahScale : bgScale, 
+            scale: project.slug === 'akedah-podcast' ? akedahScale : 
+                   project.slug === 'team-luisa-crosstraining' ? teamLuisaScale : bgScale, 
             opacity: bgOpacity,
             backgroundImage: `url(${project.pages[0]})`,
-            backgroundSize: project.slug === 'tabernaculo-da-trindade' ? 'contain' : 'cover',
+            backgroundSize: (project.slug === 'tabernaculo-da-trindade' || project.slug === 'team-luisa-crosstraining') ? 'contain' : 'cover',
             backgroundRepeat: 'no-repeat',
             backgroundPosition: 'center'
           }}

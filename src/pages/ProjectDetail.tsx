@@ -282,9 +282,11 @@ const ProjectDetail = () => {
                 <p className="text-xl font-light leading-relaxed text-white/80 max-w-4xl mb-16 whitespace-pre-line">
                   {project.construction}
                 </p>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                  <ScrollAnimatedImage src={project.pages[3]} alt={`Malha construtiva ${project.title}`} className="w-full h-auto" />
-                  {project.pages[4] && (
+                <div className={`grid grid-cols-1 ${project.pages[4] && project.slug !== 'team-luisa-crosstraining' ? 'md:grid-cols-2' : ''} gap-8`}>
+                  <div className={project.slug === 'team-luisa-crosstraining' ? 'max-w-5xl mx-auto w-full' : ''}>
+                    <ScrollAnimatedImage src={project.pages[3]} alt={`Malha construtiva ${project.title}`} className="w-full h-auto" />
+                  </div>
+                  {project.pages[4] && project.slug !== 'team-luisa-crosstraining' && (
                     <ScrollAnimatedImage src={project.pages[4]} alt={`Área de proteção ${project.title}`} className="w-full h-auto" />
                   )}
                 </div>

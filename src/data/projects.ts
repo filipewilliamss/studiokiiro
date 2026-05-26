@@ -62,6 +62,8 @@ export interface Project {
   typography?: string; // New field
   symbols?: string; // New field
   nonRecommended?: string; // New field
+  instagramPosts?: string; // New field
+  instagramPostsImage?: string; // New field
   applications?: string; // New field
   finalResult?: string; // New field
   strategy: string;

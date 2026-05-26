@@ -67,6 +67,11 @@ export interface Project {
   tags: string[];
   logo: string;
   pages: string[];
+  videoBlock?: {
+    title: string;
+    url: string;
+    description: string;
+  };
   // Ficha técnica
   client: string;
   year: string;

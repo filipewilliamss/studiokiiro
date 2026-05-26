@@ -54,6 +54,9 @@ export interface Project {
   objective?: string; // New field
   concept?: string; // New field
   variations?: string; // New field
+  secondaryVariations?: string; // New field
+  secondaryVariationsImage?: string; // New field
+
   construction?: string; // New field
   colors?: string; // New field
   typography?: string; // New field

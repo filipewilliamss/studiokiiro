@@ -291,6 +291,31 @@ const ProjectDetail = () => {
               </motion.div>
             )}
 
+            {/* Secondary Variations (New Block) */}
+            {project.secondaryVariations && project.secondaryVariationsImage && (
+              <motion.div
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="mb-48"
+              >
+                <h2 className="text-[10px] uppercase tracking-[0.6em] text-[#FFCA16] font-bold mb-12 flex items-center gap-4">
+                  Variações do logotipo
+                </h2>
+                <p className="text-xl font-light leading-relaxed text-white/80 max-w-4xl mb-16 whitespace-pre-line">
+                  {project.secondaryVariations}
+                </p>
+                <div className="w-full flex justify-center py-8 md:py-12">
+                  <ScrollAnimatedImage 
+                    src={project.secondaryVariationsImage} 
+                    alt={`Variações do logotipo secundárias ${project.title}`}
+                    className="w-full h-auto" 
+                  />
+                </div>
+              </motion.div>
+            )}
+
+
             {/* Colors */}
             {project.colors && project.pages[5] && (
               <motion.div

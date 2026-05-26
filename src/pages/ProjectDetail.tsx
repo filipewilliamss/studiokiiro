@@ -209,13 +209,38 @@ const ProjectDetail = () => {
                 </p>
               </div>
               <div className="flex flex-col gap-12">
-                <div className="w-full flex justify-center py-12 md:py-16">
-                  <ScrollAnimatedImage 
-                    src={project.pages[0]} 
-                    className="w-full h-auto object-contain" 
-                    alt={`${project.title} Logo`}
-                  />
-                </div>
+                {project.videoBlock ? (
+                  <motion.div 
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    className="flex flex-col gap-8 w-full"
+                  >
+                    <div className="flex flex-col gap-4">
+                      <h3 className="text-[10px] uppercase tracking-[0.6em] text-[#FFCA16] font-bold">
+                        {project.videoBlock.title}
+                      </h3>
+                      <div className="w-full aspect-video relative overflow-hidden bg-black/20 rounded-sm">
+                        <img 
+                          src={project.videoBlock.url} 
+                          alt={project.videoBlock.title}
+                          className="w-full h-full object-contain"
+                        />
+                      </div>
+                    </div>
+                    <p className="text-xl font-light leading-relaxed text-white/80 max-w-4xl">
+                      {project.videoBlock.description}
+                    </p>
+                  </motion.div>
+                ) : (
+                  <div className="w-full flex justify-center py-12 md:py-16">
+                    <ScrollAnimatedImage 
+                      src={project.pages[0]} 
+                      className="w-full h-auto object-contain" 
+                      alt={`${project.title} Logo`}
+                    />
+                  </div>
+                )}
               </div>
             </motion.div>
 

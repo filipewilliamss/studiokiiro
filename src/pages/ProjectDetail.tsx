@@ -488,7 +488,7 @@ const ProjectDetail = () => {
         
         <div className="container-editorial relative z-10 pointer-events-none">
           <div className="flex flex-col items-center text-center">
-            <span className="text-[11.5px] uppercase tracking-[0.6em] text-[#FFCA16] font-bold -translate-y-[200px]">
+            <span className={`text-[11.5px] uppercase tracking-[0.6em] font-bold -translate-y-[200px] ${project.slug === 'akedah-podcast' ? 'text-black' : 'text-[#FFCA16]'}`}>
               Próximo Projeto
             </span>
             

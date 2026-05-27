@@ -59,10 +59,11 @@ const ProjectCard = ({ project, index, total }: { project: any; index: number; t
             scale: project.slug === 'akedah-podcast' ? akedahScale : 
                    project.slug === 'team-luisa-crosstraining' ? teamLuisaScale : bgScale, 
             opacity: bgOpacity,
-            backgroundImage: `url(${project.pages[0]})`,
-            backgroundSize: (project.slug === 'tabernaculo-da-trindade' || project.slug === 'team-luisa-crosstraining') ? 'contain' : 'cover',
+            backgroundImage: `url(${project.coverImage || project.pages[0]})`,
+            backgroundSize: project.slug === 'tabernaculo-da-trindade' ? 'contain' : 'cover',
             backgroundRepeat: 'no-repeat',
             backgroundPosition: 'center'
+
           }}
           className="w-full h-full transition-opacity duration-700"
         />

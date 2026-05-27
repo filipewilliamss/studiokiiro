@@ -215,7 +215,9 @@ export const projects: Project[] = [
     slug: "team-luisa-crosstraining",
     title: "Team Luísa Crosstraining",
     category: "Logotipo essencial",
+    coverImage: "https://dohkkmvsrcuxssxmimxn.supabase.co/storage/v1/object/public/images/itao7p6ecpb-1779904571956.png",
     bgColor: "#030304",
+
     intro: "Projeto visual com linguagem forte e memorável, criado para destacar a marca e reforçar sua presença no mercado.",
     subtitle: "Rebranding dinâmico para uma comunidade de cross training que valoriza força, energia e união.",
     about: "O Team Luísa Crosstraining é mais do que um centro de treinamento; é uma comunidade vibrante e focada em resultados. O projeto de rebranding visou traduzir essa energia coletiva e a força individual em uma identidade visual que motivasse os alunos e atraísse novos membros.",

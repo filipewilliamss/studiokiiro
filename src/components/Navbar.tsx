@@ -114,15 +114,25 @@ const Navbar = ({ forceBlack = true }: NavbarProps) => {
         >
           <div className="container-editorial py-6 flex flex-col gap-4">
             {navLinks.map((link) => (
-              <a
+              <Link
                 key={link.href}
-                href={getHref(link.href)}
-                onClick={() => setMenuOpen(false)}
+                to={`/#${link.href}`}
+                onClick={(e) => {
+                  setMenuOpen(false);
+                  if (isHome) {
+                    e.preventDefault();
+                    const element = document.getElementById(link.href);
+                    if (element) {
+                      element.scrollIntoView({ behavior: "smooth" });
+                    }
+                  }
+                }}
                 className={`text-sm transition-colors uppercase tracking-wide ${textClass}`}
               >
                 {link.label}
-              </a>
+              </Link>
             ))}
+
             <Link
               to="/area-do-cliente"
               onClick={() => setMenuOpen(false)}

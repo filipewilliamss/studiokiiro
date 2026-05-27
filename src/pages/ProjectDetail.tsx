@@ -40,7 +40,7 @@ const ProjectDetail = () => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       className="min-h-screen text-white selection:bg-[#FFCA16] selection:text-black overflow-x-hidden"
-      style={{ backgroundColor: "#000000" }}
+      style={{ backgroundColor: project.bgColor || "#000000" }}
     >
       <SEO 
         title={project.title}

@@ -83,7 +83,7 @@ const ProjectDetail = () => {
               backgroundPosition: 'center'
             }}
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#06121C] via-[#06121C]/40 to-transparent" 
+          <div className="absolute inset-0 bg-gradient-to-t from-transparent" 
                style={{ 
                  backgroundImage: `linear-gradient(to top, ${project.bgColor || '#000000'}, ${project.bgColor || '#000000'}66, transparent)` 
                }} 

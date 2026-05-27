@@ -56,18 +56,31 @@ const Navbar = ({ forceBlack = true }: NavbarProps) => {
 
         {/* Desktop */}
         <div className="hidden lg:flex items-center gap-10">
-          {navLinks.map((link, idx) => (
-            <a
-              key={link.href}
-              href={getHref(link.href)}
-              className={textClass}
-            >
-              <span className="text-white/30 mr-2 font-mono text-[9px] tracking-normal">
-                0{idx + 1}
-              </span>
-              {link.label}
-            </a>
-          ))}
+          {navLinks.map((link, idx) => {
+            const href = `/#${link.href}`;
+            return (
+              <Link
+                key={link.href}
+                to={href}
+                className={textClass}
+                onClick={(e) => {
+                  if (isHome) {
+                    e.preventDefault();
+                    const element = document.getElementById(link.href);
+                    if (element) {
+                      element.scrollIntoView({ behavior: "smooth" });
+                    }
+                  }
+                }}
+              >
+                <span className="text-white/30 mr-2 font-mono text-[9px] tracking-normal">
+                  0{idx + 1}
+                </span>
+                {link.label}
+              </Link>
+            );
+          })}
+
           <Link
             to="/area-do-cliente"
             className={`${areaClienteTextClass} rounded-none`}

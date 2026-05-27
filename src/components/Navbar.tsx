@@ -4,12 +4,13 @@ import { motion } from "framer-motion";
 import kiiroLogo from "@/assets/logo.webp";
 
 const navLinks = [
-  { label: "Sobre", href: "#sobre" },
-  { label: "Serviços", href: "#servicos" },
-  { label: "Processo", href: "#processo" },
-  { label: "Portfólio", href: "#portfolio" },
-  { label: "Contato", href: "#contato" },
+  { label: "Sobre", href: "sobre" },
+  { label: "Serviços", href: "servicos" },
+  { label: "Processo", href: "processo" },
+  { label: "Portfólio", href: "portfolio" },
+  { label: "Contato", href: "contato" },
 ];
+
 
 interface NavbarProps {
   forceBlack?: boolean;
@@ -21,7 +22,7 @@ const Navbar = ({ forceBlack = true }: NavbarProps) => {
   const location = useLocation();
   const isHome = location.pathname === "/";
 
-  const getHref = (anchor: string) => (isHome ? anchor : `/${anchor}`);
+  
   const logoHref = "/";
 
   useEffect(() => {
@@ -55,18 +56,31 @@ const Navbar = ({ forceBlack = true }: NavbarProps) => {
 
         {/* Desktop */}
         <div className="hidden lg:flex items-center gap-10">
-          {navLinks.map((link, idx) => (
-            <a
-              key={link.href}
-              href={getHref(link.href)}
-              className={textClass}
-            >
-              <span className="text-white/30 mr-2 font-mono text-[9px] tracking-normal">
-                0{idx + 1}
-              </span>
-              {link.label}
-            </a>
-          ))}
+          {navLinks.map((link, idx) => {
+            const href = `/#${link.href}`;
+            return (
+              <Link
+                key={link.href}
+                to={href}
+                className={textClass}
+                onClick={(e) => {
+                  if (isHome) {
+                    e.preventDefault();
+                    const element = document.getElementById(link.href);
+                    if (element) {
+                      element.scrollIntoView({ behavior: "smooth" });
+                    }
+                  }
+                }}
+              >
+                <span className="text-white/30 mr-2 font-mono text-[9px] tracking-normal">
+                  0{idx + 1}
+                </span>
+                {link.label}
+              </Link>
+            );
+          })}
+
           <Link
             to="/area-do-cliente"
             className={`${areaClienteTextClass} rounded-none`}
@@ -100,15 +114,25 @@ const Navbar = ({ forceBlack = true }: NavbarProps) => {
         >
           <div className="container-editorial py-6 flex flex-col gap-4">
             {navLinks.map((link) => (
-              <a
+              <Link
                 key={link.href}
-                href={getHref(link.href)}
-                onClick={() => setMenuOpen(false)}
+                to={`/#${link.href}`}
+                onClick={(e) => {
+                  setMenuOpen(false);
+                  if (isHome) {
+                    e.preventDefault();
+                    const element = document.getElementById(link.href);
+                    if (element) {
+                      element.scrollIntoView({ behavior: "smooth" });
+                    }
+                  }
+                }}
                 className={`text-sm transition-colors uppercase tracking-wide ${textClass}`}
               >
                 {link.label}
-              </a>
+              </Link>
             ))}
+
             <Link
               to="/area-do-cliente"
               onClick={() => setMenuOpen(false)}

@@ -13,7 +13,7 @@ const SEO = ({
   title = "Studio Kiiro | Design Estratégico & Identidade Visual", 
   description = "Studio Kiiro — Design estratégico que transforma marcas em referência visual. Especialistas em Identidade Visual, Branding e Presença Digital em São Paulo.",
   image = "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/d267e9c4-5caf-40ac-a058-3159ed1fe30c/id-preview-1aaaf73e--329d2406-9190-4896-bf7a-d98ea9a495ee.lovable.app-1773278607521.png",
-  url = "https://studiokiiro.com.br",
+  url = "https://studiokiiro.com",
   type = "website",
   schema
 }: SEOProps) => {

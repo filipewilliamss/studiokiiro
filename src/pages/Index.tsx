@@ -23,15 +23,13 @@ const Index = () => {
     "@type": "ProfessionalService",
     "name": "Studio Kiiro",
     "image": "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/d267e9c4-5caf-40ac-a058-3159ed1fe30c/id-preview-1aaaf73e--329d2406-9190-4896-bf7a-d98ea9a495ee.lovable.app-1773278607521.png",
-    "@id": "https://studiokiiro.com.br",
-    "url": "https://studiokiiro.com.br",
-    "telephone": "+5511999999999",
+    "@id": "https://studiokiiro.com",
+    "url": "https://studiokiiro.com",
+    "telephone": "+5511991076096",
     "address": {
       "@type": "PostalAddress",
-      "streetAddress": "Av. Paulista",
       "addressLocality": "São Paulo",
       "addressRegion": "SP",
-      "postalCode": "01310-100",
       "addressCountry": "BR"
     },
     "geo": {

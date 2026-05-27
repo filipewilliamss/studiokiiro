@@ -22,7 +22,7 @@ const Navbar = ({ forceBlack = true }: NavbarProps) => {
   const location = useLocation();
   const isHome = location.pathname === "/";
 
-  const getHref = (anchor: string) => (isHome ? anchor : `/${anchor}`);
+  
   const logoHref = "/";
 
   useEffect(() => {

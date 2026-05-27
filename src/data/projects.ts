@@ -46,8 +46,10 @@ export interface Project {
   slug: string;
   title: string;
   category: string;
+  coverImage?: string;
   bgColor: string;
   intro: string;
+
   subtitle?: string; // New field
   about?: string; // New field
   challenge: string;

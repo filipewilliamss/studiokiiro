@@ -59,7 +59,7 @@ export const CookieConsent = () => {
                 <div className="flex flex-col sm:flex-row gap-3">
                   <Button 
                     onClick={acceptCookies}
-                    className="bg-kiiro hover:bg-kiiro-dark text-black font-semibold rounded-full px-8 py-2 h-auto"
+                    className="bg-kiiro hover:bg-kiiro-dark text-white font-semibold rounded-full px-8 py-2 h-auto"
                   >
                     Aceitar Todos
                   </Button>

@@ -4,12 +4,13 @@ import { motion } from "framer-motion";
 import kiiroLogo from "@/assets/logo.webp";
 
 const navLinks = [
-  { label: "Sobre", href: "#sobre" },
-  { label: "Serviços", href: "#servicos" },
-  { label: "Processo", href: "#processo" },
-  { label: "Portfólio", href: "#portfolio" },
-  { label: "Contato", href: "#contato" },
+  { label: "Sobre", href: "sobre" },
+  { label: "Serviços", href: "servicos" },
+  { label: "Processo", href: "processo" },
+  { label: "Portfólio", href: "portfolio" },
+  { label: "Contato", href: "contato" },
 ];
+
 
 interface NavbarProps {
   forceBlack?: boolean;

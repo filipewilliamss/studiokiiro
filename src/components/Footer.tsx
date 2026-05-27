@@ -3,7 +3,7 @@ import kiiroLogo from "@/assets/logo.webp";
 
 const Footer = () => {
   return (
-    <footer className="bg-[#050605] py-20 px-6 border-t border-white/5">
+    <footer className="bg-transparent py-20 px-6 border-t border-white/5">
       <div className="container-editorial">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-16 md:gap-8">
           

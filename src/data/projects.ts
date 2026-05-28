@@ -79,6 +79,8 @@ export interface Project {
   englishIdentityImage?: string;
   missionsLogo?: string;
   missionsLogoImage?: string;
+  animatedLogoVideo?: string;
+  animatedLogoDescription?: string;
 
   strategy: string;
   solution: string;
@@ -214,6 +216,10 @@ export const projects: Project[] = [
     missionsLogo: "TT Missions é a identidade visual dedicada aos projetos missionários internacionais da Tabernáculo da Trindade. Essa assinatura representa o compromisso da igreja em levar o Evangelho além das fronteiras culturais e geográficas, servindo povos e nações com a mesma Palavra que a fundamenta desde 1998.\n\nO elemento da chama dentro da letra “O” reforça o caráter missional inflamado pelo Espírito Santo, que envia, capacita e sustenta cada ação em campo.",
     
     secondaryVariations: "O logotipo possui duas composições principais com o símbolo institucional: versão vertical e versão horizontal.\n\nA versão vertical reforça a hierarquia do símbolo como estandarte da identidade, sendo indicada para aplicações institucionais, materiais devocionais e formatos com maior altura. A versão horizontal foi desenvolvida para situações em que o espaço disponível é mais amplo que alto, como fachadas, cabeçalhos, banners e materiais digitais.",
+    
+    animatedLogoVideo: "https://wqxuprmlsapiucjxleih.supabase.co/storage/v1/object/public/files/dcea5c4a-888f-4a5f-bcfd-10febf11b697-animacao.mp4",
+    animatedLogoDescription: "A animação do logotipo traz vida à identidade visual, destacando a força do Leão de Judá e a fluidez dos elementos gráficos. Criada para ser utilizada em aberturas de vídeos, mídias sociais e apresentações digitais, ela reforça o dinamismo e a modernidade da Igreja Tabernáculo da Trindade.",
+
     
     colors: "A paleta de cores foi definida para refletir os valores espirituais e institucionais da Tabernáculo da Trindade:\n\n– DOURADO (#C2A782): Representa a glória de Deus, realeza, santidade e autoridade espiritual.\n– AZUL MARINHO (#06121C): Simboliza eternidade, reverência e dimensão celestial.\n– PRETO (#000000): Comunica sobriedade, respeito e solidez.\n– BRANCO (#FFFFFF): Reforça pureza, luz e clareza.",
     

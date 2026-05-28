@@ -190,7 +190,233 @@ const ProjectDetail = () => {
       </section>
 
       {/* DETAILED PROJECT CONTENT */}
-      {project.concept ? (
+      {project.slug === 'tabernaculo-da-trindade' ? (
+        <section className="pb-32 relative z-10">
+          <div className="container-editorial">
+            {/* 1. Apresentação is handled by aboutSection if exists, but we can also use concept if about is already used */}
+            
+            {/* 2. Logotipo */}
+            {project.variations && (
+              <motion.div
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="mb-48"
+              >
+                <h2 className="text-[10px] uppercase tracking-[0.6em] text-[#FFCA16] font-bold mb-12 flex items-center gap-4">
+                  Logotipo
+                </h2>
+                <p className="text-xl font-light leading-relaxed text-white/80 max-w-4xl mb-16 whitespace-pre-line">
+                  {project.variations}
+                </p>
+                <div className="w-full flex justify-center py-8 md:py-12 bg-white/5 border border-dashed border-white/20 rounded-lg min-h-[400px] items-center">
+                  <span className="text-white/40 uppercase tracking-widest text-xs font-medium">Imagem Logotipo em breve</span>
+                </div>
+              </motion.div>
+            )}
+
+            {/* 3. Monograma */}
+            {project.monogram && (
+              <motion.div
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="mb-48"
+              >
+                <h2 className="text-[10px] uppercase tracking-[0.6em] text-[#FFCA16] font-bold mb-12 flex items-center gap-4">
+                  Monograma
+                </h2>
+                <p className="text-xl font-light leading-relaxed text-white/80 max-w-4xl mb-16 whitespace-pre-line">
+                  {project.monogram}
+                </p>
+                <div className="w-full flex justify-center py-8 md:py-12 bg-white/5 border border-dashed border-white/20 rounded-lg min-h-[400px] items-center">
+                  <span className="text-white/40 uppercase tracking-widest text-xs font-medium">Imagem Monograma em breve</span>
+                </div>
+              </motion.div>
+            )}
+
+            {/* 4. Grid de Construção */}
+            {project.construction && (
+              <motion.div
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="mb-48"
+              >
+                <h2 className="text-[10px] uppercase tracking-[0.6em] text-[#FFCA16] font-bold mb-12 flex items-center gap-4">
+                  Grid de Construção
+                </h2>
+                <p className="text-xl font-light leading-relaxed text-white/80 max-w-4xl mb-16 whitespace-pre-line">
+                  {project.construction}
+                </p>
+                <div className="w-full flex justify-center py-8 md:py-12 bg-white/5 border border-dashed border-white/20 rounded-lg min-h-[400px] items-center">
+                  <span className="text-white/40 uppercase tracking-widest text-xs font-medium">Imagem Grid em breve</span>
+                </div>
+              </motion.div>
+            )}
+
+            {/* 5. Símbolo */}
+            {project.symbol && (
+              <motion.div
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="mb-48"
+              >
+                <h2 className="text-[10px] uppercase tracking-[0.6em] text-[#FFCA16] font-bold mb-12 flex items-center gap-4">
+                  Símbolo
+                </h2>
+                <p className="text-xl font-light leading-relaxed text-white/80 max-w-4xl mb-16 whitespace-pre-line">
+                  {project.symbol}
+                </p>
+                <div className="w-full flex justify-center py-8 md:py-12 bg-white/5 border border-dashed border-white/20 rounded-lg min-h-[400px] items-center">
+                  <span className="text-white/40 uppercase tracking-widest text-xs font-medium">Imagem Símbolo em breve</span>
+                </div>
+              </motion.div>
+            )}
+
+            {/* 6. Simbologia Bíblica */}
+            {project.biblicalSimbology && (
+              <motion.div
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="mb-48"
+              >
+                <h2 className="text-[10px] uppercase tracking-[0.6em] text-[#FFCA16] font-bold mb-12 flex items-center gap-4">
+                  Simbologia Bíblica
+                </h2>
+                <p className="text-xl font-light leading-relaxed text-white/80 max-w-4xl mb-16 whitespace-pre-line">
+                  {project.biblicalSimbology}
+                </p>
+                <div className="w-full flex justify-center py-8 md:py-12 bg-white/5 border border-dashed border-white/20 rounded-lg min-h-[400px] items-center">
+                  <span className="text-white/40 uppercase tracking-widest text-xs font-medium">Imagem Simbologia em breve</span>
+                </div>
+              </motion.div>
+            )}
+
+            {/* 7. Identidade em Inglês */}
+            {project.englishIdentity && (
+              <motion.div
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="mb-48"
+              >
+                <h2 className="text-[10px] uppercase tracking-[0.6em] text-[#FFCA16] font-bold mb-12 flex items-center gap-4">
+                  Identidade em Inglês
+                </h2>
+                <p className="text-xl font-light leading-relaxed text-white/80 max-w-4xl mb-16 whitespace-pre-line">
+                  {project.englishIdentity}
+                </p>
+                <div className="w-full flex justify-center py-8 md:py-12 bg-white/5 border border-dashed border-white/20 rounded-lg min-h-[400px] items-center">
+                  <span className="text-white/40 uppercase tracking-widest text-xs font-medium">Imagem Identidade em Inglês em breve</span>
+                </div>
+              </motion.div>
+            )}
+
+            {/* 8. Logotipo para Missões */}
+            {project.missionsLogo && (
+              <motion.div
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="mb-48"
+              >
+                <h2 className="text-[10px] uppercase tracking-[0.6em] text-[#FFCA16] font-bold mb-12 flex items-center gap-4">
+                  Logotipo para Missões
+                </h2>
+                <p className="text-xl font-light leading-relaxed text-white/80 max-w-4xl mb-16 whitespace-pre-line">
+                  {project.missionsLogo}
+                </p>
+                <div className="w-full flex justify-center py-8 md:py-12 bg-white/5 border border-dashed border-white/20 rounded-lg min-h-[400px] items-center">
+                  <span className="text-white/40 uppercase tracking-widest text-xs font-medium">Imagem Missões em breve</span>
+                </div>
+              </motion.div>
+            )}
+
+            {/* 9. Variações do Logotipo */}
+            {project.secondaryVariations && (
+              <motion.div
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="mb-48"
+              >
+                <h2 className="text-[10px] uppercase tracking-[0.6em] text-[#FFCA16] font-bold mb-12 flex items-center gap-4">
+                  Variações do Logotipo
+                </h2>
+                <p className="text-xl font-light leading-relaxed text-white/80 max-w-4xl mb-16 whitespace-pre-line">
+                  {project.secondaryVariations}
+                </p>
+                <div className="w-full flex justify-center py-8 md:py-12 bg-white/5 border border-dashed border-white/20 rounded-lg min-h-[400px] items-center">
+                  <span className="text-white/40 uppercase tracking-widest text-xs font-medium">Imagem Variações em breve</span>
+                </div>
+              </motion.div>
+            )}
+
+            {/* 10. Paleta de Cores */}
+            {project.colors && (
+              <motion.div
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="mb-48"
+              >
+                <h2 className="text-[10px] uppercase tracking-[0.6em] text-[#FFCA16] font-bold mb-12 flex items-center gap-4">
+                  Paleta de Cores
+                </h2>
+                <p className="text-xl font-light leading-relaxed text-white/80 max-w-4xl mb-16 whitespace-pre-line">
+                  {project.colors}
+                </p>
+                <div className="w-full flex justify-center py-8 md:py-12 bg-white/5 border border-dashed border-white/20 rounded-lg min-h-[400px] items-center">
+                  <span className="text-white/40 uppercase tracking-widest text-xs font-medium">Imagem Cores em breve</span>
+                </div>
+              </motion.div>
+            )}
+
+            {/* 11. Tipografia */}
+            {project.typography && (
+              <motion.div
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="mb-48"
+              >
+                <h2 className="text-[10px] uppercase tracking-[0.6em] text-[#FFCA16] font-bold mb-12 flex items-center gap-4">
+                  Tipografia
+                </h2>
+                <p className="text-xl font-light leading-relaxed text-white/80 max-w-4xl mb-16 whitespace-pre-line">
+                  {project.typography}
+                </p>
+                <div className="w-full flex justify-center py-8 md:py-12 bg-white/5 border border-dashed border-white/20 rounded-lg min-h-[400px] items-center">
+                  <span className="text-white/40 uppercase tracking-widest text-xs font-medium">Imagem Tipografia em breve</span>
+                </div>
+              </motion.div>
+            )}
+
+            {/* 12. Aplicações Proibidas */}
+            {project.nonRecommended && (
+              <motion.div
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="mb-48"
+              >
+                <h2 className="text-[10px] uppercase tracking-[0.6em] text-[#FFCA16] font-bold mb-12 flex items-center gap-4">
+                  Aplicações Proibidas
+                </h2>
+                <p className="text-xl font-light leading-relaxed text-white/80 max-w-4xl mb-16 whitespace-pre-line">
+                  {project.nonRecommended}
+                </p>
+                <div className="w-full flex justify-center py-8 md:py-12 bg-white/5 border border-dashed border-white/20 rounded-lg min-h-[400px] items-center">
+                  <span className="text-white/40 uppercase tracking-widest text-xs font-medium">Imagem Aplicações Proibidas em breve</span>
+                </div>
+              </motion.div>
+            )}
+          </div>
+        </section>
+      ) : project.concept ? (
         <section className="pb-32 relative z-10">
           <div className="container-editorial">
             {/* Concept section */}

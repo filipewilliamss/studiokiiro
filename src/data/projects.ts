@@ -50,24 +50,36 @@ export interface Project {
   bgColor: string;
   intro: string;
 
-  subtitle?: string; // New field
-  about?: string; // New field
+  subtitle?: string;
+  about?: string;
   challenge: string;
-  objective?: string; // New field
-  concept?: string; // New field
-  variations?: string; // New field
-  secondaryVariations?: string; // New field
-  secondaryVariationsImage?: string; // New field
+  objective?: string;
+  concept?: string;
+  variations?: string;
+  secondaryVariations?: string;
+  secondaryVariationsImage?: string;
 
-  construction?: string; // New field
-  colors?: string; // New field
-  typography?: string; // New field
-  symbols?: string; // New field
-  nonRecommended?: string; // New field
-  instagramPosts?: string; // New field
-  instagramPostsImage?: string; // New field
-  applications?: string; // New field
-  finalResult?: string; // New field
+  construction?: string;
+  colors?: string;
+  typography?: string;
+  symbols?: string;
+  nonRecommended?: string;
+  instagramPosts?: string;
+  instagramPostsImage?: string;
+  applications?: string;
+  finalResult?: string;
+  
+  // New fields for Tabernaculo
+  monogram?: string;
+  monogramImage?: string;
+  symbol?: string;
+  symbolImage?: string;
+  biblicalSimbology?: string;
+  englishIdentity?: string;
+  englishIdentityImage?: string;
+  missionsLogo?: string;
+  missionsLogoImage?: string;
+
   strategy: string;
   solution: string;
   result: string;

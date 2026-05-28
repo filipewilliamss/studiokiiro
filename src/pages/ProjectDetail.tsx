@@ -355,6 +355,33 @@ const ProjectDetail = () => {
               </motion.div>
             )}
 
+            {/* 10. Logotipo Animado */}
+            {project.animatedLogoVideo && (
+              <motion.div
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="mb-48"
+              >
+                <h2 className="text-[10px] uppercase tracking-[0.6em] text-[#FFCA16] font-bold mb-12 flex items-center gap-4">
+                  Logotipo Animado
+                </h2>
+                <p className="text-xl font-light leading-relaxed text-white/80 max-w-4xl mb-16 whitespace-pre-line">
+                  {project.animatedLogoDescription}
+                </p>
+                <div className="w-full aspect-video bg-white/5 border border-white/10 rounded-lg overflow-hidden relative">
+                  <video 
+                    src={project.animatedLogoVideo}
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              </motion.div>
+            )}
+
             {/* 10. Paleta de Cores */}
             {project.colors && (
               <motion.div

@@ -382,7 +382,7 @@ const ProjectDetail = () => {
               </motion.div>
             )}
 
-            {/* 10. Paleta de Cores */}
+            {/* 11. Paleta de Cores */}
             {project.colors && (
               <motion.div
                 initial={{ opacity: 0, y: 40 }}
@@ -402,7 +402,7 @@ const ProjectDetail = () => {
               </motion.div>
             )}
 
-            {/* 11. Tipografia */}
+            {/* 12. Tipografia */}
             {project.typography && (
               <motion.div
                 initial={{ opacity: 0, y: 40 }}
@@ -422,7 +422,7 @@ const ProjectDetail = () => {
               </motion.div>
             )}
 
-            {/* 12. Aplicações Proibidas */}
+            {/* 13. Aplicações Proibidas */}
             {project.nonRecommended && (
               <motion.div
                 initial={{ opacity: 0, y: 40 }}

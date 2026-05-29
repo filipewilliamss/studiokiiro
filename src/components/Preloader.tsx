@@ -10,6 +10,10 @@ const Preloader: React.FC<{ onComplete: () => void }> = ({ onComplete }) => {
   useEffect(() => {
     const cols = window.innerWidth < 768 ? 6 : 10;
     setBlocks(Array.from({ length: cols }, (_, i) => i));
+  }, []);
+
+  useEffect(() => {
+    if (blocks.length === 0) return;
 
     const ctx = gsap.context(() => {
       const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -75,7 +79,7 @@ const Preloader: React.FC<{ onComplete: () => void }> = ({ onComplete }) => {
     }, containerRef);
 
     return () => ctx.revert();
-  }, [onComplete]);
+  }, [blocks, onComplete]);
 
   return (
     <div ref={containerRef} className="fixed inset-0 z-[9999] flex items-center justify-center bg-[#070807] overflow-hidden">

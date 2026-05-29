@@ -49,7 +49,7 @@ const ProjectCard = ({ project, index, total }: { project: any; index: number; t
     <article 
       ref={cardRef}
       onMouseMove={handleMouseMove}
-      className="relative h-screen w-full flex items-center justify-center overflow-hidden snap-start"
+      className="relative h-[100dvh] w-full flex items-center justify-center overflow-hidden snap-start"
       style={{ backgroundColor: project.bgColor || "#000000" }}
     >
       {/* Background Image with Gradient Overlay */}

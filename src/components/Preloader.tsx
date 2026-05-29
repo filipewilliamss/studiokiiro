@@ -8,7 +8,7 @@ const Preloader: React.FC<{ onComplete: () => void }> = ({ onComplete }) => {
   const [blocks, setBlocks] = useState<number[]>([]);
 
   useEffect(() => {
-    const cols = 10;
+    const cols = window.innerWidth < 768 ? 6 : 10;
     setBlocks(Array.from({ length: cols }, (_, i) => i));
 
     const ctx = gsap.context(() => {

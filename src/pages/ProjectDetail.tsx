@@ -500,6 +500,243 @@ const ProjectDetail = () => {
             )}
           </div>
         </section>
+      ) : project.slug === 'construmar' ? (
+        <section className="pb-32 relative z-10">
+          <div className="container-editorial">
+            {/* 1. Logotipo */}
+            {project.concept && (
+              <motion.div
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="mb-48"
+              >
+                <h2 className={`text-[10px] uppercase tracking-[0.6em] text-[#FFCA16] font-bold mb-12 flex items-center gap-4`}>
+                  Logotipo
+                </h2>
+                <p className={`text-xl font-light leading-relaxed ${textColorClass} max-w-4xl mb-16 whitespace-pre-line`}>
+                  {project.concept}
+                </p>
+                <div className="w-full flex justify-center py-8 md:py-12">
+                  <ScrollAnimatedImage 
+                    src={project.pages[0]} 
+                    alt="Logotipo" 
+                    className="w-full h-auto" 
+                  />
+                </div>
+              </motion.div>
+            )}
+
+            {/* 2. Versões do Logotipo */}
+            {project.variations && (
+              <motion.div
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="mb-48"
+              >
+                <h2 className={`text-[10px] uppercase tracking-[0.6em] text-[#FFCA16] font-bold mb-12 flex items-center gap-4`}>
+                  Versões do Logotipo
+                </h2>
+                <p className={`text-xl font-light leading-relaxed ${textColorClass} max-w-4xl mb-16 whitespace-pre-line`}>
+                  {project.variations}
+                </p>
+                <div className="w-full flex justify-center py-8 md:py-12">
+                  <ScrollAnimatedImage 
+                    src={project.pages[1]} 
+                    alt="Versões do Logotipo" 
+                    className="w-full h-auto" 
+                  />
+                </div>
+              </motion.div>
+            )}
+
+            {/* 3. Paleta de Cores */}
+            {project.colors && (
+              <motion.div
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="mb-48"
+              >
+                <h2 className={`text-[10px] uppercase tracking-[0.6em] text-[#FFCA16] font-bold mb-12 flex items-center gap-4`}>
+                  Paleta de Cores
+                </h2>
+                <p className={`text-xl font-light leading-relaxed ${textColorClass} max-w-4xl mb-16 whitespace-pre-line`}>
+                  {project.colors}
+                </p>
+                <div className="w-full flex justify-center py-8 md:py-12">
+                  <ScrollAnimatedImage 
+                    src={project.pages[2]} 
+                    alt="Paleta de Cores" 
+                    className="w-full h-auto" 
+                  />
+                </div>
+              </motion.div>
+            )}
+
+            {/* 4. Versões monocromáticas */}
+            {project.secondaryVariations && (
+              <motion.div
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="mb-48"
+              >
+                <h2 className={`text-[10px] uppercase tracking-[0.6em] text-[#FFCA16] font-bold mb-12 flex items-center gap-4`}>
+                  Versões monocromáticas
+                </h2>
+                <p className={`text-xl font-light leading-relaxed ${textColorClass} max-w-4xl mb-16 whitespace-pre-line`}>
+                  {project.secondaryVariations}
+                </p>
+                <div className="w-full flex justify-center py-8 md:py-12">
+                  <ScrollAnimatedImage 
+                    src={project.secondaryVariationsImage} 
+                    alt="Versões monocromáticas" 
+                    className="w-full h-auto" 
+                  />
+                </div>
+              </motion.div>
+            )}
+
+            {/* 5. Grid de construção */}
+            {project.construction && (
+              <motion.div
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="mb-48"
+              >
+                <h2 className={`text-[10px] uppercase tracking-[0.6em] text-[#FFCA16] font-bold mb-12 flex items-center gap-4`}>
+                  Grid de construção
+                </h2>
+                <p className={`text-xl font-light leading-relaxed ${textColorClass} max-w-4xl mb-16 whitespace-pre-line`}>
+                  {project.construction}
+                </p>
+                <div className="w-full flex justify-center py-8 md:py-12">
+                  <ScrollAnimatedImage 
+                    src={project.pages[4]} 
+                    alt="Grid de construção" 
+                    className="w-full h-auto" 
+                  />
+                </div>
+              </motion.div>
+            )}
+
+            {/* 6. Redução mínima */}
+            {project.minimumReduction && (
+              <motion.div
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="mb-48"
+              >
+                <h2 className={`text-[10px] uppercase tracking-[0.6em] text-[#FFCA16] font-bold mb-12 flex items-center gap-4`}>
+                  Redução mínima
+                </h2>
+                <p className={`text-xl font-light leading-relaxed ${textColorClass} max-w-4xl mb-16 whitespace-pre-line`}>
+                  {project.minimumReduction}
+                </p>
+                <div className="w-full flex justify-center py-8 md:py-12">
+                  <ScrollAnimatedImage 
+                    src={project.minimumReductionImage} 
+                    alt="Redução mínima" 
+                    className="w-full h-auto" 
+                  />
+                </div>
+              </motion.div>
+            )}
+
+            {/* 7. Tipografia */}
+            {project.typography && (
+              <motion.div
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="mb-48"
+              >
+                <h2 className={`text-[10px] uppercase tracking-[0.6em] text-[#FFCA16] font-bold mb-12 flex items-center gap-4`}>
+                  Tipografia
+                </h2>
+                <p className={`text-xl font-light leading-relaxed ${textColorClass} max-w-4xl mb-16 whitespace-pre-line`}>
+                  {project.typography}
+                </p>
+                <div className="w-full flex justify-center py-8 md:py-12">
+                  <ScrollAnimatedImage 
+                    src={project.pages[6]} 
+                    alt="Tipografia" 
+                    className="w-full h-auto" 
+                  />
+                </div>
+              </motion.div>
+            )}
+
+            {/* 8. Aplicações permitidas */}
+            {project.applications && (
+              <motion.div
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="mb-48"
+              >
+                <h2 className={`text-[10px] uppercase tracking-[0.6em] text-[#FFCA16] font-bold mb-12 flex items-center gap-4`}>
+                  Aplicações permitidas
+                </h2>
+                <p className={`text-xl font-light leading-relaxed ${textColorClass} max-w-4xl mb-16 whitespace-pre-line`}>
+                  {project.applications}
+                </p>
+                <div className="w-full flex justify-center py-8 md:py-12">
+                  <ScrollAnimatedImage 
+                    src={project.pages[7]} 
+                    alt="Aplicações permitidas" 
+                    className="w-full h-auto" 
+                  />
+                </div>
+              </motion.div>
+            )}
+
+            {/* 9. Aplicações Proíbidas */}
+            {project.nonRecommended && (
+              <motion.div
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="mb-48"
+              >
+                <h2 className={`text-[10px] uppercase tracking-[0.6em] text-[#FFCA16] font-bold mb-12 flex items-center gap-4`}>
+                  Aplicações Proíbidas
+                </h2>
+                <p className={`text-xl font-light leading-relaxed ${textColorClass} max-w-4xl mb-16 whitespace-pre-line`}>
+                  {project.nonRecommended}
+                </p>
+                <div className="w-full flex justify-center py-8 md:py-12">
+                  <ScrollAnimatedImage 
+                    src={project.pages[8]} 
+                    alt="Aplicações Proíbidas" 
+                    className="w-full h-auto" 
+                  />
+                </div>
+              </motion.div>
+            )}
+
+            {/* 10. Resultado */}
+            {project.finalResult && (
+              <motion.div
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className={`py-24 border-t ${borderColorClass}`}
+              >
+                <h2 className={`text-[10px] uppercase tracking-[0.6em] text-[#FFCA16] font-bold mb-12 flex items-center gap-4`}>
+                  Resultado
+                </h2>
+                <p className={`text-xl md:text-3xl font-light leading-relaxed ${textColorClass} max-w-4xl`}>
+                  {project.finalResult}
+                </p>
+              </motion.div>
+            )}
+          </div>
+        </section>
       ) : project.concept ? (
         <section className="pb-32 relative z-10">
           <div className="container-editorial">

@@ -41,7 +41,7 @@ const ProjectCard = ({ project, index, total }: { project: any; index: number; t
 
   const dotsY = useTransform(scrollYProgress, [0, 1], [150, -150]);
   const bgScale = useTransform(scrollYProgress, [0, 0.5, 1], [1.2, 1, 1.2]);
-  const akedahScale = useTransform(scrollYProgress, [0, 0.5, 1], [1.08, 0.9, 1.08]);
+  const akedahScale = useTransform(scrollYProgress, [0, 0.5, 1], [1.15, 1, 1.15]);
   const teamLuisaScale = useTransform(scrollYProgress, [0, 0.5, 1], [1.2, 1, 1.2]);
   const bgOpacity = 1;
 
@@ -60,7 +60,7 @@ const ProjectCard = ({ project, index, total }: { project: any; index: number; t
                    project.slug === 'team-luisa-crosstraining' ? teamLuisaScale : bgScale, 
             opacity: bgOpacity,
             backgroundImage: `url(${project.coverImage || project.pages[0]})`,
-            backgroundSize: project.slug === 'tabernaculo-da-trindade' ? 'contain' : 'cover',
+            backgroundSize: 'cover',
             backgroundRepeat: 'no-repeat',
             backgroundPosition: 'center'
 

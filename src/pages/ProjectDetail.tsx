@@ -78,7 +78,7 @@ const ProjectDetail = () => {
             className="w-full h-full opacity-40"
             style={{ 
               backgroundImage: `url(${project.pages[0]})`,
-              backgroundSize: project.slug === 'tabernaculo-da-trindade' ? 'contain' : 'cover',
+              backgroundSize: 'cover',
               backgroundRepeat: 'no-repeat',
               backgroundPosition: 'center'
             }}

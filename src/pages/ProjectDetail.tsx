@@ -34,11 +34,13 @@ const ProjectDetail = () => {
   const currentIndex = projects.findIndex((p) => p.slug === slug);
   const nextProject = projects[(currentIndex + 1) % projects.length];
 
+  const isLightBg = project.bgColor?.toLowerCase() === '#ffffff' || project.bgColor?.toLowerCase() === 'white';
+
   return (
     <motion.div 
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="min-h-screen text-white selection:bg-[#FFCA16] selection:text-black overflow-x-hidden"
+      className={`min-h-screen ${isLightBg ? 'text-[#1A1A1A]' : 'text-white'} selection:bg-[#FFCA16] selection:text-black overflow-x-hidden`}
       style={{ backgroundColor: project.bgColor || "#000000" }}
     >
       <SEO 

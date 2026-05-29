@@ -276,24 +276,23 @@ const ProjectDetail = () => {
             )}
 
             {/* 6. Simbologia Bíblica */}
-            {project.biblicalSimbology && (
-              <motion.div
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                className="mb-48"
-              >
-                <h2 className="text-[10px] uppercase tracking-[0.6em] text-[#FFCA16] font-bold mb-12 flex items-center gap-4">
-                  Simbologia Bíblica
-                </h2>
-                <p className="text-xl font-light leading-relaxed text-white/80 max-w-4xl mb-16 whitespace-pre-line">
-                  {project.biblicalSimbology}
-                </p>
-                <div className="w-full flex justify-center py-8 md:py-12 bg-white/5 border border-dashed border-white/20 rounded-lg min-h-[400px] items-center">
-                  <span className="text-white/40 uppercase tracking-widest text-xs font-medium">Imagem Simbologia em breve</span>
-                </div>
-              </motion.div>
-            )}
+            <motion.div
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="mb-48"
+            >
+              <h2 className="text-[10px] uppercase tracking-[0.6em] text-[#FFCA16] font-bold mb-12 flex items-center gap-4">
+                Simbologia Bíblica
+              </h2>
+              <div className="w-full flex justify-center py-8 md:py-12">
+                <ScrollAnimatedImage 
+                  src="https://wqxuprmlsapiucjxleih.supabase.co/storage/v1/object/public/files/bad05df2-b5b8-46ee-baec-d483e7d2bbd4-simbol-bibl.png" 
+                  alt="Simbologia Bíblica" 
+                  className="w-full h-auto" 
+                />
+              </div>
+            </motion.div>
 
             {/* 7. Identidade em Inglês */}
             {project.englishIdentity && (

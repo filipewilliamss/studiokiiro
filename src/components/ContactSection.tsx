@@ -4,7 +4,6 @@ const ContactSection = () => {
   return (
     <section 
       id="contato" 
-      className="relative bg-[#070807] overflow-hidden"
       className="relative bg-[#070807] overflow-hidden py-24 md:py-32 lg:py-40"
     >
       {/* High-Impact Visual Elements */}

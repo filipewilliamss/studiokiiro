@@ -139,7 +139,7 @@ const ProjectDetail = () => {
 
       {/* SEÇÃO SOBRE O PROJETO */}
       {project.about && (
-        <section className="py-24 md:py-48 relative z-10 border-t border-white/5">
+        <section className={`py-24 md:py-48 relative z-10 border-t ${borderColorClass}`}>
           <div className="container-editorial">
             <div className="max-w-4xl">
               <motion.div
@@ -150,7 +150,7 @@ const ProjectDetail = () => {
                 <h2 className="text-[10px] uppercase tracking-[0.6em] text-[#FFCA16] font-bold mb-12 flex items-center gap-4">
                   Sobre o projeto
                 </h2>
-                <p className="text-xl md:text-3xl font-light leading-relaxed text-white/80">
+                <p className={`text-xl md:text-3xl font-light leading-relaxed ${textColorClass}`}>
                   {project.about}
                 </p>
               </motion.div>

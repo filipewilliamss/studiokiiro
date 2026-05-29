@@ -31,8 +31,8 @@ const ProjectCard = ({ project, index, total }: { project: any; index: number; t
     mouseY.set((clientY / innerHeight) - 0.5);
   };
 
-  const kX = useSpring(useTransform(mouseX, [-0.5, 0.5], [30, -30]), { stiffness: 50, damping: 20 });
-  const kY = useSpring(useTransform(mouseY, [-0.5, 0.5], [30, -30]), { stiffness: 50, damping: 20 });
+  // Mouse parallax springs removed as they are not used in current layout
+
 
   const { scrollYProgress } = useScroll({
     target: cardRef,
@@ -49,7 +49,7 @@ const ProjectCard = ({ project, index, total }: { project: any; index: number; t
     <article 
       ref={cardRef}
       onMouseMove={handleMouseMove}
-      className="relative h-screen w-full flex items-center justify-center overflow-hidden snap-start"
+      className="relative h-[100dvh] w-full flex items-center justify-center overflow-hidden snap-start"
       style={{ backgroundColor: project.bgColor || "#000000" }}
     >
       {/* Background Image with Gradient Overlay */}

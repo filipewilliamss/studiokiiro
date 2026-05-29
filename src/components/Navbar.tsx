@@ -50,7 +50,7 @@ const Navbar = ({ forceBlack = true }: NavbarProps) => {
           <img 
             src={kiiroLogo} 
             alt="Studio Kiiro" 
-            className="h-8 md:h-10 w-auto transition-transform duration-300 group-hover:scale-105" 
+            className="h-9 md:h-10 w-auto transition-transform duration-300 group-hover:scale-105" 
           />
         </Link>
 

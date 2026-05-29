@@ -306,7 +306,7 @@ const HeroSection = () => {
 
           <h1
             className="text-white font-[800] leading-[0.82] text-left tracking-[-0.05em] font-display"
-            style={{ fontSize: 'clamp(54px, 10vw, 122px)' }}
+            style={{ fontSize: 'clamp(40px, 10vw, 122px)' }}
           >
             Sua marca precisa ser <br />
             <span className="text-[#FFCA16] italic font-light">lembrada.</span>

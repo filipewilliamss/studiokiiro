@@ -32,10 +32,10 @@ const Navbar = ({ forceBlack = true }: NavbarProps) => {
   }, []);
 
   const bgClass = scrolled 
-    ? "bg-black/90 backdrop-blur-[20px] border-b border-white/[0.05] py-4" 
+    ? (forceBlack ? "bg-black/90 border-white/[0.05]" : "bg-white/90 border-black/[0.05]") + " backdrop-blur-[20px] border-b py-4" 
     : "bg-transparent py-6 md:py-8";
     
-  const textClass = "link-magnetic text-white/55 hover:text-[#FFCA16] font-bold text-[11px] uppercase tracking-[0.28em] font-display transition-colors duration-500";
+  const textClass = `link-magnetic ${forceBlack ? 'text-white/55' : 'text-black/55'} hover:text-[#FFCA16] font-bold text-[11px] uppercase tracking-[0.28em] font-display transition-colors duration-500`;
   const areaClienteTextClass = "relative overflow-hidden text-[#FFCA16] border border-[#FFCA16]/30 hover:border-[#FFCA16] hover:bg-[#FFCA16] hover:text-black px-6 py-2.5 transition-all duration-500 text-[11px] font-bold uppercase tracking-[0.25em] font-display";
 
   return (
@@ -73,7 +73,7 @@ const Navbar = ({ forceBlack = true }: NavbarProps) => {
                   }
                 }}
               >
-                <span className="text-white/30 mr-2 font-mono text-[9px] tracking-normal">
+                <span className={`${forceBlack ? 'text-white/30' : 'text-black/30'} mr-2 font-mono text-[9px] tracking-normal`}>
                   0{idx + 1}
                 </span>
                 {link.label}
@@ -92,7 +92,7 @@ const Navbar = ({ forceBlack = true }: NavbarProps) => {
         {/* Mobile toggle */}
         <button
           onClick={() => setMenuOpen(!menuOpen)}
-          className="lg:hidden text-white hover:text-[#FFCA16] transition-colors"
+          className={`lg:hidden ${forceBlack ? 'text-white' : 'text-black'} hover:text-[#FFCA16] transition-colors`}
           aria-label="Menu"
         >
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">

@@ -172,7 +172,7 @@ const ProjectDetail = () => {
               <h2 className="text-[10px] uppercase tracking-[0.6em] text-[#FFCA16] font-bold mb-12 flex items-center gap-4">
                 O Desafio
               </h2>
-              <p className="text-xl md:text-3xl font-light leading-relaxed text-white/80">
+              <p className={`text-xl md:text-3xl font-light leading-relaxed ${textColorClass}`}>
                 {project.challenge}
               </p>
             </motion.div>
@@ -186,7 +186,7 @@ const ProjectDetail = () => {
               <h2 className="text-[10px] uppercase tracking-[0.6em] text-[#FFCA16] font-bold mb-12 flex items-center gap-4">
                 {project.objective ? "O Objetivo" : "A Solução"}
               </h2>
-              <p className="text-xl md:text-3xl font-light leading-relaxed text-white/80">
+              <p className={`text-xl md:text-3xl font-light leading-relaxed ${textColorClass}`}>
                 {project.objective || project.solution}
               </p>
             </motion.div>

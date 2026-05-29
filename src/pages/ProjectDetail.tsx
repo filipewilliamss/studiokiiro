@@ -105,12 +105,12 @@ const ProjectDetail = () => {
             >
               <div className="flex flex-col">
                 <span className="text-[9px] uppercase tracking-[0.5em] text-[#FFCA16] font-bold mb-1">Categoria</span>
-                <span className="text-[11px] uppercase tracking-[0.3em] text-white/60">{project.category}</span>
+                <span className={`text-[11px] uppercase tracking-[0.3em] ${mutedTextColorClass}`}>{project.category}</span>
               </div>
-              <div className="w-[1px] h-10 bg-white/10" />
+              <div className={`w-[1px] h-10 ${borderColorClass}`} />
               <div className="flex flex-col">
                 <span className="text-[9px] uppercase tracking-[0.5em] text-[#FFCA16] font-bold mb-1">Ano</span>
-                <span className="text-[11px] uppercase tracking-[0.3em] text-white/60">{project.year}</span>
+                <span className={`text-[11px] uppercase tracking-[0.3em] ${mutedTextColorClass}`}>{project.year}</span>
               </div>
             </motion.div>
 

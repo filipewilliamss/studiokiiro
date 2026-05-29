@@ -92,7 +92,7 @@ const Navbar = ({ forceBlack = true }: NavbarProps) => {
         {/* Mobile toggle */}
         <button
           onClick={() => setMenuOpen(!menuOpen)}
-          className="lg:hidden text-white hover:text-[#FFCA16] transition-colors"
+          className={`lg:hidden ${forceBlack ? 'text-white' : 'text-black'} hover:text-[#FFCA16] transition-colors`}
           aria-label="Menu"
         >
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">

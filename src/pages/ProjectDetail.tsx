@@ -1055,16 +1055,16 @@ const ProjectDetail = () => {
         
         <div className="container-editorial relative z-10 pointer-events-none">
           <div className="flex flex-col items-center text-center">
-            <span className={`text-[11.5px] uppercase tracking-[0.6em] font-bold -translate-y-[200px] ${project.slug === 'akedah-podcast' ? 'text-black' : 'text-[#FFCA16]'}`}>
+            <span className={`text-[11.5px] uppercase tracking-[0.6em] font-bold -translate-y-[200px] ${isLightBg ? 'text-black' : 'text-[#FFCA16]'}`}>
               Próximo Projeto
             </span>
             
             <Link 
               to={`/project/${nextProject.slug}`}
-              className={`pointer-events-auto group/btn relative inline-flex items-center justify-center px-16 py-8 overflow-hidden border transition-all duration-700 hover:border-[#FFCA16] translate-y-[250px] ${project.slug === 'akedah-podcast' ? 'border-black/20' : 'border-white/10'}`}
+              className={`pointer-events-auto group/btn relative inline-flex items-center justify-center px-16 py-8 overflow-hidden border transition-all duration-700 hover:border-[#FFCA16] translate-y-[250px] ${isLightBg ? 'border-black/20' : 'border-white/10'}`}
             >
               <div className="absolute inset-0 bg-[#FFCA16] translate-y-full group-hover/btn:translate-y-0 transition-transform duration-600 ease-[0.22,1,0.36,1]" />
-              <span className={`relative z-10 text-[12px] uppercase tracking-[0.4em] font-bold group-hover/btn:text-black transition-colors duration-500 ${project.slug === 'akedah-podcast' ? 'text-black' : 'text-white'}`}>
+              <span className={`relative z-10 text-[12px] uppercase tracking-[0.4em] font-bold group-hover/btn:text-black transition-colors duration-500 ${isLightBg ? 'text-black' : 'text-white'}`}>
                 Continuar Jornada
               </span>
             </Link>

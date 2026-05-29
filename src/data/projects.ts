@@ -195,6 +195,7 @@ export const projects: Project[] = [
     title: "Tabernáculo da Trindade",
     category: "Identidade visual",
     bgColor: "#030304",
+    finalResult: "O projeto resultou em uma identidade visual sólida e contemporânea que honra a tradição da igreja enquanto a posiciona com clareza no ambiente digital. Agora, a Igreja Tabernáculo da Trindade possui uma imagem profissional e reverente que reflete sua história desde 1998 e seu compromisso inabalável com a Palavra.",
     intro: "Atualização da identidade visual de uma igreja com história desde 1998, equilibrando tradição, simbologia bíblica e linguagem contemporânea.",
     subtitle: "Manual de Identidade Visual para a Igreja Tabernáculo da Trindade.",
     about: "Fundada em 1998, como fruto de um ministério familiar profundamente enraizado na fé, a igreja cresceu de um pequeno grupo para uma comunidade com alcance digital global, mantendo firme seu compromisso com a Palavra.\n\nNossa missão é clara: ser a Palavra em ação (Tiago 1:22–27), alcançando vidas por meio da pregação do Evangelho puro e do serviço prático. Este manual assegura que a comunicação visual reflita fielmente esse ministério — transmitindo seriedade, contemporaneidade e compromisso com a verdade bíblica.\n\nA identidade visual equilibra tradição e modernidade. O símbolo histórico — o Leão de Judá flamejante — permanece preservado em sua essência, agora atualizado com uma abordagem visual contemporânea. O sistema tipográfico complementa essa construção, oferecendo versatilidade e clareza para o contexto digital atual.",

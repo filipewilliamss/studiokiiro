@@ -231,7 +231,7 @@ const ClientsTab = () => {
               <DialogTitle style={{ fontFamily: "var(--font-display)" }}>{editingClient ? "Editar Cliente" : "Adicionar Cliente"}</DialogTitle>
             </DialogHeader>
             <form onSubmit={handleSubmit} className="space-y-4 mt-2">
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div className="col-span-2 space-y-1.5">
                   <label className="text-xs uppercase tracking-wider text-muted-foreground font-medium">Nome completo *</label>
                   <Input

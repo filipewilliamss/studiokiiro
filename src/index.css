@@ -23,12 +23,17 @@
   }
 
   body {
-    @apply bg-background text-foreground antialiased cursor-none;
+    @apply bg-background text-foreground antialiased;
     font-family: var(--font-display);
   }
 
-  * {
-    cursor: none !important;
+  @media (hover: hover) and (pointer: fine) {
+    body {
+      @apply cursor-none;
+    }
+    * {
+      cursor: none !important;
+    }
   }
 
 

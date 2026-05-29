@@ -209,8 +209,12 @@ const ProjectDetail = () => {
                 <p className="text-xl font-light leading-relaxed text-white/80 max-w-4xl mb-16 whitespace-pre-line">
                   {project.variations}
                 </p>
-                <div className="w-full flex justify-center py-8 md:py-12 bg-white/5 border border-dashed border-white/20 rounded-lg min-h-[400px] items-center">
-                  <span className="text-white/40 uppercase tracking-widest text-xs font-medium">Imagem Logotipo em breve</span>
+                <div className="w-full flex justify-center py-8 md:py-12">
+                  <ScrollAnimatedImage 
+                    src="https://wqxuprmlsapiucjxleih.supabase.co/storage/v1/object/public/files/821942c8-3535-4657-b648-1098db1d9a97-logos.png" 
+                    alt="Logotipo" 
+                    className="w-full h-auto" 
+                  />
                 </div>
               </motion.div>
             )}
@@ -229,8 +233,12 @@ const ProjectDetail = () => {
                 <p className="text-xl font-light leading-relaxed text-white/80 max-w-4xl mb-16 whitespace-pre-line">
                   {project.monogram}
                 </p>
-                <div className="w-full flex justify-center py-8 md:py-12 bg-white/5 border border-dashed border-white/20 rounded-lg min-h-[400px] items-center">
-                  <span className="text-white/40 uppercase tracking-widest text-xs font-medium">Imagem Monograma em breve</span>
+                <div className="w-full flex justify-center py-8 md:py-12">
+                  <ScrollAnimatedImage 
+                    src="https://wqxuprmlsapiucjxleih.supabase.co/storage/v1/object/public/files/bc8bf15b-5e55-4292-b9e7-caaef09d5f26-monogr.png" 
+                    alt="Monograma" 
+                    className="w-full h-auto" 
+                  />
                 </div>
               </motion.div>
             )}
@@ -249,8 +257,12 @@ const ProjectDetail = () => {
                 <p className="text-xl font-light leading-relaxed text-white/80 max-w-4xl mb-16 whitespace-pre-line">
                   {project.construction}
                 </p>
-                <div className="w-full flex justify-center py-8 md:py-12 bg-white/5 border border-dashed border-white/20 rounded-lg min-h-[400px] items-center">
-                  <span className="text-white/40 uppercase tracking-widest text-xs font-medium">Imagem Grid em breve</span>
+                <div className="w-full flex justify-center py-8 md:py-12">
+                  <ScrollAnimatedImage 
+                    src="https://wqxuprmlsapiucjxleih.supabase.co/storage/v1/object/public/files/bbf4a01b-15bd-4ea7-b5e0-8c10704aa2a0-grid.png" 
+                    alt="Grid de Construção" 
+                    className="w-full h-auto" 
+                  />
                 </div>
               </motion.div>
             )}
@@ -269,8 +281,12 @@ const ProjectDetail = () => {
                 <p className="text-xl font-light leading-relaxed text-white/80 max-w-4xl mb-16 whitespace-pre-line">
                   {project.symbol}
                 </p>
-                <div className="w-full flex justify-center py-8 md:py-12 bg-white/5 border border-dashed border-white/20 rounded-lg min-h-[400px] items-center">
-                  <span className="text-white/40 uppercase tracking-widest text-xs font-medium">Imagem Símbolo em breve</span>
+                <div className="w-full flex justify-center py-8 md:py-12">
+                  <ScrollAnimatedImage 
+                    src="https://wqxuprmlsapiucjxleih.supabase.co/storage/v1/object/public/files/f0a96053-23a5-46e2-9784-8c2af917a020-simbol.png" 
+                    alt="Símbolo" 
+                    className="w-full h-auto" 
+                  />
                 </div>
               </motion.div>
             )}
@@ -308,8 +324,12 @@ const ProjectDetail = () => {
                 <p className="text-xl font-light leading-relaxed text-white/80 max-w-4xl mb-16 whitespace-pre-line">
                   {project.englishIdentity}
                 </p>
-                <div className="w-full flex justify-center py-8 md:py-12 bg-white/5 border border-dashed border-white/20 rounded-lg min-h-[400px] items-center">
-                  <span className="text-white/40 uppercase tracking-widest text-xs font-medium">Imagem Identidade em Inglês em breve</span>
+                <div className="w-full flex justify-center py-8 md:py-12">
+                  <ScrollAnimatedImage 
+                    src="https://wqxuprmlsapiucjxleih.supabase.co/storage/v1/object/public/files/1426db45-be6c-46ab-8a8b-72f9ffdb3423-ingles.png" 
+                    alt="Identidade em Inglês" 
+                    className="w-full h-auto" 
+                  />
                 </div>
               </motion.div>
             )}
@@ -348,8 +368,12 @@ const ProjectDetail = () => {
                 <p className="text-xl font-light leading-relaxed text-white/80 max-w-4xl mb-16 whitespace-pre-line">
                   {project.secondaryVariations}
                 </p>
-                <div className="w-full flex justify-center py-8 md:py-12 bg-white/5 border border-dashed border-white/20 rounded-lg min-h-[400px] items-center">
-                  <span className="text-white/40 uppercase tracking-widest text-xs font-medium">Imagem Variações em breve</span>
+                <div className="w-full flex justify-center py-8 md:py-12">
+                  <ScrollAnimatedImage 
+                    src="https://wqxuprmlsapiucjxleih.supabase.co/storage/v1/object/public/files/87f0bd43-2888-414f-a38d-be82824962de-variation.png" 
+                    alt="Variações do Logotipo" 
+                    className="w-full h-auto" 
+                  />
                 </div>
               </motion.div>
             )}
@@ -395,8 +419,12 @@ const ProjectDetail = () => {
                 <p className="text-xl font-light leading-relaxed text-white/80 max-w-4xl mb-16 whitespace-pre-line">
                   {project.colors}
                 </p>
-                <div className="w-full flex justify-center py-8 md:py-12 bg-white/5 border border-dashed border-white/20 rounded-lg min-h-[400px] items-center">
-                  <span className="text-white/40 uppercase tracking-widest text-xs font-medium">Imagem Cores em breve</span>
+                <div className="w-full flex justify-center py-8 md:py-12">
+                  <ScrollAnimatedImage 
+                    src="https://wqxuprmlsapiucjxleih.supabase.co/storage/v1/object/public/files/25a708fa-393f-40c1-b0a8-660771ab3bdd-paleta.png" 
+                    alt="Paleta de Cores" 
+                    className="w-full h-auto" 
+                  />
                 </div>
               </motion.div>
             )}
@@ -415,8 +443,12 @@ const ProjectDetail = () => {
                 <p className="text-xl font-light leading-relaxed text-white/80 max-w-4xl mb-16 whitespace-pre-line">
                   {project.typography}
                 </p>
-                <div className="w-full flex justify-center py-8 md:py-12 bg-white/5 border border-dashed border-white/20 rounded-lg min-h-[400px] items-center">
-                  <span className="text-white/40 uppercase tracking-widest text-xs font-medium">Imagem Tipografia em breve</span>
+                <div className="w-full flex justify-center py-8 md:py-12">
+                  <ScrollAnimatedImage 
+                    src="https://wqxuprmlsapiucjxleih.supabase.co/storage/v1/object/public/files/daff8522-e34f-446a-85fc-4be8aa1642f9-tipo.png" 
+                    alt="Tipografia" 
+                    className="w-full h-auto" 
+                  />
                 </div>
               </motion.div>
             )}
@@ -435,8 +467,12 @@ const ProjectDetail = () => {
                 <p className="text-xl font-light leading-relaxed text-white/80 max-w-4xl mb-16 whitespace-pre-line">
                   {project.nonRecommended}
                 </p>
-                <div className="w-full flex justify-center py-8 md:py-12 bg-white/5 border border-dashed border-white/20 rounded-lg min-h-[400px] items-center">
-                  <span className="text-white/40 uppercase tracking-widest text-xs font-medium">Imagem Aplicações Proibidas em breve</span>
+                <div className="w-full flex justify-center py-8 md:py-12">
+                  <ScrollAnimatedImage 
+                    src="https://wqxuprmlsapiucjxleih.supabase.co/storage/v1/object/public/files/baf7dc22-53b8-4644-a4c9-7d77023d9d5c-proib.png" 
+                    alt="Aplicações Proibidas" 
+                    className="w-full h-auto" 
+                  />
                 </div>
               </motion.div>
             )}

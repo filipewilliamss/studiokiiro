@@ -81,6 +81,8 @@ export interface Project {
   missionsLogoImage?: string;
   animatedLogoVideo?: string;
   animatedLogoDescription?: string;
+  minimumReduction?: string;
+  minimumReductionImage?: string;
 
   strategy: string;
   solution: string;

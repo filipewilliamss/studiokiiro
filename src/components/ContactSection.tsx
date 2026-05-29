@@ -5,7 +5,7 @@ const ContactSection = () => {
     <section 
       id="contato" 
       className="relative bg-[#070807] overflow-hidden"
-      style={{ padding: '160px 0 100px' }}
+      className="relative bg-[#070807] overflow-hidden py-24 md:py-32 lg:py-40"
     >
       {/* High-Impact Visual Elements */}
       <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-[#FFCA16]/30 to-transparent" />

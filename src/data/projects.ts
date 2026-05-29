@@ -1,6 +1,6 @@
 import akedahLogo from "@/assets/akedah-logo.webp";
 import construmarLogo from "@/assets/construmar-logo.webp";
-const tabernaculoLogo = "https://dohkkmvsrcuxssxmimxn.supabase.co/storage/v1/object/public/images/5gi4580jru-1778705510343.png";
+const tabernaculoLogo = "https://wqxuprmlsapiucjxleih.supabase.co/storage/v1/object/public/files/a874b1c6-5cf8-41b7-bad4-99a0b6a86706-logo.png";
 import teamluisaLogo from "@/assets/teamluisa-logo.webp";
 import construmarPag1 from "@/assets/construmar-pagina-1.webp";
 import construmarPag2 from "@/assets/construmar-pagina-2.webp";
@@ -136,7 +136,7 @@ export const projects: Project[] = [
     },
     logo: akedahLogo,
     pages: [
-      "https://dohkkmvsrcuxssxmimxn.supabase.co/storage/v1/object/public/images/57r59rwo33m-1778087724805.png", 
+      "https://wqxuprmlsapiucjxleih.supabase.co/storage/v1/object/public/files/0be7b96c-cdbe-49cb-8204-bd3aedb69fd1-Logo_Backgound_Marrom_1920x1080.png", 
       akedahPag2, 
       "https://dohkkmvsrcuxssxmimxn.supabase.co/storage/v1/object/public/images/2oh9p0w2s4s-1779798746900.png", 
       "https://dohkkmvsrcuxssxmimxn.supabase.co/storage/v1/object/public/images/kdno3twnwhl-1778460683658.png", 

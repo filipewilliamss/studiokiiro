@@ -73,7 +73,7 @@ const Navbar = ({ forceBlack = true }: NavbarProps) => {
                   }
                 }}
               >
-                <span className="text-white/30 mr-2 font-mono text-[9px] tracking-normal">
+                <span className={`${forceBlack ? 'text-white/30' : 'text-black/30'} mr-2 font-mono text-[9px] tracking-normal`}>
                   0{idx + 1}
                 </span>
                 {link.label}

@@ -35,6 +35,10 @@ const ProjectDetail = () => {
   const nextProject = projects[(currentIndex + 1) % projects.length];
 
   const isLightBg = project.bgColor?.toLowerCase() === '#ffffff' || project.bgColor?.toLowerCase() === 'white';
+  const textColorClass = isLightBg ? 'text-black/80' : 'text-white/80';
+  const mutedTextColorClass = isLightBg ? 'text-black/60' : 'text-white/60';
+  const borderColorClass = isLightBg ? 'border-black/10' : 'border-white/10';
+  const borderMutedClass = isLightBg ? 'border-black/5' : 'border-white/5';
 
   return (
     <motion.div 

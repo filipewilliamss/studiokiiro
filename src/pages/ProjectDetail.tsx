@@ -287,7 +287,7 @@ const ProjectDetail = () => {
               </h2>
               <div className="w-full flex justify-center py-8 md:py-12">
                 <ScrollAnimatedImage 
-                  src="https://wqxuprmlsapiucjxleih.supabase.co/storage/v1/object/public/files/bad05df2-b5b8-46ee-baec-d483e7d2bbd4-simbol-bibl.png" 
+                  src="https://wqxuprmlsapiucjxleih.supabase.co/storage/v1/object/public/files/7110538a-fc67-4427-9d44-b56b510b7dd5-simbol-bibl.png" 
                   alt="Simbologia Bíblica" 
                   className="w-full h-auto" 
                 />

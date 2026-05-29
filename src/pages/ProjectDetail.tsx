@@ -54,7 +54,7 @@ const ProjectDetail = () => {
         url={`https://studiokiiro.com/projeto/${project.slug}`}
         type="article"
       />
-      <Navbar />
+      <Navbar forceBlack={!isLightBg} />
 
       {/* Gold to Black Bleed Transition */}
       <motion.div

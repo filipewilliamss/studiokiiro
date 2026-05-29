@@ -50,7 +50,7 @@ const AboutSection = () => {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-              className="relative aspect-[3/4] overflow-hidden grayscale hover:grayscale-0 transition-all duration-1000 ease-in-out border border-white/5"
+              className="relative aspect-[3/4] overflow-hidden lg:grayscale lg:hover:grayscale-0 transition-all duration-1000 ease-in-out border border-white/5"
             >
               <img 
                 src={profilePicture} 

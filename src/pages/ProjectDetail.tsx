@@ -26,9 +26,8 @@ const ProjectDetail = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "instant" as ScrollBehavior });
-  }, [slug]);
+  // Scroll is now handled globally by ScrollToTop component in App.tsx
+
 
   if (!project) return <Navigate to="/" replace />;
 

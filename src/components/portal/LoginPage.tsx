@@ -129,7 +129,6 @@ const LoginPage = () => {
             </div>
             <Button type="submit" className="w-full" disabled={loading}>
               {loading ? "Entrando..." : "Entrar"}
-              <Sparkles className="ml-2 h-4 w-4" />
             </Button>
           </form>
         </div>

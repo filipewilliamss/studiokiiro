@@ -211,7 +211,7 @@ const ProjectDetail = () => {
                 <h2 className="text-[10px] uppercase tracking-[0.6em] text-[#FFCA16] font-bold mb-12 flex items-center gap-4">
                   Logotipo
                 </h2>
-                <p className="text-xl font-light leading-relaxed text-white/80 max-w-4xl mb-16 whitespace-pre-line">
+                <p className={`text-xl font-light leading-relaxed ${textColorClass} max-w-4xl mb-16 whitespace-pre-line`}>
                   {project.variations}
                 </p>
                 <div className="w-full flex justify-center py-8 md:py-12">

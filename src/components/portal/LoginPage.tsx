@@ -24,10 +24,7 @@ const LoginPage = () => {
     setLoading(true);
 
     try {
-      // 1. Verify credentials in the database (Admin, Client, or Partner)
-
-
-      // 2. Check for credentials in the database
+      // 1. Verify credentials against the database (returns id, name, role, email)
       const { data, error } = await supabase.rpc("verify_client_credentials", {
         p_username: username,
         p_password: password
@@ -35,15 +32,33 @@ const LoginPage = () => {
 
       if (error) throw error;
 
-      if (data && data.length > 0) {
-        const userFound = data[0];
-        // Use the role from the database
-        signInCustom(userFound.id, userFound.role as LoginMode, { full_name: userFound.client_name, company: null });
-        toast.success(`Bem-vindo, ${userFound.client_name}!`);
-      } else {
+      if (!data || data.length === 0) {
         toast.error("Usuário ou senha incorretos.");
+        return;
       }
 
+      const userFound: any = data[0];
+
+      // 2. If the user has an email in auth.users, create a real Supabase session
+      //    so that auth.uid() works and RLS policies allow access to data.
+      if (userFound.email) {
+        const { error: signInError } = await supabase.auth.signInWithPassword({
+          email: userFound.email,
+          password,
+        });
+
+        if (signInError) {
+          console.error("Erro ao iniciar sessão:", signInError);
+          toast.error("Não foi possível iniciar a sessão. Verifique suas credenciais.");
+          return;
+        }
+
+        toast.success(`Bem-vindo, ${userFound.client_name}!`);
+      } else {
+        // Fallback (legacy custom session) for users without auth.users record
+        signInCustom(userFound.id, userFound.role as LoginMode, { full_name: userFound.client_name, company: null });
+        toast.success(`Bem-vindo, ${userFound.client_name}!`);
+      }
     } catch (err: any) {
       console.error("Erro no login:", err);
       toast.error("Ocorreu um erro ao tentar entrar. Tente novamente.");
@@ -51,6 +66,7 @@ const LoginPage = () => {
       setLoading(false);
     }
   };
+
 
   const switchMode = (newMode: LoginMode) => {
     setMode(newMode);

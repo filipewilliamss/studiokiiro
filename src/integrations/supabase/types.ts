@@ -762,6 +762,7 @@ export type Database = {
         Args: { p_password: string; p_username: string }
         Returns: {
           client_name: string
+          email: string
           id: string
           role: Database["public"]["Enums"]["app_role"]
         }[]

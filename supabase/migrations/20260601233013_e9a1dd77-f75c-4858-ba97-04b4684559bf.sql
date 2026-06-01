@@ -1,0 +1,1 @@
+GRANT EXECUTE ON FUNCTION public.verify_client_credentials(text, text) TO anon, authenticated;

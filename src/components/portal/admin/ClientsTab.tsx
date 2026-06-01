@@ -62,7 +62,7 @@ const ClientsTab = () => {
       .order("created_at", { ascending: false });
 
     if (excludeIds.length > 0) {
-      query = query.not("user_id", "in", excludeIds);
+      query = query.not("user_id", "in", `(${excludeIds.join(",")})`);
     }
 
     const { data, error } = await query;

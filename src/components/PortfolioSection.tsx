@@ -1,4 +1,4 @@
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion, useScroll, useTransform, useSpring, useMotionValue } from "framer-motion";
 import { projects } from "@/data/projects";
@@ -23,6 +23,14 @@ const ProjectCard = ({ project, index, total }: { project: any; index: number; t
   const cardRef = useRef<HTMLDivElement>(null);
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
+  const [isBelowDesktop, setIsBelowDesktop] = useState(false);
+
+  useEffect(() => {
+    const check = () => setIsBelowDesktop(window.innerWidth < 1024);
+    check();
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
+  }, []);
 
   const handleMouseMove = (e: React.MouseEvent) => {
     const { clientX, clientY } = e;
@@ -60,7 +68,7 @@ const ProjectCard = ({ project, index, total }: { project: any; index: number; t
                    project.slug === 'team-luisa-crosstraining' ? teamLuisaScale : bgScale, 
             opacity: bgOpacity,
             backgroundImage: `url(${project.coverImage || project.pages[0]})`,
-            backgroundSize: 'cover',
+            backgroundSize: isBelowDesktop ? 'contain' : 'cover',
             backgroundRepeat: 'no-repeat',
             backgroundPosition: 'center'
 

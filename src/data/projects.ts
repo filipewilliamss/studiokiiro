@@ -9,6 +9,7 @@ import construmarReducao from "@/assets/construmar-reducao.png.asset.json";
 import construmarTipo from "@/assets/construmar-tipo.png.asset.json";
 import construmarPermit from "@/assets/construmar-permit.png.asset.json";
 import construmarNaoPermit from "@/assets/construmar-nao-permit.png.asset.json";
+import construmarCapa from "@/assets/construmar-capa.png.asset.json";
 const tabernaculoLogo = "https://wqxuprmlsapiucjxleih.supabase.co/storage/v1/object/public/files/9481d825-bf40-4071-8b7d-1b437a6aeb93-logo.png";
 import teamluisaLogo from "@/assets/teamluisa-logo.webp";
 import akedahPag1 from "@/assets/akedah-pagina-1.webp";
@@ -160,7 +161,8 @@ export const projects: Project[] = [
     slug: "construmar",
     title: "Construmar",
     category: "Logotipo essencial",
-    bgColor: "#030304",
+    bgColor: "#e8e2d4",
+    coverImage: construmarCapa.url,
     intro: "Sistema visual desenvolvido para transmitir credibilidade, clareza e força em um mercado altamente competitivo.",
     subtitle: "Identidade visual estratégica para uma marmoraria que une tradição, precisão e sofisticação.",
     about: "A Construmar Marmoraria buscou renovar sua marca para refletir o nível de excelência e cuidado artesanal aplicados em cada peça. O projeto focou em criar uma identidade que comunicasse solidez e precisão técnica, atraindo um público que valoriza design e qualidade superior em acabamentos de pedras naturais.",

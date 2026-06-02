@@ -4,12 +4,17 @@ import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 const SocialMediaPortfolio = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isMobile, setIsMobile] = useState(false);
+  const [isTablet, setIsTablet] = useState(false);
 
   useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 768);
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
+    const check = () => {
+      const w = window.innerWidth;
+      setIsMobile(w < 768);
+      setIsTablet(w >= 768 && w < 1024);
+    };
+    check();
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
   }, []);
   
   const { scrollYProgress } = useScroll({
@@ -25,35 +30,43 @@ const SocialMediaPortfolio = () => {
 
   // Staggered fan progress points
 
-  // Phone 1 (Left far) - Starts latest
+  const farX = isMobile ? "45%" : isTablet ? "75%" : "130%";
+  const closeX = isMobile ? "28%" : isTablet ? "42%" : "70%";
+  const farR = isMobile ? 6 : isTablet ? 18 : 32;
+  const closeR = isMobile ? 3 : isTablet ? 10 : 15;
+  const farY = isMobile ? 12 : isTablet ? 35 : 75;
+  const closeY = isMobile ? 6 : isTablet ? 12 : 18;
+  const centralScale = isMobile ? 1.02 : isTablet ? 1.04 : 1.08;
+
+  // Phone 1 (Left far)
   const fanProgress1 = useTransform(smoothProgress, [0.18, 0.35], [0, 1]);
-  const x1 = useTransform(fanProgress1, [0, 1], ["0%", isMobile ? "-45%" : "-130%"]);
-  const r1 = useTransform(fanProgress1, [0, 1], [0, isMobile ? -6 : -32]);
-  const y1 = useTransform(fanProgress1, [0, 1], [0, isMobile ? 12 : 75]);
+  const x1 = useTransform(fanProgress1, [0, 1], ["0%", `-${farX}`]);
+  const r1 = useTransform(fanProgress1, [0, 1], [0, -farR]);
+  const y1 = useTransform(fanProgress1, [0, 1], [0, farY]);
   const opacity1 = useTransform(fanProgress1, [0, 0.4], [0, 1]);
 
-  // Phone 2 (Left close) - Starts slightly after central
+  // Phone 2 (Left close)
   const fanProgress2 = useTransform(smoothProgress, [0.12, 0.28], [0, 1]);
-  const x2 = useTransform(fanProgress2, [0, 1], ["0%", isMobile ? "-28%" : "-70%"]);
-  const r2 = useTransform(fanProgress2, [0, 1], [0, isMobile ? -3 : -15]);
-  const y2 = useTransform(fanProgress2, [0, 1], [0, isMobile ? 6 : 18]);
+  const x2 = useTransform(fanProgress2, [0, 1], ["0%", `-${closeX}`]);
+  const r2 = useTransform(fanProgress2, [0, 1], [0, -closeR]);
+  const y2 = useTransform(fanProgress2, [0, 1], [0, closeY]);
   const opacity2 = useTransform(fanProgress2, [0, 0.3], [0, 1]);
 
-  // Phone 4 (Right close) - Mirror of Phone 2
-  const x4 = useTransform(fanProgress2, [0, 1], ["0%", isMobile ? "28%" : "70%"]);
-  const r4 = useTransform(fanProgress2, [0, 1], [0, isMobile ? 3 : 15]);
-  const y4 = useTransform(fanProgress2, [0, 1], [0, isMobile ? 6 : 18]);
+  // Phone 4 (Right close)
+  const x4 = useTransform(fanProgress2, [0, 1], ["0%", closeX]);
+  const r4 = useTransform(fanProgress2, [0, 1], [0, closeR]);
+  const y4 = useTransform(fanProgress2, [0, 1], [0, closeY]);
   const opacity4 = useTransform(fanProgress2, [0, 0.3], [0, 1]);
 
-  // Phone 5 (Right far) - Mirror of Phone 1
-  const x5 = useTransform(fanProgress1, [0, 1], ["0%", isMobile ? "45%" : "130%"]);
-  const r5 = useTransform(fanProgress1, [0, 1], [0, isMobile ? 6 : 32]);
-  const y5 = useTransform(fanProgress1, [0, 1], [0, isMobile ? 12 : 75]);
+  // Phone 5 (Right far)
+  const x5 = useTransform(fanProgress1, [0, 1], ["0%", farX]);
+  const r5 = useTransform(fanProgress1, [0, 1], [0, farR]);
+  const y5 = useTransform(fanProgress1, [0, 1], [0, farY]);
   const opacity5 = useTransform(fanProgress1, [0, 0.4], [0, 1]);
 
   // Phone 3 (Central)
   const fanProgress3 = useTransform(smoothProgress, [0.1, 0.25], [0, 1]);
-  const scale3 = useTransform(fanProgress3, [0, 1], [1, isMobile ? 1.02 : 1.08]);
+  const scale3 = useTransform(fanProgress3, [0, 1], [1, centralScale]);
   const y3 = useTransform(fanProgress3, [0, 1], [0, -15]);
 
   return (
@@ -161,7 +174,7 @@ const SocialMediaPortfolio = () => {
 
 const SmartphonePlaceholder = ({ image, objectFit = "cover" }: { image: string, objectFit?: "cover" | "contain" }) => {
   return (
-    <div className="w-[190px] h-[410px] md:w-[280px] md:h-[600px] relative group" style={{ perspective: "1000px" }}>
+    <div className="w-[190px] h-[410px] md:w-[180px] md:h-[390px] lg:w-[280px] lg:h-[600px] relative group" style={{ perspective: "1000px" }}>
       {/* Outer Glow/Reflection */}
       <div className="absolute -inset-1 bg-gradient-to-tr from-white/10 to-transparent blur-sm rounded-[50px] opacity-50" />
       

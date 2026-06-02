@@ -86,12 +86,12 @@ const ServiceCard = ({ service }: { service: typeof services[0] }) => {
   return (
     <div className="w-full transition-transform duration-500 hover:scale-[1.01]">
       {/* Tabs header */}
-      <div className="flex flex-wrap items-end gap-1 px-2 md:px-0">
+      <div className="flex flex-nowrap md:flex-nowrap lg:flex-wrap items-end gap-1 px-2 md:px-0 overflow-x-auto md:overflow-visible">
         {service.items.map((item, idx) => (
           <button
             key={idx}
             onClick={() => setActiveIdx(idx)}
-            className={`relative px-4 md:px-8 py-3 md:py-4 rounded-t-xl font-display text-[12px] md:text-[14px] font-bold tracking-tight transition-all duration-300 z-20 
+            className={`relative px-4 md:px-3 lg:px-8 py-3 md:py-3 lg:py-4 rounded-t-xl font-display text-[12px] md:text-[11px] lg:text-[14px] font-bold tracking-tight transition-all duration-300 z-20 whitespace-nowrap flex-shrink-0
               ${activeIdx === idx 
                 ? 'bg-[#FFCA16] text-black shadow-[0_-4px_10px_rgba(255,202,22,0.15)]' 
                 : 'bg-white/5 text-white/30 hover:bg-white/10 hover:text-white/50'

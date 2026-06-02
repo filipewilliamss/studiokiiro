@@ -174,7 +174,7 @@ const SocialMediaPortfolio = () => {
 
 const SmartphonePlaceholder = ({ image, objectFit = "cover" }: { image: string, objectFit?: "cover" | "contain" }) => {
   return (
-    <div className="w-[190px] h-[410px] md:w-[280px] md:h-[600px] relative group" style={{ perspective: "1000px" }}>
+    <div className="w-[190px] h-[410px] md:w-[180px] md:h-[390px] lg:w-[280px] lg:h-[600px] relative group" style={{ perspective: "1000px" }}>
       {/* Outer Glow/Reflection */}
       <div className="absolute -inset-1 bg-gradient-to-tr from-white/10 to-transparent blur-sm rounded-[50px] opacity-50" />
       

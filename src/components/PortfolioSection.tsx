@@ -23,6 +23,14 @@ const ProjectCard = ({ project, index, total }: { project: any; index: number; t
   const cardRef = useRef<HTMLDivElement>(null);
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
+  const [isBelowDesktop, setIsBelowDesktop] = useState(false);
+
+  useEffect(() => {
+    const check = () => setIsBelowDesktop(window.innerWidth < 1024);
+    check();
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
+  }, []);
 
   const handleMouseMove = (e: React.MouseEvent) => {
     const { clientX, clientY } = e;

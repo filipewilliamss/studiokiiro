@@ -143,21 +143,27 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     } finally {
       // Clear custom session
       localStorage.removeItem("kiiro_custom_session");
-      
+
       // Clear all state
       setUser(null);
       setSession(null);
       setRole(null);
       setProfile(null);
-      
-      // Small delay to ensure state propagates before stopping loading
+      setLoading(false);
+
+      // Hard reload to guarantee the LoginPage is shown and any cached
+      // state (queries, realtime, etc.) is cleared. Using location.href
+      // with the same URL does NOT trigger navigation, so we use reload().
       setTimeout(() => {
-        setLoading(false);
-        // Force redirect to the login page area
-        window.location.href = "/area-do-cliente";
-      }, 100);
+        if (window.location.pathname === "/area-do-cliente") {
+          window.location.reload();
+        } else {
+          window.location.assign("/area-do-cliente");
+        }
+      }, 50);
     }
   }, []);
+
 
   const signInCustom = useCallback((userId: string, role: UserRole, profileData?: any) => {
     const customSession = { userId, role, profile: profileData };

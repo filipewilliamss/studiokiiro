@@ -34,7 +34,7 @@
     --input: 0 0% 14%;
     --ring: 47 100% 54%;
 
-    --radius: 0.5rem;
+    --radius: 0rem; /* Hard edges for premium look */
 
     --font-display: 'Poppins', sans-serif;
   }

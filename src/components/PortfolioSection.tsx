@@ -1,4 +1,4 @@
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion, useScroll, useTransform, useSpring, useMotionValue } from "framer-motion";
 import { projects } from "@/data/projects";

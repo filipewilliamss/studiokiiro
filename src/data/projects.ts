@@ -161,7 +161,7 @@ export const projects: Project[] = [
     slug: "construmar",
     title: "Construmar",
     category: "Logotipo essencial",
-    bgColor: "#e8e2d4",
+    bgColor: "#F4F4EE",
     coverImage: construmarCapa.url,
     intro: "Sistema visual desenvolvido para transmitir credibilidade, clareza e força em um mercado altamente competitivo.",
     subtitle: "Identidade visual estratégica para uma marmoraria que une tradição, precisão e sofisticação.",

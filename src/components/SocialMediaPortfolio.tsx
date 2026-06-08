@@ -140,7 +140,7 @@ const SocialMediaPortfolio = () => {
       {/* Visual Block - Smartphone Fan / Slider */}
       <motion.div 
         style={{ y: exitY, opacity: exitOpacity }}
-        className={`sticky top-[25vh] md:top-[20vh] h-[50vh] md:h-[60vh] w-full flex items-center justify-center pointer-events-auto z-10`}
+        className={`relative h-[60vh] md:h-[70vh] lg:h-[80vh] w-full flex items-center justify-center pointer-events-auto z-10 mb-24`}
       >
         {isMobile ? (
           <div className="relative w-full h-full flex items-center justify-center touch-none overflow-visible">

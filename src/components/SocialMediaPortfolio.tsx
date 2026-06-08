@@ -134,9 +134,9 @@ const SocialMediaPortfolio = () => {
       </div>
 
       {/* Visual Block - Smartphone Fan / Slider */}
-      <div className={`sticky top-[20vh] h-[55vh] md:h-[60vh] w-full flex items-center justify-center pointer-events-auto`}>
+      <div className={`sticky top-[25vh] md:top-[20vh] h-[50vh] md:h-[60vh] w-full flex items-center justify-center pointer-events-auto`}>
         {isMobile ? (
-          <div className="relative w-full h-[500px] flex items-center justify-center touch-none overflow-visible">
+          <div className="relative w-full h-full flex items-center justify-center touch-none overflow-visible">
             <motion.div 
               className="flex items-center justify-center w-full h-full relative"
               drag="x"

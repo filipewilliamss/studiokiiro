@@ -138,14 +138,18 @@ const ProjectCard = ({ project, index, total }: { project: any; index: number; t
 
       {/* Indicators */}
       <div className="absolute left-8 bottom-12 z-30 flex flex-col items-start gap-4">
-        <span className="text-[10px] uppercase tracking-[0.4em] text-white/30 font-mono">
+        <span className={`text-[10px] uppercase tracking-[0.4em] font-mono ${project.slug === 'construmar' ? 'text-[#3e6884]/40' : 'text-white/30'}`}>
           Case {String(index + 1).padStart(2, '0')} / {String(total).padStart(2, '0')}
         </span>
         <div className="flex gap-2">
           {Array.from({ length: total }).map((_, i) => (
             <div 
               key={i} 
-              className={`h-[2px] transition-all duration-700 ${i === index ? 'w-12 bg-[#FFCA16]' : 'w-4 bg-white/10'}`}
+              className={`h-[2px] transition-all duration-700 ${
+                i === index 
+                  ? (project.slug === 'construmar' ? 'w-12 bg-[#3e6884]' : 'w-12 bg-[#FFCA16]') 
+                  : (project.slug === 'construmar' ? 'w-4 bg-[#3e6884]/10' : 'w-4 bg-white/10')
+              }`}
             />
           ))}
         </div>

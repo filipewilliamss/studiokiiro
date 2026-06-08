@@ -39,40 +39,39 @@ const SocialMediaPortfolio = () => {
   const centralScale = isTablet ? 1.04 : 1.08;
 
   // Phone 1 (Left far)
-  const fanProgress1 = useTransform(smoothProgress, [0.15, 0.45], [0, 1]);
+  const fanProgress1 = useTransform(smoothProgress, [0.1, 0.5], [0, 1]);
   const x1 = useTransform(fanProgress1, [0, 1], ["0%", `-${farX}`]);
   const r1 = useTransform(fanProgress1, [0, 1], [0, -farR]);
   const y1 = useTransform(fanProgress1, [0, 1], [0, farY]);
-  const opacity1 = useTransform(fanProgress1, [0, 0.2], [0, 1]);
+  const opacity1 = useTransform(smoothProgress, [0, 0.1], [0, 1]);
 
   // Phone 2 (Left close)
-  const fanProgress2 = useTransform(smoothProgress, [0.1, 0.4], [0, 1]);
+  const fanProgress2 = useTransform(smoothProgress, [0.05, 0.45], [0, 1]);
   const x2 = useTransform(fanProgress2, [0, 1], ["0%", `-${closeX}`]);
   const r2 = useTransform(fanProgress2, [0, 1], [0, -closeR]);
   const y2 = useTransform(fanProgress2, [0, 1], [0, closeY]);
-  const opacity2 = useTransform(fanProgress2, [0, 0.2], [0, 1]);
+  const opacity2 = useTransform(smoothProgress, [0, 0.05], [0, 1]);
 
   // Phone 4 (Right close)
   const x4 = useTransform(fanProgress2, [0, 1], ["0%", closeX]);
   const r4 = useTransform(fanProgress2, [0, 1], [0, closeR]);
   const y4 = useTransform(fanProgress2, [0, 1], [0, closeY]);
-  const opacity4 = useTransform(fanProgress2, [0, 0.2], [0, 1]);
+  const opacity4 = useTransform(smoothProgress, [0, 0.05], [0, 1]);
 
   // Phone 5 (Right far)
   const x5 = useTransform(fanProgress1, [0, 1], ["0%", farX]);
   const r5 = useTransform(fanProgress1, [0, 1], [0, farR]);
   const y5 = useTransform(fanProgress1, [0, 1], [0, farY]);
-  const opacity5 = useTransform(fanProgress1, [0, 0.2], [0, 1]);
+  const opacity5 = useTransform(smoothProgress, [0, 0.1], [0, 1]);
 
   // Phone 3 (Central)
-  const fanProgress3 = useTransform(smoothProgress, [0.05, 0.35], [0, 1]);
+  const fanProgress3 = useTransform(smoothProgress, [0, 0.4], [0, 1]);
   const scale3 = useTransform(fanProgress3, [0, 1], [1, centralScale]);
   const y3 = useTransform(fanProgress3, [0, 1], [0, -15]);
 
-  // Exit animation (fade out and slide up as user continues scrolling)
-  const exitProgress = useTransform(smoothProgress, [0.6, 0.8], [0, 1]);
-  const exitY = useTransform(exitProgress, [0, 1], [0, -200]);
-  const exitOpacity = useTransform(exitProgress, [0, 0.5], [1, 0]);
+  // Exit animation removed as per request to keep mockups visible and follow normal flow
+  const exitY = 0;
+  const exitOpacity = 1;
 
   const [activeIndex, setActiveIndex] = useState(2);
   const dragX = useSpring(0, { stiffness: 300, damping: 30 });

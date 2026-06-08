@@ -737,26 +737,6 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      get_partner_name: { Args: { _user_id: string }; Returns: string }
-      has_role: {
-        Args: {
-          _role: Database["public"]["Enums"]["app_role"]
-          _user_id: string
-        }
-        Returns: boolean
-      }
-      is_partner_client_profile: {
-        Args: { _profile_id: string; _user_id: string }
-        Returns: boolean
-      }
-      is_partner_project: {
-        Args: { _project_id: string; _user_id: string }
-        Returns: boolean
-      }
-      is_project_client: {
-        Args: { _project_id: string; _user_id: string }
-        Returns: boolean
-      }
       update_updated_at_column: { Args: never; Returns: boolean }
       verify_client_credentials: {
         Args: { p_password: string; p_username: string }

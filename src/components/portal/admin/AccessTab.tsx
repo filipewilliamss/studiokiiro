@@ -3,7 +3,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Plus, RefreshCw, Copy, Trash2, Key, User } from "lucide-react";
+import { Plus, RefreshCw, Copy, Trash2, Key, User, ShieldCheck } from "lucide-react";
 import { toast } from "sonner";
 
 interface ClientCredential {
@@ -19,18 +19,19 @@ const AccessTab = () => {
   const [loading, setLoading] = useState(true);
   const [newClientName, setNewClientName] = useState("");
   const [generating, setGenerating] = useState(false);
+  const [lastGenerated, setLastGenerated] = useState<{username: string, password: string} | null>(null);
 
   const fetchCredentials = async () => {
     setLoading(true);
     const { data, error } = await supabase
       .from("client_credentials")
-      .select("*")
+      .select("id, username, client_name, created_at")
       .order("created_at", { ascending: false });
 
     if (error) {
       toast.error("Erro ao carregar acessos");
     } else {
-      setCredentials(data || []);
+      setCredentials(data as any || []);
     }
     setLoading(false);
   };
@@ -49,20 +50,22 @@ const AccessTab = () => {
   };
 
   const handleGenerate = async () => {
-    if (!newClientName) {
+    const clientName = newClientName.trim();
+    if (!clientName) {
       toast.error("Informe o nome do cliente");
       return;
     }
 
     setGenerating(true);
-    const username = newClientName.toLowerCase().replace(/\s+/g, ".") + "." + Math.floor(Math.random() * 1000);
-    const password = generateRandomString(10);
+    setLastGenerated(null);
+    const username = clientName.toLowerCase().replace(/\s+/g, ".") + "." + Math.floor(Math.random() * 1000);
+    const password = generateRandomString(12);
 
     // 1. Insert into client_credentials
     const { data: credData, error: credError } = await supabase
       .from("client_credentials")
       .insert({
-        client_name: newClientName,
+        client_name: clientName,
         username,
         password,
       })
@@ -74,15 +77,15 @@ const AccessTab = () => {
     } else {
       // 2. Also create a profile for this user so they can be linked to projects
       const { error: profileError } = await supabase.from("profiles").insert({
-        user_id: credData.id, // We use the credential ID as the user_id
-        full_name: newClientName,
+        user_id: credData.id,
+        full_name: clientName,
       });
 
       if (profileError) {
         console.error("Erro ao criar perfil:", profileError);
-        // We don't block the UI here, but it's important for the dashboard
       }
 
+      setLastGenerated({ username, password });
       toast.success("Acesso gerado com sucesso!");
       setNewClientName("");
       fetchCredentials();
@@ -129,13 +132,43 @@ const AccessTab = () => {
         </div>
       </div>
 
+      {lastGenerated && (
+        <div className="bg-primary/10 border border-primary/20 rounded-xl p-4 space-y-3">
+          <h3 className="text-sm font-semibold text-primary flex items-center gap-2">
+            <ShieldCheck className="h-4 w-4" />
+            Acesso Gerado - Copie as informações abaixo:
+          </h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <div className="space-y-1">
+              <span className="text-[10px] uppercase tracking-wider text-white/40">Usuário</span>
+              <div className="flex items-center justify-between bg-black/40 px-3 py-2 rounded-lg border border-white/5">
+                <code className="text-white text-sm">{lastGenerated.username}</code>
+                <Button variant="ghost" size="icon" onClick={() => copyToClipboard(lastGenerated.username, "Usuário")} className="h-7 w-7">
+                  <Copy className="h-3.5 w-3.5" />
+                </Button>
+              </div>
+            </div>
+            <div className="space-y-1">
+              <span className="text-[10px] uppercase tracking-wider text-white/40">Senha Temporária</span>
+              <div className="flex items-center justify-between bg-black/40 px-3 py-2 rounded-lg border border-white/5">
+                <code className="text-white text-sm">{lastGenerated.password}</code>
+                <Button variant="ghost" size="icon" onClick={() => copyToClipboard(lastGenerated.password, "Senha")} className="h-7 w-7">
+                  <Copy className="h-3.5 w-3.5" />
+                </Button>
+              </div>
+            </div>
+          </div>
+          <p className="text-[10px] text-white/30">Esta senha não será exibida novamente por motivos de segurança.</p>
+        </div>
+      )}
+
       <div className="rounded-xl border border-white/10 overflow-hidden">
         <Table>
           <TableHeader className="bg-white/5">
             <TableRow className="hover:bg-transparent border-white/10">
               <TableHead className="text-white/60">Cliente</TableHead>
               <TableHead className="text-white/60">Usuário</TableHead>
-              <TableHead className="text-white/60">Senha</TableHead>
+              <TableHead className="text-white/60">Status</TableHead>
               <TableHead className="text-white/60">Criado em</TableHead>
               <TableHead className="text-right text-white/60">Ações</TableHead>
             </TableRow>
@@ -166,11 +199,9 @@ const AccessTab = () => {
                     </div>
                   </TableCell>
                   <TableCell>
-                    <div className="flex items-center gap-2 group">
-                      <code className="bg-white/5 px-2 py-0.5 rounded text-white/80 text-xs">{item.password}</code>
-                      <button onClick={() => copyToClipboard(item.password, "Senha")} className="opacity-0 group-hover:opacity-100 transition-opacity">
-                        <Copy className="h-3 w-3 text-white/40 hover:text-white" />
-                      </button>
+                    <div className="flex items-center gap-2">
+                      <ShieldCheck className="h-3 w-3 text-emerald-500" />
+                      <span className="text-[10px] text-emerald-500/80 font-medium uppercase tracking-tighter">Protegido</span>
                     </div>
                   </TableCell>
                   <TableCell className="text-white/40 text-xs">

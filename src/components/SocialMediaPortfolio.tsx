@@ -39,35 +39,40 @@ const SocialMediaPortfolio = () => {
   const centralScale = isTablet ? 1.04 : 1.08;
 
   // Phone 1 (Left far)
-  const fanProgress1 = useTransform(smoothProgress, [0.18, 0.35], [0, 1]);
+  const fanProgress1 = useTransform(smoothProgress, [0.15, 0.45], [0, 1]);
   const x1 = useTransform(fanProgress1, [0, 1], ["0%", `-${farX}`]);
   const r1 = useTransform(fanProgress1, [0, 1], [0, -farR]);
   const y1 = useTransform(fanProgress1, [0, 1], [0, farY]);
-  const opacity1 = useTransform(fanProgress1, [0, 0.4], [0, 1]);
+  const opacity1 = useTransform(fanProgress1, [0, 0.2], [0, 1]);
 
   // Phone 2 (Left close)
-  const fanProgress2 = useTransform(smoothProgress, [0.12, 0.28], [0, 1]);
+  const fanProgress2 = useTransform(smoothProgress, [0.1, 0.4], [0, 1]);
   const x2 = useTransform(fanProgress2, [0, 1], ["0%", `-${closeX}`]);
   const r2 = useTransform(fanProgress2, [0, 1], [0, -closeR]);
   const y2 = useTransform(fanProgress2, [0, 1], [0, closeY]);
-  const opacity2 = useTransform(fanProgress2, [0, 0.3], [0, 1]);
+  const opacity2 = useTransform(fanProgress2, [0, 0.2], [0, 1]);
 
   // Phone 4 (Right close)
   const x4 = useTransform(fanProgress2, [0, 1], ["0%", closeX]);
   const r4 = useTransform(fanProgress2, [0, 1], [0, closeR]);
   const y4 = useTransform(fanProgress2, [0, 1], [0, closeY]);
-  const opacity4 = useTransform(fanProgress2, [0, 0.3], [0, 1]);
+  const opacity4 = useTransform(fanProgress2, [0, 0.2], [0, 1]);
 
   // Phone 5 (Right far)
   const x5 = useTransform(fanProgress1, [0, 1], ["0%", farX]);
   const r5 = useTransform(fanProgress1, [0, 1], [0, farR]);
   const y5 = useTransform(fanProgress1, [0, 1], [0, farY]);
-  const opacity5 = useTransform(fanProgress1, [0, 0.4], [0, 1]);
+  const opacity5 = useTransform(fanProgress1, [0, 0.2], [0, 1]);
 
   // Phone 3 (Central)
-  const fanProgress3 = useTransform(smoothProgress, [0.1, 0.25], [0, 1]);
+  const fanProgress3 = useTransform(smoothProgress, [0.05, 0.35], [0, 1]);
   const scale3 = useTransform(fanProgress3, [0, 1], [1, centralScale]);
   const y3 = useTransform(fanProgress3, [0, 1], [0, -15]);
+
+  // Exit animation (fade out and slide up as user continues scrolling)
+  const exitProgress = useTransform(smoothProgress, [0.6, 0.8], [0, 1]);
+  const exitY = useTransform(exitProgress, [0, 1], [0, -200]);
+  const exitOpacity = useTransform(exitProgress, [0, 0.5], [1, 0]);
 
   const [activeIndex, setActiveIndex] = useState(2);
   const dragX = useSpring(0, { stiffness: 300, damping: 30 });
@@ -102,7 +107,7 @@ const SocialMediaPortfolio = () => {
   return (
     <section 
       ref={containerRef}
-      className="relative min-h-[120vh] md:min-h-[150vh] bg-black py-24 flex flex-col items-center overflow-visible"
+      className="relative min-h-[250vh] bg-black py-24 flex flex-col items-center overflow-visible"
     >
       {/* Background Grid */}
       <div className="absolute inset-0 grid-pattern opacity-90 pointer-events-none" />
@@ -134,7 +139,10 @@ const SocialMediaPortfolio = () => {
       </div>
 
       {/* Visual Block - Smartphone Fan / Slider */}
-      <div className={`sticky top-[25vh] md:top-[20vh] h-[50vh] md:h-[60vh] w-full flex items-center justify-center pointer-events-auto`}>
+      <motion.div 
+        style={{ y: exitY, opacity: exitOpacity }}
+        className={`sticky top-[25vh] md:top-[20vh] h-[50vh] md:h-[60vh] w-full flex items-center justify-center pointer-events-auto z-10`}
+      >
         {isMobile ? (
           <div className="relative w-full h-full flex items-center justify-center touch-none overflow-visible">
             <motion.div 
@@ -147,11 +155,6 @@ const SocialMediaPortfolio = () => {
                 const offset = index - activeIndex;
                 const isVisible = Math.abs(offset) <= 1;
                 
-                if (!isVisible && index !== 0 && index !== images.length - 1) {
-                   // Always keep a few around for smooth entry if needed, 
-                   // but user asked for "only central and one of each side visible"
-                }
-
                 return (
                   <motion.div
                     key={index}
@@ -232,7 +235,7 @@ const SocialMediaPortfolio = () => {
             </motion.div>
           </div>
         )}
-      </div>
+      </motion.div>
 
       {/* Footer Content */}
       <div className="container-editorial relative z-10 mt-auto pb-24 text-center px-6">

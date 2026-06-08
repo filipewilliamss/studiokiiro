@@ -21,16 +21,33 @@ const LoginPage = () => {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    const trimmedUsername = username.trim();
+    const trimmedPassword = password.trim();
+
+    if (!trimmedUsername || !trimmedPassword) {
+      toast.error("Por favor, preencha todos os campos.");
+      return;
+    }
+
+    if (trimmedUsername.length > 100 || trimmedPassword.length > 100) {
+      toast.error("Usuário ou senha inválidos.");
+      return;
+    }
+
     setLoading(true);
 
     try {
       // 1. Verify credentials against the database (returns id, name, role, email)
       const { data, error } = await supabase.rpc("verify_client_credentials", {
-        p_username: username,
-        p_password: password
+        p_username: trimmedUsername,
+        p_password: trimmedPassword
       });
 
-      if (error) throw error;
+      if (error) {
+        console.error("Erro na verificação:", error.message);
+        throw error;
+      }
 
       if (!data || data.length === 0) {
         toast.error("Usuário ou senha incorretos.");
@@ -40,27 +57,25 @@ const LoginPage = () => {
       const userFound: any = data[0];
 
       // 2. If the user has an email in auth.users, create a real Supabase session
-      //    so that auth.uid() works and RLS policies allow access to data.
       if (userFound.email) {
         const { error: signInError } = await supabase.auth.signInWithPassword({
           email: userFound.email,
-          password,
+          password: trimmedPassword,
         });
 
         if (signInError) {
-          console.error("Erro ao iniciar sessão:", signInError);
+          console.error("Erro ao iniciar sessão auth:", signInError.message);
           toast.error("Não foi possível iniciar a sessão. Verifique suas credenciais.");
           return;
         }
 
         toast.success(`Bem-vindo, ${userFound.client_name}!`);
       } else {
-        // Fallback (legacy custom session) for users without auth.users record
+        // Fallback (legacy custom session)
         signInCustom(userFound.id, userFound.role as LoginMode, { full_name: userFound.client_name, company: null });
         toast.success(`Bem-vindo, ${userFound.client_name}!`);
       }
     } catch (err: any) {
-      console.error("Erro no login:", err);
       toast.error("Ocorreu um erro ao tentar entrar. Tente novamente.");
     } finally {
       setLoading(false);

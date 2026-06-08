@@ -19,18 +19,19 @@ const AccessTab = () => {
   const [loading, setLoading] = useState(true);
   const [newClientName, setNewClientName] = useState("");
   const [generating, setGenerating] = useState(false);
+  const [lastGenerated, setLastGenerated] = useState<{username: string, password: string} | null>(null);
 
   const fetchCredentials = async () => {
     setLoading(true);
     const { data, error } = await supabase
       .from("client_credentials")
-      .select("*")
+      .select("id, username, client_name, created_at")
       .order("created_at", { ascending: false });
 
     if (error) {
       toast.error("Erro ao carregar acessos");
     } else {
-      setCredentials(data || []);
+      setCredentials(data as any || []);
     }
     setLoading(false);
   };
@@ -49,20 +50,22 @@ const AccessTab = () => {
   };
 
   const handleGenerate = async () => {
-    if (!newClientName) {
+    const clientName = newClientName.trim();
+    if (!clientName) {
       toast.error("Informe o nome do cliente");
       return;
     }
 
     setGenerating(true);
-    const username = newClientName.toLowerCase().replace(/\s+/g, ".") + "." + Math.floor(Math.random() * 1000);
-    const password = generateRandomString(10);
+    setLastGenerated(null);
+    const username = clientName.toLowerCase().replace(/\s+/g, ".") + "." + Math.floor(Math.random() * 1000);
+    const password = generateRandomString(12);
 
     // 1. Insert into client_credentials
     const { data: credData, error: credError } = await supabase
       .from("client_credentials")
       .insert({
-        client_name: newClientName,
+        client_name: clientName,
         username,
         password,
       })
@@ -74,15 +77,15 @@ const AccessTab = () => {
     } else {
       // 2. Also create a profile for this user so they can be linked to projects
       const { error: profileError } = await supabase.from("profiles").insert({
-        user_id: credData.id, // We use the credential ID as the user_id
-        full_name: newClientName,
+        user_id: credData.id,
+        full_name: clientName,
       });
 
       if (profileError) {
         console.error("Erro ao criar perfil:", profileError);
-        // We don't block the UI here, but it's important for the dashboard
       }
 
+      setLastGenerated({ username, password });
       toast.success("Acesso gerado com sucesso!");
       setNewClientName("");
       fetchCredentials();

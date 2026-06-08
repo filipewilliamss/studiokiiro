@@ -162,7 +162,7 @@ export const projects: Project[] = [
     title: "Construmar",
     category: "Logotipo essencial",
     bgColor: "#030304",
-    coverImage: construmarCapa.url,
+    coverImage: "/capa-site-kiiro.png",
     intro: "Sistema visual desenvolvido para transmitir credibilidade, clareza e força em um mercado altamente competitivo.",
     subtitle: "Identidade visual estratégica para uma marmoraria que une tradição, precisão e sofisticação.",
     about: "A Construmar Marmoraria buscou renovar sua marca para refletir o nível de excelência e cuidado artesanal aplicados em cada peça. O projeto focou em criar uma identidade que comunicasse solidez e precisão técnica, atraindo um público que valoriza design e qualidade superior em acabamentos de pedras naturais.",

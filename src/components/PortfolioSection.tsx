@@ -75,7 +75,7 @@ const ProjectCard = ({ project, index, total }: { project: any; index: number; t
           }}
           className="w-full h-full transition-opacity duration-700"
         />
-        <div className="absolute inset-0 bg-black/20" />
+        <div className={`absolute inset-0 ${project.slug === 'construmar' ? 'bg-transparent' : 'bg-black/20'}`} />
       </div>
 
       {/* Dynamic Dots removed as per request */}

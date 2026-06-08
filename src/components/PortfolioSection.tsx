@@ -58,7 +58,7 @@ const ProjectCard = ({ project, index, total }: { project: any; index: number; t
       ref={cardRef}
       onMouseMove={handleMouseMove}
       className="relative h-[100dvh] w-full flex items-center justify-center overflow-hidden snap-start"
-      style={{ backgroundColor: project.slug === 'construmar' ? '#030304' : (project.bgColor || "#000000") }}
+      style={{ backgroundColor: project.slug === 'construmar' ? '#f5f5f3' : (project.bgColor || "#000000") }}
     >
       {/* Background Image with Gradient Overlay */}
       <div className="absolute inset-0 z-0">

@@ -93,7 +93,7 @@ const ProjectCard = ({ project, index, total }: { project: any; index: number; t
         >
           <span className={`text-[10px] md:text-[12px] uppercase tracking-[0.6em] font-bold ${
             project.slug === 'akedah-podcast' ? 'text-white' : 
-            project.slug === 'construmar' ? 'text-white' : 
+            project.slug === 'construmar' ? 'text-[#3e6884]' : 
             'text-[#FFCA16]'
           }`}>
             {project.category} · {project.year}
@@ -108,17 +108,27 @@ const ProjectCard = ({ project, index, total }: { project: any; index: number; t
         >
           <Link 
             to={`/project/${project.slug}`}
-            className="group relative inline-flex items-center justify-center px-12 py-6 overflow-hidden border border-white/20 transition-all duration-700 hover:border-[#FFCA16]"
+            className={`group relative inline-flex items-center justify-center px-12 py-6 overflow-hidden border transition-all duration-700 ${
+              project.slug === 'construmar' 
+                ? 'border-[#3e6884]/20 hover:border-[#3e6884]' 
+                : 'border-white/20 hover:border-[#FFCA16]'
+            }`}
           >
             {/* Filling Animation */}
-            <div className="absolute inset-0 bg-[#FFCA16] translate-y-full group-hover:translate-y-0 transition-transform duration-600 ease-[0.22,1,0.36,1]" />
+            <div className={`absolute inset-0 translate-y-full group-hover:translate-y-0 transition-transform duration-600 ease-[0.22,1,0.36,1] ${
+              project.slug === 'construmar' ? 'bg-[#3e6884]' : 'bg-[#FFCA16]'
+            }`} />
             
-            <span className="relative z-10 text-[11px] md:text-[12px] uppercase tracking-[0.4em] font-bold text-white group-hover:text-black transition-colors duration-500">
+            <span className={`relative z-10 text-[11px] md:text-[12px] uppercase tracking-[0.4em] font-bold transition-colors duration-500 ${
+              project.slug === 'construmar' ? 'text-[#3e6884] group-hover:text-white' : 'text-white group-hover:text-black'
+            }`}>
               Ver Projeto Completo
             </span>
             <svg 
               width="18" height="18" viewBox="0 0 20 20" fill="none" 
-              className="relative z-10 ml-6 translate-x-0 group-hover:translate-x-3 transition-transform duration-500 text-white group-hover:text-black"
+              className={`relative z-10 ml-6 translate-x-0 group-hover:translate-x-3 transition-transform duration-500 ${
+                project.slug === 'construmar' ? 'text-[#3e6884] group-hover:text-white' : 'text-white group-hover:text-black'
+              }`}
             >
               <path d="M4.16663 10H15.8333M15.8333 10L10.8333 5M15.8333 10L10.8333 15" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
             </svg>

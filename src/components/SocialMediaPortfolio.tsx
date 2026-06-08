@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, useCallback } from "react";
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 
 const SocialMediaPortfolio = () => {
@@ -30,13 +30,13 @@ const SocialMediaPortfolio = () => {
 
   // Staggered fan progress points
 
-  const farX = isMobile ? "45%" : isTablet ? "75%" : "130%";
-  const closeX = isMobile ? "28%" : isTablet ? "42%" : "70%";
-  const farR = isMobile ? 6 : isTablet ? 18 : 32;
-  const closeR = isMobile ? 3 : isTablet ? 10 : 15;
-  const farY = isMobile ? 12 : isTablet ? 35 : 75;
-  const closeY = isMobile ? 6 : isTablet ? 12 : 18;
-  const centralScale = isMobile ? 1.02 : isTablet ? 1.04 : 1.08;
+  const farX = isTablet ? "75%" : "130%";
+  const closeX = isTablet ? "42%" : "70%";
+  const farR = isTablet ? 18 : 32;
+  const closeR = isTablet ? 10 : 15;
+  const farY = isTablet ? 35 : 75;
+  const closeY = isTablet ? 12 : 18;
+  const centralScale = isTablet ? 1.04 : 1.08;
 
   // Phone 1 (Left far)
   const fanProgress1 = useTransform(smoothProgress, [0.18, 0.35], [0, 1]);
@@ -68,6 +68,26 @@ const SocialMediaPortfolio = () => {
   const fanProgress3 = useTransform(smoothProgress, [0.1, 0.25], [0, 1]);
   const scale3 = useTransform(fanProgress3, [0, 1], [1, centralScale]);
   const y3 = useTransform(fanProgress3, [0, 1], [0, -15]);
+
+  const [activeIndex, setActiveIndex] = useState(2);
+  const dragX = useSpring(0, { stiffness: 300, damping: 30 });
+  
+  const images = [
+    "https://dohkkmvsrcuxssxmimxn.supabase.co/storage/v1/object/public/images/hts4foeb1l8-1779490857580.png",
+    "https://dohkkmvsrcuxssxmimxn.supabase.co/storage/v1/object/public/images/x0kq6od5on-1779491623931.jpg",
+    "https://dohkkmvsrcuxssxmimxn.supabase.co/storage/v1/object/public/images/uzvbthz4ncc-1779730234426.jpg",
+    "https://dohkkmvsrcuxssxmimxn.supabase.co/storage/v1/object/public/images/8gaktp9ln3-1779733239455.png",
+    "https://dohkkmvsrcuxssxmimxn.supabase.co/storage/v1/object/public/images/97grnqq0tnv-1779733664436.png"
+  ];
+
+  const handleDragEnd = (e: any, info: any) => {
+    const threshold = 50;
+    if (info.offset.x < -threshold && activeIndex < images.length - 1) {
+      setActiveIndex(prev => prev + 1);
+    } else if (info.offset.x > threshold && activeIndex > 0) {
+      setActiveIndex(prev => prev - 1);
+    }
+  };
 
   return (
     <section 
@@ -103,57 +123,105 @@ const SocialMediaPortfolio = () => {
         </motion.p>
       </div>
 
-      {/* Visual Block - Smartphone Fan */}
-      <div className="sticky top-[20vh] h-[60vh] w-full flex items-center justify-center pointer-events-none">
-        <div className="relative w-full max-w-4xl h-full flex items-center justify-center">
-          
-          {/* Smartphone 1 (Left Far) */}
-          <motion.div 
-            style={{ x: x1, rotate: r1, y: y1, opacity: opacity1, zIndex: 10 }}
-            className="absolute"
-          >
-            <SmartphonePlaceholder image="https://dohkkmvsrcuxssxmimxn.supabase.co/storage/v1/object/public/images/hts4foeb1l8-1779490857580.png" />
-          </motion.div>
+      {/* Visual Block - Smartphone Fan / Slider */}
+      <div className={`sticky top-[20vh] h-[60vh] w-full flex items-center justify-center ${isMobile ? "" : "pointer-events-none"}`}>
+        {isMobile ? (
+          <div className="relative w-full h-full flex items-center justify-center touch-none overflow-visible">
+            <motion.div 
+              className="flex items-center justify-center w-full h-full relative"
+              drag="x"
+              dragConstraints={{ left: 0, right: 0 }}
+              onDragEnd={handleDragEnd}
+            >
+              {images.map((image, index) => {
+                const offset = index - activeIndex;
+                const isVisible = Math.abs(offset) <= 1;
+                
+                if (!isVisible && index !== 0 && index !== images.length - 1) {
+                   // Always keep a few around for smooth entry if needed, 
+                   // but user asked for "only central and one of each side visible"
+                }
 
-          {/* Smartphone 2 (Left Close) */}
-          <motion.div 
-            style={{ x: x2, rotate: r2, y: y2, opacity: opacity2, zIndex: 20 }}
-            className="absolute"
-          >
-            <SmartphonePlaceholder image="https://dohkkmvsrcuxssxmimxn.supabase.co/storage/v1/object/public/images/x0kq6od5on-1779491623931.jpg" />
-          </motion.div>
+                return (
+                  <motion.div
+                    key={index}
+                    initial={false}
+                    animate={{
+                      x: offset * 160,
+                      scale: index === activeIndex ? 1 : 0.85,
+                      opacity: index === activeIndex ? 1 : Math.abs(offset) === 1 ? 0.4 : 0,
+                      zIndex: index === activeIndex ? 30 : 20 - Math.abs(offset),
+                    }}
+                    transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                    className="absolute"
+                  >
+                    <SmartphonePlaceholder image={image} />
+                  </motion.div>
+                );
+              })}
+            </motion.div>
+            
+            {/* Drag hint for mobile */}
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 0.6 }}
+              className="absolute bottom-[-20px] left-1/2 -translate-x-1/2 flex gap-2"
+            >
+              {images.map((_, i) => (
+                <div 
+                  key={i} 
+                  className={`w-1.5 h-1.5 rounded-full transition-colors ${i === activeIndex ? "bg-[#FFCA16]" : "bg-white/20"}`} 
+                />
+              ))}
+            </motion.div>
+          </div>
+        ) : (
+          <div className="relative w-full max-w-4xl h-full flex items-center justify-center">
+            {/* Smartphone 1 (Left Far) */}
+            <motion.div 
+              style={{ x: x1, rotate: r1, y: y1, opacity: opacity1, zIndex: 10 }}
+              className="absolute"
+            >
+              <SmartphonePlaceholder image={images[0]} />
+            </motion.div>
 
-          {/* Smartphone 4 (Right Close) */}
-          <motion.div 
-            style={{ x: x4, rotate: r4, y: y4, opacity: opacity4, zIndex: 20 }}
-            className="absolute"
-          >
-          <SmartphonePlaceholder 
-            image="https://dohkkmvsrcuxssxmimxn.supabase.co/storage/v1/object/public/images/8gaktp9ln3-1779733239455.png" 
-          />
-          </motion.div>
+            {/* Smartphone 2 (Left Close) */}
+            <motion.div 
+              style={{ x: x2, rotate: r2, y: y2, opacity: opacity2, zIndex: 20 }}
+              className="absolute"
+            >
+              <SmartphonePlaceholder image={images[1]} />
+            </motion.div>
 
-          {/* Smartphone 5 (Right Far) */}
-          <motion.div 
-            style={{ x: x5, rotate: r5, y: y5, opacity: opacity5, zIndex: 10 }}
-            className="absolute"
-          >
-            <SmartphonePlaceholder image="https://dohkkmvsrcuxssxmimxn.supabase.co/storage/v1/object/public/images/97grnqq0tnv-1779733664436.png" />
-          </motion.div>
+            {/* Smartphone 4 (Right Close) */}
+            <motion.div 
+              style={{ x: x4, rotate: r4, y: y4, opacity: opacity4, zIndex: 20 }}
+              className="absolute"
+            >
+              <SmartphonePlaceholder image={images[3]} />
+            </motion.div>
 
-          {/* Smartphone 3 (Central - Front) */}
-          <motion.div 
-            style={{ scale: scale3, y: y3, zIndex: 30 }}
-            className="relative"
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-          >
-            <SmartphonePlaceholder image="https://dohkkmvsrcuxssxmimxn.supabase.co/storage/v1/object/public/images/uzvbthz4ncc-1779730234426.jpg" />
-          </motion.div>
+            {/* Smartphone 5 (Right Far) */}
+            <motion.div 
+              style={{ x: x5, rotate: r5, y: y5, opacity: opacity5, zIndex: 10 }}
+              className="absolute"
+            >
+              <SmartphonePlaceholder image={images[4]} />
+            </motion.div>
 
-        </div>
+            {/* Smartphone 3 (Central - Front) */}
+            <motion.div 
+              style={{ scale: scale3, y: y3, zIndex: 30 }}
+              className="relative"
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+            >
+              <SmartphonePlaceholder image={images[2]} />
+            </motion.div>
+          </div>
+        )}
       </div>
 
       {/* Footer Content */}

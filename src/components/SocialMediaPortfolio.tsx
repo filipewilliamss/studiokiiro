@@ -89,6 +89,16 @@ const SocialMediaPortfolio = () => {
     }
   };
 
+  useEffect(() => {
+    if (!isMobile) return;
+    
+    const interval = setInterval(() => {
+      setActiveIndex((current) => (current + 1) % images.length);
+    }, 3000);
+    
+    return () => clearInterval(interval);
+  }, [isMobile, images.length]);
+
   return (
     <section 
       ref={containerRef}
@@ -126,7 +136,7 @@ const SocialMediaPortfolio = () => {
       {/* Visual Block - Smartphone Fan / Slider */}
       <div className={`sticky top-[20vh] h-[60vh] w-full flex items-center justify-center ${isMobile ? "" : "pointer-events-none"}`}>
         {isMobile ? (
-          <div className="relative w-full h-full flex items-center justify-center touch-none overflow-visible">
+          <div className="relative w-full h-[500px] flex items-center justify-center touch-none overflow-visible">
             <motion.div 
               className="flex items-center justify-center w-full h-full relative"
               drag="x"
@@ -147,7 +157,7 @@ const SocialMediaPortfolio = () => {
                     key={index}
                     initial={false}
                     animate={{
-                      x: offset * 160,
+                      x: offset * 180,
                       scale: index === activeIndex ? 1 : 0.85,
                       opacity: index === activeIndex ? 1 : Math.abs(offset) === 1 ? 0.4 : 0,
                       zIndex: index === activeIndex ? 30 : 20 - Math.abs(offset),
@@ -242,7 +252,7 @@ const SocialMediaPortfolio = () => {
 
 const SmartphonePlaceholder = ({ image, objectFit = "cover" }: { image: string, objectFit?: "cover" | "contain" }) => {
   return (
-    <div className="w-[190px] h-[410px] md:w-[198px] md:h-[429px] lg:w-[280px] lg:h-[600px] relative group" style={{ perspective: "1000px" }}>
+    <div className="w-[190px] h-[410px] md:w-[198px] md:h-[429px] lg:w-[280px] lg:h-[600px] relative group pointer-events-auto" style={{ perspective: "1000px" }}>
       {/* Outer Glow/Reflection */}
       <div className="absolute -inset-1 bg-gradient-to-tr from-white/10 to-transparent blur-sm rounded-[50px] opacity-50" />
       

@@ -58,7 +58,7 @@ const ProjectCard = ({ project, index, total }: { project: any; index: number; t
       ref={cardRef}
       onMouseMove={handleMouseMove}
       className="relative h-[100dvh] w-full flex items-center justify-center overflow-hidden snap-start"
-      style={{ backgroundColor: project.bgColor || "#000000" }}
+      style={{ backgroundColor: project.slug === 'construmar' ? '#030304' : (project.bgColor || "#000000") }}
     >
       {/* Background Image with Gradient Overlay */}
       <div className="absolute inset-0 z-0">
@@ -68,14 +68,14 @@ const ProjectCard = ({ project, index, total }: { project: any; index: number; t
                    project.slug === 'team-luisa-crosstraining' ? teamLuisaScale : bgScale, 
             opacity: bgOpacity,
             backgroundImage: `url(${project.coverImage || project.pages[0]})`,
-            backgroundSize: isBelowDesktop ? 'contain' : 'cover',
+            backgroundSize: project.slug === 'construmar' ? 'contain' : (isBelowDesktop ? 'contain' : 'cover'),
             backgroundRepeat: 'no-repeat',
             backgroundPosition: 'center'
 
           }}
           className="w-full h-full transition-opacity duration-700"
         />
-        <div className="absolute inset-0 bg-black/20" />
+        <div className={`absolute inset-0 ${project.slug === 'construmar' ? 'bg-transparent' : 'bg-black/20'}`} />
       </div>
 
       {/* Dynamic Dots removed as per request */}

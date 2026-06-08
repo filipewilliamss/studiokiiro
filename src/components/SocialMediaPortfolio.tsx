@@ -102,7 +102,7 @@ const SocialMediaPortfolio = () => {
   return (
     <section 
       ref={containerRef}
-      className="relative min-h-[150vh] bg-black py-24 flex flex-col items-center overflow-hidden"
+      className="relative min-h-[120vh] md:min-h-[150vh] bg-black py-24 flex flex-col items-center overflow-visible"
     >
       {/* Background Grid */}
       <div className="absolute inset-0 grid-pattern opacity-90 pointer-events-none" />
@@ -134,9 +134,9 @@ const SocialMediaPortfolio = () => {
       </div>
 
       {/* Visual Block - Smartphone Fan / Slider */}
-      <div className={`sticky top-[20vh] h-[55vh] md:h-[60vh] w-full flex items-center justify-center ${isMobile ? "" : "pointer-events-none"}`}>
+      <div className={`sticky top-[25vh] md:top-[20vh] h-[50vh] md:h-[60vh] w-full flex items-center justify-center pointer-events-auto`}>
         {isMobile ? (
-          <div className="relative w-full h-[500px] md:h-full flex items-center justify-center touch-none overflow-visible">
+          <div className="relative w-full h-full flex items-center justify-center touch-none overflow-visible">
             <motion.div 
               className="flex items-center justify-center w-full h-full relative"
               drag="x"

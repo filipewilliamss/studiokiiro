@@ -106,7 +106,7 @@ const SocialMediaPortfolio = () => {
   return (
     <section 
       ref={containerRef}
-      className="relative min-h-[250vh] bg-black py-24 flex flex-col items-center overflow-visible"
+      className="relative bg-black py-24 flex flex-col items-center overflow-visible"
     >
       {/* Background Grid */}
       <div className="absolute inset-0 grid-pattern opacity-90 pointer-events-none" />

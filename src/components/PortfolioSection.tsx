@@ -93,7 +93,7 @@ const ProjectCard = ({ project, index, total }: { project: any; index: number; t
         >
           <span className={`text-[10px] md:text-[12px] uppercase tracking-[0.6em] font-bold ${
             project.slug === 'akedah-podcast' ? 'text-white' : 
-            project.slug === 'construmar' ? 'text-black' : 
+            project.slug === 'construmar' ? 'text-white' : 
             'text-[#FFCA16]'
           }`}>
             {project.category} · {project.year}

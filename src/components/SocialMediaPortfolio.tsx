@@ -23,8 +23,9 @@ const SocialMediaPortfolio = () => {
   });
 
   const smoothProgress = useSpring(scrollYProgress, {
-    stiffness: 100,
-    damping: 30,
+    stiffness: 60,
+    damping: 25,
+    mass: 0.5,
     restDelta: 0.001
   });
 
@@ -106,7 +107,7 @@ const SocialMediaPortfolio = () => {
   return (
     <section 
       ref={containerRef}
-      className="relative bg-black py-24 flex flex-col items-center overflow-visible"
+      className="relative bg-black py-24 flex flex-col items-center overflow-visible min-h-[150vh]"
     >
       {/* Background Grid */}
       <div className="absolute inset-0 grid-pattern opacity-90 pointer-events-none" />

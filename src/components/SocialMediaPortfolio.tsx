@@ -237,13 +237,13 @@ const SocialMediaPortfolio = () => {
       </motion.div>
 
       {/* Footer Content */}
-      <div className="container-editorial relative z-10 mt-auto pb-24 text-center px-6">
+      <div className="container-editorial relative z-10 text-center px-6">
         <motion.p 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="text-gray-300 max-w-xl mx-auto mb-10 text-lg mt-[50px]"
+          className="text-gray-300 max-w-xl mx-auto mb-10 text-lg"
         >
           Cada arte é pensada para manter a identidade da marca em evidência, em qualquer formato: posts, carrosséis, stories e campanhas.
         </motion.p>

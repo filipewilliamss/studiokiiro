@@ -68,7 +68,7 @@ const ProjectCard = ({ project, index, total }: { project: any; index: number; t
                    project.slug === 'team-luisa-crosstraining' ? teamLuisaScale : bgScale, 
             opacity: bgOpacity,
             backgroundImage: `url(${project.coverImage || project.pages[0]})`,
-            backgroundSize: isBelowDesktop ? 'contain' : 'cover',
+            backgroundSize: project.slug === 'construmar' ? 'contain' : (isBelowDesktop ? 'contain' : 'cover'),
             backgroundRepeat: 'no-repeat',
             backgroundPosition: 'center'
 

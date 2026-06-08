@@ -134,9 +134,9 @@ const SocialMediaPortfolio = () => {
       </div>
 
       {/* Visual Block - Smartphone Fan / Slider */}
-      <div className={`sticky top-[20vh] h-[60vh] w-full flex items-center justify-center ${isMobile ? "" : "pointer-events-none"}`}>
+      <div className={`sticky top-[20vh] h-[55vh] md:h-[60vh] w-full flex items-center justify-center ${isMobile ? "" : "pointer-events-none"}`}>
         {isMobile ? (
-          <div className="relative w-full h-[500px] flex items-center justify-center touch-none overflow-visible">
+          <div className="relative w-full h-[500px] md:h-full flex items-center justify-center touch-none overflow-visible">
             <motion.div 
               className="flex items-center justify-center w-full h-full relative"
               drag="x"
@@ -159,7 +159,7 @@ const SocialMediaPortfolio = () => {
                     animate={{
                       x: offset * 180,
                       scale: index === activeIndex ? 1 : 0.85,
-                      opacity: index === activeIndex ? 1 : Math.abs(offset) === 1 ? 0.4 : 0,
+                      opacity: index === activeIndex ? 1 : Math.abs(offset) === 1 ? 0.6 : 0,
                       zIndex: index === activeIndex ? 30 : 20 - Math.abs(offset),
                     }}
                     transition={{ type: "spring", stiffness: 300, damping: 30 }}

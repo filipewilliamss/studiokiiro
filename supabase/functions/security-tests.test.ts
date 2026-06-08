@@ -40,7 +40,7 @@ Deno.test("Security: Edge Functions should reject requests without valid Admin t
       const isErrorStatus = response.status >= 400;
       assertEquals(isErrorStatus, true, `Function ${func} should reject invalid token with error status`);
       assertExists(result.error, `Function ${func} should return an error message`);
-    } catch (e) {
+    } catch (e: any) {
       console.log(`Fetch to ${func} failed: ${e.message}. This might be expected if the function is not deployed locally.`);
     }
   }

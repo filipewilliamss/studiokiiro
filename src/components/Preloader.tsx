@@ -92,7 +92,7 @@ const Preloader: React.FC<{ onComplete: () => void }> = ({ onComplete }) => {
         ))}
       </div>
 
-      <div className="absolute inset-0 grid grid-cols-10 grid-rows-10 pointer-events-none opacity-20">
+      <div className="absolute inset-0 hidden md:grid grid-cols-10 grid-rows-10 pointer-events-none opacity-20">
         {[...Array(100)].map((_, i) => (
           <div key={i} className="border-[1px] border-white/15" />
         ))}

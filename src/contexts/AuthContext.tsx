@@ -54,39 +54,53 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const fetchUserData = async () => {
       try {
         setLoading(true);
-        // Small delay to ensure the auth token is fully propagated
-        await new Promise((r) => setTimeout(r, 100));
 
-        const [rolesRes, profileRes] = await Promise.all([
-          supabase.from("user_roles").select("role").eq("user_id", user.id),
-          supabase.from("profiles").select("full_name, company").eq("user_id", user.id).single(),
-        ]);
+        // Retry user_roles fetch — RLS/JWT may take a tick to propagate after signIn
+        let rolesData: { role: string }[] | null = null;
+        let rolesError: any = null;
+        for (let attempt = 0; attempt < 4; attempt++) {
+          await new Promise((r) => setTimeout(r, attempt === 0 ? 150 : 300));
+          if (cancelled) return;
+          const res = await supabase.from("user_roles").select("role").eq("user_id", user.id);
+          rolesError = res.error;
+          rolesData = res.data;
+          if (!res.error && res.data && res.data.length > 0) break;
+        }
+
+        const profileRes = await supabase
+          .from("profiles")
+          .select("full_name, company")
+          .eq("user_id", user.id)
+          .maybeSingle();
 
         if (cancelled) return;
 
-        if (rolesRes.data && rolesRes.data.length > 0) {
-          setRole(rolesRes.data[0].role as UserRole);
-        } else {
-          setRole("client");
+        if (rolesData && rolesData.length > 0) {
+          // Prefer admin > partner > client when multiple rows
+          const priority: Record<string, number> = { admin: 3, partner: 2, client: 1 };
+          const best = [...rolesData].sort(
+            (a, b) => (priority[b.role] ?? 0) - (priority[a.role] ?? 0)
+          )[0];
+          setRole(best.role as UserRole);
+        } else if (!rolesError) {
+          // Confirmed empty (not an RLS/network error) — default to client
+          setRole((prev) => prev ?? "client");
         }
+        // On error: keep whatever role was already set (e.g. via setSessionRole)
 
         if (profileRes.data) {
           setProfile(profileRes.data);
-        } else {
-          setProfile(null);
         }
       } catch (err) {
         console.error("Error fetching user data:", err);
-        if (!cancelled) {
-          setRole("client");
-          setProfile(null);
-        }
+        // Don't clobber an existing role on transient errors
       } finally {
         if (!cancelled) {
           setLoading(false);
         }
       }
     };
+
 
     fetchUserData();
 

@@ -72,6 +72,13 @@ const LoginPage = () => {
           return;
         }
 
+        // Seed role/profile imediatamente para evitar flash do ClientDashboard
+        // enquanto o AuthContext busca user_roles do banco.
+        setSessionRole(userFound.role as LoginMode, {
+          full_name: userFound.client_name,
+          company: null,
+        });
+
         toast.success(`Bem-vindo, ${userFound.client_name}!`);
       } else {
         // Fallback (legacy custom session)

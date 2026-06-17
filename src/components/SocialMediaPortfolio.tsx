@@ -9,8 +9,9 @@ const SocialMediaPortfolio = () => {
   useEffect(() => {
     const check = () => {
       const w = window.innerWidth;
-      setIsMobile(w < 768);
-      setIsTablet(w >= 768 && w < 1024);
+      // Mobile uses the same layout as tablet for this section
+      setIsMobile(false);
+      setIsTablet(w < 1024);
     };
     check();
     window.addEventListener('resize', check);

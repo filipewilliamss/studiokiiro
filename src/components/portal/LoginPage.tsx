@@ -38,6 +38,9 @@ const LoginPage = () => {
     setLoading(true);
 
     try {
+      // Clear any stale custom session to avoid role being locked from a previous login
+      localStorage.removeItem("kiiro_custom_session");
+
       // 1. Verify credentials against the database (returns id, name, role, email)
       const { data, error } = await supabase.rpc("verify_client_credentials", {
         p_username: trimmedUsername,

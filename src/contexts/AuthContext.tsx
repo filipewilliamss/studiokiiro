@@ -194,8 +194,17 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   }, []);
 
+  const setSessionRole = useCallback(
+    (newRole: UserRole, profileData?: { full_name: string; company: string | null }) => {
+      setRole(newRole);
+      if (profileData) setProfile(profileData);
+      setLoading(false);
+    },
+    []
+  );
+
   return (
-    <AuthContext.Provider value={{ user, session, role, profile, loading, signOut, signInCustom }}>
+    <AuthContext.Provider value={{ user, session, role, profile, loading, signOut, signInCustom, setSessionRole }}>
       {children}
     </AuthContext.Provider>
   );

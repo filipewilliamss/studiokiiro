@@ -232,11 +232,11 @@ const SmartphonePlaceholder = ({ image, objectFit = "cover" }: { image: string, 
   return (
     <div className="w-[164px] h-[360px] md:w-[198px] md:h-[429px] lg:w-[280px] lg:h-[600px] relative group pointer-events-auto" style={{ perspective: "1000px" }}>
       {/* Outer glow */}
-      <div className="absolute -inset-[2px] bg-gradient-to-tr from-white/15 via-white/5 to-transparent blur-md rounded-[56px] opacity-60" />
+      <div className="absolute -inset-[2px] bg-gradient-to-tr from-white/15 via-white/5 to-transparent blur-md rounded-[40px] md:rounded-[44px] lg:rounded-[52px] opacity-60" />
 
       {/* Titanium frame */}
       <div
-        className="w-full h-full rounded-[52px] p-[3px] relative overflow-hidden ring-1 ring-white/15"
+        className="w-full h-full rounded-[36px] md:rounded-[40px] lg:rounded-[48px] p-[3px] relative overflow-hidden ring-1 ring-white/15"
         style={{
           background:
             "linear-gradient(145deg, #6b6b6e 0%, #3a3a3c 18%, #1f1f21 50%, #3a3a3c 82%, #6b6b6e 100%)",
@@ -245,9 +245,9 @@ const SmartphonePlaceholder = ({ image, objectFit = "cover" }: { image: string, 
         }}
       >
         {/* Inner bezel (uniform thin black ring) */}
-        <div className="w-full h-full bg-black rounded-[49px] p-[4px] relative">
+        <div className="w-full h-full bg-black rounded-[33px] md:rounded-[37px] lg:rounded-[45px] p-[3px] relative">
           {/* Screen — image fills 100% */}
-          <div className="w-full h-full rounded-[45px] overflow-hidden bg-[#050505] relative shadow-inner">
+          <div className="w-full h-full rounded-[30px] md:rounded-[34px] lg:rounded-[42px] overflow-hidden bg-[#050505] relative shadow-inner">
             <img
               src={image}
               alt="Social Media Art"

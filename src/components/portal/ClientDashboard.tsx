@@ -206,7 +206,7 @@ const ClientDashboard = () => {
     const [stagesRes, filesRes, paymentRes, messagesRes] = await Promise.all([
       supabase.from("project_stages").select("*").eq("project_id", project.id).order("sort_order"),
       supabase.storage.from("project-files").list(project.id),
-      supabase.from("payments").select("*").eq("project_id", project.id).maybeSingle(),
+      supabase.from("client_payments_view" as any).select("*").eq("project_id", project.id).maybeSingle(),
       supabase.from("messages").select("*").eq("project_id", project.id).order("created_at", { ascending: true }),
     ]);
 

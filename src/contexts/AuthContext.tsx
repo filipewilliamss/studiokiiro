@@ -12,6 +12,7 @@ interface AuthContextType {
   loading: boolean;
   signOut: () => Promise<void>;
   signInCustom: (userId: string, role: UserRole, profileData?: any) => void;
+  setSessionRole: (role: UserRole, profileData?: { full_name: string; company: string | null }) => void;
 }
 
 const AuthContext = createContext<AuthContextType>({

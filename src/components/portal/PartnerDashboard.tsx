@@ -154,7 +154,7 @@ const PartnerDashboard = () => {
     return (
       <DashboardWrapper>
         <Navbar forceBlack />
-        <header className="border-b border-white/10 bg-black sticky top-[calc(7rem-20px)] md:top-[calc(9rem-20px)] z-30 mt-[calc(8rem-20px)] md:mt-[calc(10rem-20px)]">
+        <header className="border-b border-white/10 bg-black sticky top-[calc(7rem-45px)] md:top-[calc(9rem-45px)] z-30 mt-[calc(8rem-45px)] md:mt-[calc(10rem-45px)]">
           <div className="max-w-5xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between">
             <button onClick={() => setSelectedProject(null)} className="flex items-center gap-2 text-sm text-white/40 hover:text-primary transition-colors">
               <ArrowLeft className="h-4 w-4" /> Voltar
@@ -261,7 +261,7 @@ const PartnerDashboard = () => {
   return (
     <DashboardWrapper>
       <Navbar forceBlack />
-      <header className="border-b border-white/10 bg-black sticky top-[calc(7rem-20px)] md:top-[calc(9rem-20px)] z-30 mt-[calc(8rem-20px)] md:mt-[calc(10rem-20px)]">
+      <header className="border-b border-white/10 bg-black sticky top-[calc(7rem-45px)] md:top-[calc(9rem-45px)] z-30 mt-[calc(8rem-45px)] md:mt-[calc(10rem-45px)]">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 h-12 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <span className="text-[11px] uppercase tracking-[0.3em] text-primary font-semibold">Painel do Parceiro</span>

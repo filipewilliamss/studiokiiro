@@ -211,7 +211,7 @@ const ClientDashboard = () => {
     ]);
 
     if (stagesRes.data) setStages(stagesRes.data);
-    if (paymentRes.data) setPayment(paymentRes.data);
+    if (paymentRes.data) setPayment(paymentRes.data as any);
     if (messagesRes.data) setMessages(messagesRes.data);
 
     if (filesRes.data && filesRes.data.length > 0) {

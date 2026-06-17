@@ -17,7 +17,7 @@ const LoginPage = () => {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [stayConnected, setStayConnected] = useState(true);
-  const { signInCustom } = useAuth();
+  const { signInCustom, setSessionRole } = useAuth();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -71,6 +71,13 @@ const LoginPage = () => {
           toast.error("Não foi possível iniciar a sessão. Verifique suas credenciais.");
           return;
         }
+
+        // Seed role/profile imediatamente para evitar flash do ClientDashboard
+        // enquanto o AuthContext busca user_roles do banco.
+        setSessionRole(userFound.role as LoginMode, {
+          full_name: userFound.client_name,
+          company: null,
+        });
 
         toast.success(`Bem-vindo, ${userFound.client_name}!`);
       } else {

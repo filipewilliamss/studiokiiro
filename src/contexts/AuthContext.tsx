@@ -12,6 +12,7 @@ interface AuthContextType {
   loading: boolean;
   signOut: () => Promise<void>;
   signInCustom: (userId: string, role: UserRole, profileData?: any) => void;
+  setSessionRole: (role: UserRole, profileData?: { full_name: string; company: string | null }) => void;
 }
 
 const AuthContext = createContext<AuthContextType>({
@@ -22,6 +23,7 @@ const AuthContext = createContext<AuthContextType>({
   loading: true,
   signOut: async () => {},
   signInCustom: () => {},
+  setSessionRole: () => {},
 });
 
 export const useAuth = () => useContext(AuthContext);
@@ -192,8 +194,17 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   }, []);
 
+  const setSessionRole = useCallback(
+    (newRole: UserRole, profileData?: { full_name: string; company: string | null }) => {
+      setRole(newRole);
+      if (profileData) setProfile(profileData);
+      setLoading(false);
+    },
+    []
+  );
+
   return (
-    <AuthContext.Provider value={{ user, session, role, profile, loading, signOut, signInCustom }}>
+    <AuthContext.Provider value={{ user, session, role, profile, loading, signOut, signInCustom, setSessionRole }}>
       {children}
     </AuthContext.Provider>
   );

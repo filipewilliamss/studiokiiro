@@ -169,7 +169,7 @@ const ClientDashboard = () => {
       const { data: projectsData } = await supabase.from("projects").select("id").neq("status", "entregue");
       if (projectsData?.length) {
         const { data: paymentsData } = await supabase
-          .from("payments")
+          .from("client_payments_view" as any)
           .select("*")
           .in("project_id", projectsData.map((p) => p.id));
         if (paymentsData) setAllPayments(paymentsData as any);

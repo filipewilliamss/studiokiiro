@@ -332,7 +332,7 @@ const ClientDashboard = () => {
     return (
       <DashboardPageWrapper>
         <Navbar forceBlack />
-        <header className="border-b border-white/10 bg-black sticky top-[calc(7rem-45px)] md:top-[calc(9rem-45px)] z-30 mt-[calc(8rem-45px)] md:mt-[calc(10rem-45px)]">
+        <header className="border-b border-white/10 bg-black sticky top-[calc(7rem-55px)] md:top-[calc(9rem-55px)] z-30 mt-[calc(8rem-55px)] md:mt-[calc(10rem-55px)]">
           <div className="max-w-5xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between">
             <button onClick={() => setSelectedProject(null)} className="flex items-center gap-2 text-sm text-white/40 hover:text-primary transition-colors group">
               <ArrowLeft className="h-4 w-4 group-hover:-translate-x-1 transition-transform" />
@@ -837,7 +837,7 @@ const ClientDashboard = () => {
   return (
     <DashboardPageWrapper>
       <Navbar forceBlack />
-      <header className="border-b border-white/10 bg-black sticky top-[calc(7rem-45px)] md:top-[calc(9rem-45px)] z-30 mt-[calc(8rem-45px)] md:mt-[calc(10rem-45px)]">
+      <header className="border-b border-white/10 bg-black sticky top-[calc(7rem-55px)] md:top-[calc(9rem-55px)] z-30 mt-[calc(8rem-55px)] md:mt-[calc(10rem-55px)]">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <h2 className="text-[11px] font-semibold text-primary uppercase tracking-[0.3em] font-display">Studio Kiiro Workspace</h2>

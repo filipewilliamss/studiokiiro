@@ -121,7 +121,7 @@ const ProposalGate = ({ quotes, profileId, onQuotesUpdated }: ProposalGateProps)
     return (
       <DashboardPageWrapper>
         <Navbar forceBlack />
-        <header className="border-b border-white/10 bg-black sticky top-[calc(7rem-45px)] md:top-[calc(9rem-45px)] z-30 mt-[calc(8rem-45px)] md:mt-[calc(10rem-45px)]">
+        <header className="border-b border-white/10 bg-black sticky top-[calc(7rem-55px)] md:top-[calc(9rem-55px)] z-30 mt-[calc(8rem-55px)] md:mt-[calc(10rem-55px)]">
           <div className="max-w-5xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-end">
             <Button variant="ghost" size="sm" onClick={signOut} className="text-white/40 hover:text-white">
               <LogOut className="h-4 w-4 mr-2" />Sair
@@ -154,7 +154,7 @@ const ProposalGate = ({ quotes, profileId, onQuotesUpdated }: ProposalGateProps)
     return (
       <DashboardPageWrapper>
         <Navbar forceBlack />
-        <header className="border-b border-white/10 bg-black sticky top-[calc(7rem-45px)] md:top-[calc(9rem-45px)] z-30 mt-[calc(8rem-45px)] md:mt-[calc(10rem-45px)]">
+        <header className="border-b border-white/10 bg-black sticky top-[calc(7rem-55px)] md:top-[calc(9rem-55px)] z-30 mt-[calc(8rem-55px)] md:mt-[calc(10rem-55px)]">
           <div className="max-w-5xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-end">
             <Button variant="ghost" size="sm" onClick={signOut} className="text-white/40 hover:text-white">
               <LogOut className="h-4 w-4 mr-2" />Sair
@@ -182,7 +182,7 @@ const ProposalGate = ({ quotes, profileId, onQuotesUpdated }: ProposalGateProps)
   return (
     <DashboardPageWrapper>
       <Navbar forceBlack />
-      <header className="border-b border-white/10 bg-black sticky top-[calc(7rem-45px)] md:top-[calc(9rem-45px)] z-30 mt-[calc(8rem-45px)] md:mt-[calc(10rem-45px)]">
+      <header className="border-b border-white/10 bg-black sticky top-[calc(7rem-55px)] md:top-[calc(9rem-55px)] z-30 mt-[calc(8rem-55px)] md:mt-[calc(10rem-55px)]">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <span className="text-[11px] uppercase tracking-[0.3em] text-primary font-semibold">Proposta de Projeto</span>

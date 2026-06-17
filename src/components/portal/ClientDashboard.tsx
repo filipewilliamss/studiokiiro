@@ -169,7 +169,7 @@ const ClientDashboard = () => {
       const { data: projectsData } = await supabase.from("projects").select("id").neq("status", "entregue");
       if (projectsData?.length) {
         const { data: paymentsData } = await supabase
-          .from("payments")
+          .from("client_payments_view" as any)
           .select("*")
           .in("project_id", projectsData.map((p) => p.id));
         if (paymentsData) setAllPayments(paymentsData as any);
@@ -206,12 +206,12 @@ const ClientDashboard = () => {
     const [stagesRes, filesRes, paymentRes, messagesRes] = await Promise.all([
       supabase.from("project_stages").select("*").eq("project_id", project.id).order("sort_order"),
       supabase.storage.from("project-files").list(project.id),
-      supabase.from("payments").select("*").eq("project_id", project.id).maybeSingle(),
+      supabase.from("client_payments_view" as any).select("*").eq("project_id", project.id).maybeSingle(),
       supabase.from("messages").select("*").eq("project_id", project.id).order("created_at", { ascending: true }),
     ]);
 
     if (stagesRes.data) setStages(stagesRes.data);
-    if (paymentRes.data) setPayment(paymentRes.data);
+    if (paymentRes.data) setPayment(paymentRes.data as any);
     if (messagesRes.data) setMessages(messagesRes.data);
 
     if (filesRes.data && filesRes.data.length > 0) {

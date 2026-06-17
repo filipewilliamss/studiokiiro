@@ -476,6 +476,13 @@ export type Database = {
             foreignKeyName: "projects_client_id_fkey"
             columns: ["client_id"]
             isOneToOne: false
+            referencedRelation: "partner_client_names"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "projects_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
             referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
@@ -510,6 +517,13 @@ export type Database = {
           reason?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "quote_rejections_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "partner_client_names"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "quote_rejections_client_id_fkey"
             columns: ["client_id"]
@@ -582,6 +596,13 @@ export type Database = {
           validity_date?: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: "quotes_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "partner_client_names"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "quotes_client_id_fkey"
             columns: ["client_id"]
@@ -672,6 +693,13 @@ export type Database = {
             foreignKeyName: "service_orders_client_id_fkey"
             columns: ["client_id"]
             isOneToOne: false
+            referencedRelation: "partner_client_names"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "service_orders_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
             referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
@@ -734,7 +762,83 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      client_payments_view: {
+        Row: {
+          budget_total: number | null
+          created_at: string | null
+          id: string | null
+          initial_payment: number | null
+          initial_payment_date: string | null
+          installments_paid: number | null
+          installments_total: number | null
+          next_payment_date: string | null
+          payment_method: string | null
+          payment_status: string | null
+          project_id: string | null
+          remaining_amount: number | null
+          sale_date: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          budget_total?: number | null
+          created_at?: string | null
+          id?: string | null
+          initial_payment?: number | null
+          initial_payment_date?: string | null
+          installments_paid?: number | null
+          installments_total?: number | null
+          next_payment_date?: string | null
+          payment_method?: string | null
+          payment_status?: string | null
+          project_id?: string | null
+          remaining_amount?: number | null
+          sale_date?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          budget_total?: number | null
+          created_at?: string | null
+          id?: string | null
+          initial_payment?: number | null
+          initial_payment_date?: string | null
+          installments_paid?: number | null
+          installments_total?: number | null
+          next_payment_date?: string | null
+          payment_method?: string | null
+          payment_status?: string | null
+          project_id?: string | null
+          remaining_amount?: number | null
+          sale_date?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "payments_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      partner_client_names: {
+        Row: {
+          company: string | null
+          full_name: string | null
+          id: string | null
+        }
+        Insert: {
+          company?: string | null
+          full_name?: string | null
+          id?: string | null
+        }
+        Update: {
+          company?: string | null
+          full_name?: string | null
+          id?: string | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       update_updated_at_column: { Args: never; Returns: boolean }

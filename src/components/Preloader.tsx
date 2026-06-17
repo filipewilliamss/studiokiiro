@@ -97,6 +97,13 @@ const Preloader: React.FC<{ onComplete: () => void }> = ({ onComplete }) => {
           <div key={i} className="border-[1px] border-white/15" />
         ))}
       </div>
+
+      {/* Mobile grid — adds horizontal lines on top of the vertical column borders */}
+      <div className="absolute inset-0 grid md:hidden grid-cols-6 grid-rows-12 pointer-events-none opacity-20">
+        {[...Array(72)].map((_, i) => (
+          <div key={i} className="border-[1px] border-white/15" />
+        ))}
+      </div>
       
       <div 
         ref={textRef} 

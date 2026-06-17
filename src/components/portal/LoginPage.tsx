@@ -17,7 +17,7 @@ const LoginPage = () => {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [stayConnected, setStayConnected] = useState(true);
-  const { signInCustom } = useAuth();
+  const { signInCustom, setSessionRole } = useAuth();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();

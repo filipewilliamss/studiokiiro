@@ -132,7 +132,7 @@ const SocialMediaPortfolio = () => {
         {isMobile ? (
           <div className="relative w-full h-full flex items-center justify-center overflow-visible">
             <motion.div
-              className="relative w-full h-full flex items-center justify-center"
+              className="relative w-full h-full"
               drag="x"
               dragConstraints={{ left: 0, right: 0 }}
               dragElastic={0.2}
@@ -140,7 +140,6 @@ const SocialMediaPortfolio = () => {
               onDragEnd={handleDragEnd}
             >
               {images.map((image, index) => {
-                // Circular offset in range [-2, 2]
                 const len = images.length;
                 let offset = index - activeIndex;
                 if (offset > len / 2) offset -= len;
@@ -149,9 +148,7 @@ const SocialMediaPortfolio = () => {
                 const abs = Math.abs(offset);
                 const isCenter = offset === 0;
                 const isNear = abs === 1;
-                const isFar = abs === 2;
 
-                // Position offsets (in px)
                 const xPos = offset * 70;
                 const scale = isCenter ? 1 : isNear ? 0.82 : 0.7;
                 const opacity = isCenter ? 1 : isNear ? 0.6 : 0.15;
@@ -159,23 +156,20 @@ const SocialMediaPortfolio = () => {
                 const zIndex = 30 - abs;
 
                 return (
-                  <motion.div
+                  <div
                     key={index}
-                    initial={false}
-                    animate={{
-                      x: xPos,
-                      scale,
-                      opacity,
-                      zIndex,
-                    }}
-                    transition={{ type: "spring", stiffness: 220, damping: 28 }}
-                    style={{
-                      filter: `saturate(${saturate})`,
-                    }}
-                    className="absolute pointer-events-none"
+                    className="absolute inset-0 flex items-center justify-center pointer-events-none"
+                    style={{ zIndex }}
                   >
-                    <SmartphonePlaceholder image={image} />
-                  </motion.div>
+                    <motion.div
+                      initial={false}
+                      animate={{ x: xPos, scale, opacity }}
+                      transition={{ type: "spring", stiffness: 220, damping: 28 }}
+                      style={{ filter: `saturate(${saturate})` }}
+                    >
+                      <SmartphonePlaceholder image={image} />
+                    </motion.div>
+                  </div>
                 );
               })}
             </motion.div>

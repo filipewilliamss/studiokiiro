@@ -130,51 +130,53 @@ const SocialMediaPortfolio = () => {
         className="relative h-[60vh] md:h-[70vh] lg:h-[80vh] w-full flex items-center justify-center pointer-events-auto z-10 mb-24"
       >
         {isMobile ? (
-          <div className="relative w-full h-full flex items-center justify-center overflow-visible">
-            <motion.div
-              className="relative w-full h-full"
-              drag="x"
-              dragConstraints={{ left: 0, right: 0 }}
-              dragElastic={0.2}
-              onDragStart={() => setIsPaused(true)}
-              onDragEnd={handleDragEnd}
-            >
-              {images.map((image, index) => {
-                const len = images.length;
-                let offset = index - activeIndex;
-                if (offset > len / 2) offset -= len;
-                if (offset < -len / 2) offset += len;
+          <motion.div
+            className="relative w-full h-full flex items-center justify-center overflow-visible touch-pan-y"
+            drag="x"
+            dragConstraints={{ left: 0, right: 0 }}
+            dragElastic={0.2}
+            onDragStart={() => setIsPaused(true)}
+            onDragEnd={handleDragEnd}
+          >
+            {images.map((image, index) => {
+              const len = images.length;
+              let offset = index - activeIndex;
+              if (offset > len / 2) offset -= len;
+              if (offset < -len / 2) offset += len;
 
-                const abs = Math.abs(offset);
-                const isCenter = offset === 0;
-                const isNear = abs === 1;
+              const abs = Math.abs(offset);
+              const isCenter = offset === 0;
+              const isNear = abs === 1;
 
-                const xPos = offset * 70;
-                const scale = isCenter ? 1 : isNear ? 0.82 : 0.7;
-                const opacity = isCenter ? 1 : isNear ? 0.6 : 0.15;
-                const saturate = isCenter ? 1 : isNear ? 0.5 : 0;
-                const zIndex = 30 - abs;
+              const xPos = offset * 70;
+              const scale = isCenter ? 1 : isNear ? 0.82 : 0.7;
+              const opacity = isCenter ? 1 : isNear ? 0.6 : 0.15;
+              const saturate = isCenter ? 1 : isNear ? 0.5 : 0;
+              const zIndex = 30 - abs;
 
-                return (
-                  <div
-                    key={index}
-                    className="absolute inset-0 flex items-center justify-center pointer-events-none"
-                    style={{ zIndex }}
-                  >
-                    <motion.div
-                      initial={false}
-                      animate={{ x: xPos, scale, opacity }}
-                      transition={{ type: "spring", stiffness: 220, damping: 28 }}
-                      style={{ filter: `saturate(${saturate})` }}
-                    >
-                      <SmartphonePlaceholder image={image} />
-                    </motion.div>
-                  </div>
-                );
-              })}
-            </motion.div>
+              return (
+                <motion.div
+                  key={index}
+                  initial={false}
+                  animate={{ x: xPos, scale, opacity }}
+                  transition={{ type: "spring", stiffness: 220, damping: 28 }}
+                  style={{
+                    position: "absolute",
+                    top: "50%",
+                    left: "50%",
+                    marginTop: -205,
+                    marginLeft: -95,
+                    filter: `saturate(${saturate})`,
+                    zIndex,
+                    pointerEvents: "none",
+                  }}
+                >
+                  <SmartphonePlaceholder image={image} />
+                </motion.div>
+              );
+            })}
 
-            <div className="absolute bottom-[-20px] left-1/2 -translate-x-1/2 flex gap-2">
+            <div className="absolute bottom-[-20px] left-1/2 -translate-x-1/2 flex gap-2 z-40">
               {images.map((_, i) => (
                 <div
                   key={i}
@@ -182,7 +184,7 @@ const SocialMediaPortfolio = () => {
                 />
               ))}
             </div>
-          </div>
+          </motion.div>
         ) : (
           <div className="relative w-full max-w-4xl h-full flex items-center justify-center">
             <motion.div style={{ x: x1, rotate: r1, y: y1, opacity: opacity1, zIndex: 10 }} className="absolute">

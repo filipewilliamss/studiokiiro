@@ -73,32 +73,44 @@ const PartnerDashboard = () => {
   const fetchData = async () => {
     const { data: paymentsData } = await supabase
       .from("payments")
-      .select("id, project_id, commission_amount, commission_paid_to_partner, commission_paid_date, sale_date, projects(name, type, profiles(full_name))")
+      .select("id, project_id, commission_amount, commission_paid_to_partner, commission_paid_date, sale_date, projects(name, type, client_id)")
       .order("sale_date", { ascending: false });
 
     if (paymentsData) {
-      setPayments(paymentsData as any);
       const projectIds = [...new Set(paymentsData.map(p => p.project_id))];
+      let projectsData: any[] = [];
+      const profileMap = new Map<string, string>();
+
       if (projectIds.length > 0) {
-        const { data: projectsData } = await supabase
+        const { data: pData } = await supabase
           .from("projects")
           .select("id, name, type, status, progress, deadline, start_date, partner_notes, client_id, partner_message")
           .in("id", projectIds);
+        projectsData = pData || [];
 
-        if (projectsData) {
-          const clientIds = [...new Set(projectsData.map(p => p.client_id))];
+        const clientIds = [...new Set(projectsData.map(p => p.client_id).filter(Boolean))];
+        if (clientIds.length > 0) {
           const { data: profilesData } = await supabase
-            .from("profiles")
+            .from("partner_client_names" as any)
             .select("id, full_name")
             .in("id", clientIds);
-
-          const profileMap = new Map((profilesData || []).map(p => [p.id, p.full_name]));
-          setProjects(projectsData.map(p => ({
-            ...p,
-            client_name: profileMap.get(p.client_id) || "Cliente",
-          })) as any);
+          (profilesData || []).forEach((p: any) => profileMap.set(p.id, p.full_name));
         }
+
+        setProjects(projectsData.map(p => ({
+          ...p,
+          client_name: profileMap.get(p.client_id) || "Cliente",
+        })) as any);
       }
+
+      // Enrich payments with client full_name so existing UI lookups keep working
+      const enrichedPayments = paymentsData.map((p: any) => ({
+        ...p,
+        projects: p.projects
+          ? { ...p.projects, profiles: { full_name: profileMap.get(p.projects.client_id) || "Cliente" } }
+          : p.projects,
+      }));
+      setPayments(enrichedPayments as any);
     }
   };
 

@@ -136,33 +136,30 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const signOut = useCallback(async () => {
     setLoading(true);
+
+    // Clear local state immediately so the UI reacts even if the network call hangs
+    setUser(null);
+    setSession(null);
+    setRole(null);
+    setProfile(null);
+
+    // Clear custom session + any Supabase auth tokens stored locally
     try {
-      await supabase.auth.signOut();
-    } catch (err) {
-      console.error("Error signing out:", err);
-    } finally {
-      // Clear custom session
       localStorage.removeItem("kiiro_custom_session");
+      Object.keys(localStorage)
+        .filter((k) => k.startsWith("sb-") && k.endsWith("-auth-token"))
+        .forEach((k) => localStorage.removeItem(k));
+    } catch {}
 
-      // Clear all state
-      setUser(null);
-      setSession(null);
-      setRole(null);
-      setProfile(null);
-      setLoading(false);
+    // Fire-and-forget the server sign out (don't block navigation on it)
+    supabase.auth.signOut().catch((err) => console.error("Error signing out:", err));
 
-      // Hard reload to guarantee the LoginPage is shown and any cached
-      // state (queries, realtime, etc.) is cleared. Using location.href
-      // with the same URL does NOT trigger navigation, so we use reload().
-      setTimeout(() => {
-        if (window.location.pathname === "/area-do-cliente") {
-          window.location.reload();
-        } else {
-          window.location.assign("/area-do-cliente");
-        }
-      }, 50);
-    }
+    setLoading(false);
+
+    // Hard navigate so all cached state (queries, realtime, etc.) is wiped
+    window.location.href = "/area-do-cliente";
   }, []);
+
 
 
   const signInCustom = useCallback((userId: string, role: UserRole, profileData?: any) => {

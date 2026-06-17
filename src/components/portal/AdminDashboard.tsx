@@ -100,7 +100,7 @@ const AdminDashboard = () => {
         <Navbar forceBlack />
 
         {/* Sticky sub-header — black */}
-        <header className="border-b border-white/10 bg-black sticky top-[4.5rem] md:top-[5.5rem] z-30 mt-[4.5rem] md:mt-[5.5rem]">
+        <header className="border-b border-white/10 bg-black sticky top-[7rem] md:top-[9rem] z-30 mt-[8rem] md:mt-[10rem]">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 h-12 flex items-center justify-between">
             <div className="flex items-center gap-3">
               <span className="text-[11px] uppercase tracking-[0.3em] text-primary font-semibold">Studio Kiiro Workspace</span>

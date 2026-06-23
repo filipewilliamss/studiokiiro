@@ -72,7 +72,7 @@ const PartnerDashboard = () => {
 
   const fetchData = async () => {
     const { data: paymentsData } = await supabase
-      .from("payments")
+      .from("partner_payments_view" as any)
       .select("id, project_id, commission_amount, commission_paid_to_partner, commission_paid_date, sale_date, projects(name, type, client_id)")
       .order("sale_date", { ascending: false });
 

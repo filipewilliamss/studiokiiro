@@ -104,7 +104,7 @@ const PartnerDashboard = () => {
       }
 
       // Enrich payments with client full_name so existing UI lookups keep working
-      const enrichedPayments = paymentsData.map((p: any) => ({
+      const enrichedPayments = (paymentsData as any[]).map((p: any) => ({
         ...p,
         projects: p.projects
           ? { ...p.projects, profiles: { full_name: profileMap.get(p.projects.client_id) || "Cliente" } }

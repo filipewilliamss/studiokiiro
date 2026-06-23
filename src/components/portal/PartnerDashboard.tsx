@@ -77,7 +77,7 @@ const PartnerDashboard = () => {
       .order("sale_date", { ascending: false });
 
     if (paymentsData) {
-      const projectIds = [...new Set(paymentsData.map(p => p.project_id))];
+      const projectIds = [...new Set((paymentsData as any[]).map((p: any) => p.project_id))];
       let projectsData: any[] = [];
       const profileMap = new Map<string, string>();
 

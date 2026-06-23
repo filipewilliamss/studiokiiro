@@ -40,12 +40,15 @@ const ProjectDetail = () => {
   const borderColorClass = isLightBg ? 'border-black/10' : 'border-white/10';
   const borderMutedClass = isLightBg ? 'border-black/5' : 'border-white/5';
 
+  const darkInteriorSlugs = ['akedah-podcast', 'construmar', 'tabernaculo-da-trindade', 'team-luisa-crosstraining'];
+  const pageBgColor = darkInteriorSlugs.includes(project.slug) ? '#030304' : (project.bgColor || '#000000');
+
   return (
     <motion.div 
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       className={`min-h-screen ${isLightBg ? 'text-[#1A1A1A]' : 'text-white'} selection:bg-[#FFCA16] selection:text-black overflow-x-hidden`}
-      style={{ backgroundColor: project.bgColor || "#000000" }}
+      style={{ backgroundColor: pageBgColor }}
     >
       <SEO 
         title={project.title}

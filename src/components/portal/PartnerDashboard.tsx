@@ -72,12 +72,12 @@ const PartnerDashboard = () => {
 
   const fetchData = async () => {
     const { data: paymentsData } = await supabase
-      .from("payments")
+      .from("partner_payments_view" as any)
       .select("id, project_id, commission_amount, commission_paid_to_partner, commission_paid_date, sale_date, projects(name, type, client_id)")
       .order("sale_date", { ascending: false });
 
     if (paymentsData) {
-      const projectIds = [...new Set(paymentsData.map(p => p.project_id))];
+      const projectIds = [...new Set((paymentsData as any[]).map((p: any) => p.project_id))];
       let projectsData: any[] = [];
       const profileMap = new Map<string, string>();
 
@@ -104,7 +104,7 @@ const PartnerDashboard = () => {
       }
 
       // Enrich payments with client full_name so existing UI lookups keep working
-      const enrichedPayments = paymentsData.map((p: any) => ({
+      const enrichedPayments = (paymentsData as any[]).map((p: any) => ({
         ...p,
         projects: p.projects
           ? { ...p.projects, profiles: { full_name: profileMap.get(p.projects.client_id) || "Cliente" } }

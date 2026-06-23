@@ -839,6 +839,44 @@ export type Database = {
         }
         Relationships: []
       }
+      partner_payments_view: {
+        Row: {
+          commission_amount: number | null
+          commission_paid_date: string | null
+          commission_paid_to_partner: boolean | null
+          id: string | null
+          project_id: string | null
+          sale_date: string | null
+          sales_rep: string | null
+        }
+        Insert: {
+          commission_amount?: number | null
+          commission_paid_date?: string | null
+          commission_paid_to_partner?: boolean | null
+          id?: string | null
+          project_id?: string | null
+          sale_date?: string | null
+          sales_rep?: string | null
+        }
+        Update: {
+          commission_amount?: number | null
+          commission_paid_date?: string | null
+          commission_paid_to_partner?: boolean | null
+          id?: string | null
+          project_id?: string | null
+          sale_date?: string | null
+          sales_rep?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "payments_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Functions: {
       update_updated_at_column: { Args: never; Returns: boolean }

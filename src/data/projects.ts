@@ -301,6 +301,12 @@ export const projects: Project[] = [
     category: "Logotipo essencial",
     coverImage: "https://dohkkmvsrcuxssxmimxn.supabase.co/storage/v1/object/public/images/itao7p6ecpb-1779904571956.png",
     bgColor: "#1D1D1B",
+    heroGradient: {
+      from: "#8B1A1A",
+      to: "#F26522",
+      titleColor: "#FFE8D6",
+      subtitleColor: "#FFCBA4",
+    },
 
     intro: "Projeto visual com linguagem forte e memorável, criado para destacar a marca e reforçar sua presença no mercado.",
     subtitle: "Rebranding dinâmico para uma comunidade de cross training que valoriza força, energia e união.",

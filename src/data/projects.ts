@@ -135,6 +135,10 @@ export const projects: Project[] = [
       titleColor: "#FFF3E0",
       subtitleColor: "#F5DEB8",
     },
+    clientContext: {
+      label: "Akedah Podcast — Entretenimento & Espiritualidade",
+      description: "Podcast nascente focado em conversa autêntica, espiritualidade acessível e entretenimento profundo. Produção de qualidade mas sem identidade visual clara no mercado saturado de podcasts.",
+    },
     intro: "Construção de uma identidade visual com presença, contraste e personalidade para fortalecer o posicionamento da marca.",
     subtitle: "Identidade visual para um podcast cristão que une profundidade, autenticidade e propósito em cada conversa.",
     about: "O Akedah Podcast nasce da necessidade de expressar identidade, profundidade e autenticidade em cada conversa. Mais do que uma marca visual, o nome \"Akedah\" carrega um significado poderoso, remetendo ao momento bíblico do sacrifício de fé e refletindo a essência do propósito do podcast: trazer à tona temas intensos, relevantes e espirituais com verdade e coragem.",

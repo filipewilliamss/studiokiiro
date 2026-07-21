@@ -178,6 +178,12 @@ export const projects: Project[] = [
     title: "Construmar",
     category: "Logotipo essencial",
     bgColor: "#030304",
+    heroGradient: {
+      from: "#2D3748",
+      to: "#718096",
+      titleColor: "#F7FAFC",
+      subtitleColor: "#CBD5E0",
+    },
     coverImage: "/capa-site-kiiro.png",
     intro: "Sistema visual desenvolvido para transmitir credibilidade, clareza e força em um mercado altamente competitivo.",
     subtitle: "Identidade visual estratégica para uma marmoraria que une tradição, precisão e sofisticação.",

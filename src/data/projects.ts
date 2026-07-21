@@ -121,6 +121,12 @@ export const projects: Project[] = [
     title: "Akedah Podcast",
     category: "Identidade visual",
     bgColor: "#2C1A0F",
+    heroGradient: {
+      from: "#D4A574",
+      to: "#E8963D",
+      titleColor: "#FFF3E0",
+      subtitleColor: "#F5DEB8",
+    },
     intro: "Construção de uma identidade visual com presença, contraste e personalidade para fortalecer o posicionamento da marca.",
     subtitle: "Identidade visual para um podcast cristão que une profundidade, autenticidade e propósito em cada conversa.",
     about: "O Akedah Podcast nasce da necessidade de expressar identidade, profundidade e autenticidade em cada conversa. Mais do que uma marca visual, o nome \"Akedah\" carrega um significado poderoso, remetendo ao momento bíblico do sacrifício de fé e refletindo a essência do propósito do podcast: trazer à tona temas intensos, relevantes e espirituais com verdade e coragem.",

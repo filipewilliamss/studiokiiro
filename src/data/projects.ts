@@ -49,6 +49,16 @@ export interface Project {
   category: string;
   coverImage?: string;
   bgColor: string;
+  /**
+   * Branded hero gradient. Reusable per-project: swap colors here to
+   * re-skin the hero without touching the component.
+   */
+  heroGradient?: {
+    from: string;
+    to: string;
+    titleColor: string;
+    subtitleColor: string;
+  };
   intro: string;
 
   subtitle?: string;

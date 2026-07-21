@@ -61,6 +61,14 @@ export interface Project {
   };
   intro: string;
 
+  /**
+   * Optional "O Cliente" / context block for project detail pages.
+   */
+  clientContext?: {
+    label: string;
+    description: string;
+  };
+
   subtitle?: string;
   about?: string;
   challenge: string;

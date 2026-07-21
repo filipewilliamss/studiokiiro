@@ -7,6 +7,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ScrollAnimatedImage from "@/components/ScrollAnimatedImage";
 import { projects } from "@/data/projects";
+import ProjectHero from "@/components/ProjectHero";
 
 const ProjectDetail = () => {
   const { slug } = useParams<{ slug: string }>();

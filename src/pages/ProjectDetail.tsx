@@ -102,6 +102,43 @@ const ProjectDetail = () => {
         </div>
       </div>
 
+      {/* SEÇÃO O CLIENTE */}
+      {project.clientContext && (
+        <section className="py-16 md:py-24 relative z-10">
+          <div className="container-editorial max-w-4xl">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+            >
+              <span
+                className="block text-[11px] uppercase tracking-[2px] font-bold mb-5"
+                style={{ color: project.heroGradient?.from ?? "#FFCA16" }}
+              >
+                CONTEXTO
+              </span>
+              <h2 className="text-[24px] font-medium mb-5" style={{ color: project.heroGradient?.titleColor ?? "#FFFFFF" }}>
+                O Cliente
+              </h2>
+              <div
+                className="bg-white/5 rounded-[12px] p-5"
+                style={{ border: "0.5px solid rgba(255,255,255,0.1)" }}
+              >
+                <p
+                  className="text-base font-bold mb-3"
+                  style={{ color: project.heroGradient?.titleColor ?? "#FFFFFF" }}
+                >
+                  {project.clientContext.label}
+                </p>
+                <p className="text-base leading-[1.6]" style={{ color: project.heroGradient?.subtitleColor ?? "#D4A574" }}>
+                  {project.clientContext.description}
+                </p>
+              </div>
+            </motion.div>
+          </div>
+        </section>
+      )}
 
       {/* SEÇÃO SOBRE O PROJETO */}
       {project.about && (

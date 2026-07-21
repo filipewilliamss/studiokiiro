@@ -7,6 +7,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ScrollAnimatedImage from "@/components/ScrollAnimatedImage";
 import { projects } from "@/data/projects";
+import ProjectHero from "@/components/ProjectHero";
 
 const ProjectDetail = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -73,72 +74,34 @@ const ProjectDetail = () => {
         className="fixed inset-0 bg-[#0A0A0A] z-[99] pointer-events-none origin-top"
       />
 
-      {/* HERO SECTION */}
-      <section 
-        className="relative h-[90vh] flex items-end pb-20 overflow-hidden"
-        style={{ backgroundColor: project.bgColor || "#000000" }}
-      >
-        <div className="absolute inset-0 z-0">
-          <motion.div 
-            initial={{ scale: 1.1 }}
-            animate={{ scale: 1 }}
-            transition={{ duration: 2, ease: [0.22, 1, 0.36, 1] }}
-            className="w-full h-full opacity-40"
-            style={{ 
-              backgroundImage: `url(${project.pages[0]})`,
-              backgroundSize: 'cover',
-              backgroundRepeat: 'no-repeat',
-              backgroundPosition: 'center'
-            }}
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-transparent" 
-               style={{ 
-                 backgroundImage: `linear-gradient(to top, ${project.bgColor || '#000000'}, ${project.bgColor || '#000000'}66, transparent)` 
-               }} 
-          />
-        </div>
+      {/* HERO SECTION — reusable branded hero (colors driven by project.heroGradient) */}
+      <div className="container-editorial pt-32 md:pt-40 pb-8">
+        <ProjectHero
+          title={project.title}
+          subtitle={project.subtitle}
+          gradient={
+            project.heroGradient ?? {
+              from: "#D4A574",
+              to: "#E8963D",
+              titleColor: "#E8C8A0",
+              subtitleColor: "#D4A574",
+            }
+          }
+        />
 
-        <div className="container-editorial relative z-10 w-full">
-          <div className="max-w-5xl">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.8 }}
-              className="flex items-center gap-6 mb-10"
-            >
-              <div className="flex flex-col">
-                <span className="text-[9px] uppercase tracking-[0.5em] text-[#FFCA16] font-bold mb-1">Categoria</span>
-                <span className={`text-[11px] uppercase tracking-[0.3em] ${mutedTextColorClass}`}>{project.category}</span>
-              </div>
-              <div className={`w-[1px] h-10 ${borderColorClass}`} />
-              <div className="flex flex-col">
-                <span className="text-[9px] uppercase tracking-[0.5em] text-[#FFCA16] font-bold mb-1">Ano</span>
-                <span className={`text-[11px] uppercase tracking-[0.3em] ${mutedTextColorClass}`}>{project.year}</span>
-              </div>
-            </motion.div>
-
-            <motion.h1 
-              initial={{ opacity: 0, y: 50 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1.2, delay: 1, ease: [0.22, 1, 0.36, 1] }}
-              className="text-[14vw] md:text-[9vw] font-black leading-[0.8] tracking-tighter uppercase mb-6"
-              style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
-            >
-              {project.title}
-            </motion.h1>
-            {project.subtitle && (
-              <motion.p
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 1.2 }}
-                className={`text-lg md:text-2xl font-light ${mutedTextColorClass} max-w-2xl leading-relaxed`}
-              >
-                {project.subtitle}
-              </motion.p>
-            )}
+        <div className="flex items-center gap-6 mt-10 justify-center">
+          <div className="flex flex-col items-center">
+            <span className="text-[9px] uppercase tracking-[0.5em] text-[#FFCA16] font-bold mb-1">Categoria</span>
+            <span className={`text-[11px] uppercase tracking-[0.3em] ${mutedTextColorClass}`}>{project.category}</span>
+          </div>
+          <div className={`w-[1px] h-10 ${borderColorClass}`} />
+          <div className="flex flex-col items-center">
+            <span className="text-[9px] uppercase tracking-[0.5em] text-[#FFCA16] font-bold mb-1">Ano</span>
+            <span className={`text-[11px] uppercase tracking-[0.3em] ${mutedTextColorClass}`}>{project.year}</span>
           </div>
         </div>
-      </section>
+      </div>
+
 
       {/* SEÇÃO SOBRE O PROJETO */}
       {project.about && (

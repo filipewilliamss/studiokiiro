@@ -75,6 +75,8 @@ export interface Project {
 
   /** Full-bleed banner image for the hero card */
   heroBanner?: string;
+  /** Logo used in the "Próximo Projeto" block at the end of a project page */
+  nextProjectLogo?: string;
   subtitle?: string;
   about?: string;
   challenge: string;

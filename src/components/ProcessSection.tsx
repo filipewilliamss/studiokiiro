@@ -68,11 +68,6 @@ const ProcessStep = ({ step, idx }: { step: typeof steps[0], idx: number }) => {
         </motion.span>
 
         <div className={`w-full md:w-[45%] relative z-10 px-8 md:px-0 ${idx % 2 === 0 ? 'md:text-left' : 'md:text-right'}`}>
-          <div className="inline-block mb-8">
-            <span className="text-[#FFCA16] text-[11px] font-bold tracking-[0.3em] uppercase px-5 py-2 border border-[#FFCA16]/30 bg-[#FFCA16]/5 backdrop-blur-sm">
-              Fase {step.number}
-            </span>
-          </div>
           <h3 className="font-display text-[36px] md:text-[52px] font-[800] text-white mb-8 tracking-tighter leading-[0.9] group-hover:text-[#FFCA16] transition-colors">
             {step.title}
           </h3>

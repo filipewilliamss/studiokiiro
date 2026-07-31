@@ -79,6 +79,7 @@ const ProjectDetail = () => {
         <ProjectHero
           title={project.title}
           subtitle={project.subtitle}
+          logo={project.logo}
           gradient={
             project.heroGradient ?? {
               from: "#D4A574",
@@ -89,17 +90,26 @@ const ProjectDetail = () => {
           }
         />
 
-        <div className="flex items-center gap-6 mt-10 justify-center">
-          <div className="flex flex-col items-center">
-            <span className="text-[9px] uppercase tracking-[0.5em] text-[#FFCA16] font-bold mb-1">Categoria</span>
-            <span className={`text-[11px] uppercase tracking-[0.3em] ${mutedTextColorClass}`}>{project.category}</span>
-          </div>
-          <div className={`w-[1px] h-10 ${borderColorClass}`} />
-          <div className="flex flex-col items-center">
-            <span className="text-[9px] uppercase tracking-[0.5em] text-[#FFCA16] font-bold mb-1">Ano</span>
-            <span className={`text-[11px] uppercase tracking-[0.3em] ${mutedTextColorClass}`}>{project.year}</span>
+        <div className="mt-8 flex flex-col md:flex-row md:items-start md:justify-between gap-6">
+          {project.subtitle && (
+            <p className={`text-base leading-[1.6] max-w-xl ${mutedTextColorClass}`}>
+              {project.subtitle}
+            </p>
+          )}
+
+          <div className="flex items-center gap-6 md:justify-end shrink-0">
+            <div className="flex flex-col">
+              <span className="text-[9px] uppercase tracking-[0.5em] text-[#FFCA16] font-bold mb-1">Categoria</span>
+              <span className={`text-[11px] uppercase tracking-[0.3em] ${mutedTextColorClass}`}>{project.category}</span>
+            </div>
+            <div className={`w-[1px] h-10 ${borderColorClass}`} />
+            <div className="flex flex-col">
+              <span className="text-[9px] uppercase tracking-[0.5em] text-[#FFCA16] font-bold mb-1">Ano</span>
+              <span className={`text-[11px] uppercase tracking-[0.3em] ${mutedTextColorClass}`}>{project.year}</span>
+            </div>
           </div>
         </div>
+
       </div>
 
       {/* SEÇÃO O CLIENTE */}

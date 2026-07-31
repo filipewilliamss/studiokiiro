@@ -80,6 +80,7 @@ const ProjectDetail = () => {
           title={project.title}
           subtitle={project.subtitle}
           logo={project.logo}
+          banner={project.heroBanner}
           gradient={
             project.heroGradient ?? {
               from: "#D4A574",

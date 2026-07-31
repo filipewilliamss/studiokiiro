@@ -1,4 +1,5 @@
 import akedahLogo from "@/assets/akedah-logo.webp";
+import akedahBanner from "@/assets/akedah-banner.jpg.asset.json";
 import construmarLogo from "@/assets/construmar-logo.webp";
 import construmarLogo2 from "@/assets/construmar-logo-2.png.asset.json";
 import construmarVersoes from "@/assets/construmar-versoes.png.asset.json";
@@ -69,6 +70,8 @@ export interface Project {
     description: string;
   };
 
+  /** Full-bleed banner image for the hero card */
+  heroBanner?: string;
   subtitle?: string;
   about?: string;
   challenge: string;
@@ -129,6 +132,7 @@ export const projects: Project[] = [
     title: "Akedah Podcast",
     category: "Identidade visual",
     bgColor: "#2C1A0F",
+    heroBanner: akedahBanner.url,
     heroGradient: {
       from: "#D4A574",
       to: "#E8963D",

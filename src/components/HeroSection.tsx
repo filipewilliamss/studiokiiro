@@ -312,24 +312,9 @@ const HeroSection = () => {
             <span className="text-[#FFCA16] italic font-light">lembrada.</span>
           </h1>
 
-          <p className="mt-12 text-white/55 text-[17px] md:text-[19px] max-w-[720px] text-left font-light leading-[1.6] font-display text-pretty tracking-tight">
-            Design para marcas que buscam reconhecimento e diferenciação real, por meio de identidades visuais, sites e <br className="hidden md:block" />presença digital consistentes.&nbsp;
+          <p className="mt-12 text-white/55 text-[17px] md:text-[19px] max-w-none text-left font-light leading-[1.6] font-display tracking-tight">
+            Design para marcas que buscam reconhecimento e diferenciação real, por <br className="hidden md:block" />meio de identidades visuais, sites e presença digital consistentes.
           </p>
-
-          <div className="mt-16 flex flex-col sm:flex-row gap-5 items-stretch sm:items-center w-full sm:w-auto">
-            <a
-              href="#portfolio"
-              className="btn-premium w-full sm:w-auto text-center"
-            >
-              Ver portfólio na prática
-            </a>
-            <a
-              href="#contato"
-              className="btn-premium-outline w-full sm:w-auto text-center"
-            >
-              Falar sobre um projeto
-            </a>
-          </div>
         </div>
 
         <div className="hidden lg:flex lg:w-[35%] h-[600px] relative items-center justify-center">
@@ -357,17 +342,6 @@ const HeroSection = () => {
         </div>
       </div>
 
-      {/* Scroll Indicator */}
-      <motion.div 
-        animate={{ y: [0, 10, 0] }}
-        transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute bottom-12 right-10 hidden lg:flex flex-col items-center gap-4"
-      >
-        <span className="text-white/30 text-[10px] uppercase tracking-[0.3em] font-medium rotate-90 mb-8 font-display">
-          SCROLL
-        </span>
-        <div className="w-[1px] h-[80px] bg-gradient-to-b from-[#FFCA16] to-transparent" />
-      </motion.div>
     </section>
   );
 };

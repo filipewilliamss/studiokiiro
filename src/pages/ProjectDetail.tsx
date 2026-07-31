@@ -1062,8 +1062,7 @@ const ProjectDetail = () => {
       {(() => {
         const nextBgMap: Record<string, string> = {
           "akedah-podcast": "#2B1810",
-          "construmar": "#05121C",
-          "tabernaculo-da-trindade": "#030304",
+          "tabernaculo-da-trindade": "#061019",
           "team-luisa-crosstraining": "#000000",
         };
         const nextBg = nextBgMap[nextProject.slug] || "#F5F4EF";

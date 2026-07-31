@@ -17,6 +17,8 @@ interface ProjectHeroProps {
   gradient: HeroGradient;
   /** Project logo displayed inside the gradient card */
   logo?: string;
+  /** Full-bleed banner image that fills the hero card */
+  banner?: string;
 }
 
 /**
@@ -24,7 +26,24 @@ interface ProjectHeroProps {
  * The look is driven entirely by the `gradient` prop, so any project
  * can plug in its own brand colors without touching this component.
  */
-const ProjectHero = ({ title, gradient, logo }: ProjectHeroProps) => {
+const ProjectHero = ({ title, gradient, logo, banner }: ProjectHeroProps) => {
+  if (banner) {
+    return (
+      <motion.section
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+        className="relative w-full overflow-hidden rounded-[16px]"
+      >
+        <img
+          src={banner}
+          alt={`Banner ${title}`}
+          className="w-full h-auto object-cover"
+        />
+      </motion.section>
+    );
+  }
+
   return (
     <section
       className="relative w-full flex items-center justify-center overflow-hidden"

@@ -40,7 +40,8 @@
 .read-the-docs {
   color: #888;
 
-  #lovable-badge { 
-  display: none !important; 
-  }
+#lovable-badge {
+  display: none !important;
+}
+  
 }

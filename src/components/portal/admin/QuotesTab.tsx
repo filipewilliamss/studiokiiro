@@ -412,7 +412,10 @@ const QuotesTab = () => {
                 </SheetTitle>
               </SheetHeader>
               <div className="mt-6 space-y-6">
-                <div className="flex justify-end">
+                <div className="flex justify-end gap-2">
+                  <Button size="sm" className="gap-2" onClick={() => handleDownloadPdf(viewQuote)}>
+                    <Download className="h-3.5 w-3.5" /> Baixar PDF
+                  </Button>
                   <Button variant="outline" size="sm" className="gap-2" onClick={() => openEditDialog(viewQuote)}>
                     <Pencil className="h-3.5 w-3.5" /> Editar
                   </Button>

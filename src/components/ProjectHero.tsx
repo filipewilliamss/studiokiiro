@@ -17,6 +17,8 @@ interface ProjectHeroProps {
   gradient: HeroGradient;
   /** Project logo displayed inside the gradient card */
   logo?: string;
+  /** Full-bleed banner image that fills the hero card */
+  banner?: string;
 }
 
 /**

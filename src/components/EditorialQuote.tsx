@@ -10,7 +10,7 @@ const EditorialQuote = ({ eyebrow = "Manifesto", quote, attribution }: Editorial
   return (
     <section className="relative bg-[#070807] py-32 md:py-48 overflow-hidden">
       <div className="absolute inset-0 grid-pattern opacity-[0.15] pointer-events-none" />
-      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[60%] aspect-square bg-[#FFCA16]/[0.025] blur-[160px] rounded-full pointer-events-none" />
+      
 
       <div className="container-editorial relative z-10">
         <div className="max-w-5xl mx-auto">

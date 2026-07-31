@@ -9,8 +9,9 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Checkbox } from "@/components/ui/checkbox";
-import { FilePlus, Hash, Calendar, CheckCircle2, XCircle, Clock, Trash2, Plus, Pencil, ShieldCheck, MessageSquareText } from "lucide-react";
+import { FilePlus, Hash, Calendar, CheckCircle2, XCircle, Clock, Trash2, Plus, Pencil, ShieldCheck, MessageSquareText, Download } from "lucide-react";
 import { toast } from "sonner";
+import { downloadQuotePdf } from "@/lib/quotePdf";
 
 interface Profile { id: string; full_name: string; company: string | null; }
 interface QuoteItem { description: string; quantity: number; unit_price: number; }

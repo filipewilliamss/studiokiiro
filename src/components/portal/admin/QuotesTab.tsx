@@ -9,8 +9,9 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Checkbox } from "@/components/ui/checkbox";
-import { FilePlus, Hash, Calendar, CheckCircle2, XCircle, Clock, Trash2, Plus, Pencil, ShieldCheck, MessageSquareText } from "lucide-react";
+import { FilePlus, Hash, Calendar, CheckCircle2, XCircle, Clock, Trash2, Plus, Pencil, ShieldCheck, MessageSquareText, Download } from "lucide-react";
 import { toast } from "sonner";
+import { downloadQuotePdf } from "@/lib/quotePdf";
 
 interface Profile { id: string; full_name: string; company: string | null; }
 interface QuoteItem { description: string; quantity: number; unit_price: number; }
@@ -183,6 +184,30 @@ const QuotesTab = () => {
       fetchRejectionFeedback(quote.id);
     }
   };
+
+  const handleDownloadPdf = async (quote: Quote) => {
+    try {
+      toast.loading("Gerando PDF...", { id: "quote-pdf" });
+      await downloadQuotePdf({
+        sequential_number: quote.sequential_number,
+        project_type: quote.project_type,
+        description: quote.description,
+        items: quote.items,
+        total_value: Number(quote.total_value),
+        payment_terms: quote.payment_terms,
+        validity_date: quote.validity_date,
+        notes: quote.notes,
+        status: quote.status,
+        created_at: quote.created_at,
+        clientName: (quote as any).profiles?.full_name || "—",
+        clientCompany: (quote as any).profiles?.company || null,
+      });
+      toast.success("PDF gerado!", { id: "quote-pdf" });
+    } catch {
+      toast.error("Erro ao gerar PDF", { id: "quote-pdf" });
+    }
+  };
+
 
   return (
     <div className="space-y-6">
@@ -364,6 +389,9 @@ const QuotesTab = () => {
                     </div>
                   </div>
                 </button>
+                <Button variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground hover:text-primary" title="Baixar PDF" onClick={() => handleDownloadPdf(quote)}>
+                  <Download className="h-3.5 w-3.5" />
+                </Button>
                 <Button variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground hover:text-primary" onClick={() => openEditDialog(quote)}>
                   <Pencil className="h-3.5 w-3.5" />
                 </Button>
@@ -384,7 +412,10 @@ const QuotesTab = () => {
                 </SheetTitle>
               </SheetHeader>
               <div className="mt-6 space-y-6">
-                <div className="flex justify-end">
+                <div className="flex justify-end gap-2">
+                  <Button size="sm" className="gap-2" onClick={() => handleDownloadPdf(viewQuote)}>
+                    <Download className="h-3.5 w-3.5" /> Baixar PDF
+                  </Button>
                   <Button variant="outline" size="sm" className="gap-2" onClick={() => openEditDialog(viewQuote)}>
                     <Pencil className="h-3.5 w-3.5" /> Editar
                   </Button>

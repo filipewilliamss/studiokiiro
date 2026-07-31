@@ -118,13 +118,7 @@ const ServiceCard = ({ service }: { service: typeof services[0] }) => {
                 {service.number}
               </span>
               <h3 className="font-display text-[32px] md:text-[52px] lg:text-[62px] font-[800] text-black leading-[0.9] tracking-tighter">
-                {activeItem.title === "Apresentações" ? (
-                  <>
-                    Apresen-<br />tações
-                  </>
-                ) : (
-                  activeItem.title
-                )}
+                {activeItem.title}
               </h3>
             </div>
 

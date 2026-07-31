@@ -1,6 +1,7 @@
 import akedahLogo from "@/assets/akedah-logo.webp";
 import akedahBanner from "@/assets/akedah-banner.jpg.asset.json";
 import construmarBanner from "@/assets/construmar-banner.jpg.asset.json";
+import construmarLogoHorizontal from "@/assets/construmar-logo-horizontal.png.asset.json";
 import tabernaculoBanner from "@/assets/tabernaculo-banner.jpg.asset.json";
 import teamLuisaBanner from "@/assets/team-luisa-banner.jpg.asset.json";
 import construmarLogo from "@/assets/construmar-logo.webp";
@@ -202,6 +203,7 @@ export const projects: Project[] = [
       subtitleColor: "#CBD5E0",
     },
     heroBanner: construmarBanner.url,
+    nextProjectLogo: construmarLogoHorizontal.url,
     coverImage: "/capa-site-kiiro.png",
     intro: "Sistema visual desenvolvido para transmitir credibilidade, clareza e força em um mercado altamente competitivo.",
     subtitle: "Identidade visual estratégica para uma marmoraria que une tradição, precisão e sofisticação.",

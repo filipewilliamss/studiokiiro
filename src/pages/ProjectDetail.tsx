@@ -1062,8 +1062,12 @@ const ProjectDetail = () => {
       <section className="py-40 md:py-80 border-t border-white/5 relative overflow-hidden group">
         <Link to={`/project/${nextProject.slug}`} className="absolute inset-0 z-0">
           <div 
-            className="w-full h-full bg-cover bg-center opacity-100 group-hover:scale-110 transition-all duration-[2s]"
-            style={{ backgroundImage: `url(${nextProject.pages[0]})` }}
+            className="w-full h-full bg-no-repeat bg-center opacity-100 group-hover:scale-110 transition-all duration-[2s]"
+            style={{ 
+              backgroundImage: `url(${nextProject.pages[0]})`,
+              backgroundColor: "#F5F4EF",
+              backgroundSize: "60% auto",
+            }}
           />
         </Link>
         

@@ -1065,7 +1065,9 @@ const ProjectDetail = () => {
           "tabernaculo-da-trindade": "#030304",
           "team-luisa-crosstraining": "#171716",
         };
-        const nextBg = nextBgMap[nextProject.slug] || "#F5F4EF";
+        const nextBg = project.slug === "tabernaculo-da-trindade"
+          ? "#030304"
+          : nextBgMap[nextProject.slug] || "#F5F4EF";
         const isDarkNext = nextBg !== "#F5F4EF";
 
         return (

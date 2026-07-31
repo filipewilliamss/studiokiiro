@@ -1061,9 +1061,9 @@ const ProjectDetail = () => {
       {/* PRÓXIMO PROJETO */}
       {(() => {
         const nextBgMap: Record<string, string> = {
-          "akedah-podcast": "#2B1810",
-          "tabernaculo-da-trindade": "#061019",
-          "team-luisa-crosstraining": "#000000",
+          "akedah-podcast": "#2C1A0F",
+          "tabernaculo-da-trindade": "#05121C",
+          "team-luisa-crosstraining": "#171716",
         };
         const nextBg = nextBgMap[nextProject.slug] || "#F5F4EF";
         const isDarkNext = nextBg !== "#F5F4EF";

@@ -185,6 +185,30 @@ const QuotesTab = () => {
     }
   };
 
+  const handleDownloadPdf = async (quote: Quote) => {
+    try {
+      toast.loading("Gerando PDF...", { id: "quote-pdf" });
+      await downloadQuotePdf({
+        sequential_number: quote.sequential_number,
+        project_type: quote.project_type,
+        description: quote.description,
+        items: quote.items,
+        total_value: Number(quote.total_value),
+        payment_terms: quote.payment_terms,
+        validity_date: quote.validity_date,
+        notes: quote.notes,
+        status: quote.status,
+        created_at: quote.created_at,
+        clientName: (quote as any).profiles?.full_name || "—",
+        clientCompany: (quote as any).profiles?.company || null,
+      });
+      toast.success("PDF gerado!", { id: "quote-pdf" });
+    } catch {
+      toast.error("Erro ao gerar PDF", { id: "quote-pdf" });
+    }
+  };
+
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">

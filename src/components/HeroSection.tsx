@@ -313,7 +313,9 @@ const HeroSection = () => {
           </h1>
 
           <p className="mt-12 text-white/55 text-[17px] md:text-[19px] max-w-none text-left font-light leading-[1.6] font-display tracking-tight">
-            Design para marcas que buscam reconhecimento e diferenciação real, por <br className="hidden md:block" />meio de identidades visuais, sites e presença digital consistentes.
+            Design para marcas que buscam reconhecimento e diferenciação real,
+            <br />
+            por meio de identidades visuais, sites e presença digital consistentes.
           </p>
         </div>
 

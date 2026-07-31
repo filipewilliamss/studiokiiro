@@ -1059,13 +1059,23 @@ const ProjectDetail = () => {
       </AnimatePresence>
 
       {/* PRÓXIMO PROJETO */}
-      <section className="py-40 md:py-80 border-t border-white/5 relative overflow-hidden group">
+      {(() => {
+        const nextBgMap: Record<string, string> = {
+          "akedah-podcast": "#2B1810",
+          "tabernaculo-da-trindade": "#061019",
+          "team-luisa-crosstraining": "#000000",
+        };
+        const nextBg = nextBgMap[nextProject.slug] || "#F5F4EF";
+        const isDarkNext = nextBg !== "#F5F4EF";
+
+        return (
+      <section className="py-40 md:py-80 border-t border-white/5 relative overflow-hidden group" style={{ backgroundColor: nextBg }}>
         <Link to={`/project/${nextProject.slug}`} className="absolute inset-0 z-0">
           <div 
             className="w-full h-full bg-no-repeat bg-center opacity-100 group-hover:scale-110 transition-all duration-[2s]"
             style={{ 
               backgroundImage: `url(${nextProject.nextProjectLogo || nextProject.pages[0]})`,
-              backgroundColor: "#F5F4EF",
+              backgroundColor: nextBg,
               backgroundSize: "60% auto",
             }}
           />
@@ -1073,22 +1083,25 @@ const ProjectDetail = () => {
         
         <div className="container-editorial relative z-10 pointer-events-none">
           <div className="flex flex-col items-center text-center">
-            <span className="text-[11.5px] uppercase tracking-[0.6em] font-bold -translate-y-[200px] text-black">
+            <span className={`text-[11.5px] uppercase tracking-[0.6em] font-bold -translate-y-[200px] ${isDarkNext ? "text-white/80" : "text-black"}`}>
               Próximo Projeto
             </span>
             
             <Link 
               to={`/project/${nextProject.slug}`}
-              className="pointer-events-auto group/btn relative inline-flex items-center justify-center px-16 py-8 overflow-hidden border border-black/20 transition-all duration-700 hover:border-[#FFCA16] translate-y-[250px]"
+              className={`pointer-events-auto group/btn relative inline-flex items-center justify-center px-16 py-8 overflow-hidden border transition-all duration-700 hover:border-[#FFCA16] translate-y-[250px] ${isDarkNext ? "border-white/40" : "border-black/20"}`}
             >
               <div className="absolute inset-0 bg-[#FFCA16] translate-y-full group-hover/btn:translate-y-0 transition-transform duration-600 ease-[0.22,1,0.36,1]" />
-              <span className="relative z-10 text-[12px] uppercase tracking-[0.4em] font-bold text-black transition-colors duration-500">
+              <span className={`relative z-10 text-[12px] uppercase tracking-[0.4em] font-bold transition-colors duration-500 ${isDarkNext ? "text-white group-hover/btn:text-black" : "text-black"}`}>
                 Continuar Jornada
               </span>
             </Link>
           </div>
         </div>
       </section>
+        );
+      })()}
+
 
       <Footer />
     </motion.div>

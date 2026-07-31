@@ -1064,7 +1064,7 @@ const ProjectDetail = () => {
           <div 
             className="w-full h-full bg-no-repeat bg-center opacity-100 group-hover:scale-110 transition-all duration-[2s]"
             style={{ 
-              backgroundImage: `url(${nextProject.pages[0]})`,
+              backgroundImage: `url(${nextProject.nextProjectLogo || nextProject.pages[0]})`,
               backgroundColor: "#F5F4EF",
               backgroundSize: "60% auto",
             }}

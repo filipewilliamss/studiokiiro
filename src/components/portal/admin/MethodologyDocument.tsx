@@ -1,13 +1,35 @@
 import { MethodologyContent } from "@/data/methodologyContent";
-import { Sparkles, Target, Package, ListChecks, Clock, Lightbulb, AlertTriangle } from "lucide-react";
+import { Sparkles, Target, Package, ListChecks, Clock, Lightbulb, AlertTriangle, Download } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { downloadMethodologyPdf } from "@/lib/methodologyPdf";
+import { toast } from "sonner";
 
 interface Props {
   methodology: MethodologyContent;
 }
 
 const MethodologyDocument = ({ methodology }: Props) => {
+  const handleDownload = async () => {
+    try {
+      await downloadMethodologyPdf(methodology);
+      toast.success("Metodologia baixada com sucesso!");
+    } catch (error) {
+      console.error(error);
+      toast.error("Erro ao gerar PDF.");
+    }
+  };
+
   return (
-    <div className="space-y-0">
+    <div className="space-y-0 relative group">
+      <Button
+        onClick={handleDownload}
+        variant="outline"
+        size="sm"
+        className="absolute top-4 right-4 z-20 bg-black/40 border-white/10 text-white hover:bg-primary hover:text-black opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+      >
+        <Download className="h-4 w-4 mr-2" />
+        Baixar PDF
+      </Button>
       {/* ── PAGE 1: Cover + Intro + Principles + First phases ── */}
       <div className="bg-white rounded-2xl border border-black/10 overflow-hidden shadow-lg">
         {/* Black diagonal header */}

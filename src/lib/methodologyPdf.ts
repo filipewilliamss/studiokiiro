@@ -85,8 +85,8 @@ export async function generateMethodologyPdf(methodology: MethodologyContent): P
   });
 
   // Phases
-  methodology.phases.forEach((phase, index) => {
-    if (y > pageH - 100) {
+  methodology.phases.forEach((phase) => {
+    if (y > pageH - 120) {
       doc.addPage();
       y = M;
     } else {
@@ -101,6 +101,7 @@ export async function generateMethodologyPdf(methodology: MethodologyContent): P
     doc.text(phase.title.toUpperCase(), M + 10, y + 20);
     y += 45;
 
+    // Objective
     doc.setFontSize(9);
     doc.setTextColor(...BRAND.gray);
     doc.text("OBJETIVO", M, y);
@@ -111,18 +112,105 @@ export async function generateMethodologyPdf(methodology: MethodologyContent): P
     doc.text(objLines, M, y);
     y += objLines.length * 13 + 15;
 
+    // Deliverables
     doc.setFont("helvetica", "bold");
     doc.setTextColor(...BRAND.gray);
     doc.text("ENTREGÁVEIS", M, y);
     y += 15;
     doc.setFont("helvetica", "normal");
     doc.setTextColor(...BRAND.black);
-    phase.deliverables.forEach(d => {
+    phase.deliverables.forEach((d) => {
       doc.text(`- ${d}`, M + 10, y);
       y += 14;
     });
-    y += 10;
+    y += 15;
+
+    // Steps (Missing before)
+    if (phase.steps && phase.steps.length > 0) {
+      doc.setFont("helvetica", "bold");
+      doc.setTextColor(...BRAND.gray);
+      doc.text("ETAPAS", M, y);
+      y += 15;
+      phase.steps.forEach((s) => {
+        if (y > pageH - 40) {
+          doc.addPage();
+          y = M;
+        }
+        doc.setFont("helvetica", "bold");
+        doc.setTextColor(...BRAND.black);
+        doc.text(`• ${s.title}:`, M + 10, y);
+        const sTitleW = doc.getTextWidth(`• ${s.title}: `);
+        doc.setFont("helvetica", "normal");
+        doc.setTextColor(60, 60, 60);
+        const sDescLines = doc.splitTextToSize(s.description, pageW - M * 2 - sTitleW - 10);
+        doc.text(sDescLines, M + 10 + sTitleW, y);
+        y += sDescLines.length * 13 + 8;
+      });
+      y += 10;
+    }
   });
+
+  // Schedule (Missing before)
+  if (methodology.schedule && methodology.schedule.length > 0) {
+    doc.addPage();
+    y = M;
+
+    doc.setFillColor(...BRAND.black);
+    doc.rect(0, y - M, pageW, 60, "F");
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(14);
+    doc.setTextColor(...BRAND.yellow);
+    doc.text("CRONOGRAMA DETALHADO", M, y);
+    y += 40;
+
+    methodology.schedule.forEach((schedPhase) => {
+      if (y > pageH - 100) {
+        doc.addPage();
+        y = M;
+      }
+
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(11);
+      doc.setTextColor(...BRAND.black);
+      doc.text(schedPhase.title, M, y);
+      y += 15;
+
+      doc.setFontSize(9);
+      doc.setTextColor(...BRAND.gray);
+      doc.text(`Prazo real: ${schedPhase.realDeadline} | Prazo cliente: ${schedPhase.clientDeadline}`, M, y);
+      y += 20;
+
+      schedPhase.days.forEach((day) => {
+        if (y > pageH - 60) {
+          doc.addPage();
+          y = M;
+        }
+
+        doc.setFont("helvetica", "bold");
+        doc.setTextColor(...BRAND.black);
+        doc.text(day.day, M + 10, y);
+        y += 14;
+
+        doc.setFont("helvetica", "normal");
+        doc.setTextColor(60, 60, 60);
+        day.tasks.forEach((task) => {
+          const taskLines = doc.splitTextToSize(`- ${task}`, pageW - M * 2 - 20);
+          doc.text(taskLines, M + 20, y);
+          y += taskLines.length * 13 + 2;
+        });
+
+        if (day.note) {
+          doc.setFont("helvetica", "italic");
+          doc.setTextColor(180, 83, 9); // amber-600 approx
+          const noteLines = doc.splitTextToSize(`Obs: ${day.note}`, pageW - M * 2 - 20);
+          doc.text(noteLines, M + 20, y);
+          y += noteLines.length * 12 + 4;
+        }
+        y += 8;
+      });
+      y += 15;
+    });
+  }
 
   // Footer on all pages
   const pages = doc.getNumberOfPages();

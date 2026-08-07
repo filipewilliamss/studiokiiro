@@ -1,14 +1,23 @@
 import { MethodologyContent } from "@/data/methodologyContent";
-import { Sparkles, Target, Package, ListChecks, Clock, Lightbulb, AlertTriangle, Download } from "lucide-react";
+import { Sparkles, Target, Package, ListChecks, Clock, Lightbulb, AlertTriangle, Download, Eye } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { downloadMethodologyPdf } from "@/lib/methodologyPdf";
+import { downloadMethodologyPdf, generateMethodologyPdf } from "@/lib/methodologyPdf";
 import { toast } from "sonner";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
 interface Props {
   methodology: MethodologyContent;
 }
 
 const MethodologyDocument = ({ methodology }: Props) => {
+  const [previewUrl, setPreviewUrl] = import("react").then(m => m.useState<string | null>(null));
+
   const handleDownload = async () => {
     try {
       await downloadMethodologyPdf(methodology);
@@ -19,17 +28,56 @@ const MethodologyDocument = ({ methodology }: Props) => {
     }
   };
 
+  const handlePreview = async () => {
+    try {
+      const doc = await generateMethodologyPdf(methodology);
+      const blob = doc.output("blob");
+      const url = URL.createObjectURL(blob);
+      return url;
+    } catch (error) {
+      console.error(error);
+      toast.error("Erro ao gerar pré-visualização.");
+      return null;
+    }
+  };
+
   return (
     <div className="space-y-0 relative group">
-      <Button
-        onClick={handleDownload}
-        variant="outline"
-        size="sm"
-        className="absolute top-4 right-4 z-20 bg-black/40 border-white/10 text-white hover:bg-primary hover:text-black opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-      >
-        <Download className="h-4 w-4 mr-2" />
-        Baixar PDF
-      </Button>
+      <div className="absolute top-4 right-4 z-20 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button
+              variant="outline"
+              size="sm"
+              className="bg-black/40 border-white/10 text-white hover:bg-primary hover:text-black"
+              onClick={async () => {
+                const url = await handlePreview();
+                if (url) {
+                  const win = window.open("", "_blank");
+                  if (win) {
+                    win.document.write(
+                      `<html><body style="margin:0"><embed width="100%" height="100%" src="${url}" type="application/pdf"></body></html>`
+                    );
+                  }
+                }
+              }}
+            >
+              <Eye className="h-4 w-4 mr-2" />
+              Pré-visualizar
+            </Button>
+          </DialogTrigger>
+        </Dialog>
+
+        <Button
+          onClick={handleDownload}
+          variant="outline"
+          size="sm"
+          className="bg-black/40 border-white/10 text-white hover:bg-primary hover:text-black"
+        >
+          <Download className="h-4 w-4 mr-2" />
+          Baixar PDF
+        </Button>
+      </div>
       {/* ── PAGE 1: Cover + Intro + Principles + First phases ── */}
       <div className="bg-white rounded-2xl border border-black/10 overflow-hidden shadow-lg">
         {/* Black diagonal header */}

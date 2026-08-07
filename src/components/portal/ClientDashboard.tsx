@@ -260,10 +260,10 @@ const ClientDashboard = () => {
   };
 
   const respondToQuote = async (quote: Quote, status: "aprovado" | "recusado") => {
-    const { error } = await supabase.from("quotes").update({
-      status,
-      client_response_at: new Date().toISOString(),
-    }).eq("id", quote.id);
+    const { error } = await supabase.rpc("respond_to_quote", {
+      p_quote_id: quote.id,
+      p_status: status,
+    });
     if (error) toast.error("Erro ao responder orçamento");
     else {
       toast.success(status === "aprovado" ? "Orçamento aprovado! ✅" : "Orçamento recusado.");

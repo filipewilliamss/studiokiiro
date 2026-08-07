@@ -71,10 +71,10 @@ const ProposalGate = ({ quotes, profileId, onQuotesUpdated }: ProposalGateProps)
   const allRejected = quotes.length > 0 && quotes.every((q) => q.status === "recusado");
 
   const handleAccept = async (quote: Quote) => {
-    const { error } = await supabase.from("quotes").update({
-      status: "aprovado",
-      client_response_at: new Date().toISOString(),
-    }).eq("id", quote.id);
+    const { error } = await supabase.rpc("respond_to_quote", {
+      p_quote_id: quote.id,
+      p_status: "aprovado",
+    });
     if (error) toast.error("Erro ao aceitar proposta.");
     else {
       toast.success("Proposta aceita! ✅");
@@ -90,10 +90,10 @@ const ProposalGate = ({ quotes, profileId, onQuotesUpdated }: ProposalGateProps)
     setSubmitting(true);
 
     // Update quote status
-    const { error: quoteErr } = await supabase.from("quotes").update({
-      status: "recusado",
-      client_response_at: new Date().toISOString(),
-    }).eq("id", rejectingQuote.id);
+    const { error: quoteErr } = await supabase.rpc("respond_to_quote", {
+      p_quote_id: rejectingQuote.id,
+      p_status: "recusado",
+    });
 
     // Insert rejection feedback
     const { error: feedbackErr } = await supabase.from("quote_rejections").insert({

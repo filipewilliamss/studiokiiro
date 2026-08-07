@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { MethodologyContent } from "@/data/methodologyContent";
 import { Sparkles, Target, Package, ListChecks, Clock, Lightbulb, AlertTriangle, Download, Eye } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -8,7 +9,6 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 
 interface Props {
@@ -16,7 +16,8 @@ interface Props {
 }
 
 const MethodologyDocument = ({ methodology }: Props) => {
-  const [previewUrl, setPreviewUrl] = import("react").then(m => m.useState<string | null>(null));
+  const [isPreviewOpen, setIsPreviewOpen] = useState(false);
+  const [pdfUrl, setPdfUrl] = useState<string | null>(null);
 
   const handleDownload = async () => {
     try {

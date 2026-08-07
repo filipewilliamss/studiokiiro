@@ -34,40 +34,26 @@ const MethodologyDocument = ({ methodology }: Props) => {
       const doc = await generateMethodologyPdf(methodology);
       const blob = doc.output("blob");
       const url = URL.createObjectURL(blob);
-      return url;
+      setPdfUrl(url);
+      setIsPreviewOpen(true);
     } catch (error) {
       console.error(error);
       toast.error("Erro ao gerar pré-visualização.");
-      return null;
     }
   };
 
   return (
     <div className="space-y-0 relative group">
       <div className="absolute top-4 right-4 z-20 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-        <Dialog>
-          <DialogTrigger asChild>
-            <Button
-              variant="outline"
-              size="sm"
-              className="bg-black/40 border-white/10 text-white hover:bg-primary hover:text-black"
-              onClick={async () => {
-                const url = await handlePreview();
-                if (url) {
-                  const win = window.open("", "_blank");
-                  if (win) {
-                    win.document.write(
-                      `<html><body style="margin:0"><embed width="100%" height="100%" src="${url}" type="application/pdf"></body></html>`
-                    );
-                  }
-                }
-              }}
-            >
-              <Eye className="h-4 w-4 mr-2" />
-              Pré-visualizar
-            </Button>
-          </DialogTrigger>
-        </Dialog>
+        <Button
+          variant="outline"
+          size="sm"
+          className="bg-black/40 border-white/10 text-white hover:bg-primary hover:text-black"
+          onClick={handlePreview}
+        >
+          <Eye className="h-4 w-4 mr-2" />
+          Pré-visualizar
+        </Button>
 
         <Button
           onClick={handleDownload}
@@ -79,6 +65,39 @@ const MethodologyDocument = ({ methodology }: Props) => {
           Baixar PDF
         </Button>
       </div>
+
+      <Dialog open={isPreviewOpen} onOpenChange={(open) => {
+        setIsPreviewOpen(open);
+        if (!open && pdfUrl) {
+          URL.revokeObjectURL(pdfUrl);
+          setPdfUrl(null);
+        }
+      }}>
+        <DialogContent className="max-w-5xl h-[90vh] p-0 bg-white overflow-hidden border-none">
+          <DialogHeader className="p-4 bg-black text-white flex flex-row items-center justify-between shrink-0">
+            <DialogTitle className="text-primary">Pré-visualização da Metodologia</DialogTitle>
+            <Button 
+              size="sm" 
+              variant="outline" 
+              className="border-primary/20 text-white hover:bg-primary hover:text-black"
+              onClick={handleDownload}
+            >
+              <Download className="h-4 w-4 mr-2" />
+              Baixar Agora
+            </Button>
+          </DialogHeader>
+          <div className="w-full h-full bg-zinc-100">
+            {pdfUrl && (
+              <iframe 
+                src={`${pdfUrl}#toolbar=0`} 
+                className="w-full h-full border-none"
+                title="PDF Preview"
+              />
+            )}
+          </div>
+        </DialogContent>
+      </Dialog>
+
       {/* ── PAGE 1: Cover + Intro + Principles + First phases ── */}
       <div className="bg-white rounded-2xl border border-black/10 overflow-hidden shadow-lg">
         {/* Black diagonal header */}

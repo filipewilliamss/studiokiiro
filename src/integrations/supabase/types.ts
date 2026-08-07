@@ -879,6 +879,10 @@ export type Database = {
       }
     }
     Functions: {
+      respond_to_quote: {
+        Args: { p_quote_id: string; p_status: string }
+        Returns: undefined
+      }
       update_updated_at_column: { Args: never; Returns: boolean }
       verify_client_credentials: {
         Args: { p_password: string; p_username: string }

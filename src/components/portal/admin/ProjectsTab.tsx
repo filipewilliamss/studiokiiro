@@ -13,13 +13,25 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   FolderPlus, ChevronRight, CheckCircle2, Circle, Upload, FileDown, Trash2,
   FolderOpen, DollarSign, MessageSquare, Send, Clock, Calendar, CreditCard, ClipboardList, Pencil, Check, X, Plus,
-  Pause, Play, AlertTriangle, FileText, Heart, Shield, Activity, ListTodo
+  Pause, Play, AlertTriangle, FileText, Heart, Shield, Activity, ListTodo, Copy, Share2, ExternalLink, MessageCircle
 } from "lucide-react";
 import { toast } from "sonner";
 import { methodologyStages } from "@/data/methodologyStages";
 import { briefingQuestions, type BriefingQuestion } from "@/data/briefingQuestions";
+import { BriefingLinkModal } from "./BriefingLinkModal";
+import {
+  ensureBriefingToken,
+  regenerateBriefingToken,
+  getBriefingUrl,
+  buildBriefingMessage,
+} from "@/services/briefingService";
 
-interface Profile { id: string; full_name: string; company: string | null; }
+interface Profile {
+  id: string;
+  full_name: string;
+  company: string | null;
+  phone?: string | null;
+}
 interface Project {
   id: string; name: string; type: string; status: string;
   progress: number; deadline: string | null; start_date: string | null;
@@ -29,6 +41,7 @@ interface Project {
   health_status: string | null;
   partner_message: string | null;
   profiles?: Profile;
+  briefing_links?: { token: string; submitted_at: string | null } | null;
 }
 interface Stage {
   id: string; name: string; status: string; sort_order: number;
@@ -95,26 +108,27 @@ const ProjectsTab = () => {
   const [briefingResponse, setBriefingResponse] = useState<Record<string, string> | null>(null);
   const [briefingToken, setBriefingToken] = useState<string | null>(null);
 
-  const briefingUrl = (token: string) => `${window.location.origin}/briefing/${token}`;
+  const [modalBriefing, setModalBriefing] = useState<{
+    isOpen: boolean;
+    projectName: string;
+    projectType: string;
+    clientName: string;
+    clientPhone?: string | null;
+    token: string | null;
+  }>({
+    isOpen: false,
+    projectName: "",
+    projectType: "",
+    clientName: "",
+    clientPhone: null,
+    token: null,
+  });
 
-  const ensureBriefingToken = async (projectId: string): Promise<string | null> => {
-    const existing = await supabase
-      .from("briefing_links")
-      .select("token")
-      .eq("project_id", projectId)
-      .maybeSingle();
-    if (existing.data?.token) return existing.data.token;
-    const created = await supabase
-      .from("briefing_links")
-      .insert({ project_id: projectId })
-      .select("token")
-      .single();
-    return created.data?.token ?? null;
-  };
+  const briefingUrl = (token: string) => getBriefingUrl(token);
 
   const copyBriefingLink = async (token: string) => {
     try {
-      await navigator.clipboard.writeText(briefingUrl(token));
+      await navigator.clipboard.writeText(getBriefingUrl(token));
       toast.success("Link do briefing copiado!");
     } catch {
       toast.error("Não foi possível copiar. Copie manualmente o link exibido.");
@@ -138,7 +152,7 @@ const ProjectsTab = () => {
   const fetchProjects = async () => {
     const { data, error } = await supabase
       .from("projects")
-      .select("*, profiles!projects_client_id_fkey(id, full_name, company)")
+      .select("*, profiles!projects_client_id_fkey(id, full_name, company, phone), briefing_links(token, submitted_at)")
       .order("created_at", { ascending: false });
     if (error) {
       console.error("Erro ao buscar projetos:", error);
@@ -149,8 +163,8 @@ const ProjectsTab = () => {
   };
 
   const fetchClients = async () => {
-    const { data } = await supabase.from("profiles").select("id, full_name, company");
-    if (data) setClients(data);
+    const { data } = await supabase.from("profiles").select("id, full_name, company, phone");
+    if (data) setClients(data as any);
   };
 
   useEffect(() => {
@@ -200,11 +214,28 @@ const ProjectsTab = () => {
       );
     }
 
+    // Gerar e garantir o token de briefing exclusivo
+    const token = await ensureBriefingToken(projectData.id);
+    const clientObj = clients.find((c) => c.id === form.client_id);
+    const createdProjectName = form.name;
+    const createdProjectType = form.type;
+
     toast.success("Projeto criado com etapas da metodologia!");
     setOpenCreate(false);
     setForm({ name: "", type: "Logotipo Essencial", client_id: "", description: "", deadline: "", start_date: "", priority: "normal" });
     fetchProjects();
     setLoading(false);
+
+    if (token) {
+      setModalBriefing({
+        isOpen: true,
+        projectName: createdProjectName,
+        projectType: createdProjectType,
+        clientName: clientObj?.full_name || "Cliente",
+        clientPhone: clientObj?.phone || null,
+        token: token,
+      });
+    }
   };
 
   const openProjectDetail = async (project: Project) => {
@@ -215,12 +246,14 @@ const ProjectsTab = () => {
     setNewMessage("");
 
     setBriefingResponse(null);
-    const [stagesRes, filesRes, paymentRes, messagesRes, briefingRes] = await Promise.all([
+    setBriefingToken(null);
+    const [stagesRes, filesRes, paymentRes, messagesRes, briefingRes, tokenRes] = await Promise.all([
       supabase.from("project_stages").select("*").eq("project_id", project.id).order("sort_order"),
       supabase.storage.from("project-files").list(project.id),
       supabase.from("payments").select("*").eq("project_id", project.id).maybeSingle(),
       supabase.from("messages").select("*").eq("project_id", project.id).order("created_at", { ascending: true }),
       supabase.from("briefing_responses").select("responses").eq("project_id", project.id).maybeSingle(),
+      ensureBriefingToken(project.id),
     ]);
 
     if (stagesRes.data) setStages(stagesRes.data as any);
@@ -241,6 +274,7 @@ const ProjectsTab = () => {
     }
     if (messagesRes.data) setMessages(messagesRes.data);
     if (briefingRes.data) setBriefingResponse(briefingRes.data.responses as Record<string, string>);
+    if (tokenRes) setBriefingToken(tokenRes);
   };
 
   const toggleStage = async (stage: Stage) => {
@@ -468,6 +502,29 @@ const ProjectsTab = () => {
                     <p className="text-xs text-muted-foreground mt-0.5">{project.type} • {(project as any).profiles?.full_name || "—"}</p>
                   </div>
                   <div className="flex items-center gap-2">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="h-7 px-2 text-xs text-muted-foreground hover:text-primary gap-1.5 border border-transparent hover:border-primary/20"
+                      onClick={async (e) => {
+                        e.stopPropagation();
+                        const t = (project as any).briefing_links?.token || await ensureBriefingToken(project.id);
+                        if (t) {
+                          setModalBriefing({
+                            isOpen: true,
+                            projectName: project.name,
+                            projectType: project.type,
+                            clientName: (project as any).profiles?.full_name || "Cliente",
+                            clientPhone: (project as any).profiles?.phone || null,
+                            token: t,
+                          });
+                        }
+                      }}
+                      title="Link do Briefing"
+                    >
+                      <ClipboardList className="h-3.5 w-3.5 text-primary" />
+                      <span className="hidden sm:inline text-[11px]">Link Briefing</span>
+                    </Button>
                     {!isDelivered && (
                       <Button
                         variant="ghost"
@@ -494,6 +551,19 @@ const ProjectsTab = () => {
                       <span className={`inline-flex items-center gap-1 text-[10px] px-2 py-0.5 rounded-full font-medium ${colors[health] || colors["No Prazo"]} ${bgColors[health] || bgColors["No Prazo"]}`}>
                         {icons[health] || icons["No Prazo"]}
                         {health}
+                      </span>
+                    );
+                  })()}
+                  {/* Briefing status indicator */}
+                  {(() => {
+                    const isSubmitted = !!(project as any).briefing_links?.submitted_at;
+                    return isSubmitted ? (
+                      <span className="inline-flex items-center gap-1 text-[10px] px-2 py-0.5 rounded-full font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                        <CheckCircle2 className="h-2.5 w-2.5" /> Briefing respondido
+                      </span>
+                    ) : (
+                      <span className="inline-flex items-center gap-1 text-[10px] px-2 py-0.5 rounded-full font-medium bg-amber-500/10 text-amber-400 border border-amber-500/20">
+                        <Clock className="h-2.5 w-2.5" /> Briefing pendente
                       </span>
                     );
                   })()}
@@ -782,14 +852,146 @@ const ProjectsTab = () => {
                   </TabsContent>
 
                   {/* BRIEFING TAB */}
-                  <TabsContent value="briefing" className="space-y-4">
-                    <label className="text-xs uppercase tracking-wider text-muted-foreground font-medium">Respostas do Briefing</label>
-                    {!briefingResponse ? (
-                      <div className="bg-card border border-border rounded-xl p-6 text-center">
-                        <ClipboardList className="h-8 w-8 text-muted-foreground/40 mx-auto mb-2" />
-                        <p className="text-muted-foreground text-sm">O cliente ainda não respondeu o briefing.</p>
+                  <TabsContent value="briefing" className="space-y-6">
+                    {/* Standalone Link Card */}
+                    <div className="bg-card border border-border rounded-xl p-5 space-y-4">
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-border">
+                        <div>
+                          <div className="flex items-center gap-2">
+                            <h3 className="font-display font-bold text-base text-foreground">Link Exclusivo do Briefing</h3>
+                            {briefingResponse ? (
+                              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                                <CheckCircle2 className="h-3 w-3" /> Respondido
+                              </span>
+                            ) : (
+                              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-amber-500/10 text-amber-400 border border-amber-500/20">
+                                <Clock className="h-3 w-3" /> Aguardando resposta
+                              </span>
+                            )}
+                          </div>
+                          <p className="text-xs text-muted-foreground mt-0.5">
+                            O cliente pode responder diretamente por este link pré-estabelecido sem precisar de login.
+                          </p>
+                        </div>
+
+                        {briefingToken && (
+                          <Button
+                            type="button"
+                            variant="outline"
+                            size="sm"
+                            className="text-xs gap-1.5 h-8 self-start sm:self-auto shrink-0"
+                            onClick={() => {
+                              setModalBriefing({
+                                isOpen: true,
+                                projectName: selectedProject.name,
+                                projectType: selectedProject.type,
+                                clientName: (selectedProject as any).profiles?.full_name || "Cliente",
+                                clientPhone: (selectedProject as any).profiles?.phone || null,
+                                token: briefingToken,
+                              });
+                            }}
+                          >
+                            <Share2 className="h-3.5 w-3.5 text-primary" />
+                            Opções de Envio
+                          </Button>
+                        )}
                       </div>
-                    ) : (
+
+                      {briefingToken ? (
+                        <div className="space-y-3">
+                          <div className="flex items-center gap-2">
+                            <Input
+                              value={briefingUrl(briefingToken)}
+                              readOnly
+                              className="font-mono text-xs bg-background select-all"
+                            />
+                            <Button
+                              type="button"
+                              variant="outline"
+                              size="sm"
+                              onClick={() => copyBriefingLink(briefingToken)}
+                              className="gap-1.5 shrink-0"
+                            >
+                              <Copy className="h-4 w-4" />
+                              Copiar
+                            </Button>
+                            <Button
+                              type="button"
+                              variant="ghost"
+                              size="icon"
+                              title="Abrir briefing em nova aba"
+                              onClick={() => window.open(briefingUrl(briefingToken), "_blank")}
+                              className="shrink-0 h-9 w-9 text-muted-foreground hover:text-primary"
+                            >
+                              <ExternalLink className="h-4 w-4" />
+                            </Button>
+                          </div>
+
+                          <div className="flex flex-wrap items-center gap-2 pt-1">
+                            <Button
+                              type="button"
+                              size="sm"
+                              className="gap-1.5 bg-emerald-600 hover:bg-emerald-500 text-white text-xs h-8"
+                              onClick={() => {
+                                const phone = ((selectedProject as any).profiles?.phone || "").replace(/\D/g, "");
+                                const phoneParam = phone.length >= 10 ? (phone.startsWith("55") ? phone : `55${phone}`) : "";
+                                const clientName = (selectedProject as any).profiles?.full_name || "Cliente";
+                                const msg = buildBriefingMessage(clientName, selectedProject.name, selectedProject.type, briefingToken);
+                                const url = phoneParam
+                                  ? `https://wa.me/${phoneParam}?text=${encodeURIComponent(msg)}`
+                                  : `https://api.whatsapp.com/send?text=${encodeURIComponent(msg)}`;
+                                window.open(url, "_blank");
+                              }}
+                            >
+                              <MessageCircle className="h-3.5 w-3.5" />
+                              Enviar no WhatsApp
+                            </Button>
+
+                            <Button
+                              type="button"
+                              variant="ghost"
+                              size="sm"
+                              className="text-xs text-muted-foreground hover:text-foreground h-8"
+                              onClick={async () => {
+                                const newToken = await regenerateBriefingToken(selectedProject.id);
+                                if (newToken) {
+                                  setBriefingToken(newToken);
+                                  toast.success("Novo link gerado com sucesso!");
+                                  fetchProjects();
+                                } else {
+                                  toast.error("Erro ao regerar link");
+                                }
+                              }}
+                            >
+                              Regerar Link
+                            </Button>
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="text-center py-4">
+                          <Button
+                            type="button"
+                            size="sm"
+                            onClick={async () => {
+                              const t = await ensureBriefingToken(selectedProject.id);
+                              if (t) setBriefingToken(t);
+                            }}
+                          >
+                            Gerar Link de Briefing
+                          </Button>
+                        </div>
+                      )}
+                    </div>
+
+                    <div className="pt-2">
+                      <label className="text-xs uppercase tracking-wider text-muted-foreground font-medium mb-3 block">Respostas do Briefing</label>
+                      {!briefingResponse ? (
+                        <div className="bg-card border border-border rounded-xl p-6 text-center">
+                          <ClipboardList className="h-8 w-8 text-muted-foreground/40 mx-auto mb-2" />
+                          <p className="text-muted-foreground text-sm">O cliente ainda não respondeu o briefing.</p>
+                          <p className="text-xs text-muted-foreground/60 mt-1">Copie o link acima e envie para o cliente para iniciar o preenchimento.</p>
+                        </div>
+                      ) : (
                       <div className="space-y-3">
                         {(briefingQuestions[selectedProject.type] || []).map((q: BriefingQuestion) => {
                           if (q.type === "section") {
@@ -819,6 +1021,7 @@ const ProjectsTab = () => {
                         })}
                       </div>
                     )}
+                    </div>
                   </TabsContent>
 
                   {/* FILES TAB */}
@@ -966,6 +1169,16 @@ const ProjectsTab = () => {
           )}
         </SheetContent>
       </Sheet>
+
+      <BriefingLinkModal
+        isOpen={modalBriefing.isOpen}
+        onClose={() => setModalBriefing((prev) => ({ ...prev, isOpen: false }))}
+        projectName={modalBriefing.projectName}
+        projectType={modalBriefing.projectType}
+        clientName={modalBriefing.clientName}
+        clientPhone={modalBriefing.clientPhone}
+        token={modalBriefing.token}
+      />
     </div>
   );
 };

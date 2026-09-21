@@ -1,57 +1,63 @@
-import { useEffect, useState } from "react";
-import { motion, useSpring, useMotionValue } from "framer-motion";
-import { ArrowUpRight } from "lucide-react";
+import React, { useEffect, useState } from 'react';
+import { motion, useSpring, useMotionValue, AnimatePresence } from 'framer-motion';
 
-export const CustomCursor = () => {
-  const [cursorMode, setCursorMode] = useState<"default" | "hover" | "view-case">("default");
+const CustomCursor = () => {
+  const [isHovering, setIsHovering] = useState(false);
   const [isOverYellow, setIsOverYellow] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-
   const mouseX = useMotionValue(-100);
   const mouseY = useMotionValue(-100);
+  const [lastPos, setLastPos] = useState({ x: 0, y: 0 });
 
-  // Mola suave para o anel externo
-  const ringX = useSpring(mouseX, { damping: 26, stiffness: 350, mass: 0.15 });
-  const ringY = useSpring(mouseY, { damping: 26, stiffness: 350, mass: 0.15 });
+  // Main cursor follows mouse instantly to ensure it's always the leader
+  const mainX = mouseX;
+  const mainY = mouseY;
+
+  // Configuration for the trail circles - balanced for smoothness and responsiveness
+  const trailConfigs = [
+    { damping: 35, stiffness: 1000, mass: 0.1 }, // Closer trail is faster
+    { damping: 40, stiffness: 800, mass: 0.2 },
+    { damping: 45, stiffness: 600, mass: 0.3 },
+    { damping: 50, stiffness: 400, mass: 0.4 },
+    { damping: 55, stiffness: 300, mass: 0.5 },
+    { damping: 60, stiffness: 200, mass: 0.6 },
+  ];
+
+  const trail1X = useSpring(mainX, trailConfigs[0]);
+  const trail1Y = useSpring(mainY, trailConfigs[0]);
+  const trail2X = useSpring(trail1X, trailConfigs[1]);
+  const trail2Y = useSpring(trail1Y, trailConfigs[1]);
+  const trail3X = useSpring(trail2X, trailConfigs[2]);
+  const trail3Y = useSpring(trail2Y, trailConfigs[2]);
+  const trail4X = useSpring(trail3X, trailConfigs[3]);
+  const trail4Y = useSpring(trail3Y, trailConfigs[3]);
+  const trail5X = useSpring(trail4X, trailConfigs[4]);
+  const trail5Y = useSpring(trail4Y, trailConfigs[4]);
+  const trail6X = useSpring(trail5X, trailConfigs[5]);
+  const trail6Y = useSpring(trail5Y, trailConfigs[5]);
 
   useEffect(() => {
     const checkMobile = () => {
-      setIsMobile(
-        window.matchMedia("(max-width: 768px)").matches ||
-        "ontouchstart" in window ||
-        navigator.maxTouchPoints > 0
-      );
+      setIsMobile(window.matchMedia('(max-width: 768px)').matches || 'ontouchstart' in window);
     };
     checkMobile();
-    window.addEventListener("resize", checkMobile);
+    window.addEventListener('resize', checkMobile);
 
     const handleMouseMove = (e: MouseEvent) => {
       const { clientX, clientY } = e;
       mouseX.set(clientX);
       mouseY.set(clientY);
 
+      setLastPos({ x: clientX, y: clientY });
+
       const element = document.elementFromPoint(clientX, clientY);
       if (element) {
-        // Detecta se está sobre um card de projeto marcado com data-cursor="view-case"
-        const caseTarget = element.closest('[data-cursor="view-case"]');
-        if (caseTarget) {
-          setCursorMode("view-case");
-          return;
-        }
-
-        // Detecta botões e links normais
         const interactive = element.closest('a, button, [role="button"], input, select, textarea');
-        if (interactive) {
-          setCursorMode("hover");
-        } else {
-          setCursorMode("default");
-        }
+        setIsHovering(!!interactive);
 
-        // Checagem de contraste se estiver sobre amarelo
         const style = window.getComputedStyle(element);
-        const isYellow = (c: string) =>
-          c && (c.includes("255, 202, 22") || c.toLowerCase().includes("#ffca16"));
-
+        const isYellow = (c: string) => c && (c.includes('255, 202, 22') || c.toLowerCase().includes('#ffca16'));
+        
         let currentEl: Element | null = element;
         let overYellow = false;
         while (currentEl && currentEl !== document.body) {
@@ -66,60 +72,53 @@ export const CustomCursor = () => {
       }
     };
 
-    window.addEventListener("mousemove", handleMouseMove, { passive: true });
+    window.addEventListener('mousemove', handleMouseMove);
     return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
-      window.removeEventListener("resize", checkMobile);
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('resize', checkMobile);
     };
-  }, [mouseX, mouseY]);
+  }, [mouseX, mouseY, lastPos]);
 
   if (isMobile) return null;
 
-  const dotColor = isOverYellow ? "bg-black" : "bg-[#FFCA16]";
-  const ringBorderColor = isOverYellow ? "border-black/60" : "border-[#FFCA16]/40";
+  const cursorColor = isOverYellow ? 'bg-white' : 'bg-[#FFCA16]';
+  const borderColor = isOverYellow ? 'border-white/20' : 'border-[#FFCA16]/20';
 
   return (
     <div className="fixed inset-0 pointer-events-none z-[9999] overflow-hidden">
-      {/* Ponto central imediato */}
+      {/* Trails 6 to 1 (back to front order) */}
       <motion.div
-        style={{ x: mouseX, y: mouseY }}
-        className="fixed top-0 left-0 -ml-1 -mt-1 pointer-events-none"
-      >
-        <div
-          className={`w-2 h-2 rounded-full transition-transform duration-200 ${dotColor} ${
-            cursorMode === "view-case" ? "scale-0 opacity-0" : "scale-100 opacity-100"
-          }`}
-        />
-      </motion.div>
+        style={{ x: trail6X, y: trail6Y }}
+        className={`absolute z-10 w-1 h-1 -ml-0.5 -mt-0.5 rounded-full transition-colors duration-300 ${cursorColor}`}
+      />
+      <motion.div
+        style={{ x: trail5X, y: trail5Y }}
+        className={`absolute z-20 w-2 h-2 -ml-1 -mt-1 rounded-full transition-colors duration-300 ${cursorColor}`}
+      />
+      <motion.div
+        style={{ x: trail4X, y: trail4Y }}
+        className={`absolute z-30 w-3 h-3 -ml-1.5 -mt-1.5 rounded-full transition-colors duration-300 ${cursorColor}`}
+      />
+      <motion.div
+        style={{ x: trail3X, y: trail3Y }}
+        className={`absolute z-40 w-4 h-4 -ml-2 -mt-2 rounded-full transition-colors duration-300 ${cursorColor}`}
+      />
+      <motion.div
+        style={{ x: trail2X, y: trail2Y }}
+        className={`absolute z-50 w-5 h-5 -ml-2.5 -mt-2.5 rounded-full transition-colors duration-300 ${cursorColor}`}
+      />
+      <motion.div
+        style={{ x: trail1X, y: trail1Y }}
+        className={`absolute z-[60] w-6 h-6 -ml-3 -mt-3 rounded-full transition-colors duration-300 ${cursorColor}`}
+      />
 
-      {/* Anel externo com física de mola suave */}
+      {/* Main Cursor (the leader) */}
       <motion.div
-        style={{ x: ringX, y: ringY }}
-        className="fixed top-0 left-0 pointer-events-none flex items-center justify-center"
-      >
-        {cursorMode === "view-case" ? (
-          <motion.div
-            initial={{ scale: 0.8, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            exit={{ scale: 0.8, opacity: 0 }}
-            transition={{ duration: 0.2, ease: "easeOut" }}
-            className="-translate-x-1/2 -translate-y-1/2 px-4 py-2 rounded-full bg-black/90 text-[#FFCA16] border border-[#FFCA16]/50 shadow-2xl backdrop-blur-md flex items-center gap-1.5 whitespace-nowrap"
-          >
-            <span className="text-[10px] font-display font-bold uppercase tracking-widest text-[#FFCA16]">
-              Ver Case
-            </span>
-            <ArrowUpRight className="w-3 h-3 text-[#FFCA16]" />
-          </motion.div>
-        ) : (
-          <div
-            className={`-translate-x-1/2 -translate-y-1/2 rounded-full transition-all duration-300 ${
-              cursorMode === "hover"
-                ? `w-12 h-12 border-2 ${isOverYellow ? "border-black" : "border-[#FFCA16] bg-[#FFCA16]/10"} scale-110`
-                : `w-9 h-9 border ${ringBorderColor} scale-100`
-            }`}
-          />
-        )}
-      </motion.div>
+        style={{ x: mainX, y: mainY }}
+        className={`absolute z-[70] w-8 h-8 -ml-4 -mt-4 rounded-full ${cursorColor} border-2 ${borderColor} ${
+          isHovering ? 'scale-125' : 'scale-100'
+        } flex items-center justify-center transition-transform duration-200 ease-out`}
+      />
     </div>
   );
 };

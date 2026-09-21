@@ -291,40 +291,35 @@ const HeroSection = () => {
 
       {/* Top meta bar — editorial detail */}
 
-      <div className="relative z-10 container-editorial w-full flex flex-col lg:flex-row items-center gap-12 pt-28 lg:pt-20 pb-20 md:pb-32 lg:pb-0">
+      <div className="relative z-10 container-editorial w-full flex flex-col lg:flex-row items-center gap-12 pt-24 lg:pt-16 pb-20 md:pb-32 lg:pb-0">
         <div className="w-full lg:w-[65%] flex flex-col items-start" ref={headlineRef}>
-          {/* Studio Top Meta Bar */}
           <motion.div
-            initial={{ opacity: 0, y: -15 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
             className="mb-8 flex flex-wrap items-center gap-3 sm:gap-4"
           >
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.04] border border-white/10 backdrop-blur-md">
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_8px_rgba(52,211,153,0.8)]" />
+              <span className="w-2 h-2 rounded-full bg-[#FFCA16] animate-pulse" />
               <span className="text-white/80 text-[11px] font-mono tracking-wider">
-                SÃO PAULO, BR · 23°33'S 46°38'W
+                VAGAS ABERTAS NESTE TRIMESTRE
               </span>
             </div>
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#FFCA16]/10 border border-[#FFCA16]/30 backdrop-blur-md">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#FFCA16]" />
-              <span className="text-[#FFCA16] text-[10px] font-mono font-bold tracking-widest uppercase">
-                Vagas Abertas Q3/Q4
-              </span>
-            </div>
+            <span className="text-[#FFCA16] text-[11px] font-bold uppercase tracking-[0.35em] hidden sm:inline">
+              · Creative Design Studio
+            </span>
           </motion.div>
 
-          {/* Monumental Headline */}
           <h1
-            className="text-white font-[800] leading-[0.84] text-left tracking-[-0.055em] font-display"
-            style={{ fontSize: 'clamp(42px, 9.6vw, 126px)' }}
+            className="text-white font-[800] leading-[0.82] text-left tracking-[-0.05em] font-display"
+            style={{ fontSize: 'clamp(40px, 10vw, 122px)' }}
           >
             Sua marca precisa ser <br />
-            <span className="text-[#FFCA16] italic font-light tracking-normal">lembrada.</span>
+            <span className="text-[#FFCA16] italic font-light">lembrada.</span>
           </h1>
 
-          <p className="mt-8 md:mt-10 text-white/65 text-[17px] md:text-[20px] max-w-2xl text-left font-light leading-[1.65] font-display tracking-tight text-balance">
-            Design estratégico e identidades visuais marcantes para empresas e líderes que buscam reconhecimento autêntico, diferenciação no mercado e presença digital inconfundível.
+          <p className="mt-8 md:mt-10 text-white/60 text-[17px] md:text-[20px] max-w-2xl text-left font-light leading-[1.6] font-display tracking-tight">
+            Design estratégico para marcas que buscam reconhecimento e diferenciação real, por meio de identidades visuais marcantes, sites de alta conversão e presença digital de excelência.
           </p>
 
           {/* Action CTAs */}
@@ -335,7 +330,7 @@ const HeroSection = () => {
                 e.preventDefault();
                 document.getElementById('contato')?.scrollIntoView({ behavior: 'smooth' });
               }}
-              className="group relative inline-flex items-center gap-3 px-8 py-4 rounded-full bg-[#FFCA16] text-black font-display font-bold text-[12px] uppercase tracking-[0.25em] shadow-[0_4px_25px_rgba(255,202,22,0.28)] hover:shadow-[0_4px_40px_rgba(255,202,22,0.55)] hover:scale-[1.02] active:scale-[0.98] transition-all duration-300"
+              className="group relative inline-flex items-center gap-3 px-8 py-4 rounded-full bg-[#FFCA16] text-black font-display font-bold text-[12px] uppercase tracking-[0.25em] shadow-[0_4px_25px_rgba(255,202,22,0.25)] hover:shadow-[0_4px_35px_rgba(255,202,22,0.45)] hover:scale-[1.02] active:scale-[0.98] transition-all duration-300"
             >
               <span>Iniciar Projeto</span>
               <svg className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -344,23 +339,21 @@ const HeroSection = () => {
             </a>
 
             <a
-              href="#portfolio"
-              onClick={(e) => {
-                e.preventDefault();
-                document.getElementById('portfolio')?.scrollIntoView({ behavior: 'smooth' });
-              }}
+              href="/area-do-cliente"
               className="inline-flex items-center gap-2.5 px-7 py-4 rounded-full bg-white/[0.03] hover:bg-white/[0.08] border border-white/10 hover:border-[#FFCA16]/40 text-white/80 hover:text-white font-display text-[12px] uppercase tracking-[0.2em] transition-all duration-300 backdrop-blur-md"
             >
-              <span>Ver Cases</span>
-              <span className="text-[#FFCA16] font-mono text-[10px]">↓</span>
+              <svg className="w-4 h-4 text-[#FFCA16]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+              </svg>
+              <span>Área do Cliente</span>
             </a>
           </div>
 
-          {/* Authority Credentials */}
+          {/* Quick authority credentials */}
           <div className="mt-14 pt-8 border-t border-white/[0.08] w-full grid grid-cols-3 max-w-xl gap-4 sm:gap-6">
             <div>
               <span className="block text-white font-display font-bold text-xl sm:text-2xl tracking-tight">150+</span>
-              <span className="block text-white/40 text-[10px] sm:text-[11px] uppercase tracking-wider font-mono mt-0.5">Projetos Concluídos</span>
+              <span className="block text-white/40 text-[10px] sm:text-[11px] uppercase tracking-wider font-mono mt-0.5">Projetos Criados</span>
             </div>
             <div>
               <span className="block text-white font-display font-bold text-xl sm:text-2xl tracking-tight">6 Anos</span>

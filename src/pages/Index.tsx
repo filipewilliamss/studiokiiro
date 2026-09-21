@@ -82,28 +82,28 @@ const Index = () => {
 
       <div className={`relative z-10 transition-opacity duration-1000 ${loading ? 'opacity-0' : 'opacity-100'}`}>
         {!loading && (
-          <main className="flex flex-col">
+          <main className="flex flex-col snap-y snap-proximity">
             <Navbar />
             
-            <section>
+            <section className="snap-start">
               <HeroSection />
             </section>
             
             <SectionDivider />
             
-            <section>
+            <section className="snap-start">
               <EditorialMarquee variant="compact" />
             </section>
             
             <SectionDivider />
             
-            <section>
+            <section className="snap-start">
               <AboutSection />
             </section>
             
             <SectionDivider />
             
-            <section>
+            <section className="snap-start">
               <EditorialQuote
                 eyebrow="Direção Criativa"
                 quote={<>Design inteligente para fugir do <span className="italic text-[#FFCA16]">genérico</span>.</>}
@@ -113,33 +113,34 @@ const Index = () => {
             
             <SectionDivider />
             
-            <section>
+            <section className="snap-start">
               <ServicesSection />
             </section>
             
             <SectionDivider />
             
-            <section>
+            <section className="snap-start">
               <ProcessSection />
             </section>
             
+            {/* Portfolio Section handles its own snapping per project */}
             <PortfolioSection />
             
             <SectionDivider />
             
-            <section>
+            <section className="snap-start">
               <SocialMediaPortfolio />
             </section>
             
             <SectionDivider />
 
-            <section>
+            <section className="snap-start">
               <ClientAreaSection />
             </section>
 
             <SectionDivider />
             
-            <section>
+            <section className="snap-start">
               <ContactSection />
             </section>
             

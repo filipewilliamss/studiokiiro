@@ -111,10 +111,9 @@ const Cases = () => {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, margin: "-50px" }}
                     transition={{ duration: 0.6, delay: (index % 2) * 0.15 }}
-                    data-cursor="view-case"
                     className="group flex flex-col bg-[#0B0C0B] border border-white/10 hover:border-[#FFCA16]/40 rounded-3xl overflow-hidden transition-all duration-500 hover:-translate-y-1.5 shadow-xl"
                   >
-                    <Link to={`/projeto/${project.slug}`} data-cursor="view-case" className="relative aspect-[16/10] overflow-hidden bg-zinc-950 block">
+                    <Link to={`/projeto/${project.slug}`} className="relative aspect-[16/10] overflow-hidden bg-zinc-950">
                       <img
                         src={cover}
                         alt={project.title}
@@ -141,7 +140,7 @@ const Cases = () => {
                           <span>{project.year}</span>
                         </div>
                         <h2 className="text-2xl sm:text-3xl font-bold font-display text-white group-hover:text-[#FFCA16] transition-colors">
-                          <Link to={`/projeto/${project.slug}`} data-cursor="view-case">{project.title}</Link>
+                          <Link to={`/projeto/${project.slug}`}>{project.title}</Link>
                         </h2>
                         <p className="text-sm text-white/60 mt-3 line-clamp-2 leading-relaxed">
                           {project.subtitle || project.intro || project.about}
@@ -151,7 +150,6 @@ const Cases = () => {
                       <div className="pt-4 border-t border-white/10 flex items-center justify-between">
                         <Link
                           to={`/projeto/${project.slug}`}
-                          data-cursor="view-case"
                           className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#FFCA16] hover:text-white transition-colors"
                         >
                           Ver Estudo Completo <ArrowRight className="w-3.5 h-3.5" />
@@ -179,7 +177,7 @@ const Cases = () => {
             Vamos conversar sobre os objetivos da sua empresa e planejar a próxima fase de crescimento com autoridade visual.
           </p>
           <a
-            href="https://wa.me/5511991076096?text=Olá!%20Vi%20os%20cases%20do%20Studio%20Kiiro%20e%20gostaria%20de%20um%20orçamento%20para%20o%20meu%20projeto."
+            href="https://wa.me/5511999999999?text=Olá!%20Vi%20os%20cases%20do%20Studio%20Kiiro%20e%20gostaria%20de%20um%20orçamento%20para%20o%20meu%20projeto."
             target="_blank"
             rel="noopener noreferrer"
           >

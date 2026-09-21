@@ -1,6 +1,7 @@
 import { useEffect, useState, useMemo } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
+import kiiroLogo from "@/assets/logo.webp";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -153,11 +154,21 @@ const BriefingPublico = () => {
       {/* Sticky Top Header with Progress Bar */}
       <header className="sticky top-0 z-40 bg-[#070807]/90 backdrop-blur-xl border-b border-white/[0.08] px-6 py-4">
         <div className="max-w-3xl mx-auto flex items-center justify-between">
-          <div className="flex items-center gap-2.5">
-            <span className="w-2 h-2 rounded-full bg-[#FFCA16] animate-pulse" />
-            <span className="text-[11px] uppercase tracking-[0.25em] text-[#FFCA16] font-display font-bold">
-              Briefing Estratégico
-            </span>
+          <div className="flex items-center gap-3.5">
+            <Link to="/" className="flex items-center group" title="Studio Kiiro">
+              <img
+                src={kiiroLogo}
+                alt="Studio Kiiro"
+                className="h-7 sm:h-8 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+              />
+            </Link>
+            <div className="w-[1px] h-4 bg-white/15 hidden sm:block" />
+            <div className="flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-[#FFCA16] animate-pulse" />
+              <span className="text-[10px] sm:text-[11px] uppercase tracking-[0.2em] text-[#FFCA16] font-display font-bold">
+                Briefing Estratégico
+              </span>
+            </div>
           </div>
           <div className="flex items-center gap-3">
             <span className="hidden sm:inline text-xs text-white/50 font-mono">

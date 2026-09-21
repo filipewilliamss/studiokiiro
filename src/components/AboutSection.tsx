@@ -50,32 +50,30 @@ const AboutSection = () => {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-              className="relative aspect-[3/4] overflow-hidden lg:grayscale lg:hover:grayscale-0 transition-all duration-1000 ease-in-out border border-white/5"
+              className="relative aspect-[3/4] overflow-hidden rounded-3xl lg:grayscale lg:hover:grayscale-0 transition-all duration-1000 ease-in-out border border-white/10 group-hover:border-[#FFCA16]/40 shadow-2xl"
             >
               <img 
                 src={profilePicture} 
                 alt="Filipe Williams"
                 className="w-full h-full object-cover scale-105 group-hover:scale-100 transition-transform duration-1000 ease-in-out"
               />
-              <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-all duration-700" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-80 group-hover:opacity-40 transition-all duration-700" />
+              
+              {/* Floating Role Pill */}
+              <div className="absolute bottom-5 left-5 right-5 p-4 rounded-2xl bg-black/70 backdrop-blur-md border border-white/10 flex items-center justify-between">
+                <div>
+                  <p className="font-display text-[13px] font-bold text-white tracking-[0.15em] uppercase">
+                    Filipe Williams
+                  </p>
+                  <p className="text-[#FFCA16] text-[10px] font-mono uppercase tracking-[0.1em] mt-0.5">
+                    Fundador & Diretor Criativo
+                  </p>
+                </div>
+                <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+              </div>
             </motion.div>
             
-            <div className="absolute -bottom-6 -right-6 hidden md:block w-32 h-32 border-r border-b border-[#FFCA16]/30" />
-            
-            <motion.div 
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.5 }}
-              className="mt-8"
-            >
-              <p className="font-display text-[12px] font-bold text-white tracking-[0.2em] uppercase">
-                Filipe Williams
-              </p>
-              <p className="text-[#FFCA16]/60 text-[10px] uppercase tracking-[0.1em] mt-1">
-                Fundador do Studio Kiiro
-              </p>
-            </motion.div>
+            <div className="absolute -bottom-6 -right-6 hidden md:block w-28 h-28 border-r border-b border-[#FFCA16]/20 pointer-events-none rounded-br-2xl" />
           </div>
 
           {/* Right: Content Side */}

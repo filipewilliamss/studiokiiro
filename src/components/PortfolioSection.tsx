@@ -1,199 +1,200 @@
-import { useRef, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { motion, useScroll, useTransform, useSpring, useMotionValue } from "framer-motion";
-import { ArrowRight } from "lucide-react";
+import { motion } from "framer-motion";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { getFeaturedCases } from "@/services/caseService";
-
-const KiiroLogo = ({ className }: { className?: string }) => (
-  <svg viewBox="0 0 100 100" className={className} fill="currentColor">
-    <path d="M20 10V90H35V55L70 90H90L50 50L85 10H65L35 40V10H20Z" />
-  </svg>
-);
 
 const PortfolioSection = () => {
   const featuredProjects = getFeaturedCases();
 
   return (
-    <div id="portfolio" className="bg-black">
-      {featuredProjects.map((project, index) => (
-        <ProjectCard key={project.id} project={project} index={index} total={featuredProjects.length} />
-      ))}
+    <section id="portfolio" className="relative bg-[#070807] py-28 md:py-40 overflow-hidden border-t border-white/[0.05]">
+      {/* Background ambient lighting */}
+      <div className="absolute top-[10%] left-[-15%] w-[45%] aspect-square bg-[#FFCA16]/[0.02] rounded-full blur-[160px] pointer-events-none" />
+      <div className="absolute bottom-[20%] right-[-15%] w-[40%] aspect-square bg-[#FFCA16]/[0.02] rounded-full blur-[160px] pointer-events-none" />
 
-      {/* Editorial Explore All Cases Section */}
-      <section className="h-[70vh] md:h-[90dvh] w-full flex items-center justify-center bg-[#070807] border-t border-white/10 relative overflow-hidden snap-start">
-        <div className="container-editorial text-center max-w-2xl relative z-10 space-y-6">
-          <span className="text-[11px] uppercase tracking-[0.5em] text-[#FFCA16] font-bold block">
-            Acervo Completo
-          </span>
-          <h3 className="text-3xl sm:text-5xl md:text-6xl font-bold font-display text-white">
-            Mais projetos e identidades.
-          </h3>
-          <p className="text-white/60 text-sm sm:text-base font-light max-w-lg mx-auto">
-            Explore nossa galeria completa com filtros por categoria de serviço e estudos aprofundados.
-          </p>
-          <div className="pt-4">
+      {/* Monumental backdrop word */}
+      <motion.span
+        aria-hidden="true"
+        initial={{ opacity: 0, x: -50 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 1.5 }}
+        className="absolute -left-6 md:-left-12 top-[4%] font-display font-[800] text-white/[0.015] md:text-white/[0.025] leading-none tracking-extratight pointer-events-none select-none"
+        style={{ fontSize: "clamp(100px, 20vw, 320px)" }}
+      >
+        cases
+      </motion.span>
+
+      <div className="container-editorial relative z-10">
+        {/* Section Header */}
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-16 md:mb-24 gap-8">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="max-w-3xl"
+          >
+            <div className="flex items-center gap-3 mb-6">
+              <span className="w-2 h-2 rounded-full bg-[#FFCA16]" />
+              <span className="text-[#FFCA16] text-[11px] font-bold uppercase tracking-[0.4em]">
+                Portfólio Autoral
+              </span>
+            </div>
+            <h2 className="font-display text-[44px] sm:text-[60px] md:text-[84px] font-[800] text-white leading-[0.88] tracking-[-0.04em]">
+              Cases <span className="text-[#FFCA16] italic font-light">Selecionados.</span>
+            </h2>
+            <p className="mt-6 text-white/60 text-base md:text-xl font-light leading-relaxed max-w-2xl">
+              Identidades visuais completas e plataformas concebidas com método, pesquisa e foco cirúrgico em diferenciação mercadológica.
+            </p>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="flex items-center gap-4"
+          >
             <Link
               to="/cases"
-              className="inline-flex items-center gap-3 px-8 py-4 rounded-full bg-[#FFCA16] text-black hover:bg-white font-bold text-xs uppercase tracking-widest transition-all duration-300 shadow-2xl"
+              className="group inline-flex items-center gap-3 px-6 py-3.5 rounded-full bg-white/[0.04] hover:bg-[#FFCA16] hover:text-black border border-white/10 hover:border-[#FFCA16] text-white font-display text-xs uppercase tracking-[0.2em] transition-all duration-300 backdrop-blur-md"
             >
-              Explorar Todos os Cases <ArrowRight className="w-4 h-4" />
+              <span>Ver Acervo Completo</span>
+              <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
             </Link>
-          </div>
+          </motion.div>
         </div>
-      </section>
-    </div>
-  );
-};
 
-const ProjectCard = ({ project, index, total }: { project: any; index: number; total: number }) => {
-  const cardRef = useRef<HTMLDivElement>(null);
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
-  const [isBelowDesktop, setIsBelowDesktop] = useState(false);
+        {/* Editorial Grid of Featured Projects */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
+          {featuredProjects.map((project, index) => {
+            const cover = project.heroBanner || project.coverImage || project.pages[0];
+            const isWide = index === 0;
 
-  useEffect(() => {
-    const check = () => setIsBelowDesktop(window.innerWidth < 1024);
-    check();
-    window.addEventListener('resize', check);
-    return () => window.removeEventListener('resize', check);
-  }, []);
+            return (
+              <motion.article
+                key={project.id}
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-80px" }}
+                transition={{ duration: 0.8, delay: (index % 2) * 0.15 }}
+                data-cursor="view-case"
+                className={`group relative rounded-3xl bg-[#0B0C0B] border border-white/[0.08] hover:border-[#FFCA16]/40 transition-all duration-700 overflow-hidden flex flex-col shadow-2xl ${
+                  isWide ? "md:col-span-2" : "md:col-span-1"
+                }`}
+              >
+                {/* Visual Image Container */}
+                <Link
+                  to={`/projeto/${project.slug}`}
+                  data-cursor="view-case"
+                  className={`relative w-full overflow-hidden bg-zinc-950 block ${
+                    isWide ? "aspect-[16/9] lg:aspect-[21/9]" : "aspect-[16/10]"
+                  }`}
+                >
+                  <img
+                    src={cover}
+                    alt={project.title}
+                    loading="lazy"
+                    className="w-full h-full object-cover transition-transform duration-1000 ease-out group-hover:scale-105"
+                  />
 
-  const handleMouseMove = (e: React.MouseEvent) => {
-    const { clientX, clientY } = e;
-    const { innerWidth, innerHeight } = window;
-    mouseX.set((clientX / innerWidth) - 0.5);
-    mouseY.set((clientY / innerHeight) - 0.5);
-  };
+                  {/* Dark gradient overlay for readability */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent transition-opacity duration-500 group-hover:opacity-90" />
 
-  // Mouse parallax springs removed as they are not used in current layout
+                  {/* Top floating metadata badges */}
+                  <div className="absolute top-5 left-5 right-5 flex items-center justify-between z-10 pointer-events-none">
+                    <span className="px-3.5 py-1.5 rounded-full bg-black/75 backdrop-blur-md text-[10px] font-mono font-bold uppercase tracking-widest text-[#FFCA16] border border-[#FFCA16]/30 shadow-lg">
+                      {project.category}
+                    </span>
+                    <span className="px-3 py-1.5 rounded-full bg-black/60 backdrop-blur-md text-[10px] font-mono text-white/70 border border-white/10">
+                      {project.year}
+                    </span>
+                  </div>
 
+                  {/* Hover Floating Arrow Pill */}
+                  <div className="absolute bottom-6 right-6 w-12 h-12 rounded-full bg-black/80 border border-white/20 backdrop-blur-md flex items-center justify-center text-[#FFCA16] opacity-0 group-hover:opacity-100 group-hover:scale-110 group-hover:bg-[#FFCA16] group-hover:text-black transition-all duration-300 z-10 shadow-2xl">
+                    <ArrowUpRight className="w-5 h-5" />
+                  </div>
+                </Link>
 
-  const { scrollYProgress } = useScroll({
-    target: cardRef,
-    offset: ["start end", "end start"]
-  });
+                {/* Content Details */}
+                <div className="p-6 sm:p-8 lg:p-10 flex flex-col justify-between flex-1 bg-[#0c0d0c]/80 backdrop-blur-sm">
+                  <div>
+                    <div className="flex items-center gap-3 text-xs font-mono text-white/40 mb-3">
+                      <span className="text-[#FFCA16]/80 font-bold">CASE 0{index + 1}</span>
+                      <span>·</span>
+                      <span>{project.client || "Studio Kiiro"}</span>
+                    </div>
 
-  const dotsY = useTransform(scrollYProgress, [0, 1], [150, -150]);
-  const bgScale = useTransform(scrollYProgress, [0, 0.5, 1], [1.2, 1, 1.2]);
-  const akedahScale = useTransform(scrollYProgress, [0, 0.5, 1], [1.15, 1, 1.15]);
-  const teamLuisaScale = useTransform(scrollYProgress, [0, 0.5, 1], [1.2, 1, 1.2]);
-  const bgOpacity = 1;
+                    <h3 className="font-display text-2xl sm:text-3xl lg:text-4xl font-[800] text-white tracking-tight leading-tight group-hover:text-[#FFCA16] transition-colors duration-300">
+                      <Link to={`/projeto/${project.slug}`} data-cursor="view-case">
+                        {project.title}
+                      </Link>
+                    </h3>
 
-  return (
-    <article 
-      ref={cardRef}
-      onMouseMove={handleMouseMove}
-      className="relative h-[100dvh] w-full flex items-center justify-center overflow-hidden snap-start"
-      style={{ backgroundColor: project.slug === 'construmar' ? '#f5f5f3' : (project.bgColor || "#000000") }}
-    >
-      {/* Background Image with Gradient Overlay */}
-      <div className="absolute inset-0 z-0">
-        <motion.div 
-          style={{ 
-            scale: project.slug === 'akedah-podcast' ? akedahScale : 
-                   project.slug === 'team-luisa-crosstraining' ? teamLuisaScale : bgScale, 
-            opacity: bgOpacity,
-            backgroundImage: `url(${project.coverImage || project.pages[0]})`,
-            backgroundSize: project.slug === 'construmar' ? (isBelowDesktop ? 'contain' : 'cover') : (isBelowDesktop ? 'contain' : 'cover'),
-            backgroundRepeat: 'no-repeat',
-            backgroundPosition: 'center'
+                    <p className="text-white/60 text-sm sm:text-base font-light mt-3 leading-relaxed line-clamp-2 max-w-3xl">
+                      {project.subtitle || project.intro || project.about}
+                    </p>
+                  </div>
 
-          }}
-          className="w-full h-full transition-opacity duration-700"
-        />
-        <div className={`absolute inset-0 ${project.slug === 'construmar' ? 'bg-transparent' : 'bg-black/20'}`} />
-      </div>
+                  {/* Bottom Action Line */}
+                  <div className="pt-6 mt-6 border-t border-white/[0.08] flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      {project.tags?.slice(0, 3).map((tag, tIdx) => (
+                        <span
+                          key={tIdx}
+                          className="text-[10px] font-mono uppercase tracking-wider text-white/40 bg-white/[0.03] px-2.5 py-1 rounded border border-white/[0.05]"
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
 
-      {/* Dynamic Dots removed as per request */}
+                    <Link
+                      to={`/projeto/${project.slug}`}
+                      data-cursor="view-case"
+                      className="inline-flex items-center gap-2 text-xs font-display font-bold uppercase tracking-[0.2em] text-[#FFCA16] hover:text-white transition-colors"
+                    >
+                      <span>Ver Estudo</span>
+                      <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
+                    </Link>
+                  </div>
+                </div>
+              </motion.article>
+            );
+          })}
+        </div>
 
-      {/* Floating "K" Logo removed as per request */}
-
-
-      {/* Content Container */}
-      <div className="container-editorial absolute inset-0 z-20 w-full flex flex-col items-center justify-between py-[100px]">
+        {/* Explore All Cases Banner */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.1 }}
-          className="mt-0"
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="mt-16 md:mt-24 p-8 sm:p-12 rounded-3xl border border-white/10 bg-gradient-to-b from-[#111211] to-[#070807] text-center flex flex-col items-center justify-center relative overflow-hidden"
         >
-          <span className={`text-[10px] md:text-[12px] uppercase tracking-[0.6em] font-bold ${
-            project.slug === 'akedah-podcast' ? 'text-white' : 
-            project.slug === 'construmar' ? 'text-[#3e6884]' : 
-            'text-[#FFCA16]'
-          }`}>
-            {project.category} · {project.year}
-          </span>
-        </motion.div>
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[300px] h-[100px] bg-[#FFCA16]/10 blur-[90px] rounded-full pointer-events-none" />
 
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          className="mb-0"
-        >
-          <Link 
-            to={`/project/${project.slug}`}
-            className={`group relative inline-flex items-center justify-center px-12 py-6 overflow-hidden border transition-all duration-700 ${
-              project.slug === 'construmar' 
-                ? 'border-[#3e6884]/20 hover:border-[#3e6884]' 
-                : 'border-white/20 hover:border-[#FFCA16]'
-            }`}
+          <span className="text-[11px] uppercase tracking-[0.5em] text-[#FFCA16] font-bold block mb-4">
+            Acervo Completo Studio Kiiro
+          </span>
+          <h3 className="text-3xl sm:text-4xl md:text-5xl font-[800] font-display text-white max-w-xl mb-4 leading-tight">
+            Mais projetos, marcas e plataformas.
+          </h3>
+          <p className="text-white/60 text-sm sm:text-base font-light max-w-lg mx-auto mb-8">
+            Explore nossa galeria completa com filtros por serviço, estudos aprofundados e materiais entregues.
+          </p>
+          <Link
+            to="/cases"
+            className="inline-flex items-center gap-3 px-8 py-4 rounded-full bg-[#FFCA16] text-black hover:bg-white font-display font-bold text-xs uppercase tracking-[0.25em] transition-all duration-300 shadow-[0_4px_25px_rgba(255,202,22,0.3)] hover:shadow-[0_4px_35px_rgba(255,255,255,0.3)] hover:scale-[1.02]"
           >
-            {/* Filling Animation */}
-            <div className={`absolute inset-0 translate-y-full group-hover:translate-y-0 transition-transform duration-600 ease-[0.22,1,0.36,1] ${
-              project.slug === 'construmar' ? 'bg-[#3e6884]' : 'bg-[#FFCA16]'
-            }`} />
-            
-            <span className={`relative z-10 text-[11px] md:text-[12px] uppercase tracking-[0.4em] font-bold transition-colors duration-500 ${
-              project.slug === 'construmar' ? 'text-[#3e6884] group-hover:text-white' : 'text-white group-hover:text-black'
-            }`}>
-              Ver Projeto Completo
-            </span>
-            <svg 
-              width="18" height="18" viewBox="0 0 20 20" fill="none" 
-              className={`relative z-10 ml-6 translate-x-0 group-hover:translate-x-3 transition-transform duration-500 ${
-                project.slug === 'construmar' ? 'text-[#3e6884] group-hover:text-white' : 'text-white group-hover:text-black'
-              }`}
-            >
-              <path d="M4.16663 10H15.8333M15.8333 10L10.8333 5M15.8333 10L10.8333 15" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
+            <span>Explorar Todos os Cases</span>
+            <ArrowRight className="w-4 h-4" />
           </Link>
         </motion.div>
       </div>
-
-      {/* Indicators */}
-      <div className="absolute left-8 bottom-12 z-30 flex flex-col items-start gap-4">
-        <span className={`text-[10px] uppercase tracking-[0.4em] font-mono ${project.slug === 'construmar' ? 'text-[#3e6884]/40' : 'text-white/30'}`}>
-          Case {String(index + 1).padStart(2, '0')} / {String(total).padStart(2, '0')}
-        </span>
-        <div className="flex gap-2">
-          {Array.from({ length: total }).map((_, i) => (
-            <div 
-              key={i} 
-              className={`h-[2px] transition-all duration-700 ${
-                i === index 
-                  ? (project.slug === 'construmar' ? 'w-12 bg-[#3e6884]' : 'w-12 bg-[#FFCA16]') 
-                  : (project.slug === 'construmar' ? 'w-4 bg-[#3e6884]/10' : 'w-4 bg-white/10')
-              }`}
-            />
-          ))}
-        </div>
-      </div>
-
-      {/* Scroll Hint */}
-      <motion.div 
-        animate={{ y: [0, 10, 0] }}
-        transition={{ duration: 2, repeat: Infinity }}
-        className="absolute bottom-12 right-12 z-30 hidden md:block"
-      >
-        <div className={`w-[1px] h-16 ${
-          project.slug === 'construmar' 
-            ? 'bg-gradient-to-b from-[#3e6884] to-transparent' 
-            : 'bg-gradient-to-b from-[#FFCA16] to-transparent'
-        }`} />
-      </motion.div>
-    </article>
+    </section>
   );
 };
 

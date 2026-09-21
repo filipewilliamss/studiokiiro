@@ -113,6 +113,7 @@ const ClientDashboard = () => {
   const [briefingAnswers, setBriefingAnswers] = useState<Record<string, string>>({});
   const [submittingBriefing, setSubmittingBriefing] = useState(false);
   const [projectBriefingStatus, setProjectBriefingStatus] = useState<Record<string, boolean>>({});
+  const [projectBriefingToken, setProjectBriefingToken] = useState<string | null>(null);
 
   // Quotes state
   const [quotes, setQuotes] = useState<Quote[]>([]);
@@ -203,16 +204,35 @@ const ClientDashboard = () => {
     setFiles([]); setPayment(null); setMessages([]); setBriefingAnswers({});
     setBriefingSubmitted(projectBriefingStatus[project.id] || false);
 
-    const [stagesRes, filesRes, paymentRes, messagesRes] = await Promise.all([
+    const [stagesRes, filesRes, paymentRes, messagesRes, briefingRes, briefingLinkRes] = await Promise.all([
       supabase.from("project_stages").select("*").eq("project_id", project.id).order("sort_order"),
       supabase.storage.from("project-files").list(project.id),
       supabase.from("client_payments_view" as any).select("*").eq("project_id", project.id).maybeSingle(),
       supabase.from("messages").select("*").eq("project_id", project.id).order("created_at", { ascending: true }),
+      supabase.from("briefing_responses").select("responses").eq("project_id", project.id).maybeSingle(),
+      supabase.from("briefing_links").select("token, submitted_at").eq("project_id", project.id).maybeSingle(),
     ]);
 
     if (stagesRes.data) setStages(stagesRes.data);
     if (paymentRes.data) setPayment(paymentRes.data as any);
     if (messagesRes.data) setMessages(messagesRes.data);
+
+    if (briefingLinkRes.data?.token) {
+      setProjectBriefingToken(briefingLinkRes.data.token);
+    } else {
+      setProjectBriefingToken(null);
+    }
+
+    if (briefingRes.data?.responses) {
+      setBriefingSubmitted(true);
+      setBriefingAnswers(briefingRes.data.responses as Record<string, string>);
+      setProjectBriefingStatus((prev) => ({ ...prev, [project.id]: true }));
+    } else if (briefingLinkRes.data?.submitted_at) {
+      setBriefingSubmitted(true);
+      setProjectBriefingStatus((prev) => ({ ...prev, [project.id]: true }));
+    } else {
+      setBriefingSubmitted(false);
+    }
 
     if (filesRes.data && filesRes.data.length > 0) {
       const filesWithLinks = await Promise.all(
@@ -391,22 +411,65 @@ const ClientDashboard = () => {
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.95 }}
-                className="bg-gradient-to-r from-primary/10 to-primary/5 border border-primary/20 rounded-2xl p-5 flex items-center justify-between gap-4"
+                className="bg-gradient-to-r from-primary/10 to-primary/5 border border-primary/20 rounded-2xl p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
               >
                 <div className="flex items-start gap-3">
-                  <div className="h-10 w-10 rounded-xl bg-primary/20 flex items-center justify-center">
+                  <div className="h-10 w-10 rounded-xl bg-primary/20 flex items-center justify-center shrink-0">
                     <ClipboardList className="h-5 w-5 text-primary" />
                   </div>
                   <div>
                     <h3 className="text-sm font-semibold text-white">Briefing Pendente</h3>
                     <p className="text-xs text-white/50 mt-0.5">
-                      Responda o briefing para iniciarmos seu projeto.
+                      Responda o briefing para iniciarmos a produção do seu projeto.
                     </p>
                   </div>
                 </div>
-                <Button onClick={() => setBriefingOpen(true)} className="shrink-0 gap-2 rounded-xl">
-                  <Sparkles className="h-4 w-4" />
-                  Responder
+                <div className="flex items-center gap-2 w-full sm:w-auto">
+                  {projectBriefingToken && (
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => window.open(`/b/${projectBriefingToken}`, '_blank')}
+                      className="rounded-xl border-white/10 text-xs text-white/70 hover:text-white"
+                    >
+                      <ExternalLink className="h-3.5 w-3.5 mr-1.5" />
+                      Tela Cheia
+                    </Button>
+                  )}
+                  <Button onClick={() => setBriefingOpen(true)} className="gap-2 rounded-xl text-xs w-full sm:w-auto">
+                    <Sparkles className="h-4 w-4" />
+                    Responder Briefing
+                  </Button>
+                </div>
+              </motion.div>
+            )}
+
+            {selectedProject && briefingSubmitted && (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                className="bg-emerald-500/10 border border-emerald-500/20 rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="h-10 w-10 rounded-xl bg-emerald-500/20 flex items-center justify-center text-emerald-400 shrink-0">
+                    <CheckCircle2 className="h-5 w-5" />
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-semibold text-white">Briefing Entregue & Em Produção</h3>
+                    <p className="text-xs text-white/50 mt-0.5">
+                      Suas respostas estão salvas e guiando o desenvolvimento do projeto.
+                    </p>
+                  </div>
+                </div>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setBriefingOpen(true)}
+                  className="rounded-xl border-white/10 text-xs text-white gap-2 shrink-0 hover:bg-white/5"
+                >
+                  <ClipboardList className="h-3.5 w-3.5 text-primary" />
+                  Ver Respostas
                 </Button>
               </motion.div>
             )}
@@ -417,10 +480,12 @@ const ClientDashboard = () => {
             <DialogContent className="sm:max-w-2xl max-h-[85vh] overflow-y-auto bg-[#0D0D0D] border-[#222] text-[#F5F5F5]">
               <DialogHeader>
                 <DialogTitle style={{ fontFamily: "var(--font-display)" }} className="text-[#F5F5F5] text-xl">
-                  Briefing, {selectedProject.type}
+                  Briefing, {selectedProject.type} {briefingSubmitted && "— Respostas Salvas"}
                 </DialogTitle>
                 <p className="text-sm text-[#B3B3B3] mt-1">
-                  Preencha com o máximo de detalhes possível para um resultado incrível.
+                  {briefingSubmitted
+                    ? "Suas respostas estão registradas no sistema do Studio Kiiro (modo somente leitura)."
+                    : "Preencha com o máximo de detalhes possível para um resultado incrível."}
                 </p>
               </DialogHeader>
               <div className="space-y-7 mt-4">
@@ -492,8 +557,14 @@ const ClientDashboard = () => {
                   );
                 })}
                 <div className="flex justify-end gap-2 pt-5 border-t border-[#2A2A2A]">
-                  <Button variant="ghost" onClick={() => setBriefingOpen(false)} className="text-[#B3B3B3] hover:text-[#F5F5F5] hover:bg-white/5">Cancelar</Button>
-                  <Button onClick={submitBriefing} disabled={submittingBriefing} className="rounded-xl">{submittingBriefing ? "Enviando..." : "Enviar Briefing"}</Button>
+                  <Button variant="ghost" onClick={() => setBriefingOpen(false)} className="text-[#B3B3B3] hover:text-[#F5F5F5] hover:bg-white/5">
+                    {briefingSubmitted ? "Fechar" : "Cancelar"}
+                  </Button>
+                  {!briefingSubmitted && (
+                    <Button onClick={submitBriefing} disabled={submittingBriefing} className="rounded-xl">
+                      {submittingBriefing ? "Enviando..." : "Enviar Briefing"}
+                    </Button>
+                  )}
                 </div>
               </div>
             </DialogContent>

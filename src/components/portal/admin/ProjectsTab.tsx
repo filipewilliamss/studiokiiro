@@ -93,6 +93,33 @@ const ProjectsTab = () => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
   const [briefingResponse, setBriefingResponse] = useState<Record<string, string> | null>(null);
+  const [briefingToken, setBriefingToken] = useState<string | null>(null);
+
+  const briefingUrl = (token: string) => `${window.location.origin}/briefing/${token}`;
+
+  const ensureBriefingToken = async (projectId: string): Promise<string | null> => {
+    const existing = await supabase
+      .from("briefing_links")
+      .select("token")
+      .eq("project_id", projectId)
+      .maybeSingle();
+    if (existing.data?.token) return existing.data.token;
+    const created = await supabase
+      .from("briefing_links")
+      .insert({ project_id: projectId })
+      .select("token")
+      .single();
+    return created.data?.token ?? null;
+  };
+
+  const copyBriefingLink = async (token: string) => {
+    try {
+      await navigator.clipboard.writeText(briefingUrl(token));
+      toast.success("Link do briefing copiado!");
+    } catch {
+      toast.error("Não foi possível copiar. Copie manualmente o link exibido.");
+    }
+  };
   const [editingName, setEditingName] = useState(false);
   const [editName, setEditName] = useState("");
 

@@ -1,15 +1,26 @@
 import { supabase } from "@/integrations/supabase/client";
 
 /**
- * Retorna a URL pública completa do briefing baseado no token fornecido.
+ * Gera um token curto, amigável e seguro de 8 caracteres alfanuméricos.
+ */
+export const generateShortToken = (length = 8): string => {
+  const chars = "23456789abcdefghjkmnpqrstuvwxyz";
+  const array = new Uint8Array(length);
+  crypto.getRandomValues(array);
+  return Array.from(array, (b) => chars[b % chars.length]).join("");
+};
+
+/**
+ * Retorna a URL pública curta do briefing baseado no token fornecido.
+ * Exemplo: https://studiokiiro.com/b/k8m2p9xr
  */
 export const getBriefingUrl = (token: string): string => {
-  return `${window.location.origin}/briefing/${token}`;
+  return `${window.location.origin}/b/${token}`;
 };
 
 /**
  * Garante a existência de um link de briefing para um determinado projeto.
- * Se já existir, retorna o token. Se não existir, gera um token e insere no banco.
+ * Se já existir, retorna o token. Se não existir, gera um token curto e insere no banco.
  */
 export const ensureBriefingToken = async (projectId: string): Promise<string | null> => {
   try {
@@ -23,7 +34,7 @@ export const ensureBriefingToken = async (projectId: string): Promise<string | n
       return existing.data.token;
     }
 
-    const generatedToken = crypto.randomUUID().replace(/-/g, "") + crypto.randomUUID().replace(/-/g, "");
+    const generatedToken = generateShortToken(8);
 
     const { data: created, error } = await supabase
       .from("briefing_links")
@@ -52,11 +63,11 @@ export const ensureBriefingToken = async (projectId: string): Promise<string | n
 };
 
 /**
- * Regera um novo token de briefing para o projeto, invalidando o anterior caso necessário.
+ * Regera um novo token de briefing curto para o projeto, invalidando o anterior caso necessário.
  */
 export const regenerateBriefingToken = async (projectId: string): Promise<string | null> => {
   try {
-    const newToken = crypto.randomUUID().replace(/-/g, "") + crypto.randomUUID().replace(/-/g, "");
+    const newToken = generateShortToken(8);
     const { error } = await supabase
       .from("briefing_links")
       .upsert(

@@ -8,7 +8,6 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { CheckCircle2, ClipboardList } from "lucide-react";
 import { briefingQuestions, type BriefingQuestion } from "@/data/briefingQuestions";
-import logo from "@/assets/logo.webp";
 
 interface BriefingInfo {
   project_name: string;
@@ -101,10 +100,12 @@ const BriefingPublico = () => {
   return (
     <div className="min-h-screen bg-black text-[#F5F5F5]">
       <header className="border-b border-[#1A1A1A] px-6 py-5">
-        <div className="max-w-3xl mx-auto flex items-center gap-3">
-          <img src={logo} alt="Studio Kiiro" className="h-7 w-auto" />
+        <div className="max-w-3xl mx-auto flex items-center justify-between">
           <span className="text-[10px] uppercase tracking-[0.3em] text-primary font-bold">
             Briefing
+          </span>
+          <span className="text-xs text-muted-foreground/60">
+            Formulário Oficial
           </span>
         </div>
       </header>

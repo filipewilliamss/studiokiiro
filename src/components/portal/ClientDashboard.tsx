@@ -20,6 +20,11 @@ import { briefingQuestions } from "@/data/briefingQuestions";
 import { motion, AnimatePresence } from "framer-motion";
 import kiiroLogo from "@/assets/logo.webp";
 import ProposalGate from "./ProposalGate";
+import ClientProjectHeader from "./client/ClientProjectHeader";
+import ClientBriefingBanner from "./client/ClientBriefingBanner";
+import ClientStagesTab from "./client/ClientStagesTab";
+import ClientFilesTab from "./client/ClientFilesTab";
+import ClientFinanceTab from "./client/ClientFinanceTab";
 
 interface Project {
   id: string; name: string; type: string; status: string; progress: number; deadline: string | null;
@@ -366,209 +371,24 @@ const ClientDashboard = () => {
         </header>
 
         <main className="max-w-5xl mx-auto px-4 sm:px-6 py-10 space-y-8">
-          {/* Project header, yellow bg with immersive animation */}
-          <motion.div
-            initial={{ opacity: 0, y: 30, scale: 0.96 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-            className="relative"
-          >
-            <div className="absolute -inset-4 rounded-3xl bg-primary/15 blur-2xl pointer-events-none" />
-            <div className="relative overflow-hidden rounded-2xl border border-primary/20 bg-primary p-6 sm:p-8 shadow-2xl shadow-primary/20 hover:-translate-y-[1px] hover:shadow-[0_20px_60px_-15px_hsl(var(--primary)/0.35)] transition-all duration-500">
-              <div className="absolute top-0 right-0 w-80 h-80 bg-white/[0.06] rounded-full blur-[80px] -translate-y-1/2 translate-x-1/4 pointer-events-none" />
-              <div className="absolute bottom-0 left-0 w-48 h-48 bg-black/[0.04] rounded-full blur-[60px] translate-y-1/3 -translate-x-1/4 pointer-events-none" />
-              <div className="relative">
-                <h1 className="text-2xl sm:text-3xl font-bold text-black font-display">{selectedProject.name}</h1>
-                <div className="flex items-center gap-3 mt-2">
-                  <p className="text-sm text-black/70">{selectedProject.type}</p>
-                  <span className="text-[10px] px-2.5 py-1 rounded-lg bg-black/10 text-black font-semibold border border-black/10">
-                    {statusLabels[selectedProject.status] || selectedProject.status}
-                  </span>
-                </div>
-                {/* Progress bar */}
-                <div className="mt-5 space-y-1.5">
-                  <div className="flex justify-between text-xs">
-                    <span className="text-black/70">Progresso geral</span>
-                    <span className="font-bold text-black">{selectedProject.progress}%</span>
-                  </div>
-                  <div className="h-2.5 bg-black/15 rounded-full overflow-hidden">
-                    <motion.div
-                      initial={{ width: 0 }}
-                      animate={{ width: `${selectedProject.progress}%` }}
-                      transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1], delay: 0.3 }}
-                      className="h-full bg-black rounded-full"
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </motion.div>
+          <ClientProjectHeader
+            project={selectedProject}
+            onBack={() => setSelectedProject(null)}
+            statusLabels={statusLabels}
+          />
 
-          {/* Briefing banner */}
-          <AnimatePresence>
-            {showBriefingBanner && (
-              <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.95 }}
-                className="bg-gradient-to-r from-primary/10 to-primary/5 border border-primary/20 rounded-2xl p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
-              >
-                <div className="flex items-start gap-3">
-                  <div className="h-10 w-10 rounded-xl bg-primary/20 flex items-center justify-center shrink-0">
-                    <ClipboardList className="h-5 w-5 text-primary" />
-                  </div>
-                  <div>
-                    <h3 className="text-sm font-semibold text-white">Briefing Pendente</h3>
-                    <p className="text-xs text-white/50 mt-0.5">
-                      Responda o briefing para iniciarmos a produção do seu projeto.
-                    </p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-2 w-full sm:w-auto">
-                  {projectBriefingToken && (
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => window.open(`/b/${projectBriefingToken}`, '_blank')}
-                      className="rounded-xl border-white/10 text-xs text-white/70 hover:text-white"
-                    >
-                      <ExternalLink className="h-3.5 w-3.5 mr-1.5" />
-                      Tela Cheia
-                    </Button>
-                  )}
-                  <Button onClick={() => setBriefingOpen(true)} className="gap-2 rounded-xl text-xs w-full sm:w-auto">
-                    <Sparkles className="h-4 w-4" />
-                    Responder Briefing
-                  </Button>
-                </div>
-              </motion.div>
-            )}
-
-            {selectedProject && briefingSubmitted && (
-              <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.95 }}
-                className="bg-emerald-500/10 border border-emerald-500/20 rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
-              >
-                <div className="flex items-center gap-3">
-                  <div className="h-10 w-10 rounded-xl bg-emerald-500/20 flex items-center justify-center text-emerald-400 shrink-0">
-                    <CheckCircle2 className="h-5 w-5" />
-                  </div>
-                  <div>
-                    <h3 className="text-sm font-semibold text-white">Briefing Entregue & Em Produção</h3>
-                    <p className="text-xs text-white/50 mt-0.5">
-                      Suas respostas estão salvas e guiando o desenvolvimento do projeto.
-                    </p>
-                  </div>
-                </div>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => setBriefingOpen(true)}
-                  className="rounded-xl border-white/10 text-xs text-white gap-2 shrink-0 hover:bg-white/5"
-                >
-                  <ClipboardList className="h-3.5 w-3.5 text-primary" />
-                  Ver Respostas
-                </Button>
-              </motion.div>
-            )}
-          </AnimatePresence>
-
-          {/* Briefing Dialog */}
-          <Dialog open={briefingOpen} onOpenChange={setBriefingOpen}>
-            <DialogContent className="sm:max-w-2xl max-h-[85vh] overflow-y-auto bg-[#0D0D0D] border-[#222] text-[#F5F5F5]">
-              <DialogHeader>
-                <DialogTitle style={{ fontFamily: "var(--font-display)" }} className="text-[#F5F5F5] text-xl">
-                  Briefing, {selectedProject.type} {briefingSubmitted && "— Respostas Salvas"}
-                </DialogTitle>
-                <p className="text-sm text-[#B3B3B3] mt-1">
-                  {briefingSubmitted
-                    ? "Suas respostas estão registradas no sistema do Studio Kiiro (modo somente leitura)."
-                    : "Preencha com o máximo de detalhes possível para um resultado incrível."}
-                </p>
-              </DialogHeader>
-              <div className="space-y-7 mt-4">
-                {currentBriefingQuestions?.map((q) => {
-                  if (q.type === "section") {
-                    return (
-                      <div key={q.id} className="pt-6 pb-2 border-b border-[#2A2A2A] mt-4">
-                        <h3 className="text-base font-bold text-primary uppercase tracking-widest">{q.question}</h3>
-                      </div>
-                    );
-                  }
-                  return (
-                    <div key={q.id} className="space-y-2.5">
-                      <label className="text-[15px] font-medium text-[#F5F5F5] leading-snug">
-                        {q.question} {q.required && <span className="text-primary font-bold">*</span>}
-                      </label>
-                      {(q.type === "text" || q.type === "email" || q.type === "phone") && (
-                        <Input
-                          type={q.type === "email" ? "email" : q.type === "phone" ? "tel" : "text"}
-                          value={briefingAnswers[q.id] || ""}
-                          onChange={(e) => setBriefingAnswers((prev) => ({ ...prev, [q.id]: e.target.value }))}
-                          placeholder={q.placeholder || "Sua resposta..."}
-                          className="rounded-xl bg-[#1A1A1A] border-[#333] text-[#F5F5F5] placeholder:text-[#666] focus-visible:ring-primary focus-visible:border-primary focus-visible:shadow-[0_0_8px_hsl(46_95%_54%/0.15)]"
-                        />
-                      )}
-                      {q.type === "textarea" && (
-                        <Textarea
-                          value={briefingAnswers[q.id] || ""}
-                          onChange={(e) => setBriefingAnswers((prev) => ({ ...prev, [q.id]: e.target.value }))}
-                          placeholder={q.placeholder || "Sua resposta..."}
-                          rows={3}
-                          className="rounded-xl bg-[#1A1A1A] border-[#333] text-[#F5F5F5] placeholder:text-[#666] focus-visible:ring-primary focus-visible:border-primary focus-visible:shadow-[0_0_8px_hsl(46_95%_54%/0.15)]"
-                        />
-                      )}
-                      {q.type === "select" && q.options && (
-                        <div className="space-y-2">
-                          <div className="space-y-1.5">
-                            {q.options.map((opt) => (
-                              <label key={opt} className="flex items-center gap-2.5 p-3 rounded-xl hover:bg-white/5 cursor-pointer transition-colors border border-transparent hover:border-primary/20">
-                                <input type="radio" name={q.id} checked={(briefingAnswers[q.id] || "").startsWith(opt)} onChange={() => setBriefingAnswers((prev) => ({ ...prev, [q.id]: opt }))} className="h-4 w-4 text-primary accent-primary" />
-                                <span className="text-sm text-[#F5F5F5]">{opt}</span>
-                              </label>
-                            ))}
-                          </div>
-                          {q.hasConditionalText && briefingAnswers[q.id] && (
-                            <Input value={briefingAnswers[`${q.id}_detail`] || ""} onChange={(e) => setBriefingAnswers((prev) => ({ ...prev, [`${q.id}_detail`]: e.target.value }))} placeholder="Especifique..." className="ml-6 rounded-xl bg-[#1A1A1A] border-[#333] text-[#F5F5F5] placeholder:text-[#666] focus-visible:ring-primary focus-visible:border-primary" />
-                          )}
-                        </div>
-                      )}
-                      {q.type === "checkbox" && q.options && (
-                        <div className="space-y-1.5">
-                          {q.options.map((opt) => {
-                            const currentVal = briefingAnswers[q.id] || "";
-                            const selected = currentVal.split("|||").filter(Boolean);
-                            const isChecked = selected.includes(opt);
-                            return (
-                              <label key={opt} className="flex items-center gap-2.5 p-3 rounded-xl hover:bg-white/5 cursor-pointer transition-colors border border-transparent hover:border-primary/20">
-                                <Checkbox checked={isChecked} onCheckedChange={(checked) => {
-                                  const newSelected = checked ? [...selected, opt] : selected.filter((s) => s !== opt);
-                                  setBriefingAnswers((prev) => ({ ...prev, [q.id]: newSelected.join("|||") }));
-                                }} className="border-[#555] data-[state=checked]:bg-primary data-[state=checked]:border-primary" />
-                                <span className="text-sm text-[#F5F5F5]">{opt}</span>
-                              </label>
-                            );
-                          })}
-                        </div>
-                      )}
-                    </div>
-                  );
-                })}
-                <div className="flex justify-end gap-2 pt-5 border-t border-[#2A2A2A]">
-                  <Button variant="ghost" onClick={() => setBriefingOpen(false)} className="text-[#B3B3B3] hover:text-[#F5F5F5] hover:bg-white/5">
-                    {briefingSubmitted ? "Fechar" : "Cancelar"}
-                  </Button>
-                  {!briefingSubmitted && (
-                    <Button onClick={submitBriefing} disabled={submittingBriefing} className="rounded-xl">
-                      {submittingBriefing ? "Enviando..." : "Enviar Briefing"}
-                    </Button>
-                  )}
-                </div>
-              </div>
-            </DialogContent>
-          </Dialog>
+          <ClientBriefingBanner
+            projectId={selectedProject.id}
+            projectType={selectedProject.type}
+            briefingSubmitted={briefingSubmitted}
+            briefingToken={projectBriefingToken}
+            initialAnswers={briefingAnswers}
+            onBriefingSuccess={(submittedAnswers) => {
+              setBriefingSubmitted(true);
+              setBriefingAnswers(submittedAnswers);
+              setProjectBriefingStatus((prev) => ({ ...prev, [selectedProject.id]: true }));
+            }}
+          />
 
           {/* Tabs */}
           <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
@@ -590,259 +410,21 @@ const ClientDashboard = () => {
 
               {/* STATUS TAB */}
               <TabsContent value="status" className="space-y-6">
-                <div className="rounded-xl border border-white/10 bg-black p-6 sm:p-8 space-y-4">
-                  <p className="text-xs text-white/50 font-medium">{completedStages} de {stages.length} etapas concluídas</p>
-                  {stages.length > 0 && (
-                    <div className="space-y-2.5">
-                      {stages.map((stage, idx) => {
-                        const isCompleted = stage.status === "concluida";
-                        const isCurrent = idx === currentStageIndex;
-                        return (
-                          <motion.div
-                            key={stage.id}
-                            initial={{ opacity: 0, x: -10 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{ delay: idx * 0.05 }}
-                            className={`relative flex items-start gap-3 p-4 rounded-xl border transition-all duration-200 group hover:-translate-y-0.5 hover:shadow-md ${
-                              isCurrent ? "border-primary/30 bg-primary/10 shadow-md shadow-primary/10" : isCompleted ? "border-white/10 bg-white/5" : "border-white/5 bg-transparent"
-                            }`}
-                          >
-                            {/* Yellow accent on hover */}
-                            <div className="absolute left-0 top-2 bottom-2 w-[3px] bg-primary rounded-full scale-y-0 group-hover:scale-y-100 transition-transform duration-200 origin-center" />
-                            {isCompleted ? (
-                              <CheckCircle2 className="h-5 w-5 text-primary shrink-0 mt-0.5" />
-                            ) : isCurrent ? (
-                              <div className="h-5 w-5 rounded-full border-2 border-primary shrink-0 mt-0.5 flex items-center justify-center">
-                                <div className="h-2 w-2 rounded-full bg-primary animate-pulse" />
-                              </div>
-                            ) : (
-                              <Circle className="h-5 w-5 text-white/20 shrink-0 mt-0.5" />
-                            )}
-                            <div className="flex-1 min-w-0">
-                              <span className={`text-sm font-medium ${isCompleted ? "text-white/40 line-through" : isCurrent ? "text-white" : "text-white/30"}`}>{stage.name}</span>
-                              {stage.description && <p className="text-[11px] text-white/35 mt-0.5 line-clamp-2">{stage.description}</p>}
-                              {stage.completed_at && <p className="text-[10px] text-primary mt-1">✓ {new Date(stage.completed_at).toLocaleDateString("pt-BR")}</p>}
-                              {isCurrent && <p className="text-[10px] text-primary font-semibold mt-1 flex items-center gap-1"><Sparkles className="h-3 w-3" /> Etapa atual</p>}
-                            </div>
-                          </motion.div>
-                        );
-                      })}
-                    </div>
-                  )}
-                </div>
-
-                {isReviewPhase && (
-                  <div className="rounded-xl border border-primary/20 bg-primary/5 p-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-                    <div className="space-y-1 text-center sm:text-left">
-                      <h3 className="text-sm font-bold text-primary uppercase tracking-wider">Central de Feedback</h3>
-                      <p className="text-xs text-white/60">Estamos na fase de revisão. Envie seus ajustes detalhados para nossa equipe.</p>
-                    </div>
-                    <Button
-                      onClick={() => {
-                        const feedback = prompt("Descreva detalhadamente os ajustes necessários:");
-                        if (feedback) {
-                          supabase.from("project_feedbacks").insert({
-                            project_id: selectedProject.id,
-                            stage_id: currentStage?.id,
-                            client_id: user?.id,
-                            content: feedback
-                          }).then(({ error }) => {
-                            if (error) toast.error("Erro ao enviar feedback");
-                            else toast.success("Feedback enviado com sucesso!");
-                          });
-                        }
-                      }}
-                      className="gap-2 rounded-xl w-full sm:w-auto"
-                    >
-                      <MessageSquare className="h-4 w-4" /> Enviar Feedback
-                    </Button>
-                  </div>
-                )}
+                <ClientStagesTab
+                  project={selectedProject}
+                  stages={stages}
+                  userId={user?.id}
+                />
               </TabsContent>
 
               {/* FILES TAB */}
               <TabsContent value="files" className="space-y-4">
-                <div className="rounded-xl border border-white/10 bg-black p-6 sm:p-8">
-                  <div className="flex items-center justify-between mb-6">
-                    <label className="text-[10px] uppercase tracking-[0.3em] text-white/50 font-semibold">Arquivos do Projeto</label>
-                    {files.length > 0 && (
-                      <Button variant="outline" size="sm" className="gap-2 text-xs rounded-xl" onClick={() => {
-                        files.forEach(f => {
-                          if (f.downloadUrl) window.open(f.downloadUrl, '_blank');
-                        });
-                        toast.success("Iniciando downloads...");
-                      }}>
-                        <FileDown className="h-3.5 w-3.5" /> Baixar Todos
-                      </Button>
-                    )}
-                  </div>
-                  {isLoadingFiles ? (
-                    <div className="py-12 text-center">
-                      <div className="animate-pulse text-white/30 text-sm">Carregando arquivos...</div>
-                    </div>
-                  ) : files.length === 0 ? (
-                    <div className="py-12 text-center">
-                      <FolderOpen className="h-8 w-8 text-white/15 mx-auto mb-2" />
-                      <p className="text-white/35 text-sm">Nenhum arquivo disponível.</p>
-                    </div>
-                  ) : (
-                    <div className="space-y-6">
-                      {/* Group files by prefix (e.g., 01_, 02_) */}
-                      {(() => {
-                        const groups: Record<string, typeof files> = {};
-                        files.forEach(f => {
-                          const parts = f.name.split('_');
-                          const group = parts.length > 1 && parts[0].length <= 3 ? parts[0] + "_" + parts[1] : "Geral";
-                          if (!groups[group]) groups[group] = [];
-                          groups[group].push(f);
-                        });
-
-                        return Object.entries(groups).sort().map(([groupName, groupFiles]) => (
-                          <div key={groupName} className="space-y-3">
-                            <div className="flex items-center gap-2 px-1">
-                              <Folder className="h-4 w-4 text-primary/60" />
-                              <span className="text-xs font-bold text-white/70 uppercase tracking-wider">{groupName.replace(/_/g, ' ')}</span>
-                            </div>
-                            <div className="grid gap-2">
-                              {groupFiles.map((file, idx) => (
-                                <motion.div
-                                  key={file.name}
-                                  initial={{ opacity: 0, y: 10 }}
-                                  animate={{ opacity: 1, y: 0 }}
-                                  transition={{ delay: idx * 0.05 }}
-                                  className="relative flex items-center justify-between p-4 rounded-xl border border-white/10 bg-white/5 hover:border-primary/20 hover:-translate-y-0.5 hover:shadow-md transition-all duration-200 gap-3 group"
-                                >
-                                  <div className="absolute left-0 top-2 bottom-2 w-[3px] bg-primary rounded-full scale-y-0 group-hover:scale-y-100 transition-transform duration-200 origin-center" />
-                                  <span className="text-sm text-white truncate flex-1 pl-2">{file.name}</span>
-                                  <div className="flex items-center gap-2 shrink-0">
-                                    {file.viewUrl && (
-                                      <Button asChild variant="outline" size="sm" className="gap-1.5 rounded-xl text-white border-white/20 hover:bg-white/10">
-                                        <a href={file.viewUrl} target="_blank" rel="noopener noreferrer"><ExternalLink className="h-3.5 w-3.5" />Abrir</a>
-                                      </Button>
-                                    )}
-                                    {file.downloadUrl && (
-                                      <Button asChild variant="ghost" size="sm" className="gap-1.5 rounded-xl text-white/50 hover:text-white">
-                                        <a href={file.downloadUrl} target="_blank" rel="noopener noreferrer"><FileDown className="h-3.5 w-3.5" />Baixar</a>
-                                      </Button>
-                                    )}
-                                  </div>
-                                </motion.div>
-                              ))}
-                            </div>
-                          </div>
-                        ));
-                      })()}
-                    </div>
-                  )}
-                </div>
+                <ClientFilesTab files={files} isLoading={isLoadingFiles} />
               </TabsContent>
 
               {/* FINANCE TAB */}
               <TabsContent value="finance" className="space-y-4">
-                <div className="rounded-xl border border-white/10 bg-black p-6 sm:p-8 space-y-5">
-                  <label className="text-[10px] uppercase tracking-[0.3em] text-white/50 font-semibold">Resumo Financeiro</label>
-                  {!payment ? (
-                    <div className="py-12 text-center">
-                      <DollarSign className="h-8 w-8 text-white/15 mx-auto mb-2" />
-                      <p className="text-white/35 text-sm">Nenhuma informação financeira disponível.</p>
-                    </div>
-                  ) : (
-                    <div className="space-y-4">
-                      {/* Main value card */}
-                      <div className="bg-primary/10 border border-primary/20 rounded-xl p-5 space-y-4">
-                        <div className="flex items-center justify-between">
-                          <span className="text-sm text-white/60">Valor Total do Projeto</span>
-                          <span className="text-2xl font-bold text-primary font-display">{formatCurrency(payment.budget_total)}</span>
-                        </div>
-
-                        {/* Payment status badge */}
-                        {(() => {
-                          const status = payment.payment_status || "pendente";
-                          const statusConfig: Record<string, { label: string; color: string; bgColor: string; icon: typeof CheckCircle2 }> = {
-                            pago: { label: "Pago", color: "text-emerald-400", bgColor: "bg-emerald-400/10 border-emerald-400/20", icon: CheckCircle2 },
-                            parcialmente_pago: { label: "Parcialmente Pago", color: "text-amber-400", bgColor: "bg-amber-400/10 border-amber-400/20", icon: Clock },
-                            pendente: { label: "Pendente", color: "text-orange-400", bgColor: "bg-orange-400/10 border-orange-400/20", icon: AlertCircle },
-                          };
-                          const cfg = statusConfig[status] || statusConfig.pendente;
-                          const StatusIcon = cfg.icon;
-                          return (
-                            <div className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border text-xs font-medium ${cfg.bgColor} ${cfg.color}`}>
-                              <StatusIcon className="h-3.5 w-3.5" />
-                              {cfg.label}
-                            </div>
-                          );
-                        })()}
-
-                        {payment.initial_payment != null && payment.initial_payment > 0 && (
-                          <div className="flex items-center justify-between text-sm">
-                            <span className="text-white/60">Entrada</span>
-                            <div className="text-right">
-                              <span className="text-white font-medium">{formatCurrency(payment.initial_payment)}</span>
-                              {payment.initial_payment_date && (
-                                <span className="text-white/35 text-xs ml-2">({new Date(payment.initial_payment_date + "T00:00:00").toLocaleDateString("pt-BR")})</span>
-                              )}
-                            </div>
-                          </div>
-                        )}
-                        {payment.remaining_amount != null && (
-                          <div className="flex items-center justify-between text-sm">
-                            <span className="text-white/60">Saldo Restante</span>
-                            <span className="text-primary font-semibold">{formatCurrency(payment.remaining_amount)}</span>
-                          </div>
-                        )}
-                      </div>
-
-                      {/* Installments card */}
-                      {payment.installments_total != null && payment.installments_total > 0 && (
-                        <div className="border border-white/10 rounded-xl p-5 space-y-3">
-                          <div className="flex items-center justify-between text-sm">
-                            <span className="text-white/60">Parcelamento</span>
-                            <span className="text-white font-medium">
-                              {payment.installments_total}x de {formatCurrency(payment.remaining_amount != null && payment.installments_total > 0 ? payment.remaining_amount / payment.installments_total : 0)}
-                            </span>
-                          </div>
-                          <div className="flex items-center justify-between text-sm">
-                            <span className="text-white/60">Parcelas Pagas</span>
-                            <span className="text-white font-medium">{payment.installments_paid ?? 0} de {payment.installments_total}</span>
-                          </div>
-                          <div className="h-2.5 bg-white/10 rounded-full overflow-hidden">
-                            <motion.div
-                              initial={{ width: 0 }}
-                              animate={{ width: `${((payment.installments_paid ?? 0) / payment.installments_total) * 100}%` }}
-                              transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
-                              className="h-full bg-gradient-to-r from-primary to-kiiro-glow rounded-full"
-                            />
-                          </div>
-
-                          {/* Next payment highlight */}
-                          {payment.next_payment_date && (payment.installments_paid ?? 0) < payment.installments_total && (
-                            <div className="mt-2 p-3 rounded-lg bg-primary/10 border border-primary/15 flex items-center justify-between">
-                              <div className="flex items-center gap-2">
-                                <CreditCard className="h-4 w-4 text-primary" />
-                                <div>
-                                  <p className="text-xs text-white/60">Próxima Parcela</p>
-                                  <p className="text-sm font-semibold text-white">
-                                    {formatCurrency(payment.remaining_amount != null && payment.installments_total > 0 ? payment.remaining_amount / payment.installments_total : 0)}
-                                  </p>
-                                </div>
-                              </div>
-                              <div className="text-right">
-                                <p className="text-[10px] text-white/40 uppercase tracking-wider">Vencimento</p>
-                                <p className="text-sm text-primary font-medium">{new Date(payment.next_payment_date + "T00:00:00").toLocaleDateString("pt-BR")}</p>
-                              </div>
-                            </div>
-                          )}
-                        </div>
-                      )}
-                      {payment.notes && (
-                        <div className="border border-white/10 rounded-xl p-4">
-                          <label className="text-[10px] uppercase tracking-[0.3em] text-white/50 font-semibold">Observações</label>
-                          <p className="text-sm text-white/80 mt-2 whitespace-pre-wrap">{payment.notes}</p>
-                        </div>
-                      )}
-                    </div>
-                  )}
-                </div>
+                <ClientFinanceTab payment={payment} />
               </TabsContent>
 
               {/* MESSAGES TAB */}

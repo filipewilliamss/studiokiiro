@@ -83,9 +83,10 @@ const Navbar = ({ forceBlack = true }: NavbarProps) => {
 
           <Link
             to="/area-do-cliente"
-            className={`${areaClienteTextClass} rounded-none`}
+            className="group inline-flex items-center gap-2.5 text-[#FFCA16] border border-[#FFCA16]/40 hover:border-[#FFCA16] hover:bg-[#FFCA16] hover:text-black px-5 py-2 rounded-full transition-all duration-300 text-[11px] font-bold uppercase tracking-[0.2em] font-display shadow-[0_0_15px_rgba(255,202,22,0.1)] hover:shadow-[0_0_20px_rgba(255,202,22,0.3)]"
           >
-            Área do Cliente
+            <span className="w-1.5 h-1.5 rounded-full bg-[#FFCA16] group-hover:bg-black transition-colors animate-pulse" />
+            <span>Área do Cliente</span>
           </Link>
         </div>
 
@@ -136,9 +137,10 @@ const Navbar = ({ forceBlack = true }: NavbarProps) => {
             <Link
               to="/area-do-cliente"
               onClick={() => setMenuOpen(false)}
-              className={`text-sm transition-colors uppercase tracking-wide font-medium ${areaClienteTextClass}`}
+              className="inline-flex items-center justify-center gap-2 py-3 px-5 rounded-xl bg-[#FFCA16] text-black font-display font-bold text-xs uppercase tracking-[0.2em] shadow-lg mt-2"
             >
-              Área do Cliente
+              <span className="w-2 h-2 rounded-full bg-black animate-pulse" />
+              <span>Acessar Área do Cliente</span>
             </Link>
           </div>
         </motion.div>

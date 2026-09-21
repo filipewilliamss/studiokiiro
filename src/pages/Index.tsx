@@ -15,6 +15,8 @@ import Preloader from "@/components/Preloader";
 import EditorialMarquee from "@/components/EditorialMarquee";
 import EditorialQuote from "@/components/EditorialQuote";
 import SocialMediaPortfolio from "@/components/SocialMediaPortfolio";
+import ClientAreaSection from "@/components/ClientAreaSection";
+import FloatingWhatsApp from "@/components/FloatingWhatsApp";
 
 
 const Index = () => {
@@ -132,12 +134,18 @@ const Index = () => {
             
             <SectionDivider />
 
+            <section className="snap-start">
+              <ClientAreaSection />
+            </section>
+
+            <SectionDivider />
             
             <section className="snap-start">
               <ContactSection />
             </section>
             
             <Footer />
+            <FloatingWhatsApp />
           </main>
         )}
       </div>

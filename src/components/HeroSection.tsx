@@ -297,10 +297,16 @@ const HeroSection = () => {
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
-            className="mb-10 flex items-center gap-4"
+            className="mb-8 flex flex-wrap items-center gap-3 sm:gap-4"
           >
-            <span className="text-[#FFCA16] text-[11px] font-bold uppercase tracking-[0.4em]">
-              Creative Design Studio
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.04] border border-white/10 backdrop-blur-md">
+              <span className="w-2 h-2 rounded-full bg-[#FFCA16] animate-pulse" />
+              <span className="text-white/80 text-[11px] font-mono tracking-wider">
+                VAGAS ABERTAS NESTE TRIMESTRE
+              </span>
+            </div>
+            <span className="text-[#FFCA16] text-[11px] font-bold uppercase tracking-[0.35em] hidden sm:inline">
+              · Creative Design Studio
             </span>
           </motion.div>
 
@@ -312,11 +318,52 @@ const HeroSection = () => {
             <span className="text-[#FFCA16] italic font-light">lembrada.</span>
           </h1>
 
-          <p className="mt-12 text-white/55 text-[17px] md:text-[19px] max-w-none text-left font-light leading-[1.6] font-display tracking-tight">
-            Design para marcas que buscam reconhecimento e diferenciação real,
-            <br />
-            por meio de identidades visuais, sites e presença digital consistentes.
+          <p className="mt-8 md:mt-10 text-white/60 text-[17px] md:text-[20px] max-w-2xl text-left font-light leading-[1.6] font-display tracking-tight">
+            Design estratégico para marcas que buscam reconhecimento e diferenciação real, por meio de identidades visuais marcantes, sites de alta conversão e presença digital de excelência.
           </p>
+
+          {/* Action CTAs */}
+          <div className="mt-10 flex flex-wrap items-center gap-4">
+            <a
+              href="#contato"
+              onClick={(e) => {
+                e.preventDefault();
+                document.getElementById('contato')?.scrollIntoView({ behavior: 'smooth' });
+              }}
+              className="group relative inline-flex items-center gap-3 px-8 py-4 rounded-full bg-[#FFCA16] text-black font-display font-bold text-[12px] uppercase tracking-[0.25em] shadow-[0_4px_25px_rgba(255,202,22,0.25)] hover:shadow-[0_4px_35px_rgba(255,202,22,0.45)] hover:scale-[1.02] active:scale-[0.98] transition-all duration-300"
+            >
+              <span>Iniciar Projeto</span>
+              <svg className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              </svg>
+            </a>
+
+            <a
+              href="/area-do-cliente"
+              className="inline-flex items-center gap-2.5 px-7 py-4 rounded-full bg-white/[0.03] hover:bg-white/[0.08] border border-white/10 hover:border-[#FFCA16]/40 text-white/80 hover:text-white font-display text-[12px] uppercase tracking-[0.2em] transition-all duration-300 backdrop-blur-md"
+            >
+              <svg className="w-4 h-4 text-[#FFCA16]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+              </svg>
+              <span>Área do Cliente</span>
+            </a>
+          </div>
+
+          {/* Quick authority credentials */}
+          <div className="mt-14 pt-8 border-t border-white/[0.08] w-full grid grid-cols-3 max-w-xl gap-4 sm:gap-6">
+            <div>
+              <span className="block text-white font-display font-bold text-xl sm:text-2xl tracking-tight">150+</span>
+              <span className="block text-white/40 text-[10px] sm:text-[11px] uppercase tracking-wider font-mono mt-0.5">Projetos Criados</span>
+            </div>
+            <div>
+              <span className="block text-white font-display font-bold text-xl sm:text-2xl tracking-tight">6 Anos</span>
+              <span className="block text-white/40 text-[10px] sm:text-[11px] uppercase tracking-wider font-mono mt-0.5">Especialização</span>
+            </div>
+            <div>
+              <span className="block text-[#FFCA16] font-display font-bold text-xl sm:text-2xl tracking-tight">92%</span>
+              <span className="block text-white/40 text-[10px] sm:text-[11px] uppercase tracking-wider font-mono mt-0.5">Retenção de Clientes</span>
+            </div>
+          </div>
         </div>
 
         <div className="hidden lg:flex lg:w-[35%] h-[600px] relative items-center justify-center">

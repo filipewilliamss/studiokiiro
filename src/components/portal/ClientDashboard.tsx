@@ -424,7 +424,11 @@ const ClientDashboard = () => {
 
               {/* FINANCE TAB */}
               <TabsContent value="finance" className="space-y-4">
-                <ClientFinanceTab payment={payment} />
+                <ClientFinanceTab
+                  payment={payment}
+                  projectName={selectedProject?.name}
+                  projectId={selectedProject?.id}
+                />
               </TabsContent>
 
               {/* MESSAGES TAB */}

@@ -3,10 +3,11 @@ import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import Navbar from "@/components/Navbar";
 import { Button } from "@/components/ui/button";
-import { LogOut, Users, FolderKanban, DollarSign, FileText, Receipt, Layers, BarChart3, Clock, BookOpen, Send, Key } from "lucide-react";
+import { LogOut, Users, FolderKanban, DollarSign, FileText, Receipt, Layers, BarChart3, Clock, BookOpen, Send, Key, Sparkles } from "lucide-react";
 import NotificationBell from "./admin/NotificationBell";
 import ClientsTab from "./admin/ClientsTab";
 import ProjectsTab from "./admin/ProjectsTab";
+import CasesTab from "./admin/CasesTab";
 import FinanceTab from "./admin/FinanceTab";
 import ServiceOrdersTab from "./admin/ServiceOrdersTab";
 import QuotesTab from "./admin/QuotesTab";
@@ -18,6 +19,7 @@ import AccessTab from "./admin/AccessTab";
 const tabs = [
   { key: "clients", label: "Clientes", icon: Users },
   { key: "projects", label: "Projetos", icon: FolderKanban },
+  { key: "cases", label: "Cases", icon: Sparkles },
   { key: "access", label: "Acessos", icon: Key },
   { key: "finance", label: "Financeiro", icon: DollarSign },
   { key: "quotes", label: "Orçamentos", icon: Receipt },
@@ -67,6 +69,7 @@ const AdminDashboard = () => {
     switch (activeTab) {
       case "clients": return <ClientsTab />;
       case "projects": return <ProjectsTab />;
+      case "cases": return <CasesTab />;
       case "access": return <AccessTab />;
       case "finance": return <FinanceTab />;
       case "quotes": return <QuotesTab />;

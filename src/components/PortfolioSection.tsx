@@ -1,7 +1,8 @@
 import { useRef, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion, useScroll, useTransform, useSpring, useMotionValue } from "framer-motion";
-import { projects } from "@/data/projects";
+import { ArrowRight } from "lucide-react";
+import { getFeaturedCases } from "@/services/caseService";
 
 const KiiroLogo = ({ className }: { className?: string }) => (
   <svg viewBox="0 0 100 100" className={className} fill="currentColor">
@@ -10,11 +11,36 @@ const KiiroLogo = ({ className }: { className?: string }) => (
 );
 
 const PortfolioSection = () => {
+  const featuredProjects = getFeaturedCases();
+
   return (
     <div id="portfolio" className="bg-black">
-      {projects.map((project, index) => (
-        <ProjectCard key={project.id} project={project} index={index} total={projects.length} />
+      {featuredProjects.map((project, index) => (
+        <ProjectCard key={project.id} project={project} index={index} total={featuredProjects.length} />
       ))}
+
+      {/* Editorial Explore All Cases Section */}
+      <section className="h-[70vh] md:h-[90dvh] w-full flex items-center justify-center bg-[#070807] border-t border-white/10 relative overflow-hidden snap-start">
+        <div className="container-editorial text-center max-w-2xl relative z-10 space-y-6">
+          <span className="text-[11px] uppercase tracking-[0.5em] text-[#FFCA16] font-bold block">
+            Acervo Completo
+          </span>
+          <h3 className="text-3xl sm:text-5xl md:text-6xl font-bold font-display text-white">
+            Mais projetos e identidades.
+          </h3>
+          <p className="text-white/60 text-sm sm:text-base font-light max-w-lg mx-auto">
+            Explore nossa galeria completa com filtros por categoria de serviço e estudos aprofundados.
+          </p>
+          <div className="pt-4">
+            <Link
+              to="/cases"
+              className="inline-flex items-center gap-3 px-8 py-4 rounded-full bg-[#FFCA16] text-black hover:bg-white font-bold text-xs uppercase tracking-widest transition-all duration-300 shadow-2xl"
+            >
+              Explorar Todos os Cases <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+        </div>
+      </section>
     </div>
   );
 };

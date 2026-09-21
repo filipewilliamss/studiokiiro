@@ -13,6 +13,7 @@ import Obrigado from "./pages/Obrigado.tsx";
 import AreaDoCliente from "./pages/AreaDoCliente.tsx";
 import BriefingPublico from "./pages/BriefingPublico.tsx";
 import ProjectDetail from "./pages/ProjectDetail.tsx";
+import Cases from "./pages/Cases.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import CookieConsent from "./components/CookieConsent.tsx";
 import CustomCursor from "./components/CustomCursor.tsx";
@@ -27,6 +28,8 @@ const AnimatedRoutes = () => {
     <AnimatePresence mode="wait">
       <Routes location={location} key={location.pathname}>
         <Route path="/" element={<Index />} />
+        <Route path="/cases" element={<Cases />} />
+        <Route path="/portfolio" element={<Cases />} />
         <Route path="/obrigado" element={<Obrigado />} />
         <Route path="/area-do-cliente" element={<AreaDoCliente />} />
         <Route path="/briefing/:token" element={<BriefingPublico />} />

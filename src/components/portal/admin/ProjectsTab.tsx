@@ -18,7 +18,7 @@ import {
 import { toast } from "sonner";
 import { methodologyStages } from "@/data/methodologyStages";
 import { briefingQuestions, type BriefingQuestion } from "@/data/briefingQuestions";
-import { BriefingLinkModal } from "./BriefingLinkModal";
+import KanbanBoard from "./KanbanBoard";
 import {
   ensureBriefingToken,
   regenerateBriefingToken,
@@ -42,6 +42,8 @@ interface Project {
   partner_message: string | null;
   profiles?: Profile;
   briefing_links?: { token: string; submitted_at: string | null } | null;
+  payments?: any;
+  project_stages?: any;
 }
 interface Stage {
   id: string; name: string; status: string; sort_order: number;
@@ -152,7 +154,7 @@ const ProjectsTab = () => {
   const fetchProjects = async () => {
     const { data, error } = await supabase
       .from("projects")
-      .select("*, profiles!projects_client_id_fkey(id, full_name, company, phone), briefing_links(token, submitted_at)")
+      .select("*, profiles!projects_client_id_fkey(id, full_name, company, phone), briefing_links(token, submitted_at), payments(budget_total, remaining_amount, payment_status, installments_total, installments_paid), project_stages(id, name, status, sort_order, internal_tasks)")
       .order("created_at", { ascending: false });
     if (error) {
       console.error("Erro ao buscar projetos:", error);
@@ -160,6 +162,22 @@ const ProjectsTab = () => {
       return;
     }
     if (data) setProjects(data as any);
+  };
+
+  const handleMoveStatus = async (projectId: string, newStatus: string) => {
+    setProjects((prev) =>
+      prev.map((p) => (p.id === projectId ? { ...p, status: newStatus } : p))
+    );
+    const { error } = await supabase
+      .from("projects")
+      .update({ status: newStatus })
+      .eq("id", projectId);
+    if (error) {
+      toast.error("Erro ao atualizar status do projeto");
+      fetchProjects();
+    } else {
+      toast.success("Status atualizado com sucesso!");
+    }
   };
 
   const fetchClients = async () => {
@@ -389,237 +407,77 @@ const ProjectsTab = () => {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <p className="text-sm text-muted-foreground">{projects.length} projeto(s)</p>
-          {selectedIds.size > 0 && (
-            <AlertDialog>
-              <AlertDialogTrigger asChild>
-                <Button variant="destructive" size="sm" className="gap-2"><Trash2 className="h-4 w-4" />Excluir ({selectedIds.size})</Button>
-              </AlertDialogTrigger>
-              <AlertDialogContent>
-                <AlertDialogHeader>
-                  <AlertDialogTitle>Excluir projetos?</AlertDialogTitle>
-                  <AlertDialogDescription>{selectedIds.size} projeto(s), etapas, financeiro e mensagens serão removidos.</AlertDialogDescription>
-                </AlertDialogHeader>
-                <AlertDialogFooter>
-                  <AlertDialogCancel>Cancelar</AlertDialogCancel>
-                  <AlertDialogAction onClick={handleDeleteProjects} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">Excluir</AlertDialogAction>
-                </AlertDialogFooter>
-              </AlertDialogContent>
-            </AlertDialog>
-          )}
-        </div>
-        <Dialog open={openCreate} onOpenChange={setOpenCreate}>
-          <DialogTrigger asChild>
-            <Button className="gap-2"><FolderPlus className="h-4 w-4" /> Novo Projeto</Button>
-          </DialogTrigger>
-          <DialogContent className="sm:max-w-lg">
-            <DialogHeader>
-              <DialogTitle style={{ fontFamily: "var(--font-display)" }}>Criar Projeto</DialogTitle>
-            </DialogHeader>
-            <form onSubmit={handleCreate} className="space-y-4 mt-2">
+      {/* Modal de Criação de Projeto */}
+      <Dialog open={openCreate} onOpenChange={setOpenCreate}>
+        <DialogContent className="sm:max-w-lg bg-[#0F100F] border-white/15 text-white">
+          <DialogHeader>
+            <DialogTitle className="font-display text-lg text-white">Criar Novo Projeto</DialogTitle>
+          </DialogHeader>
+          <form onSubmit={handleCreate} className="space-y-4 mt-2">
+            <div className="space-y-1.5">
+              <label className="text-xs uppercase tracking-wider text-muted-foreground font-medium">Nome do projeto *</label>
+              <Input value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} required className="bg-white/5 border-white/10 text-white" />
+            </div>
+            <div className="grid grid-cols-2 gap-3">
               <div className="space-y-1.5">
-                <label className="text-xs uppercase tracking-wider text-muted-foreground font-medium">Nome do projeto *</label>
-                <Input value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} required />
-              </div>
-              <div className="grid grid-cols-2 gap-3">
-                <div className="space-y-1.5">
-                  <label className="text-xs uppercase tracking-wider text-muted-foreground font-medium">Tipo</label>
-                  <Select value={form.type} onValueChange={(v) => setForm({ ...form, type: v })}>
-                    <SelectTrigger><SelectValue /></SelectTrigger>
-                    <SelectContent>{projectTypes.map((t) => <SelectItem key={t} value={t}>{t}</SelectItem>)}</SelectContent>
-                  </Select>
-                  {methodologyStages[form.type] && (
-                    <p className="text-[10px] text-primary">✓ {methodologyStages[form.type].length} etapas criadas automaticamente</p>
-                  )}
-                </div>
-                <div className="space-y-1.5">
-                  <label className="text-xs uppercase tracking-wider text-muted-foreground font-medium">Prioridade</label>
-                  <Select value={form.priority} onValueChange={(v) => setForm({ ...form, priority: v })}>
-                    <SelectTrigger><SelectValue /></SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="baixa">Baixa</SelectItem>
-                      <SelectItem value="normal">Normal</SelectItem>
-                      <SelectItem value="alta">Alta</SelectItem>
-                      <SelectItem value="urgente">Urgente</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
+                <label className="text-xs uppercase tracking-wider text-muted-foreground font-medium">Tipo</label>
+                <Select value={form.type} onValueChange={(v) => setForm({ ...form, type: v })}>
+                  <SelectTrigger className="bg-white/5 border-white/10 text-white"><SelectValue /></SelectTrigger>
+                  <SelectContent className="bg-[#0F100F] border-white/15 text-white">{projectTypes.map((t) => <SelectItem key={t} value={t}>{t}</SelectItem>)}</SelectContent>
+                </Select>
+                {methodologyStages[form.type] && (
+                  <p className="text-[10px] text-[#FFCA16]">✓ {methodologyStages[form.type].length} etapas criadas automaticamente</p>
+                )}
               </div>
               <div className="space-y-1.5">
-                <label className="text-xs uppercase tracking-wider text-muted-foreground font-medium">Cliente *</label>
-                <Select value={form.client_id} onValueChange={(v) => setForm({ ...form, client_id: v })}>
-                  <SelectTrigger><SelectValue placeholder="Selecione um cliente" /></SelectTrigger>
-                  <SelectContent>{clients.map((c) => <SelectItem key={c.id} value={c.id}>{c.full_name} {c.company ? `(${c.company})` : ""}</SelectItem>)}</SelectContent>
+                <label className="text-xs uppercase tracking-wider text-muted-foreground font-medium">Prioridade</label>
+                <Select value={form.priority} onValueChange={(v) => setForm({ ...form, priority: v })}>
+                  <SelectTrigger className="bg-white/5 border-white/10 text-white"><SelectValue /></SelectTrigger>
+                  <SelectContent className="bg-[#0F100F] border-white/15 text-white">
+                    <SelectItem value="baixa">Baixa</SelectItem>
+                    <SelectItem value="normal">Normal</SelectItem>
+                    <SelectItem value="alta">Alta</SelectItem>
+                    <SelectItem value="urgente">Urgente</SelectItem>
+                  </SelectContent>
                 </Select>
               </div>
-              <div className="grid grid-cols-2 gap-3">
-                <div className="space-y-1.5">
-                  <label className="text-xs uppercase tracking-wider text-muted-foreground font-medium">Início</label>
-                  <Input type="date" value={form.start_date} onChange={(e) => setForm({ ...form, start_date: e.target.value })} />
-                </div>
-                <div className="space-y-1.5">
-                  <label className="text-xs uppercase tracking-wider text-muted-foreground font-medium">Prazo</label>
-                  <Input type="date" value={form.deadline} onChange={(e) => setForm({ ...form, deadline: e.target.value })} />
-                </div>
+            </div>
+            <div className="space-y-1.5">
+              <label className="text-xs uppercase tracking-wider text-muted-foreground font-medium">Cliente *</label>
+              <Select value={form.client_id} onValueChange={(v) => setForm({ ...form, client_id: v })}>
+                <SelectTrigger className="bg-white/5 border-white/10 text-white"><SelectValue placeholder="Selecione um cliente" /></SelectTrigger>
+                <SelectContent className="bg-[#0F100F] border-white/15 text-white">{clients.map((c) => <SelectItem key={c.id} value={c.id}>{c.full_name} {c.company ? `(${c.company})` : ""}</SelectItem>)}</SelectContent>
+              </Select>
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              <div className="space-y-1.5">
+                <label className="text-xs uppercase tracking-wider text-muted-foreground font-medium">Início</label>
+                <Input type="date" value={form.start_date} onChange={(e) => setForm({ ...form, start_date: e.target.value })} className="bg-white/5 border-white/10 text-white" />
               </div>
               <div className="space-y-1.5">
-                <label className="text-xs uppercase tracking-wider text-muted-foreground font-medium">Descrição</label>
-                <Textarea value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} rows={3} />
+                <label className="text-xs uppercase tracking-wider text-muted-foreground font-medium">Prazo</label>
+                <Input type="date" value={form.deadline} onChange={(e) => setForm({ ...form, deadline: e.target.value })} className="bg-white/5 border-white/10 text-white" />
               </div>
-              <div className="flex justify-end gap-2 pt-2">
-                <Button type="button" variant="ghost" onClick={() => setOpenCreate(false)}>Cancelar</Button>
-                <Button type="submit" disabled={loading || !form.client_id}>{loading ? "Criando..." : "Criar Projeto"}</Button>
-              </div>
-            </form>
-          </DialogContent>
-        </Dialog>
-      </div>
-
-      {/* Project list grouped by status */}
-      {(() => {
-        const activeProjects = projects.filter((p) => activeStatuses.includes(p.status));
-        const pausedProjects = projects.filter((p) => pausedStatuses.includes(p.status));
-        const deliveredProjects = projects.filter((p) => deliveredStatuses.includes(p.status));
-
-        const togglePause = async (project: Project, e: React.MouseEvent) => {
-          e.stopPropagation();
-          const newStatus = project.status === "pausado" ? "producao" : "pausado";
-          await supabase.from("projects").update({ status: newStatus }).eq("id", project.id);
-          toast.success(newStatus === "pausado" ? "Projeto pausado" : "Projeto retomado");
-          fetchProjects();
-        };
-
-        const renderProjectCard = (project: Project, isDelivered = false) => (
-          <div key={project.id} className={`bg-card border rounded-xl p-5 hover:border-primary/30 transition-all group ${selectedIds.has(project.id) ? "border-primary/50" : "border-border"} ${isDelivered ? "opacity-60" : ""}`}>
-            <div className="flex items-start gap-3">
-              <Checkbox checked={selectedIds.has(project.id)} onCheckedChange={() => toggleSelect(project.id)} className="mt-1" />
-              <button onClick={() => openProjectDetail(project)} className="flex-1 text-left">
-                <div className="flex items-start justify-between mb-3">
-                  <div>
-                    <h3 className={`font-medium transition-colors ${isDelivered ? "text-muted-foreground" : "text-foreground group-hover:text-primary"}`}>{project.name}</h3>
-                    <p className="text-xs text-muted-foreground mt-0.5">{project.type} • {(project as any).profiles?.full_name || "—"}</p>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      className="h-7 px-2 text-xs text-muted-foreground hover:text-primary gap-1.5 border border-transparent hover:border-primary/20"
-                      onClick={async (e) => {
-                        e.stopPropagation();
-                        const t = (project as any).briefing_links?.token || await ensureBriefingToken(project.id);
-                        if (t) {
-                          setModalBriefing({
-                            isOpen: true,
-                            projectName: project.name,
-                            projectType: project.type,
-                            clientName: (project as any).profiles?.full_name || "Cliente",
-                            clientPhone: (project as any).profiles?.phone || null,
-                            token: t,
-                          });
-                        }
-                      }}
-                      title="Link do Briefing"
-                    >
-                      <ClipboardList className="h-3.5 w-3.5 text-primary" />
-                      <span className="hidden sm:inline text-[11px]">Link Briefing</span>
-                    </Button>
-                    {!isDelivered && (
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        className="h-7 w-7 text-muted-foreground hover:text-primary"
-                        onClick={(e) => togglePause(project, e)}
-                        title={project.status === "pausado" ? "Retomar projeto" : "Pausar projeto"}
-                      >
-                        {project.status === "pausado" ? <Play className="h-3.5 w-3.5" /> : <Pause className="h-3.5 w-3.5" />}
-                      </Button>
-                    )}
-                    <span className={`text-xs px-2.5 py-1 rounded-full font-medium ${statusColors[project.status] || "bg-muted text-muted-foreground"}`}>{statusLabels[project.status] || project.status}</span>
-                    <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
-                  </div>
-                </div>
-                <div className="flex items-center gap-3">
-                  {/* Health indicator */}
-                  {!isDelivered && (() => {
-                    const health = project.health_status || "No Prazo";
-                    const colors: Record<string, string> = { "No Prazo": "text-emerald-400", "Atenção": "text-amber-400", "Atrasado": "text-red-400" };
-                    const bgColors: Record<string, string> = { "No Prazo": "bg-emerald-400/10", "Atenção": "bg-amber-400/10", "Atrasado": "bg-red-400/10" };
-                    const icons: Record<string, React.ReactNode> = { "No Prazo": <CheckCircle2 className="h-3 w-3" />, "Atenção": <Clock className="h-3 w-3" />, "Atrasado": <AlertTriangle className="h-3 w-3" /> };
-                    return (
-                      <span className={`inline-flex items-center gap-1 text-[10px] px-2 py-0.5 rounded-full font-medium ${colors[health] || colors["No Prazo"]} ${bgColors[health] || bgColors["No Prazo"]}`}>
-                        {icons[health] || icons["No Prazo"]}
-                        {health}
-                      </span>
-                    );
-                  })()}
-                  {/* Briefing status indicator */}
-                  {(() => {
-                    const isSubmitted = !!(project as any).briefing_links?.submitted_at;
-                    return isSubmitted ? (
-                      <span className="inline-flex items-center gap-1 text-[10px] px-2 py-0.5 rounded-full font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-                        <CheckCircle2 className="h-2.5 w-2.5" /> Briefing respondido
-                      </span>
-                    ) : (
-                      <span className="inline-flex items-center gap-1 text-[10px] px-2 py-0.5 rounded-full font-medium bg-amber-500/10 text-amber-400 border border-amber-500/20">
-                        <Clock className="h-2.5 w-2.5" /> Briefing pendente
-                      </span>
-                    );
-                  })()}
-                  <div className="flex-1">
-                    <div className="h-1.5 bg-secondary rounded-full overflow-hidden">
-                      <div className="h-full bg-primary rounded-full transition-all" style={{ width: `${project.progress}%` }} />
-                    </div>
-                  </div>
-                  <span className="text-xs text-muted-foreground font-medium">{project.progress}%</span>
-                </div>
-              </button>
             </div>
-          </div>
-        );
+            <div className="space-y-1.5">
+              <label className="text-xs uppercase tracking-wider text-muted-foreground font-medium">Descrição</label>
+              <Textarea value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} rows={3} className="bg-white/5 border-white/10 text-white" />
+            </div>
+            <div className="flex justify-end gap-2 pt-2">
+              <Button type="button" variant="ghost" onClick={() => setOpenCreate(false)}>Cancelar</Button>
+              <Button type="submit" disabled={loading || !form.client_id} className="bg-[#FFCA16] text-black hover:bg-[#FFCA16]/90 font-bold">{loading ? "Criando..." : "Criar Projeto"}</Button>
+            </div>
+          </form>
+        </DialogContent>
+      </Dialog>
 
-        return (
-          <div className="space-y-8">
-            {projects.length > 0 && (
-              <div className="flex items-center gap-2 px-1">
-                <Checkbox checked={selectedIds.size === projects.length && projects.length > 0} onCheckedChange={toggleSelectAll} />
-                <span className="text-xs text-muted-foreground">Selecionar todos</span>
-              </div>
-            )}
-
-            {/* Em andamento */}
-            {activeProjects.length > 0 && (
-              <div className="space-y-3">
-                <p className="text-[10px] uppercase tracking-[0.3em] text-primary font-semibold ml-1">Em andamento ({activeProjects.length})</p>
-                <div className="grid gap-3">
-                  {activeProjects.map((p) => renderProjectCard(p))}
-                </div>
-              </div>
-            )}
-
-            {/* Pausados */}
-            {pausedProjects.length > 0 && (
-              <div className="space-y-3">
-                <p className="text-[10px] uppercase tracking-[0.3em] text-orange-400 font-semibold ml-1">Pausados ({pausedProjects.length})</p>
-                <div className="grid gap-3">
-                  {pausedProjects.map((p) => renderProjectCard(p))}
-                </div>
-              </div>
-            )}
-
-            {/* Entregues */}
-            {deliveredProjects.length > 0 && (
-              <div className="space-y-3">
-                <p className="text-[10px] uppercase tracking-[0.3em] text-muted-foreground font-semibold ml-1">Entregues ({deliveredProjects.length})</p>
-                <div className="grid gap-3">
-                  {deliveredProjects.map((p) => renderProjectCard(p, true))}
-                </div>
-              </div>
-            )}
-          </div>
-        );
-      })()}
+      {/* Painel Kanban Exclusivo */}
+      <KanbanBoard
+        projects={projects as any}
+        onSelectProject={openProjectDetail}
+        onMoveStatus={handleMoveStatus}
+        onCreateProjectClick={() => setOpenCreate(true)}
+      />
 
       {/* Project detail sheet with tabs */}
       <Sheet open={!!selectedProject} onOpenChange={(open) => !open && setSelectedProject(null)}>

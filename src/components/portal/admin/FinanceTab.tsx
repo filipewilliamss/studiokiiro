@@ -13,6 +13,7 @@ import { motion } from "framer-motion";
 import FixedCostsSection from "./finance/FixedCostsSection";
 import ServicePricesSection from "./finance/ServicePricesSection";
 import MonthlyGoalsSection from "./finance/MonthlyGoalsSection";
+import StudioPixConfigSection from "./finance/StudioPixConfigSection";
 import SaleFormDialog from "./finance/SaleFormDialog";
 import { Payment, FixedCost, ServicePrice, MonthlyGoal, formatCurrency, statusLabels } from "./finance/types";
 
@@ -256,6 +257,9 @@ const FinanceTab = () => {
 
       {/* BLOCO 3 — Service Prices */}
       <ServicePricesSection prices={servicePrices} onRefresh={fetchServicePrices} />
+
+      {/* BLOCO PIX — Studio PIX Key Config */}
+      <StudioPixConfigSection />
 
       {/* BLOCO 7 — Filters */}
       <div className="bg-card border border-border rounded-xl p-4">

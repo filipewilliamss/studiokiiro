@@ -11,6 +11,7 @@ import Lenis from "lenis";
 import Index from "./pages/Index.tsx";
 import Obrigado from "./pages/Obrigado.tsx";
 import AreaDoCliente from "./pages/AreaDoCliente.tsx";
+import BriefingPublico from "./pages/BriefingPublico.tsx";
 import ProjectDetail from "./pages/ProjectDetail.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import CookieConsent from "./components/CookieConsent.tsx";
@@ -28,6 +29,7 @@ const AnimatedRoutes = () => {
         <Route path="/" element={<Index />} />
         <Route path="/obrigado" element={<Obrigado />} />
         <Route path="/area-do-cliente" element={<AreaDoCliente />} />
+        <Route path="/briefing/:token" element={<BriefingPublico />} />
         <Route path="/projeto/:slug" element={<ProjectDetail />} />
         <Route path="/project/:slug" element={<ProjectDetail />} />
         <Route path="*" element={<NotFound />} />

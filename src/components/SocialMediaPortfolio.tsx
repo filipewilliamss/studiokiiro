@@ -1,9 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, PanInfo, useScroll, useSpring, useTransform } from "framer-motion";
-import socialOne from "@/assets/social-media-1.webp";
-import socialTwo from "@/assets/social-media-2.webp";
-import socialThree from "@/assets/social-media-3.webp";
-import socialFour from "@/assets/social-media-4.webp";
+import phoneVencendo from "@/assets/social-phone-1-vencendo.png";
+import phoneConferencia from "@/assets/social-phone-2-conferencia.jpg";
+import phoneBurger from "@/assets/social-phone-3-burger.jpg";
+import phoneApp from "@/assets/social-phone-4-app.png";
+import phoneOxigenada from "@/assets/social-phone-5-oxigenada.png";
 
 const SocialMediaPortfolio = () => {
   const containerRef = useRef<HTMLElement>(null);
@@ -12,7 +13,7 @@ const SocialMediaPortfolio = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
 
-  const images = [socialOne, socialTwo, socialThree, socialFour, socialOne];
+  const images = [phoneVencendo, phoneConferencia, phoneBurger, phoneApp, phoneOxigenada];
 
   useEffect(() => {
     const check = () => {
@@ -106,7 +107,7 @@ const SocialMediaPortfolio = () => {
                   className="absolute left-1/2 top-1/2 -ml-[82px] -mt-[180px]"
                   style={{ zIndex: 30 - distance, filter: `saturate(${isCenter ? 1 : isNear ? 0.5 : 0})` }}
                 >
-                  <SmartphonePlaceholder image={image} />
+                  <SmartphonePlaceholder image={image} isCenter={isCenter} />
                 </motion.div>
               );
             })}
@@ -120,7 +121,7 @@ const SocialMediaPortfolio = () => {
             <motion.div style={{ x: leftCloseX, rotate: leftCloseR, y: leftCloseY, opacity: closeOpacity, zIndex: 20 }} className="absolute"><SmartphonePlaceholder image={images[1]} /></motion.div>
             <motion.div style={{ x: rightCloseX, rotate: rightCloseR, y: rightCloseY, opacity: closeOpacity, zIndex: 20 }} className="absolute"><SmartphonePlaceholder image={images[3]} /></motion.div>
             <motion.div style={{ x: rightFarX, rotate: rightFarR, y: rightFarY, opacity: farOpacity, zIndex: 10 }} className="absolute"><SmartphonePlaceholder image={images[4]} /></motion.div>
-            <motion.div style={{ scale: centerScale, y: centerY, zIndex: 30 }} className="relative"><SmartphonePlaceholder image={images[2]} /></motion.div>
+            <motion.div style={{ scale: centerScale, y: centerY, zIndex: 30 }} className="relative"><SmartphonePlaceholder image={images[2]} isCenter /></motion.div>
           </div>
         )}
       </div>
@@ -128,15 +129,22 @@ const SocialMediaPortfolio = () => {
   );
 };
 
-const SmartphonePlaceholder = ({ image }: { image: string }) => (
+const SmartphonePlaceholder = ({ image, isCenter }: { image: string; isCenter?: boolean }) => (
   <div className="group relative h-[360px] w-[164px] pointer-events-auto md:h-[429px] md:w-[198px] lg:h-[600px] lg:w-[280px]" style={{ perspective: "1000px" }}>
-    <div className="absolute -inset-[2px] rounded-[40px] bg-gradient-to-tr from-white/15 via-white/5 to-transparent blur-md opacity-60 md:rounded-[44px] lg:rounded-[52px]" />
-    <div className="relative h-full w-full overflow-hidden rounded-[36px] bg-gradient-to-br from-[#6b6b6e] via-[#1f1f21] to-[#3a3a3c] p-[3px] ring-1 ring-white/15 md:rounded-[40px] lg:rounded-[48px]" style={{ boxShadow: "0 30px 60px -20px rgba(0,0,0,0.85), inset 0 1px 0 rgba(255,255,255,0.12)" }}>
-      <div className="relative h-full w-full overflow-hidden rounded-[33px] bg-black p-[3px] md:rounded-[37px] lg:rounded-[45px]">
+    <div className={`absolute -inset-[2px] rounded-[40px] ${isCenter ? "bg-gradient-to-tr from-white/30 via-white/10 to-transparent opacity-80" : "bg-gradient-to-tr from-white/15 via-white/5 to-transparent opacity-60"} blur-md md:rounded-[44px] lg:rounded-[52px]`} />
+    <div
+      className={`relative h-full w-full overflow-hidden rounded-[36px] ${isCenter ? "bg-gradient-to-br from-[#f2f2f7] via-[#aeaeb2] to-[#d1d1d6] p-[3.5px] ring-1 ring-white/40" : "bg-gradient-to-br from-[#6b6b6e] via-[#1f1f21] to-[#3a3a3c] p-[3px] ring-1 ring-white/15"} md:rounded-[40px] lg:rounded-[48px]`}
+      style={{
+        boxShadow: isCenter
+          ? "0 35px 70px -15px rgba(0,0,0,0.95), 0 0 30px rgba(255,255,255,0.06), inset 0 1px 0 rgba(255,255,255,0.4)"
+          : "0 30px 60px -20px rgba(0,0,0,0.85), inset 0 1px 0 rgba(255,255,255,0.12)",
+      }}
+    >
+      <div className="relative h-full w-full overflow-hidden rounded-[33px] bg-black p-[2.5px] md:rounded-[37px] lg:rounded-[45px]">
         <div className="relative h-full w-full overflow-hidden rounded-[30px] bg-[#050505] shadow-inner md:rounded-[34px] lg:rounded-[42px]">
-          <img src={image} alt="Arte para redes sociais" className="h-full w-full object-cover object-center" />
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-tr from-transparent via-white/[0.03] to-white/[0.1]" />
-          <div className="absolute left-1/2 top-2 z-20 h-[22px] w-[34%] -translate-x-1/2 rounded-full bg-black shadow-[0_2px_6px_rgba(0,0,0,0.6)]" />
+          <img src={image} alt="Arte para redes sociais" className="h-full w-full object-cover object-top" />
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-tr from-transparent via-white/[0.02] to-white/[0.08]" />
+          <div className="absolute left-1/2 top-2 z-20 h-[18px] w-[30%] md:h-[22px] md:w-[32%] -translate-x-1/2 rounded-full bg-black shadow-[0_2px_6px_rgba(0,0,0,0.6)]" />
         </div>
       </div>
     </div>

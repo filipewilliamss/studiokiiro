@@ -1,124 +1,173 @@
-import React, { useEffect, useState } from 'react';
-import { motion, useSpring, useMotionValue } from 'framer-motion';
+import React, { useEffect, useRef, useState } from 'react';
 
-type CursorMode = 'default' | 'pointer' | 'project' | 'text';
+/**
+ * CustomCursor — Adobe Illustrator Pen Tool (caneta.svg)
+ * 
+ * - Hotspot calibrado na ponta afiada da caneta (X: 8px, Y: 1.5px para viewBox 384x384 escalado a 28x28)
+ * - Rastreamento 1:1 instantâneo de hardware via direct DOM transform (ZERO lag, ZERO animações, ZERO molas)
+ * - Alternância de cor inteligente:
+ *     • Fundo preto / escuro  -> Caneta BRANCA (#FFFFFF) com sombra de contraste
+ *     • Fundo branco / amarelo -> Caneta PRETA (#000000) com sombra de contraste
+ */
 
-const CustomCursor: React.FC = () => {
+const CURSOR_SIZE = 28;
+// Coordenadas da ponta da caneta em caneta.svg (viewBox 384x384): X ≈ 110.01, Y ≈ 21.24
+const TIP_OFFSET_X = Math.round((110.01 / 384) * CURSOR_SIZE); // ≈ 8px
+const TIP_OFFSET_Y = Math.round((21.24 / 384) * CURSOR_SIZE);  // ≈ 2px
+
+export const CustomCursor: React.FC = () => {
+  const cursorRef = useRef<HTMLDivElement>(null);
+  const [isDarkTheme, setIsDarkTheme] = useState(true); // true = caneta branca; false = caneta preta
+  const [isVisible, setIsVisible] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  const [cursorMode, setCursorMode] = useState<CursorMode>('default');
-  const [projectTitle, setProjectTitle] = useState('VER PROJETO');
-
-  const mouseX = useMotionValue(-100);
-  const mouseY = useMotionValue(-100);
-
-  // Smooth springs for magnetic feel
-  const springConfig = { damping: 28, stiffness: 450, mass: 0.15 };
-  const cursorX = useSpring(mouseX, springConfig);
-  const cursorY = useSpring(mouseY, springConfig);
 
   useEffect(() => {
+    // Desativa em telas touch / mobile onde não há cursor do mouse
     const checkMobile = () => {
-      setIsMobile(window.matchMedia('(max-width: 768px)').matches || 'ontouchstart' in window);
+      setIsMobile(
+        window.matchMedia('(max-width: 768px)').matches ||
+        'ontouchstart' in window ||
+        navigator.maxTouchPoints > 0
+      );
     };
     checkMobile();
     window.addEventListener('resize', checkMobile);
 
+    // Função para identificar se o fundo ou elemento sob o cursor é branco, claro ou amarelo
+    const isLightOrYellowBackground = (el: Element | null): boolean => {
+      let curr: Element | null = el;
+      while (curr && curr !== document.documentElement) {
+        const className = typeof curr.className === 'string' ? curr.className : '';
+
+        // 1. Verificação explícita das camadas e elementos do Studio Kiiro
+        if (
+          className.includes('kiiro-intro-yellow') ||
+          className.includes('kiiro-intro-white') ||
+          className.includes('kiiro-bridge') ||
+          curr.id === 'visao' ||
+          className.includes('bg-[#FFCA16]') ||
+          className.includes('bg-[#ffca16]') ||
+          className.includes('bg-[#ffe169]') ||
+          className.includes('bg-white') ||
+          className.includes('bg-[#faf9f4]')
+        ) {
+          return true;
+        }
+
+        // 2. Verificação via cor computada (background-color)
+        const style = window.getComputedStyle(curr);
+        const bg = style.backgroundColor;
+        if (bg && bg !== 'transparent' && bg !== 'rgba(0, 0, 0, 0)') {
+          const match = bg.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/);
+          if (match) {
+            const r = parseInt(match[1], 10);
+            const g = parseInt(match[2], 10);
+            const b = parseInt(match[3], 10);
+
+            // Amarelo característico (vermelho alto, verde alto, azul baixo)
+            const isYellow = r > 180 && g > 150 && b < 100;
+
+            // Luminância percebida (claro/branco)
+            const luminance = 0.299 * r + 0.587 * g + 0.114 * b;
+            const isLight = luminance > 130;
+
+            if (isYellow || isLight) {
+              return true;
+            } else {
+              // Fundo opaco escuro encontrado, pode interromper a busca ascendente
+              return false;
+            }
+          }
+        }
+
+        curr = curr.parentElement;
+      }
+      return false;
+    };
+
     const handleMouseMove = (e: MouseEvent) => {
       const { clientX, clientY } = e;
-      mouseX.set(clientX);
-      mouseY.set(clientY);
 
+      // Atualiza posição diretamente no DOM com 0ms de latência (sem React re-render nem useSpring)
+      if (cursorRef.current) {
+        cursorRef.current.style.transform = `translate3d(${clientX - TIP_OFFSET_X}px, ${clientY - TIP_OFFSET_Y}px, 0)`;
+      }
+
+      if (!isVisible) {
+        setIsVisible(true);
+      }
+
+      // Detecção do elemento sob o cursor
       const target = document.elementFromPoint(clientX, clientY);
-      if (!target) {
-        setCursorMode('default');
-        return;
-      }
+      const isLightUnderneath = isLightOrYellowBackground(target);
 
-      // Check if inside a project card/showreel element
-      const projectEl = target.closest('[data-cursor-project]') as HTMLElement | null;
-      if (projectEl) {
-        setCursorMode('project');
-        const customTitle = projectEl.getAttribute('data-cursor-project');
-        setProjectTitle(customTitle || 'VER PROJETO');
-        return;
-      }
-
-      // Check if inside standard interactive element
-      const clickableEl = target.closest('a, button, [role="button"], input, select, textarea');
-      if (clickableEl) {
-        setCursorMode('pointer');
-        return;
-      }
-
-      setCursorMode('default');
+      // Se o fundo for branco ou amarelo -> caneta deve ser preta (isDarkTheme = false)
+      // Se o fundo for preto / escuro      -> caneta deve ser branca (isDarkTheme = true)
+      const shouldBeWhite = !isLightUnderneath;
+      setIsDarkTheme((prev) => (prev !== shouldBeWhite ? shouldBeWhite : prev));
     };
 
-    window.addEventListener('mousemove', handleMouseMove);
+    const handleMouseLeave = () => setIsVisible(false);
+    const handleMouseEnter = () => setIsVisible(true);
+
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
+    document.addEventListener('mouseleave', handleMouseLeave);
+    document.addEventListener('mouseenter', handleMouseEnter);
+
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('mouseleave', handleMouseLeave);
+      document.removeEventListener('mouseenter', handleMouseEnter);
       window.removeEventListener('resize', checkMobile);
     };
-  }, [mouseX, mouseY]);
+  }, [isVisible]);
 
   if (isMobile) return null;
 
   return (
-    <div className="fixed inset-0 pointer-events-none z-[9999] overflow-hidden select-none">
-      {/* Central Cursor Container */}
-      <motion.div
+    <div
+      ref={cursorRef}
+      className="fixed top-0 left-0 pointer-events-none z-[999999] select-none will-change-transform"
+      style={{
+        width: `${CURSOR_SIZE}px`,
+        height: `${CURSOR_SIZE}px`,
+        opacity: isVisible ? 1 : 0,
+        // Sem transição de posição para 100% de precisão de hardware
+        transition: 'opacity 0.15s ease',
+      }}
+      aria-hidden="true"
+    >
+      {/* 
+        Ícone fiel da Caneta do Adobe Illustrator (caneta.svg)
+        Branco no fundo preto, Preto no fundo branco ou amarelo
+      */}
+      <svg
+        id="caneta-cursor"
+        viewBox="0 0 384 384"
+        width={CURSOR_SIZE}
+        height={CURSOR_SIZE}
+        className="pointer-events-none transition-colors duration-150"
         style={{
-          x: cursorX,
-          y: cursorY,
+          filter: isDarkTheme
+            ? 'drop-shadow(0 1px 2px rgba(0, 0, 0, 0.9)) drop-shadow(0 0 1px rgba(0, 0, 0, 0.8))'
+            : 'drop-shadow(0 1px 2px rgba(255, 255, 255, 0.9)) drop-shadow(0 0 1px rgba(255, 255, 255, 0.7))',
         }}
-        className="absolute -translate-x-1/2 -translate-y-1/2 flex items-center justify-center pointer-events-none"
       >
-        {/* MODE: PROJECT (Pill 'VER PROJETO') */}
-        {cursorMode === 'project' && (
-          <motion.div
-            initial={{ scale: 0.4, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            exit={{ scale: 0.4, opacity: 0 }}
-            transition={{ type: 'spring', damping: 25, stiffness: 350 }}
-            className="px-4 py-2 rounded-full bg-[#FFCA16] text-black font-display font-bold text-[11px] uppercase tracking-[0.2em] shadow-[0_0_25px_rgba(255,202,22,0.5)] flex items-center gap-1.5 whitespace-nowrap"
-          >
-            <span>{projectTitle}</span>
-            <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M7 17L17 7M17 7H7M17 7V17" />
-            </svg>
-          </motion.div>
-        )}
-
-        {/* MODE: POINTER (Mira Técnica Illustrator) */}
-        {cursorMode === 'pointer' && (
-          <motion.div
-            initial={{ scale: 0.6, rotate: -45 }}
-            animate={{ scale: 1, rotate: 0 }}
-            transition={{ type: 'spring', damping: 25, stiffness: 400 }}
-            className="relative w-8 h-8 flex items-center justify-center"
-          >
-            {/* Anel exterior */}
-            <div className="absolute inset-0 rounded-full border border-[#FFCA16]/80" />
-            {/* Cruzeta de precisão */}
-            <div className="w-1.5 h-1.5 rounded-full bg-[#FFCA16]" />
-            <div className="absolute -top-1 w-[1px] h-2 bg-[#FFCA16]/60" />
-            <div className="absolute -bottom-1 w-[1px] h-2 bg-[#FFCA16]/60" />
-            <div className="absolute -left-1 h-[1px] w-2 bg-[#FFCA16]/60" />
-            <div className="absolute -right-1 h-[1px] w-2 bg-[#FFCA16]/60" />
-          </motion.div>
-        )}
-
-        {/* MODE: DEFAULT (Ponto de precisão mínimo) */}
-        {cursorMode === 'default' && (
-          <motion.div
-            initial={{ scale: 0.8 }}
-            animate={{ scale: 1 }}
-            className="relative flex items-center justify-center"
-          >
-            <div className="w-2 h-2 rounded-full bg-white/90 shadow-[0_0_8px_rgba(255,255,255,0.8)]" />
-            <div className="absolute w-6 h-6 rounded-full border border-white/20" />
-          </motion.div>
-        )}
-      </motion.div>
+        {/* Corpo principal e ponta da caneta */}
+        <path
+          d="M110.01,232.12c-.05,2.35.76,3.72,2.54,5.05l60.92,41.44,109.77-54.77,3.44-73.12c.25-2.41-.44-4.09-2.43-5.6L119.43,21.24l68.52,137.4c17.38-5.73,34.96,2.85,41.79,19.53,5.54,13.52,2.76,28.78-8.48,38.37-14.97,13.38-37.67,11.18-49.82-4.31-11.98-15.27-8.86-37.71,7.16-48.91L109.67,25.19l.34,206.94Z"
+          fill={isDarkTheme ? '#FFFFFF' : '#000000'}
+          stroke={isDarkTheme ? 'rgba(0,0,0,0.35)' : 'rgba(255,255,255,0.4)'}
+          strokeWidth="4"
+        />
+        {/* Base e cabo da caneta */}
+        <path
+          d="M175.72,295.51c-1.52-3.04-.66-6,2.23-7.44l110.63-55.21c2.26-1.13,5.39.09,6.47,2.25l32.41,64.87c1.37,2.75-.31,5.76-2.91,7.06l-109.76,54.79c-2.82,1.41-5.88.19-7.23-2.51l-31.83-63.8Z"
+          fill={isDarkTheme ? '#FFFFFF' : '#000000'}
+          stroke={isDarkTheme ? 'rgba(0,0,0,0.35)' : 'rgba(255,255,255,0.4)'}
+          strokeWidth="4"
+        />
+      </svg>
     </div>
   );
 };

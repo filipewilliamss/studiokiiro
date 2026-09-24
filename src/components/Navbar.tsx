@@ -30,7 +30,7 @@ export default function Navbar({ forceBlack = true }: { forceBlack?: boolean }) 
       <Link className="kiiro-nav-logo" to="/" aria-label="Studio Kiiro, início"><img src={logo} alt="Studio Kiiro" /></Link>
       <span className="kiiro-nav-status" aria-live="polite">disponível para projetos</span>
       <div className="kiiro-nav-links">{links.map(link => <Link key={link.to} to={link.to} onClick={() => setOpen(false)}>{link.label}</Link>)}</div>
-      <a className="kiiro-nav-contact" href="https://wa.me/5511991076096" target="_blank" rel="noreferrer">Vamos conversar <ArrowUpRight size={17} /></a>
+      <Link className="kiiro-nav-contact" to="/area-do-cliente">Área do cliente <ArrowUpRight size={17} /></Link>
       <button className="kiiro-nav-icon" onClick={() => setMuted(toggleSound())} aria-label={muted ? "Ativar som" : "Desativar som"} aria-pressed={!muted}>{muted ? <VolumeX size={17} /> : <Volume2 size={17} />}</button>
       <button className="kiiro-nav-icon kiiro-menu-toggle" aria-label={open ? "Fechar menu" : "Abrir menu"} aria-expanded={open} aria-controls="kiiro-menu" onClick={() => setOpen(!open)}>{open ? <X size={19} /> : <Menu size={19} />}</button>
     </nav>

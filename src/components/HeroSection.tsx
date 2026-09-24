@@ -305,21 +305,8 @@ const HeroSection = () => {
             Estratégia, identidade e presença digital para marcas que querem ser lembradas.
           </p>
 
-          <div className="mt-8 flex flex-wrap items-center gap-3">
-            <a
-              href="#portfolio"
-              onClick={(e) => {
-                e.preventDefault();
-                document.getElementById('portfolio')?.scrollIntoView({ behavior: 'smooth' });
-              }}
-              className="group relative inline-flex items-center gap-3 px-7 py-3.5 rounded-full bg-[#FFCA16] text-black font-display font-bold text-[11px] uppercase tracking-[0.2em] shadow-[0_4px_25px_rgba(255,202,22,0.3)] hover:shadow-[0_4px_35px_rgba(255,202,22,0.5)] hover:scale-[1.02] active:scale-[0.98] transition-all duration-300"
-            >
-              <span>Explorar Cases</span>
-              <svg className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-              </svg>
-            </a>
 
+          <div className="mt-8 flex flex-wrap items-center gap-3">
             <a
               href="https://wa.me/5511991076096?text=Ol%C3%A1%20Studio%20Kiiro%2C%20quero%20conversar%20sobre%20um%20projeto."
               target="_blank"
@@ -330,7 +317,6 @@ const HeroSection = () => {
             </a>
           </div>
 
-          <p className="mt-8 font-mono text-[9px] uppercase tracking-[0.22em] text-white/35">Studio Kiiro · São Paulo</p>
         </div>
 
         <div className="kiiro-hero-art w-full lg:w-[41%] flex justify-center items-center relative">

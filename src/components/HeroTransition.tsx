@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import {
   motion,
   useReducedMotion,
@@ -7,7 +7,7 @@ import {
 } from "framer-motion";
 import HeroSection from "@/components/HeroSection";
 
-function getBlurString(v: number, start: number, end: number, maxBlur = 16): string {
+function getBlurString(v: number, start: number, end: number, maxBlur = 14): string {
   if (v >= end) return "none";
   if (v <= start) return `blur(${maxBlur}px)`;
   const progress = (v - start) / (end - start);
@@ -19,36 +19,51 @@ export default function HeroTransition() {
   const sceneRef = useRef<HTMLElement>(null);
   const reducedMotion = useReducedMotion();
 
-  const { scrollYProgress } = useScroll({
-    target: sceneRef,
-    offset: ["start start", "end end"],
-  });
+  // Mede a distância real de rolagem local da seção (altura total - 1 viewport)
+  // Isso desvincula 100% a seção do tamanho global da página!
+  const [scrollDistance, setScrollDistance] = useState(() => 
+    typeof window !== "undefined" ? window.innerHeight * 1.4 : 1100
+  );
 
-  // Hero suavemente recua e desvanece no início da rolagem
-  const heroY       = useTransform(scrollYProgress, [0, 0.25], ["0%", "-10%"], { clamp: true });
-  const heroScale   = useTransform(scrollYProgress, [0, 0.25], [1, 0.95], { clamp: true });
-  const heroOpacity = useTransform(scrollYProgress, [0.03, 0.22], [1, 0.15], { clamp: true });
+  useEffect(() => {
+    const updateDistance = () => {
+      if (sceneRef.current) {
+        const dist = sceneRef.current.offsetHeight - window.innerHeight;
+        if (dist > 100) setScrollDistance(dist);
+      }
+    };
+    updateDistance();
+    window.addEventListener("resize", updateDistance);
+    return () => window.removeEventListener("resize", updateDistance);
+  }, []);
 
-  // 1. Fundo amarelo sobe primeiro no scroll (0.02 a 0.22)
-  const yellowY = useTransform(scrollYProgress, [0.02, 0.22], ["103%", "0%"], { clamp: true });
+  // Usa window.scrollY calibrado exatamente no range de rolagem da seção [0, scrollDistance] -> [0, 1]
+  const { scrollY } = useScroll();
+  const scrollYProgress = useTransform(scrollY, [0, scrollDistance], [0, 1], { clamp: true });
 
-  // 2. Fundo branco sobe logo após com delay perceptível (inicia em 0.10 e assenta em 0.30)
-  const whiteY  = useTransform(scrollYProgress, [0.10, 0.30], ["104%", "0%"], { clamp: true });
+  // Hero suavemente recua e desvanece no início da rolagem (0 a 0.22)
+  const heroY       = useTransform(scrollYProgress, [0, 0.22], ["0%", "-10%"], { clamp: true });
+  const heroScale   = useTransform(scrollYProgress, [0, 0.22], [1, 0.95], { clamp: true });
+  const heroOpacity = useTransform(scrollYProgress, [0.02, 0.18], [1, 0.15], { clamp: true });
+
+  // 1. Fundo amarelo sobe primeiro no scroll (0.02 a 0.24)
+  const yellowY = useTransform(scrollYProgress, [0.02, 0.24], ["103%", "0%"], { clamp: true });
+
+  // 2. Fundo branco sobe logo após com delay perceptível (inicia em 0.14 e assenta em 0.38)
+  const whiteY  = useTransform(scrollYProgress, [0.14, 0.38], ["104%", "0%"], { clamp: true });
 
   // 3. Linha 1 (h2: "Uma ideia ganha forma."):
-  // Surge no início da seção branca (0.22) com desfoque de 16px,
-  // e fica 100% nítida e sólida em preto puro aos 0.38
-  const h2Opacity = useTransform(scrollYProgress, [0.22, 0.38], [0, 1], { clamp: true });
-  const h2Y       = useTransform(scrollYProgress, [0.22, 0.38], ["32px", "0px"], { clamp: true });
-  const h2Filter  = useTransform(scrollYProgress, (v) => getBlurString(v, 0.22, 0.38, 16));
+  // Começa aos 0.18 com desfoque de 14px e fica 100% nítida e sólida em preto puro aos 0.32
+  const h2Opacity = useTransform(scrollYProgress, [0.18, 0.32], [0, 1], { clamp: true });
+  const h2Y       = useTransform(scrollYProgress, [0.18, 0.32], ["30px", "0px"], { clamp: true });
+  const h2Filter  = useTransform(scrollYProgress, (v) => getBlurString(v, 0.18, 0.32, 14));
 
   // 4. Linha 2 (p: "Design para transformar..."):
-  // Surge de forma BEM SEPARADA aos 0.36 (quando a Linha 1 já está quase 100% formada)
-  // com desfoque de 16px, e fica 100% nítida e sólida em preto puro aos 0.52
-  // Bem antes de terminar a seção, todo o conteúdo já está 100% estável e legível!
-  const pOpacity  = useTransform(scrollYProgress, [0.36, 0.52], [0, 1], { clamp: true });
-  const pY        = useTransform(scrollYProgress, [0.36, 0.52], ["32px", "0px"], { clamp: true });
-  const pFilter   = useTransform(scrollYProgress, (v) => getBlurString(v, 0.36, 0.52, 16));
+  // Surge logo após aos 0.28 (quando a Linha 1 já está quase 100% formada)
+  // e fica 100% nítida e sólida em preto puro aos 0.38 — EXATAMENTE no momento em que o fundo branco se completa na viewport!
+  const pOpacity  = useTransform(scrollYProgress, [0.28, 0.38], [0, 1], { clamp: true });
+  const pY        = useTransform(scrollYProgress, [0.28, 0.38], ["30px", "0px"], { clamp: true });
+  const pFilter   = useTransform(scrollYProgress, (v) => getBlurString(v, 0.28, 0.38, 14));
 
   // ── Fallback sem animações complexas ──────────────────────────────────────
   if (reducedMotion) {

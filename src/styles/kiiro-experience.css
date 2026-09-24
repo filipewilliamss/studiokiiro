@@ -78,7 +78,7 @@
 .kiiro-menu a:hover { background: #ffca16; }
 .kiiro-header a:focus-visible, .kiiro-header button:focus-visible { outline: 2px solid #ffca16; outline-offset: 3px; }
 
-.kiiro-intro { height: 300svh; background: #050505; }
+.kiiro-intro { height: 240svh; background: #050505; }
 .kiiro-intro-stage { position: sticky; top: 0; height: 100svh; overflow: hidden; isolation: isolate; }
 .kiiro-intro-hero, .kiiro-intro-yellow, .kiiro-intro-white { position: absolute; inset: 0; }
 .kiiro-intro-hero { z-index: 0; transform-origin: center center; }

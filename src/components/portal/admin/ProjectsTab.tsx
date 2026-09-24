@@ -19,6 +19,7 @@ import { toast } from "sonner";
 import { methodologyStages } from "@/data/methodologyStages";
 import { briefingQuestions, type BriefingQuestion } from "@/data/briefingQuestions";
 import KanbanBoard from "./KanbanBoard";
+import BriefingLinkModal from "./BriefingLinkModal";
 import {
   ensureBriefingToken,
   regenerateBriefingToken,

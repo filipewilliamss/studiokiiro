@@ -83,7 +83,8 @@ const ProjectCard = ({ project, index, total }: { project: any; index: number; t
     <article 
       ref={cardRef}
       onMouseMove={handleMouseMove}
-      className="relative h-[100dvh] w-full flex items-center justify-center overflow-hidden snap-start"
+      data-cursor-project="VER PROJETO"
+      className="relative h-[100dvh] w-full flex items-center justify-center overflow-hidden snap-start cursor-pointer"
       style={{ backgroundColor: project.slug === 'construmar' ? '#f5f5f3' : (project.bgColor || "#000000") }}
     >
       {/* Background Image with Gradient Overlay */}

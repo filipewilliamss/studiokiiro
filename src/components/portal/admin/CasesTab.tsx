@@ -223,6 +223,7 @@ export const CasesTab = () => {
       finalResult: form.finalResult,
       strategy: form.solution || "",
       result: form.finalResult || "",
+      service: form.category,
       tags: [form.category],
       deliverables: ["Identidade Visual", "Aplicações"],
       role: "Design & Direção de Arte",

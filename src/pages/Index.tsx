@@ -1,27 +1,29 @@
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
 
 import SEO from "@/components/SEO";
 import Navbar from "@/components/Navbar";
-import HeroSection from "@/components/HeroSection";
-import AboutSection from "@/components/AboutSection";
-import ServicesSection from "@/components/ServicesSection";
-import ProcessSection from "@/components/ProcessSection";
-import PortfolioSection from "@/components/PortfolioSection";
-import ContactSection from "@/components/ContactSection";
+import HeroTransition from "@/components/HeroTransition";
 import Footer from "@/components/Footer";
 import Preloader from "@/components/Preloader";
-import EditorialMarquee from "@/components/EditorialMarquee";
-import EditorialQuote from "@/components/EditorialQuote";
 import SocialMediaPortfolio from "@/components/SocialMediaPortfolio";
-import ClientAreaSection from "@/components/ClientAreaSection";
-import FloatingWhatsApp from "@/components/FloatingWhatsApp";
+import ImmersivePortfolioSection from "@/components/ImmersivePortfolioSection";
+import KiiroMethodSection from "@/components/KiiroMethodSection";
+import WhatsAppCloseSection from "@/components/WhatsAppCloseSection";
 
 
 const Index = () => {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(() => {
+    if (typeof window === "undefined") return true;
+    return !window.sessionStorage.getItem("kiiro-intro-seen") && !window.location.hash;
+  });
   const location = useLocation();
+
+  const finishLoading = () => {
+    window.sessionStorage.setItem("kiiro-intro-seen", "true");
+    setLoading(false);
+  };
 
   useEffect(() => {
     if (!loading && location.hash) {
@@ -77,90 +79,26 @@ const Index = () => {
       <SEO schema={studioSchema} />
       
       <AnimatePresence>
-        {loading && <Preloader onComplete={() => setLoading(false)} />}
+        {loading && <Preloader onComplete={finishLoading} />}
       </AnimatePresence>
 
       <div className={`relative z-10 transition-opacity duration-1000 ${loading ? 'opacity-0' : 'opacity-100'}`}>
         {!loading && (
-          <main className="flex flex-col snap-y snap-proximity">
+          <main className="flex flex-col">
             <Navbar />
-            
-            <section className="snap-start">
-              <HeroSection />
-            </section>
-            
-            <SectionDivider />
-            
-            <section className="snap-start">
-              <EditorialMarquee variant="compact" />
-            </section>
-            
-            <SectionDivider />
-            
-            <section className="snap-start">
-              <AboutSection />
-            </section>
-            
-            <SectionDivider />
-            
-            <section className="snap-start">
-              <EditorialQuote
-                eyebrow="Direção Criativa"
-                quote={<>Design inteligente para fugir do <span className="italic text-[#FFCA16]">genérico</span>.</>}
-                attribution="Filipe Williams · Studio Kiiro"
-              />
-            </section>
-            
-            <SectionDivider />
-            
-            <section className="snap-start">
-              <ServicesSection />
-            </section>
-            
-            <SectionDivider />
-            
-            <section className="snap-start">
-              <ProcessSection />
-            </section>
-            
-            {/* Portfolio Section handles its own snapping per project */}
-            <PortfolioSection />
-            
-            <SectionDivider />
-            
-            <section className="snap-start">
-              <SocialMediaPortfolio />
-            </section>
-            
-            <SectionDivider />
 
-            <section className="snap-start">
-              <ClientAreaSection />
-            </section>
-
-            <SectionDivider />
-            
-            <section className="snap-start">
-              <ContactSection />
-            </section>
+            <HeroTransition />
+            <KiiroMethodSection />
+            <ImmersivePortfolioSection />
+            <SocialMediaPortfolio />
+            <WhatsAppCloseSection />
             
             <Footer />
-            <FloatingWhatsApp />
           </main>
         )}
       </div>
     </div>
   );
 };
-
-const SectionDivider = () => (
-  <motion.div 
-    initial={{ scaleX: 0, opacity: 0 }}
-    whileInView={{ scaleX: 1, opacity: 1 }}
-    viewport={{ once: true }}
-    transition={{ duration: 1.5, ease: [0.22, 1, 0.36, 1] }}
-    className="section-divider origin-center h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent" 
-  />
-);
 
 export default Index;

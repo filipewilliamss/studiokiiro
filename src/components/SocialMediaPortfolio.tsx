@@ -1,281 +1,147 @@
-import { useRef, useState, useEffect } from "react";
-import { motion, useScroll, useTransform, useSpring, PanInfo } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import { motion, PanInfo, useScroll, useSpring, useTransform } from "framer-motion";
+import socialOne from "@/assets/social-media-1.webp";
+import socialTwo from "@/assets/social-media-2.webp";
+import socialThree from "@/assets/social-media-3.webp";
+import socialFour from "@/assets/social-media-4.webp";
 
 const SocialMediaPortfolio = () => {
-  const containerRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLElement>(null);
   const [isMobile, setIsMobile] = useState(false);
   const [isTablet, setIsTablet] = useState(false);
-
-  useEffect(() => {
-    const check = () => {
-      const w = window.innerWidth;
-      setIsMobile(w < 768);
-      setIsTablet(w >= 768 && w < 1024);
-    };
-    check();
-    window.addEventListener('resize', check);
-    return () => window.removeEventListener('resize', check);
-  }, []);
-
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end end"]
-  });
-
-  const smoothProgress = useSpring(scrollYProgress, {
-    stiffness: 60,
-    damping: 25,
-    mass: 0.5,
-    restDelta: 0.001
-  });
-
-  const farX = isTablet ? "75%" : "130%";
-  const closeX = isTablet ? "42%" : "70%";
-  const farR = isTablet ? 18 : 32;
-  const closeR = isTablet ? 10 : 15;
-  const farY = isTablet ? 35 : 75;
-  const closeY = isTablet ? 12 : 18;
-  const centralScale = isTablet ? 1.04 : 1.08;
-
-  const fanProgress1 = useTransform(smoothProgress, [0.1, 0.5], [0, 1]);
-  const x1 = useTransform(fanProgress1, [0, 1], ["0%", `-${farX}`]);
-  const r1 = useTransform(fanProgress1, [0, 1], [0, -farR]);
-  const y1 = useTransform(fanProgress1, [0, 1], [0, farY]);
-  const opacity1 = useTransform(smoothProgress, [0, 0.1], [0, 1]);
-
-  const fanProgress2 = useTransform(smoothProgress, [0.05, 0.45], [0, 1]);
-  const x2 = useTransform(fanProgress2, [0, 1], ["0%", `-${closeX}`]);
-  const r2 = useTransform(fanProgress2, [0, 1], [0, -closeR]);
-  const y2 = useTransform(fanProgress2, [0, 1], [0, closeY]);
-  const opacity2 = useTransform(smoothProgress, [0, 0.05], [0, 1]);
-
-  const x4 = useTransform(fanProgress2, [0, 1], ["0%", closeX]);
-  const r4 = useTransform(fanProgress2, [0, 1], [0, closeR]);
-  const y4 = useTransform(fanProgress2, [0, 1], [0, closeY]);
-  const opacity4 = useTransform(smoothProgress, [0, 0.05], [0, 1]);
-
-  const x5 = useTransform(fanProgress1, [0, 1], ["0%", farX]);
-  const r5 = useTransform(fanProgress1, [0, 1], [0, farR]);
-  const y5 = useTransform(fanProgress1, [0, 1], [0, farY]);
-  const opacity5 = useTransform(smoothProgress, [0, 0.1], [0, 1]);
-
-  const fanProgress3 = useTransform(smoothProgress, [0, 0.4], [0, 1]);
-  const scale3 = useTransform(fanProgress3, [0, 1], [1, centralScale]);
-  const y3 = useTransform(fanProgress3, [0, 1], [0, -15]);
-
-  const images = [
-    "https://dohkkmvsrcuxssxmimxn.supabase.co/storage/v1/object/public/images/hts4foeb1l8-1779490857580.png",
-    "https://dohkkmvsrcuxssxmimxn.supabase.co/storage/v1/object/public/images/x0kq6od5on-1779491623931.jpg",
-    "https://dohkkmvsrcuxssxmimxn.supabase.co/storage/v1/object/public/images/uzvbthz4ncc-1779730234426.jpg",
-    "https://dohkkmvsrcuxssxmimxn.supabase.co/storage/v1/object/public/images/8gaktp9ln3-1779733239455.png",
-    "https://dohkkmvsrcuxssxmimxn.supabase.co/storage/v1/object/public/images/97grnqq0tnv-1779733664436.png"
-  ];
-
-  // Mobile carousel state
   const [activeIndex, setActiveIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
 
-  // Auto-rotate every 5s on mobile
+  const images = [socialOne, socialTwo, socialThree, socialFour, socialOne];
+
+  useEffect(() => {
+    const check = () => {
+      const width = window.innerWidth;
+      setIsMobile(width < 768);
+      setIsTablet(width >= 768 && width < 1024);
+    };
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
+
   useEffect(() => {
     if (!isMobile || isPaused) return;
-    const interval = setInterval(() => {
-      setActiveIndex((prev) => (prev + 1) % images.length);
-    }, 5000);
-    return () => clearInterval(interval);
-  }, [isMobile, isPaused, images.length]);
+    const interval = window.setInterval(() => setActiveIndex((current) => (current + 1) % images.length), 5000);
+    return () => window.clearInterval(interval);
+  }, [images.length, isMobile, isPaused]);
 
-  const handleDragEnd = (_: any, info: PanInfo) => {
-    const threshold = 50;
-    if (info.offset.x < -threshold) {
-      setActiveIndex((prev) => (prev + 1) % images.length);
-    } else if (info.offset.x > threshold) {
-      setActiveIndex((prev) => (prev - 1 + images.length) % images.length);
-    }
-    // Resume auto-rotation after a brief pause
+  const { scrollYProgress } = useScroll({ target: containerRef, offset: ["start start", "end end"] });
+  const smoothProgress = useSpring(scrollYProgress, { stiffness: 60, damping: 25, mass: 0.5, restDelta: 0.001 });
+  const farX = isTablet ? "72%" : "112%";
+  const closeX = isTablet ? "40%" : "68%";
+  const farR = isTablet ? 16 : 25;
+  const closeR = isTablet ? 9 : 14;
+  const farY = isTablet ? 30 : 66;
+  const closeY = isTablet ? 10 : 17;
+  const centralScale = isTablet ? 1.03 : 1.07;
+
+  const farProgress = useTransform(smoothProgress, [0.08, 0.52], [0, 1]);
+  const closeProgress = useTransform(smoothProgress, [0.04, 0.46], [0, 1]);
+  const centerProgress = useTransform(smoothProgress, [0, 0.4], [0, 1]);
+
+  const leftFarX = useTransform(farProgress, [0, 1], ["0%", `-${farX}`]);
+  const leftFarR = useTransform(farProgress, [0, 1], [0, -farR]);
+  const leftFarY = useTransform(farProgress, [0, 1], [0, farY]);
+  const rightFarX = useTransform(farProgress, [0, 1], ["0%", farX]);
+  const rightFarR = useTransform(farProgress, [0, 1], [0, farR]);
+  const rightFarY = useTransform(farProgress, [0, 1], [0, farY]);
+  const leftCloseX = useTransform(closeProgress, [0, 1], ["0%", `-${closeX}`]);
+  const leftCloseR = useTransform(closeProgress, [0, 1], [0, -closeR]);
+  const leftCloseY = useTransform(closeProgress, [0, 1], [0, closeY]);
+  const rightCloseX = useTransform(closeProgress, [0, 1], ["0%", closeX]);
+  const rightCloseR = useTransform(closeProgress, [0, 1], [0, closeR]);
+  const rightCloseY = useTransform(closeProgress, [0, 1], [0, closeY]);
+  const centerScale = useTransform(centerProgress, [0, 1], [1, centralScale]);
+  const centerY = useTransform(centerProgress, [0, 1], [0, -15]);
+  const farOpacity = useTransform(smoothProgress, [0, 0.08], [0, 1]);
+  const closeOpacity = useTransform(smoothProgress, [0, 0.04], [0, 1]);
+
+  const handleDragEnd = (_event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
+    if (info.offset.x < -50) setActiveIndex((current) => (current + 1) % images.length);
+    if (info.offset.x > 50) setActiveIndex((current) => (current - 1 + images.length) % images.length);
     setIsPaused(true);
-    setTimeout(() => setIsPaused(false), 3000);
+    window.setTimeout(() => setIsPaused(false), 3000);
   };
 
   return (
-    <section
-      ref={containerRef}
-      className="relative bg-black py-24 flex flex-col items-center overflow-visible min-h-[150vh]"
-    >
-      <div className="absolute inset-0 grid-pattern opacity-90 pointer-events-none" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(255,202,22,0.03)_0%,transparent_70%)] pointer-events-none" />
-
-      <div className="container-editorial relative z-10 text-center mb-24 px-6">
-        <motion.h2
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="text-[34.5px] md:text-[55.2px] lg:text-[69px] text-white mb-8 tracking-tight leading-[0.825]"
-        >
-          <span className="font-black">Portfólio de artes</span><br />
-          <span className="font-black">para </span><span className="text-[#FFCA16] font-normal italic">Redes Sociais</span>
-        </motion.h2>
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className="text-gray-400 max-w-2xl mx-auto text-lg md:text-xl font-medium"
-        >
-          Uma seleção de layouts criados para fortalecer presença, consistência e posicionamento de marcas no ambiente digital.
-        </motion.p>
+    <section ref={containerRef} className="relative min-h-[145svh] overflow-hidden bg-[#070807] text-white">
+      <div className="relative z-10 mx-auto max-w-7xl px-6 pb-8 pt-28 sm:px-10 lg:px-16">
+        <h2 className="max-w-3xl text-[clamp(3.2rem,7vw,7rem)] font-black leading-[0.82] tracking-[-0.075em] text-balance">
+          A identidade continua em cada tela.
+        </h2>
+        <p className="mt-7 max-w-md text-base leading-relaxed text-white/58 md:text-lg">
+          Peças que mantêm a marca viva quando a conversa acontece no digital.
+        </p>
       </div>
 
-      <motion.div
-        className="relative h-[60vh] md:h-[70vh] lg:h-[80vh] w-full flex items-center justify-center pointer-events-auto z-10 mb-24"
-      >
+      <div className="relative z-10 flex h-[92svh] items-center justify-center">
         {isMobile ? (
           <motion.div
-            className="relative w-full h-full flex items-center justify-center overflow-visible touch-pan-y"
+            className="relative flex h-full w-full items-center justify-center touch-pan-y"
             drag="x"
             dragConstraints={{ left: 0, right: 0 }}
             dragElastic={0.2}
             onDragStart={() => setIsPaused(true)}
             onDragEnd={handleDragEnd}
+            aria-label="Galeria de artes para redes sociais"
           >
             {images.map((image, index) => {
-              const len = images.length;
-              let offset = index - activeIndex;
-              if (offset > len / 2) offset -= len;
-              if (offset < -len / 2) offset += len;
-
-              const abs = Math.abs(offset);
+              const offset = ((index - activeIndex + images.length + Math.floor(images.length / 2)) % images.length) - Math.floor(images.length / 2);
+              const distance = Math.abs(offset);
               const isCenter = offset === 0;
-              const isNear = abs === 1;
-
-              const xPos = offset * 62;
-              const scale = isCenter ? 1 : isNear ? 0.8 : 0.66;
-              const opacity = isCenter ? 1 : isNear ? 0.6 : 0.15;
-              const saturate = isCenter ? 1 : isNear ? 0.5 : 0;
-              const zIndex = 30 - abs;
+              const isNear = distance === 1;
 
               return (
                 <motion.div
-                  key={index}
+                  key={`${image}-${index}`}
                   initial={false}
-                  animate={{ x: xPos, scale, opacity }}
+                  animate={{ x: offset * 62, scale: isCenter ? 1 : isNear ? 0.8 : 0.66, opacity: isCenter ? 1 : isNear ? 0.6 : 0.15 }}
                   transition={{ type: "spring", stiffness: 220, damping: 28 }}
-                  style={{
-                    position: "absolute",
-                    top: "50%",
-                    left: "50%",
-                    marginTop: -180,
-                    marginLeft: -82,
-                    filter: `saturate(${saturate})`,
-                    zIndex,
-                    pointerEvents: "none",
-                  }}
+                  className="absolute left-1/2 top-1/2 -ml-[82px] -mt-[180px]"
+                  style={{ zIndex: 30 - distance, filter: `saturate(${isCenter ? 1 : isNear ? 0.5 : 0})` }}
                 >
                   <SmartphonePlaceholder image={image} />
                 </motion.div>
               );
             })}
-
-            <div className="absolute bottom-[-20px] left-1/2 -translate-x-1/2 flex gap-2 z-40">
-              {images.map((_, i) => (
-                <div
-                  key={i}
-                  className={`w-1.5 h-1.5 rounded-full transition-colors ${i === activeIndex ? "bg-[#FFCA16]" : "bg-white/20"}`}
-                />
-              ))}
+            <div className="absolute bottom-3 left-1/2 z-40 flex -translate-x-1/2 gap-2" aria-hidden="true">
+              {images.map((image, index) => <span key={`${image}-dot-${index}`} className={`h-1.5 w-1.5 rounded-full ${index === activeIndex ? "bg-[#FFCA16]" : "bg-white/25"}`} />)}
             </div>
           </motion.div>
         ) : (
-          <div className="relative w-full max-w-4xl h-full flex items-center justify-center">
-            <motion.div style={{ x: x1, rotate: r1, y: y1, opacity: opacity1, zIndex: 10 }} className="absolute">
-              <SmartphonePlaceholder image={images[0]} />
-            </motion.div>
-            <motion.div style={{ x: x2, rotate: r2, y: y2, opacity: opacity2, zIndex: 20 }} className="absolute">
-              <SmartphonePlaceholder image={images[1]} />
-            </motion.div>
-            <motion.div style={{ x: x4, rotate: r4, y: y4, opacity: opacity4, zIndex: 20 }} className="absolute">
-              <SmartphonePlaceholder image={images[3]} />
-            </motion.div>
-            <motion.div style={{ x: x5, rotate: r5, y: y5, opacity: opacity5, zIndex: 10 }} className="absolute">
-              <SmartphonePlaceholder image={images[4]} />
-            </motion.div>
-            <motion.div
-              style={{ scale: scale3, y: y3, zIndex: 30 }}
-              className="relative"
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
-            >
-              <SmartphonePlaceholder image={images[2]} />
-            </motion.div>
+          <div className="relative flex h-full w-full max-w-5xl items-center justify-center">
+            <motion.div style={{ x: leftFarX, rotate: leftFarR, y: leftFarY, opacity: farOpacity, zIndex: 10 }} className="absolute"><SmartphonePlaceholder image={images[0]} /></motion.div>
+            <motion.div style={{ x: leftCloseX, rotate: leftCloseR, y: leftCloseY, opacity: closeOpacity, zIndex: 20 }} className="absolute"><SmartphonePlaceholder image={images[1]} /></motion.div>
+            <motion.div style={{ x: rightCloseX, rotate: rightCloseR, y: rightCloseY, opacity: closeOpacity, zIndex: 20 }} className="absolute"><SmartphonePlaceholder image={images[3]} /></motion.div>
+            <motion.div style={{ x: rightFarX, rotate: rightFarR, y: rightFarY, opacity: farOpacity, zIndex: 10 }} className="absolute"><SmartphonePlaceholder image={images[4]} /></motion.div>
+            <motion.div style={{ scale: centerScale, y: centerY, zIndex: 30 }} className="relative"><SmartphonePlaceholder image={images[2]} /></motion.div>
           </div>
         )}
-      </motion.div>
-
-      <div className="container-editorial relative z-10 text-center px-6">
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="text-gray-300 max-w-xl mx-auto mb-10 text-lg"
-        >
-          Cada arte é pensada para manter a identidade da marca em evidência, em qualquer formato: posts, carrosséis, stories e campanhas.
-        </motion.p>
       </div>
     </section>
   );
 };
 
-const SmartphonePlaceholder = ({ image, objectFit = "cover" }: { image: string, objectFit?: "cover" | "contain" }) => {
-  return (
-    <div className="w-[164px] h-[360px] md:w-[198px] md:h-[429px] lg:w-[280px] lg:h-[600px] relative group pointer-events-auto" style={{ perspective: "1000px" }}>
-      {/* Outer glow */}
-      <div className="absolute -inset-[2px] bg-gradient-to-tr from-white/15 via-white/5 to-transparent blur-md rounded-[40px] md:rounded-[44px] lg:rounded-[52px] opacity-60" />
-
-      {/* Titanium frame */}
-      <div
-        className="w-full h-full rounded-[36px] md:rounded-[40px] lg:rounded-[48px] p-[3px] relative overflow-hidden ring-1 ring-white/15"
-        style={{
-          background:
-            "linear-gradient(145deg, #6b6b6e 0%, #3a3a3c 18%, #1f1f21 50%, #3a3a3c 82%, #6b6b6e 100%)",
-          boxShadow:
-            "0 30px 60px -20px rgba(0,0,0,0.85), 0 0 0 1px rgba(255,255,255,0.06), inset 0 1px 0 rgba(255,255,255,0.12)",
-        }}
-      >
-        {/* Inner bezel (uniform thin black ring) */}
-        <div className="w-full h-full bg-black rounded-[33px] md:rounded-[37px] lg:rounded-[45px] p-[3px] relative">
-          {/* Screen — image fills 100% */}
-          <div className="w-full h-full rounded-[30px] md:rounded-[34px] lg:rounded-[42px] overflow-hidden bg-[#050505] relative shadow-inner">
-            <img
-              src={image}
-              alt="Social Media Art"
-              className={`w-full h-full ${objectFit === "contain" ? "object-contain" : "object-cover"} object-center transition-opacity duration-700 group-hover:opacity-100`}
-            />
-            <div className="absolute inset-0 shadow-[inset_0_0_24px_rgba(0,0,0,0.55)] pointer-events-none" />
-            <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/[0.04] to-white/[0.09] opacity-70 pointer-events-none" />
-            <div className="absolute -top-[100%] -left-[100%] w-[300%] h-[300%] bg-gradient-to-br from-white/[0.06] via-transparent to-transparent rotate-45 pointer-events-none group-hover:translate-x-1/4 group-hover:translate-y-1/4 transition-transform duration-1000" />
-
-            {/* Dynamic Island */}
-            <div className="absolute top-2 left-1/2 -translate-x-1/2 w-[34%] h-[22px] bg-black rounded-full z-20 flex items-center justify-end px-2 shadow-[0_2px_6px_rgba(0,0,0,0.6)]">
-              <div className="w-1.5 h-1.5 bg-[#0a0a0a] rounded-full shadow-[0_0_3px_rgba(59,130,246,0.4)] ring-1 ring-white/5" />
-            </div>
-          </div>
+const SmartphonePlaceholder = ({ image }: { image: string }) => (
+  <div className="group relative h-[360px] w-[164px] pointer-events-auto md:h-[429px] md:w-[198px] lg:h-[600px] lg:w-[280px]" style={{ perspective: "1000px" }}>
+    <div className="absolute -inset-[2px] rounded-[40px] bg-gradient-to-tr from-white/15 via-white/5 to-transparent blur-md opacity-60 md:rounded-[44px] lg:rounded-[52px]" />
+    <div className="relative h-full w-full overflow-hidden rounded-[36px] bg-gradient-to-br from-[#6b6b6e] via-[#1f1f21] to-[#3a3a3c] p-[3px] ring-1 ring-white/15 md:rounded-[40px] lg:rounded-[48px]" style={{ boxShadow: "0 30px 60px -20px rgba(0,0,0,0.85), inset 0 1px 0 rgba(255,255,255,0.12)" }}>
+      <div className="relative h-full w-full overflow-hidden rounded-[33px] bg-black p-[3px] md:rounded-[37px] lg:rounded-[45px]">
+        <div className="relative h-full w-full overflow-hidden rounded-[30px] bg-[#050505] shadow-inner md:rounded-[34px] lg:rounded-[42px]">
+          <img src={image} alt="Arte para redes sociais" className="h-full w-full object-cover object-center" />
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-tr from-transparent via-white/[0.03] to-white/[0.1]" />
+          <div className="absolute left-1/2 top-2 z-20 h-[22px] w-[34%] -translate-x-1/2 rounded-full bg-black shadow-[0_2px_6px_rgba(0,0,0,0.6)]" />
         </div>
       </div>
-
-      {/* Side buttons (iPhone 17) */}
-      <div className="absolute -left-[2px] top-[14%] w-[3px] h-[3%] bg-gradient-to-b from-[#5a5a5c] to-[#2a2a2c] rounded-l-sm border-l border-white/10" />
-      <div className="absolute -left-[2px] top-[22%] w-[3px] h-[6%] bg-gradient-to-b from-[#5a5a5c] to-[#2a2a2c] rounded-l-sm border-l border-white/10" />
-      <div className="absolute -left-[2px] top-[32%] w-[3px] h-[10%] bg-gradient-to-b from-[#5a5a5c] to-[#2a2a2c] rounded-l-sm border-l border-white/10" />
-      <div className="absolute -left-[2px] top-[44%] w-[3px] h-[10%] bg-gradient-to-b from-[#5a5a5c] to-[#2a2a2c] rounded-l-sm border-l border-white/10" />
-      <div className="absolute -right-[2px] top-[28%] w-[3px] h-[14%] bg-gradient-to-b from-[#5a5a5c] to-[#2a2a2c] rounded-r-sm border-r border-white/10" />
-
-      {/* Drop shadow */}
-      <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 w-4/5 h-10 bg-black/50 blur-2xl rounded-[100%] -z-10" />
     </div>
-  );
-};
+    <div className="absolute -bottom-10 left-1/2 -z-10 h-10 w-4/5 -translate-x-1/2 rounded-full bg-black/50 blur-2xl" />
+  </div>
+);
 
 export default SocialMediaPortfolio;

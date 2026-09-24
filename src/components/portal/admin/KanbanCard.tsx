@@ -181,7 +181,7 @@ export const KanbanCard = ({
   const handleSendWhatsApp = (e: React.MouseEvent) => {
     e.stopPropagation();
     if (!briefingToken) return;
-    const msg = buildBriefingMessage(clientName, project.name, briefingToken);
+    const msg = buildBriefingMessage(clientName, project.name, project.type, briefingToken);
     const phone = clientPhone?.replace(/\D/g, "");
     const url = phone
       ? `https://wa.me/55${phone}?text=${encodeURIComponent(msg)}`

@@ -34,39 +34,39 @@ export const CookieConsent = () => {
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: 20, scale: 0.95 }}
           transition={{ duration: 0.4, ease: "easeOut" }}
-          className="fixed bottom-6 left-6 right-6 md:left-auto md:right-8 md:max-w-md z-[100]"
+          className="fixed bottom-4 left-4 right-4 md:left-auto md:right-5 md:max-w-[320px] z-[100]"
         >
-          <div className="bg-surface border border-kiiro/20 rounded-2xl p-6 shadow-2xl shadow-black/50 backdrop-blur-md">
-            <div className="flex items-start gap-4">
-              <div className="bg-kiiro/10 p-3 rounded-xl shrink-0">
-                <Cookie className="w-6 h-6 text-kiiro" />
+          <div className="bg-[#151715]/95 border border-[#FFCA16]/25 rounded-2xl p-4 shadow-2xl shadow-black/50 backdrop-blur-md">
+            <div className="flex items-start gap-3">
+              <div className="bg-[#FFCA16]/10 p-2 rounded-lg shrink-0">
+                <Cookie className="w-4 h-4 text-[#FFCA16]" />
               </div>
               <div className="flex-1">
-                <div className="flex items-center justify-between mb-2">
-                  <h3 className="font-display font-bold text-lg text-white">
+                <div className="flex items-center justify-between mb-1">
+                  <h3 className="font-display font-bold text-sm text-white">
                     Privacidade de Cookies
                   </h3>
                   <button 
                     onClick={() => setIsVisible(false)}
-                    className="text-muted-foreground hover:text-white transition-colors"
+                    className="text-white/45 hover:text-white transition-colors"
                   >
-                    <X className="w-5 h-5" />
+                    <X className="w-4 h-4" />
                   </button>
                 </div>
-                <p className="text-sm text-muted-foreground leading-relaxed mb-6">
+                <p className="text-[11px] text-white/55 leading-relaxed mb-4">
                   Nós usamos cookies para melhorar sua experiência no site do Studio Kiiro. Ao continuar navegando, você concorda com a nossa política de privacidade.
                 </p>
-                <div className="flex flex-col sm:flex-row gap-3">
+                <div className="flex gap-2">
                   <Button 
                     onClick={acceptCookies}
-                    className="bg-kiiro hover:bg-kiiro-dark text-white font-semibold rounded-full px-8 py-2 h-auto"
+                    className="bg-[#FFCA16] hover:bg-[#ffd84c] text-black font-semibold text-xs rounded-full px-4 py-1.5 h-auto"
                   >
                     Aceitar Todos
                   </Button>
                   <Button 
                     variant="outline"
                     onClick={declineCookies}
-                    className="border-kiiro/30 text-kiiro hover:bg-kiiro/10 rounded-full px-8 py-2 h-auto"
+                    className="border-[#FFCA16]/30 text-[#FFCA16] hover:bg-[#FFCA16]/10 text-xs rounded-full px-4 py-1.5 h-auto"
                   >
                     Recusar
                   </Button>

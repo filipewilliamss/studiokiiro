@@ -1,0 +1,159 @@
+.kiiro-header {
+  position: fixed;
+  inset: 14px 0 auto;
+  z-index: 80;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 16px;
+  pointer-events: none;
+}
+
+.kiiro-glass {
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  gap: clamp(9px, 1.6vw, 22px);
+  width: max-content;
+  max-width: min(100%, 760px);
+  min-height: 62px;
+  padding: 6px 8px 6px 7px;
+  border: 1px solid rgba(255, 255, 255, 0.64);
+  border-radius: 999px;
+  background: rgba(228, 234, 236, 0.77);
+  box-shadow: 0 14px 46px rgba(0, 0, 0, 0.19), inset 0 1px rgba(255, 255, 255, 0.64);
+  backdrop-filter: blur(24px) saturate(1.28);
+  -webkit-backdrop-filter: blur(24px) saturate(1.28);
+  color: #111;
+  transition: min-height .45s ease, padding .45s ease, background .45s ease, box-shadow .45s ease;
+}
+
+.kiiro-nav-logo {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #070807;
+  border: 1px solid rgba(255,255,255,.7);
+  box-shadow: 0 2px 11px rgba(0,0,0,.17);
+}
+
+.kiiro-nav-logo img { width: 29px; height: 29px; object-fit: contain; }
+.kiiro-nav-status { display: none; color: #272727; font-size: 11px; font-weight: 600; letter-spacing: .01em; white-space: nowrap; }
+.kiiro-nav-links { display: flex; align-items: center; gap: clamp(8px, 1.3vw, 20px); }
+.kiiro-nav-links a { color: #272727; font-size: 13px; font-weight: 500; padding: 9px 7px; border-radius: 999px; transition: color .25s ease, background .25s ease; }
+.kiiro-nav-links a:hover { background: rgba(255,255,255,.48); color: #050505; }
+.kiiro-nav-contact {
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  min-height: 45px; white-space: nowrap; padding: 0 16px 0 20px;
+  border-radius: 999px; color: #0d0d0d; background: #fff;
+  font-size: 13px; font-weight: 600; box-shadow: 0 2px 9px rgba(0,0,0,.08);
+  transition: transform .25s ease, background .25s ease;
+}
+.kiiro-nav-contact:hover { background: #ffca16; transform: translateY(-1px); }
+.kiiro-nav-icon {
+  display: grid; place-items: center; flex: 0 0 auto; width: 36px; height: 36px;
+  border-radius: 50%; color: #222; transition: background .25s ease;
+}
+.kiiro-nav-icon:hover { background: rgba(255,255,255,.55); }
+.kiiro-menu-toggle { display: none; }
+.kiiro-header [data-compact] { transform: none; }
+.kiiro-header[data-compact="true"] .kiiro-glass { min-height: 52px; padding: 4px 6px; background: rgba(232,235,234,.84); }
+.kiiro-header[data-compact="true"] .kiiro-nav-logo { width: 42px; height: 42px; }
+.kiiro-header[data-compact="true"] .kiiro-nav-logo img { width: 25px; height: 25px; }
+.kiiro-header[data-compact="true"] .kiiro-nav-contact { min-height: 39px; }
+.kiiro-header[data-compact="true"] .kiiro-nav-links,
+.kiiro-header[data-compact="true"] .kiiro-nav-contact { display: none; }
+.kiiro-header[data-compact="true"] .kiiro-nav-status { display: inline-block; }
+.kiiro-header[data-compact="true"] .kiiro-menu-toggle { display: grid; }
+.kiiro-menu {
+  pointer-events: auto; display: flex; flex-direction: column; width: min(320px, calc(100vw - 32px));
+  margin-top: 9px; padding: 12px; border: 1px solid rgba(255,255,255,.6);
+  border-radius: 22px; background: rgba(233,235,233,.94); backdrop-filter: blur(24px);
+  box-shadow: 0 16px 40px rgba(0,0,0,.2);
+}
+.kiiro-menu a { padding: 12px 14px; color: #111; border-radius: 12px; font-size: 14px; }
+.kiiro-menu a:hover { background: #ffca16; }
+.kiiro-header a:focus-visible, .kiiro-header button:focus-visible { outline: 2px solid #ffca16; outline-offset: 3px; }
+
+.kiiro-intro { height: 230svh; background: #050505; }
+.kiiro-intro-stage { position: sticky; top: 0; height: 100svh; overflow: hidden; isolation: isolate; }
+.kiiro-intro-hero, .kiiro-intro-yellow, .kiiro-intro-white { position: absolute; inset: 0; }
+.kiiro-intro-hero { z-index: 0; transform-origin: center center; }
+.kiiro-intro-yellow { z-index: 1; background: #ffca16; border-radius: 6vw 6vw 0 0; }
+.kiiro-intro-white { z-index: 2; overflow: hidden; background: #faf9f4; border-top: 10px solid #ffca16; border-radius: 5vw 5vw 0 0; }
+.kiiro-intro-copy { height: 100%; }
+.kiiro-bridge { min-height: 100%; height: 100%; display: grid; grid-template-columns: minmax(0,1.15fr) minmax(280px,.55fr); align-items: center; gap: 4vw; padding: clamp(105px, 13vh, 160px) clamp(24px, 6vw, 96px) 8vh; color: #070807; }
+.kiiro-bridge h2 { margin: 0; font-family: Poppins, sans-serif; font-size: clamp(56px, 8.7vw, 145px); line-height: .9; letter-spacing: -.085em; font-weight: 800; }
+.kiiro-bridge h2 em { display: inline-block; font-weight: 300; letter-spacing: -.08em; }
+.kiiro-bridge p { align-self: center; max-width: 410px; margin: 11vh 0 0; color: #202020; font-family: Poppins, sans-serif; font-size: clamp(16px, 1.55vw, 23px); line-height: 1.35; letter-spacing: -.035em; }
+
+.kiiro-hero-stage { height: 100%; min-height: 0; padding-top: 86px; padding-bottom: 44px; }
+.kiiro-hero-layout { width: 100%; max-width: 1440px; }
+.kiiro-hero-art { min-width: 0; }
+.kiiro-hero-art canvas { width: min(100%, 460px) !important; height: auto !important; aspect-ratio: 460 / 520; }
+
+/* Keep the first scene inside the viewport as the layout changes. The canvas
+   is the heaviest element in the hero, so it scales before the type does. */
+@media (min-width: 701px) and (max-height: 680px) {
+  .kiiro-hero-art canvas { width: min(100%, 360px) !important; }
+  .kiiro-hero-stage { padding-top: 72px; padding-bottom: 28px; }
+}
+
+@media (max-width: 900px) {
+  .kiiro-nav-links { gap: 5px; }
+  .kiiro-nav-links a { font-size: 12px; padding-inline: 6px; }
+  .kiiro-glass { gap: 9px; }
+  .kiiro-bridge { grid-template-columns: 1fr; align-content: center; gap: 32px; }
+  .kiiro-bridge p { margin: 0; }
+}
+
+@media (max-width: 700px) {
+  .kiiro-header { inset-block-start: 12px; padding-inline: 12px; }
+  .kiiro-glass { width: 100%; max-width: 440px; justify-content: space-between; min-height: 56px; }
+  .kiiro-nav-logo { width: 43px; height: 43px; }
+  .kiiro-nav-links { display: none; }
+  .kiiro-nav-status { display: none !important; }
+  .kiiro-nav-contact { margin-left: auto; min-height: 40px; padding: 0 12px; font-size: 12px; }
+  .kiiro-menu-toggle { display: grid; }
+  .kiiro-nav-icon { width: 31px; height: 31px; }
+  .kiiro-intro { height: 205svh; }
+  .kiiro-intro-yellow { border-radius: 38px 38px 0 0; }
+  .kiiro-intro-white { border-radius: 34px 34px 0 0; border-top-width: 8px; }
+  .kiiro-bridge { padding: 94px 25px 48px; }
+  .kiiro-bridge h2 { font-size: clamp(52px, 12vw, 84px); }
+  .kiiro-bridge p { max-width: 320px; font-size: 17px; }
+  .kiiro-hero-stage { padding-top: 76px; padding-bottom: 24px; }
+  .kiiro-hero-layout { gap: 1rem; }
+  .kiiro-hero-layout .mt-6 { margin-top: 1rem; }
+  .kiiro-hero-layout .mt-8 { margin-top: 1.25rem; }
+  .kiiro-hero-art canvas { width: min(64vw, 280px) !important; }
+  .kiiro-hero-art .absolute.h-\[360px\] { width: 250px; height: 250px; }
+}
+
+@media (max-width: 380px) {
+  .kiiro-nav-contact { font-size: 0; gap: 0; width: 39px; padding: 0; }
+  .kiiro-nav-contact svg { width: 18px; height: 18px; }
+}
+
+/* Short phones need the complete first scene to remain visible without
+   making the visitor hunt for the headline below the fold. */
+@media (max-width: 700px) and (max-height: 700px) {
+  .kiiro-hero-stage { padding-top: 68px; padding-bottom: 8px; }
+  .kiiro-hero-layout { gap: .5rem; }
+  .kiiro-hero-layout .mt-6 { margin-top: .75rem; }
+  .kiiro-hero-layout .mt-8 { margin-top: .9rem; }
+  .kiiro-hero-layout > div:first-child > p:last-child { display: none; }
+  .kiiro-hero-art canvas { width: min(48vw, 180px) !important; }
+  .kiiro-hero-art .absolute.h-\[360px\] { width: 180px; height: 180px; }
+  .kiiro-hero-art .absolute.inset-8 { inset: 12px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kiiro-intro { height: auto; }
+  .kiiro-intro-stage { position: relative; height: auto; }
+  .kiiro-bridge { min-height: 75svh; height: auto; background: #faf9f4; border-top: 8px solid #ffca16; }
+  .kiiro-nav-contact, .kiiro-glass, .kiiro-nav-links a { transition-duration: .01ms; }
+}

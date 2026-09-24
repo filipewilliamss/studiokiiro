@@ -1,0 +1,171 @@
+.kiiro-close {
+  position: relative;
+  overflow: hidden;
+  min-height: min(900px, 100svh);
+  background: #ffca16;
+  color: #070807;
+}
+
+.kiiro-close-inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  align-items: center;
+  gap: clamp(2rem, 5vw, 7rem);
+  width: min(100%, 1600px);
+  min-height: inherit;
+  margin: 0 auto;
+  padding: clamp(5.5rem, 9vw, 10rem) clamp(1.5rem, 6vw, 7rem);
+}
+
+.kiiro-close-copy {
+  position: relative;
+  z-index: 1;
+}
+
+.kiiro-close h2 {
+  margin: 0;
+  font-family: Poppins, sans-serif;
+  font-size: clamp(3.9rem, 8.2vw, 10rem);
+  font-weight: 800;
+  line-height: 0.88;
+  letter-spacing: -0.085em;
+  text-wrap: balance;
+}
+
+.kiiro-close h2 em {
+  font-weight: 400;
+  white-space: nowrap;
+}
+
+.kiiro-close-lead {
+  max-width: 24ch;
+  margin: clamp(2rem, 5vw, 4.5rem) 0 0;
+  color: #070807;
+  font-size: clamp(1.08rem, 1.6vw, 1.45rem);
+  font-weight: 500;
+  line-height: 1.45;
+  letter-spacing: -0.025em;
+}
+
+.kiiro-close-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: fit-content;
+  min-width: min(100%, 27rem);
+  gap: 2rem;
+  margin-top: clamp(2rem, 4vw, 4rem);
+  padding: 0.9rem 0 1.15rem;
+  border-bottom: 2px solid currentColor;
+  color: inherit;
+  font-size: clamp(0.95rem, 1.2vw, 1.15rem);
+  font-weight: 600;
+  text-decoration: none;
+  transition: gap 250ms ease, padding-right 250ms ease;
+}
+
+.kiiro-close-link svg {
+  width: 1.6rem;
+  height: 1.6rem;
+  flex: none;
+  transition: transform 250ms ease;
+}
+
+.kiiro-close-link:hover svg {
+  transform: translate(3px, -3px);
+}
+
+.kiiro-close-link:focus-visible,
+.kiiro-close-symbol-button:focus-visible {
+  outline: 3px solid #070807;
+  outline-offset: 8px;
+}
+
+.kiiro-close-art {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+}
+
+.kiiro-close-symbol-button {
+  display: block;
+  width: min(100%, 37rem);
+  aspect-ratio: 1;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #070807;
+  cursor: pointer;
+  touch-action: manipulation;
+  perspective: 800px;
+}
+
+.kiiro-close-symbol {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  transform-style: preserve-3d;
+}
+
+.kiiro-close-symbol path {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.kiiro-close-prompt {
+  margin: -0.5rem 0 0;
+  color: #070807;
+  text-align: center;
+  font-size: 0.88rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+@media (max-width: 900px) {
+  .kiiro-close-inner {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    padding-top: 6rem;
+    padding-bottom: 5rem;
+  }
+
+  .kiiro-close h2 {
+    font-size: clamp(3.7rem, 12vw, 7rem);
+  }
+
+  .kiiro-close-art {
+    margin-top: -1.5rem;
+  }
+
+  .kiiro-close-symbol-button {
+    width: min(100%, 32rem);
+  }
+}
+
+@media (max-width: 520px) {
+  .kiiro-close h2 {
+    font-size: clamp(3.3rem, 13.4vw, 5.2rem);
+  }
+
+  .kiiro-close-link {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .kiiro-close-art {
+    margin: -1rem 0 0;
+  }
+
+  .kiiro-close-symbol-button {
+    width: min(100%, 25rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kiiro-close-link svg {
+    transition: none;
+  }
+}

@@ -23,12 +23,12 @@ const Footer = () => {
               Navegação
             </h4>
             <ul className="flex flex-col gap-4">
-              {["Sobre", "Serviços", "Portfólio", "Contato"].map((link) => {
-                const id = link.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+              {["Sobre", "Cases", "Processo", "Contato"].map((link) => {
+                const id = link === "Sobre" ? "sobre" : link === "Cases" ? "portfolio" : link === "Processo" ? "processo" : "contato";
                 return (
                   <li key={link}>
                     <Link
-                      to={`/#${id}`}
+                      to={link === "Sobre" ? "/sobre" : `/#${id}`}
                       className="text-[13px] text-white/50 hover:text-[#FFCA16] transition-colors duration-300"
                     >
                       {link}

@@ -18,7 +18,7 @@ const DEFAULT_FEATURED_SLUGS = [
   "team-luisa-crosstraining",
 ];
 
-export interface CustomCaseItem extends Partial<Project> {
+export interface CustomCaseItem extends Omit<Partial<Project>, "id"> {
   id: number | string;
   slug: string;
   title: string;

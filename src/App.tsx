@@ -15,6 +15,7 @@ import BriefingPublico from "./pages/BriefingPublico.tsx";
 import ProjectDetail from "./pages/ProjectDetail.tsx";
 import Cases from "./pages/Cases.tsx";
 import NotFound from "./pages/NotFound.tsx";
+import About from "./pages/About.tsx";
 import CookieConsent from "./components/CookieConsent.tsx";
 import CustomCursor from "./components/CustomCursor.tsx";
 import ScrollToTop from "./components/ScrollToTop.tsx";
@@ -28,6 +29,7 @@ const AnimatedRoutes = () => {
     <AnimatePresence mode="wait">
       <Routes location={location} key={location.pathname}>
         <Route path="/" element={<Index />} />
+        <Route path="/sobre" element={<About />} />
         <Route path="/cases" element={<Cases />} />
         <Route path="/portfolio" element={<Cases />} />
         <Route path="/obrigado" element={<Obrigado />} />

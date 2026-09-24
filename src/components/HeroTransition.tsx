@@ -4,46 +4,9 @@ import {
   useReducedMotion,
   useScroll,
   useTransform,
-  MotionValue,
 } from "framer-motion";
 import HeroSection from "@/components/HeroSection";
-import ImmersiveBridgeSection from "@/components/ImmersiveBridgeSection";
 
-// ─── Linha animada individualmente ──────────────────────────────────────────
-function BridgeLine({
-  children,
-  scrollYProgress,
-  startIn,
-  endIn,
-  delay,
-}: {
-  children: React.ReactNode;
-  scrollYProgress: MotionValue<number>;
-  startIn: number;
-  endIn: number;
-  delay?: number;
-}) {
-  // Cada linha aparece com blur → nítida, de baixo para cima ligeiramente
-  const opacity = useTransform(scrollYProgress, [startIn, endIn], [0, 1]);
-  const filter = useTransform(
-    scrollYProgress,
-    [startIn, endIn],
-    ["blur(12px)", "blur(0px)"]
-  );
-  const y = useTransform(scrollYProgress, [startIn, endIn], ["8px", "0px"]);
-
-  return (
-    <motion.div
-      style={{ opacity, filter, y }}
-      // transition com delay via CSS não funciona direto aqui — usamos o
-      // offset ligeiramente deslocado por startIn/endIn (passado pelo pai)
-    >
-      {children}
-    </motion.div>
-  );
-}
-
-// ─── Componente principal ────────────────────────────────────────────────────
 export default function HeroTransition() {
   const sceneRef = useRef<HTMLElement>(null);
   const reducedMotion = useReducedMotion();
@@ -53,32 +16,38 @@ export default function HeroTransition() {
     offset: ["start start", "end end"],
   });
 
-  // Hero recua e some
-  const heroY       = useTransform(scrollYProgress, [0, 0.8], ["0%", "-12%"]);
-  const heroScale   = useTransform(scrollYProgress, [0, 0.8], [1, 0.95]);
-  const heroOpacity = useTransform(scrollYProgress, [0.12, 0.78], [1, 0.22]);
+  // Hero suavemente recua e desvanece
+  const heroY       = useTransform(scrollYProgress, [0, 0.40], ["0%", "-10%"]);
+  const heroScale   = useTransform(scrollYProgress, [0, 0.40], [1, 0.96]);
+  const heroOpacity = useTransform(scrollYProgress, [0.08, 0.35], [1, 0.15]);
 
-  // Amarelo sobe primeiro — começa mais cedo, termina mais cedo
-  const yellowY = useTransform(scrollYProgress, [0.05, 0.58], ["103%", "0%"]);
+  // 1. Fundo amarelo sobe primeiro no scroll
+  const yellowY = useTransform(scrollYProgress, [0.05, 0.38], ["103%", "0%"]);
 
-  // Branco sobe depois — começa muito mais tarde para criar o "delay" visual
-  // O gap entre yellowY e whiteY cria a sensação de layers independentes
-  const whiteY = useTransform(scrollYProgress, [0.38, 0.82], ["104%", "0%"]);
+  // 2. Fundo branco sobe depois com delay bem evidente em relação ao amarelo
+  const whiteY  = useTransform(scrollYProgress, [0.25, 0.54], ["104%", "0%"]);
 
-  // ── Conteúdo: cada linha aparece sequencialmente com blur ─────────────────
-  // h2 linha 1 → começa quando o branco está ~70% na tela
-  const line1Start = 0.64;
-  const line1End   = 0.76;
-  // p linha 2 → começa um tick depois do h2
-  const line2Start = 0.70;
-  const line2End   = 0.82;
+  // 3. Aparição escalonada com desfoque (blur → nitidez):
+  // Linha 1 (h2): surge primeiro com blur e atinge 100% de nitidez antes do final da subida
+  const h2Opacity = useTransform(scrollYProgress, [0.32, 0.48], [0, 1]);
+  const h2Filter  = useTransform(scrollYProgress, [0.32, 0.48], ["blur(14px)", "blur(0px)"]);
+  const h2Y       = useTransform(scrollYProgress, [0.32, 0.48], ["18px", "0px"]);
 
-  // ── Fallback sem animação ─────────────────────────────────────────────────
+  // Linha 2 (p): surge logo em seguida (pequena diferença de tempo) e atinge 100% nítido
+  // exatamente quando o fundo branco se completa na viewport (0.54)
+  const pOpacity  = useTransform(scrollYProgress, [0.38, 0.54], [0, 1]);
+  const pFilter   = useTransform(scrollYProgress, [0.38, 0.54], ["blur(14px)", "blur(0px)"]);
+  const pY        = useTransform(scrollYProgress, [0.38, 0.54], ["18px", "0px"]);
+
+  // ── Fallback sem animações complexas ──────────────────────────────────────
   if (reducedMotion) {
     return (
       <>
         <HeroSection />
-        <ImmersiveBridgeSection />
+        <section id="visao" className="kiiro-bridge" style={{ background: "#faf9f4", borderTop: "10px solid #ffca16" }}>
+          <h2>Uma ideia<br /><em>ganha forma.</em></h2>
+          <p>Design para transformar o que sua marca é<br className="hidden md:block" /> naquilo que as pessoas lembram.</p>
+        </section>
       </>
     );
   }
@@ -102,35 +71,28 @@ export default function HeroTransition() {
           aria-hidden="true"
         />
 
-        {/* Camada branca — sobe DEPOIS do amarelo (delay real pela diferença de offset) */}
+        {/* Camada branca — sobe DEPOIS com delay real */}
         <motion.div className="kiiro-intro-white" style={{ y: whiteY }}>
+          <div className="kiiro-intro-copy">
+            {/*
+              kiiro-bridge usa grid com 2 colunas (h2 | p).
+              Animamos h2 e p diretamente como motion tags para
+              preservar a semântica, responsividade e layout intactos.
+            */}
+            <section id="visao" className="kiiro-bridge">
+              <motion.h2 style={{ opacity: h2Opacity, filter: h2Filter, y: h2Y }}>
+                Uma ideia<br /><em>ganha forma.</em>
+              </motion.h2>
 
-          {/* Conteúdo: h2 e p surgem linha por linha com blur */}
-          <section id="visao" className="kiiro-bridge">
-
-            <BridgeLine
-              scrollYProgress={scrollYProgress}
-              startIn={line1Start}
-              endIn={line1End}
-            >
-              <h2>Uma ideia<br /><em>ganha forma.</em></h2>
-            </BridgeLine>
-
-            <BridgeLine
-              scrollYProgress={scrollYProgress}
-              startIn={line2Start}
-              endIn={line2End}
-            >
-              <p>
+              <motion.p style={{ opacity: pOpacity, filter: pFilter, y: pY }}>
                 Design para transformar o que sua marca é
                 <br className="hidden md:block" />
                 {" "}naquilo que as pessoas lembram.
-              </p>
-            </BridgeLine>
-
-          </section>
-
+              </motion.p>
+            </section>
+          </div>
         </motion.div>
+
       </div>
     </section>
   );

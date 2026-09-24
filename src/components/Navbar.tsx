@@ -24,7 +24,12 @@ export default function Navbar({ forceBlack = true }: { forceBlack?: boolean }) 
     window.addEventListener("keydown", close);
     return () => window.removeEventListener("keydown", close);
   }, []);
-  const links = [{ label: "Projetos", to: "/#portfolio" }, { label: "Processo", to: "/#processo" }, { label: "Sobre", to: "/sobre" }];
+  const links = [
+    { label: "Serviços", to: "/#servicos" },
+    { label: "Projetos", to: "/#portfolio" },
+    { label: "Processo", to: "/#processo" },
+    { label: "Sobre", to: "/sobre" }
+  ];
   return <header className="kiiro-header" data-compact={compact && !open} data-light={!forceBlack}>
     <nav className="kiiro-glass" aria-label="Navegação principal">
       <Link className="kiiro-nav-logo" to="/" aria-label="Studio Kiiro, início"><img src={logo} alt="Studio Kiiro" /></Link>

@@ -5,6 +5,7 @@ import { AnimatePresence } from "framer-motion";
 import SEO from "@/components/SEO";
 import Navbar from "@/components/Navbar";
 import HeroTransition from "@/components/HeroTransition";
+import ServicesArtboardSection from "@/components/ServicesArtboardSection";
 import Footer from "@/components/Footer";
 import Preloader from "@/components/Preloader";
 import SocialMediaPortfolio from "@/components/SocialMediaPortfolio";
@@ -88,6 +89,7 @@ const Index = () => {
             <Navbar />
 
             <HeroTransition />
+            <ServicesArtboardSection />
             <KiiroMethodSection />
             <ImmersivePortfolioSection />
             <SocialMediaPortfolio />

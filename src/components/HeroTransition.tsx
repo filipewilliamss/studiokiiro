@@ -22,14 +22,14 @@ export default function HeroTransition() {
   // Mede a distância real de rolagem local da seção (altura total - 1 viewport)
   // Isso desvincula 100% a seção do tamanho global da página!
   const [scrollDistance, setScrollDistance] = useState(() => 
-    typeof window !== "undefined" ? window.innerHeight * 0.55 : 550
+    typeof window !== "undefined" ? window.innerHeight * 0.25 : 250
   );
 
   useEffect(() => {
     const updateDistance = () => {
       if (sceneRef.current) {
         const dist = sceneRef.current.offsetHeight - window.innerHeight;
-        if (dist > 50) setScrollDistance(dist);
+        if (dist > 20) setScrollDistance(dist);
       }
     };
     updateDistance();
@@ -42,27 +42,27 @@ export default function HeroTransition() {
   const scrollYProgress = useTransform(scrollY, [0, scrollDistance], [0, 1], { clamp: true });
 
   // Hero suavemente recua e desvanece no início da rolagem (0 a 0.35)
-  const heroY       = useTransform(scrollYProgress, [0, 0.35], ["0%", "-10%"], { clamp: true });
-  const heroScale   = useTransform(scrollYProgress, [0, 0.35], [1, 0.95], { clamp: true });
-  const heroOpacity = useTransform(scrollYProgress, [0.02, 0.28], [1, 0.15], { clamp: true });
+  const heroY       = useTransform(scrollYProgress, [0, 0.35], ["0%", "-8%"], { clamp: true });
+  const heroScale   = useTransform(scrollYProgress, [0, 0.35], [1, 0.96], { clamp: true });
+  const heroOpacity = useTransform(scrollYProgress, [0.02, 0.25], [1, 0.2], { clamp: true });
 
-  // 1. Fundo amarelo sobe primeiro no scroll (0.05 a 0.50)
-  const yellowY = useTransform(scrollYProgress, [0.05, 0.50], ["103%", "0%"], { clamp: true });
+  // 1. Fundo amarelo sobe primeiro no scroll (0.02 a 0.40)
+  const yellowY = useTransform(scrollYProgress, [0.02, 0.40], ["103%", "0%"], { clamp: true });
 
-  // 2. Fundo branco sobe logo após com delay perceptível (inicia em 0.20 e assenta em 0.70)
-  const whiteY  = useTransform(scrollYProgress, [0.20, 0.70], ["104%", "0%"], { clamp: true });
+  // 2. Fundo branco sobe logo após com delay perceptível (inicia em 0.10 e assenta em 0.65)
+  const whiteY  = useTransform(scrollYProgress, [0.10, 0.65], ["104%", "0%"], { clamp: true });
 
   // 3. Linha 1 (h2: "Uma ideia ganha forma."):
-  // Fica 100% nítida e sólida em preto puro aos 0.65
-  const h2Opacity = useTransform(scrollYProgress, [0.25, 0.65], [0, 1], { clamp: true });
-  const h2Y       = useTransform(scrollYProgress, [0.25, 0.65], ["30px", "0px"], { clamp: true });
-  const h2Filter  = useTransform(scrollYProgress, (v) => getBlurString(v, 0.25, 0.65, 14));
+  // Fica 100% nítida e sólida em preto puro aos 0.60
+  const h2Opacity = useTransform(scrollYProgress, [0.15, 0.60], [0, 1], { clamp: true });
+  const h2Y       = useTransform(scrollYProgress, [0.15, 0.60], ["24px", "0px"], { clamp: true });
+  const h2Filter  = useTransform(scrollYProgress, (v) => getBlurString(v, 0.15, 0.60, 10));
 
   // 4. Linha 2 (p: "Design para transformar..."):
-  // Surge aos 0.40 e fica 100% nítida e sólida em preto puro aos 0.75
-  const pOpacity  = useTransform(scrollYProgress, [0.40, 0.75], [0, 1], { clamp: true });
-  const pY        = useTransform(scrollYProgress, [0.40, 0.75], ["30px", "0px"], { clamp: true });
-  const pFilter   = useTransform(scrollYProgress, (v) => getBlurString(v, 0.40, 0.75, 14));
+  // Surge aos 0.30 e fica 100% nítida e sólida em preto puro aos 0.70
+  const pOpacity  = useTransform(scrollYProgress, [0.30, 0.70], [0, 1], { clamp: true });
+  const pY        = useTransform(scrollYProgress, [0.30, 0.70], ["24px", "0px"], { clamp: true });
+  const pFilter   = useTransform(scrollYProgress, (v) => getBlurString(v, 0.30, 0.70, 10));
 
   // ── Fallback sem animações complexas ──────────────────────────────────────
   if (reducedMotion) {

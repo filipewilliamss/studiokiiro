@@ -336,7 +336,7 @@ const HeroSection = () => {
         <div className="kiiro-hero-art w-full lg:w-[41%] flex justify-center items-center relative">
           <div className="relative flex items-center justify-center">
             <div className="absolute h-[360px] w-[360px] rounded-full bg-[#FFCA16]/[0.07] blur-[90px]" aria-hidden="true" />
-            <div className="absolute inset-8 rounded-full border border-white/[0.08]" aria-hidden="true" />
+
             <canvas ref={canvasRef} id="hero-canvas" className="relative z-10 cursor-grab active:cursor-grabbing" />
             <span className="absolute bottom-1 left-1/2 z-20 -translate-x-1/2 whitespace-nowrap font-mono text-[9px] uppercase tracking-[0.24em] text-white/35">mova para explorar</span>
           </div>

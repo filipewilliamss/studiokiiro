@@ -311,9 +311,16 @@ const HeroSection = () => {
               href="https://wa.me/5511991076096?text=Ol%C3%A1%20Studio%20Kiiro%2C%20quero%20conversar%20sobre%20um%20projeto."
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center gap-2.5 px-6 py-3.5 rounded-full bg-white/[0.03] hover:bg-white/[0.08] border border-white/10 hover:border-[#FFCA16]/40 text-white/80 hover:text-white font-display text-[11px] uppercase tracking-[0.16em] transition-all duration-300 backdrop-blur-md"
+              className="group relative inline-flex items-center justify-center px-7 py-3.5 rounded-full overflow-hidden border border-white/15 hover:border-[#FFCA16] font-display text-[11px] uppercase tracking-[0.18em] font-semibold text-white hover:text-black transition-all duration-300 backdrop-blur-md shadow-[0_4px_20px_rgba(0,0,0,0.5)]"
             >
-              <span>Falar no WhatsApp</span>
+              {/* Shape slide de preenchimento vindo de cima para baixo */}
+              <span
+                className="absolute inset-0 w-full h-full bg-[#FFCA16] rounded-full -translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out pointer-events-none"
+                aria-hidden="true"
+              />
+              <span className="relative z-10 transition-colors duration-300">
+                Falar no WhatsApp
+              </span>
             </a>
           </div>
 

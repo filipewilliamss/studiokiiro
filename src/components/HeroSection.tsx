@@ -315,7 +315,7 @@ const HeroSection = () => {
             >
               {/* Shape slide de preenchimento vindo de cima para baixo */}
               <span
-                className="absolute inset-0 w-full h-full bg-[#FFCA16] rounded-full -translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out pointer-events-none"
+                className="absolute inset-0 w-full h-full bg-[#FFCA16] rounded-full -translate-y-[120%] group-hover:translate-y-0 transition-transform duration-300 ease-out pointer-events-none"
                 aria-hidden="true"
               />
               <span className="relative z-10 transition-colors duration-300">

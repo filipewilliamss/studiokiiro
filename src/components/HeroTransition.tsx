@@ -22,14 +22,14 @@ export default function HeroTransition() {
   // Mede a distância real de rolagem local da seção (altura total - 1 viewport)
   // Isso desvincula 100% a seção do tamanho global da página!
   const [scrollDistance, setScrollDistance] = useState(() => 
-    typeof window !== "undefined" ? window.innerHeight * 1.4 : 1100
+    typeof window !== "undefined" ? window.innerHeight * 0.55 : 550
   );
 
   useEffect(() => {
     const updateDistance = () => {
       if (sceneRef.current) {
         const dist = sceneRef.current.offsetHeight - window.innerHeight;
-        if (dist > 100) setScrollDistance(dist);
+        if (dist > 50) setScrollDistance(dist);
       }
     };
     updateDistance();
@@ -41,29 +41,28 @@ export default function HeroTransition() {
   const { scrollY } = useScroll();
   const scrollYProgress = useTransform(scrollY, [0, scrollDistance], [0, 1], { clamp: true });
 
-  // Hero suavemente recua e desvanece no início da rolagem (0 a 0.22)
-  const heroY       = useTransform(scrollYProgress, [0, 0.22], ["0%", "-10%"], { clamp: true });
-  const heroScale   = useTransform(scrollYProgress, [0, 0.22], [1, 0.95], { clamp: true });
-  const heroOpacity = useTransform(scrollYProgress, [0.02, 0.18], [1, 0.15], { clamp: true });
+  // Hero suavemente recua e desvanece no início da rolagem (0 a 0.35)
+  const heroY       = useTransform(scrollYProgress, [0, 0.35], ["0%", "-10%"], { clamp: true });
+  const heroScale   = useTransform(scrollYProgress, [0, 0.35], [1, 0.95], { clamp: true });
+  const heroOpacity = useTransform(scrollYProgress, [0.02, 0.28], [1, 0.15], { clamp: true });
 
-  // 1. Fundo amarelo sobe primeiro no scroll (0.02 a 0.24)
-  const yellowY = useTransform(scrollYProgress, [0.02, 0.24], ["103%", "0%"], { clamp: true });
+  // 1. Fundo amarelo sobe primeiro no scroll (0.05 a 0.50)
+  const yellowY = useTransform(scrollYProgress, [0.05, 0.50], ["103%", "0%"], { clamp: true });
 
-  // 2. Fundo branco sobe logo após com delay perceptível (inicia em 0.14 e assenta em 0.38)
-  const whiteY  = useTransform(scrollYProgress, [0.14, 0.38], ["104%", "0%"], { clamp: true });
+  // 2. Fundo branco sobe logo após com delay perceptível (inicia em 0.20 e assenta em 0.70)
+  const whiteY  = useTransform(scrollYProgress, [0.20, 0.70], ["104%", "0%"], { clamp: true });
 
   // 3. Linha 1 (h2: "Uma ideia ganha forma."):
-  // Começa aos 0.18 com desfoque de 14px e fica 100% nítida e sólida em preto puro aos 0.32
-  const h2Opacity = useTransform(scrollYProgress, [0.18, 0.32], [0, 1], { clamp: true });
-  const h2Y       = useTransform(scrollYProgress, [0.18, 0.32], ["30px", "0px"], { clamp: true });
-  const h2Filter  = useTransform(scrollYProgress, (v) => getBlurString(v, 0.18, 0.32, 14));
+  // Fica 100% nítida e sólida em preto puro aos 0.65
+  const h2Opacity = useTransform(scrollYProgress, [0.25, 0.65], [0, 1], { clamp: true });
+  const h2Y       = useTransform(scrollYProgress, [0.25, 0.65], ["30px", "0px"], { clamp: true });
+  const h2Filter  = useTransform(scrollYProgress, (v) => getBlurString(v, 0.25, 0.65, 14));
 
   // 4. Linha 2 (p: "Design para transformar..."):
-  // Surge logo após aos 0.28 (quando a Linha 1 já está quase 100% formada)
-  // e fica 100% nítida e sólida em preto puro aos 0.38 — EXATAMENTE no momento em que o fundo branco se completa na viewport!
-  const pOpacity  = useTransform(scrollYProgress, [0.28, 0.38], [0, 1], { clamp: true });
-  const pY        = useTransform(scrollYProgress, [0.28, 0.38], ["30px", "0px"], { clamp: true });
-  const pFilter   = useTransform(scrollYProgress, (v) => getBlurString(v, 0.28, 0.38, 14));
+  // Surge aos 0.40 e fica 100% nítida e sólida em preto puro aos 0.75
+  const pOpacity  = useTransform(scrollYProgress, [0.40, 0.75], [0, 1], { clamp: true });
+  const pY        = useTransform(scrollYProgress, [0.40, 0.75], ["30px", "0px"], { clamp: true });
+  const pFilter   = useTransform(scrollYProgress, (v) => getBlurString(v, 0.40, 0.75, 14));
 
   // ── Fallback sem animações complexas ──────────────────────────────────────
   if (reducedMotion) {

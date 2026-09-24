@@ -7,12 +7,12 @@ import {
 } from "framer-motion";
 import HeroSection from "@/components/HeroSection";
 
-function getBlurString(v: number, start: number, end: number, maxBlur = 18): string {
+function getBlurString(v: number, start: number, end: number, maxBlur = 16): string {
   if (v >= end) return "none";
   if (v <= start) return `blur(${maxBlur}px)`;
   const progress = (v - start) / (end - start);
   const blurVal = Number((maxBlur * (1 - progress)).toFixed(1));
-  return blurVal <= 0.4 ? "none" : `blur(${blurVal}px)`;
+  return blurVal <= 0.3 ? "none" : `blur(${blurVal}px)`;
 }
 
 export default function HeroTransition() {
@@ -24,30 +24,31 @@ export default function HeroTransition() {
     offset: ["start start", "end end"],
   });
 
-  // Hero suavemente recua e desvanece
-  const heroY       = useTransform(scrollYProgress, [0, 0.38], ["0%", "-10%"], { clamp: true });
-  const heroScale   = useTransform(scrollYProgress, [0, 0.38], [1, 0.95], { clamp: true });
-  const heroOpacity = useTransform(scrollYProgress, [0.06, 0.32], [1, 0.15], { clamp: true });
+  // Hero suavemente recua e desvanece no início da rolagem
+  const heroY       = useTransform(scrollYProgress, [0, 0.25], ["0%", "-10%"], { clamp: true });
+  const heroScale   = useTransform(scrollYProgress, [0, 0.25], [1, 0.95], { clamp: true });
+  const heroOpacity = useTransform(scrollYProgress, [0.03, 0.22], [1, 0.15], { clamp: true });
 
-  // 1. Fundo amarelo sobe primeiro no scroll (0.04 a 0.36)
-  const yellowY = useTransform(scrollYProgress, [0.04, 0.36], ["103%", "0%"], { clamp: true });
+  // 1. Fundo amarelo sobe primeiro no scroll (0.02 a 0.22)
+  const yellowY = useTransform(scrollYProgress, [0.02, 0.22], ["103%", "0%"], { clamp: true });
 
-  // 2. Fundo branco sobe depois com delay bem evidente (inicia em 0.14 e fecha em 0.54)
-  const whiteY  = useTransform(scrollYProgress, [0.14, 0.54], ["104%", "0%"], { clamp: true });
+  // 2. Fundo branco sobe logo após com delay perceptível (inicia em 0.10 e assenta em 0.30)
+  const whiteY  = useTransform(scrollYProgress, [0.10, 0.30], ["104%", "0%"], { clamp: true });
 
   // 3. Linha 1 (h2: "Uma ideia ganha forma."):
-  // Começa a surgir aos 0.18 com desfoque profundo (18px) e opacidade 0,
-  // focando progressivamente até ficar 100% nítida e opaca preta aos 0.38
-  const h2Opacity = useTransform(scrollYProgress, [0.18, 0.38], [0, 1], { clamp: true });
-  const h2Y       = useTransform(scrollYProgress, [0.18, 0.38], ["36px", "0px"], { clamp: true });
-  const h2Filter  = useTransform(scrollYProgress, (v) => getBlurString(v, 0.18, 0.38, 18));
+  // Surge no início da seção branca (0.22) com desfoque de 16px,
+  // e fica 100% nítida e sólida em preto puro aos 0.38
+  const h2Opacity = useTransform(scrollYProgress, [0.22, 0.38], [0, 1], { clamp: true });
+  const h2Y       = useTransform(scrollYProgress, [0.22, 0.38], ["32px", "0px"], { clamp: true });
+  const h2Filter  = useTransform(scrollYProgress, (v) => getBlurString(v, 0.22, 0.38, 16));
 
   // 4. Linha 2 (p: "Design para transformar..."):
-  // Surge de forma BEM SEPARADA aos 0.36 (quando a Linha 1 já está quase totalmente formada)
-  // com desfoque de 18px e opacidade 0, focando progressivamente até ficar 100% nítida aos 0.54
-  const pOpacity  = useTransform(scrollYProgress, [0.36, 0.54], [0, 1], { clamp: true });
-  const pY        = useTransform(scrollYProgress, [0.36, 0.54], ["36px", "0px"], { clamp: true });
-  const pFilter   = useTransform(scrollYProgress, (v) => getBlurString(v, 0.36, 0.54, 18));
+  // Surge de forma BEM SEPARADA aos 0.36 (quando a Linha 1 já está quase 100% formada)
+  // com desfoque de 16px, e fica 100% nítida e sólida em preto puro aos 0.52
+  // Bem antes de terminar a seção, todo o conteúdo já está 100% estável e legível!
+  const pOpacity  = useTransform(scrollYProgress, [0.36, 0.52], [0, 1], { clamp: true });
+  const pY        = useTransform(scrollYProgress, [0.36, 0.52], ["32px", "0px"], { clamp: true });
+  const pFilter   = useTransform(scrollYProgress, (v) => getBlurString(v, 0.36, 0.52, 16));
 
   // ── Fallback sem animações complexas ──────────────────────────────────────
   if (reducedMotion) {
@@ -81,7 +82,7 @@ export default function HeroTransition() {
           aria-hidden="true"
         />
 
-        {/* Camada branca — sobe DEPOIS com delay visível */}
+        {/* Camada branca — sobe DEPOIS com delay perceptível */}
         <motion.div className="kiiro-intro-white" style={{ y: whiteY }}>
           <div className="kiiro-intro-copy">
             <section id="visao" className="kiiro-bridge">

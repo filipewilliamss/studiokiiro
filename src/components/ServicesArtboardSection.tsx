@@ -2,15 +2,10 @@ import { useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Layers,
-  ArrowUpRight,
   CheckCircle2,
-  Sparkles,
-  Maximize2,
-  MousePointer,
   Compass,
   Sliders,
-  FileCode,
-  Eye
+  FileCode
 } from "lucide-react";
 import { playPillHover, playSwitchClick } from "@/utils/soundEffects";
 
@@ -20,7 +15,6 @@ interface ServiceSubItem {
   subtitle?: string;
   description: string;
   deliverables: string[];
-  specs: { label: string; value: string }[];
 }
 
 interface ServiceCategory {
@@ -58,12 +52,6 @@ Ideal para quem está começando uma marca ou quer reposicionar a comunicação 
           "Padrões Visuais, Grafismos & Texturas Exclusivas",
           "Brand Guidelines Completo em PDF de Alta Definição",
           "Arquivos Finais Vetoriais (.AI, .EPS, .SVG, .PDF, .PNG)"
-        ],
-        specs: [
-          { label: "Cor", value: "CMYK + RGB" },
-          { label: "Escala", value: "100% Vetorial" },
-          { label: "Grid", value: "Sistema Modular" },
-          { label: "Manual", value: "PDF Interativo" }
         ]
       },
       {
@@ -80,11 +68,6 @@ Antes do orçamento final, é necessário entender o nome da marca, segmento, es
           "Versões Horizontal, Vertical e Redução para Avatar",
           "Guia de Aplicação e Áreas de Não Interferência",
           "Arquivos Prontos para Impressão e Meio Digital"
-        ],
-        specs: [
-          { label: "Formato", value: "AI, SVG, PNG" },
-          { label: "Foco", value: "Legibilidade & Força" },
-          { label: "Entrega", value: "Pacote Digital" }
         ]
       },
       {
@@ -102,11 +85,6 @@ Pode incluir identidade visual, posicionamento, direção criativa, tom de comun
           "Sistema de Identidade Visual Integral",
           "Aplicações em Embalagens, Papelaria e Ponto de Contato",
           "Brand Book Completo para Expansão da Marca"
-        ],
-        specs: [
-          { label: "Escopo", value: "Estratégia + Design" },
-          { label: "Brand Book", value: "60+ Páginas" },
-          { label: "Profundidade", value: "Ecossistema Total" }
         ]
       },
       {
@@ -124,11 +102,6 @@ Ideal para quem quer transmitir mais autoridade, profissionalismo e confiança.`
           "Kit de Redes Sociais: Capas de YouTube, LinkedIn e Destaques",
           "Templates Editáveis para Apresentações e Posts",
           "Cartão de Visitas Digital Interativo"
-        ],
-        specs: [
-          { label: "Público", value: "Consultores & Médicos" },
-          { label: "Canais", value: "IG, LinkedIn, YouTube" },
-          { label: "Objetivo", value: "Máxima Autoridade" }
         ]
       }
     ]
@@ -154,11 +127,6 @@ Desenvolvemos layouts refinados que fogem dos modelos genéricos e transmitem in
           "Sistemas de Stories Estruturados e Interativos",
           "Artes de Lançamento e Campanhas Especiais",
           "Organização de Grid e Coesão Visual Contínua"
-        ],
-        specs: [
-          { label: "Formatos", value: "4:5, 1:1, 9:16" },
-          { label: "Padrão", value: "Ultra HD (Web-ready)" },
-          { label: "Alinhamento", value: "Identidade da Marca" }
         ]
       }
     ]
@@ -184,11 +152,6 @@ Aplicamos ganchos visuais nos primeiros 3 segundos, cortes precisos de respiraç
           "Sound Design, Efeitos Sonoros (SFX) e Trilha Sonora",
           "Gráficos na Tela, Ícones e Efeitos de Zoom Subtis",
           "Exportação Otimizada para o Algoritmo do Instagram e TikTok"
-        ],
-        specs: [
-          { label: "Proporção", value: "9:16 Vertical" },
-          { label: "Frame Rate", value: "60 FPS Suave" },
-          { label: "Áudio", value: "Masterização -14 LUFS" }
         ]
       },
       {
@@ -203,11 +166,6 @@ Ideal para a página inicial do site, apresentações para grandes clientes, fei
           "Tratamento Cinematográfico de Cores (Color Grading)",
           "Animação da Identidade Visual e Assinatura da Marca",
           "Edição com Trilha Emocionante Licenciada para Uso Comercial"
-        ],
-        specs: [
-          { label: "Resolução", value: "4K UHD Cinema" },
-          { label: "Tom", value: "Corporativo Premium" },
-          { label: "Uso", value: "Home Page & Eventos" }
         ]
       },
       {
@@ -222,11 +180,6 @@ Perfeito para plataformas de cursos, demonstrações de softwares (SaaS) ou trei
           "Cards Explicativos, Setas e Destaques Gráficos Vetoriais",
           "Separação Estruturada por Capítulos e Módulos",
           "Equalização de Voz com Remoção de Ruídos de Fundo"
-        ],
-        specs: [
-          { label: "Didática", value: "UI Overlay Precision" },
-          { label: "Áudio", value: "Voz Cristalina" },
-          { label: "Export", value: "Capítulos Prontos" }
         ]
       }
     ]
@@ -252,11 +205,6 @@ Combinamos arquitetura de informação estratégica, tipografia expressiva e mic
           "Diretrizes de Micro-interações, Hover States e Animações",
           "Hierarquia de Tipografia e Blocos de Alto Contraste",
           "Preparação de Assets Otimizados para Desenvolvimento"
-        ],
-        specs: [
-          { label: "Abordagem", value: "Mobile-First" },
-          { label: "Performance", value: "Clean Architecture" },
-          { label: "Foco", value: "Alta Conversão" }
         ]
       }
     ]
@@ -281,11 +229,6 @@ Adeus aos slides entediantes com blocos de texto: criamos narrativas visuais com
           "Infográficos, Tabelas e Gráficos de Dados Reorganizados",
           "Templates Mestres com Estilos Pré-formatados",
           "Exportação em PDF Interativo e Arquivo Editável (.PPTX ou Keynote)"
-        ],
-        specs: [
-          { label: "Proporção", value: "16:9 Widescreen" },
-          { label: "Compatibilidade", value: "PowerPoint & Keynote" },
-          { label: "Impacto", value: "Investor-Ready" }
         ]
       }
     ]
@@ -312,11 +255,6 @@ export default function ServicesArtboardSection() {
     if (subIndex === activeSubIndex) return;
     playSwitchClick(true);
     setActiveSubIndex(subIndex);
-  };
-
-  const getWhatsAppMessage = () => {
-    const text = `Olá Studio Kiiro! Estive olhando a seção de serviços no site e gostaria de solicitar uma proposta sobre "${activeSubItem.title}". Podemos conversar?`;
-    return `https://wa.me/5511991076096?text=${encodeURIComponent(text)}`;
   };
 
   return (
@@ -376,47 +314,12 @@ export default function ServicesArtboardSection() {
       </div>
 
       {/* ========================================================================= */}
-      {/* 3. GUIAS DE EXTREMIDADE INFINITAS (CYAN GUIDE LINES)                      */}
+      {/* 3. CONTEÚDO PRINCIPAL: PALCO DA PRANCHETA (LARGURA AMPLA NA VIEWPORT)     */}
       {/* ========================================================================= */}
-      {showGuides && (
-        <div className="pointer-events-none select-none" aria-hidden="true">
-          {/* Guia vertical esquerda */}
-          <div className="absolute top-0 bottom-0 left-[3%] sm:left-[5%] md:left-[8%] lg:left-[calc(50%-600px)] w-[1px] bg-[#00e5ff]/35 shadow-[0_0_8px_rgba(0,229,255,0.4)] z-10">
-            <span className="absolute top-10 -left-1 transform -translate-x-full text-[8px] font-mono text-[#00e5ff]/70 tracking-widest whitespace-nowrap bg-black/80 px-1 border border-[#00e5ff]/30 rounded">
-              X: 0.00
-            </span>
-          </div>
-
-          {/* Guia vertical direita */}
-          <div className="absolute top-0 bottom-0 right-[3%] sm:right-[5%] md:right-[8%] lg:right-[calc(50%-600px)] w-[1px] bg-[#00e5ff]/35 shadow-[0_0_8px_rgba(0,229,255,0.4)] z-10">
-            <span className="absolute top-10 -right-1 transform translate-x-full text-[8px] font-mono text-[#00e5ff]/70 tracking-widest whitespace-nowrap bg-black/80 px-1 border border-[#00e5ff]/30 rounded">
-              X: 1920.00
-            </span>
-          </div>
-
-          {/* Guia horizontal de topo (trim/bleed) */}
-          <div className="absolute left-0 right-0 top-[110px] md:top-[140px] h-[1px] bg-[#00e5ff]/30 shadow-[0_0_8px_rgba(0,229,255,0.3)] z-10">
-            <span className="absolute left-6 -top-4 text-[8px] font-mono text-[#00e5ff]/70 tracking-widest bg-black/80 px-1.5 py-0.5 border border-[#00e5ff]/30 rounded">
-              Y: 0.00 · BLEED: 3.00mm
-            </span>
-          </div>
-
-          {/* Guia horizontal de base */}
-          <div className="absolute left-0 right-0 bottom-12 md:bottom-16 h-[1px] bg-[#00e5ff]/30 shadow-[0_0_8px_rgba(0,229,255,0.3)] z-10">
-            <span className="absolute right-6 -bottom-4 text-[8px] font-mono text-[#00e5ff]/70 tracking-widest bg-black/80 px-1.5 py-0.5 border border-[#00e5ff]/30 rounded">
-              Y: 1080.00 · BASELINE
-            </span>
-          </div>
-        </div>
-      )}
-
-      {/* ========================================================================= */}
-      {/* 4. CONTEÚDO PRINCIPAL: PALCO DA PRANCHETA (ARTBOARD STAGE)                */}
-      {/* ========================================================================= */}
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="relative z-10 w-full max-w-[95vw] xl:max-w-[94vw] 2xl:max-w-[1740px] mx-auto px-2 sm:px-4 md:px-6">
 
         {/* CABEÇALHO EDITORIAL DA SEÇÃO */}
-        <div className="mb-12 md:mb-16">
+        <div className="mb-12 md:mb-16 px-2 sm:px-4">
           <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
             <div className="inline-flex items-center gap-3 px-3 py-1 rounded-full bg-white/[0.04] border border-white/10 backdrop-blur-md">
               <span className="w-2 h-2 rounded-full bg-[#FFCA16] animate-pulse" />
@@ -464,34 +367,61 @@ export default function ServicesArtboardSection() {
         </div>
 
         {/* ======================================================================= */}
-        {/* 5. A PRANCHETA PRINCIPAL DO ILLUSTRATOR (THE ARTBOARD FRAME)             */}
+        {/* 4. A PRANCHETA PRINCIPAL DO ILLUSTRATOR (THE ARTBOARD FRAME)             */}
         {/* ======================================================================= */}
         <div className="relative mt-8 group">
 
-          {/* Marcas de Registro Técnicas nos 4 cantos externos */}
+          {/* ===================================================================== */}
+          {/* GUIAS DE EXTREMIDADE ACOPLADAS DIRETAMENTE ÀS BORDAS DA PRANCHETA     */}
+          {/* ===================================================================== */}
           {showGuides && (
-            <>
-              {/* Canto Superior Esquerdo */}
-              <div className="absolute -top-6 -left-6 z-20 pointer-events-none select-none text-[#00e5ff] font-mono text-sm leading-none flex items-center">
+            <div className="pointer-events-none select-none" aria-hidden="true">
+              {/* Guia vertical esquerda — alinhada exatamente à extremidade lateral esquerda */}
+              <div className="absolute -top-[500px] -bottom-[500px] left-0 w-[1px] bg-[#00e5ff]/40 shadow-[0_0_10px_rgba(0,229,255,0.45)] z-20">
+                <span className="absolute top-[520px] -left-1 transform -translate-x-full text-[8px] font-mono text-[#00e5ff]/80 tracking-widest whitespace-nowrap bg-black/85 px-1.5 py-0.5 border border-[#00e5ff]/35 rounded shadow">
+                  X: 0.00
+                </span>
+              </div>
+
+              {/* Guia vertical direita — alinhada exatamente à extremidade lateral direita */}
+              <div className="absolute -top-[500px] -bottom-[500px] right-0 w-[1px] bg-[#00e5ff]/40 shadow-[0_0_10px_rgba(0,229,255,0.45)] z-20">
+                <span className="absolute top-[520px] -right-1 transform translate-x-full text-[8px] font-mono text-[#00e5ff]/80 tracking-widest whitespace-nowrap bg-black/85 px-1.5 py-0.5 border border-[#00e5ff]/35 rounded shadow">
+                  X: 1920.00
+                </span>
+              </div>
+
+              {/* Guia horizontal de topo (alinhada à borda superior da prancheta) */}
+              <div className="absolute -left-[100vw] -right-[100vw] top-0 h-[1px] bg-[#00e5ff]/35 shadow-[0_0_8px_rgba(0,229,255,0.35)] z-20">
+                <span className="absolute left-[calc(100vw+16px)] -top-4 text-[8px] font-mono text-[#00e5ff]/80 tracking-widest bg-black/85 px-1.5 py-0.5 border border-[#00e5ff]/35 rounded shadow">
+                  Y: 0.00 · BLEED: 3.00mm
+                </span>
+              </div>
+
+              {/* Guia horizontal de base (alinhada à borda inferior da prancheta) */}
+              <div className="absolute -left-[100vw] -right-[100vw] bottom-0 h-[1px] bg-[#00e5ff]/35 shadow-[0_0_8px_rgba(0,229,255,0.35)] z-20">
+                <span className="absolute right-[calc(100vw+16px)] -bottom-4 text-[8px] font-mono text-[#00e5ff]/80 tracking-widest bg-black/85 px-1.5 py-0.5 border border-[#00e5ff]/35 rounded shadow">
+                  Y: 1080.00 · BASELINE
+                </span>
+              </div>
+
+              {/* Marcas de Registro Técnicas nos 4 cantos externos */}
+              <div className="absolute -top-6 -left-6 z-20 text-[#00e5ff] font-mono text-sm leading-none flex items-center">
                 <span>+</span>
                 <span className="text-[7px] text-[#00e5ff]/60 ml-1 tracking-tighter hidden md:inline">REG.TL</span>
               </div>
-              {/* Canto Superior Direito */}
-              <div className="absolute -top-6 -right-6 z-20 pointer-events-none select-none text-[#00e5ff] font-mono text-sm leading-none flex items-center">
+              <div className="absolute -top-6 -right-6 z-20 text-[#00e5ff] font-mono text-sm leading-none flex items-center">
                 <span className="text-[7px] text-[#00e5ff]/60 mr-1 tracking-tighter hidden md:inline">TRIM.TR</span>
                 <span>+</span>
               </div>
-              {/* Canto Inferior Esquerdo */}
-              <div className="absolute -bottom-6 -left-6 z-20 pointer-events-none select-none text-[#00e5ff] font-mono text-sm leading-none flex items-center">
+              <div className="absolute -bottom-6 -left-6 z-20 text-[#00e5ff] font-mono text-sm leading-none flex items-center">
                 <span>+</span>
                 <span className="text-[7px] text-[#00e5ff]/60 ml-1 tracking-tighter hidden md:inline">C:100 M:0 Y:100 K:0</span>
               </div>
-              {/* Canto Inferior Direito */}
-              <div className="absolute -bottom-6 -right-6 z-20 pointer-events-none select-none text-[#00e5ff] font-mono text-sm leading-none flex items-center">
+              <div className="absolute -bottom-6 -right-6 z-20 text-[#00e5ff] font-mono text-sm leading-none flex items-center">
                 <span className="text-[7px] text-[#00e5ff]/60 mr-1 tracking-tighter hidden md:inline">KIIRO.STUDIO</span>
                 <span>+</span>
               </div>
-            </>
+            </div>
           )}
 
           {/* O CONTAINER DA PRANCHETA (ELEVATED ARTBOARD CONTAINER) */}
@@ -554,7 +484,7 @@ export default function ServicesArtboardSection() {
                     key={cat.id}
                     type="button"
                     onClick={() => handleCategorySelect(idx)}
-                    className={`relative flex items-center gap-2.5 px-4 md:px-5 py-3 rounded-t-xl font-display text-[12px] md:text-[13px] font-semibold whitespace-nowrap transition-all duration-200 border-t border-x ${
+                    className={`relative flex items-center gap-2.5 px-4 md:px-6 py-3 rounded-t-xl font-display text-[12px] md:text-[14px] font-semibold whitespace-nowrap transition-all duration-200 border-t border-x ${
                       isSelected
                         ? "bg-[#161a18] text-white border-white/15 shadow-[0_-4px_12px_rgba(0,0,0,0.5)] z-10"
                         : "bg-transparent text-white/45 border-transparent hover:text-white/80 hover:bg-white/[0.02]"
@@ -647,10 +577,10 @@ export default function ServicesArtboardSection() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -15 }}
                   transition={{ duration: 0.35, ease: "easeOut" }}
-                  className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start"
+                  className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 xl:gap-16 items-start"
                 >
                   {/* COLUNA ESQUERDA: TÍTULOS E DESCRIÇÃO ESTRATÉGICA */}
-                  <div className="lg:col-span-7 flex flex-col gap-6">
+                  <div className="lg:col-span-7 xl:col-span-7 flex flex-col gap-6">
                     <div className="flex items-center gap-3">
                       <span className="font-mono text-sm font-bold text-[#FFCA16] bg-[#FFCA16]/10 px-2.5 py-0.5 rounded border border-[#FFCA16]/20">
                         {activeCategory.number}.{activeSubIndex + 1}
@@ -661,7 +591,7 @@ export default function ServicesArtboardSection() {
                     </div>
 
                     <div>
-                      <h3 className="font-display text-[28px] sm:text-[38px] md:text-[46px] font-[800] text-white leading-[1.05] tracking-tight">
+                      <h3 className="font-display text-[30px] sm:text-[40px] md:text-[48px] xl:text-[54px] font-[800] text-white leading-[1.02] tracking-tight">
                         {activeSubItem.title}
                       </h3>
                       {activeSubItem.subtitle && (
@@ -671,36 +601,15 @@ export default function ServicesArtboardSection() {
                       )}
                     </div>
 
-                    <div className="text-white/70 text-[15px] md:text-[16.5px] leading-relaxed font-light whitespace-pre-line space-y-4">
+                    <div className="text-white/70 text-[15px] md:text-[17px] leading-relaxed font-light whitespace-pre-line space-y-4 max-w-4xl">
                       {activeSubItem.description}
-                    </div>
-
-                    {/* CTA DIRETO: PROPOSTA COMERCIAL */}
-                    <div className="pt-4 flex flex-wrap items-center gap-4">
-                      <a
-                        href={getWhatsAppMessage()}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-3 bg-[#FFCA16] hover:bg-[#ffe169] text-black font-semibold text-sm px-6 py-3.5 rounded-full transition-all duration-300 shadow-[0_8px_25px_rgba(255,202,22,0.25)] hover:shadow-[0_12px_30px_rgba(255,202,22,0.4)] hover:-translate-y-0.5"
-                      >
-                        <span>Solicitar proposta deste serviço</span>
-                        <ArrowUpRight className="w-4 h-4" />
-                      </a>
-
-                      <a
-                        href="#portfolio"
-                        className="inline-flex items-center gap-2 text-white/60 hover:text-white text-xs font-mono uppercase tracking-wider px-4 py-3 rounded-full hover:bg-white/5 transition-colors"
-                      >
-                        <Eye className="w-3.5 h-3.5 text-[#00e5ff]" />
-                        <span>Ver projetos relacionados</span>
-                      </a>
                     </div>
                   </div>
 
-                  {/* COLUNA DIREITA: ESPECIFICAÇÕES DA PRANCHETA & ENTREGÁVEIS */}
-                  <div className="lg:col-span-5 bg-[#0b0d0c] rounded-2xl p-6 sm:p-8 border border-white/10 relative overflow-hidden">
+                  {/* COLUNA DIREITA: ENTREGÁVEIS & ESCOPO */}
+                  <div className="lg:col-span-5 xl:col-span-5 bg-[#0b0d0c] rounded-2xl p-6 sm:p-8 xl:p-10 border border-white/10 relative overflow-hidden">
                     {/* Borda técnica luminosa */}
-                    <div className="absolute top-0 right-0 w-24 h-24 bg-[#FFCA16]/5 rounded-full blur-2xl pointer-events-none" />
+                    <div className="absolute top-0 right-0 w-28 h-28 bg-[#FFCA16]/5 rounded-full blur-2xl pointer-events-none" />
 
                     <div className="flex items-center justify-between mb-6 pb-4 border-b border-white/10">
                       <div className="flex items-center gap-2">
@@ -710,12 +619,12 @@ export default function ServicesArtboardSection() {
                         </span>
                       </div>
                       <span className="text-[10px] font-mono text-white/30 uppercase">
-                        SPEC_SHEET_V2
+                        SPEC_SHEET
                       </span>
                     </div>
 
                     {/* Lista de Entregáveis */}
-                    <ul className="space-y-3.5 mb-8">
+                    <ul className="space-y-3.5">
                       {activeSubItem.deliverables.map((item, dIdx) => (
                         <li
                           key={dIdx}
@@ -726,29 +635,6 @@ export default function ServicesArtboardSection() {
                         </li>
                       ))}
                     </ul>
-
-                    {/* Tags de Especificações Técnicas (Illustrator Metadata) */}
-                    <div className="pt-4 border-t border-white/10">
-                      <div className="text-[10px] font-mono uppercase tracking-widest text-white/40 mb-3">
-                        Parâmetros Vetoriais
-                      </div>
-                      <div className="grid grid-cols-2 gap-2">
-                        {activeSubItem.specs.map((spec, sIdx) => (
-                          <div
-                            key={sIdx}
-                            className="bg-white/[0.02] border border-white/5 rounded-lg p-2.5 flex flex-col"
-                          >
-                            <span className="text-[9px] font-mono text-white/35 uppercase">
-                              {spec.label}
-                            </span>
-                            <span className="text-xs font-mono font-bold text-[#00e5ff] mt-0.5">
-                              {spec.value}
-                            </span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-
                   </div>
                 </motion.div>
               </AnimatePresence>

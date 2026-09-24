@@ -581,15 +581,6 @@ export default function ServicesArtboardSection() {
                 >
                   {/* COLUNA ESQUERDA: TÍTULOS E DESCRIÇÃO ESTRATÉGICA */}
                   <div className="lg:col-span-7 xl:col-span-7 flex flex-col gap-6">
-                    <div className="flex items-center gap-3">
-                      <span className="font-mono text-sm font-bold text-[#FFCA16] bg-[#FFCA16]/10 px-2.5 py-0.5 rounded border border-[#FFCA16]/20">
-                        {activeCategory.number}.{activeSubIndex + 1}
-                      </span>
-                      <span className="text-white/40 text-xs font-mono uppercase tracking-widest">
-                        {activeCategory.tag}
-                      </span>
-                    </div>
-
                     <div>
                       <h3 className="font-display text-[30px] sm:text-[40px] md:text-[48px] xl:text-[54px] font-[800] text-white leading-[1.02] tracking-tight">
                         {activeSubItem.title}

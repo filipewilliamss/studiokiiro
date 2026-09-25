@@ -1,8 +1,6 @@
 import { useRef, useState, useEffect, useMemo } from "react";
 import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion";
-import { ArrowDown } from "lucide-react";
 import { playPillHover } from "@/utils/soundEffects";
-import kiiroLogoMark from "@/assets/kiiro-mark.svg";
 
 // Imagens locais de alta fidelidade como fallback imediato para cada etapa
 import step1Fallback from "@/assets/tabernaculo-pagina-2.webp";
@@ -517,28 +515,10 @@ export default function KiiroMethodSection() {
               y: step1OverlayY,
               pointerEvents: globalScrollP < 0.55 ? "none" : "auto",
             }}
-            className="absolute inset-0 z-20 flex flex-col justify-between p-6 sm:p-10 md:p-14 pointer-events-none"
+            className="absolute inset-0 z-20 flex flex-col justify-end p-6 sm:p-10 md:p-14 pointer-events-none"
           >
-            {/* Topo: Identificador de Marca e Etapa */}
-            <div className="w-full flex justify-between items-center pointer-events-auto">
-              <div className="flex items-center gap-2.5 bg-black/50 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-white/10">
-                <img src={kiiroLogoMark} alt="Studio Kiiro" className="w-4 h-4 object-contain" />
-                <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-[#FFCA16]">
-                  PROCESSO // STUDIO KIIRO
-                </span>
-              </div>
-              <div className="bg-black/50 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-white/10 font-mono text-xs text-white">
-                <span className="text-[#FFCA16] font-bold">ETAPA 01</span> / 05
-              </div>
-            </div>
-
             {/* Caixa de Texto Estreita Justificada à Esquerda com Título e Descrição Branca */}
-            <div className="max-w-md w-full pointer-events-auto mb-8 sm:mb-12 text-left">
-              <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-[2px] bg-[#FFCA16]/10 border border-[#FFCA16]/30 text-[#FFCA16] font-mono text-[10px] uppercase tracking-[0.2em] mb-3">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#FFCA16]" />
-                {STEP_01.tag}
-              </div>
-
+            <div className="max-w-md w-full pointer-events-auto mb-6 sm:mb-10 text-left">
               <h3 className="font-display font-[800] text-[clamp(28px,4.5vw,46px)] text-[#FFCA16] leading-[1.05] tracking-tight uppercase drop-shadow-md mb-3">
                 01. {STEP_01.title}
               </h3>
@@ -550,15 +530,6 @@ export default function KiiroMethodSection() {
               <p className="text-xs sm:text-sm text-white/90 leading-relaxed drop-shadow-sm">
                 {STEP_01.description}
               </p>
-            </div>
-
-            {/* Rodapé: Indicador de continuação para os próximos processos */}
-            <div className="w-full flex items-center justify-between pointer-events-auto pt-3 border-t border-white/10 font-mono text-[10px] uppercase tracking-widest text-zinc-400">
-              <span className="text-[#FFCA16] flex items-center gap-2">
-                <ArrowDown className="w-3.5 h-3.5 animate-bounce" />
-                Continue rolando para os próximos processos
-              </span>
-              <span className="hidden sm:inline text-white/50">ETAPAS 02 A 05 ABAIXO</span>
             </div>
           </motion.div>
 

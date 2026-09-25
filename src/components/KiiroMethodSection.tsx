@@ -1,6 +1,6 @@
 import { useRef, useState, useEffect, useMemo } from "react";
 import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion";
-import { Check, ArrowDown, Sparkles, Layers, ArrowUpRight } from "lucide-react";
+import { Check, ArrowDown, ArrowUpRight } from "lucide-react";
 import { playPillHover } from "@/utils/soundEffects";
 import kiiroLogoMark from "@/assets/kiiro-mark.svg";
 
@@ -11,11 +11,11 @@ import step3Fallback from "@/assets/construmar-pagina-2.webp";
 import step4Fallback from "@/assets/teamluisa-pagina-2.webp";
 import step5Fallback from "@/assets/templo-pagina-2.webp";
 
-/**
- * 💡 DADOS DAS ETAPAS DA METODOLOGIA (PROCESSO)
- * Etapa 01: Apresentada através do Showreel com formas geométricas triangulares amarelas
- * Etapas 02 a 05: Apresentadas nos quadros de vídeo e textos intercalados no estilo editorial Dkton
- */
+export interface MetadataField {
+  label: string;
+  value: string;
+}
+
 export interface ProcessStepData {
   id: string;
   number: string;
@@ -23,16 +23,11 @@ export interface ProcessStepData {
   title: string;
   subtitle: string;
   description: string;
-  metadata: {
-    fase: string;
-    escopo: string;
-    foco: string;
-    metodologia: string;
-  };
+  metadataItems: MetadataField[];
   deliverables: string[];
   videoUrl: string;
   fallbackImage: string;
-  badgeLabel: string;
+  buttonLabel: string;
 }
 
 const STEP_01: ProcessStepData = {
@@ -43,12 +38,12 @@ const STEP_01: ProcessStepData = {
   subtitle: "Ouvir antes de desenhar. Compreender antes de projetar.",
   description:
     "Iniciamos com uma imersão profunda para dissecar o DNA da sua marca, desafios de negócio, público-alvo e visão de futuro. Aqui definimos a verdade que a marca precisa comunicar ao mundo com precisão cirúrgica.",
-  metadata: {
-    fase: "01 DE 05",
-    escopo: "Diagnóstico de Posicionamento & DNA",
-    foco: "Compreensão Holística do Negócio",
-    metodologia: "Entrevista Estruturada & Mapeamento de Público",
-  },
+  metadataItems: [
+    { label: "Fase", value: "01 // IMERSÃO" },
+    { label: "Escopo", value: "DIAGNÓSTICO DE POSICIONAMENTO" },
+    { label: "Metodologia", value: "MAPEAMENTO DE DNA DE MARCA" },
+    { label: "Entregáveis", value: "PERSONAS, TOM DE VOZ & METAS" },
+  ],
   deliverables: [
     "Diagnóstico de Posicionamento",
     "Mapeamento de DNA de Marca",
@@ -57,10 +52,15 @@ const STEP_01: ProcessStepData = {
   ],
   videoUrl: "https://assets.mixkit.co/videos/preview/mixkit-abstract-flowing-gold-and-black-lines-41315-large.mp4",
   fallbackImage: step1Fallback,
-  badgeLabel: "SHOWREEL // ETAPA 01",
+  buttonLabel: "ETAPA 01 // BRIEFING",
 };
 
-const STEPS_INTERCALATED: ProcessStepData[] = [
+/**
+ * Processos 02 a 05: exibidos com título monumental amarelo em cima do vídeo,
+ * todos os vídeos no lado direito e informações limpas/clean no lado esquerdo
+ * exatamente como nas imagens de referência do Dkton (VISIT AUSTRIA / TGW WERX).
+ */
+const STEPS_DKTON_STYLE: ProcessStepData[] = [
   {
     id: "pesquisa",
     number: "02",
@@ -68,13 +68,14 @@ const STEPS_INTERCALATED: ProcessStepData[] = [
     title: "Pesquisa e Estratégia",
     subtitle: "Encontrar os espaços em branco que a concorrência ignora.",
     description:
-      "Analisamos o mercado, concorrentes diretos e referências globais de vanguarda. Criamos o mapa de território visual e a estratégia única que garantirá diferenciação imediata, duradoura e relevante no mercado.",
-    metadata: {
-      fase: "02 DE 05",
-      escopo: "Benchmarking Global & Análise Setorial",
-      foco: "Mapeamento de Território Visual & Posicionamento",
-      metodologia: "Imersão Semiótica & Painéis Moodboard",
-    },
+      "Mapeamos o mercado e referências globais de vanguarda para encontrar os espaços em branco que a concorrência ignora. Criamos a estratégia única que garantirá diferenciação duradoura e relevante.",
+    metadataItems: [
+      { label: "Fase", value: "02 // ANÁLISE" },
+      { label: "Escopo", value: "BENCHMARKING GLOBAL & SETORIAL" },
+      { label: "Metodologia", value: "MAPEAMENTO DE TERRITÓRIO VISUAL" },
+      { label: "Entregáveis", value: "PAINEL SEMÂNTICO & MOODBOARD" },
+      { label: "Diretriz", value: "ENCONTRAR O DIFERENCIAL REAL" },
+    ],
     deliverables: [
       "Benchmarking Competitivo Global",
       "Painel Semântico & Moodboard",
@@ -83,7 +84,7 @@ const STEPS_INTERCALATED: ProcessStepData[] = [
     ],
     videoUrl: "https://assets.mixkit.co/videos/preview/mixkit-set-of-plateaus-seen-from-above-in-a-dark-atmosphere-41484-large.mp4",
     fallbackImage: step2Fallback,
-    badgeLabel: "ETAPA 02 // PESQUISA",
+    buttonLabel: "VER PROCESSO",
   },
   {
     id: "criacao",
@@ -92,13 +93,14 @@ const STEPS_INTERCALATED: ProcessStepData[] = [
     title: "Criação e Design",
     subtitle: "Onde o conceito ganha corpo, forma e presença inconfundível.",
     description:
-      "Traduzimos a estratégia em sistemas visuais potentes: tipografia proprietária, paleta de cores magnética, símbolo, iconografia e grids matemáticos. Não desenhamos apenas logos; construímos universos visuais completos.",
-    metadata: {
-      fase: "03 DE 05",
-      escopo: "Direção de Arte, Símbolo & Sistema Gráfico",
-      foco: "Identidade Visual Proprietária & Inconfundível",
-      metodologia: "Grid Modular, Tipografia & Contraste Racional",
-    },
+      "Traduzimos a estratégia em sistemas visuais potentes: tipografia proprietária, paleta de cores magnética, símbolo, iconografia e grids matemáticos. Construímos o universo visual completo.",
+    metadataItems: [
+      { label: "Fase", value: "03 // SISTEMA DE MARCA" },
+      { label: "Escopo", value: "SÍMBOLO, TIPOGRAFIA & CORES" },
+      { label: "Metodologia", value: "GRID MODULAR & GEOMETRIA" },
+      { label: "Entregáveis", value: "UNIVERSO VISUAL & PADRÕES" },
+      { label: "Diretriz", value: "PRESENÇA INCONFUNDÍVEL" },
+    ],
     deliverables: [
       "Design do Símbolo e Logotipo",
       "Paleta Cromática com Racional de Contraste",
@@ -107,7 +109,7 @@ const STEPS_INTERCALATED: ProcessStepData[] = [
     ],
     videoUrl: "https://assets.mixkit.co/videos/preview/mixkit-liquid-gold-and-black-swirling-waves-41316-large.mp4",
     fallbackImage: step3Fallback,
-    badgeLabel: "ETAPA 03 // DESIGN",
+    buttonLabel: "VER PROCESSO",
   },
   {
     id: "apresentacao",
@@ -116,13 +118,14 @@ const STEPS_INTERCALATED: ProcessStepData[] = [
     title: "Apresentação e Ajustes",
     subtitle: "Conectar você ao impacto real da nova marca no mundo.",
     description:
-      "Apresentamos o projeto aplicado em pontos de contato reais — interfaces digitais, embalagens, papelaria, frotas e ambientes físicos. Coletamos feedbacks pontuais e refinamos cada detalhe com rigor cirúrgico até a aprovação plena.",
-    metadata: {
-      fase: "04 DE 05",
-      escopo: "Simulações em Pontos de Contato Reais & 3D",
-      foco: "Validação Cirúrgica de Escala e Legibilidade",
-      metodologia: "Apresentação Estruturada & Rodada de Calibração",
-    },
+      "Apresentamos a nova marca aplicada em pontos de contato reais — interfaces digitais, embalagens, papelaria e ambientes. Refinamos cada detalhe com rigor cirúrgico até a aprovação plena.",
+    metadataItems: [
+      { label: "Fase", value: "04 // REFINAMENTO" },
+      { label: "Escopo", value: "SIMULAÇÕES EM PONTOS DE CONTATO" },
+      { label: "Metodologia", value: "VALIDAÇÃO DE IMPACTO REAL" },
+      { label: "Entregáveis", value: "MOCKUPS 3D & CALIBRAÇÃO" },
+      { label: "Diretriz", value: "RIGOR CIRÚRGICO ATÉ A APROVAÇÃO" },
+    ],
     deliverables: [
       "Apresentação Estruturada em Alta Fidelidade",
       "Simulações em Aplicações Reais e Mockups 3D",
@@ -131,7 +134,7 @@ const STEPS_INTERCALATED: ProcessStepData[] = [
     ],
     videoUrl: "https://assets.mixkit.co/videos/preview/mixkit-black-and-gold-geometric-shapes-moving-41483-large.mp4",
     fallbackImage: step4Fallback,
-    badgeLabel: "ETAPA 04 // REFINAMENTO",
+    buttonLabel: "VER PROCESSO",
   },
   {
     id: "entrega",
@@ -140,13 +143,14 @@ const STEPS_INTERCALATED: ProcessStepData[] = [
     title: "Entrega Final",
     subtitle: "Autonomia completa e documentação para o seu crescimento.",
     description:
-      "Exportamos todos os arquivos finais em todas as extensões necessárias para produção gráfica profissional e ambiente digital. Entregamos o Brand Guidelines completo com regras de aplicação para preservar o valor da marca no longo prazo.",
-    metadata: {
-      fase: "05 DE 05",
-      escopo: "Brand Guidelines Completo & Pacote Vetorial",
-      foco: "Autonomia Operacional & Consistência de Aplicação",
-      metodologia: "Exportação Multiformato (.AI, .EPS, .SVG, .PDF, WebP)",
-    },
+      "Autonomia total para o crescimento da sua marca. Entregamos o Brand Guidelines completo e todos os arquivos em extensões finais para produção gráfica profissional e ambiente digital.",
+    metadataItems: [
+      { label: "Fase", value: "05 // BRAND GUIDELINES" },
+      { label: "Escopo", value: "MANUAL COMPLETO & ASSETS" },
+      { label: "Metodologia", value: "EXPORTAÇÃO MULTIFORMATO" },
+      { label: "Entregáveis", value: "ARQUIVOS VETORIAIS (.AI, .EPS, .SVG, .PDF)" },
+      { label: "Diretriz", value: "AUTONOMIA & CONSISTÊNCIA TOTAL" },
+    ],
     deliverables: [
       "Manual de Identidade Visual (Brand Guidelines)",
       "Arquivos Vetoriais (.AI, .EPS, .SVG, .PDF)",
@@ -155,11 +159,11 @@ const STEPS_INTERCALATED: ProcessStepData[] = [
     ],
     videoUrl: "https://assets.mixkit.co/videos/preview/mixkit-gold-particles-rising-in-the-dark-41317-large.mp4",
     fallbackImage: step5Fallback,
-    badgeLabel: "ETAPA 05 // ENTREGA",
+    buttonLabel: "VER PROCESSO",
   },
 ];
 
-// 7 tonalidades de amarelo correspondentes às formas geométricas da referência Dkton
+// 7 tonalidades de amarelo correspondentes às formas geométricas da referência
 const YELLOW_TONES = [
   "#FFD84D", // Amarelo vibrante claro
   "#FFCA16", // Amarelo oficial Studio Kiiro
@@ -199,7 +203,6 @@ export default function KiiroMethodSection() {
 
   useEffect(() => {
     const unsubscribe = heroScrollProgress.on("change", (p) => {
-      // Expande completamente no intervalo [0, 0.75]
       const t = Math.min(Math.max(p / 0.75, 0), 1);
       setMorphT(t);
     });
@@ -211,14 +214,14 @@ export default function KiiroMethodSection() {
   const titleOpacity = useTransform(heroScrollProgress, [0, 0.45], [1, 0]);
   const titleScale = useTransform(heroScrollProgress, [0, 0.45], [1, 0.92]);
 
-  // Revela o badge/conteúdo da Etapa 01 quando o vídeo atinge tela cheia
+  // Revela o overlay editorial da Etapa 01 quando o vídeo atinge tela cheia
   const step1OverlayOpacity = useTransform(heroScrollProgress, [0.65, 0.88], [0, 1]);
   const step1OverlayY = useTransform(heroScrollProgress, [0.65, 0.88], ["30px", "0px"]);
 
   // Opacidade do vídeo no interior das formas: 0.4 na prévia até 1.0 em tela cheia
   const videoOpacity = useTransform(heroScrollProgress, [0, 0.75], [0.4, 1.0]);
 
-  // Opacidade do preenchimento amarelo das formas (diminui para revelar o vídeo límpido em tela cheia)
+  // Opacidade do preenchimento amarelo das formas (diminui para revelar o vídeo límpido)
   const shapeYellowFillOpacity = 0.85 * (1 - morphT);
 
   // Calcula a geometria das 7 formas triangulares/geométricas do Studio Kiiro
@@ -228,14 +231,12 @@ export default function KiiroMethodSection() {
     const isMobile = W < 768;
 
     const shapeCount = 7;
-    // Dimensões iniciais compactas (abaixo do título PROCESSO)
     const initialTotalW = Math.min(W * (isMobile ? 0.94 : 0.84), isMobile ? 420 : 1080);
     const initialHeight = Math.min(H * (isMobile ? 0.34 : 0.42), isMobile ? 220 : 320);
     const initialGap = isMobile ? 6 : 14;
     const initialYStart = (H - initialHeight) / 2 + (isMobile ? 60 : 85);
     const initialSlope = isMobile ? 14 : 28;
 
-    // Interpolação conforme morphT (0 -> 1)
     const gap = initialGap * (1 - morphT);
     const totalW = initialTotalW + (W - initialTotalW) * morphT;
     const shapeW = (totalW - (shapeCount - 1) * gap) / shapeCount;
@@ -248,7 +249,6 @@ export default function KiiroMethodSection() {
       const x1 = startX + i * (shapeW + gap);
       const x2 = x1 + shapeW;
 
-      // Cortes geométricos e triangulares alternados a 45° inspirados no símbolo Studio Kiiro
       const isAlt = i % 2 === 0;
       const isCenter = i === 3;
 
@@ -258,19 +258,16 @@ export default function KiiroMethodSection() {
       let yBottomRight = startY + shapeH;
 
       if (isCenter) {
-        // Forma central com ponta triangular superior mais pronunciada (chevron)
         yTopLeft = startY + slope * 0.5;
         yTopRight = startY + slope * 0.5;
         yBottomLeft = startY + shapeH;
         yBottomRight = startY + shapeH;
       } else if (isAlt) {
-        // Corte chanfrado triangular direito
         yTopLeft = startY + slope;
         yTopRight = startY;
         yBottomLeft = startY + shapeH;
         yBottomRight = startY + shapeH - slope * 0.5;
       } else {
-        // Corte chanfrado triangular esquerdo
         yTopLeft = startY;
         yTopRight = startY + slope;
         yBottomLeft = startY + shapeH - slope * 0.5;
@@ -301,7 +298,7 @@ export default function KiiroMethodSection() {
             <h2 className="text-5xl md:text-7xl font-bold uppercase mt-2 text-[#FFCA16]">Processo</h2>
           </div>
           <div className="space-y-16">
-            {[STEP_01, ...STEPS_INTERCALATED].map((step) => (
+            {[STEP_01, ...STEPS_DKTON_STYLE].map((step) => (
               <div key={step.id} className="grid md:grid-cols-2 gap-8 items-center border border-white/10 p-8 rounded-2xl bg-white/[0.02]">
                 <div>
                   <span className="text-[#FFCA16] font-mono text-sm tracking-wider">{step.number} // {step.tag}</span>
@@ -365,7 +362,6 @@ export default function KiiroMethodSection() {
               alt={STEP_01.title}
               className="absolute inset-0 w-full h-full object-cover -z-10"
             />
-            {/* Gradiente de contraste editorial suave */}
             <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-black/60 pointer-events-none" />
           </motion.div>
 
@@ -394,7 +390,6 @@ export default function KiiroMethodSection() {
           </svg>
 
           {/* ── CAMADA DE CORES AMARELAS NAS FORMAS (VARIAÇÕES DE TONALIDADE) ───── */}
-          {/* Mostra as formas amarelas preenchidas com opacidade sutil sobre o vídeo */}
           {!isFullyExpanded && (
             <svg
               className="absolute inset-0 w-full h-full pointer-events-none z-10"
@@ -403,14 +398,12 @@ export default function KiiroMethodSection() {
             >
               {shapes.map((s) => (
                 <g key={s.id}>
-                  {/* Preenchimento em tons de amarelo que desvanece suavemente para revelar o vídeo */}
                   <polygon
                     points={s.points}
                     fill={s.color}
                     fillOpacity={shapeYellowFillOpacity * 0.72}
                     style={{ mixBlendMode: "screen" }}
                   />
-                  {/* Linha de contorno dourada sutil */}
                   <polygon
                     points={s.points}
                     fill="none"
@@ -438,12 +431,10 @@ export default function KiiroMethodSection() {
               Metodologia Studio Kiiro
             </span>
 
-            {/* A palavra PROCESSO em amarelo imponente, idêntica ao SHOWREEL de Dkton */}
             <h2 className="font-display font-[900] text-[clamp(54px,12.5vw,150px)] leading-[0.88] tracking-[-0.04em] uppercase text-[#FFCA16] drop-shadow-[0_10px_35px_rgba(0,0,0,0.9)]">
               Processo
             </h2>
 
-            {/* Tag amarela inspirada na etiqueta "SHOWREEL ANSEHEN" de Dkton */}
             <div className="mt-4 inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#FFCA16] text-black font-mono text-[10px] uppercase font-bold tracking-wider shadow-lg">
               <span>Etapa 01: Briefing & Imersão</span>
               <span className="animate-bounce">↓</span>
@@ -459,7 +450,6 @@ export default function KiiroMethodSection() {
             }}
             className="absolute inset-0 z-20 flex flex-col justify-between p-6 sm:p-10 md:p-14 pointer-events-none"
           >
-            {/* Topo: Identificador de Marca e Etapa */}
             <div className="w-full flex justify-between items-center pointer-events-auto">
               <div className="flex items-center gap-2.5 bg-black/50 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-white/10">
                 <img src={kiiroLogoMark} alt="Studio Kiiro" className="w-4 h-4 object-contain" />
@@ -472,7 +462,6 @@ export default function KiiroMethodSection() {
               </div>
             </div>
 
-            {/* Centro-Baixo: Informações da Etapa 01 */}
             <div className="max-w-2xl pointer-events-auto mb-8 sm:mb-12">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FFCA16]/15 border border-[#FFCA16]/30 text-[#FFCA16] font-mono text-[10px] uppercase tracking-[0.2em] backdrop-blur-md mb-3">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#FFCA16]" />
@@ -504,7 +493,6 @@ export default function KiiroMethodSection() {
               </div>
             </div>
 
-            {/* Rodapé: Indicador de continuação para os próximos processos */}
             <div className="w-full flex items-center justify-between pointer-events-auto pt-3 border-t border-white/10 font-mono text-[10px] uppercase tracking-widest text-zinc-400">
               <span className="text-[#FFCA16] flex items-center gap-2">
                 <ArrowDown className="w-3.5 h-3.5 animate-bounce" />
@@ -518,223 +506,93 @@ export default function KiiroMethodSection() {
       </section>
 
       {/* ========================================================================= */}
-      {/* 2. SEÇÃO TELA PRETA COM QUADROS DE VÍDEO INTERCALADOS (FRAMES 139 A 165)  */}
+      {/* 2. SEÇÃO TELA PRETA COM ESTRUTURA DKTON (PROCESSOS 02 EM DIANTE)           */}
+      {/*    Título bem grande em cima do vídeo, vídeos todos na direita e           */}
+      {/*    informações limpas e diretas na esquerda (VISIT AUSTRIA / TGW WERX)     */}
       {/* ========================================================================= */}
       <section
-        className="relative w-full bg-[#050505] text-white py-28 sm:py-36 px-6 sm:px-10 md:px-14 lg:px-20 overflow-hidden"
-        aria-label="Etapas Subsequentes da Metodologia Studio Kiiro"
+        className="relative w-full bg-[#050505] text-white py-24 sm:py-36 px-6 sm:px-10 md:px-14 lg:px-20 overflow-hidden"
+        aria-label="Processos Subsequentes Studio Kiiro"
       >
-        {/* Linha guia de fundo sutil */}
-        <div className="absolute inset-0 pointer-events-none opacity-20">
-          <div className="max-w-7xl mx-auto h-full border-x border-white/5" />
-        </div>
+        <div className="max-w-7xl mx-auto space-y-36 sm:space-y-48">
 
-        <div className="max-w-7xl mx-auto space-y-36 sm:space-y-48 relative z-10">
+          {STEPS_DKTON_STYLE.map((step, index) => (
+            <motion.article
+              key={step.id}
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+              onMouseEnter={() => playPillHover(index + 1)}
+              className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start"
+            >
+              {/* ── COLUNA DA ESQUERDA: INFORMAÇÕES LIMPAS, DIRETAS, SEM ADEREÇOS ── */}
+              <div className="lg:col-span-4 lg:pt-14 space-y-5">
+                {step.metadataItems.map((field, fIdx) => (
+                  <div key={fIdx} className="border-b border-white/10 pb-3">
+                    {/* Badge do rótulo estilo Dkton */}
+                    <span className="inline-block px-1.5 py-0.5 rounded-[2px] bg-[#FFCA16]/10 border border-[#FFCA16]/30 text-[#FFCA16] font-mono text-[10px] uppercase tracking-wider mb-1.5">
+                      {field.label}
+                    </span>
+                    {/* Texto limpo e direto em caixa alta */}
+                    <h5 className="font-sans text-sm sm:text-base font-bold text-white tracking-wide uppercase">
+                      {field.value}
+                    </h5>
+                  </div>
+                ))}
 
-          {/* CABEÇALHO DE ENTRADA NA TELA PRETA (ESTILO PROJEKTE DO DKTON) */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-            className="border-b border-white/10 pb-10"
-          >
-            <div className="flex items-center gap-2 text-[#FFCA16] font-mono text-[11px] uppercase tracking-[0.3em] mb-3">
-              <Layers className="w-4 h-4" />
-              <span>Metodologia em Ação // Fluxo Cirúrgico</span>
-            </div>
+                {/* Descrição limpa e objetiva */}
+                <p className="text-zinc-400 text-xs sm:text-sm leading-relaxed pt-2">
+                  {step.description}
+                </p>
+              </div>
 
-            <h3 className="font-display font-[900] text-4xl sm:text-6xl lg:text-7xl uppercase tracking-[-0.03em] text-[#FFCA16]">
-              Etapas do Processo
-            </h3>
+              {/* ── COLUNA DA DIREITA: TÍTULO GIGANTE EM CIMA DO VÍDEO + VÍDEO ─────── */}
+              <div className="lg:col-span-8 flex flex-col">
+                {/* Título do processo destacado bem grande em cima do vídeo */}
+                <h3 className="font-display font-[900] text-[clamp(36px,6vw,78px)] text-[#FFCA16] uppercase leading-[0.9] tracking-[-0.035em] mb-4 sm:mb-6">
+                  {step.title}
+                </h3>
 
-            <p className="mt-4 text-sm sm:text-base text-zinc-400 max-w-2xl leading-relaxed">
-              Cada projeto no Studio Kiiro percorre um fluxo rigoroso de inteligência estratégica, direção de arte e entrega de alta fidelidade para garantir diferenciação inconfundível.
-            </p>
-          </motion.div>
+                {/* Quadro de vídeo à direita ocupando o espaço da referência */}
+                <div className="group relative w-full aspect-[16/9] sm:aspect-[16/10] overflow-hidden bg-black border-t-2 border-[#FFCA16] shadow-[0_20px_60px_rgba(0,0,0,0.85)]">
+                  {/* Vídeo HTML5 em loop contínuo */}
+                  <video
+                    src={step.videoUrl}
+                    poster={step.fallbackImage}
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    preload="auto"
+                    className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+                  />
 
-          {/* LISTA INTERCALADA DOS PROCESSOS (ETAPAS 02 A 05) */}
-          {STEPS_INTERCALATED.map((step, index) => {
-            // Alternância exata solicitada pelo usuário:
-            // Processo 02 (index 0): Texto na esquerda, Quadro de Vídeo na direita
-            // Processo 03 (index 1): Quadro de Vídeo na esquerda, Texto na direita
-            // Processo 04 (index 2): Texto na esquerda, Quadro de Vídeo na direita
-            // Processo 05 (index 3): Quadro de Vídeo na esquerda, Texto na direita
-            const isVideoLeft = index % 2 === 1;
+                  {/* Fallback de imagem local estática */}
+                  <img
+                    src={step.fallbackImage}
+                    alt={step.title}
+                    className="absolute inset-0 w-full h-full object-cover -z-10"
+                  />
 
-            return (
-              <motion.article
-                key={step.id}
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-120px" }}
-                transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                onMouseEnter={() => playPillHover(index + 1)}
-                className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center"
-              >
-                {/* ── COLUNA 1: TEXTO (QUANDO O VÍDEO NÃO ESTÁ NA ESQUERDA) OU VÍDEO (QUANDO ESTÁ NA ESQUERDA) ── */}
-                {isVideoLeft ? (
-                  // VÍDEO NA ESQUERDA (ETAPAS 03 E 05)
-                  <>
-                    <div className="lg:col-span-6 order-2 lg:order-1">
-                      <VideoCard step={step} />
+                  {/* Gradiente sutil nas extremidades */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/20 pointer-events-none" />
+
+                  {/* Botão amarelo no rodapé do vídeo exatamente como o PROJEKT ANSEHEN de Dkton */}
+                  <div className="absolute bottom-5 left-1/2 -translate-x-1/2 z-10">
+                    <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-[#FFCA16] text-black font-mono text-[10px] sm:text-[11px] font-bold uppercase tracking-wider shadow-lg group-hover:scale-105 transition-transform cursor-pointer">
+                      <span>{step.buttonLabel}</span>
+                      <ArrowUpRight className="w-3.5 h-3.5 text-black" />
                     </div>
-                    <div className="lg:col-span-6 order-1 lg:order-2">
-                      <TextContent step={step} />
-                    </div>
-                  </>
-                ) : (
-                  // TEXTO NA ESQUERDA, VÍDEO NA DIREITA (ETAPAS 02 E 04)
-                  <>
-                    <div className="lg:col-span-6 order-1">
-                      <TextContent step={step} />
-                    </div>
-                    <div className="lg:col-span-6 order-2">
-                      <VideoCard step={step} />
-                    </div>
-                  </>
-                )}
-              </motion.article>
-            );
-          })}
+                  </div>
+                </div>
+              </div>
+            </motion.article>
+          ))}
 
         </div>
       </section>
 
-    </div>
-  );
-}
-
-/**
- * 📝 COMPONENTE DE TEXTO EDITORIAL ESTILO DKTON
- */
-function TextContent({ step }: { step: ProcessStepData }) {
-  return (
-    <div className="space-y-6">
-      {/* Badge de Fase */}
-      <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FFCA16]/15 border border-[#FFCA16]/30 text-[#FFCA16] font-mono text-[10px] uppercase tracking-[0.2em]">
-        <Sparkles className="w-3 h-3 text-[#FFCA16]" />
-        <span>{step.tag}</span>
-      </div>
-
-      {/* Título Monumental Amarelo */}
-      <h4 className="font-display font-[900] text-3xl sm:text-5xl lg:text-6xl text-[#FFCA16] uppercase leading-[0.95] tracking-tight">
-        <span className="opacity-40 mr-3 font-mono">{step.number}.</span>
-        {step.title}
-      </h4>
-
-      {/* Racional Conceitual */}
-      <p className="text-base sm:text-lg font-medium text-white/95 italic">
-        "{step.subtitle}"
-      </p>
-
-      {/* Tabela de Metadados Inspirada no Dkton (Produktion, Regie, etc. -> Fase, Escopo, Foco, Metodologia) */}
-      <div className="border-t border-b border-white/10 py-4 my-6 space-y-3">
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-          <div>
-            <span className="block text-[#FFCA16]/70 font-mono text-[10px] uppercase tracking-wider">
-              Fase
-            </span>
-            <span className="font-mono text-xs sm:text-sm font-semibold text-white">
-              {step.metadata.fase}
-            </span>
-          </div>
-
-          <div>
-            <span className="block text-[#FFCA16]/70 font-mono text-[10px] uppercase tracking-wider">
-              Escopo
-            </span>
-            <span className="font-mono text-xs sm:text-sm font-semibold text-white">
-              {step.metadata.escopo}
-            </span>
-          </div>
-
-          <div>
-            <span className="block text-[#FFCA16]/70 font-mono text-[10px] uppercase tracking-wider">
-              Objetivo
-            </span>
-            <span className="font-mono text-xs sm:text-sm font-semibold text-white">
-              {step.metadata.foco}
-            </span>
-          </div>
-
-          <div>
-            <span className="block text-[#FFCA16]/70 font-mono text-[10px] uppercase tracking-wider">
-              Metodologia
-            </span>
-            <span className="font-mono text-xs sm:text-sm font-semibold text-white">
-              {step.metadata.metodologia}
-            </span>
-          </div>
-        </div>
-      </div>
-
-      {/* Descrição Detalhada */}
-      <p className="text-xs sm:text-sm text-zinc-300 leading-relaxed">
-        {step.description}
-      </p>
-
-      {/* Chips de Entregáveis */}
-      <div className="pt-2 flex flex-wrap gap-2">
-        {step.deliverables.map((item) => (
-          <span
-            key={item}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/[0.04] border border-white/10 text-xs text-zinc-200 hover:border-[#FFCA16]/40 transition-colors"
-          >
-            <Check className="w-3.5 h-3.5 text-[#FFCA16]" />
-            {item}
-          </span>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-/**
- * 🎬 COMPONENTE DE QUADRO DE VÍDEO ESTILO DKTON COM MOLDURA DOURADA E BADGE
- */
-function VideoCard({ step }: { step: ProcessStepData }) {
-  const [isPlaying, setIsPlaying] = useState(true);
-
-  return (
-    <div className="group relative w-full aspect-[16/10] rounded-2xl overflow-hidden bg-black/60 border border-[#FFCA16]/30 hover:border-[#FFCA16]/80 transition-all duration-500 shadow-2xl">
-      {/* Vídeo HTML5 em loop */}
-      <video
-        src={step.videoUrl}
-        poster={step.fallbackImage}
-        autoPlay
-        loop
-        muted
-        playsInline
-        preload="auto"
-        className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-      />
-
-      {/* Imagem de fallback estática de contingência */}
-      <img
-        src={step.fallbackImage}
-        alt={step.title}
-        className="absolute inset-0 w-full h-full object-cover -z-10"
-      />
-
-      {/* Gradiente sutil para manter contraste */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20 pointer-events-none" />
-
-      {/* Selo no Topo do Quadro */}
-      <div className="absolute top-4 left-4 z-10 flex items-center gap-2 bg-black/60 backdrop-blur-md px-3 py-1 rounded-full border border-white/15">
-        <span className="w-2 h-2 rounded-full bg-[#FFCA16] animate-pulse" />
-        <span className="font-mono text-[10px] uppercase font-bold text-white tracking-widest">
-          {step.badgeLabel}
-        </span>
-      </div>
-
-      {/* Etiqueta Amarela de Ação no Rodapé (Exatamente como "PROJEKT ANSEHEN" no Dkton) */}
-      <div className="absolute bottom-4 right-4 z-10">
-        <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#FFCA16] text-black font-mono text-[10px] font-bold uppercase tracking-wider shadow-lg group-hover:scale-105 transition-transform">
-          <span>Ver Processo</span>
-          <ArrowUpRight className="w-3.5 h-3.5" />
-        </div>
-      </div>
     </div>
   );
 }

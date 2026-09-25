@@ -30,6 +30,8 @@ scratch/
 tmp/
 scrollcraft/
 *.mp4
+!src/assets/videos/*.mp4
+!public/videos/*.mp4
 *.pdf
 *.tsbuildinfo
 gerar_google_forms_kiiro.js

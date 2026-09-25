@@ -4,6 +4,11 @@ import { ArrowDown, ArrowUpRight } from "lucide-react";
 import { playPillHover } from "@/utils/soundEffects";
 import kiiroLogoMark from "@/assets/kiiro-mark.svg";
 
+// Vídeos proprietários dos processos do Studio Kiiro
+import fase1Video from "@/assets/videos/fase1.mp4";
+import fase2Video from "@/assets/videos/fase2.mp4";
+import fase3Video from "@/assets/videos/fase3.mp4";
+
 // Imagens locais de alta fidelidade como fallback imediato para cada etapa
 import step1Fallback from "@/assets/tabernaculo-pagina-2.webp";
 import step2Fallback from "@/assets/akedah-pagina-2.webp";
@@ -50,7 +55,7 @@ const STEP_01: ProcessStepData = {
     "Definição de Personas e Tom de Voz",
     "Alinhamento de Metas e Escopo",
   ],
-  videoUrl: "https://assets.mixkit.co/videos/preview/mixkit-abstract-flowing-gold-and-black-lines-41315-large.mp4",
+  videoUrl: fase1Video,
   fallbackImage: step1Fallback,
   buttonLabel: "ETAPA 01 // BRIEFING",
 };
@@ -82,7 +87,7 @@ const STEPS_DKTON_STYLE: ProcessStepData[] = [
       "Definição dos Pilares Visuais",
       "Arquitetura Estratégica da Marca",
     ],
-    videoUrl: "https://assets.mixkit.co/videos/preview/mixkit-set-of-plateaus-seen-from-above-in-a-dark-atmosphere-41484-large.mp4",
+    videoUrl: fase2Video,
     fallbackImage: step2Fallback,
     buttonLabel: "VER PROCESSO",
   },
@@ -107,7 +112,7 @@ const STEPS_DKTON_STYLE: ProcessStepData[] = [
       "Tipografia e Hierarquia Editorial",
       "Linguagem Gráfica, Texturas e Padrões",
     ],
-    videoUrl: "https://assets.mixkit.co/videos/preview/mixkit-liquid-gold-and-black-swirling-waves-41316-large.mp4",
+    videoUrl: fase3Video,
     fallbackImage: step3Fallback,
     buttonLabel: "VER PROCESSO",
   },

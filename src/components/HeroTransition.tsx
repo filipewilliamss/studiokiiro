@@ -71,7 +71,12 @@ export default function HeroTransition() {
         <HeroSection />
         <section id="visao" className="kiiro-bridge" style={{ background: "#faf9f4", borderTop: "10px solid #ffca16" }}>
           <h2>Uma ideia<br /><em>ganha forma.</em></h2>
-          <p>Design para transformar o que sua marca é<br className="hidden md:block" /> naquilo que as pessoas lembram.</p>
+          <div className="kiiro-bridge-divider" aria-hidden="true" />
+          <p>
+            Design para transformar o que sua marca é
+            <br />
+            naquilo que as pessoas lembram.
+          </p>
         </section>
       </>
     );
@@ -112,6 +117,17 @@ export default function HeroTransition() {
                 Uma ideia<br /><em>ganha forma.</em>
               </motion.h2>
 
+              <motion.div
+                className="kiiro-bridge-divider"
+                style={{
+                  opacity: pOpacity,
+                  filter: pFilter,
+                  y: pY,
+                  willChange: "transform, opacity, filter",
+                }}
+                aria-hidden="true"
+              />
+
               <motion.p
                 style={{
                   opacity: pOpacity,
@@ -122,8 +138,8 @@ export default function HeroTransition() {
                 }}
               >
                 Design para transformar o que sua marca é
-                <br className="hidden md:block" />
-                {" "}naquilo que as pessoas lembram.
+                <br />
+                naquilo que as pessoas lembram.
               </motion.p>
             </section>
           </div>

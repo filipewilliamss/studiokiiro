@@ -25,6 +25,15 @@ const Index = () => {
     setLoading(false);
   };
 
+  // Timeout de segurança: caso a animação do preloader seja interrompida ou demore, libera a página
+  useEffect(() => {
+    if (!loading) return;
+    const safetyTimer = setTimeout(() => {
+      finishLoading();
+    }, 3200);
+    return () => clearTimeout(safetyTimer);
+  }, [loading]);
+
   useEffect(() => {
     if (!loading && location.hash) {
       const id = location.hash.replace('#', '');

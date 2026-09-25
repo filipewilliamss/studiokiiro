@@ -4,11 +4,6 @@ import { ArrowDown, ArrowUpRight } from "lucide-react";
 import { playPillHover } from "@/utils/soundEffects";
 import kiiroLogoMark from "@/assets/kiiro-mark.svg";
 
-// Vídeos proprietários dos processos do Studio Kiiro
-import fase1Video from "@/assets/videos/fase1.mp4";
-import fase2Video from "@/assets/videos/fase2.mp4";
-import fase3Video from "@/assets/videos/fase3.mp4";
-
 // Imagens locais de alta fidelidade como fallback imediato para cada etapa
 import step1Fallback from "@/assets/tabernaculo-pagina-2.webp";
 import step2Fallback from "@/assets/akedah-pagina-2.webp";
@@ -55,7 +50,7 @@ const STEP_01: ProcessStepData = {
     "Definição de Personas e Tom de Voz",
     "Alinhamento de Metas e Escopo",
   ],
-  videoUrl: fase1Video,
+  videoUrl: "/videos/fase1.mp4",
   fallbackImage: step1Fallback,
   buttonLabel: "ETAPA 01 // BRIEFING",
 };
@@ -87,7 +82,7 @@ const STEPS_DKTON_STYLE: ProcessStepData[] = [
       "Definição dos Pilares Visuais",
       "Arquitetura Estratégica da Marca",
     ],
-    videoUrl: fase2Video,
+    videoUrl: "/videos/fase2.mp4",
     fallbackImage: step2Fallback,
     buttonLabel: "VER PROCESSO",
   },
@@ -112,7 +107,7 @@ const STEPS_DKTON_STYLE: ProcessStepData[] = [
       "Tipografia e Hierarquia Editorial",
       "Linguagem Gráfica, Texturas e Padrões",
     ],
-    videoUrl: fase3Video,
+    videoUrl: "/videos/fase3.mp4",
     fallbackImage: step3Fallback,
     buttonLabel: "VER PROCESSO",
   },
@@ -172,14 +167,12 @@ const STEPS_DKTON_STYLE: ProcessStepData[] = [
 const MONOLITH_CONFIGS = [
   {
     id: 0,
-    // Altura relativa inicial (% da altura da tela a partir da base)
     hLeftFrac: 0.22,
     hRightFrac: 0.28,
     color: "#D97706", // Âmbar dourado quente
-    idleSpeed: 1.15,
-    idlePhase: 0.0,
+    idleDuration: 4.8,
+    idleDelay: 0.0,
     idleAmp: 10,
-    // Configuração individual de subida no scroll:
     scrollStart: 0.08,
     scrollDuration: 0.65,
   },
@@ -188,8 +181,8 @@ const MONOLITH_CONFIGS = [
     hLeftFrac: 0.49,
     hRightFrac: 0.55,
     color: "#EAB308", // Ouro rico Kiiro
-    idleSpeed: 0.85,
-    idlePhase: 1.9,
+    idleDuration: 5.6,
+    idleDelay: 0.6,
     idleAmp: 14,
     scrollStart: 0.02,
     scrollDuration: 0.64,
@@ -199,21 +192,21 @@ const MONOLITH_CONFIGS = [
     hLeftFrac: 0.36,
     hRightFrac: 0.43,
     color: "#B45309", // Âmbar profundo / bronze dourado
-    idleSpeed: 1.35,
-    idlePhase: 3.5,
+    idleDuration: 4.2,
+    idleDelay: 1.1,
     idleAmp: 11,
     scrollStart: 0.05,
     scrollDuration: 0.66,
   },
   {
     id: 3,
-    // Forma central (mais alta da composição da imagem)
+    // Forma central mais alta da composição
     hLeftFrac: 0.58,
     hRightFrac: 0.58,
     color: "#FFCA16", // Amarelo oficial vibrante Kiiro
-    idleSpeed: 0.95,
-    idlePhase: 0.9,
-    idleAmp: 16,
+    idleDuration: 5.2,
+    idleDelay: 0.3,
+    idleAmp: 15,
     scrollStart: 0.0,
     scrollDuration: 0.62,
   },
@@ -222,8 +215,8 @@ const MONOLITH_CONFIGS = [
     hLeftFrac: 0.38,
     hRightFrac: 0.33,
     color: "#CA8A04", // Ouro mostarda
-    idleSpeed: 1.25,
-    idlePhase: 2.3,
+    idleDuration: 4.5,
+    idleDelay: 0.9,
     idleAmp: 12,
     scrollStart: 0.04,
     scrollDuration: 0.67,
@@ -233,9 +226,9 @@ const MONOLITH_CONFIGS = [
     hLeftFrac: 0.46,
     hRightFrac: 0.39,
     color: "#EAB308", // Ouro
-    idleSpeed: 0.9,
-    idlePhase: 4.6,
-    idleAmp: 15,
+    idleDuration: 5.0,
+    idleDelay: 1.4,
+    idleAmp: 14,
     scrollStart: 0.01,
     scrollDuration: 0.63,
   },
@@ -244,8 +237,8 @@ const MONOLITH_CONFIGS = [
     hLeftFrac: 0.32,
     hRightFrac: 0.25,
     color: "#D97706", // Âmbar quente
-    idleSpeed: 1.1,
-    idlePhase: 5.8,
+    idleDuration: 4.6,
+    idleDelay: 0.4,
     idleAmp: 10,
     scrollStart: 0.07,
     scrollDuration: 0.68,
@@ -257,16 +250,13 @@ export default function KiiroMethodSection() {
   const heroRef = useRef<HTMLDivElement>(null);
   const [dimensions, setDimensions] = useState({ width: 1440, height: 900 });
 
-  // Tempo para a animação lenta e individual das formas quando ocioso (sem scroll)
-  const [idleTime, setIdleTime] = useState(0);
-
   // Rastreia o scroll da seção hero sticky
   const { scrollYProgress: heroScrollProgress } = useScroll({
     target: heroRef,
     offset: ["start start", "end end"],
   });
 
-  // Atualiza dimensões da tela
+  // Atualiza dimensões da tela de forma estável
   useEffect(() => {
     const handleResize = () => {
       setDimensions({
@@ -278,23 +268,6 @@ export default function KiiroMethodSection() {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
-
-  // Loop de animação contínua para oscilação ociosa orgânica de cada forma
-  useEffect(() => {
-    if (reduceMotion) return;
-    let animId: number;
-    let lastTime = performance.now();
-
-    const loop = (now: number) => {
-      const dt = (now - lastTime) / 1000;
-      lastTime = now;
-      setIdleTime((prev) => prev + dt);
-      animId = requestAnimationFrame(loop);
-    };
-
-    animId = requestAnimationFrame(loop);
-    return () => cancelAnimationFrame(animId);
-  }, [reduceMotion]);
 
   // Progresso global de scroll [0 a 1]
   const [globalScrollP, setGlobalScrollP] = useState(0);
@@ -321,63 +294,55 @@ export default function KiiroMethodSection() {
   // Opacidade do preenchimento amarelo das formas
   const shapeYellowFillOpacity = Math.max(0, 0.85 * (1 - globalScrollP / 0.72));
 
-  // Calcula os 7 polígonos com subida individual, base fixa no rodapé e respiração ociosa
+  // Calcula os 7 polígonos: base fica 100% no rodapé (H), e apenas o topo sobe com o scroll
   const shapes = useMemo(() => {
     const W = dimensions.width;
     const H = dimensions.height;
     const isMobile = W < 768;
 
     const shapeCount = MONOLITH_CONFIGS.length;
-    // Ocupa toda a largura da tela com margens discretas
-    const marginX = isMobile ? 8 : 16;
+    const marginX = isMobile ? 6 : 14;
     const totalW = W - marginX * 2;
     const baseGap = isMobile ? 6 : 10;
 
-    // Conforme o scroll atinge o ápice da expansão, o gap fecha suavemente para unificar a tela
     const gapFactor = Math.max(0, 1 - Math.max(0, (globalScrollP - 0.5) / 0.22));
     const gap = baseGap * gapFactor;
-
     const shapeW = (totalW - (shapeCount - 1) * gap) / shapeCount;
 
     return MONOLITH_CONFIGS.map((cfg) => {
       const x1 = marginX + cfg.id * (shapeW + gap);
       const x2 = x1 + shapeW;
 
-      // 1. Oscilação ociosa individual (mesmo sem scroll)
-      // Desvanece à medida que o scroll sobe para não conflitar com a tela cheia
-      const idleMultiplier = Math.max(0, 1 - globalScrollP * 2);
-      const idleOffset =
-        Math.sin(idleTime * cfg.idleSpeed + cfg.idlePhase) * cfg.idleAmp * idleMultiplier;
-
-      // 2. Progresso de scroll individual para cada forma (sobem juntas, mas individualmente em ritmos próprios)
+      // Subida individual no scroll (cada coluna com seu ritmo)
       const rawT = Math.min(
         Math.max((globalScrollP - cfg.scrollStart) / cfg.scrollDuration, 0),
         1
       );
-      // Curva smoothstep para transição fluida e natural
       const easedT = rawT * rawT * (3 - 2 * rawT);
 
-      // 3. Posições iniciais do topo da forma (em px a partir do topo)
-      const initialTopLeft = H * (1 - cfg.hLeftFrac) - idleOffset;
-      const initialTopRight = H * (1 - cfg.hRightFrac) - idleOffset;
+      // Posição inicial do topo (ancorada na parte inferior da tela)
+      const initialTopLeft = H * (1 - cfg.hLeftFrac);
+      const initialTopRight = H * (1 - cfg.hRightFrac);
 
-      // 4. Somente o topo sobe até 0 (tela cheia). A inclinação chanfrada também zera suavemente
+      // Conforme easedT vai de 0 a 1, o topo sobe até 0 (topo da viewport)
       const yTopLeft = initialTopLeft * (1 - easedT);
       const yTopRight = initialTopRight * (1 - easedT);
 
-      // 5. A BASE FICA FIXA NO RODAPÉ DA VIEWPORT (NUNCA SOBE)
+      // A BASE PERMANECE FIXA NO RODAPÉ (NUNCA SOBE)
       const yBottom = H;
 
       return {
         id: cfg.id,
         points: `${x1},${yTopLeft} ${x2},${yTopRight} ${x2},${yBottom} ${x1},${yBottom}`,
         color: cfg.color,
-        easedT,
+        idleDuration: cfg.idleDuration,
+        idleDelay: cfg.idleDelay,
+        idleAmp: cfg.idleAmp,
       };
     });
-  }, [dimensions, idleTime, globalScrollP]);
+  }, [dimensions, globalScrollP]);
 
-  // Verifica se todas as formas completaram a subida para tela cheia
+  // Verifica se completou a subida para tela cheia
   const isFullyExpanded = globalScrollP >= 0.72;
 
   // Fallback para preferências de movimento reduzido
@@ -437,7 +402,7 @@ export default function KiiroMethodSection() {
               loop
               muted
               playsInline
-              preload="auto"
+              preload="metadata"
               className="w-full h-full object-cover"
             />
             {/* Fallback de imagem de alta fidelidade */}
@@ -449,7 +414,7 @@ export default function KiiroMethodSection() {
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/50 pointer-events-none" />
           </motion.div>
 
-          {/* ── DEFINIÇÃO DA MÁSCARA SVG (7 FORMAS COM SUBIDA INDIVIDUAL) ───────── */}
+          {/* ── DEFINIÇÃO DA MÁSCARA SVG COM ANIMAÇÃO GPU (SEM RE-RENDERS) ──────── */}
           <svg
             className="absolute inset-0 w-full h-full pointer-events-none"
             width={dimensions.width}
@@ -467,14 +432,28 @@ export default function KiiroMethodSection() {
               >
                 <rect x="0" y="0" width={dimensions.width} height={dimensions.height} fill="black" />
                 {shapes.map((s) => (
-                  <polygon key={s.id} points={s.points} fill="white" />
+                  <motion.polygon
+                    key={s.id}
+                    points={s.points}
+                    fill="white"
+                    animate={
+                      reduceMotion || globalScrollP > 0.25
+                        ? { y: 0 }
+                        : { y: [0, -s.idleAmp, 0] }
+                    }
+                    transition={{
+                      duration: s.idleDuration,
+                      repeat: Infinity,
+                      ease: "easeInOut",
+                      delay: s.idleDelay,
+                    }}
+                  />
                 ))}
               </mask>
             </defs>
           </svg>
 
-          {/* ── CAMADA DE CORES AMARELAS NAS FORMAS (VARIAÇÕES DE TONALIDADE) ───── */}
-          {/* Mostra as formas amarelas preenchidas com opacidade sutil sobre o vídeo */}
+          {/* ── CAMADA DE CORES AMARELAS NAS FORMAS (ANIMAÇÃO GPU SINCRONIZADA) ─── */}
           {!isFullyExpanded && (
             <svg
               className="absolute inset-0 w-full h-full pointer-events-none z-10"
@@ -482,15 +461,26 @@ export default function KiiroMethodSection() {
               height={dimensions.height}
             >
               {shapes.map((s) => (
-                <g key={s.id}>
-                  {/* Preenchimento amarelo que desvanece suavemente conforme o scroll atinge tela cheia */}
+                <motion.g
+                  key={s.id}
+                  animate={
+                    reduceMotion || globalScrollP > 0.25
+                      ? { y: 0 }
+                      : { y: [0, -s.idleAmp, 0] }
+                  }
+                  transition={{
+                    duration: s.idleDuration,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                    delay: s.idleDelay,
+                  }}
+                >
                   <polygon
                     points={s.points}
                     fill={s.color}
                     fillOpacity={shapeYellowFillOpacity * 0.72}
                     style={{ mixBlendMode: "screen" }}
                   />
-                  {/* Contorno dourado sutil característico da identidade */}
                   <polygon
                     points={s.points}
                     fill="none"
@@ -498,7 +488,7 @@ export default function KiiroMethodSection() {
                     strokeWidth={1.5}
                     strokeOpacity={0.55 * (1 - globalScrollP / 0.72)}
                   />
-                </g>
+                </motion.g>
               ))}
             </svg>
           )}
@@ -513,7 +503,6 @@ export default function KiiroMethodSection() {
             }}
             className="absolute top-[30%] sm:top-[28%] md:top-[30%] z-20 flex flex-col items-center justify-center text-center px-6"
           >
-            {/* O texto "PROCESSO" limpo, impactante, em amarelo vibrante */}
             <h2 className="font-display font-[900] text-[clamp(64px,14vw,170px)] leading-none tracking-[-0.04em] uppercase text-[#FFCA16] drop-shadow-[0_12px_45px_rgba(0,0,0,0.95)]">
               Processo
             </h2>
@@ -564,7 +553,7 @@ export default function KiiroMethodSection() {
                     key={item}
                     className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-black/60 backdrop-blur-md border border-white/10 text-[11px] text-zinc-200"
                   >
-                    <Check className="w-3.5 h-3.5 text-[#FFCA16]" />
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#FFCA16]" />
                     {item}
                   </span>
                 ))}
@@ -585,8 +574,6 @@ export default function KiiroMethodSection() {
 
       {/* ========================================================================= */}
       {/* 2. SEÇÃO TELA PRETA COM ESTRUTURA DKTON (PROCESSOS 02 EM DIANTE)           */}
-      {/*    Título bem grande em cima do vídeo, vídeos todos na direita e           */}
-      {/*    informações limpas e diretas na esquerda (VISIT AUSTRIA / TGW WERX)     */}
       {/* ========================================================================= */}
       <section
         className="relative w-full bg-[#050505] text-white py-24 sm:py-36 px-6 sm:px-10 md:px-14 lg:px-20 overflow-hidden"
@@ -608,18 +595,15 @@ export default function KiiroMethodSection() {
               <div className="lg:col-span-4 lg:pt-14 space-y-5">
                 {step.metadataItems.map((field, fIdx) => (
                   <div key={fIdx} className="border-b border-white/10 pb-3">
-                    {/* Badge do rótulo estilo Dkton */}
                     <span className="inline-block px-1.5 py-0.5 rounded-[2px] bg-[#FFCA16]/10 border border-[#FFCA16]/30 text-[#FFCA16] font-mono text-[10px] uppercase tracking-wider mb-1.5">
                       {field.label}
                     </span>
-                    {/* Texto limpo e direto em caixa alta */}
                     <h5 className="font-sans text-sm sm:text-base font-bold text-white tracking-wide uppercase">
                       {field.value}
                     </h5>
                   </div>
                 ))}
 
-                {/* Descrição limpa e objetiva */}
                 <p className="text-zinc-400 text-xs sm:text-sm leading-relaxed pt-2">
                   {step.description}
                 </p>
@@ -627,14 +611,11 @@ export default function KiiroMethodSection() {
 
               {/* ── COLUNA DA DIREITA: TÍTULO GIGANTE EM CIMA DO VÍDEO + VÍDEO ─────── */}
               <div className="lg:col-span-8 flex flex-col">
-                {/* Título do processo destacado bem grande em cima do vídeo */}
                 <h3 className="font-display font-[900] text-[clamp(36px,6vw,78px)] text-[#FFCA16] uppercase leading-[0.9] tracking-[-0.035em] mb-4 sm:mb-6">
                   {step.title}
                 </h3>
 
-                {/* Quadro de vídeo à direita ocupando o espaço da referência */}
                 <div className="group relative w-full aspect-[16/9] sm:aspect-[16/10] overflow-hidden bg-black border-t-2 border-[#FFCA16] shadow-[0_20px_60px_rgba(0,0,0,0.85)]">
-                  {/* Vídeo HTML5 em loop contínuo */}
                   <video
                     src={step.videoUrl}
                     poster={step.fallbackImage}
@@ -642,21 +623,18 @@ export default function KiiroMethodSection() {
                     loop
                     muted
                     playsInline
-                    preload="auto"
+                    preload="metadata"
                     className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
                   />
 
-                  {/* Fallback de imagem local estática */}
                   <img
                     src={step.fallbackImage}
                     alt={step.title}
                     className="absolute inset-0 w-full h-full object-cover -z-10"
                   />
 
-                  {/* Gradiente sutil nas extremidades */}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/20 pointer-events-none" />
 
-                  {/* Botão amarelo no rodapé do vídeo exatamente como o PROJEKT ANSEHEN de Dkton */}
                   <div className="absolute bottom-5 left-1/2 -translate-x-1/2 z-10">
                     <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-[#FFCA16] text-black font-mono text-[10px] sm:text-[11px] font-bold uppercase tracking-wider shadow-lg group-hover:scale-105 transition-transform cursor-pointer">
                       <span>{step.buttonLabel}</span>

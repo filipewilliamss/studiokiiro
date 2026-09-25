@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { playPageFlip } from "@/utils/soundEffects";
 import akedahLogo from "@/assets/akedah-logo.png";
 import construmarLogo from "@/assets/construmar-logo.png";
-import tabernaculoLogo from "@/assets/tabernaculo-logo.webp";
+import tabernaculoLogo from "@/assets/capa-tabernaculo.png";
 import teamluisaLogo from "@/assets/teamluisa-logo.png";
 
 const CASE_ITEMS = [
@@ -33,9 +33,9 @@ const CASE_ITEMS = [
     tag: "IDENTIDADE VISUAL · 2026",
     logo: tabernaculoLogo,
     alt: "Tabernáculo da Trindade",
-    bgColor: "#070d12",
+    bgColor: "#05121c",
     isLight: false,
-    logoWidth: "max-w-[380px] sm:max-w-[540px] md:max-w-[760px]",
+    logoWidth: "max-w-[440px] sm:max-w-[680px] md:max-w-[920px]",
   },
   {
     slug: "team-luisa-crosstraining",

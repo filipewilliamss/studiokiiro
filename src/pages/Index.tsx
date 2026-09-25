@@ -6,12 +6,11 @@ import SEO from "@/components/SEO";
 import Navbar from "@/components/Navbar";
 import HeroTransition from "@/components/HeroTransition";
 import ServicesArtboardSection from "@/components/ServicesArtboardSection";
-import Footer from "@/components/Footer";
 import Preloader from "@/components/Preloader";
 import SocialMediaPortfolio from "@/components/SocialMediaPortfolio";
 import ImmersivePortfolioSection from "@/components/ImmersivePortfolioSection";
 import KiiroMethodSection from "@/components/KiiroMethodSection";
-import WhatsAppCloseSection from "@/components/WhatsAppCloseSection";
+import CloseAndFooterTransition from "@/components/CloseAndFooterTransition";
 
 
 const Index = () => {
@@ -93,9 +92,7 @@ const Index = () => {
             <KiiroMethodSection />
             <ImmersivePortfolioSection />
             <SocialMediaPortfolio />
-            <WhatsAppCloseSection />
-            
-            <Footer />
+            <CloseAndFooterTransition />
           </main>
         )}
       </div>

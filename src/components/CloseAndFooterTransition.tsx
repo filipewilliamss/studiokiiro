@@ -27,12 +27,6 @@ export default function CloseAndFooterTransition() {
     reduceMotion ? [1, 1] : [0.96, 1]
   );
 
-  const footerOpacity = useTransform(
-    scrollYProgress,
-    [0, 0.45],
-    reduceMotion ? [1, 1] : [0.5, 1]
-  );
-
   return (
     <div ref={containerRef} className="relative w-full">
       {/* ========================================================================= */}
@@ -53,9 +47,8 @@ export default function CloseAndFooterTransition() {
           style={{
             y: footerY,
             scale: footerScale,
-            opacity: footerOpacity,
           }}
-          className="w-full"
+          className="w-full opacity-100"
         >
           <Footer />
         </motion.div>

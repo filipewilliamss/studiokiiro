@@ -3,16 +3,16 @@ import kiiroLogo from "@/assets/logo.webp";
 
 const Footer = () => {
   return (
-    <footer className="bg-transparent py-20 px-6 border-t border-white/5">
+    <footer className="bg-transparent py-20 px-6 border-t border-white/10">
       <div className="container-editorial">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-16 md:gap-8">
           
           {/* Brand Col */}
           <div className="md:col-span-2">
             <Link to="/" className="inline-block transition-transform hover:scale-105 duration-500">
-              <img src={kiiroLogo} alt="Studio Kiiro" className="h-10 w-auto" />
+              <img src={kiiroLogo} alt="Studio Kiiro" className="h-10 w-auto opacity-100 brightness-100" />
             </Link>
-            <p className="mt-8 text-[14px] text-white/40 max-w-sm leading-relaxed">
+            <p className="mt-8 text-[14px] text-zinc-300 max-w-sm leading-relaxed">
               Design que transforma marcas e projetos em referências visuais. Criamos projetos memoráveis para quem não aceita o comum.
             </p>
           </div>
@@ -29,14 +29,13 @@ const Footer = () => {
                   <li key={link}>
                     <Link
                       to={link === "Sobre" ? "/sobre" : `/#${id}`}
-                      className="text-[13px] text-white/50 hover:text-[#FFCA16] transition-colors duration-300"
+                      className="text-[13px] text-zinc-300 hover:text-[#FFCA16] transition-colors duration-300 font-medium"
                     >
                       {link}
                     </Link>
                   </li>
                 );
               })}
-
             </ul>
           </div>
 
@@ -51,7 +50,7 @@ const Footer = () => {
                   href="https://instagram.com/studiokiiro" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="text-[13px] text-white/50 hover:text-[#FFCA16] transition-colors duration-300 flex items-center gap-2"
+                  className="text-[13px] text-zinc-300 hover:text-[#FFCA16] transition-colors duration-300 flex items-center gap-2 font-medium"
                 >
                   Instagram
                 </a>
@@ -61,7 +60,7 @@ const Footer = () => {
                   href="https://wa.me/5511991076096" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="text-[13px] text-white/50 hover:text-[#FFCA16] transition-colors duration-300 flex items-center gap-2"
+                  className="text-[13px] text-zinc-300 hover:text-[#FFCA16] transition-colors duration-300 flex items-center gap-2 font-medium"
                 >
                   WhatsApp
                 </a>
@@ -69,7 +68,7 @@ const Footer = () => {
               <li>
                 <a 
                   href="mailto:contato@studiokiiro.com"
-                  className="text-[13px] text-white/50 hover:text-[#FFCA16] transition-colors duration-300 flex items-center gap-2"
+                  className="text-[13px] text-zinc-300 hover:text-[#FFCA16] transition-colors duration-300 flex items-center gap-2 font-medium"
                 >
                   E-mail
                 </a>
@@ -79,12 +78,12 @@ const Footer = () => {
         </div>
 
         {/* Bottom Bar */}
-        <div className="mt-24 pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-[11px] text-white/20 uppercase tracking-[0.2em]">
-            © 2026 Studio Kiiro. Todos os direitos reservados.
+        <div className="mt-24 pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4">
+          <p className="text-[11px] text-zinc-400 uppercase tracking-[0.2em]">
+            © {new Date().getFullYear()} Studio Kiiro. Todos os direitos reservados.
           </p>
           <div className="flex gap-8">
-            <span className="text-[10px] text-white/10 uppercase tracking-[0.3em]">São Paulo, Brasil</span>
+            <span className="text-[10px] text-zinc-400 uppercase tracking-[0.3em]">São Paulo, Brasil</span>
           </div>
         </div>
       </div>

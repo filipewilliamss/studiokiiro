@@ -279,14 +279,14 @@ export default function KiiroMethodSection() {
     return () => unsubscribe();
   }, [heroScrollProgress]);
 
-  // Transforma o título "PROCESSO": move para cima e esmaece suavemente conforme o scroll sobe as formas
-  const titleY = useTransform(heroScrollProgress, [0, 0.45], ["0px", "-50px"]);
-  const titleOpacity = useTransform(heroScrollProgress, [0, 0.45], [1, 0]);
-  const titleScale = useTransform(heroScrollProgress, [0, 0.45], [1, 0.94]);
+  // Transforma o título "PROCESSO": desaparece rapidamente logo no início do scroll (até 0.20)
+  const titleY = useTransform(heroScrollProgress, [0, 0.20], ["0px", "-40px"]);
+  const titleOpacity = useTransform(heroScrollProgress, [0, 0.20], [1, 0]);
+  const titleScale = useTransform(heroScrollProgress, [0, 0.20], [1, 0.95]);
 
   // Revela o overlay editorial da Etapa 01 quando o vídeo atinge tela cheia
-  const step1OverlayOpacity = useTransform(heroScrollProgress, [0.65, 0.88], [0, 1]);
-  const step1OverlayY = useTransform(heroScrollProgress, [0.65, 0.88], ["30px", "0px"]);
+  const step1OverlayOpacity = useTransform(heroScrollProgress, [0.55, 0.72], [0, 1]);
+  const step1OverlayY = useTransform(heroScrollProgress, [0.55, 0.72], ["25px", "0px"]);
 
   // Opacidade do vídeo no interior das formas
   const videoOpacity = useTransform(heroScrollProgress, [0, 0.72], [0.45, 1.0]);
@@ -493,30 +493,33 @@ export default function KiiroMethodSection() {
             </svg>
           )}
 
-          {/* ── TÍTULO "PROCESSO" NO CENTRO DA VIEWPORT (EXATAMENTE COMO NA IMAGEM) ─ */}
-          <motion.div
-            style={{
-              y: titleY,
-              opacity: titleOpacity,
-              scale: titleScale,
-              pointerEvents: globalScrollP > 0.4 ? "none" : "auto",
-            }}
-            className="absolute top-[30%] sm:top-[28%] md:top-[30%] z-20 flex flex-col items-center justify-center text-center px-6"
-          >
-            <h2 className="font-display font-[900] text-[clamp(64px,14vw,170px)] leading-none tracking-[-0.04em] uppercase text-[#FFCA16] drop-shadow-[0_12px_45px_rgba(0,0,0,0.95)]">
-              Processo
-            </h2>
-          </motion.div>
+          {/* ── TÍTULO "PROCESSO" VISÍVEL APENAS NA ABERTURA (SOME COMPLETAMENTE NO SCROLL) ─ */}
+          {globalScrollP < 0.25 && (
+            <motion.div
+              style={{
+                y: titleY,
+                opacity: titleOpacity,
+                scale: titleScale,
+                pointerEvents: "none",
+              }}
+              className="absolute top-[30%] sm:top-[28%] md:top-[30%] z-20 flex flex-col items-center justify-center text-center px-6"
+            >
+              <h2 className="font-display font-[900] text-[clamp(64px,14vw,170px)] leading-none tracking-[-0.04em] uppercase text-[#FFCA16] drop-shadow-[0_12px_45px_rgba(0,0,0,0.95)]">
+                Processo
+              </h2>
+            </motion.div>
+          )}
 
           {/* ── OVERLAY EDITORIAL DO PROCESSO 01 QUANDO O VÍDEO COMPLETA A TELA ──── */}
           <motion.div
             style={{
               opacity: step1OverlayOpacity,
               y: step1OverlayY,
-              pointerEvents: globalScrollP < 0.65 ? "none" : "auto",
+              pointerEvents: globalScrollP < 0.55 ? "none" : "auto",
             }}
             className="absolute inset-0 z-20 flex flex-col justify-between p-6 sm:p-10 md:p-14 pointer-events-none"
           >
+            {/* Topo: Identificador de Marca e Etapa */}
             <div className="w-full flex justify-between items-center pointer-events-auto">
               <div className="flex items-center gap-2.5 bg-black/50 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-white/10">
                 <img src={kiiroLogoMark} alt="Studio Kiiro" className="w-4 h-4 object-contain" />
@@ -529,37 +532,27 @@ export default function KiiroMethodSection() {
               </div>
             </div>
 
-            <div className="max-w-2xl pointer-events-auto mb-8 sm:mb-12">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FFCA16]/15 border border-[#FFCA16]/30 text-[#FFCA16] font-mono text-[10px] uppercase tracking-[0.2em] backdrop-blur-md mb-3">
+            {/* Caixa de Texto Estreita Justificada à Esquerda com Título e Descrição Branca */}
+            <div className="max-w-md w-full pointer-events-auto mb-8 sm:mb-12 text-left">
+              <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-[2px] bg-[#FFCA16]/10 border border-[#FFCA16]/30 text-[#FFCA16] font-mono text-[10px] uppercase tracking-[0.2em] mb-3">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#FFCA16]" />
                 {STEP_01.tag}
               </div>
 
-              <h3 className="font-display font-[800] text-[clamp(32px,5.5vw,56px)] text-[#FFCA16] leading-[1.05] tracking-tight uppercase drop-shadow-md">
+              <h3 className="font-display font-[800] text-[clamp(28px,4.5vw,46px)] text-[#FFCA16] leading-[1.05] tracking-tight uppercase drop-shadow-md mb-3">
                 01. {STEP_01.title}
               </h3>
 
-              <p className="mt-2 text-base md:text-lg font-medium text-white/95 italic drop-shadow-sm">
+              <p className="text-sm sm:text-base font-medium text-white italic drop-shadow-sm mb-3">
                 "{STEP_01.subtitle}"
               </p>
 
-              <p className="mt-2 text-xs md:text-sm text-zinc-300 leading-relaxed max-w-xl">
+              <p className="text-xs sm:text-sm text-white/90 leading-relaxed drop-shadow-sm">
                 {STEP_01.description}
               </p>
-
-              <div className="mt-4 flex flex-wrap gap-2">
-                {STEP_01.deliverables.map((item) => (
-                  <span
-                    key={item}
-                    className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-black/60 backdrop-blur-md border border-white/10 text-[11px] text-zinc-200"
-                  >
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#FFCA16]" />
-                    {item}
-                  </span>
-                ))}
-              </div>
             </div>
 
+            {/* Rodapé: Indicador de continuação para os próximos processos */}
             <div className="w-full flex items-center justify-between pointer-events-auto pt-3 border-t border-white/10 font-mono text-[10px] uppercase tracking-widest text-zinc-400">
               <span className="text-[#FFCA16] flex items-center gap-2">
                 <ArrowDown className="w-3.5 h-3.5 animate-bounce" />

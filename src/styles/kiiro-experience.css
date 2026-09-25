@@ -25,11 +25,11 @@
   backdrop-filter: blur(24px) saturate(1.28);
   -webkit-backdrop-filter: blur(24px) saturate(1.28);
   color: #111;
-  transition: min-height .45s cubic-bezier(0.16, 1, 0.3, 1), 
-              padding .45s cubic-bezier(0.16, 1, 0.3, 1), 
-              gap .45s cubic-bezier(0.16, 1, 0.3, 1),
-              background .35s ease, 
-              box-shadow .35s ease;
+  transition: min-height .65s cubic-bezier(0.25, 1, 0.5, 1), 
+              padding .65s cubic-bezier(0.25, 1, 0.5, 1), 
+              gap .65s cubic-bezier(0.25, 1, 0.5, 1),
+              background .5s ease, 
+              box-shadow .5s ease;
 }
 
 .kiiro-nav-logo {
@@ -42,14 +42,14 @@
   background: #070807;
   border: 1px solid rgba(255,255,255,.7);
   box-shadow: 0 2px 11px rgba(0,0,0,.17);
-  transition: width .42s cubic-bezier(0.16, 1, 0.3, 1), height .42s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: width .65s cubic-bezier(0.25, 1, 0.5, 1), height .65s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 .kiiro-nav-logo img { 
   width: 29px; 
   height: 29px; 
   object-fit: contain; 
-  transition: width .42s cubic-bezier(0.16, 1, 0.3, 1), height .42s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: width .65s cubic-bezier(0.25, 1, 0.5, 1), height .65s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 .kiiro-nav-status { 
@@ -62,29 +62,29 @@
   white-space: nowrap;
   max-width: 0;
   opacity: 0;
-  transform: scale(0.9);
+  transform: scale(0.92);
   pointer-events: none;
   overflow: hidden;
   padding: 0;
   margin: 0;
-  transition: max-width .42s cubic-bezier(0.16, 1, 0.3, 1), 
-              opacity .28s ease, 
-              transform .35s cubic-bezier(0.16, 1, 0.3, 1),
-              padding .35s ease;
+  transition: max-width .65s cubic-bezier(0.25, 1, 0.5, 1), 
+              opacity .45s cubic-bezier(0.25, 1, 0.5, 1), 
+              transform .55s cubic-bezier(0.25, 1, 0.5, 1),
+              padding .55s ease;
 }
 
 .kiiro-nav-links { 
   display: flex; 
   align-items: center; 
   gap: clamp(8px, 1.3vw, 20px); 
-  max-width: 500px;
+  max-width: 340px;
   opacity: 1;
   transform: scale(1);
   transform-origin: center;
-  transition: max-width .42s cubic-bezier(0.16, 1, 0.3, 1), 
-              opacity .28s ease, 
-              transform .35s cubic-bezier(0.16, 1, 0.3, 1),
-              gap .4s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: max-width .65s cubic-bezier(0.25, 1, 0.5, 1), 
+              opacity .5s cubic-bezier(0.25, 1, 0.5, 1), 
+              transform .55s cubic-bezier(0.25, 1, 0.5, 1),
+              gap .65s cubic-bezier(0.25, 1, 0.5, 1);
   overflow: hidden;
   white-space: nowrap;
 }
@@ -106,13 +106,13 @@
   font-size: 13px; 
   font-weight: 600; 
   box-shadow: 0 2px 9px rgba(0,0,0,.08);
-  max-width: 240px;
+  max-width: 175px;
   opacity: 1;
   transform: scale(1);
-  transition: max-width .42s cubic-bezier(0.16, 1, 0.3, 1), 
-              opacity .28s ease, 
-              transform .35s cubic-bezier(0.16, 1, 0.3, 1),
-              padding .42s cubic-bezier(0.16, 1, 0.3, 1),
+  transition: max-width .65s cubic-bezier(0.25, 1, 0.5, 1), 
+              opacity .5s cubic-bezier(0.25, 1, 0.5, 1), 
+              transform .55s cubic-bezier(0.25, 1, 0.5, 1),
+              padding .65s cubic-bezier(0.25, 1, 0.5, 1),
               background .25s ease;
   overflow: hidden;
 }
@@ -138,15 +138,15 @@
   max-width: 0;
   width: 0;
   opacity: 0;
-  transform: scale(0.85);
+  transform: scale(0.88);
   pointer-events: none;
   overflow: hidden;
   padding: 0;
   margin: 0;
-  transition: max-width .42s cubic-bezier(0.16, 1, 0.3, 1), 
-              width .42s cubic-bezier(0.16, 1, 0.3, 1), 
-              opacity .28s ease, 
-              transform .35s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: max-width .65s cubic-bezier(0.25, 1, 0.5, 1), 
+              width .65s cubic-bezier(0.25, 1, 0.5, 1), 
+              opacity .45s cubic-bezier(0.25, 1, 0.5, 1), 
+              transform .55s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 .kiiro-header [data-compact] { transform: none; }
@@ -164,7 +164,7 @@
 .kiiro-header[data-compact="true"] .kiiro-nav-links { 
   max-width: 0; 
   opacity: 0; 
-  transform: scale(0.9); 
+  transform: scale(0.92); 
   pointer-events: none; 
   gap: 0; 
 }
@@ -175,12 +175,12 @@
   padding: 0; 
   margin: 0; 
   border: none; 
-  transform: scale(0.9); 
+  transform: scale(0.92); 
   pointer-events: none; 
 }
 
 .kiiro-header[data-compact="true"] .kiiro-nav-status { 
-  max-width: 220px; 
+  max-width: 175px; 
   opacity: 1; 
   transform: scale(1); 
   pointer-events: auto; 

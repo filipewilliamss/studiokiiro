@@ -161,13 +161,15 @@ const STEPS_DKTON_STYLE: ProcessStepData[] = [
   },
 ];
 
-// Configuração exata das 7 formas geométricas triangulares mostradas na imagem do usuário (media_1790365822932.png)
+// Configuração exata das 7 formas geométricas unificadas no amarelo Kiiro (#FFCA16)
+const KIIRO_YELLOW = "#FFCA16";
+
 const MONOLITH_CONFIGS = [
   {
     id: 0,
     hLeftFrac: 0.22,
     hRightFrac: 0.28,
-    color: "#D97706", // Âmbar dourado quente
+    color: KIIRO_YELLOW,
     idleDuration: 4.8,
     idleDelay: 0.0,
     idleAmp: 10,
@@ -176,20 +178,20 @@ const MONOLITH_CONFIGS = [
   },
   {
     id: 1,
-    hLeftFrac: 0.49,
-    hRightFrac: 0.55,
-    color: "#EAB308", // Ouro rico Kiiro
+    hLeftFrac: 0.46,
+    hRightFrac: 0.50,
+    color: KIIRO_YELLOW,
     idleDuration: 5.6,
     idleDelay: 0.6,
-    idleAmp: 14,
+    idleAmp: 12,
     scrollStart: 0.02,
     scrollDuration: 0.64,
   },
   {
     id: 2,
-    hLeftFrac: 0.36,
-    hRightFrac: 0.43,
-    color: "#B45309", // Âmbar profundo / bronze dourado
+    hLeftFrac: 0.35,
+    hRightFrac: 0.42,
+    color: KIIRO_YELLOW,
     idleDuration: 4.2,
     idleDelay: 1.1,
     idleAmp: 11,
@@ -198,21 +200,21 @@ const MONOLITH_CONFIGS = [
   },
   {
     id: 3,
-    // Forma central mais alta da composição
-    hLeftFrac: 0.58,
-    hRightFrac: 0.58,
-    color: "#FFCA16", // Amarelo oficial vibrante Kiiro
+    // Forma central
+    hLeftFrac: 0.50,
+    hRightFrac: 0.50,
+    color: KIIRO_YELLOW,
     idleDuration: 5.2,
     idleDelay: 0.3,
-    idleAmp: 15,
+    idleAmp: 14,
     scrollStart: 0.0,
     scrollDuration: 0.62,
   },
   {
     id: 4,
-    hLeftFrac: 0.38,
-    hRightFrac: 0.33,
-    color: "#CA8A04", // Ouro mostarda
+    hLeftFrac: 0.36,
+    hRightFrac: 0.32,
+    color: KIIRO_YELLOW,
     idleDuration: 4.5,
     idleDelay: 0.9,
     idleAmp: 12,
@@ -221,20 +223,20 @@ const MONOLITH_CONFIGS = [
   },
   {
     id: 5,
-    hLeftFrac: 0.46,
-    hRightFrac: 0.39,
-    color: "#EAB308", // Ouro
+    hLeftFrac: 0.44,
+    hRightFrac: 0.38,
+    color: KIIRO_YELLOW,
     idleDuration: 5.0,
     idleDelay: 1.4,
-    idleAmp: 14,
+    idleAmp: 12,
     scrollStart: 0.01,
     scrollDuration: 0.63,
   },
   {
     id: 6,
-    hLeftFrac: 0.32,
-    hRightFrac: 0.25,
-    color: "#D97706", // Âmbar quente
+    hLeftFrac: 0.30,
+    hRightFrac: 0.24,
+    color: KIIRO_YELLOW,
     idleDuration: 4.6,
     idleDelay: 0.4,
     idleAmp: 10,
@@ -479,19 +481,12 @@ export default function KiiroMethodSection() {
                     fillOpacity={shapeYellowFillOpacity * 0.72}
                     style={{ mixBlendMode: "screen" }}
                   />
-                  <polygon
-                    points={s.points}
-                    fill="none"
-                    stroke="#FFCA16"
-                    strokeWidth={1.5}
-                    strokeOpacity={0.55 * (1 - globalScrollP / 0.72)}
-                  />
                 </motion.g>
               ))}
             </svg>
           )}
 
-          {/* ── TÍTULO "PROCESSO" VISÍVEL APENAS NA ABERTURA (SOME COMPLETAMENTE NO SCROLL) ─ */}
+          {/* ── TÍTULO "PROCESSO" VISÍVEL APENAS NA ABERTURA (POSICIONADO ACIMA DAS FORMAS) ─ */}
           {globalScrollP < 0.25 && (
             <motion.div
               style={{
@@ -500,7 +495,7 @@ export default function KiiroMethodSection() {
                 scale: titleScale,
                 pointerEvents: "none",
               }}
-              className="absolute top-[30%] sm:top-[28%] md:top-[30%] z-20 flex flex-col items-center justify-center text-center px-6"
+              className="absolute top-[13%] sm:top-[12%] md:top-[14%] inset-x-0 z-20 flex flex-col items-center justify-center text-center px-6"
             >
               <h2 className="font-display font-[900] text-[clamp(64px,14vw,170px)] leading-none tracking-[-0.04em] uppercase text-[#FFCA16] drop-shadow-[0_12px_45px_rgba(0,0,0,0.95)]">
                 Processo

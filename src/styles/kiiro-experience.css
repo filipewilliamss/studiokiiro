@@ -25,7 +25,11 @@
   backdrop-filter: blur(24px) saturate(1.28);
   -webkit-backdrop-filter: blur(24px) saturate(1.28);
   color: #111;
-  transition: min-height .45s ease, padding .45s ease, background .45s ease, box-shadow .45s ease;
+  transition: min-height .45s cubic-bezier(0.16, 1, 0.3, 1), 
+              padding .45s cubic-bezier(0.16, 1, 0.3, 1), 
+              gap .45s cubic-bezier(0.16, 1, 0.3, 1),
+              background .35s ease, 
+              box-shadow .35s ease;
 }
 
 .kiiro-nav-logo {
@@ -38,44 +42,184 @@
   background: #070807;
   border: 1px solid rgba(255,255,255,.7);
   box-shadow: 0 2px 11px rgba(0,0,0,.17);
+  transition: width .42s cubic-bezier(0.16, 1, 0.3, 1), height .42s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.kiiro-nav-logo img { width: 29px; height: 29px; object-fit: contain; }
-.kiiro-nav-status { display: none; color: #272727; font-size: 11px; font-weight: 600; letter-spacing: .01em; white-space: nowrap; }
-.kiiro-nav-links { display: flex; align-items: center; gap: clamp(8px, 1.3vw, 20px); }
+.kiiro-nav-logo img { 
+  width: 29px; 
+  height: 29px; 
+  object-fit: contain; 
+  transition: width .42s cubic-bezier(0.16, 1, 0.3, 1), height .42s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.kiiro-nav-status { 
+  display: inline-flex; 
+  align-items: center;
+  color: #272727; 
+  font-size: 11px; 
+  font-weight: 600; 
+  letter-spacing: .01em; 
+  white-space: nowrap;
+  max-width: 0;
+  opacity: 0;
+  transform: scale(0.9);
+  pointer-events: none;
+  overflow: hidden;
+  padding: 0;
+  margin: 0;
+  transition: max-width .42s cubic-bezier(0.16, 1, 0.3, 1), 
+              opacity .28s ease, 
+              transform .35s cubic-bezier(0.16, 1, 0.3, 1),
+              padding .35s ease;
+}
+
+.kiiro-nav-links { 
+  display: flex; 
+  align-items: center; 
+  gap: clamp(8px, 1.3vw, 20px); 
+  max-width: 500px;
+  opacity: 1;
+  transform: scale(1);
+  transform-origin: center;
+  transition: max-width .42s cubic-bezier(0.16, 1, 0.3, 1), 
+              opacity .28s ease, 
+              transform .35s cubic-bezier(0.16, 1, 0.3, 1),
+              gap .4s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+  white-space: nowrap;
+}
+
 .kiiro-nav-links a { color: #272727; font-size: 13px; font-weight: 500; padding: 9px 7px; border-radius: 999px; transition: color .25s ease, background .25s ease; }
 .kiiro-nav-links a:hover { background: rgba(255,255,255,.48); color: #050505; }
+
 .kiiro-nav-contact {
-  display: flex; align-items: center; justify-content: center; gap: 10px;
-  min-height: 45px; white-space: nowrap; padding: 0 16px 0 20px;
-  border-radius: 999px; color: #0d0d0d; background: #fff;
-  font-size: 13px; font-weight: 600; box-shadow: 0 2px 9px rgba(0,0,0,.08);
-  transition: transform .25s ease, background .25s ease;
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  gap: 10px;
+  min-height: 45px; 
+  white-space: nowrap; 
+  padding: 0 16px 0 20px;
+  border-radius: 999px; 
+  color: #0d0d0d; 
+  background: #fff;
+  font-size: 13px; 
+  font-weight: 600; 
+  box-shadow: 0 2px 9px rgba(0,0,0,.08);
+  max-width: 240px;
+  opacity: 1;
+  transform: scale(1);
+  transition: max-width .42s cubic-bezier(0.16, 1, 0.3, 1), 
+              opacity .28s ease, 
+              transform .35s cubic-bezier(0.16, 1, 0.3, 1),
+              padding .42s cubic-bezier(0.16, 1, 0.3, 1),
+              background .25s ease;
+  overflow: hidden;
 }
+
 .kiiro-nav-contact:hover { background: #ffca16; transform: translateY(-1px); }
+
 .kiiro-nav-icon {
-  display: grid; place-items: center; flex: 0 0 auto; width: 36px; height: 36px;
-  border-radius: 50%; color: #222; transition: background .25s ease;
+  display: grid; 
+  place-items: center; 
+  flex: 0 0 auto; 
+  width: 36px; 
+  height: 36px;
+  border-radius: 50%; 
+  color: #222; 
+  transition: background .25s ease;
 }
+
 .kiiro-nav-icon:hover { background: rgba(255,255,255,.55); }
-.kiiro-menu-toggle { display: none; }
+
+.kiiro-menu-toggle { 
+  display: grid;
+  place-items: center;
+  max-width: 0;
+  width: 0;
+  opacity: 0;
+  transform: scale(0.85);
+  pointer-events: none;
+  overflow: hidden;
+  padding: 0;
+  margin: 0;
+  transition: max-width .42s cubic-bezier(0.16, 1, 0.3, 1), 
+              width .42s cubic-bezier(0.16, 1, 0.3, 1), 
+              opacity .28s ease, 
+              transform .35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
 .kiiro-header [data-compact] { transform: none; }
-.kiiro-header[data-compact="true"] .kiiro-glass { min-height: 52px; padding: 4px 6px; background: rgba(232,235,234,.84); }
+
+.kiiro-header[data-compact="true"] .kiiro-glass { 
+  min-height: 52px; 
+  padding: 4px 6px; 
+  gap: 14px;
+  background: rgba(232,235,234,.84); 
+}
+
 .kiiro-header[data-compact="true"] .kiiro-nav-logo { width: 42px; height: 42px; }
 .kiiro-header[data-compact="true"] .kiiro-nav-logo img { width: 25px; height: 25px; }
-.kiiro-header[data-compact="true"] .kiiro-nav-contact { min-height: 39px; }
-.kiiro-header[data-compact="true"] .kiiro-nav-links,
-.kiiro-header[data-compact="true"] .kiiro-nav-contact { display: none; }
-.kiiro-header[data-compact="true"] .kiiro-nav-status { display: inline-block; }
-.kiiro-header[data-compact="true"] .kiiro-menu-toggle { display: grid; }
-.kiiro-menu {
-  pointer-events: auto; display: flex; flex-direction: column; width: min(320px, calc(100vw - 32px));
-  margin-top: 9px; padding: 12px; border: 1px solid rgba(255,255,255,.6);
-  border-radius: 22px; background: rgba(233,235,233,.94); backdrop-filter: blur(24px);
-  box-shadow: 0 16px 40px rgba(0,0,0,.2);
+
+.kiiro-header[data-compact="true"] .kiiro-nav-links { 
+  max-width: 0; 
+  opacity: 0; 
+  transform: scale(0.9); 
+  pointer-events: none; 
+  gap: 0; 
 }
-.kiiro-menu a { padding: 12px 14px; color: #111; border-radius: 12px; font-size: 14px; }
-.kiiro-menu a:hover { background: #ffca16; }
+
+.kiiro-header[data-compact="true"] .kiiro-nav-contact { 
+  max-width: 0; 
+  opacity: 0; 
+  padding: 0; 
+  margin: 0; 
+  border: none; 
+  transform: scale(0.9); 
+  pointer-events: none; 
+}
+
+.kiiro-header[data-compact="true"] .kiiro-nav-status { 
+  max-width: 220px; 
+  opacity: 1; 
+  transform: scale(1); 
+  pointer-events: auto; 
+  padding: 0 4px; 
+}
+
+.kiiro-header[data-compact="true"] .kiiro-menu-toggle { 
+  max-width: 36px; 
+  width: 36px; 
+  opacity: 1; 
+  transform: scale(1); 
+  pointer-events: auto; 
+}
+
+.kiiro-menu {
+  pointer-events: auto; 
+  display: flex; 
+  flex-direction: column; 
+  width: min(320px, calc(100vw - 32px));
+  margin-top: 9px; 
+  padding: 12px; 
+  border: 1px solid rgba(255,255,255,.6);
+  border-radius: 22px; 
+  background: rgba(233,235,233,.94); 
+  backdrop-filter: blur(24px);
+  box-shadow: 0 16px 40px rgba(0,0,0,.2);
+  animation: kiiroMenuEnter 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes kiiroMenuEnter {
+  from {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
 .kiiro-header a:focus-visible, .kiiro-header button:focus-visible { outline: 2px solid #ffca16; outline-offset: 3px; }
 
 .kiiro-intro { height: 190svh; background: #050505; }
@@ -114,10 +258,10 @@
   .kiiro-header { inset-block-start: 12px; padding-inline: 12px; }
   .kiiro-glass { width: 100%; max-width: 440px; justify-content: space-between; min-height: 56px; }
   .kiiro-nav-logo { width: 43px; height: 43px; }
-  .kiiro-nav-links { display: none; }
+  .kiiro-nav-links { display: none !important; }
   .kiiro-nav-status { display: none !important; }
-  .kiiro-nav-contact { margin-left: auto; min-height: 40px; padding: 0 12px; font-size: 12px; }
-  .kiiro-menu-toggle { display: grid; }
+  .kiiro-nav-contact { margin-left: auto; min-height: 40px; padding: 0 12px; font-size: 12px; max-width: 200px !important; opacity: 1 !important; transform: none !important; pointer-events: auto !important; }
+  .kiiro-menu-toggle { display: grid !important; max-width: 36px !important; width: 36px !important; opacity: 1 !important; transform: none !important; pointer-events: auto !important; }
   .kiiro-nav-icon { width: 31px; height: 31px; }
   .kiiro-intro { height: 180svh; }
   .kiiro-intro-yellow { border-radius: 38px 38px 0 0; }

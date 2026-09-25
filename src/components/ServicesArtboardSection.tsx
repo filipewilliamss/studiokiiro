@@ -1,11 +1,17 @@
-import { useState, useRef } from "react";
+import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Layers,
   CheckCircle2,
-  Compass,
-  Sliders,
-  FileCode
+  PenTool,
+  LayoutGrid,
+  Film,
+  Globe,
+  Presentation,
+  ChevronLeft,
+  ChevronRight,
+  ArrowRight,
+  Sparkles,
 } from "lucide-react";
 import { playPillHover, playSwitchClick } from "@/utils/soundEffects";
 
@@ -235,11 +241,17 @@ Adeus aos slides entediantes com blocos de texto: criamos narrativas visuais com
   }
 ];
 
+const CATEGORY_ICONS = [
+  PenTool,
+  LayoutGrid,
+  Film,
+  Globe,
+  Presentation,
+];
+
 export default function ServicesArtboardSection() {
   const [activeCategoryIndex, setActiveCategoryIndex] = useState(0);
   const [activeSubIndex, setActiveSubIndex] = useState(0);
-  const [showGuides, setShowGuides] = useState(true);
-  const sectionRef = useRef<HTMLElement>(null);
 
   const activeCategory = SERVICES_DATA[activeCategoryIndex];
   const activeSubItem = activeCategory.items[activeSubIndex] || activeCategory.items[0];
@@ -257,101 +269,64 @@ export default function ServicesArtboardSection() {
     setActiveSubIndex(subIndex);
   };
 
+  const handlePrev = () => {
+    playSwitchClick(true);
+    const newIdx = activeCategoryIndex === 0 ? SERVICES_DATA.length - 1 : activeCategoryIndex - 1;
+    setActiveCategoryIndex(newIdx);
+    setActiveSubIndex(0);
+  };
+
+  const handleNext = () => {
+    playSwitchClick(true);
+    const newIdx = activeCategoryIndex === SERVICES_DATA.length - 1 ? 0 : activeCategoryIndex + 1;
+    setActiveCategoryIndex(newIdx);
+    setActiveSubIndex(0);
+  };
+
+  const whatsappMessage = encodeURIComponent(
+    `Olá Studio Kiiro! Gostaria de conversar sobre o serviço de ${activeSubItem.title}.`
+  );
+  const whatsappUrl = `https://wa.me/5511991076096?text=${whatsappMessage}`;
+
   return (
     <section
       id="servicos"
-      ref={sectionRef}
-      className="relative w-full bg-[#060706] text-white overflow-hidden py-24 md:py-36 border-t border-white/[0.08]"
+      className="relative w-full bg-[#080908] text-white overflow-hidden py-20 md:py-28 border-t border-white/[0.08]"
       aria-label="Soluções Estratégicas e Serviços Oferecidos"
     >
-      {/* ========================================================================= */}
-      {/* 1. FUNDO DO WORKSPACE: GRID TÉCNICO VETORIAL (ILLUSTRATOR CANVAS)          */}
-      {/* ========================================================================= */}
+      {/* 1. FUNDO SUTIL E CLEAN */}
       <div
-        className="absolute inset-0 pointer-events-none opacity-20"
+        className="absolute inset-0 pointer-events-none opacity-10"
         style={{
           backgroundImage: `
-            radial-gradient(circle at 1px 1px, rgba(255, 202, 22, 0.3) 1px, transparent 0),
-            linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-            linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px)
+            radial-gradient(circle at 1px 1px, rgba(255, 202, 22, 0.25) 1px, transparent 0),
+            linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+            linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px)
           `,
-          backgroundSize: "40px 40px, 160px 160px, 160px 160px"
+          backgroundSize: "40px 40px, 120px 120px, 120px 120px"
         }}
         aria-hidden="true"
       />
 
-      {/* Gradiente sutil de atmosfera */}
       <div
-        className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_50%_30%,rgba(255,202,22,0.06)_0%,transparent_60%)]"
+        className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_50%_25%,rgba(255,202,22,0.05)_0%,transparent_60%)]"
         aria-hidden="true"
       />
 
-      {/* Marca d'água técnica em baixa opacidade */}
-      <span
-        aria-hidden="true"
-        className="absolute right-[-2%] top-[6%] font-display font-[900] text-white/[0.018] leading-none tracking-[-0.08em] pointer-events-none select-none text-[clamp(90px,18vw,260px)]"
-      >
-        artboard
-      </span>
-
-      {/* ========================================================================= */}
-      {/* 2. RÉGUA TÉCNICA DO TOPO (TOP RULER — ILLUSTRATOR STYLE)                  */}
-      {/* ========================================================================= */}
-      <div className="absolute top-0 left-0 right-0 h-7 bg-[#0b0d0c] border-b border-white/[0.08] hidden lg:flex items-center px-6 text-[9px] font-mono text-white/30 select-none z-20">
-        <div className="flex items-center gap-2 border-r border-white/10 pr-4 mr-4 text-[#00e5ff]">
-          <Compass className="w-3 h-3" />
-          <span className="tracking-widest uppercase">KIIRO · RULER</span>
-        </div>
-        <div className="flex-1 flex justify-between tracking-widest">
-          {[0, 150, 300, 450, 600, 750, 900, 1050, 1200, 1350, 1500, 1650, 1800, 1920].map((px) => (
-            <div key={px} className="flex items-center gap-1">
-              <span className="h-2 w-[1px] bg-white/20" />
-              <span>{px}</span>
-            </div>
-          ))}
-          <span className="text-[#FFCA16] font-bold">PX</span>
-        </div>
-      </div>
-
-      {/* ========================================================================= */}
-      {/* 3. CONTEÚDO PRINCIPAL: PALCO DA PRANCHETA (LARGURA AMPLA NA VIEWPORT)     */}
-      {/* ========================================================================= */}
-      <div className="relative z-10 w-full max-w-[95vw] xl:max-w-[94vw] 2xl:max-w-[1740px] mx-auto px-2 sm:px-4 md:px-6">
+      <div className="relative z-10 w-full max-w-[95vw] xl:max-w-[92vw] 2xl:max-w-[1600px] mx-auto px-3 sm:px-6">
 
         {/* CABEÇALHO EDITORIAL DA SEÇÃO */}
-        <div className="mb-12 md:mb-16 px-2 sm:px-4">
-          <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
-            <div className="inline-flex items-center gap-3 px-3 py-1 rounded-full bg-white/[0.04] border border-white/10 backdrop-blur-md">
-              <span className="w-2 h-2 rounded-full bg-[#FFCA16] animate-pulse" />
-              <span className="text-[#FFCA16] text-[11px] font-mono font-bold uppercase tracking-[0.35em]">
-                Soluções Estratégicas
-              </span>
-            </div>
-
-            {/* Toggle de Guias do Illustrator */}
-            <div className="flex items-center gap-3">
-              <button
-                type="button"
-                onClick={() => {
-                  playSwitchClick(!showGuides);
-                  setShowGuides(!showGuides);
-                }}
-                className="flex items-center gap-2 px-3 py-1.5 rounded-md text-[10px] font-mono uppercase tracking-wider text-white/60 bg-white/[0.03] hover:bg-white/[0.08] hover:text-white border border-white/10 transition-colors"
-                title="Alternar visibilidade das guias vetoriais"
-              >
-                <Sliders className="w-3 h-3 text-[#00e5ff]" />
-                <span>Guias: {showGuides ? "ON" : "OFF"}</span>
-              </button>
-
-              <span className="hidden sm:inline-block text-[10px] font-mono text-white/30 uppercase tracking-widest">
-                CMYK / PREVIEW · 100%
-              </span>
-            </div>
+        <div className="mb-10 md:mb-14">
+          <div className="inline-flex items-center gap-2.5 px-3.5 py-1 rounded-full bg-white/[0.04] border border-white/10 backdrop-blur-md mb-6">
+            <span className="w-2 h-2 rounded-full bg-[#FFCA16] animate-pulse" />
+            <span className="text-[#FFCA16] text-[11px] font-mono font-bold uppercase tracking-[0.3em]">
+              Soluções Estratégicas
+            </span>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-end">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 items-end">
             <div className="lg:col-span-8">
-              <h2 className="font-display text-[40px] sm:text-[56px] md:text-[76px] lg:text-[88px] font-[800] text-white leading-[0.85] tracking-[-0.05em]">
+              <h2 className="font-display text-[38px] sm:text-[52px] md:text-[68px] lg:text-[78px] font-[800] text-white leading-[0.9] tracking-[-0.04em]">
                 Elevando o{" "}
                 <span className="text-[#FFCA16] italic font-light">padrão</span>
                 <br />
@@ -359,230 +334,176 @@ export default function ServicesArtboardSection() {
               </h2>
             </div>
             <div className="lg:col-span-4">
-              <p className="text-white/65 text-[15px] md:text-[17px] leading-relaxed font-light font-display">
+              <p className="text-white/65 text-[15px] md:text-[16px] leading-relaxed font-light font-display">
                 Fugimos de templates genéricos para criar sistemas proprietários, pensados sob medida para transformar negócios em referências memoráveis.
               </p>
             </div>
           </div>
         </div>
 
-        {/* ======================================================================= */}
-        {/* 4. A PRANCHETA PRINCIPAL DO ILLUSTRATOR (THE ARTBOARD FRAME)             */}
-        {/* ======================================================================= */}
-        <div className="relative mt-8 group">
+        {/* PRANCHETA DE DESIGN (CLEAN ILLUSTRATOR ARTBOARD) */}
+        <div className="relative">
 
-          {/* ===================================================================== */}
-          {/* GUIAS DE EXTREMIDADE ACOPLADAS DIRETAMENTE ÀS BORDAS DA PRANCHETA     */}
-          {/* ===================================================================== */}
-          {showGuides && (
-            <div className="pointer-events-none select-none" aria-hidden="true">
-              {/* Guia vertical esquerda — alinhada exatamente à extremidade lateral esquerda */}
-              <div className="absolute -top-[500px] -bottom-[500px] left-0 w-[1px] bg-[#00e5ff]/40 shadow-[0_0_10px_rgba(0,229,255,0.45)] z-20">
-                <span className="absolute top-[520px] -left-1 transform -translate-x-full text-[8px] font-mono text-[#00e5ff]/80 tracking-widest whitespace-nowrap bg-black/85 px-1.5 py-0.5 border border-[#00e5ff]/35 rounded shadow">
-                  X: 0.00
-                </span>
-              </div>
+          {/* Marcas de corte arquiteturais e minimalistas nos 4 cantos da prancheta */}
+          <div className="absolute -top-2.5 -left-2.5 w-3.5 h-3.5 border-t-2 border-l-2 border-[#FFCA16]/40 pointer-events-none hidden sm:block" />
+          <div className="absolute -top-2.5 -right-2.5 w-3.5 h-3.5 border-t-2 border-r-2 border-[#FFCA16]/40 pointer-events-none hidden sm:block" />
+          <div className="absolute -bottom-2.5 -left-2.5 w-3.5 h-3.5 border-b-2 border-l-2 border-[#FFCA16]/40 pointer-events-none hidden sm:block" />
+          <div className="absolute -bottom-2.5 -right-2.5 w-3.5 h-3.5 border-b-2 border-r-2 border-[#FFCA16]/40 pointer-events-none hidden sm:block" />
 
-              {/* Guia vertical direita — alinhada exatamente à extremidade lateral direita */}
-              <div className="absolute -top-[500px] -bottom-[500px] right-0 w-[1px] bg-[#00e5ff]/40 shadow-[0_0_10px_rgba(0,229,255,0.45)] z-20">
-                <span className="absolute top-[520px] -right-1 transform translate-x-full text-[8px] font-mono text-[#00e5ff]/80 tracking-widest whitespace-nowrap bg-black/85 px-1.5 py-0.5 border border-[#00e5ff]/35 rounded shadow">
-                  X: 1920.00
-                </span>
-              </div>
+          {/* CONTAINER DA PRANCHETA */}
+          <div className="relative rounded-2xl md:rounded-3xl bg-[#0e1110] border border-white/10 shadow-[0_20px_70px_rgba(0,0,0,0.7)] overflow-hidden">
 
-              {/* Guia horizontal de topo (alinhada à borda superior da prancheta) */}
-              <div className="absolute -left-[100vw] -right-[100vw] top-0 h-[1px] bg-[#00e5ff]/35 shadow-[0_0_8px_rgba(0,229,255,0.35)] z-20">
-                <span className="absolute left-[calc(100vw+16px)] -top-4 text-[8px] font-mono text-[#00e5ff]/80 tracking-widest bg-black/85 px-1.5 py-0.5 border border-[#00e5ff]/35 rounded shadow">
-                  Y: 0.00 · BLEED: 3.00mm
-                </span>
-              </div>
-
-              {/* Guia horizontal de base (alinhada à borda inferior da prancheta) */}
-              <div className="absolute -left-[100vw] -right-[100vw] bottom-0 h-[1px] bg-[#00e5ff]/35 shadow-[0_0_8px_rgba(0,229,255,0.35)] z-20">
-                <span className="absolute right-[calc(100vw+16px)] -bottom-4 text-[8px] font-mono text-[#00e5ff]/80 tracking-widest bg-black/85 px-1.5 py-0.5 border border-[#00e5ff]/35 rounded shadow">
-                  Y: 1080.00 · BASELINE
-                </span>
-              </div>
-
-              {/* Marcas de Registro Técnicas nos 4 cantos externos */}
-              <div className="absolute -top-6 -left-6 z-20 text-[#00e5ff] font-mono text-sm leading-none flex items-center">
-                <span>+</span>
-                <span className="text-[7px] text-[#00e5ff]/60 ml-1 tracking-tighter hidden md:inline">REG.TL</span>
-              </div>
-              <div className="absolute -top-6 -right-6 z-20 text-[#00e5ff] font-mono text-sm leading-none flex items-center">
-                <span className="text-[7px] text-[#00e5ff]/60 mr-1 tracking-tighter hidden md:inline">TRIM.TR</span>
-                <span>+</span>
-              </div>
-              <div className="absolute -bottom-6 -left-6 z-20 text-[#00e5ff] font-mono text-sm leading-none flex items-center">
-                <span>+</span>
-                <span className="text-[7px] text-[#00e5ff]/60 ml-1 tracking-tighter hidden md:inline">C:100 M:0 Y:100 K:0</span>
-              </div>
-              <div className="absolute -bottom-6 -right-6 z-20 text-[#00e5ff] font-mono text-sm leading-none flex items-center">
-                <span className="text-[7px] text-[#00e5ff]/60 mr-1 tracking-tighter hidden md:inline">KIIRO.STUDIO</span>
-                <span>+</span>
-              </div>
-            </div>
-          )}
-
-          {/* O CONTAINER DA PRANCHETA (ELEVATED ARTBOARD CONTAINER) */}
-          <div className="relative rounded-2xl md:rounded-3xl bg-[#0d0f0e] border border-white/10 shadow-[0_25px_80px_rgba(0,0,0,0.85)] overflow-hidden">
-
-            {/* Pontos de Ancoragem Vetoriais (Bounding Box Handles) */}
-            {showGuides && (
-              <>
-                <div className="absolute top-0 left-0 w-2.5 h-2.5 bg-white border border-[#00e5ff] z-30 pointer-events-none" />
-                <div className="absolute top-0 right-0 w-2.5 h-2.5 bg-white border border-[#00e5ff] z-30 pointer-events-none" />
-                <div className="absolute bottom-0 left-0 w-2.5 h-2.5 bg-white border border-[#00e5ff] z-30 pointer-events-none" />
-                <div className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-white border border-[#00e5ff] z-30 pointer-events-none" />
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-2.5 h-2.5 bg-white border border-[#00e5ff] z-30 pointer-events-none" />
-                <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-2.5 h-2.5 bg-white border border-[#00e5ff] z-30 pointer-events-none" />
-                <div className="absolute top-1/2 left-0 -translate-y-1/2 w-2.5 h-2.5 bg-white border border-[#00e5ff] z-30 pointer-events-none" />
-                <div className="absolute top-1/2 right-0 -translate-y-1/2 w-2.5 h-2.5 bg-white border border-[#00e5ff] z-30 pointer-events-none" />
-              </>
-            )}
-
-            {/* BARRA SUPERIOR DO DOCUMENTO (ILLUSTRATOR TAB & ARTBOARD BAR) */}
-            <div className="bg-[#121514] border-b border-white/[0.08] px-4 md:px-6 py-3 flex flex-wrap items-center justify-between gap-3 text-xs font-mono">
+            {/* BARRA SUPERIOR DA JANELA (CLEAN ARTBOARD CHROME) */}
+            <div className="bg-[#131615] border-b border-white/[0.08] px-4 md:px-6 py-3 flex items-center justify-between gap-4 text-xs font-mono">
               <div className="flex items-center gap-3">
-                {/* Semáforo Mac/Illustrator */}
-                <div className="flex items-center gap-1.5 mr-2">
-                  <span className="w-2.5 h-2.5 rounded-full bg-[#ff5f56]/70 inline-block" />
-                  <span className="w-2.5 h-2.5 rounded-full bg-[#ffbd2e]/70 inline-block" />
-                  <span className="w-2.5 h-2.5 rounded-full bg-[#27c93f]/70 inline-block" />
+                {/* Semáforo macOS */}
+                <div className="flex items-center gap-1.5 mr-1">
+                  <span className="w-2.5 h-2.5 rounded-full bg-[#ff5f56]/80 inline-block" />
+                  <span className="w-2.5 h-2.5 rounded-full bg-[#ffbd2e]/80 inline-block" />
+                  <span className="w-2.5 h-2.5 rounded-full bg-[#27c93f]/80 inline-block" />
                 </div>
-                {/* Aba ativa */}
-                <div className="flex items-center gap-2 bg-[#1a1d1c] px-3 py-1 rounded text-white/90 border border-white/5">
+                {/* Aba do Arquivo */}
+                <div className="flex items-center gap-2 bg-white/[0.04] px-3 py-1 rounded-md text-white/90 border border-white/5">
                   <Layers className="w-3.5 h-3.5 text-[#FFCA16]" />
                   <span className="font-semibold tracking-wide">
-                    studiokiiro_solucoes.ai*
+                    studiokiiro_solucoes.ai
                   </span>
-                  <span className="text-[10px] text-white/40">@ 100% (Preview)</span>
+                  <span className="text-[10px] text-white/40 hidden sm:inline">@ 100% (Preview)</span>
                 </div>
               </div>
 
-              {/* Informações da Prancheta Ativa */}
-              <div className="flex items-center gap-4 text-[10px] text-white/40">
-                <span className="hidden sm:inline">
+              {/* Informações da Prancheta */}
+              <div className="flex items-center gap-3 text-[10px] text-white/40">
+                <span>
                   PRANCHETA:{" "}
                   <strong className="text-[#FFCA16]">
-                    {activeCategory.number} / 05
+                    0{activeCategoryIndex + 1} / 05
                   </strong>
                 </span>
-                <span className="hidden md:inline bg-black/40 px-2 py-0.5 rounded border border-white/5 text-[#00e5ff]">
-                  DIMENSÕES: 1920 × 1080 PX
+                <span className="hidden md:inline bg-black/40 px-2 py-0.5 rounded border border-white/5 text-white/50">
+                  1920 × 1080 PX
                 </span>
-                <span className="text-white/30 hidden lg:inline">CORES: CMYK 300DPI</span>
               </div>
             </div>
 
-            {/* SELETOR PRIMÁRIO DOS 5 SERVIÇOS (TABS DA PRANCHETA) */}
-            <div className="bg-[#0f1110] border-b border-white/[0.08] px-2 sm:px-6 pt-3 overflow-x-auto scrollbar-none flex items-center gap-2">
-              {SERVICES_DATA.map((cat, idx) => {
-                const isSelected = idx === activeCategoryIndex;
-                return (
-                  <button
-                    key={cat.id}
-                    type="button"
-                    onClick={() => handleCategorySelect(idx)}
-                    className={`relative flex items-center gap-2.5 px-4 md:px-6 py-3 rounded-t-xl font-display text-[12px] md:text-[14px] font-semibold whitespace-nowrap transition-all duration-200 border-t border-x ${
-                      isSelected
-                        ? "bg-[#161a18] text-white border-white/15 shadow-[0_-4px_12px_rgba(0,0,0,0.5)] z-10"
-                        : "bg-transparent text-white/45 border-transparent hover:text-white/80 hover:bg-white/[0.02]"
-                    }`}
-                  >
-                    <span
-                      className={`text-[10px] font-mono px-1.5 py-0.5 rounded ${
-                        isSelected
-                          ? "bg-[#FFCA16] text-black font-bold"
-                          : "bg-white/5 text-white/40"
-                      }`}
-                    >
-                      {cat.number}
-                    </span>
-                    <span>{cat.shortTitle}</span>
-
-                    {/* Tag técnica sutil */}
-                    <span
-                      className={`hidden lg:inline text-[9px] font-mono uppercase px-1.5 py-0.5 rounded ${
-                        isSelected ? "text-[#00e5ff] bg-[#00e5ff]/10" : "text-white/20"
-                      }`}
-                    >
-                      {cat.badge}
-                    </span>
-
-                    {/* Barra indicadora inferior */}
-                    {isSelected && (
-                      <motion.div
-                        layoutId="activeCategoryBar"
-                        className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#FFCA16]"
-                        transition={{ type: "spring", stiffness: 350, damping: 30 }}
-                      />
-                    )}
-                  </button>
-                );
-              })}
-            </div>
-
-            {/* CORPO DA PRANCHETA: SUB-TABS + CONTEÚDO EDITORIAL */}
-            <div className="p-6 sm:p-10 lg:p-14 bg-[#141716] relative">
-
-              {/* Linha guia de medição interna */}
-              {showGuides && (
-                <div className="absolute top-4 left-6 right-6 flex items-center justify-between text-[8px] font-mono text-[#00e5ff]/40 pointer-events-none select-none">
-                  <span>┌ W_OFFSET: 0.00</span>
-                  <span className="w-full mx-4 border-b border-dashed border-[#00e5ff]/20" />
-                  <span>SAFETY_MARGIN: 40px ┐</span>
+            {/* SELETOR INTERATIVO DE SERVIÇOS (DOCK COM ALTA SUGESTIVIDADE) */}
+            <div className="bg-[#111413] border-b border-white/[0.08]">
+              {/* Sugestão de Interação */}
+              <div className="px-4 sm:px-6 pt-4 pb-2.5 flex items-center justify-between text-[10px] sm:text-[11px] font-mono uppercase tracking-[0.2em]">
+                <div className="flex items-center gap-2 text-[#FFCA16]">
+                  <Sparkles className="w-3.5 h-3.5 animate-pulse" />
+                  <span>Selecione uma especialidade para ver o escopo:</span>
                 </div>
-              )}
+                <div className="hidden md:flex items-center gap-2 text-white/40">
+                  <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#FFCA16]" />
+                  <span>5 Especialidades</span>
+                </div>
+              </div>
 
-              {/* SUB-PILLS PARA SERVIÇOS COM MÚLTIPLOS ITENS (Ex: Identidade Visual e Edição de Vídeo) */}
-              {activeCategory.items.length > 1 && (
-                <div className="mb-8 pt-2">
-                  <div className="text-[10px] font-mono uppercase tracking-[0.25em] text-white/40 mb-3 flex items-center gap-2">
-                    <Sliders className="w-3 h-3 text-[#FFCA16]" />
-                    <span>Selecione a modalidade:</span>
-                  </div>
-                  <div className="flex flex-wrap items-center gap-2">
-                    {activeCategory.items.map((sub, sIdx) => {
-                      const isSubActive = sIdx === activeSubIndex;
-                      return (
-                        <button
-                          key={sub.id}
-                          type="button"
-                          onClick={() => handleSubItemSelect(sIdx)}
-                          className={`px-3.5 py-2 rounded-lg text-xs md:text-sm font-medium transition-all duration-200 border flex items-center gap-2 ${
-                            isSubActive
-                              ? "bg-[#FFCA16] text-black border-[#FFCA16] font-semibold shadow-[0_4px_16px_rgba(255,202,22,0.25)]"
-                              : "bg-white/[0.04] text-white/70 border-white/10 hover:bg-white/[0.08] hover:text-white"
+              {/* 5 Botões de Serviços em Grid Dock */}
+              <div className="p-3 sm:p-4 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2.5">
+                {SERVICES_DATA.map((cat, idx) => {
+                  const isSelected = idx === activeCategoryIndex;
+                  const Icon = CATEGORY_ICONS[idx];
+                  return (
+                    <button
+                      key={cat.id}
+                      type="button"
+                      onClick={() => handleCategorySelect(idx)}
+                      onMouseEnter={() => playPillHover(idx)}
+                      className={`group relative flex flex-col justify-between p-3.5 sm:p-4 rounded-xl text-left transition-all duration-300 cursor-pointer overflow-hidden border ${
+                        isSelected
+                          ? "bg-[#FFCA16] text-black border-[#FFCA16] shadow-[0_6px_24px_rgba(255,202,22,0.3)] scale-[1.02] z-10"
+                          : "bg-white/[0.03] text-white/70 border-white/10 hover:border-[#FFCA16]/60 hover:bg-white/[0.06] hover:text-white hover:-translate-y-0.5"
+                      }`}
+                    >
+                      {/* Topo do Card: Número + Ícone */}
+                      <div className="flex items-center justify-between w-full mb-3">
+                        <span
+                          className={`font-mono text-[10px] sm:text-[11px] font-bold px-2 py-0.5 rounded-full transition-colors ${
+                            isSelected
+                              ? "bg-black/15 text-black"
+                              : "bg-white/10 text-white/60 group-hover:bg-[#FFCA16]/20 group-hover:text-[#FFCA16]"
                           }`}
                         >
-                          <span
-                            className={`w-1.5 h-1.5 rounded-full ${
-                              isSubActive ? "bg-black" : "bg-white/30"
-                            }`}
-                          />
-                          <span>{sub.title}</span>
-                        </button>
-                      );
-                    })}
-                  </div>
-                </div>
-              )}
+                          {cat.number}
+                        </span>
+                        <Icon
+                          className={`w-4 h-4 transition-transform duration-300 group-hover:scale-110 ${
+                            isSelected ? "text-black" : "text-white/40 group-hover:text-[#FFCA16]"
+                          }`}
+                        />
+                      </div>
 
-              {/* CONTEÚDO DINÂMICO DO SERVIÇO SELECIONADO */}
+                      {/* Nome do Serviço */}
+                      <span className="font-display font-bold text-xs sm:text-sm leading-snug tracking-tight mb-2">
+                        {cat.shortTitle}
+                      </span>
+
+                      {/* Micro-affordance de clique */}
+                      <div className="flex items-center gap-1 text-[9px] font-mono uppercase tracking-wider opacity-80 pt-1">
+                        <span>{isSelected ? "Ativo" : "Ver Escopo"}</span>
+                        <ArrowRight
+                          className={`w-3 h-3 transition-transform duration-300 ${
+                            isSelected ? "translate-x-0.5" : "group-hover:translate-x-1"
+                          }`}
+                        />
+                      </div>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* SELEÇÃO DE MODALIDADES (quando o serviço possui variações) */}
+            {activeCategory.items.length > 1 && (
+              <div className="bg-[#141816]/70 border-b border-white/[0.06] px-4 sm:px-8 py-3.5 flex flex-wrap items-center gap-2">
+                <span className="text-[10px] sm:text-[11px] font-mono uppercase tracking-[0.2em] text-white/40 mr-1">
+                  Modalidade:
+                </span>
+                {activeCategory.items.map((sub, sIdx) => {
+                  const isSubActive = sIdx === activeSubIndex;
+                  return (
+                    <button
+                      key={sub.id}
+                      type="button"
+                      onClick={() => handleSubItemSelect(sIdx)}
+                      className={`px-3.5 py-1.5 rounded-full text-xs font-mono tracking-wider transition-all duration-200 border flex items-center gap-2 cursor-pointer ${
+                        isSubActive
+                          ? "bg-white text-black border-white font-bold shadow-[0_2px_12px_rgba(255,255,255,0.2)]"
+                          : "bg-white/[0.04] text-white/60 border-white/10 hover:border-white/30 hover:text-white hover:bg-white/[0.08]"
+                      }`}
+                    >
+                      <span
+                        className={`w-1.5 h-1.5 rounded-full ${
+                          isSubActive ? "bg-[#FFCA16]" : "bg-white/30"
+                        }`}
+                      />
+                      <span>{sub.title}</span>
+                    </button>
+                  );
+                })}
+              </div>
+            )}
+
+            {/* CONTEÚDO EDITORIAL DO SERVIÇO SELECIONADO */}
+            <div className="bg-[#141716] p-6 sm:p-10 lg:p-12 relative min-h-[420px]">
               <AnimatePresence mode="wait">
                 <motion.div
                   key={`${activeCategory.id}-${activeSubItem.id}`}
-                  initial={{ opacity: 0, y: 15 }}
+                  initial={{ opacity: 0, y: 12 }}
                   animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -15 }}
-                  transition={{ duration: 0.35, ease: "easeOut" }}
-                  className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 xl:gap-16 items-start"
+                  exit={{ opacity: 0, y: -12 }}
+                  transition={{ duration: 0.28, ease: "easeOut" }}
+                  className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start"
                 >
-                  {/* COLUNA ESQUERDA: TÍTULOS E DESCRIÇÃO ESTRATÉGICA */}
-                  <div className="lg:col-span-7 xl:col-span-7 flex flex-col gap-6">
+                  {/* COLUNA ESQUERDA: TÍTULOS, DESCRIÇÃO E BOTÃO DE CONTATO */}
+                  <div className="lg:col-span-7 flex flex-col gap-6">
                     <div>
-                      <h3 className="font-display text-[30px] sm:text-[40px] md:text-[48px] xl:text-[54px] font-[800] text-white leading-[1.02] tracking-tight">
+                      <span className="text-[10px] sm:text-[11px] font-mono uppercase tracking-[0.25em] text-[#FFCA16] font-semibold">
+                        {activeCategory.tag}
+                      </span>
+                      <h3 className="font-display text-[28px] sm:text-[36px] md:text-[42px] font-[800] text-white leading-[1.08] tracking-tight mt-1">
                         {activeSubItem.title}
                       </h3>
                       {activeSubItem.subtitle && (
@@ -592,29 +513,44 @@ export default function ServicesArtboardSection() {
                       )}
                     </div>
 
-                    <div className="text-white/70 text-[15px] md:text-[17px] leading-relaxed font-light whitespace-pre-line space-y-4 max-w-4xl">
+                    <div className="text-white/70 text-[14px] sm:text-[15px] md:text-[16px] leading-relaxed font-light whitespace-pre-line space-y-4 max-w-3xl">
                       {activeSubItem.description}
+                    </div>
+
+                    {/* BOTÃO CTA DIRETO NO WHATSAPP */}
+                    <div className="pt-2">
+                      <a
+                        href={whatsappUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="group relative inline-flex items-center justify-center gap-2.5 px-7 py-3.5 rounded-full overflow-hidden border border-white/20 text-white font-mono text-[11px] md:text-xs uppercase tracking-[0.22em] font-bold transition-all duration-300 hover:border-[#FFCA16] shadow-[0_4px_20px_rgba(0,0,0,0.25)]"
+                      >
+                        <span
+                          className="absolute inset-0 w-full h-full bg-[#FFCA16] rounded-full -translate-y-[120%] group-hover:translate-y-0 transition-transform duration-300 ease-out pointer-events-none"
+                          aria-hidden="true"
+                        />
+                        <span className="relative z-10 transition-colors duration-300 group-hover:text-black flex items-center gap-2">
+                          Solicitar Proposta Desse Serviço
+                          <ArrowRight className="w-4 h-4" />
+                        </span>
+                      </a>
                     </div>
                   </div>
 
                   {/* COLUNA DIREITA: ENTREGÁVEIS & ESCOPO */}
-                  <div className="lg:col-span-5 xl:col-span-5 bg-[#0b0d0c] rounded-2xl p-6 sm:p-8 xl:p-10 border border-white/10 relative overflow-hidden">
-                    {/* Borda técnica luminosa */}
-                    <div className="absolute top-0 right-0 w-28 h-28 bg-[#FFCA16]/5 rounded-full blur-2xl pointer-events-none" />
-
-                    <div className="flex items-center justify-between mb-6 pb-4 border-b border-white/10">
+                  <div className="lg:col-span-5 bg-[#0b0d0c] rounded-2xl p-6 sm:p-8 border border-white/10 relative overflow-hidden shadow-inner">
+                    <div className="flex items-center justify-between mb-5 pb-3 border-b border-white/10">
                       <div className="flex items-center gap-2">
-                        <FileCode className="w-4 h-4 text-[#00e5ff]" />
-                        <span className="font-mono text-xs uppercase tracking-widest text-white/80 font-bold">
+                        <span className="w-2 h-2 rounded-full bg-[#FFCA16]" />
+                        <span className="font-mono text-xs uppercase tracking-widest text-white/90 font-bold">
                           Entregáveis & Escopo
                         </span>
                       </div>
-                      <span className="text-[10px] font-mono text-white/30 uppercase">
-                        SPEC_SHEET
+                      <span className="text-[10px] font-mono text-white/40 uppercase">
+                        {activeSubItem.deliverables.length} ITENS
                       </span>
                     </div>
 
-                    {/* Lista de Entregáveis */}
                     <ul className="space-y-3.5">
                       {activeSubItem.deliverables.map((item, dIdx) => (
                         <li
@@ -629,25 +565,49 @@ export default function ServicesArtboardSection() {
                   </div>
                 </motion.div>
               </AnimatePresence>
-
             </div>
 
-            {/* BARRA INFERIOR DE STATUS DA PRANCHETA (STATUS BAR) */}
-            <div className="bg-[#0d0f0e] border-t border-white/[0.08] px-4 md:px-6 py-2.5 flex flex-wrap items-center justify-between gap-4 text-[10px] font-mono text-white/40">
-              <div className="flex items-center gap-4">
-                <span className="flex items-center gap-1.5 text-white/60">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#00e5ff]" />
-                  SELEÇÃO ATIVA: {activeSubItem.title.toUpperCase()}
-                </span>
-                <span className="hidden sm:inline">|</span>
-                <span className="hidden sm:inline">CANVAS: LOCKED</span>
+            {/* BARRA INFERIOR DE NAVEGAÇÃO E STATUS (PREV / NEXT + INDICADORES) */}
+            <div className="bg-[#111413] border-t border-white/[0.08] px-4 sm:px-8 py-3 flex items-center justify-between gap-4">
+              {/* Botão Anterior */}
+              <button
+                type="button"
+                onClick={handlePrev}
+                className="flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-mono uppercase tracking-wider text-white/70 hover:text-white hover:bg-white/[0.06] border border-white/10 transition-all cursor-pointer"
+              >
+                <ChevronLeft className="w-4 h-4 text-[#FFCA16]" />
+                <span className="hidden sm:inline">Serviço Anterior</span>
+                <span className="sm:hidden">Anterior</span>
+              </button>
+
+              {/* Indicadores de Paginação */}
+              <div className="flex items-center gap-2">
+                {SERVICES_DATA.map((_, dotIdx) => {
+                  const isActive = dotIdx === activeCategoryIndex;
+                  return (
+                    <button
+                      key={dotIdx}
+                      type="button"
+                      onClick={() => handleCategorySelect(dotIdx)}
+                      className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${
+                        isActive ? "w-7 bg-[#FFCA16]" : "w-2 bg-white/20 hover:bg-white/40"
+                      }`}
+                      title={`Ir para ${SERVICES_DATA[dotIdx].title}`}
+                    />
+                  );
+                })}
               </div>
 
-              <div className="flex items-center gap-4">
-                <span>ZOOM: 100%</span>
-                <span>•</span>
-                <span className="text-[#FFCA16]">STUDIO KIIRO © SÃO PAULO</span>
-              </div>
+              {/* Botão Próximo */}
+              <button
+                type="button"
+                onClick={handleNext}
+                className="flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-mono uppercase tracking-wider text-white/70 hover:text-white hover:bg-white/[0.06] border border-white/10 transition-all cursor-pointer"
+              >
+                <span className="hidden sm:inline">Próximo Serviço</span>
+                <span className="sm:hidden">Próximo</span>
+                <ChevronRight className="w-4 h-4 text-[#FFCA16]" />
+              </button>
             </div>
 
           </div>

@@ -72,12 +72,17 @@ const SocialMediaPortfolio = () => {
 
   return (
     <section ref={containerRef} className="relative min-h-[145svh] overflow-hidden bg-[#070807] text-white">
-      <div className="relative z-10 mx-auto max-w-7xl px-6 pb-8 pt-28 sm:px-10 lg:px-16">
-        <h2 className="max-w-3xl text-[clamp(3.2rem,7vw,7rem)] font-black leading-[0.82] tracking-[-0.075em] text-balance">
-          A identidade continua em cada tela.
+      <div className="relative z-10 mx-auto max-w-5xl px-6 pb-8 pt-28 sm:px-10 lg:px-16 text-center flex flex-col items-center">
+        <h2 className="text-[clamp(2.8rem,6.5vw,5.6rem)] font-display font-black leading-[0.92] tracking-[-0.04em] text-balance">
+          Portifólio de artes
+          <br />
+          para{" "}
+          <span className="text-[#FFCA16] italic font-light">
+            Redes Sociais
+          </span>
         </h2>
-        <p className="mt-7 max-w-md text-base leading-relaxed text-white/58 md:text-lg">
-          Peças que mantêm a marca viva quando a conversa acontece no digital.
+        <p className="mt-6 max-w-2xl text-base leading-relaxed text-white/70 md:text-lg font-light">
+          Uma seleção de layouts criados para fortalecer presença, consistência e posicionamento de marcas no ambiente digital.
         </p>
       </div>
 

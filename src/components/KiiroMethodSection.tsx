@@ -1,6 +1,6 @@
 import { useRef, useState, useEffect, useMemo } from "react";
 import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion";
-import { Check, ArrowDown, ArrowUpRight } from "lucide-react";
+import { ArrowDown, ArrowUpRight } from "lucide-react";
 import { playPillHover } from "@/utils/soundEffects";
 import kiiroLogoMark from "@/assets/kiiro-mark.svg";
 
@@ -163,15 +163,88 @@ const STEPS_DKTON_STYLE: ProcessStepData[] = [
   },
 ];
 
-// 7 tonalidades de amarelo correspondentes às formas geométricas da referência
-const YELLOW_TONES = [
-  "#FFD84D", // Amarelo vibrante claro
-  "#FFCA16", // Amarelo oficial Studio Kiiro
-  "#F59E0B", // Âmbar dourado
-  "#FEF08A", // Amarelo limão suave
-  "#EAB308", // Ouro médio
-  "#FBBF24", // Amarelo quente
-  "#FCD34D", // Amarelo solar
+// Configuração exata das 7 formas geométricas triangulares mostradas na imagem do usuário (media_1790365822932.png)
+const MONOLITH_CONFIGS = [
+  {
+    id: 0,
+    // Altura relativa inicial (% da altura da tela a partir da base)
+    hLeftFrac: 0.22,
+    hRightFrac: 0.28,
+    color: "#D97706", // Âmbar dourado quente
+    idleSpeed: 1.15,
+    idlePhase: 0.0,
+    idleAmp: 10,
+    // Configuração individual de subida no scroll:
+    scrollStart: 0.08,
+    scrollDuration: 0.65,
+  },
+  {
+    id: 1,
+    hLeftFrac: 0.49,
+    hRightFrac: 0.55,
+    color: "#EAB308", // Ouro rico Kiiro
+    idleSpeed: 0.85,
+    idlePhase: 1.9,
+    idleAmp: 14,
+    scrollStart: 0.02,
+    scrollDuration: 0.64,
+  },
+  {
+    id: 2,
+    hLeftFrac: 0.36,
+    hRightFrac: 0.43,
+    color: "#B45309", // Âmbar profundo / bronze dourado
+    idleSpeed: 1.35,
+    idlePhase: 3.5,
+    idleAmp: 11,
+    scrollStart: 0.05,
+    scrollDuration: 0.66,
+  },
+  {
+    id: 3,
+    // Forma central (mais alta da composição da imagem)
+    hLeftFrac: 0.58,
+    hRightFrac: 0.58,
+    color: "#FFCA16", // Amarelo oficial vibrante Kiiro
+    idleSpeed: 0.95,
+    idlePhase: 0.9,
+    idleAmp: 16,
+    scrollStart: 0.0,
+    scrollDuration: 0.62,
+  },
+  {
+    id: 4,
+    hLeftFrac: 0.38,
+    hRightFrac: 0.33,
+    color: "#CA8A04", // Ouro mostarda
+    idleSpeed: 1.25,
+    idlePhase: 2.3,
+    idleAmp: 12,
+    scrollStart: 0.04,
+    scrollDuration: 0.67,
+  },
+  {
+    id: 5,
+    hLeftFrac: 0.46,
+    hRightFrac: 0.39,
+    color: "#EAB308", // Ouro
+    idleSpeed: 0.9,
+    idlePhase: 4.6,
+    idleAmp: 15,
+    scrollStart: 0.01,
+    scrollDuration: 0.63,
+  },
+  {
+    id: 6,
+    hLeftFrac: 0.32,
+    hRightFrac: 0.25,
+    color: "#D97706", // Âmbar quente
+    idleSpeed: 1.1,
+    idlePhase: 5.8,
+    idleAmp: 10,
+    scrollStart: 0.07,
+    scrollDuration: 0.68,
+  },
 ];
 
 export default function KiiroMethodSection() {
@@ -179,13 +252,16 @@ export default function KiiroMethodSection() {
   const heroRef = useRef<HTMLDivElement>(null);
   const [dimensions, setDimensions] = useState({ width: 1440, height: 900 });
 
-  // Rastreia o scroll da seção hero sticky (onde o Showreel e a máscara se expandem)
+  // Tempo para a animação lenta e individual das formas quando ocioso (sem scroll)
+  const [idleTime, setIdleTime] = useState(0);
+
+  // Rastreia o scroll da seção hero sticky
   const { scrollYProgress: heroScrollProgress } = useScroll({
     target: heroRef,
     offset: ["start start", "end end"],
   });
 
-  // Atualiza as dimensões de tela para a máscara SVG
+  // Atualiza dimensões da tela
   useEffect(() => {
     const handleResize = () => {
       setDimensions({
@@ -198,95 +274,106 @@ export default function KiiroMethodSection() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // Progresso do morphing da máscara (0 a 1)
-  const [morphT, setMorphT] = useState(0);
+  // Loop de animação contínua para oscilação ociosa orgânica de cada forma
+  useEffect(() => {
+    if (reduceMotion) return;
+    let animId: number;
+    let lastTime = performance.now();
+
+    const loop = (now: number) => {
+      const dt = (now - lastTime) / 1000;
+      lastTime = now;
+      setIdleTime((prev) => prev + dt);
+      animId = requestAnimationFrame(loop);
+    };
+
+    animId = requestAnimationFrame(loop);
+    return () => cancelAnimationFrame(animId);
+  }, [reduceMotion]);
+
+  // Progresso global de scroll [0 a 1]
+  const [globalScrollP, setGlobalScrollP] = useState(0);
 
   useEffect(() => {
     const unsubscribe = heroScrollProgress.on("change", (p) => {
-      const t = Math.min(Math.max(p / 0.75, 0), 1);
-      setMorphT(t);
+      setGlobalScrollP(p);
     });
     return () => unsubscribe();
   }, [heroScrollProgress]);
 
-  // Transforma o título "PROCESSO": sobe e esmaece conforme o scroll expande as formas
+  // Transforma o título "PROCESSO": move para cima e esmaece suavemente conforme o scroll sobe as formas
   const titleY = useTransform(heroScrollProgress, [0, 0.45], ["0px", "-50px"]);
   const titleOpacity = useTransform(heroScrollProgress, [0, 0.45], [1, 0]);
-  const titleScale = useTransform(heroScrollProgress, [0, 0.45], [1, 0.92]);
+  const titleScale = useTransform(heroScrollProgress, [0, 0.45], [1, 0.94]);
 
   // Revela o overlay editorial da Etapa 01 quando o vídeo atinge tela cheia
   const step1OverlayOpacity = useTransform(heroScrollProgress, [0.65, 0.88], [0, 1]);
   const step1OverlayY = useTransform(heroScrollProgress, [0.65, 0.88], ["30px", "0px"]);
 
-  // Opacidade do vídeo no interior das formas: 0.4 na prévia até 1.0 em tela cheia
-  const videoOpacity = useTransform(heroScrollProgress, [0, 0.75], [0.4, 1.0]);
+  // Opacidade do vídeo no interior das formas
+  const videoOpacity = useTransform(heroScrollProgress, [0, 0.72], [0.45, 1.0]);
 
-  // Opacidade do preenchimento amarelo das formas (diminui para revelar o vídeo límpido)
-  const shapeYellowFillOpacity = 0.85 * (1 - morphT);
+  // Opacidade do preenchimento amarelo das formas
+  const shapeYellowFillOpacity = Math.max(0, 0.85 * (1 - globalScrollP / 0.72));
 
-  // Calcula a geometria das 7 formas triangulares/geométricas do Studio Kiiro
+  // Calcula os 7 polígonos com subida individual, base fixa no rodapé e respiração ociosa
   const shapes = useMemo(() => {
     const W = dimensions.width;
     const H = dimensions.height;
     const isMobile = W < 768;
 
-    const shapeCount = 7;
-    const initialTotalW = Math.min(W * (isMobile ? 0.94 : 0.84), isMobile ? 420 : 1080);
-    const initialHeight = Math.min(H * (isMobile ? 0.34 : 0.42), isMobile ? 220 : 320);
-    const initialGap = isMobile ? 6 : 14;
-    const initialYStart = (H - initialHeight) / 2 + (isMobile ? 60 : 85);
-    const initialSlope = isMobile ? 14 : 28;
+    const shapeCount = MONOLITH_CONFIGS.length;
+    // Ocupa toda a largura da tela com margens discretas
+    const marginX = isMobile ? 8 : 16;
+    const totalW = W - marginX * 2;
+    const baseGap = isMobile ? 6 : 10;
 
-    const gap = initialGap * (1 - morphT);
-    const totalW = initialTotalW + (W - initialTotalW) * morphT;
+    // Conforme o scroll atinge o ápice da expansão, o gap fecha suavemente para unificar a tela
+    const gapFactor = Math.max(0, 1 - Math.max(0, (globalScrollP - 0.5) / 0.22));
+    const gap = baseGap * gapFactor;
+
     const shapeW = (totalW - (shapeCount - 1) * gap) / shapeCount;
-    const startX = (W - totalW) / 2;
-    const shapeH = initialHeight + (H - initialHeight) * morphT;
-    const startY = initialYStart * (1 - morphT);
-    const slope = initialSlope * (1 - morphT);
 
-    return Array.from({ length: shapeCount }).map((_, i) => {
-      const x1 = startX + i * (shapeW + gap);
+    return MONOLITH_CONFIGS.map((cfg) => {
+      const x1 = marginX + cfg.id * (shapeW + gap);
       const x2 = x1 + shapeW;
 
-      const isAlt = i % 2 === 0;
-      const isCenter = i === 3;
+      // 1. Oscilação ociosa individual (mesmo sem scroll)
+      // Desvanece à medida que o scroll sobe para não conflitar com a tela cheia
+      const idleMultiplier = Math.max(0, 1 - globalScrollP * 2);
+      const idleOffset =
+        Math.sin(idleTime * cfg.idleSpeed + cfg.idlePhase) * cfg.idleAmp * idleMultiplier;
 
-      let yTopLeft = startY;
-      let yTopRight = startY;
-      let yBottomLeft = startY + shapeH;
-      let yBottomRight = startY + shapeH;
+      // 2. Progresso de scroll individual para cada forma (sobem juntas, mas individualmente em ritmos próprios)
+      const rawT = Math.min(
+        Math.max((globalScrollP - cfg.scrollStart) / cfg.scrollDuration, 0),
+        1
+      );
+      // Curva smoothstep para transição fluida e natural
+      const easedT = rawT * rawT * (3 - 2 * rawT);
 
-      if (isCenter) {
-        yTopLeft = startY + slope * 0.5;
-        yTopRight = startY + slope * 0.5;
-        yBottomLeft = startY + shapeH;
-        yBottomRight = startY + shapeH;
-      } else if (isAlt) {
-        yTopLeft = startY + slope;
-        yTopRight = startY;
-        yBottomLeft = startY + shapeH;
-        yBottomRight = startY + shapeH - slope * 0.5;
-      } else {
-        yTopLeft = startY;
-        yTopRight = startY + slope;
-        yBottomLeft = startY + shapeH - slope * 0.5;
-        yBottomRight = startY + shapeH;
-      }
+      // 3. Posições iniciais do topo da forma (em px a partir do topo)
+      const initialTopLeft = H * (1 - cfg.hLeftFrac) - idleOffset;
+      const initialTopRight = H * (1 - cfg.hRightFrac) - idleOffset;
+
+      // 4. Somente o topo sobe até 0 (tela cheia). A inclinação chanfrada também zera suavemente
+      const yTopLeft = initialTopLeft * (1 - easedT);
+      const yTopRight = initialTopRight * (1 - easedT);
+
+      // 5. A BASE FICA FIXA NO RODAPÉ DA VIEWPORT (NUNCA SOBE)
+      const yBottom = H;
 
       return {
-        id: i,
-        points: `${x1},${yTopLeft} ${x2},${yTopRight} ${x2},${yBottomRight} ${x1},${yBottomLeft}`,
-        color: YELLOW_TONES[i % YELLOW_TONES.length],
-        x: x1,
-        y: startY,
-        width: shapeW,
-        height: shapeH,
+        id: cfg.id,
+        points: `${x1},${yTopLeft} ${x2},${yTopRight} ${x2},${yBottom} ${x1},${yBottom}`,
+        color: cfg.color,
+        easedT,
       };
     });
-  }, [dimensions, morphT]);
+  }, [dimensions, idleTime, globalScrollP]);
 
-  const isFullyExpanded = morphT >= 0.98;
+  // Verifica se todas as formas completaram a subida para tela cheia
+  const isFullyExpanded = globalScrollP >= 0.72;
 
   // Fallback para preferências de movimento reduzido
   if (reduceMotion) {
@@ -294,7 +381,6 @@ export default function KiiroMethodSection() {
       <section id="processo" className="w-full bg-[#050505] text-white py-24 px-6 sm:px-12">
         <div className="max-w-6xl mx-auto space-y-20">
           <div className="text-center">
-            <span className="font-mono text-xs text-[#FFCA16] uppercase tracking-[0.3em]">Metodologia</span>
             <h2 className="text-5xl md:text-7xl font-bold uppercase mt-2 text-[#FFCA16]">Processo</h2>
           </div>
           <div className="space-y-16">
@@ -304,13 +390,6 @@ export default function KiiroMethodSection() {
                   <span className="text-[#FFCA16] font-mono text-sm tracking-wider">{step.number} // {step.tag}</span>
                   <h3 className="text-3xl font-bold mt-2 text-[#FFCA16]">{step.title}</h3>
                   <p className="text-zinc-400 mt-4 leading-relaxed">{step.description}</p>
-                  <ul className="mt-6 space-y-2">
-                    {step.deliverables.map((d) => (
-                      <li key={d} className="text-sm text-zinc-300 flex items-center gap-2">
-                        <Check className="w-4 h-4 text-[#FFCA16]" /> {d}
-                      </li>
-                    ))}
-                  </ul>
                 </div>
                 <div className="relative aspect-video rounded-xl overflow-hidden border border-[#FFCA16]/30">
                   <img src={step.fallbackImage} alt={step.title} className="w-full h-full object-cover" />
@@ -327,7 +406,7 @@ export default function KiiroMethodSection() {
     <div id="processo" className="relative w-full bg-[#050505] text-white select-none">
 
       {/* ========================================================================= */}
-      {/* 1. SEÇÃO SHOWREEL HERO STICKY (PROCESSO 01 // FRAMES 128 A 138 DO DKTON)   */}
+      {/* 1. SEÇÃO SHOWREEL HERO STICKY (PROCESSO 01 // IDÊNTICO À IMAGEM ENVIADA)  */}
       {/* ========================================================================= */}
       <section
         ref={heroRef}
@@ -342,8 +421,8 @@ export default function KiiroMethodSection() {
             className="absolute inset-0 w-full h-full overflow-hidden"
             style={{
               opacity: videoOpacity,
-              maskImage: isFullyExpanded ? "none" : "url(#kiiro-triangles-mask)",
-              WebkitMaskImage: isFullyExpanded ? "none" : "url(#kiiro-triangles-mask)",
+              maskImage: isFullyExpanded ? "none" : "url(#kiiro-monoliths-mask)",
+              WebkitMaskImage: isFullyExpanded ? "none" : "url(#kiiro-monoliths-mask)",
             }}
           >
             <video
@@ -362,10 +441,10 @@ export default function KiiroMethodSection() {
               alt={STEP_01.title}
               className="absolute inset-0 w-full h-full object-cover -z-10"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-black/60 pointer-events-none" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/50 pointer-events-none" />
           </motion.div>
 
-          {/* ── DEFINIÇÃO DA MÁSCARA SVG (7 FORMAS TRIANGULARES KIIRO) ──────────── */}
+          {/* ── DEFINIÇÃO DA MÁSCARA SVG (7 FORMAS COM SUBIDA INDIVIDUAL) ───────── */}
           <svg
             className="absolute inset-0 w-full h-full pointer-events-none"
             width={dimensions.width}
@@ -374,7 +453,7 @@ export default function KiiroMethodSection() {
           >
             <defs>
               <mask
-                id="kiiro-triangles-mask"
+                id="kiiro-monoliths-mask"
                 maskUnits="userSpaceOnUse"
                 x="0"
                 y="0"
@@ -390,6 +469,7 @@ export default function KiiroMethodSection() {
           </svg>
 
           {/* ── CAMADA DE CORES AMARELAS NAS FORMAS (VARIAÇÕES DE TONALIDADE) ───── */}
+          {/* Mostra as formas amarelas preenchidas com opacidade sutil sobre o vídeo */}
           {!isFullyExpanded && (
             <svg
               className="absolute inset-0 w-full h-full pointer-events-none z-10"
@@ -398,55 +478,48 @@ export default function KiiroMethodSection() {
             >
               {shapes.map((s) => (
                 <g key={s.id}>
+                  {/* Preenchimento amarelo que desvanece suavemente conforme o scroll atinge tela cheia */}
                   <polygon
                     points={s.points}
                     fill={s.color}
                     fillOpacity={shapeYellowFillOpacity * 0.72}
                     style={{ mixBlendMode: "screen" }}
                   />
+                  {/* Contorno dourado sutil característico da identidade */}
                   <polygon
                     points={s.points}
                     fill="none"
                     stroke="#FFCA16"
                     strokeWidth={1.5}
-                    strokeOpacity={0.6 * (1 - morphT)}
+                    strokeOpacity={0.55 * (1 - globalScrollP / 0.72)}
                   />
                 </g>
               ))}
             </svg>
           )}
 
-          {/* ── TÍTULO "PROCESSO" NO TOPO/CENTRO (INSPIRADO NO "SHOWREEL" DO DKTON) ── */}
+          {/* ── TÍTULO "PROCESSO" NO CENTRO DA VIEWPORT (EXATAMENTE COMO NA IMAGEM) ─ */}
           <motion.div
             style={{
               y: titleY,
               opacity: titleOpacity,
               scale: titleScale,
-              pointerEvents: morphT > 0.4 ? "none" : "auto",
+              pointerEvents: globalScrollP > 0.4 ? "none" : "auto",
             }}
-            className="absolute top-[12%] sm:top-[15%] md:top-[16%] z-20 flex flex-col items-center justify-center text-center px-6"
+            className="absolute top-[30%] sm:top-[28%] md:top-[30%] z-20 flex flex-col items-center justify-center text-center px-6"
           >
-            <span className="font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.35em] text-[#FFCA16] mb-2 flex items-center gap-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#FFCA16] animate-pulse" />
-              Metodologia Studio Kiiro
-            </span>
-
-            <h2 className="font-display font-[900] text-[clamp(54px,12.5vw,150px)] leading-[0.88] tracking-[-0.04em] uppercase text-[#FFCA16] drop-shadow-[0_10px_35px_rgba(0,0,0,0.9)]">
+            {/* O texto "PROCESSO" limpo, impactante, em amarelo vibrante */}
+            <h2 className="font-display font-[900] text-[clamp(64px,14vw,170px)] leading-none tracking-[-0.04em] uppercase text-[#FFCA16] drop-shadow-[0_12px_45px_rgba(0,0,0,0.95)]">
               Processo
             </h2>
-
-            <div className="mt-4 inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#FFCA16] text-black font-mono text-[10px] uppercase font-bold tracking-wider shadow-lg">
-              <span>Etapa 01: Briefing & Imersão</span>
-              <span className="animate-bounce">↓</span>
-            </div>
           </motion.div>
 
-          {/* ── OVERLAY EDITORIAL DO PROCESSO 01 QUANDO O VÍDEO FICA EM TELA CHEIA ─── */}
+          {/* ── OVERLAY EDITORIAL DO PROCESSO 01 QUANDO O VÍDEO COMPLETA A TELA ──── */}
           <motion.div
             style={{
               opacity: step1OverlayOpacity,
               y: step1OverlayY,
-              pointerEvents: morphT < 0.65 ? "none" : "auto",
+              pointerEvents: globalScrollP < 0.65 ? "none" : "auto",
             }}
             className="absolute inset-0 z-20 flex flex-col justify-between p-6 sm:p-10 md:p-14 pointer-events-none"
           >

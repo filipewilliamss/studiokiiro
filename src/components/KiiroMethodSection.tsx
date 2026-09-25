@@ -1,6 +1,6 @@
 import { useRef, useState, useEffect, useMemo } from "react";
 import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion";
-import { ArrowDown, ArrowUpRight } from "lucide-react";
+import { ArrowDown } from "lucide-react";
 import { playPillHover } from "@/utils/soundEffects";
 import kiiroLogoMark from "@/assets/kiiro-mark.svg";
 
@@ -569,10 +569,10 @@ export default function KiiroMethodSection() {
       {/* 2. SEÇÃO TELA PRETA COM ESTRUTURA DKTON (PROCESSOS 02 EM DIANTE)           */}
       {/* ========================================================================= */}
       <section
-        className="relative w-full bg-[#050505] text-white py-24 sm:py-36 px-6 sm:px-10 md:px-14 lg:px-20 overflow-hidden"
+        className="relative w-full bg-[#050505] text-white py-24 sm:py-36 overflow-hidden"
         aria-label="Processos Subsequentes Studio Kiiro"
       >
-        <div className="max-w-7xl mx-auto space-y-36 sm:space-y-48">
+        <div className="w-full pl-6 sm:pl-10 md:pl-14 lg:pl-[max(2.5rem,calc((100vw-80rem)/2+2.5rem))] pr-6 sm:pr-8 lg:pr-10 xl:pr-14 space-y-36 sm:space-y-48">
 
           {STEPS_DKTON_STYLE.map((step, index) => (
             <motion.article
@@ -582,10 +582,10 @@ export default function KiiroMethodSection() {
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
               onMouseEnter={() => playPillHover(index + 1)}
-              className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start"
+              className="grid grid-cols-1 lg:grid-cols-[360px_1fr] xl:grid-cols-[400px_1fr] gap-10 lg:gap-14 items-start"
             >
               {/* ── COLUNA DA ESQUERDA: INFORMAÇÕES LIMPAS, DIRETAS, SEM ADEREÇOS ── */}
-              <div className="lg:col-span-4 lg:pt-14 space-y-5">
+              <div className="w-full lg:pt-14 space-y-5">
                 {step.metadataItems.map((field, fIdx) => (
                   <div key={fIdx} className="border-b border-white/10 pb-3">
                     <span className="inline-block px-1.5 py-0.5 rounded-[2px] bg-[#FFCA16]/10 border border-[#FFCA16]/30 text-[#FFCA16] font-mono text-[10px] uppercase tracking-wider mb-1.5">
@@ -602,9 +602,9 @@ export default function KiiroMethodSection() {
                 </p>
               </div>
 
-              {/* ── COLUNA DA DIREITA: TÍTULO GIGANTE EM CIMA DO VÍDEO + VÍDEO ─────── */}
-              <div className="lg:col-span-8 flex flex-col">
-                <h3 className="font-display font-[900] text-[clamp(36px,6vw,78px)] text-[#FFCA16] uppercase leading-[0.9] tracking-[-0.035em] mb-4 sm:mb-6">
+              {/* ── COLUNA DA DIREITA: TÍTULO GIGANTE EM CIMA DO VÍDEO + VÍDEO EXPANDIDO PROPORCIONAL À DIREITA ── */}
+              <div className="w-full flex flex-col min-w-0">
+                <h3 className="font-display font-[900] text-[clamp(36px,5.5vw,78px)] text-[#FFCA16] uppercase leading-[0.9] tracking-[-0.035em] mb-4 sm:mb-6">
                   {step.title}
                 </h3>
 
@@ -627,13 +627,6 @@ export default function KiiroMethodSection() {
                   />
 
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/20 pointer-events-none" />
-
-                  <div className="absolute bottom-5 left-1/2 -translate-x-1/2 z-10">
-                    <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-[#FFCA16] text-black font-mono text-[10px] sm:text-[11px] font-bold uppercase tracking-wider shadow-lg group-hover:scale-105 transition-transform cursor-pointer">
-                      <span>{step.buttonLabel}</span>
-                      <ArrowUpRight className="w-3.5 h-3.5 text-black" />
-                    </div>
-                  </div>
                 </div>
               </div>
             </motion.article>

@@ -1,460 +1,576 @@
-import { useRef, useState, useEffect } from "react";
-import { motion, useScroll, useReducedMotion } from "framer-motion";
-import { ArrowUpRight, Sparkles } from "lucide-react";
+import { useRef, useState, useEffect, useMemo } from "react";
+import { motion, useScroll, useTransform, useReducedMotion, AnimatePresence } from "framer-motion";
+import { Check, ArrowRight, Play, Volume2, VolumeX } from "lucide-react";
 import { playPillHover } from "@/utils/soundEffects";
+import kiiroLogoMark from "@/assets/kiiro-mark.svg";
 
-const method = [
+// Imagens locais de alta fidelidade como fallback imediato para cada etapa
+import step1Fallback from "@/assets/tabernaculo-pagina-2.webp";
+import step2Fallback from "@/assets/akedah-pagina-2.webp";
+import step3Fallback from "@/assets/construmar-pagina-2.webp";
+import step4Fallback from "@/assets/teamluisa-pagina-2.webp";
+import step5Fallback from "@/assets/templo-pagina-2.webp";
+
+/**
+ * 💡 DADOS DAS 5 ETAPAS DA METODOLOGIA
+ * Você pode substituir as URLs de vídeo abaixo pelos seus próprios arquivos de vídeo (MP4 ou WebM).
+ */
+export interface ProcessStep {
+  id: string;
+  number: string;
+  tag: string;
+  title: string;
+  subtitle: string;
+  description: string;
+  deliverables: string[];
+  videoUrl: string;
+  fallbackImage: string;
+  accentColor: string;
+}
+
+export const processSteps: ProcessStep[] = [
   {
+    id: "briefing",
     number: "01",
+    tag: "IMERSÃO & DIAGNÓSTICO",
     title: "Briefing e Imersão",
-    copy: "Iniciamos com uma conversa profunda para entender sua essência, objetivos e o público que deseja alcançar.",
+    subtitle: "Ouvir antes de desenhar. Compreender antes de projetar.",
+    description:
+      "Iniciamos com uma imersão profunda para dissecar o DNA da sua marca, desafios de negócio, público-alvo e visão de futuro. Aqui definimos a verdade que a marca precisa comunicar ao mundo.",
+    deliverables: [
+      "Diagnóstico de Posicionamento",
+      "Mapeamento de DNA de Marca",
+      "Definição de Personas e Tom de Voz",
+      "Alinhamento de Metas e Escopo",
+    ],
+    videoUrl: "https://assets.mixkit.co/videos/preview/mixkit-abstract-flowing-gold-and-black-lines-41315-large.mp4",
+    fallbackImage: step1Fallback,
+    accentColor: "#FFCA16",
   },
   {
+    id: "pesquisa",
     number: "02",
+    tag: "ANÁLISE & BENCHMARKING",
     title: "Pesquisa e Estratégia",
-    copy: "Analisamos o mercado e a concorrência para definir o caminho estratégico único para sua marca.",
+    subtitle: "Encontrar os espaços em branco que a concorrência ignora.",
+    description:
+      "Analisamos o mercado, concorrentes diretos e referências globais de vanguarda. Criamos o mapa de território visual e a estratégia única que garantirá diferenciação imediata e sustentável.",
+    deliverables: [
+      "Benchmarking Competitivo Global",
+      "Painel Semântico & Moodboard",
+      "Definição dos Pilares Visuais",
+      "Arquitetura Estratégica da Marca",
+    ],
+    videoUrl: "https://assets.mixkit.co/videos/preview/mixkit-set-of-plateaus-seen-from-above-in-a-dark-atmosphere-41484-large.mp4",
+    fallbackImage: step2Fallback,
+    accentColor: "#FFCA16",
   },
   {
+    id: "criacao",
     number: "03",
+    tag: "DIREÇÃO DE ARTE & SISTEMA",
     title: "Criação e Design",
-    copy: "Traduzimos a estratégia em formas, cores e tipografia, criando uma identidade visual marcante.",
+    subtitle: "Onde o conceito ganha corpo, forma e presença inconfundível.",
+    description:
+      "Traduzimos a estratégia em sistemas visuais potentes: tipografia proprietária, paleta de cores magnética, símbolo, iconografia e grids. Não criamos apenas logos; construímos universos visuais completos.",
+    deliverables: [
+      "Design do Símbolo e Logotipo",
+      "Paleta Cromática com Racional de Contraste",
+      "Tipografia e Hierarquia Editorial",
+      "Linguagem Gráfica, Texturas e Padrões",
+    ],
+    videoUrl: "https://assets.mixkit.co/videos/preview/mixkit-liquid-gold-and-black-swirling-waves-41316-large.mp4",
+    fallbackImage: step3Fallback,
+    accentColor: "#FFCA16",
   },
   {
+    id: "apresentacao",
     number: "04",
+    tag: "EXPERIÊNCIA & REFINAMENTO",
     title: "Apresentação e Ajustes",
-    copy: "Apresentamos o conceito e refinamos cada detalhe com base no seu feedback até a perfeição.",
+    subtitle: "Conectar você ao impacto real da nova marca no mundo.",
+    description:
+      "Apresentamos o projeto aplicado em pontos de contato reais — interfaces digitais, embalagens, papelaria e ambientes. Coletamos feedbacks pontuais e refinamos cada detalhe com rigor cirúrgico até a aprovação plena.",
+    deliverables: [
+      "Apresentação Estruturada em Alta Fidelidade",
+      "Simulações em Aplicações Reais e Mockups 3D",
+      "Rodada de Refinamento e Calibração",
+      "Aprovação e Validação do Conceito",
+    ],
+    videoUrl: "https://assets.mixkit.co/videos/preview/mixkit-black-and-gold-geometric-shapes-moving-41483-large.mp4",
+    fallbackImage: step4Fallback,
+    accentColor: "#FFCA16",
   },
   {
+    id: "entrega",
     number: "05",
+    tag: "LANÇAMENTO & BRAND GUIDELINES",
     title: "Entrega Final",
-    copy: "Entregamos todos os arquivos organizados e prontos para uso em todas as plataformas.",
+    subtitle: "Autonomia completa e documentação para o seu crescimento.",
+    description:
+      "Exportamos todos os arquivos em todas as extensões necessárias para impressão gráfica e ambiente digital. Entregamos o Brand Guidelines completo com regras de aplicação para preservar o valor da marca no longo prazo.",
+    deliverables: [
+      "Manual de Identidade Visual (Brand Guidelines)",
+      "Arquivos Vetoriais (.AI, .EPS, .SVG, .PDF)",
+      "Assets Digitais Otimizados (PNG, WebP, Favicons)",
+      "Tipografias, Grid e Suporte Pós-Lançamento",
+    ],
+    videoUrl: "https://assets.mixkit.co/videos/preview/mixkit-gold-particles-rising-in-the-dark-41317-large.mp4",
+    fallbackImage: step5Fallback,
+    accentColor: "#FFCA16",
   },
 ];
 
-interface MagneticParticle {
-  x: number;
-  y: number;
-  z: number;
-  vx: number;
-  vy: number;
-  radius: number;
-  offsetNorm: number;
-  lateralOffset: number;
-  seed: number;
-}
-
-const KiiroMethodSection = () => {
+export default function KiiroMethodSection() {
   const reduceMotion = useReducedMotion();
   const sectionRef = useRef<HTMLElement>(null);
-  const stepsContainerRef = useRef<HTMLDivElement>(null);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [dimensions, setDimensions] = useState({ width: 1440, height: 900 });
 
-  const [activeStep, setActiveStep] = useState(0);
-  const lastActiveStepRef = useRef(0);
-  const stepYPositions = useRef<number[]>([]);
-
-  // Rastreia o progresso da rolagem pela seção da metodologia
+  // Rastreia o progresso do scroll por toda a extensão da seção (520svh)
   const { scrollYProgress } = useScroll({
     target: sectionRef,
-    offset: ["start 65%", "end 75%"],
+    offset: ["start start", "end end"],
   });
 
-  // Atualiza as posições exatas Y de cada etapa no canvas
-  const updateStepPositions = () => {
-    if (!stepsContainerRef.current) return;
-    const articles = stepsContainerRef.current.querySelectorAll<HTMLElement>("[data-method-step]");
-    const containerRect = stepsContainerRef.current.getBoundingClientRect();
-    const positions: number[] = [];
-    articles.forEach((art) => {
-      const rect = art.getBoundingClientRect();
-      const centerY = rect.top - containerRect.top + rect.height / 2;
-      positions.push(centerY);
-    });
-    if (positions.length > 0) {
-      stepYPositions.current = positions;
-    }
-  };
-
+  // Atualiza as dimensões da janela para recalcular a geometria da máscara SVG
   useEffect(() => {
-    updateStepPositions();
-    window.addEventListener("resize", updateStepPositions);
-    return () => window.removeEventListener("resize", updateStepPositions);
+    const updateSize = () => {
+      setDimensions({
+        width: window.innerWidth || 1440,
+        height: window.innerHeight || 900,
+      });
+    };
+    updateSize();
+    window.addEventListener("resize", updateSize);
+    return () => window.removeEventListener("resize", updateSize);
   }, []);
 
-  // Monitora o progresso para atualizar a etapa ativa e tocar som tátil
+  // Progresso do morphing da máscara (0.00 a 0.18 do scroll total)
+  const [morphT, setMorphT] = useState(0);
+  // Etapa ativa (0 a 4) entre 0.18 e 1.00
+  const [activeStep, setActiveStep] = useState(0);
+  const lastActiveStepRef = useRef(0);
+
   useEffect(() => {
     const unsubscribe = scrollYProgress.on("change", (p) => {
-      // 5 etapas distribuídas ao longo de [0, 1]
-      const step = Math.min(Math.floor(p * 5), 4);
-      if (step !== lastActiveStepRef.current) {
-        lastActiveStepRef.current = step;
-        setActiveStep(step);
-        playPillHover(step);
+      // 1. Morph da máscara Kiiro: expande de 0 a 1 no intervalo [0, 0.18]
+      const t = Math.min(Math.max(p / 0.18, 0), 1);
+      setMorphT(t);
+
+      // 2. Transição entre as 5 etapas no intervalo [0.18, 0.98]
+      if (p >= 0.18) {
+        const stepProgress = Math.min(Math.max((p - 0.18) / 0.78, 0), 0.999);
+        const step = Math.floor(stepProgress * 5);
+        if (step !== lastActiveStepRef.current) {
+          lastActiveStepRef.current = step;
+          setActiveStep(step);
+          playPillHover(step);
+        }
+      } else {
+        if (lastActiveStepRef.current !== 0) {
+          lastActiveStepRef.current = 0;
+          setActiveStep(0);
+        }
       }
     });
+
     return () => unsubscribe();
   }, [scrollYProgress]);
 
-  // Canvas de Partículas Magnéticas (Estilo Escultura Kiiro do Hero)
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas || reduceMotion) return;
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
+  // Animação de opacidade e escala para o título central "PROCESSO"
+  const titleOpacity = useTransform(scrollYProgress, [0, 0.12], [1, 0]);
+  const titleScale = useTransform(scrollYProgress, [0, 0.12], [1, 0.9]);
+  const titleY = useTransform(scrollYProgress, [0, 0.12], ["0px", "-45px"]);
 
-    let animId: number;
-    let width = 0;
-    let height = 0;
+  // Animação de entrada do HUD editorial em tela cheia
+  const hudOpacity = useTransform(scrollYProgress, [0.15, 0.22], [0, 1]);
+  const hudY = useTransform(scrollYProgress, [0.15, 0.22], ["30px", "0px"]);
 
-    const resizeCanvas = () => {
-      if (!stepsContainerRef.current) return;
-      const rect = stepsContainerRef.current.getBoundingClientRect();
-      width = 56; // largura do canal magnético
-      height = rect.height;
+  // Opacidade do vídeo: começa em 0.35 (mistério na prévia) e atinge 1.0 em tela cheia
+  const videoBrightness = useTransform(scrollYProgress, [0, 0.18], [0.35, 1.0]);
 
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      canvas.width = width * dpr;
-      canvas.height = height * dpr;
-      canvas.style.width = `${width}px`;
-      canvas.style.height = `${height}px`;
-      ctx.scale(dpr, dpr);
-      updateStepPositions();
-    };
+  // Calcula os 5 polígonos geométricos dos monólitos Kiiro baseados no progresso do morph
+  const isFullyExpanded = morphT >= 0.98;
 
-    resizeCanvas();
-    window.addEventListener("resize", resizeCanvas);
+  const pillars = useMemo(() => {
+    const W = dimensions.width;
+    const H = dimensions.height;
+    const isMobile = W < 768;
 
-    // Cria as 36 partículas magnéticas que compõem o fluxo
-    const PARTICLE_COUNT = 36;
-    const particles: MagneticParticle[] = [];
-    for (let i = 0; i < PARTICLE_COUNT; i++) {
-      particles.push({
-        x: width / 2,
-        y: 0,
-        z: (Math.random() - 0.5) * 30,
-        vx: 0,
-        vy: 0,
-        radius: 2.8 + Math.random() * 3.4,
-        offsetNorm: (i - PARTICLE_COUNT / 2) * 5.5,
-        lateralOffset: (Math.random() - 0.5) * 16,
-        seed: Math.random() * Math.PI * 2,
-      });
-    }
+    // Dimensões iniciais compactas
+    const initialTotalW = Math.min(W * (isMobile ? 0.92 : 0.8), isMobile ? 380 : 860);
+    const initialHeight = Math.min(H * (isMobile ? 0.32 : 0.44), isMobile ? 220 : 340);
+    const initialGap = isMobile ? 8 : 16;
+    const initialYStart = (H - initialHeight) / 2 + (isMobile ? 40 : 60);
+    const initialSlope = isMobile ? 12 : 24;
 
-    const mouse = { x: -1000, y: -1000, inside: false };
+    // Interpolação conforme morphT (0 -> 1)
+    const gap = initialGap * (1 - morphT);
+    const totalW = initialTotalW + (W - initialTotalW) * morphT;
+    const pillarW = (totalW - 4 * gap) / 5;
+    const startX = (W - totalW) / 2;
+    const pillarHeight = initialHeight + (H - initialHeight) * morphT;
+    const startY = initialYStart * (1 - morphT);
+    const slope = initialSlope * (1 - morphT);
 
-    const handleMouseMove = (e: MouseEvent) => {
-      const rect = canvas.getBoundingClientRect();
-      mouse.x = e.clientX - rect.left;
-      mouse.y = e.clientY - rect.top;
-      mouse.inside =
-        mouse.x >= -60 &&
-        mouse.x <= width + 280 &&
-        mouse.y >= 0 &&
-        mouse.y <= height;
-    };
+    return Array.from({ length: 5 }).map((_, i) => {
+      const x1 = startX + i * (pillarW + gap);
+      const x2 = x1 + pillarW;
 
-    const handleMouseLeave = () => {
-      mouse.inside = false;
-      mouse.x = -1000;
-      mouse.y = -1000;
-    };
+      // Chanfro angular de topo inspirado no chevron do Studio Kiiro
+      const isAlt = i % 2 === 0;
+      const yTopLeft = startY + (isAlt ? slope : 0);
+      const yTopRight = startY + (isAlt ? 0 : slope);
+      const yBottomRight = startY + pillarHeight;
+      const yBottomLeft = startY + pillarHeight;
 
-    window.addEventListener("mousemove", handleMouseMove);
-    document.addEventListener("mouseleave", handleMouseLeave);
+      return {
+        points: `${x1},${yTopLeft} ${x2},${yTopRight} ${x2},${yBottomRight} ${x1},${yBottomLeft}`,
+        x: x1,
+        y: startY,
+        width: pillarW,
+        height: pillarHeight,
+      };
+    });
+  }, [dimensions, morphT]);
 
-    const startTime = performance.now();
+  // Função para navegar suavemente até uma etapa específica ao clicar no scrubber
+  const handleJumpToStep = (index: number) => {
+    if (!sectionRef.current) return;
+    const rect = sectionRef.current.getBoundingClientRect();
+    const scrollTop = window.scrollY + rect.top;
+    const totalScroll = sectionRef.current.offsetHeight - window.innerHeight;
+    // O range das etapas vai de 0.18 a 0.96
+    const targetProgress = 0.18 + (index / 5) * 0.78 + 0.04;
+    window.scrollTo({
+      top: scrollTop + targetProgress * totalScroll,
+      behavior: "smooth",
+    });
+  };
 
-    const render = (now: number) => {
-      const t = (now - startTime) / 1000;
-      ctx.clearRect(0, 0, width, height);
+  const currentStep = processSteps[activeStep];
 
-      const positions = stepYPositions.current;
-      const spineX = width / 2;
-
-      if (positions.length >= 5) {
-        const p = scrollYProgress.get();
-        // Interpola a posição Y alvo do fluxo de partículas ao longo dos nós
-        const segment = p * (positions.length - 1);
-        const segIdx = Math.min(Math.floor(segment), positions.length - 2);
-        const segFrac = segment - segIdx;
-        const currentHeadY = positions[segIdx] + (positions[segIdx + 1] - positions[segIdx]) * segFrac;
-
-        // 1. Trilha guia de fundo (Spine inativo)
-        ctx.beginPath();
-        ctx.moveTo(spineX, positions[0]);
-        ctx.lineTo(spineX, positions[positions.length - 1]);
-        ctx.strokeStyle = "rgba(255, 255, 255, 0.08)";
-        ctx.lineWidth = 1;
-        ctx.stroke();
-
-        // 2. Trilha ativa iluminada pelo progresso
-        if (currentHeadY > positions[0]) {
-          ctx.beginPath();
-          ctx.moveTo(spineX, positions[0]);
-          ctx.lineTo(spineX, currentHeadY);
-          const trackGrad = ctx.createLinearGradient(spineX, positions[0], spineX, currentHeadY);
-          trackGrad.addColorStop(0, "rgba(255, 202, 22, 0.25)");
-          trackGrad.addColorStop(1, "rgba(255, 202, 22, 0.85)");
-          ctx.strokeStyle = trackGrad;
-          ctx.lineWidth = 2;
-          ctx.shadowColor = "#FFCA16";
-          ctx.shadowBlur = 8;
-          ctx.stroke();
-          ctx.shadowBlur = 0; // reset
-        }
-
-        // 3. Nós dos 5 passos na espinha
-        positions.forEach((posY, idx) => {
-          const isPassed = idx <= activeStep;
-          const isCurrent = idx === activeStep;
-
-          ctx.beginPath();
-          ctx.arc(spineX, posY, isCurrent ? 5.5 : 3.5, 0, Math.PI * 2);
-
-          if (isCurrent) {
-            // Anel pulsante no nó ativo
-            const pulseR = 5.5 + Math.sin(t * 4) * 2;
-            ctx.beginPath();
-            ctx.arc(spineX, posY, pulseR, 0, Math.PI * 2);
-            ctx.strokeStyle = "rgba(255, 202, 22, 0.4)";
-            ctx.lineWidth = 1.5;
-            ctx.stroke();
-
-            // Ponto central
-            ctx.beginPath();
-            ctx.arc(spineX, posY, 4, 0, Math.PI * 2);
-            ctx.fillStyle = "#FFCA16";
-            ctx.shadowColor = "#FFCA16";
-            ctx.shadowBlur = 12;
-            ctx.fill();
-            ctx.shadowBlur = 0;
-          } else if (isPassed) {
-            ctx.fillStyle = "#FFCA16";
-            ctx.fill();
-          } else {
-            ctx.fillStyle = "rgba(255, 255, 255, 0.2)";
-            ctx.fill();
-          }
-        });
-
-        // 4. Atualização e renderização das partículas magnéticas
-        // Ordena por Z para profundidade 3D
-        particles.sort((a, b) => a.z - b.z);
-
-        particles.forEach((pt) => {
-          // Movimento orgânico ondulatório suave
-          const breatheY = Math.sin(t * 2.2 + pt.seed) * 9;
-          const breatheX = Math.cos(t * 1.8 + pt.seed) * 6;
-
-          const targetY = currentHeadY + pt.offsetNorm + breatheY;
-          const targetX = spineX + pt.lateralOffset + breatheX;
-
-          // Repulsão magnética quando o cursor se aproxima
-          if (mouse.inside) {
-            const mdx = pt.x - mouse.x;
-            const mdy = pt.y - mouse.y;
-            const dist = Math.hypot(mdx, mdy);
-            const maxDist = 95;
-            if (dist < maxDist && dist > 0.001) {
-              const force = (1 - dist / maxDist) * 14;
-              pt.vx += (mdx / dist) * force * 0.28;
-              pt.vy += (mdy / dist) * force * 0.28;
-            }
-          }
-
-          // Retorno elástico à trilha
-          pt.vx += (targetX - pt.x) * 0.085;
-          pt.vy += (targetY - pt.y) * 0.085;
-          pt.vx *= 0.82;
-          pt.vy *= 0.82;
-          pt.x += pt.vx;
-          pt.y += pt.vy;
-
-          const r = Math.max(1.8, pt.radius + pt.z * 0.05);
-
-          // Halo âmbar suave ao redor de cada partícula
-          const auraGrad = ctx.createRadialGradient(pt.x, pt.y, 0, pt.x, pt.y, r * 2.8);
-          auraGrad.addColorStop(0, "rgba(255, 202, 22, 0.45)");
-          auraGrad.addColorStop(1, "rgba(255, 202, 22, 0)");
-          ctx.fillStyle = auraGrad;
-          ctx.beginPath();
-          ctx.arc(pt.x, pt.y, r * 2.8, 0, Math.PI * 2);
-          ctx.fill();
-
-          // Corpo esférico de vidro obsidiano escuro
-          const sphereGrad = ctx.createRadialGradient(
-            pt.x - r * 0.35,
-            pt.y - r * 0.35,
-            0,
-            pt.x,
-            pt.y,
-            r
-          );
-          sphereGrad.addColorStop(0, "#2c312e");
-          sphereGrad.addColorStop(0.45, "#121514");
-          sphereGrad.addColorStop(1, "#070807");
-          ctx.fillStyle = sphereGrad;
-          ctx.beginPath();
-          ctx.arc(pt.x, pt.y, r, 0, Math.PI * 2);
-          ctx.fill();
-
-          // Borda de refração canário dourada (#FFCA16)
-          ctx.strokeStyle = "rgba(255, 202, 22, 0.75)";
-          ctx.lineWidth = 1;
-          ctx.stroke();
-
-          // Ponto de brilho especular branco no topo da esfera
-          ctx.beginPath();
-          ctx.arc(pt.x - r * 0.35, pt.y - r * 0.35, r * 0.28, 0, Math.PI * 2);
-          ctx.fillStyle = "rgba(255, 255, 255, 0.85)";
-          ctx.fill();
-        });
-      }
-
-      animId = requestAnimationFrame(render);
-    };
-
-    animId = requestAnimationFrame(render);
-
-    return () => {
-      cancelAnimationFrame(animId);
-      window.removeEventListener("resize", resizeCanvas);
-      window.removeEventListener("mousemove", handleMouseMove);
-      document.removeEventListener("mouseleave", handleMouseLeave);
-    };
-  }, [reduceMotion, scrollYProgress, activeStep]);
+  // Fallback acessível para preferências de redução de movimento
+  if (reduceMotion) {
+    return (
+      <section id="processo" className="relative w-full bg-[#050505] text-white py-32 px-6 sm:px-12">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-20">
+            <span className="font-mono text-xs uppercase tracking-[0.3em] text-[#FFCA16]">Metodologia</span>
+            <h2 className="text-5xl md:text-7xl font-bold uppercase mt-2">Processo</h2>
+          </div>
+          <div className="space-y-16">
+            {processSteps.map((step) => (
+              <div key={step.id} className="grid md:grid-cols-2 gap-8 items-center border border-white/10 p-8 rounded-2xl bg-white/[0.02]">
+                <div>
+                  <span className="text-[#FFCA16] font-mono text-sm tracking-wider">{step.number} // {step.tag}</span>
+                  <h3 className="text-3xl font-bold mt-2">{step.title}</h3>
+                  <p className="text-zinc-400 mt-4 leading-relaxed">{step.description}</p>
+                  <ul className="mt-6 space-y-2">
+                    {step.deliverables.map((d) => (
+                      <li key={d} className="text-sm text-zinc-300 flex items-center gap-2">
+                        <Check className="w-4 h-4 text-[#FFCA16]" /> {d}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div className="relative aspect-video rounded-xl overflow-hidden border border-white/10">
+                  <img src={step.fallbackImage} alt={step.title} className="w-full h-full object-cover" />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section
       id="processo"
       ref={sectionRef}
-      className="relative overflow-hidden bg-[#0a0c0b] text-white border-t border-white/[0.08]"
-      aria-label="Processo e Metodologia"
+      className="relative w-full bg-[#050505] text-white select-none"
+      style={{ height: "520svh" }}
+      aria-label="Metodologia e Processo do Studio Kiiro"
     >
-      {/* Luz de fundo atmosférica */}
-      <div
-        className="absolute inset-0 bg-[radial-gradient(circle_at_12%_20%,rgba(255,202,22,0.08),transparent_35%),radial-gradient(circle_at_90%_80%,rgba(255,255,255,0.03),transparent_28%)] pointer-events-none"
-        aria-hidden="true"
-      />
+      {/* ========================================================================= */}
+      {/* VIEWPORT FIXA (STICKY 100svh): Toda a experiência roda dentro deste palco */}
+      {/* ========================================================================= */}
+      <div className="sticky top-0 h-[100svh] w-full overflow-hidden flex flex-col items-center justify-center">
 
-      {/* Marca d'água técnica de fundo */}
-      <span
-        aria-hidden="true"
-        className="absolute -left-6 md:-left-10 top-[5%] font-display font-[900] text-white/[0.015] leading-none tracking-[-0.08em] pointer-events-none select-none text-[clamp(100px,20vw,320px)]"
-      >
-        processo
-      </span>
-
-      <div className="relative z-10 mx-auto grid max-w-7xl gap-12 lg:gap-16 px-6 py-28 sm:px-10 md:py-36 lg:grid-cols-[0.8fr_1.2fr] lg:px-16">
-        {/* COLUNA ESQUERDA: CABEÇALHO STICKY */}
-        <div className="lg:sticky lg:top-28 lg:self-start">
-          <div className="inline-flex items-center gap-2.5 px-3.5 py-1 rounded-full bg-white/[0.04] border border-white/10 mb-6 backdrop-blur-md">
-            <Sparkles className="w-3 h-3 text-[#FFCA16] animate-pulse" />
-            <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-[#FFCA16] font-bold">
-              Nossa Metodologia
-            </span>
-          </div>
-
-          <h2 className="max-w-xl text-[clamp(3.2rem,6vw,6rem)] font-black leading-[0.86] tracking-[-0.06em] text-balance">
-            Como damos vida <br />
-            <em className="font-light italic text-[#FFCA16]">à sua visão.</em>
-          </h2>
-
-          <p className="mt-8 max-w-md text-base leading-relaxed text-white/60 md:text-lg font-light font-display">
-            Um caminho claro, estratégico e transparente para transformar uma ideia em uma presença que permanece e gera reconhecimento.
-          </p>
-
-          <a
-            href="https://wa.me/5511991076096?text=Ol%C3%A1%20Studio%20Kiiro%2C%20gostaria%20de%20conversar%20sobre%20o%20processo%20e%20metodologia%20de%20um%20projeto."
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-10 inline-flex items-center gap-3 border-b border-white/35 pb-2 font-mono text-[10px] uppercase tracking-[0.22em] text-white transition-colors hover:border-[#FFCA16] hover:text-[#FFCA16] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FFCA16]"
-          >
-            Conversar sobre um projeto
-            <ArrowUpRight className="h-4 w-4" strokeWidth={1.5} />
-          </a>
-        </div>
-
-        {/* COLUNA DIREITA: TRILHA MAGNÉTICA + AS 5 ETAPAS DA METODOLOGIA */}
-        <div ref={stepsContainerRef} className="relative pl-12 sm:pl-16 border-t border-white/10">
-          {/* Canvas da Trilha e Partículas Magnéticas */}
-          <canvas
-            ref={canvasRef}
-            className="absolute left-0 top-0 pointer-events-auto z-10"
-            aria-hidden="true"
-          />
-
-          {method.map((item, index) => {
-            const isCurrent = index === activeStep;
-            const isPassed = index <= activeStep;
-
+        {/* ── CAMADA 1: VÍDEOS EM TELA CHEIA (COM MÁSCARA SVG MORPHING) ─────────── */}
+        <motion.div
+          className="absolute inset-0 w-full h-full overflow-hidden"
+          style={{
+            opacity: videoBrightness,
+            maskImage: isFullyExpanded ? "none" : "url(#kiiro-process-mask)",
+            WebkitMaskImage: isFullyExpanded ? "none" : "url(#kiiro-process-mask)",
+          }}
+        >
+          {processSteps.map((step, idx) => {
+            const isActive = idx === activeStep;
             return (
-              <motion.article
-                key={item.number}
-                data-method-step
-                initial={{ opacity: 0, y: reduceMotion ? 0 : 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.2 }}
-                transition={{
-                  duration: reduceMotion ? 0 : 0.5,
-                  delay: reduceMotion ? 0 : index * 0.08,
+              <div
+                key={step.id}
+                className="absolute inset-0 w-full h-full transition-opacity duration-700 ease-out"
+                style={{
+                  opacity: isActive ? 1 : 0,
+                  zIndex: isActive ? 2 : 1,
+                  transform: `scale(${isActive ? 1 : 1.05})`,
+                  transition: "opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1)",
                 }}
-                className={`group border-b border-white/10 py-8 md:py-12 relative transition-all duration-500 ${
-                  isCurrent
-                    ? "opacity-100"
-                    : isPassed
-                    ? "opacity-80"
-                    : "opacity-45 hover:opacity-75"
-                }`}
               >
-                <div className="grid gap-4 md:grid-cols-[auto_1fr_auto] md:items-start md:gap-8">
-                  {/* Badge do número da etapa — Ilumina dinamicamente quando as partículas chegam */}
-                  <span
-                    className={`font-mono text-xs md:text-sm font-bold px-3 py-1 rounded-full border self-start mt-1 transition-all duration-500 ${
-                      isCurrent
-                        ? "text-black bg-[#FFCA16] border-[#FFCA16] shadow-[0_0_24px_rgba(255,202,22,0.45)] scale-105"
-                        : isPassed
-                        ? "text-[#FFCA16] bg-[#FFCA16]/15 border-[#FFCA16]/30"
-                        : "text-white/40 bg-white/5 border-white/10"
-                    }`}
-                  >
-                    {item.number}
-                  </span>
+                {/* Vídeo HTML5 em looping */}
+                <video
+                  src={step.videoUrl}
+                  poster={step.fallbackImage}
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  preload="auto"
+                  className="w-full h-full object-cover"
+                />
 
-                  {/* Conteúdo textual da etapa */}
-                  <div className="space-y-3">
-                    <h3
-                      className={`text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight transition-colors duration-300 ${
-                        isCurrent
-                          ? "text-[#FFCA16]"
-                          : "text-white group-hover:text-[#FFCA16]"
-                      }`}
-                    >
-                      {item.title}
-                    </h3>
-                    <p className="max-w-xl text-sm md:text-base leading-relaxed text-white/60 font-light font-display">
-                      {item.copy}
-                    </p>
-                  </div>
+                {/* Imagem de fallback estática de segurança caso o vídeo falhe ou demore a carregar */}
+                <img
+                  src={step.fallbackImage}
+                  alt={step.title}
+                  className="absolute inset-0 w-full h-full object-cover -z-10"
+                />
 
-                  {/* Ícone de seta indicativa */}
-                  <ArrowUpRight
-                    className={`mt-1 hidden h-5 w-5 transition-all duration-300 md:block ${
-                      isCurrent
-                        ? "text-[#FFCA16] -translate-y-1 translate-x-1"
-                        : "text-white/30 group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:text-[#FFCA16]"
-                    }`}
-                    strokeWidth={1.5}
-                  />
-                </div>
-              </motion.article>
+                {/* Gradiente de contraste editorial suave para garantir máxima legibilidade dos textos */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/60 pointer-events-none" />
+                <div className="absolute inset-0 bg-radial-gradient from-transparent via-black/20 to-black/80 pointer-events-none" />
+              </div>
             );
           })}
-        </div>
+        </motion.div>
+
+        {/* ── DEFINIÇÃO DA MÁSCARA SVG KIIRO (5 MONÓLITOS GEOMÉTRICOS) ──────────── */}
+        <svg
+          className="absolute inset-0 w-full h-full pointer-events-none"
+          width={dimensions.width}
+          height={dimensions.height}
+          style={{ width: "100%", height: "100%" }}
+        >
+          <defs>
+            <mask
+              id="kiiro-process-mask"
+              maskUnits="userSpaceOnUse"
+              x="0"
+              y="0"
+              width={dimensions.width}
+              height={dimensions.height}
+            >
+              {/* O fundo preto oculta o vídeo fora das formas */}
+              <rect x="0" y="0" width={dimensions.width} height={dimensions.height} fill="black" />
+              {/* Os 5 monólitos brancos revelam o vídeo interno */}
+              {pillars.map((p, idx) => (
+                <polygon key={idx} points={p.points} fill="white" />
+              ))}
+            </mask>
+          </defs>
+        </svg>
+
+        {/* ── BORDAS DOURADAS DOS MONÓLITOS (VISÍVEIS NA FASE DE PREVIEW) ────────── */}
+        {!isFullyExpanded && (
+          <svg
+            className="absolute inset-0 w-full h-full pointer-events-none z-10"
+            width={dimensions.width}
+            height={dimensions.height}
+          >
+            {pillars.map((p, idx) => (
+              <g key={idx}>
+                {/* Linha de contorno dourada sutil com fade-out na expansão */}
+                <polygon
+                  points={p.points}
+                  fill="none"
+                  stroke="#FFCA16"
+                  strokeWidth={1.5}
+                  strokeOpacity={0.45 * (1 - morphT)}
+                />
+              </g>
+            ))}
+          </svg>
+        )}
+
+        {/* ── CAMADA 2: TÍTULO INICIAL "PROCESSO" NO CENTRO DA VIEWPORT ─────────── */}
+        <motion.div
+          style={{
+            opacity: titleOpacity,
+            scale: titleScale,
+            y: titleY,
+            pointerEvents: morphT > 0.3 ? "none" : "auto",
+          }}
+          className="absolute inset-0 z-20 flex flex-col items-center justify-center text-center px-6 pointer-events-none"
+        >
+          <span className="font-mono text-[11px] uppercase tracking-[0.35em] text-[#FFCA16] mb-3 flex items-center gap-2">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#FFCA16] animate-pulse" />
+            Metodologia Studio Kiiro
+          </span>
+
+          <h2 className="font-display font-[900] text-[clamp(58px,12vw,150px)] leading-[0.88] tracking-[-0.05em] uppercase text-white drop-shadow-[0_12px_45px_rgba(0,0,0,0.9)]">
+            Processo
+          </h2>
+
+          <p className="mt-4 font-sans text-xs sm:text-sm md:text-base text-zinc-300 max-w-md leading-relaxed drop-shadow-md">
+            Como transformamos estratégia, inteligência e direção de arte em referências visuais definitivas.
+          </p>
+
+          <div className="mt-8 flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.25em] text-[#FFCA16] bg-black/60 backdrop-blur-md px-4 py-2 rounded-full border border-white/10 shadow-lg">
+            <span>Role para desvendar as 5 etapas</span>
+            <span className="animate-bounce">↓</span>
+          </div>
+        </motion.div>
+
+        {/* ── CAMADA 3: HUD EDITORIAL EM TELA CHEIA (REVELADO APÓS A EXPANSÃO) ──── */}
+        <motion.div
+          style={{
+            opacity: hudOpacity,
+            y: hudY,
+            pointerEvents: morphT < 0.2 ? "none" : "auto",
+          }}
+          className="absolute inset-0 z-20 flex flex-col justify-between p-6 sm:p-10 md:p-14 pointer-events-none"
+        >
+          {/* TOPO DO HUD */}
+          <div className="w-full flex justify-between items-center pointer-events-auto">
+            {/* Identificador da marca */}
+            <div className="flex items-center gap-3 bg-black/40 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-white/10">
+              <img src={kiiroLogoMark} alt="Studio Kiiro" className="w-4 h-4 object-contain" />
+              <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-white/90">
+                PROCESSO // STUDIO KIIRO
+              </span>
+            </div>
+
+            {/* Contador da etapa atual */}
+            <div className="flex items-center gap-2 bg-black/40 backdrop-blur-md px-4 py-1.5 rounded-full border border-white/10 font-mono text-xs">
+              <span className="text-[#FFCA16] font-bold tracking-widest">ETAPA {currentStep.number}</span>
+              <span className="text-white/30">/</span>
+              <span className="text-white/50 tracking-wider">05</span>
+            </div>
+          </div>
+
+          {/* CENTRO-ESQUERDA: CONTEÚDO EDITORIAL DA ETAPA ATIVA */}
+          <div className="max-w-2xl pointer-events-auto mt-auto mb-16 md:mb-10">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={currentStep.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+                className="space-y-4"
+              >
+                {/* Badge da Categoria */}
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FFCA16]/15 border border-[#FFCA16]/30 text-[#FFCA16] font-mono text-[10px] uppercase tracking-[0.2em] backdrop-blur-md">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#FFCA16]" />
+                  {currentStep.tag}
+                </div>
+
+                {/* Título Principal */}
+                <h3 className="font-display font-[800] text-[clamp(28px,5vw,56px)] text-white leading-[1.05] tracking-tight drop-shadow-md">
+                  <span className="text-[#FFCA16] mr-3 font-mono">{currentStep.number}.</span>
+                  {currentStep.title}
+                </h3>
+
+                {/* Subtítulo / Racional Conceitual */}
+                <p className="text-sm md:text-base font-medium text-white/90 italic drop-shadow-sm">
+                  "{currentStep.subtitle}"
+                </p>
+
+                {/* Descrição Detalhada */}
+                <p className="text-xs md:text-sm text-zinc-300 leading-relaxed max-w-xl drop-shadow-sm">
+                  {currentStep.description}
+                </p>
+
+                {/* Entregáveis Chave (Chips) */}
+                <div className="pt-2 flex flex-wrap gap-2">
+                  {currentStep.deliverables.map((del) => (
+                    <span
+                      key={del}
+                      className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-black/50 backdrop-blur-md border border-white/10 text-[11px] text-zinc-200"
+                    >
+                      <Check className="w-3 h-3 text-[#FFCA16]" />
+                      {del}
+                    </span>
+                  ))}
+                </div>
+              </motion.div>
+            </AnimatePresence>
+          </div>
+
+          {/* RODAPÉ DO HUD: TIMELINE SCRUBBER INTERATIVA DAS 5 ETAPAS */}
+          <div className="w-full flex flex-col md:flex-row items-center justify-between gap-4 pointer-events-auto pt-4 border-t border-white/10">
+            {/* Lista dos 5 marcadores interativos com barra de progresso */}
+            <div className="grid grid-cols-5 gap-2 sm:gap-3 w-full max-w-2xl">
+              {processSteps.map((step, idx) => {
+                const isActive = idx === activeStep;
+                const isPassed = idx < activeStep;
+
+                return (
+                  <button
+                    key={step.id}
+                    onClick={() => handleJumpToStep(idx)}
+                    className="group flex flex-col gap-1.5 text-left transition-all duration-300 focus:outline-none"
+                    aria-label={`Pular para etapa ${step.number}: ${step.title}`}
+                  >
+                    {/* Barra de progresso do passo */}
+                    <div className="relative w-full h-1 bg-white/20 rounded-full overflow-hidden">
+                      <div
+                        className="absolute inset-y-0 left-0 bg-[#FFCA16] transition-all duration-300"
+                        style={{
+                          width: isActive ? "100%" : isPassed ? "100%" : "0%",
+                          boxShadow: isActive ? "0 0 10px #FFCA16" : "none",
+                        }}
+                      />
+                    </div>
+
+                    {/* Rótulo do passo */}
+                    <div className="flex items-center gap-1.5">
+                      <span
+                        className={`font-mono text-[10px] font-bold transition-colors ${
+                          isActive
+                            ? "text-[#FFCA16]"
+                            : isPassed
+                            ? "text-white/80"
+                            : "text-white/40 group-hover:text-white/70"
+                        }`}
+                      >
+                        {step.number}
+                      </span>
+                      <span
+                        className={`hidden sm:inline font-sans text-[11px] truncate transition-colors ${
+                          isActive
+                            ? "text-white font-semibold"
+                            : isPassed
+                            ? "text-white/70"
+                            : "text-white/30 group-hover:text-white/60"
+                        }`}
+                      >
+                        {step.title.split(" ")[0]}
+                      </span>
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* Dica de avanço no scroll */}
+            <div className="hidden md:flex items-center gap-2 font-mono text-[10px] uppercase tracking-widest text-white/50">
+              {activeStep < 4 ? (
+                <>
+                  <span>Role para avançar</span>
+                  <ArrowRight className="w-3 h-3 text-[#FFCA16] animate-pulse" />
+                </>
+              ) : (
+                <span className="text-[#FFCA16]">Última etapa concluída ↓</span>
+              )}
+            </div>
+          </div>
+        </motion.div>
+
       </div>
     </section>
   );
-};
-
-export default KiiroMethodSection;
+}

@@ -11,7 +11,6 @@ import {
   ChevronLeft,
   ChevronRight,
   ArrowRight,
-  Sparkles,
 } from "lucide-react";
 import { playPillHover, playSwitchClick } from "@/utils/soundEffects";
 
@@ -317,13 +316,6 @@ export default function ServicesArtboardSection() {
 
         {/* CABEÇALHO EDITORIAL DA SEÇÃO */}
         <div className="mb-10 md:mb-14">
-          <div className="inline-flex items-center gap-2.5 px-3.5 py-1 rounded-full bg-white/[0.04] border border-white/10 backdrop-blur-md mb-6">
-            <span className="w-2 h-2 rounded-full bg-[#FFCA16] animate-pulse" />
-            <span className="text-[#FFCA16] text-[11px] font-mono font-bold uppercase tracking-[0.3em]">
-              Soluções Estratégicas
-            </span>
-          </div>
-
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 items-end">
             <div className="lg:col-span-8">
               <h2 className="font-display text-[38px] sm:text-[52px] md:text-[68px] lg:text-[78px] font-[800] text-white leading-[0.9] tracking-[-0.04em]">
@@ -388,18 +380,6 @@ export default function ServicesArtboardSection() {
 
             {/* SELETOR INTERATIVO DE SERVIÇOS (DOCK COM ALTA SUGESTIVIDADE) */}
             <div className="bg-[#111413] border-b border-white/[0.08]">
-              {/* Sugestão de Interação */}
-              <div className="px-4 sm:px-6 pt-4 pb-2.5 flex items-center justify-between text-[10px] sm:text-[11px] font-mono uppercase tracking-[0.2em]">
-                <div className="flex items-center gap-2 text-[#FFCA16]">
-                  <Sparkles className="w-3.5 h-3.5 animate-pulse" />
-                  <span>Selecione uma especialidade para ver o escopo:</span>
-                </div>
-                <div className="hidden md:flex items-center gap-2 text-white/40">
-                  <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#FFCA16]" />
-                  <span>5 Especialidades</span>
-                </div>
-              </div>
-
               {/* 5 Botões de Serviços em Grid Dock */}
               <div className="p-3 sm:p-4 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2.5">
                 {SERVICES_DATA.map((cat, idx) => {

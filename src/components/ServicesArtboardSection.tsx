@@ -1,18 +1,11 @@
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useRef, useState } from "react";
+import { motion, useScroll, useTransform, useReducedMotion, MotionValue } from "framer-motion";
 import {
   Layers,
   CheckCircle2,
-  PenTool,
-  LayoutGrid,
-  Film,
-  Globe,
-  Presentation,
-  ChevronLeft,
-  ChevronRight,
-  ArrowRight,
+  ChevronDown,
 } from "lucide-react";
-import { playPillHover, playSwitchClick } from "@/utils/soundEffects";
+import { playSwitchClick } from "@/utils/soundEffects";
 
 interface ServiceSubItem {
   id: string;
@@ -27,6 +20,7 @@ interface ServiceCategory {
   id: string;
   title: string;
   shortTitle: string;
+  fileName: string;
   tag: string;
   badge: string;
   items: ServiceSubItem[];
@@ -38,6 +32,7 @@ const SERVICES_DATA: ServiceCategory[] = [
     id: "identidade-visual",
     title: "Identidade Visual",
     shortTitle: "Identidade Visual",
+    fileName: "identidadevisual.ai",
     tag: "Branding & Sistemas de Marca",
     badge: "VECTOR · SYSTEM",
     items: [
@@ -56,8 +51,8 @@ Ideal para quem está começando uma marca ou quer reposicionar a comunicação 
           "Hierarquia Tipográfica Editorial & Digital",
           "Padrões Visuais, Grafismos & Texturas Exclusivas",
           "Brand Guidelines Completo em PDF de Alta Definição",
-          "Arquivos Finais Vetoriais (.AI, .EPS, .SVG, .PDF, .PNG)"
-        ]
+          "Arquivos Finais Vetoriais (.AI, .EPS, .SVG, .PDF, .PNG)",
+        ],
       },
       {
         id: "logotipo-essencial",
@@ -72,8 +67,8 @@ Antes do orçamento final, é necessário entender o nome da marca, segmento, es
           "Símbolo e Assinatura Tipográfica Exclusiva",
           "Versões Horizontal, Vertical e Redução para Avatar",
           "Guia de Aplicação e Áreas de Não Interferência",
-          "Arquivos Prontos para Impressão e Meio Digital"
-        ]
+          "Arquivos Prontos para Impressão e Meio Digital",
+        ],
       },
       {
         id: "branding-completo",
@@ -89,8 +84,8 @@ Pode incluir identidade visual, posicionamento, direção criativa, tom de comun
           "Posicionamento, Tom de Voz e Pilares Narrativos",
           "Sistema de Identidade Visual Integral",
           "Aplicações em Embalagens, Papelaria e Ponto de Contato",
-          "Brand Book Completo para Expansão da Marca"
-        ]
+          "Brand Book Completo para Expansão da Marca",
+        ],
       },
       {
         id: "personal-brand-kit",
@@ -106,16 +101,17 @@ Ideal para quem quer transmitir mais autoridade, profissionalismo e confiança.`
           "Tratamento Cromático e Estilo para Retratos",
           "Kit de Redes Sociais: Capas de YouTube, LinkedIn e Destaques",
           "Templates Editáveis para Apresentações e Posts",
-          "Cartão de Visitas Digital Interativo"
-        ]
-      }
-    ]
+          "Cartão de Visitas Digital Interativo",
+        ],
+      },
+    ],
   },
   {
     number: "02",
     id: "social-media",
     title: "Design para Redes Sociais",
     shortTitle: "Redes Sociais",
+    fileName: "redessociais.ai",
     tag: "Presença Digital & Engajamento",
     badge: "DIGITAL · FEED",
     items: [
@@ -131,16 +127,17 @@ Desenvolvemos layouts refinados que fogem dos modelos genéricos e transmitem in
           "Posts Estáticos com Tipografia Editorial e Fotografia Tratada",
           "Sistemas de Stories Estruturados e Interativos",
           "Artes de Lançamento e Campanhas Especiais",
-          "Organização de Grid e Coesão Visual Contínua"
-        ]
-      }
-    ]
+          "Organização de Grid e Coesão Visual Contínua",
+        ],
+      },
+    ],
   },
   {
     number: "03",
     id: "video",
     title: "Edição de Vídeo",
     shortTitle: "Edição de Vídeo",
+    fileName: "edicaodevideo.ai",
     tag: "Motion & Audiovisual",
     badge: "MOTION · 4K",
     items: [
@@ -156,8 +153,8 @@ Aplicamos ganchos visuais nos primeiros 3 segundos, cortes precisos de respiraç
           "Legendas Dinâmicas Sincronizadas Palavra a Palavra",
           "Sound Design, Efeitos Sonoros (SFX) e Trilha Sonora",
           "Gráficos na Tela, Ícones e Efeitos de Zoom Subtis",
-          "Exportação Otimizada para o Algoritmo do Instagram e TikTok"
-        ]
+          "Exportação Otimizada para o Algoritmo do Instagram e TikTok",
+        ],
       },
       {
         id: "video-institucional",
@@ -170,8 +167,8 @@ Ideal para a página inicial do site, apresentações para grandes clientes, fei
           "Roteirização Visual e Seleção dos Melhores Ângulos",
           "Tratamento Cinematográfico de Cores (Color Grading)",
           "Animação da Identidade Visual e Assinatura da Marca",
-          "Edição com Trilha Emocionante Licenciada para Uso Comercial"
-        ]
+          "Edição com Trilha Emocionante Licenciada para Uso Comercial",
+        ],
       },
       {
         id: "video-tutorial",
@@ -184,16 +181,17 @@ Perfeito para plataformas de cursos, demonstrações de softwares (SaaS) ou trei
           "Efeitos de Zoom nas Ações Importantes da Tela",
           "Cards Explicativos, Setas e Destaques Gráficos Vetoriais",
           "Separação Estruturada por Capítulos e Módulos",
-          "Equalização de Voz com Remoção de Ruídos de Fundo"
-        ]
-      }
-    ]
+          "Equalização de Voz com Remoção de Ruídos de Fundo",
+        ],
+      },
+    ],
   },
   {
     number: "04",
     id: "web",
     title: "Sites e Landing Pages",
     shortTitle: "Sites & Landing Pages",
+    fileName: "sites_landingpages.ai",
     tag: "Design de Interface & Conversão",
     badge: "UI/UX · WEB",
     items: [
@@ -209,16 +207,17 @@ Combinamos arquitetura de informação estratégica, tipografia expressiva e mic
           "Design UI/UX Exclusivo no Figma (Desktop e Mobile)",
           "Diretrizes de Micro-interações, Hover States e Animações",
           "Hierarquia de Tipografia e Blocos de Alto Contraste",
-          "Preparação de Assets Otimizados para Desenvolvimento"
-        ]
-      }
-    ]
+          "Preparação de Assets Otimizados para Desenvolvimento",
+        ],
+      },
+    ],
   },
   {
     number: "05",
     id: "apresentacoes",
     title: "Apresentações",
     shortTitle: "Apresentações",
+    fileName: "apresentacoes.ai",
     tag: "Pitch Decks & Comercial",
     badge: "DECK · KEYNOTE",
     items: [
@@ -233,64 +232,391 @@ Adeus aos slides entediantes com blocos de texto: criamos narrativas visuais com
           "Diagramação Editorial de Slides e Capas",
           "Infográficos, Tabelas e Gráficos de Dados Reorganizados",
           "Templates Mestres com Estilos Pré-formatados",
-          "Exportação em PDF Interativo e Arquivo Editável (.PPTX ou Keynote)"
-        ]
-      }
-    ]
-  }
+          "Exportação em PDF Interativo e Arquivo Editável (.PPTX ou Keynote)",
+        ],
+      },
+    ],
+  },
 ];
 
-const CATEGORY_ICONS = [
-  PenTool,
-  LayoutGrid,
-  Film,
-  Globe,
-  Presentation,
-];
+/**
+ * Componente individual de uma Prancheta do Illustrator com física de papel
+ */
+function ArtboardCard({
+  category,
+  index,
+  scrollYProgress,
+}: {
+  category: ServiceCategory;
+  index: number;
+  scrollYProgress: MotionValue<number>;
+}) {
+  const [activeSubIndex, setActiveSubIndex] = useState(0);
+  const activeSubItem = category.items[activeSubIndex] || category.items[0];
+
+  /**
+   * Cálculo das transformações para o efeito físico de "puxar a folha de trás e colocar na frente".
+   * 
+   * Timeline de 5 pranchetas em [0, 1]:
+   * - index 0: já começa na frente. Recua para trás quando a prancheta 1 chega (0.12 -> 0.24).
+   * - index 1: emerge de trás (0.10 -> 0.17 sobe, 0.17 -> 0.24 pousa na frente). Recua (0.34 -> 0.44).
+   * - index 2: emerge de trás (0.30 -> 0.37 sobe, 0.37 -> 0.44 pousa na frente). Recua (0.54 -> 0.64).
+   * - index 3: emerge de trás (0.50 -> 0.57 sobe, 0.57 -> 0.64 pousa na frente). Recua (0.74 -> 0.84).
+   * - index 4: emerge de trás (0.70 -> 0.77 sobe, 0.77 -> 0.84 pousa na frente). Fica na frente até o fim.
+   */
+
+  // Intervalos de ativação específicos para cada prancheta
+  let yTransform: MotionValue<number>;
+  let scaleTransform: MotionValue<number>;
+  let rotateTransform: MotionValue<number>;
+  let opacityTransform: MotionValue<number>;
+  let zIndexTransform: MotionValue<number>;
+  let pointerEventsTransform: MotionValue<string>;
+
+  if (index === 0) {
+    yTransform = useTransform(scrollYProgress, [0, 0.12, 0.22, 1], [0, 0, 15, 15]);
+    scaleTransform = useTransform(scrollYProgress, [0, 0.12, 0.22, 1], [1, 1, 0.94, 0.94]);
+    rotateTransform = useTransform(scrollYProgress, [0, 0.12, 0.22, 1], [0, 0, -0.5, -0.5]);
+    opacityTransform = useTransform(scrollYProgress, [0, 0.12, 0.20, 0.24, 1], [1, 1, 0.4, 0, 0]);
+    zIndexTransform = useTransform(scrollYProgress, [0, 0.16, 0.22, 1], [15, 15, 2, 2]);
+    pointerEventsTransform = useTransform(scrollYProgress, (p) => (p <= 0.18 ? "auto" : "none"));
+  } else if (index === 1) {
+    // Emerge de trás: sobe alto (-90px) com rotação física (-1.8deg) e pousa na frente (0px)
+    yTransform = useTransform(
+      scrollYProgress,
+      [0, 0.08, 0.15, 0.22, 0.32, 0.42, 1],
+      [24, 24, -90, 0, 0, 15, 15]
+    );
+    scaleTransform = useTransform(
+      scrollYProgress,
+      [0, 0.08, 0.15, 0.22, 0.32, 0.42, 1],
+      [0.93, 0.93, 1.02, 1, 1, 0.94, 0.94]
+    );
+    rotateTransform = useTransform(
+      scrollYProgress,
+      [0, 0.08, 0.15, 0.22, 0.32, 0.42, 1],
+      [0, 0, -1.8, 0, 0, 0.5, 0.5]
+    );
+    opacityTransform = useTransform(
+      scrollYProgress,
+      [0, 0.06, 0.10, 0.22, 0.32, 0.40, 0.44, 1],
+      [0, 0, 0.9, 1, 1, 0.4, 0, 0]
+    );
+    zIndexTransform = useTransform(
+      scrollYProgress,
+      [0, 0.12, 0.13, 0.32, 0.42, 1],
+      [2, 2, 25, 25, 3, 3]
+    );
+    pointerEventsTransform = useTransform(scrollYProgress, (p) =>
+      p > 0.18 && p <= 0.38 ? "auto" : "none"
+    );
+  } else if (index === 2) {
+    // Alterna rotação orgânica (+1.8deg)
+    yTransform = useTransform(
+      scrollYProgress,
+      [0, 0.28, 0.35, 0.42, 0.52, 0.62, 1],
+      [24, 24, -90, 0, 0, 15, 15]
+    );
+    scaleTransform = useTransform(
+      scrollYProgress,
+      [0, 0.28, 0.35, 0.42, 0.52, 0.62, 1],
+      [0.93, 0.93, 1.02, 1, 1, 0.94, 0.94]
+    );
+    rotateTransform = useTransform(
+      scrollYProgress,
+      [0, 0.28, 0.35, 0.42, 0.52, 0.62, 1],
+      [0, 0, 1.8, 0, 0, -0.5, -0.5]
+    );
+    opacityTransform = useTransform(
+      scrollYProgress,
+      [0, 0.26, 0.30, 0.42, 0.52, 0.60, 0.64, 1],
+      [0, 0, 0.9, 1, 1, 0.4, 0, 0]
+    );
+    zIndexTransform = useTransform(
+      scrollYProgress,
+      [0, 0.32, 0.33, 0.52, 0.62, 1],
+      [3, 3, 30, 30, 4, 4]
+    );
+    pointerEventsTransform = useTransform(scrollYProgress, (p) =>
+      p > 0.38 && p <= 0.58 ? "auto" : "none"
+    );
+  } else if (index === 3) {
+    // Emerge com rotação (-1.8deg)
+    yTransform = useTransform(
+      scrollYProgress,
+      [0, 0.48, 0.55, 0.62, 0.72, 0.82, 1],
+      [24, 24, -90, 0, 0, 15, 15]
+    );
+    scaleTransform = useTransform(
+      scrollYProgress,
+      [0, 0.48, 0.55, 0.62, 0.72, 0.82, 1],
+      [0.93, 0.93, 1.02, 1, 1, 0.94, 0.94]
+    );
+    rotateTransform = useTransform(
+      scrollYProgress,
+      [0, 0.48, 0.55, 0.62, 0.72, 0.82, 1],
+      [0, 0, -1.8, 0, 0, 0.5, 0.5]
+    );
+    opacityTransform = useTransform(
+      scrollYProgress,
+      [0, 0.46, 0.50, 0.62, 0.72, 0.80, 0.84, 1],
+      [0, 0, 0.9, 1, 1, 0.4, 0, 0]
+    );
+    zIndexTransform = useTransform(
+      scrollYProgress,
+      [0, 0.52, 0.53, 0.72, 0.82, 1],
+      [4, 4, 35, 35, 5, 5]
+    );
+    pointerEventsTransform = useTransform(scrollYProgress, (p) =>
+      p > 0.58 && p <= 0.78 ? "auto" : "none"
+    );
+  } else {
+    // index 4: Prancheta final (Apresentações)
+    yTransform = useTransform(
+      scrollYProgress,
+      [0, 0.68, 0.75, 0.82, 1],
+      [24, 24, -90, 0, 0]
+    );
+    scaleTransform = useTransform(
+      scrollYProgress,
+      [0, 0.68, 0.75, 0.82, 1],
+      [0.93, 0.93, 1.02, 1, 1]
+    );
+    rotateTransform = useTransform(
+      scrollYProgress,
+      [0, 0.68, 0.75, 0.82, 1],
+      [0, 0, 1.8, 0, 0]
+    );
+    opacityTransform = useTransform(
+      scrollYProgress,
+      [0, 0.66, 0.70, 0.82, 1],
+      [0, 0, 0.9, 1, 1]
+    );
+    zIndexTransform = useTransform(
+      scrollYProgress,
+      [0, 0.72, 0.73, 1],
+      [5, 5, 40, 40]
+    );
+    pointerEventsTransform = useTransform(scrollYProgress, (p) =>
+      p > 0.78 ? "auto" : "none"
+    );
+  }
+
+  return (
+    <motion.div
+      style={{
+        y: yTransform,
+        scale: scaleTransform,
+        rotate: rotateTransform,
+        opacity: opacityTransform,
+        zIndex: zIndexTransform,
+        pointerEvents: pointerEventsTransform as unknown as "auto" | "none",
+      }}
+      className="absolute inset-x-0 top-0 w-full"
+    >
+      <div className="relative">
+        {/* Marcas de corte arquiteturais nos 4 cantos da prancheta */}
+        <div className="absolute -top-2.5 -left-2.5 w-3.5 h-3.5 border-t-2 border-l-2 border-[#FFCA16]/40 pointer-events-none hidden sm:block" />
+        <div className="absolute -top-2.5 -right-2.5 w-3.5 h-3.5 border-t-2 border-r-2 border-[#FFCA16]/40 pointer-events-none hidden sm:block" />
+        <div className="absolute -bottom-2.5 -left-2.5 w-3.5 h-3.5 border-b-2 border-l-2 border-[#FFCA16]/40 pointer-events-none hidden sm:block" />
+        <div className="absolute -bottom-2.5 -right-2.5 w-3.5 h-3.5 border-b-2 border-r-2 border-[#FFCA16]/40 pointer-events-none hidden sm:block" />
+
+        {/* CONTAINER DA PRANCHETA (DESIGN CLEAN ILLUSTRATOR) */}
+        <div className="relative rounded-2xl md:rounded-3xl bg-[#0e1110] border border-white/10 shadow-[0_25px_80px_rgba(0,0,0,0.85)] overflow-hidden">
+
+          {/* BARRA SUPERIOR DA JANELA (CHROME DO ARQUIVO .AI) */}
+          <div className="bg-[#131615] border-b border-white/[0.08] px-4 md:px-6 py-2.5 flex items-center justify-between gap-4 text-xs font-mono">
+            <div className="flex items-center gap-3">
+              {/* Semáforo macOS */}
+              <div className="flex items-center gap-1.5 mr-1">
+                <span className="w-2.5 h-2.5 rounded-full bg-[#ff5f56]/80 inline-block" />
+                <span className="w-2.5 h-2.5 rounded-full bg-[#ffbd2e]/80 inline-block" />
+                <span className="w-2.5 h-2.5 rounded-full bg-[#27c93f]/80 inline-block" />
+              </div>
+              {/* Aba do Arquivo Específico (.ai) */}
+              <div className="flex items-center gap-2 bg-white/[0.04] px-3 py-1 rounded-md text-white/90 border border-white/5">
+                <Layers className="w-3.5 h-3.5 text-[#FFCA16]" />
+                <span className="font-semibold tracking-wide text-[#FFCA16]">
+                  {category.fileName}
+                </span>
+                <span className="text-[10px] text-white/40 hidden sm:inline">@ 100% (Preview)</span>
+              </div>
+            </div>
+
+            {/* Informações da Prancheta */}
+            <div className="flex items-center gap-3 text-[10px] text-white/40 font-mono">
+              <span>
+                PRANCHETA:{" "}
+                <strong className="text-[#FFCA16]">
+                  {category.number} / 05
+                </strong>
+              </span>
+              <span className="hidden md:inline bg-black/40 px-2 py-0.5 rounded border border-white/5 text-white/50">
+                1920 × 1080 PX
+              </span>
+            </div>
+          </div>
+
+          {/* SELEÇÃO DE MODALIDADES (quando o serviço possui variações internas) */}
+          {category.items.length > 1 && (
+            <div className="bg-[#101412] border-b border-white/[0.06] px-4 sm:px-8 py-2.5 flex flex-wrap items-center gap-2">
+              <span className="text-[10px] sm:text-[11px] font-mono uppercase tracking-[0.2em] text-white/40 mr-1">
+                Modalidade:
+              </span>
+              {category.items.map((sub, sIdx) => {
+                const isSubActive = sIdx === activeSubIndex;
+                return (
+                  <button
+                    key={sub.id}
+                    type="button"
+                    onClick={() => {
+                      playSwitchClick(true);
+                      setActiveSubIndex(sIdx);
+                    }}
+                    className={`px-3 py-1 rounded-full text-xs font-mono tracking-wider transition-all duration-200 border flex items-center gap-2 cursor-pointer ${
+                      isSubActive
+                        ? "bg-[#FFCA16] text-black border-[#FFCA16] font-bold shadow-[0_2px_12px_rgba(255,202,22,0.3)]"
+                        : "bg-white/[0.04] text-white/60 border-white/10 hover:border-white/30 hover:text-white hover:bg-white/[0.08]"
+                    }`}
+                  >
+                    <span
+                      className={`w-1.5 h-1.5 rounded-full ${
+                        isSubActive ? "bg-black" : "bg-white/30"
+                      }`}
+                    />
+                    <span>{sub.title}</span>
+                  </button>
+                );
+              })}
+            </div>
+          )}
+
+          {/* CONTEÚDO EDITORIAL DA PRANCHETA (TOTALMENTE DESPOLUÍDO) */}
+          <div className="bg-[#141716] p-6 sm:p-8 lg:p-10 relative overflow-hidden">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 items-start">
+              
+              {/* COLUNA ESQUERDA: TAG, TÍTULO, SUBTÍTULO E DESCRIÇÃO */}
+              <div className="lg:col-span-7 flex flex-col gap-4">
+                <div>
+                  <span className="text-[10px] sm:text-[11px] font-mono uppercase tracking-[0.25em] text-[#FFCA16] font-semibold">
+                    {category.tag}
+                  </span>
+                  <h3 className="font-display text-[26px] sm:text-[34px] md:text-[40px] font-[800] text-white leading-[1.08] tracking-tight mt-1">
+                    {activeSubItem.title}
+                  </h3>
+                  {activeSubItem.subtitle && (
+                    <p className="mt-1.5 text-[#FFCA16] text-xs sm:text-sm md:text-base font-light italic">
+                      "{activeSubItem.subtitle}"
+                    </p>
+                  )}
+                </div>
+
+                <div className="text-white/75 text-[13px] sm:text-[14px] md:text-[15px] leading-relaxed font-light whitespace-pre-line space-y-3 max-w-2xl">
+                  {activeSubItem.description}
+                </div>
+              </div>
+
+              {/* COLUNA DIREITA: ENTREGÁVEIS & ESCOPO */}
+              <div className="lg:col-span-5 bg-[#0b0d0c] rounded-2xl p-5 sm:p-6 border border-white/10 relative overflow-hidden shadow-inner">
+                <div className="flex items-center justify-between mb-4 pb-2.5 border-b border-white/10">
+                  <div className="flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full bg-[#FFCA16]" />
+                    <span className="font-mono text-xs uppercase tracking-widest text-white/90 font-bold">
+                      Entregáveis & Escopo
+                    </span>
+                  </div>
+                  <span className="text-[10px] font-mono text-white/40 uppercase">
+                    {activeSubItem.deliverables.length} ITENS
+                  </span>
+                </div>
+
+                <ul className="space-y-2.5 sm:space-y-3">
+                  {activeSubItem.deliverables.map((item, dIdx) => (
+                    <li
+                      key={dIdx}
+                      className="flex items-start gap-2.5 text-xs sm:text-[13px] text-white/80 leading-snug"
+                    >
+                      <CheckCircle2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#FFCA16] flex-shrink-0 mt-0.5" />
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </motion.div>
+  );
+}
 
 export default function ServicesArtboardSection() {
-  const [activeCategoryIndex, setActiveCategoryIndex] = useState(0);
-  const [activeSubIndex, setActiveSubIndex] = useState(0);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const reduceMotion = useReducedMotion();
 
-  const activeCategory = SERVICES_DATA[activeCategoryIndex];
-  const activeSubItem = activeCategory.items[activeSubIndex] || activeCategory.items[0];
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end end"],
+  });
 
-  const handleCategorySelect = (index: number) => {
-    if (index === activeCategoryIndex) return;
-    playPillHover(index);
-    setActiveCategoryIndex(index);
-    setActiveSubIndex(0);
-  };
+  // Indicador de prancheta ativa para o rodapé visual sutil
+  const activeIndexTransform = useTransform(scrollYProgress, (p) => {
+    if (p < 0.20) return 0;
+    if (p < 0.42) return 1;
+    if (p < 0.64) return 2;
+    if (p < 0.84) return 3;
+    return 4;
+  });
 
-  const handleSubItemSelect = (subIndex: number) => {
-    if (subIndex === activeSubIndex) return;
-    playSwitchClick(true);
-    setActiveSubIndex(subIndex);
-  };
+  const scrollCueOpacity = useTransform(scrollYProgress, [0, 0.08], [1, 0]);
 
-  const handlePrev = () => {
-    playSwitchClick(true);
-    const newIdx = activeCategoryIndex === 0 ? SERVICES_DATA.length - 1 : activeCategoryIndex - 1;
-    setActiveCategoryIndex(newIdx);
-    setActiveSubIndex(0);
-  };
-
-  const handleNext = () => {
-    playSwitchClick(true);
-    const newIdx = activeCategoryIndex === SERVICES_DATA.length - 1 ? 0 : activeCategoryIndex + 1;
-    setActiveCategoryIndex(newIdx);
-    setActiveSubIndex(0);
-  };
-
-  const whatsappMessage = encodeURIComponent(
-    `Olá Studio Kiiro! Gostaria de conversar sobre o serviço de ${activeSubItem.title}.`
-  );
-  const whatsappUrl = `https://wa.me/5511991076096?text=${whatsappMessage}`;
+  // Fallback para quem tem preferência de movimento reduzido
+  if (reduceMotion) {
+    return (
+      <section
+        id="servicos"
+        className="w-full bg-[#080908] text-white py-20 px-4 sm:px-6 border-t border-white/[0.08]"
+        aria-label="Soluções Estratégicas e Serviços Oferecidos"
+      >
+        <div className="max-w-6xl mx-auto space-y-12">
+          <div className="mb-10 text-center">
+            <h2 className="font-display text-4xl sm:text-5xl font-bold text-white tracking-tight">
+              Elevando o <span className="text-[#FFCA16] italic font-light">padrão</span> visual da sua marca.
+            </h2>
+          </div>
+          <div className="space-y-10">
+            {SERVICES_DATA.map((cat) => (
+              <div key={cat.id} className="rounded-2xl bg-[#0e1110] border border-white/10 p-6">
+                <div className="flex items-center justify-between mb-4 border-b border-white/10 pb-2 text-xs font-mono text-[#FFCA16]">
+                  <span>{cat.fileName}</span>
+                  <span>{cat.number} / 05</span>
+                </div>
+                <h3 className="text-2xl font-bold text-white mb-2">{cat.title}</h3>
+                <p className="text-white/70 text-sm mb-4">{cat.items[0].description}</p>
+                <ul className="space-y-2">
+                  {cat.items[0].deliverables.map((d, i) => (
+                    <li key={i} className="flex items-center gap-2 text-xs text-white/80">
+                      <CheckCircle2 className="w-3.5 h-3.5 text-[#FFCA16]" />
+                      <span>{d}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section
       id="servicos"
-      className="relative w-full bg-[#080908] text-white overflow-hidden py-20 md:py-28 border-t border-white/[0.08]"
+      ref={containerRef}
+      className="relative w-full bg-[#080908] text-white"
+      style={{ height: "460vh" }}
       aria-label="Soluções Estratégicas e Serviços Oferecidos"
     >
       {/* 1. FUNDO SUTIL E CLEAN */}
@@ -302,7 +628,7 @@ export default function ServicesArtboardSection() {
             linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
             linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px)
           `,
-          backgroundSize: "40px 40px, 120px 120px, 120px 120px"
+          backgroundSize: "40px 40px, 120px 120px, 120px 120px",
         }}
         aria-hidden="true"
       />
@@ -312,289 +638,99 @@ export default function ServicesArtboardSection() {
         aria-hidden="true"
       />
 
-      <div className="relative z-10 w-full max-w-[95vw] xl:max-w-[92vw] 2xl:max-w-[1600px] mx-auto px-3 sm:px-6">
+      {/* 2. CONTAINER STICKY PINNED NA VIEWPORT (H-SCREEN) */}
+      <div className="sticky top-0 h-screen w-full flex flex-col justify-center overflow-hidden py-4 sm:py-6">
+        <div className="relative z-10 w-full max-w-[95vw] xl:max-w-[92vw] 2xl:max-w-[1500px] mx-auto px-3 sm:px-6">
 
-        {/* CABEÇALHO EDITORIAL DA SEÇÃO */}
-        <div className="mb-10 md:mb-14">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 items-end">
-            <div className="lg:col-span-8">
-              <h2 className="font-display text-[38px] sm:text-[52px] md:text-[68px] lg:text-[78px] font-[800] text-white leading-[0.9] tracking-[-0.04em]">
-                Elevando o{" "}
-                <span className="text-[#FFCA16] italic font-light">padrão</span>
-                <br />
-                visual da sua marca.
-              </h2>
-            </div>
-            <div className="lg:col-span-4">
-              <p className="text-white/65 text-[15px] md:text-[16px] leading-relaxed font-light font-display">
-                Fugimos de templates genéricos para criar sistemas proprietários, pensados sob medida para transformar negócios em referências memoráveis.
-              </p>
+          {/* CABEÇALHO EDITORIAL COMPACTO DA SEÇÃO */}
+          <div className="mb-4 sm:mb-6">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 lg:gap-8 items-end">
+              <div className="lg:col-span-8">
+                <span className="text-[10px] sm:text-[11px] font-mono uppercase tracking-[0.25em] text-[#FFCA16] font-semibold block mb-1.5">
+                  SOLUÇÕES ESTRATÉGICAS // 05 PRANCHETAS
+                </span>
+                <h2 className="font-display text-[28px] sm:text-[36px] md:text-[46px] font-[800] text-white leading-[0.95] tracking-[-0.035em]">
+                  Elevando o{" "}
+                  <span className="text-[#FFCA16] italic font-light">padrão</span>
+                  {" "}visual da sua marca.
+                </h2>
+              </div>
+              <div className="lg:col-span-4 hidden md:block">
+                <p className="text-white/60 text-xs sm:text-[13px] leading-relaxed font-light font-display">
+                  Fugimos de templates genéricos para criar sistemas proprietários, pensados sob medida para transformar negócios em referências memoráveis.
+                </p>
+              </div>
             </div>
           </div>
-        </div>
 
-        {/* PRANCHETA DE DESIGN (CLEAN ILLUSTRATOR ARTBOARD) */}
-        <div className="relative">
+          {/* PILHA FÍSICA DAS 5 PRANCHETAS (SOMENTE UMA VISÍVEL POR VEZ) */}
+          <div className="relative w-full min-h-[460px] sm:min-h-[480px] md:min-h-[500px]">
+            {SERVICES_DATA.map((category, idx) => (
+              <ArtboardCard
+                key={category.id}
+                category={category}
+                index={idx}
+                scrollYProgress={scrollYProgress}
+              />
+            ))}
+          </div>
 
-          {/* Marcas de corte arquiteturais e minimalistas nos 4 cantos da prancheta */}
-          <div className="absolute -top-2.5 -left-2.5 w-3.5 h-3.5 border-t-2 border-l-2 border-[#FFCA16]/40 pointer-events-none hidden sm:block" />
-          <div className="absolute -top-2.5 -right-2.5 w-3.5 h-3.5 border-t-2 border-r-2 border-[#FFCA16]/40 pointer-events-none hidden sm:block" />
-          <div className="absolute -bottom-2.5 -left-2.5 w-3.5 h-3.5 border-b-2 border-l-2 border-[#FFCA16]/40 pointer-events-none hidden sm:block" />
-          <div className="absolute -bottom-2.5 -right-2.5 w-3.5 h-3.5 border-b-2 border-r-2 border-[#FFCA16]/40 pointer-events-none hidden sm:block" />
+          {/* BARRA INFERIOR DE STATUS E PROGRESSO DAS PRANCHETAS */}
+          <div className="mt-4 sm:mt-5 flex items-center justify-between text-xs font-mono text-white/40">
+            {/* Indicador de rolagem suave inicial */}
+            <motion.div
+              style={{ opacity: scrollCueOpacity }}
+              className="flex items-center gap-2 text-[10px] text-[#FFCA16]/80 font-mono tracking-wider uppercase"
+            >
+              <ChevronDown className="w-3.5 h-3.5 animate-bounce" />
+              <span>Role para folhear as pranchetas</span>
+            </motion.div>
 
-          {/* CONTAINER DA PRANCHETA */}
-          <div className="relative rounded-2xl md:rounded-3xl bg-[#0e1110] border border-white/10 shadow-[0_20px_70px_rgba(0,0,0,0.7)] overflow-hidden">
+            <div className="flex-1" />
 
-            {/* BARRA SUPERIOR DA JANELA (CLEAN ARTBOARD CHROME) */}
-            <div className="bg-[#131615] border-b border-white/[0.08] px-4 md:px-6 py-3 flex items-center justify-between gap-4 text-xs font-mono">
-              <div className="flex items-center gap-3">
-                {/* Semáforo macOS */}
-                <div className="flex items-center gap-1.5 mr-1">
-                  <span className="w-2.5 h-2.5 rounded-full bg-[#ff5f56]/80 inline-block" />
-                  <span className="w-2.5 h-2.5 rounded-full bg-[#ffbd2e]/80 inline-block" />
-                  <span className="w-2.5 h-2.5 rounded-full bg-[#27c93f]/80 inline-block" />
-                </div>
-                {/* Aba do Arquivo */}
-                <div className="flex items-center gap-2 bg-white/[0.04] px-3 py-1 rounded-md text-white/90 border border-white/5">
-                  <Layers className="w-3.5 h-3.5 text-[#FFCA16]" />
-                  <span className="font-semibold tracking-wide">
-                    studiokiiro_solucoes.ai
-                  </span>
-                  <span className="text-[10px] text-white/40 hidden sm:inline">@ 100% (Preview)</span>
-                </div>
-              </div>
-
-              {/* Informações da Prancheta */}
-              <div className="flex items-center gap-3 text-[10px] text-white/40">
-                <span>
-                  PRANCHETA:{" "}
-                  <strong className="text-[#FFCA16]">
-                    0{activeCategoryIndex + 1} / 05
-                  </strong>
-                </span>
-                <span className="hidden md:inline bg-black/40 px-2 py-0.5 rounded border border-white/5 text-white/50">
-                  1920 × 1080 PX
-                </span>
-              </div>
+            {/* Marcadores discretos das 5 pranchetas */}
+            <div className="flex items-center gap-1.5">
+              {SERVICES_DATA.map((cat, dIdx) => (
+                <ActiveDot
+                  key={cat.id}
+                  dotIndex={dIdx}
+                  activeIndexTransform={activeIndexTransform}
+                />
+              ))}
             </div>
-
-            {/* SELETOR INTERATIVO DE SERVIÇOS (DOCK COM ALTA SUGESTIVIDADE) */}
-            <div className="bg-[#111413] border-b border-white/[0.08]">
-              {/* 5 Botões de Serviços em Grid Dock */}
-              <div className="p-3 sm:p-4 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2.5">
-                {SERVICES_DATA.map((cat, idx) => {
-                  const isSelected = idx === activeCategoryIndex;
-                  const Icon = CATEGORY_ICONS[idx];
-                  return (
-                    <button
-                      key={cat.id}
-                      type="button"
-                      onClick={() => handleCategorySelect(idx)}
-                      onMouseEnter={() => playPillHover(idx)}
-                      className={`group relative flex flex-col justify-between p-3.5 sm:p-4 rounded-xl text-left transition-all duration-300 cursor-pointer overflow-hidden border ${
-                        isSelected
-                          ? "bg-[#FFCA16] text-black border-[#FFCA16] shadow-[0_6px_24px_rgba(255,202,22,0.3)] scale-[1.02] z-10"
-                          : "bg-white/[0.03] text-white/70 border-white/10 hover:border-[#FFCA16]/60 hover:bg-white/[0.06] hover:text-white hover:-translate-y-0.5"
-                      }`}
-                    >
-                      {/* Topo do Card: Número + Ícone */}
-                      <div className="flex items-center justify-between w-full mb-3">
-                        <span
-                          className={`font-mono text-[10px] sm:text-[11px] font-bold px-2 py-0.5 rounded-full transition-colors ${
-                            isSelected
-                              ? "bg-black/15 text-black"
-                              : "bg-white/10 text-white/60 group-hover:bg-[#FFCA16]/20 group-hover:text-[#FFCA16]"
-                          }`}
-                        >
-                          {cat.number}
-                        </span>
-                        <Icon
-                          className={`w-4 h-4 transition-transform duration-300 group-hover:scale-110 ${
-                            isSelected ? "text-black" : "text-white/40 group-hover:text-[#FFCA16]"
-                          }`}
-                        />
-                      </div>
-
-                      {/* Nome do Serviço */}
-                      <span className="font-display font-bold text-xs sm:text-sm leading-snug tracking-tight mb-2">
-                        {cat.shortTitle}
-                      </span>
-
-                      {/* Micro-affordance de clique */}
-                      <div className="flex items-center gap-1 text-[9px] font-mono uppercase tracking-wider opacity-80 pt-1">
-                        <span>{isSelected ? "Ativo" : "Ver Escopo"}</span>
-                        <ArrowRight
-                          className={`w-3 h-3 transition-transform duration-300 ${
-                            isSelected ? "translate-x-0.5" : "group-hover:translate-x-1"
-                          }`}
-                        />
-                      </div>
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-
-            {/* SELEÇÃO DE MODALIDADES (quando o serviço possui variações) */}
-            {activeCategory.items.length > 1 && (
-              <div className="bg-[#141816]/70 border-b border-white/[0.06] px-4 sm:px-8 py-3.5 flex flex-wrap items-center gap-2">
-                <span className="text-[10px] sm:text-[11px] font-mono uppercase tracking-[0.2em] text-white/40 mr-1">
-                  Modalidade:
-                </span>
-                {activeCategory.items.map((sub, sIdx) => {
-                  const isSubActive = sIdx === activeSubIndex;
-                  return (
-                    <button
-                      key={sub.id}
-                      type="button"
-                      onClick={() => handleSubItemSelect(sIdx)}
-                      className={`px-3.5 py-1.5 rounded-full text-xs font-mono tracking-wider transition-all duration-200 border flex items-center gap-2 cursor-pointer ${
-                        isSubActive
-                          ? "bg-white text-black border-white font-bold shadow-[0_2px_12px_rgba(255,255,255,0.2)]"
-                          : "bg-white/[0.04] text-white/60 border-white/10 hover:border-white/30 hover:text-white hover:bg-white/[0.08]"
-                      }`}
-                    >
-                      <span
-                        className={`w-1.5 h-1.5 rounded-full ${
-                          isSubActive ? "bg-[#FFCA16]" : "bg-white/30"
-                        }`}
-                      />
-                      <span>{sub.title}</span>
-                    </button>
-                  );
-                })}
-              </div>
-            )}
-
-            {/* CONTEÚDO EDITORIAL DO SERVIÇO SELECIONADO */}
-            <div className="bg-[#141716] p-6 sm:p-10 lg:p-12 relative min-h-[420px]">
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={`${activeCategory.id}-${activeSubItem.id}`}
-                  initial={{ opacity: 0, y: 12 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -12 }}
-                  transition={{ duration: 0.28, ease: "easeOut" }}
-                  className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start"
-                >
-                  {/* COLUNA ESQUERDA: TÍTULOS, DESCRIÇÃO E BOTÃO DE CONTATO */}
-                  <div className="lg:col-span-7 flex flex-col gap-6">
-                    <div>
-                      <span className="text-[10px] sm:text-[11px] font-mono uppercase tracking-[0.25em] text-[#FFCA16] font-semibold">
-                        {activeCategory.tag}
-                      </span>
-                      <h3 className="font-display text-[28px] sm:text-[36px] md:text-[42px] font-[800] text-white leading-[1.08] tracking-tight mt-1">
-                        {activeSubItem.title}
-                      </h3>
-                      {activeSubItem.subtitle && (
-                        <p className="mt-2 text-[#FFCA16] text-sm md:text-base font-light italic">
-                          {activeSubItem.subtitle}
-                        </p>
-                      )}
-                    </div>
-
-                    <div className="text-white/70 text-[14px] sm:text-[15px] md:text-[16px] leading-relaxed font-light whitespace-pre-line space-y-4 max-w-3xl">
-                      {activeSubItem.description}
-                    </div>
-
-                    {/* BOTÃO CTA DIRETO NO WHATSAPP */}
-                    <div className="pt-2">
-                      <a
-                        href={whatsappUrl}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="group relative inline-flex items-center justify-center gap-2.5 px-7 py-3.5 rounded-full overflow-hidden border border-white/20 text-white font-mono text-[11px] md:text-xs uppercase tracking-[0.22em] font-bold transition-all duration-300 hover:border-[#FFCA16] shadow-[0_4px_20px_rgba(0,0,0,0.25)]"
-                      >
-                        <span
-                          className="absolute inset-0 w-full h-full bg-[#FFCA16] rounded-full -translate-y-[120%] group-hover:translate-y-0 transition-transform duration-300 ease-out pointer-events-none"
-                          aria-hidden="true"
-                        />
-                        <span className="relative z-10 transition-colors duration-300 group-hover:text-black flex items-center gap-2">
-                          Solicitar Proposta Desse Serviço
-                          <ArrowRight className="w-4 h-4" />
-                        </span>
-                      </a>
-                    </div>
-                  </div>
-
-                  {/* COLUNA DIREITA: ENTREGÁVEIS & ESCOPO */}
-                  <div className="lg:col-span-5 bg-[#0b0d0c] rounded-2xl p-6 sm:p-8 border border-white/10 relative overflow-hidden shadow-inner">
-                    <div className="flex items-center justify-between mb-5 pb-3 border-b border-white/10">
-                      <div className="flex items-center gap-2">
-                        <span className="w-2 h-2 rounded-full bg-[#FFCA16]" />
-                        <span className="font-mono text-xs uppercase tracking-widest text-white/90 font-bold">
-                          Entregáveis & Escopo
-                        </span>
-                      </div>
-                      <span className="text-[10px] font-mono text-white/40 uppercase">
-                        {activeSubItem.deliverables.length} ITENS
-                      </span>
-                    </div>
-
-                    <ul className="space-y-3.5">
-                      {activeSubItem.deliverables.map((item, dIdx) => (
-                        <li
-                          key={dIdx}
-                          className="flex items-start gap-3 text-xs md:text-sm text-white/80 leading-snug"
-                        >
-                          <CheckCircle2 className="w-4 h-4 text-[#FFCA16] flex-shrink-0 mt-0.5" />
-                          <span>{item}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </motion.div>
-              </AnimatePresence>
-            </div>
-
-            {/* BARRA INFERIOR DE NAVEGAÇÃO E STATUS (PREV / NEXT + INDICADORES) */}
-            <div className="bg-[#111413] border-t border-white/[0.08] px-4 sm:px-8 py-3 flex items-center justify-between gap-4">
-              {/* Botão Anterior */}
-              <button
-                type="button"
-                onClick={handlePrev}
-                className="flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-mono uppercase tracking-wider text-white/70 hover:text-white hover:bg-white/[0.06] border border-white/10 transition-all cursor-pointer"
-              >
-                <ChevronLeft className="w-4 h-4 text-[#FFCA16]" />
-                <span className="hidden sm:inline">Serviço Anterior</span>
-                <span className="sm:hidden">Anterior</span>
-              </button>
-
-              {/* Indicadores de Paginação */}
-              <div className="flex items-center gap-2">
-                {SERVICES_DATA.map((_, dotIdx) => {
-                  const isActive = dotIdx === activeCategoryIndex;
-                  return (
-                    <button
-                      key={dotIdx}
-                      type="button"
-                      onClick={() => handleCategorySelect(dotIdx)}
-                      className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${
-                        isActive ? "w-7 bg-[#FFCA16]" : "w-2 bg-white/20 hover:bg-white/40"
-                      }`}
-                      title={`Ir para ${SERVICES_DATA[dotIdx].title}`}
-                    />
-                  );
-                })}
-              </div>
-
-              {/* Botão Próximo */}
-              <button
-                type="button"
-                onClick={handleNext}
-                className="flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-mono uppercase tracking-wider text-white/70 hover:text-white hover:bg-white/[0.06] border border-white/10 transition-all cursor-pointer"
-              >
-                <span className="hidden sm:inline">Próximo Serviço</span>
-                <span className="sm:hidden">Próximo</span>
-                <ChevronRight className="w-4 h-4 text-[#FFCA16]" />
-              </button>
-            </div>
-
           </div>
 
         </div>
-
       </div>
     </section>
+  );
+}
+
+/**
+ * Ponto indicador discreto com reatividade suave no scroll
+ */
+function ActiveDot({
+  dotIndex,
+  activeIndexTransform,
+}: {
+  dotIndex: number;
+  activeIndexTransform: MotionValue<number>;
+}) {
+  const [isActive, setIsActive] = useState(dotIndex === 0);
+
+  // Monitora a prancheta ativa sem re-renderizar o componente inteiro
+  activeIndexTransform.on("change", (latest) => {
+    setIsActive(latest === dotIndex);
+  });
+
+  return (
+    <span
+      className={`h-1.5 rounded-full transition-all duration-300 ${
+        isActive
+          ? "w-6 bg-[#FFCA16]"
+          : "w-1.5 bg-white/20"
+      }`}
+      title={`Prancheta 0${dotIndex + 1}`}
+    />
   );
 }

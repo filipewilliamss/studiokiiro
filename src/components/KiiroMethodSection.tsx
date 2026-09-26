@@ -538,7 +538,7 @@ export default function KiiroMethodSection() {
         className="relative w-full bg-[#050505] text-white py-24 sm:py-36 overflow-hidden"
         aria-label="Processos Subsequentes Studio Kiiro"
       >
-        <div className="w-full pl-6 sm:pl-10 md:pl-14 lg:pl-[max(2.5rem,calc((100vw-80rem)/2+2.5rem))] pr-6 sm:pr-8 lg:pr-10 xl:pr-14 space-y-36 sm:space-y-48">
+        <div className="w-full pl-6 sm:pl-10 md:pl-12 lg:pl-16 xl:pl-20 2xl:pl-24 pr-6 sm:pr-8 lg:pr-10 xl:pr-14 space-y-36 sm:space-y-48">
 
           {STEPS_DKTON_STYLE.map((step, index) => (
             <motion.article
@@ -548,10 +548,10 @@ export default function KiiroMethodSection() {
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
               onMouseEnter={() => playPillHover(index + 1)}
-              className="grid grid-cols-1 lg:grid-cols-[280px_1fr] xl:grid-cols-[300px_1fr] gap-8 lg:gap-12 xl:gap-14 items-start"
+              className="grid grid-cols-1 lg:grid-cols-[280px_1fr] xl:grid-cols-[300px_1fr] gap-10 lg:gap-16 xl:gap-24 2xl:gap-32 items-start lg:items-end"
             >
-              {/* ── COLUNA DA ESQUERDA: BLOCO DE TEXTO FASE COM DESCRIÇÃO (IDÊNTICO À FASE 1) ── */}
-              <div className="w-full max-w-[280px] xl:max-w-[300px] lg:pt-14 space-y-3.5 text-left">
+              {/* ── COLUNA DA ESQUERDA: BLOCO DE TEXTO FASE COM DESCRIÇÃO (ALINHADO À BASE DO VÍDEO COM MAIOR RESPIRO) ── */}
+              <div className="w-full max-w-[280px] xl:max-w-[300px] self-start lg:self-end space-y-3.5 text-left pb-1">
                 <h4 className="font-display font-[900] text-[clamp(28px,3.5vw,44px)] text-[#FFCA16] leading-[1.02] tracking-tight uppercase drop-shadow-md mb-2">
                   Fase {step.number.replace(/^0+/, "")}
                 </h4>

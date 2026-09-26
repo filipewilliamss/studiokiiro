@@ -548,22 +548,19 @@ export default function KiiroMethodSection() {
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
               onMouseEnter={() => playPillHover(index + 1)}
-              className="grid grid-cols-1 lg:grid-cols-[360px_1fr] xl:grid-cols-[400px_1fr] gap-10 lg:gap-14 items-start"
+              className="grid grid-cols-1 lg:grid-cols-[280px_1fr] xl:grid-cols-[300px_1fr] gap-8 lg:gap-12 xl:gap-14 items-start"
             >
-              {/* ── COLUNA DA ESQUERDA: INFORMAÇÕES LIMPAS, DIRETAS, SEM ADEREÇOS ── */}
-              <div className="w-full lg:pt-14 space-y-5">
-                {step.metadataItems.map((field, fIdx) => (
-                  <div key={fIdx} className="border-b border-white/10 pb-3">
-                    <span className="inline-block px-1.5 py-0.5 rounded-[2px] bg-[#FFCA16]/10 border border-[#FFCA16]/30 text-[#FFCA16] font-mono text-[10px] uppercase tracking-wider mb-1.5">
-                      {field.label}
-                    </span>
-                    <h5 className="font-sans text-sm sm:text-base font-bold text-white tracking-wide uppercase">
-                      {field.value}
-                    </h5>
-                  </div>
-                ))}
+              {/* ── COLUNA DA ESQUERDA: BLOCO DE TEXTO FASE COM DESCRIÇÃO (IDÊNTICO À FASE 1) ── */}
+              <div className="w-full max-w-[280px] xl:max-w-[300px] lg:pt-14 space-y-3.5 text-left">
+                <h4 className="font-display font-[900] text-[clamp(28px,3.5vw,44px)] text-[#FFCA16] leading-[1.02] tracking-tight uppercase drop-shadow-md mb-2">
+                  Fase {step.number.replace(/^0+/, "")}
+                </h4>
 
-                <p className="text-zinc-400 text-xs sm:text-sm leading-relaxed pt-2">
+                <p className="text-sm font-medium text-white italic drop-shadow-sm leading-snug">
+                  "{step.subtitle}"
+                </p>
+
+                <p className="text-xs sm:text-sm text-white/90 leading-relaxed drop-shadow-sm">
                   {step.description}
                 </p>
               </div>
